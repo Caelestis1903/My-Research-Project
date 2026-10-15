@@ -1,3 +1,37 @@
+# 实验结果报告（2026-10-16最终分析）
+
+新B1重建8/8完整运行及数值核验已完成；原历史结果保留身份，未混入新矩阵。完整逐seed/epoch/cell AUC与loss、bootstrap、校准和窗口表见[B1结果索引](B1_reconstruction_20261016/scientific_analysis.md)及[数值凭据](B1_reconstruction_20261016/analysis/analysis_receipt.json)。
+
+## B1主要结果（DH−F）
+
+| R0主规则 | validation均值±seed SD | test均值±seed SD | test正向seed |
+|---|---:|---:|---:|
+| macro AUC | +0.000637±0.004224 | +0.000363±0.003997 | 2/4 |
+| non-target AUC | +0.001134±0.006140 | +0.000579±0.005486 | 2/4 |
+| target AUC | −0.000356±0.001093 | −0.000069±0.001159 | 1/4 |
+| macro logloss | −0.000581±0.005595 | +0.001053±0.002420 | 1/4改善 |
+| target logloss | +0.003516±0.007319 | +0.004007±0.007150 | 1/4改善 |
+
+R0选点F/DH依次为2022 32/32、2023 41/49、2024 41/48、2025 49/34。R0主结果没有稳定实用增益，未复现旧S6-R2 R0 test ΔN约+0.006757且4/4正的组合；历史初始化和lineage不同，不据此判旧结果错误。
+
+R1/R4敏感度test macro/non-target AUC均值+0.007856/+0.011584，4/4正，但3/4非目标差达到+.003；target logloss均值+0.006006。R1/R4选中完全相同checkpoint，不是独立复制。R2/R3 test非目标均值+0.001086/+0.004030，分别2/4、3/4正。没有观察test后替换主要规则。
+
+各域两任务、F绝对baseline、train loss、selected/common/final、双锚点timing、seed2024反例、最差cell和校准成本完整写入科学分析。六个R0 test cell的固定模型均值AUC边际bootstrap区间均含0；这不等于严格等效或所有seed区间均含0。时间依赖、用户聚类和seed总体不由该行bootstrap覆盖。
+
+![全部seed的AUC轨迹](B1_reconstruction_20261016/analysis/auc_trajectories.png)
+
+![R0逐cell条件性区间](B1_reconstruction_20261016/analysis/selected_cell_intervals.png)
+
+表格索引：[逐cell绝对均值](B1_reconstruction_20261016/interpretation/r0_cell_means.csv)、[逐seed选点比较](B1_reconstruction_20261016/interpretation/r0_selected_comparisons.csv)、[阶段seed统计](B1_reconstruction_20261016/interpretation/stage_summary.csv)、[所有规则与分解](B1_reconstruction_20261016/analysis/selected_timing_decomposition.csv)、[400个状态核验](B1_reconstruction_20261016/analysis/state_checks.csv)。完整optimizer/预测大工件本地留存，机器表/manifest可追溯。
+
+## 原计划范围
+
+C2.1固定θoracle8cases完成，结果在本文原有末节及其独立报告；未运行C2训练。B2/C1/D1/E1与历史原件缺口见[逐项条件判定](final_scope_decisions.md)。没有新方法，因此没有编造其baseline或消融结果。
+
+## 历史产物与早期阶段复核记录
+
+以下保留原报告；其“新增训练0”仅指当时历史审计阶段，不能用于描述上述已完成的新研究。历史L2/L3及缺失原始工件的限制维持原样。
+
 # 实验结果：历史产物独立算术复核
 
 > 续执行结果另增C2.1固定θ数值oracle，见本文末节。新增正式训练仍为0，C2.1不是预测性能复现。

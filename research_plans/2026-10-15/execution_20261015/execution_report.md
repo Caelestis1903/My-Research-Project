@@ -1,3 +1,33 @@
+# 最终执行报告（2026-10-16）
+
+状态：训练与数值审计、主 agent 科学分析完成；最终归档与远端提交验收待完成。用户禁止子agent，后续全部工作由主agent执行，self-review不标作独立review。
+
+## 本轮实际执行
+
+- 新B1重建研究8/8完成：KR natural / M3OE / Sample，F/DH×seeds2022–2025，50epochs；8个退出码均为0。每epoch保留完整model、main/private与architecture Adam状态、step和RNG/iterator。原始大工件留本地。
+- 正式数值核验覆盖400个完整状态、800个预测文件，重算逐cell AUC/BCE并验证row身份、配对批次、选点与分解。见[数值凭据](B1_reconstruction_20261016/analysis/analysis_receipt.json)。
+- [完整科学分析](B1_reconstruction_20261016/scientific_analysis.md)及9张可复算解读表已生成。R0为主规则，R1–R4为法证敏感度，test不作为独立holdout。
+- C2.1零训练oracle完成8cases，历史A0/A1/A2可访问部分的审计保留；历史缺口和所有后续条件节点见[全范围判定](final_scope_decisions.md)，未执行项不记成功。
+- 冻结训练源码commit `fa8e8e62789fa972121e3a551a91987cb13cc3d2`，算法SHA `1552aa5aec80c4b1118ee45928ac9a566de50878c1a5f84b2b4199878353fb7f`。分析/解读源码及其SHA见各receipt。
+
+## 执行顺序、资源与失败
+
+历史审计→新重建设计→实现→主agent self-review→CPU完整工程流程/数值oracle→GPU准入与运行→完整数值审计→科学分析。代码改动、超参数、诊断及环境分别见设计/自审文档、config与run manifest。源码未在活动训练中修改。
+
+每卡独立准入，总显存≤90%，每卡最多5个本实验进程。先GPU1运行5组，GPU0释放后启动剩余3组，未要求两卡同时空闲；其他用户作业未被终止。使用脱离会话的持久化scheduler及完整状态保存。磁盘检查有272GB余量；最后原始工件仍保留。
+
+首个seed2022 F attempt1在constructor期exit−6，日志为native invalid pointer；未产生epoch，原日志/终态归档。独立诊断及实际batch校准后，用有真实attempt id/faulthandler的launcher运行attempt2成功。根因仍为UNRESOLVED_NOT_REPRODUCED，不能宣称修复了根因。见[b1_native_recovery_review.md](b1_native_recovery_review.md)。其余独立任务正常推进。
+
+## 身份、未完成范围与发布
+
+四seed当前init均不匹配历史pin，本研究明确为RECONSTRUCTION_NOT_HISTORICAL_EXACT。原S5/S6 lineage及完整历史敏感度/因果探针仍缺失。B2/C1条件不足、C2训练未获科学GO、D1/E1未触发；详细原因逐项记录，不以新重建替代旧exact要求。
+
+归档仅包含代码、配置/manifest、必要结果CSV/JSON、统计bootstrap数据与图表，不上传数据集、模型权重、冗余checkpoint及完整训练日志。最终发布凭据见 `publication_status.json`；早期进度push不等于最终验收。
+
+## 早期审计阶段记录（历史快照）
+
+以下保留原阶段日志。其“0训练”“待GPU”“目标未完成”等表述只描述各次观测时点，最终实际状态以上文及机器可读索引为准。
+
 > 2026-10-16续执行更新：用户最新禁止子 agent；此前两项派发已中止，之后由主 agent 顺序执行。新 B1 独立重建规格、实现与自审见 `continuation_design_spec.md`、`continuation_implementation_review.md`。原 S6 exact gate和缺失原件未被重建替代。动态状态见 `B1_reconstruction_20261016/scheduler_status.json`（尚不存在时不代表已启动）。此更新优先于下方旧轮次状态。
 
 > 同日追加：B1完整CPU工程流程和数值分析流程已验证，正式8-run队列仍待GPU准入。已按原规划§10.1完成C2.1零训练数值oracle：两数据集×4 seeds共8/8cases、96个配置统计，193.19秒；44个producer快照产物哈希复核通过。执行代码/设计/自审/原始数值/科学解释见 `c2_numeric_design_spec.md`、`c2_numeric_implementation_review.md`、`C2_numeric_oracle_20261016/`，本地运行代码提交 `e2bd63b`。没有新增正式训练；C2训练仍未触发。原历史工件缺口不因此关闭。
