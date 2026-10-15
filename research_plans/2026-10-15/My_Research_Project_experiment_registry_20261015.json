@@ -1,0 +1,368 @@
+{
+  "metadata": {
+    "repository": "Caelestis1903/My-Research-Project",
+    "commit": "3e6642820b7b2f17f130a5ccd9d382a16e023811",
+    "created_date": "2026-10-15",
+    "status": "PROPOSED_NOT_EXECUTED",
+    "execution_authorization": "NO_GO_IN_REVIEWED_F0_V15_SCOPE",
+    "notices": [
+      "No training, evaluation checkpoint load, original artifact mutation, or governed production execution is authorized by this registry.",
+      "Original test data is previously inspected: any new test evaluations are retrospective/forensic, not independent method confirmation.",
+      "Each stage requires its own independent approval and provenance attestations."
+    ]
+  },
+  "historic_decision_boundaries": {
+    "sample_nt": [
+      "S1 0/72 practical NT under tested conditions",
+      "S2 Sample 0/24 practical NT under tested conditions"
+    ],
+    "s5_equal_d1": [
+      "T-F selected click+0.041426,long_view+0.042254",
+      "HT-F selected click+0.041085,long_view+0.040528",
+      "DH-F selected click+0.000875,long_view+0.000821",
+      "moment audit 15/16"
+    ],
+    "s6r2": [
+      "KR selected test ΔN +0.0068 vs validation ΔN -0.0039",
+      "A-grid alternative rules are not exact re-selection"
+    ],
+    "ao04_r2": [
+      "ML B1-B0 val Δmacro+0.000005765 n2 science NO",
+      "KR B1-B0 val+0.001494010 test-0.008385198 n1",
+      "KR B1 seed2023 incomplete, B3/B4 not executed"
+    ],
+    "f0": [
+      "B6 historical OPEN/FAIL",
+      "forward NOT_GRANTED",
+      "execution NO_GO"
+    ]
+  },
+  "packages": [
+    {
+      "id": "A0",
+      "priority": "P0",
+      "title": "F0 execution gate and artifact inventory",
+      "mode": "READ_ONLY_REVIEW",
+      "training_runs": 0,
+      "dependencies": [],
+      "sources": [
+        "experiments/reports/stage_F0_v15_B6_postincident_baseline_attempt03_review_v1.md",
+        "experiments/Experimental_Experiment_Index.md"
+      ],
+      "deliverables": [
+        "artifact_inventory.json",
+        "missing_artifacts.json",
+        "runner_objective_optimizer_callgraph.md"
+      ],
+      "go": [
+        "Scope-specific independent authorization is explicit for all future actions",
+        "Artifact hashes, dataset split hashes, and reference source IDs are consistent"
+      ],
+      "stop": [
+        "B6 NO_GO is still applicable to a requested action",
+        "Any source, RNG, loss, checkpoint or optimizer state mismatch"
+      ]
+    },
+    {
+      "id": "A1",
+      "priority": "P0",
+      "title": "AO04 R2 complete numerical and sensitivity audit",
+      "mode": "ANALYSIS_ONLY",
+      "training_runs": 0,
+      "dependencies": [
+        "A0"
+      ],
+      "sources": [
+        "research_R2/analysis/selected_aggregate_metrics.csv",
+        "research_R2/formal_runs_20261012",
+        "research_R2/src/ao04_v12_model.py"
+      ],
+      "deliverables": [
+        "r2_prediction_metric_recalc.md",
+        "r2_rho_identifiability.md"
+      ],
+      "go": [
+        "All accessible predictions are joined to row IDs and metrics re-computed",
+        "Source run configs and code/dataset SHA are bound"
+      ],
+      "stop": [
+        "Missing prediction files are recorded as INCOMPLETE, not imputed",
+        "No method extension from MovieLens B1 NO or KR B1 incomplete"
+      ]
+    },
+    {
+      "id": "A2",
+      "priority": "P0",
+      "title": "S6-R2 existing evaluation and shift audit",
+      "mode": "ANALYSIS_ONLY",
+      "training_runs": 0,
+      "dependencies": [
+        "A0"
+      ],
+      "sources": [
+        "experiments/stage_S6_R2_selected_solution_analysis.md",
+        "experiments/reports/history_report/stage_E4_dataset_audit.md"
+      ],
+      "deliverables": [
+        "s6r2_forensic_review.md",
+        "domain_task_bootstrap_evidence.md"
+      ],
+      "go": [
+        "Exact vs grid-selected checkpoints are clearly labelled",
+        "Domain/task and class counts and test-look limitation recorded"
+      ],
+      "stop": [
+        "Missing checkpoints or prediction provenance forbid exact comparison"
+      ]
+    },
+    {
+      "id": "B1",
+      "priority": "P1",
+      "title": "S6-R2 exact dense checkpoint replication",
+      "mode": "TRAINING_CONDITIONAL",
+      "training_runs": 8,
+      "dependencies": [
+        "A0",
+        "A2"
+      ],
+      "protocol": {
+        "dataset": "kuairand",
+        "setting": "natural",
+        "backbone": "m3oe",
+        "objective": "Sample",
+        "epochs": 50,
+        "arms": [
+          "F",
+          "DH"
+        ],
+        "seeds": [
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "checkpoint_cadence": "every epoch",
+        "optimizer_state": "full main+private+arch",
+        "selection": "validation-only locked rules; independent test not available from historical set"
+      },
+      "research_question": "Does validation/test non-target reversal survive exact same-epoch and alternate-rule selection evaluation?",
+      "primary_endpoints": [
+        "validation-selected six-cell AUC",
+        "N/T/M test-vs-val reversal",
+        "same-epoch Δ policy vs selected-timing decomposition"
+      ],
+      "go": [
+        "Strict 8/8 runs paired and full-state valid",
+        "Exact selected epoch and original setting are recreated"
+      ],
+      "stop": [
+        "Differences vanish after pairing/timing",
+        "Material bootstrap uncertainty or new data failure",
+        "No further method design authorized by this stage"
+      ]
+    },
+    {
+      "id": "B2",
+      "priority": "P1",
+      "title": "C versus A_arch gradient-source isolation",
+      "mode": "TRAINING_CONDITIONAL",
+      "training_runs": 16,
+      "dependencies": [
+        "A0",
+        "A1",
+        "S5_ARTIFACT_VERIFICATION"
+      ],
+      "protocol": {
+        "dataset": "kuairand",
+        "setting": "natural",
+        "backbone": "m3oe",
+        "objective": "Equal",
+        "epochs": 50,
+        "target_domain": "d1/tab1",
+        "arms": [
+          "CF_AF",
+          "CT_AF",
+          "CF_AT",
+          "CT_AT"
+        ],
+        "seeds": [
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "private_gradient_source": "FULL"
+      },
+      "research_question": "Does S5 target rescue follow C, architecture scalars, or interaction?",
+      "primary_endpoints": [
+        "d1t0/1 selected AUC",
+        "d0t0/1 selected AUC guard",
+        "macro/worst AUC and LogLoss"
+      ],
+      "go": [
+        "Arms satisfy independent source and optimizer partition assertions",
+        "CF_AF and CT_AT reproduce same-protocol F/T anchor"
+      ],
+      "stop": [
+        "Replication anchors invalid",
+        "A-only explains effect -> revise shared-state attribution",
+        "Pure interaction -> no single-state attribution"
+      ]
+    },
+    {
+      "id": "C1",
+      "priority": "P2",
+      "title": "Common-theta Adam m/v/current shadow probes",
+      "mode": "NO_NEW_TRAINING_CONDITIONAL_MODEL_ACCESS",
+      "training_runs": 0,
+      "dependencies": [
+        "A0",
+        "B2_OR_RECONSTRUCTED_S5_STATES"
+      ],
+      "protocol": {
+        "factors": {
+          "m_source": [
+            "FULL",
+            "TARGET"
+          ],
+          "v_source": [
+            "FULL",
+            "TARGET"
+          ],
+          "g_source": [
+            "FULL",
+            "TARGET"
+          ]
+        },
+        "state_constraints": [
+          "same theta",
+          "same minibatch",
+          "same step counter",
+          "same bias correction",
+          "same Adam/WD/eps config",
+          "ghost state on common theta path"
+        ]
+      },
+      "research_question": "Which valid state component changes local effective update while retaining selected-performance relevance?",
+      "go": [
+        "All source and state invariants pass",
+        "Effects repeat across seeds and relevant partitions"
+      ],
+      "stop": [
+        "Mixed state is not matched to common parameter path",
+        "No selected validation benefit consistency"
+      ]
+    },
+    {
+      "id": "C2",
+      "priority": "P2",
+      "title": "Same-target, different-sampler objective estimator factorial",
+      "mode": "NUMERIC_ORACLE_FIRST_TRAINING_CONDITIONAL",
+      "training_runs_per_dataset_if_approved": 16,
+      "dependencies": [
+        "A0",
+        "A1"
+      ],
+      "protocol": {
+        "datasets": [
+          "kuairand",
+          "movielens"
+        ],
+        "factors": {
+          "target_alpha": [
+            "Equal=1/D",
+            "Sample=p_d"
+          ],
+          "sampler_q": [
+            "Natural=p_d",
+            "Balanced=1/D"
+          ]
+        },
+        "importance_weight": "alpha_d/q_d",
+        "seeds": [
+          2022,
+          2023,
+          2024,
+          2025
+        ]
+      },
+      "go": [
+        "Monte Carlo loss/gradient oracle matches expected α-weighted gradient",
+        "Same-target contrasts have reproducible practical selected improvement"
+      ],
+      "stop": [
+        "Objective equivalence oracle fails",
+        "Gap is explained by unmatched exposure/steps or below practical threshold"
+      ]
+    },
+    {
+      "id": "D1",
+      "priority": "P3",
+      "title": "Conditional identity-size-task-backbone boundary tests",
+      "mode": "TRAINING_CONDITIONAL",
+      "training_runs": "TBD_PREREGISTERED",
+      "dependencies": [
+        "A0",
+        "POSITIVE_REPLICATED_MECHANISM"
+      ],
+      "protocol": {
+        "axes": [
+          "physical-domain identity",
+          "training size/unique exposure",
+          "task dependence",
+          "backbone M3OE/MMOE/PLE",
+          "independent chronological/other dataset"
+        ],
+        "rule": "change one factor per sub-study; freeze task/method and matched capacity"
+      },
+      "go": [
+        "Multiple independent configuration tests support preregistered mechanism",
+        "Non-target costs disclosed"
+      ],
+      "stop": [
+        "Only a narrow Equal/KR/d1 phenomenon persists -> report scoped mechanism"
+      ]
+    },
+    {
+      "id": "E1",
+      "priority": "P4",
+      "title": "Minimal publishable mechanism-based method",
+      "mode": "METHOD_DESIGN_CONDITIONAL",
+      "training_runs": "TBD_AFTER_DESIGN_REVIEW",
+      "dependencies": [
+        "A0",
+        "NEW_SCIENTIFIC_GAP_CONFIRMED",
+        "LITERATURE_NOVELTY_REVIEW"
+      ],
+      "protocol": {
+        "strong_baselines": [
+          "Sample",
+          "Equal",
+          "matched single domain",
+          "AdaTask",
+          "PCGrad",
+          "CAGrad",
+          "FAMO",
+          "SAF where comparable"
+        ],
+        "required_ablation": [
+          "C only",
+          "A_arch only",
+          "static weighting/uniform smoothing",
+          "matched compute and parameter count"
+        ],
+        "confirmation": "new untouched prospective or external holdout"
+      },
+      "go": [
+        "Consistent selected benefit vs strong Sample",
+        "Guard satisfied",
+        "Clear non-duplicate contribution"
+      ],
+      "stop": [
+        "Only improves Equal but not strong Sample",
+        "Significant non-target degradation",
+        "Evaluation/test development leakage"
+      ]
+    }
+  ]
+}
