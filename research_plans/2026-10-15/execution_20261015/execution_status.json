@@ -102,17 +102,23 @@
     },
     {
       "id": "C2",
-      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "status": "NUMERIC_ORACLE_COMPLETE_TRAINING_NOT_RUN",
       "dependencies": [
         "A0",
         "A1"
       ],
       "new_training_runs_completed": 0,
       "remaining_requirements": [
-        "Monte Carlo loss/gradient oracle matches expected α-weighted gradient",
-        "Same-target contrasts have reproducible practical selected improvement"
+        "Full-training protocol, full-data/exposure pairing and source prerequisites remain unverified",
+        "Current finite-pool initialization oracle does not establish selected AUC/LL benefit",
+        "Same-target contrasts must have reproducible practical selected improvement before method claims"
       ],
-      "deliverables": []
+      "deliverables": [
+        "C2_numeric_oracle_20261016/run_receipt.json",
+        "C2_numeric_oracle_20261016/estimator_moments.csv",
+        "C2_numeric_oracle_20261016/partition_moments.csv",
+        "C2_numeric_oracle_20261016/numeric_analysis.md"
+      ]
     },
     {
       "id": "D1",
@@ -150,7 +156,7 @@
     "Independent scientific review not satisfied; self-review explicitly not equivalent",
     "B1 exact replication identity and dense full-state implementation unverified"
   ],
-  "next_action": "Verify live scheduler PID 953415 and children; do not restart a live job. Wait for independent per-GPU admission, inspect actual formal progress/failures. After 8/8 finish run b1_analyze_20261016.py without engineering flag, inspect full evidence, write scientific analysis and original-plan conditional decisions, then push full reports/key data. Engineering evidence does not complete the goal.",
+  "next_action": "Inspect actual live B1 scheduler PID 953415 and any children; wait for independent per-GPU admission without restarting live work. C2.1 numerical oracle is complete, but does not permit C2 training or replace B1. After 8/8 B1 runs finish, execute full prediction-level analysis and original-plan conditional decisions, complete final reports and push key data. Goal remains active.",
   "workflow_update_20261016": {
     "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
     "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
@@ -182,5 +188,16 @@
       "analysis_spec": "b1_analysis_spec.md",
       "program": "experiments/b1_analyze_20261016.py"
     }
+  },
+  "c2_numeric_oracle": {
+    "status": "COMPLETE_NUMERIC_ONLY",
+    "cases_completed": 8,
+    "training_runs": 0,
+    "scope": "finite empirical training pools; initialization theta; CPU",
+    "code_commit": "e2bd63b",
+    "run_receipt": "C2_numeric_oracle_20261016/run_receipt.json",
+    "analysis": "C2_numeric_oracle_20261016/numeric_analysis.md",
+    "formal_c2_training_go": false,
+    "independent_review": false
   }
 }

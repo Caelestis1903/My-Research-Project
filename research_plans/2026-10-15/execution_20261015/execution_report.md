@@ -1,5 +1,7 @@
 > 2026-10-16续执行更新：用户最新禁止子 agent；此前两项派发已中止，之后由主 agent 顺序执行。新 B1 独立重建规格、实现与自审见 `continuation_design_spec.md`、`continuation_implementation_review.md`。原 S6 exact gate和缺失原件未被重建替代。动态状态见 `B1_reconstruction_20261016/scheduler_status.json`（尚不存在时不代表已启动）。此更新优先于下方旧轮次状态。
 
+> 同日追加：B1完整CPU工程流程和数值分析流程已验证，正式8-run队列仍待GPU准入。已按原规划§10.1完成C2.1零训练数值oracle：两数据集×4 seeds共8/8cases、96个配置统计，193.19秒；44个producer快照产物哈希复核通过。执行代码/设计/自审/原始数值/科学解释见 `c2_numeric_design_spec.md`、`c2_numeric_implementation_review.md`、`C2_numeric_oracle_20261016/`，本地运行代码提交 `e2bd63b`。没有新增正式训练；C2训练仍未触发。原历史工件缺口不因此关闭。
+
 # 2026-10-15 规划执行进度（更新于 2026-10-16）
 
 状态：**PARTIAL / 目标仍未完成**。本次未运行新训练、未加载模型 checkpoint、未恢复 optimizer；完成的是路径修复、真实数据加载验证、A0/A1/A2 可访问证据审计及统计复算。

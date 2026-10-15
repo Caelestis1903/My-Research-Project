@@ -1,6 +1,6 @@
 # 机制分析与证伪边界
 
-状态：仅完成可访问历史证据的法证复核；无新训练、无新方法有效性或创新性认定。证据强度STRONG/MEDIUM/WEAK描述支持范围，不能与L0–L5来源等级混为一谈。
+状态：完成可访问历史证据的法证复核，另完成C2.1固定θ数值oracle；无新正式训练、无新方法有效性或创新性认定。证据强度STRONG/MEDIUM/WEAK描述支持范围，不能与L0–L5来源等级混为一谈。
 
 ## 稳定现象与矛盾
 
@@ -36,3 +36,11 @@ B1限定KR Sample F/DH×4seeds×50epochs，每epoch full C/P/A state、RNG/itera
 C2先证明固定目标alpha与不同q的权重oracle等价，再谈Adam噪声交互；本次尚未运行该oracle。D1/E1仍未触发。被多次研究过的test只能作forensic，任何新方法性主张必须用未开发的后置/外部holdout。
 
 本次未进行文献全文或创新性查新；规划§16仅是已知背景，novelty保持OPEN。没有把课程学习、动量、小域困难、M3OE困难域失败作为分析前提。
+
+## C2.1 数值证据追加
+
+完整分析见 [固定参数oracle](C2_numeric_oracle_20261016/numeric_analysis.md)。**STRONG（有限pool/固定θ）**：同α不同q的期望loss/全梯度相同，协方差会改变；Balanced在当前Equal下减小方差、Sample下增大方差，两个数据集四seed的C/P/A均同向，构成“平衡抽样普遍降噪”的限定反例。跨θ阶段、全训练数据和selected性能的推广为**WEAK**，不能据此宣布C2训练GO。
+
+**STRONG（条件性概率上界）**：小batch空域归一化偏差不能直接解释原40960大batch情形；考虑较小末批，KR最稀少域缺失概率小于10^-793，ML小于10^-165（均匀无放回batch边际的IID上界，取宽松整数界）。类别/时间/测试有限正例及选点时序仍是竞争解释。
+
+Adam实测仅覆盖detached坐标副本的fresh step0，β经bias correction在第一步抵消，因此没有persistent momentum的因果证据。有限pool中每域row数相同，q效应不能转换为“真实域规模是主要原因”的证明；也没有小域/大域selected AUC权衡数据。下一项最有区分力的工作仍是B1正式dense训练；若随后评估C2，应先在真实阶段θ、匹配optimizer state和正式batch下核查差异，再决定训练矩阵。

@@ -1,5 +1,7 @@
 # 实验结果：历史产物独立算术复核
 
+> 续执行结果另增C2.1固定θ数值oracle，见本文末节。新增正式训练仍为0，C2.1不是预测性能复现。
+
 本轮新增训练为0。下列数字来自可访问的历史工件，不能计为新的训练复制。证据等级：L2=从保存CSV重算；L3限定为保存预测与当前hash匹配原CSV、row IDs、labels、域映射验证后的指标重算；L4/L5未达到。统计分析为retrospective，不是未使用test上的确认。
 
 ## AO04 R2（不等于 S6-R2）
@@ -95,3 +97,11 @@ LL同步见 `s5_recomputed_delta_logloss.csv`；完整selected/final/common cont
 ![Forensic evidence](forensic_evidence.png)
 
 图左为AO04单seed selected test配对区间，图右为S6-R2四seed selected非目标反转；两图不是同一个实验。PDF版 `forensic_evidence.pdf`。原数据类别计数、split rowhash、特征schema分别见 `split_cell_counts.csv` 和 `dataset_preflight_*.json`。
+
+## C2.1 固定参数目标估计器检查（新数值运行，0 training）
+
+两数据集×4seeds完成8/8cases。完整结果与科学解释见 [C2数值分析](C2_numeric_oracle_20261016/numeric_analysis.md)，96行估计器统计、288行分区统计、16行全坐标目标检查分别在该目录的 `estimator_moments.csv`、`partition_moments.csv`、`target_checks.csv`。44份原始产物已校验。
+
+相同α的精确期望梯度最大相对残差1.865e-16，实际整批autograd交叉检查残差2.685e-7，MC loss/坐标梯度最大标准化残差2.894/3.026 SE，Adam一步公式与torch实测最大绝对残差1.113e-16。当前C分区Balanced/Natural方差trace比值四seed均值：KR Equal 0.214720、Sample 2.497026；ML Equal 0.133501、Sample 2.334679。这里只比较同目标内q变化。
+
+AUC与训练后selected loss本轮未测，不记为0。模型仅在初始化，pool每域16个不同row，B16/128；C2训练仍未触发。图表见 `C2_numeric_oracle_20261016/analysis/fixed_theta_covariance_ratios.pdf`。这些结果不替代B1正式0/8待运行的矩阵。

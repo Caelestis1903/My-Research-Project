@@ -4,6 +4,8 @@
 
 Overall **PARTIAL**. No new research training. User dataset root `/home/xzf/data`; no subagents used. The active goal is not complete.
 
+Continuation: B1 full CPU engineering and analysis processing passed; actual eight-run training remains pending GPU admission. C2.1's eight fixed-theta numeric cases and primary-agent scientific analysis are complete, with zero training: [C2 numeric analysis](C2_numeric_oracle_20261016/numeric_analysis.md). This does not trigger C2 training or close historical provenance gaps. The earlier history-audit `build_reports.py` does not contain these continuation sections; preserve current reports when regenerating history tables.
+
 - [Execution report](execution_report.md): task matrix, environment, fixes, actual runs, recovery commands and remaining requirements.
 - [Results](experiment_results.md): per-seed/cell AUC and loss, bootstrap, selected/grid boundary, figure.
 - [Mechanism analysis](mechanism_analysis.md): scoped evidence, contradictions, size/difficulty, competing explanations and falsification.
