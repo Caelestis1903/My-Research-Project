@@ -24,3 +24,15 @@
 因此B1原exact gate保持未满足；新重建是单独测量证据。A0/A1/A2缺失原件继续列INCOMPLETE。没有新数据可证明课程、动量或某类域普遍有效；不修改既有STRONG/MEDIUM/WEAK结论边界。B2/C1/C2/D1/E1仍按原规划条件逐项判断。
 
 复核结论：允许在工程验证与磁盘/显存准入均实际通过后，执行已授权的独立重建测量；不得称为历史exact复现、独立复核或全部实验完成。后续必须用8/8实际完整输出做科学分析，保存未完成与矛盾证据，最后推送报告和关键数据。
+
+## 追加：完整流程与分析验证
+
+`experiments/b1_full_pipeline_fixture_20261016.py` 在隔离CPU进程中使用真实数据的类别覆盖小子集，贯通两臂各50epoch、validation选点、逐epoch val/test、完整serializer。生产worker源码未改变。两臂共100份完整state和200份预测文件的哈希复核通过，结果见 `B1_reconstruction_20261016/full_pipeline_verification.json`。fixture输出均标识 `engineering_fixture=true`、`formal_valid=false`；不能计为正式run，也不支持任何方法效果结论。
+
+初次CPU fixture在原S6 writer的CUDA协议检查处停止；通过fixture专用adapter复用serializer，并明确记录CPU与小子集偏离，未改生产设备合同。数值分析初次执行在最终receipt的相对路径转换处停止；修复路径归一化后完整重跑通过。失败产物保留，见 `engineering_failure_history.json`。
+
+分析规格 `b1_analysis_spec.md` 在正式训练开始前保存。`experiments/b1_analyze_20261016.py` 默认要求8/8正式完成，逐个验证400份full state及800份预测，完整split覆盖/真实数据label绑定、真实选点、批次配对、AUC/LL独立复算、双锚点时序恒等式、每cell/seed及固定模型均值的paired bootstrap、校准和row-order窗口。它只产出数值，不自动签发机制结论或后续GO。
+
+在两臂CPU fixture上，分析实际检查100份state和200份预测并贯通表图生成，receipt的scope是ENGINEERING_ONLY，formal_runs_completed=0。默认缺少正式矩阵时确实拒绝且没有创建正式analysis目录（`analysis_scope_gate.json`）。bootstrap的tie/weight AUC用100个独立sklearn加权用例复核，残差低于1e-14（`analysis_oracle.json`）。图表已检查工程标签和坐标。没有将工程数据或小批次曲线用于科学结论。
+
+上述证据扩大了工程覆盖，仍未测得CUDA大batch峰值、未完成4seed正式矩阵，也未验证整段resume；这些限制保持。调度器真实PID及心跳须继续检查，不能从这份静态报告推断训练已开始。

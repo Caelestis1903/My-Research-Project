@@ -20,3 +20,11 @@ CUDA_VISIBLE_DEVICES='' OPENBLAS_NUM_THREADS=1 /home/xzf/miniconda3/envs/phase0-
 `runs/seed*/{F,DH}/dense/epoch*.pt`为完整epoch状态；`dense/validation_epoch*.npz`、`test_epoch*.npz`保留逐行预测；选择先在`selection_frozen.json`固定，再评test。训练原始日志/weights不推到Git。推送关键表格、状态、报告及复现代码；本地保留完整状态供重分析。
 
 正式完成后主agent应逐项审计8/8配对、50epoch state hash、两split预测、R0–R4真实选点、same-epoch与selected时序分解、domain/task AUC与LL、seed变异与配对bootstrap、时间依赖限制。根据原规划判定后续条件，完成三份报告和关键数据推送后才可关闭总目标。
+
+完整CPU工程流程已验证（`full_pipeline_verification.json`），其小子集原始输出在本地 `engineering_full_pipeline/`，均为非正式数据。分析程序及规格见 `experiments/b1_analyze_20261016.py` 和上一级 `b1_analysis_spec.md`；正式矩阵完成后执行：
+
+```bash
+CUDA_VISIBLE_DEVICES='' OPENBLAS_NUM_THREADS=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python experiments/b1_analyze_20261016.py
+```
+
+该入口不接受缺失或仅部分完成的正式矩阵，缺少时不会生成正式报告。工程分析必须显式传 `--engineering-fixture <fixture_root>`，结果写入 `engineering_analysis/` 并带ENGINEERING_ONLY标签。Git只保存工程验证receipt和代码，不把工程预测/weights作为正式关键结果发布。完整科学分析仍需主agent依据真实正式结果完成。

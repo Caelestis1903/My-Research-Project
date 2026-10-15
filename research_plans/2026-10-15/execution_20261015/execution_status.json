@@ -150,7 +150,7 @@
     "Independent scientific review not satisfied; self-review explicitly not equivalent",
     "B1 exact replication identity and dense full-state implementation unverified"
   ],
-  "next_action": "Inspect live scheduler PID 953415 and its children before any restart. It will admit the 8 reconstruction runs per GPU when total memory plus expected new peak fits 90%. If failures occur, inspect preserved attempt before retry. After 8/8 complete perform full analysis and original-plan conditional decisions, then push reports and key data. Goal remains active.",
+  "next_action": "Verify live scheduler PID 953415 and children; do not restart a live job. Wait for independent per-GPU admission, inspect actual formal progress/failures. After 8/8 finish run b1_analyze_20261016.py without engineering flag, inspect full evidence, write scientific analysis and original-plan conditional decisions, then push full reports/key data. Engineering evidence does not complete the goal.",
   "workflow_update_20261016": {
     "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
     "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
@@ -171,6 +171,16 @@
     "scheduler_pid": 953415,
     "code_commit": "2089feeadffda1778d3ce1e1d2be17749b557218",
     "scheduler_status": "B1_reconstruction_20261016/scheduler_status.json",
-    "formal_runs_started": 0
+    "formal_runs_started": 0,
+    "full_pipeline_verification": "B1_reconstruction_20261016/full_pipeline_verification.json",
+    "analysis_preflight": {
+      "status": "PASS_ENGINEERING_ONLY",
+      "state_files_audited": 100,
+      "prediction_files_audited": 200,
+      "formal_runs_completed": 0,
+      "receipt": "B1_reconstruction_20261016/engineering_analysis/1792082987636882999/analysis_receipt.json",
+      "analysis_spec": "b1_analysis_spec.md",
+      "program": "experiments/b1_analyze_20261016.py"
+    }
   }
 }
