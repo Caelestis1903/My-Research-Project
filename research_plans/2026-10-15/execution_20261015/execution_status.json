@@ -150,7 +150,7 @@
     "Independent scientific review not satisfied; self-review explicitly not equivalent",
     "B1 exact replication identity and dense full-state implementation unverified"
   ],
-  "next_action": "Finish source-bound engineering verification; start persistent per-GPU scheduler when checks pass; inspect actual live process; preserve original A0/A1/A2 and exact B1 gaps; analyze 8 full reconstruction runs before deciding later conditional stages.",
+  "next_action": "Inspect live scheduler PID 953415 and its children before any restart. It will admit the 8 reconstruction runs per GPU when total memory plus expected new peak fits 90%. If failures occur, inspect preserved attempt before retry. After 8/8 complete perform full analysis and original-plan conditional decisions, then push reports and key data. Goal remains active.",
   "workflow_update_20261016": {
     "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
     "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
@@ -159,7 +159,7 @@
   },
   "reconstruction_study": {
     "study_id": "B1_reconstruction_20261016",
-    "status": "ENGINEERING_PASS_SCHEDULER_NOT_STARTED",
+    "status": "SCHEDULER_LIVE_WAITING_GPU_HEADROOM",
     "planned_runs": 8,
     "completed_formal_runs": 0,
     "identity": "RECONSTRUCTION_NOT_HISTORICAL_EXACT",
@@ -167,6 +167,10 @@
     "review": "continuation_implementation_review.md",
     "worker": "experiments/b1_reconstruction_20261016.py",
     "scheduler": "experiments/b1_reconstruction_scheduler_20261016.py",
-    "verification": "B1_reconstruction_20261016/engineering_verification.json"
+    "verification": "B1_reconstruction_20261016/engineering_verification.json",
+    "scheduler_pid": 953415,
+    "code_commit": "2089feeadffda1778d3ce1e1d2be17749b557218",
+    "scheduler_status": "B1_reconstruction_20261016/scheduler_status.json",
+    "formal_runs_started": 0
   }
 }
