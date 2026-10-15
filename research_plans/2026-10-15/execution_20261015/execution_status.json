@@ -1,0 +1,154 @@
+{
+  "goal_status": "ACTIVE_NOT_COMPLETE",
+  "updated_local_date": "2026-10-16",
+  "no_subagents": true,
+  "dataset_root": "/home/xzf/data",
+  "new_training_runs": 0,
+  "gpu_policy": {
+    "max_concurrent_per_gpu": 5,
+    "prelaunch_memory_at_most_fraction": 0.9,
+    "check_each_gpu_independently": true
+  },
+  "tasks": [
+    {
+      "id": "A0",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Scope-specific independent authorization is explicit for all future actions",
+        "Artifact hashes, dataset split hashes, and reference source IDs are consistent"
+      ],
+      "deliverables": [
+        "artifact_inventory.json",
+        "missing_artifacts.json",
+        "runner_objective_optimizer_callgraph.md"
+      ]
+    },
+    {
+      "id": "A1",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [
+        "A0"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "All accessible predictions are joined to row IDs and metrics re-computed",
+        "Source run configs and code/dataset SHA are bound"
+      ],
+      "deliverables": [
+        "r2_prediction_metric_recalc.md",
+        "r2_rho_identifiability.md"
+      ]
+    },
+    {
+      "id": "A2",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [
+        "A0"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Exact vs grid-selected checkpoints are clearly labelled",
+        "Domain/task and class counts and test-look limitation recorded"
+      ],
+      "deliverables": [
+        "s6r2_forensic_review.md",
+        "domain_task_bootstrap_evidence.md"
+      ]
+    },
+    {
+      "id": "B1",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "A2"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Strict 8/8 runs paired and full-state valid",
+        "Exact selected epoch and original setting are recreated"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "B2",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "A1",
+        "S5_ARTIFACT_VERIFICATION"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Arms satisfy independent source and optimizer partition assertions",
+        "CF_AF and CT_AT reproduce same-protocol F/T anchor"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "C1",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "B2_OR_RECONSTRUCTED_S5_STATES"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "All source and state invariants pass",
+        "Effects repeat across seeds and relevant partitions"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "C2",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "A1"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Monte Carlo loss/gradient oracle matches expected α-weighted gradient",
+        "Same-target contrasts have reproducible practical selected improvement"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "D1",
+      "status": "NOT_TRIGGERED",
+      "dependencies": [
+        "A0",
+        "POSITIVE_REPLICATED_MECHANISM"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Multiple independent configuration tests support preregistered mechanism",
+        "Non-target costs disclosed"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "E1",
+      "status": "NOT_TRIGGERED",
+      "dependencies": [
+        "A0",
+        "NEW_SCIENTIFIC_GAP_CONFIRMED",
+        "LITERATURE_NOVELTY_REVIEW"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Consistent selected benefit vs strong Sample",
+        "Guard satisfied",
+        "Clear non-duplicate contribution"
+      ],
+      "deliverables": []
+    }
+  ],
+  "blockers": [
+    "S5/S6 original provenance/checkpoint/prediction/optimizer artifacts missing in bounded search",
+    "Independent scientific review not satisfied; self-review explicitly not equivalent",
+    "B1 exact replication identity and dense full-state implementation unverified"
+  ],
+  "next_action": "Locate original artifacts (question pending); continue only with evidence-compatible protocol; no automatic promotion of conditional nodes"
+}

@@ -1246,12 +1246,12 @@ def _dataset_paths(args: argparse.Namespace) -> Iterable[str]:
              (getattr(args, "dataset_path", "") if getattr(args, "dataset_path", "")
               and (str(getattr(args, "dataset_path")).lower().endswith(".csv")
                    or os.path.exists(os.path.join(str(getattr(args, "dataset_path")), "ml-1m.csv")))
-              else "/xzf/data/movielens"))
+              else "/home/xzf/data/ml-1m"))
     kr = str(getattr(args, "kuairand_path", "") or
              (getattr(args, "dataset_path", "") if getattr(args, "dataset_path", "")
               and (str(getattr(args, "dataset_path")).lower().endswith(".csv")
                    or os.path.exists(os.path.join(str(getattr(args, "dataset_path")), "kuai_rand.csv")))
-              else "/xzf/data/kuairand/processed"))
+              else "/home/xzf/data/kuairand/processed"))
     yield os.path.join(ml, "ml-1m.csv") if os.path.isdir(ml) else ml
     yield os.path.join(kr, "kuai_rand.csv") if os.path.isdir(kr) else kr
 
