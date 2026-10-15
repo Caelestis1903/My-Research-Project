@@ -156,7 +156,7 @@
     "Independent scientific review not satisfied; self-review explicitly not equivalent",
     "B1 exact replication identity and dense full-state implementation unverified"
   ],
-  "next_action": "Start committed revised scheduler only after confirming prior scheduler/worker are terminal. F retries as attempt2; preserve attempt1 archive. Use source-bound full-batch CUDA profile per GPU; monitor true handles and 90% total memory limit. Complete actual 8/8 formal runs, scientific analysis and final report/key-data push; current publication is partial.",
+  "next_action": "Poll confirmed live scheduler PID 983855 and its actual five child PIDs; do not restart live jobs. Inspect epochs and source-bound full states as produced, preserve failed attempt1. After 8/8 valid formal runs complete, run the full analysis and original-plan conditional decisions, then publish final reports/key data. Frozen algorithm, launcher and scheduler must not be edited while live.",
   "workflow_update_20261016": {
     "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
     "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
@@ -165,7 +165,7 @@
   },
   "reconstruction_study": {
     "study_id": "B1_reconstruction_20261016",
-    "status": "RECOVERY_READY_TO_RELAUNCH",
+    "status": "RUNNING",
     "planned_runs": 8,
     "completed_formal_runs": 0,
     "identity": "RECONSTRUCTION_NOT_HISTORICAL_EXACT",
@@ -174,8 +174,8 @@
     "worker": "experiments/b1_reconstruction_20261016.py",
     "scheduler": "experiments/b1_reconstruction_scheduler_20261016.py",
     "verification": "B1_reconstruction_20261016/engineering_verification.json",
-    "scheduler_pid": null,
-    "code_commit": "2089feeadffda1778d3ce1e1d2be17749b557218",
+    "scheduler_pid": 983855,
+    "code_commit": "fa8e8e62789fa972121e3a551a91987cb13cc3d2",
     "scheduler_status": "B1_reconstruction_20261016/scheduler_status.json",
     "formal_runs_started": 0,
     "full_pipeline_verification": "B1_reconstruction_20261016/full_pipeline_verification.json",
@@ -189,12 +189,15 @@
       "program": "experiments/b1_analyze_20261016.py"
     },
     "previous_scheduler_pid": 953415,
-    "formal_attempts_started": 1,
+    "formal_attempts_started": 6,
     "failed_preflight_attempts": 1,
     "native_abort_root_cause": "UNRESOLVED_NOT_REPRODUCED",
     "native_recovery_review": "b1_native_recovery_review.md",
     "calibrated_reservation_mib": 3325.5,
-    "frozen_algorithm_sha256": "1552aa5aec80c4b1118ee45928ac9a566de50878c1a5f84b2b4199878353fb7f"
+    "frozen_algorithm_sha256": "1552aa5aec80c4b1118ee45928ac9a566de50878c1a5f84b2b4199878353fb7f",
+    "active_formal_processes": 5,
+    "formal_runs_entered_fit": 5,
+    "formal_tasks_pending": 3
   },
   "c2_numeric_oracle": {
     "status": "COMPLETE_NUMERIC_ONLY",
@@ -206,5 +209,6 @@
     "analysis": "C2_numeric_oracle_20261016/numeric_analysis.md",
     "formal_c2_training_go": false,
     "independent_review": false
-  }
+  },
+  "training_count_note": "Legacy new_training_runs counts completed valid new formal runs; active processes/entered fit are tracked separately."
 }
