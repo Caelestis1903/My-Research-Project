@@ -1,0 +1,33 @@
+{
+  "manifest_type": "dataset_queue_termination",
+  "dataset": "kuairand",
+  "setting": "natural",
+  "stage": "R2-A",
+  "status": "INCOMPLETE",
+  "created_at": "2026-10-12",
+  "review_authority": "research_R2/R2_Runtime_Failure_Independent_Review.md",
+  "review_verdict": "PASS WITH FIXES: MovieLens B2 may continue independently; KuaiRand frozen INCOMPLETE",
+  "completed_fixed_runs": [
+    {"arm":"B0","seed":2022,"status":"COMPLETE","epochs_completed":50},
+    {"arm":"B0","seed":2023,"status":"COMPLETE","epochs_completed":50},
+    {"arm":"B1","seed":2022,"status":"COMPLETE","epochs_completed":50}
+  ],
+  "incomplete_fixed_run": {
+    "arm":"B1",
+    "seed":2023,
+    "status":"INCOMPLETE",
+    "last_completed_epoch":38,
+    "selected_epoch_at_interruption":27,
+    "resume_used":1,
+    "resume_budget_per_run":1,
+    "failure_evidence":"research_R2/preflight/B1_kuairand_seed2023_failure_evidence_20261012.txt",
+    "checkpoint_sha256":"cd39915a8669cf2539a6d995713e18a1cffcecc1eca8cd268be15e760427472a"
+  },
+  "decision_status": "NOT_COMPUTED",
+  "decision_reason": "R2-A validity requires all six fixed runs COMPLETE; KuaiRand B1 seed2023 is incomplete. This is not a scientific NO.",
+  "prohibited_followups": ["KuaiRand B2", "KuaiRand R2-B", "second resume", "replacement attempt", "new seed/arm"],
+  "test_prediction_calls": 0,
+  "hpost_enabled": false,
+  "budget_ledger":"research_R2/preflight/runner_budget_ledger_post_B1_20261012.json",
+  "immutable": true
+}

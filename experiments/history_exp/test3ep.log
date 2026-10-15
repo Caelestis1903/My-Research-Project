@@ -1,0 +1,99 @@
+Namespace(dataset_path='D:/CODE/phase0-3/m3oe/examples/data/ml-1m', model_name='MDMTRec', epoch=3, learning_rate=0.01, learning_rate_darts=0.001, batch_size=40960, weight_decay=1e-05, skip_weight=1, device='cuda:0', save_dir='./model_para/', seed=2022, expert_num=4, exp_d=1, exp_t=1, bal_d=1, bal_t=1, task='all', domain='all')
+  0%|          | 0/7 [00:00<?, ?it/s] 57%|█████▋    | 4/7 [00:00<00:00, 36.96it/s]100%|██████████| 7/7 [00:00<00:00, 38.80it/s]
+train: (800167, 8), (800167, 2)
+val: (100021, 8), (100021, 2)
+test: (100021, 8), (100021, 2)
+MDMTRec(
+  (embedding): EmbeddingLayer(
+    (embed_dict): ModuleDict(
+      (0): Embedding(6040, 16)
+      (1): Embedding(3706, 16)
+      (2): Embedding(2, 16)
+      (4): Embedding(21, 16)
+      (5): Embedding(3439, 16)
+      (6): Embedding(18, 16)
+      (7): Embedding(3, 16)
+    )
+  )
+  (_weight_exp_d): Weights()
+  (_weight_exp_t): Weights()
+  (_weight_bal_d): Weights()
+  (_weight_bal_t): Weights()
+  (skip_conn): MLP_N(
+    (domain_specific): ModuleList(
+      (0): Linear(in_features=113, out_features=256, bias=True)
+      (1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+    )
+  )
+  (slot_weight): ParameterList(
+      (0): Parameter containing: [torch.float32 of size 113x512]
+      (1): Parameter containing: [torch.float32 of size 113x512]
+      (2): Parameter containing: [torch.float32 of size 113x512]
+  )
+  (slot_bias): ParameterList(
+      (0): Parameter containing: [torch.float32 of size 512]
+      (1): Parameter containing: [torch.float32 of size 512]
+      (2): Parameter containing: [torch.float32 of size 512]
+  )
+  (star_mlp): MLP_N(
+    (domain_specific): ModuleList(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+    )
+  )
+  (expert): ModuleList(
+    (0-3): 4 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (domain_expert): ModuleList(
+    (0-2): 3 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (task_expert): ModuleList(
+    (0-1): 2 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (gate): ModuleList(
+    (0-5): 6 x Sequential(
+      (0): Linear(in_features=256, out_features=4, bias=True)
+      (1): Softmax(dim=1)
+    )
+  )
+  (tower): ModuleList(
+    (0-5): 6 x Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+      (3): Linear(in_features=64, out_features=1, bias=True)
+    )
+  )
+)
+trainable params: 788146
+epoch: 0 validation: auc: 0.7186638900829728 log loss: 0.6031466165489746
+epoch: 1 validation: auc: 0.7392031285591479 log loss: 0.5364550752117476
+epoch: 2 validation: auc: 0.7421805197300076 log loss: 0.5342128902114538
+test auc: 0.7596090645578797 | test logloss: 0.47965281894188044
+domain: 0, task: 0, auc: 0.7601018100257734 | test logloss: 0.5937609713176063
+domain: 0, task: 1, auc: 0.7678662154157826 | test logloss: 0.40817699722400347
+domain: 1, task: 0, auc: 0.7628759393200546 | test logloss: 0.5776283143690987
+domain: 1, task: 1, auc: 0.7880258033845513 | test logloss: 0.3858989841627453
+domain: 2, task: 0, auc: 0.725046536077371 | test logloss: 0.6023603869447272
+domain: 2, task: 1, auc: 0.7466018068722574 | test logloss: 0.44475007651440385
+wrote to file: output/MDMTRec_domain_all_task_all_exp_4_0.01_0.001.csv

@@ -1,0 +1,124 @@
+Namespace(dataset_path='D:/CODE/data/kuairand/processed', model_name='MDMTRec', epoch=1, learning_rate=0.01, learning_rate_darts=0.001, batch_size=40960, weight_decay=1e-05, device='cuda:0', save_dir='./model_para/', seed=2022, expert_num=4, exp_d=1, exp_t=1, bal_d=1, bal_t=1, task='all', domain='all')
+Counter({1: 2236414, 0: 178087, 2: 93165})
+train: (2006132, 34), (2006132, 2)
+val: (250767, 34), (250767, 2)
+test: (250767, 34), (250767, 2)
+MDMTRec(
+  (embedding): EmbeddingLayer(
+    (embed_dict): ModuleDict(
+      (0): Embedding(10, 16)
+      (1): Embedding(3, 16)
+      (2): Embedding(3, 16)
+      (3): Embedding(9, 16)
+      (4): Embedding(10, 16)
+      (5): Embedding(8, 16)
+      (6): Embedding(9, 16)
+      (7): Embedding(3, 16)
+      (8): Embedding(8, 16)
+      (9): Embedding(50, 16)
+      (10): Embedding(1464, 16)
+      (11): Embedding(17, 16)
+      (12): Embedding(35, 16)
+      (13): Embedding(4, 16)
+      (14): Embedding(119, 16)
+      (15): Embedding(455, 16)
+      (16): Embedding(8, 16)
+      (17): Embedding(6, 16)
+      (18): Embedding(6, 16)
+      (19): Embedding(4, 16)
+      (20): Embedding(4, 16)
+      (21): Embedding(4, 16)
+      (22): Embedding(4, 16)
+      (23): Embedding(4, 16)
+      (24): Embedding(4, 16)
+      (25): Embedding(4, 16)
+      (26): Embedding(4, 16)
+      (27): Embedding(15, 16)
+      (28): Embedding(157, 16)
+      (29): Embedding(121, 16)
+      (30): Embedding(7, 16)
+      (31): Embedding(112, 16)
+      (32): Embedding(126, 16)
+      (33): Embedding(4, 16)
+    )
+  )
+  (_weight_exp_d): Weights()
+  (_weight_exp_t): Weights()
+  (_weight_bal_d): Weights()
+  (_weight_bal_t): Weights()
+  (skip_conn): MLP_N(
+    (domain_specific): ModuleList(
+      (0): Linear(in_features=544, out_features=256, bias=True)
+      (1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+    )
+  )
+  (slot_weight): ParameterList(
+      (0): Parameter containing: [torch.float32 of size 544x512]
+      (1): Parameter containing: [torch.float32 of size 544x512]
+      (2): Parameter containing: [torch.float32 of size 544x512]
+  )
+  (slot_bias): ParameterList(
+      (0): Parameter containing: [torch.float32 of size 512]
+      (1): Parameter containing: [torch.float32 of size 512]
+      (2): Parameter containing: [torch.float32 of size 512]
+  )
+  (star_mlp): MLP_N(
+    (domain_specific): ModuleList(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+    )
+  )
+  (expert): ModuleList(
+    (0-3): 4 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (domain_expert): ModuleList(
+    (0-2): 3 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (task_expert): ModuleList(
+    (0-1): 2 x MLP_N(
+      (domain_specific): ModuleList(
+        (0): Linear(in_features=256, out_features=64, bias=True)
+        (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+        (2): ReLU()
+      )
+    )
+  )
+  (gate): ModuleList(
+    (0-5): 6 x Sequential(
+      (0): Linear(in_features=256, out_features=4, bias=True)
+      (1): Softmax(dim=1)
+    )
+  )
+  (tower): ModuleList(
+    (0-5): 6 x Sequential(
+      (0): Linear(in_features=64, out_features=64, bias=True)
+      (1): LayerNorm((64,), eps=1e-05, elementwise_affine=True)
+      (2): ReLU()
+      (3): Linear(in_features=64, out_features=1, bias=True)
+    )
+  )
+)
+trainable params: 1614322
+epoch: 0 validation: auc: 0.5601163292955379 log loss: 0.47270995208908007
+test auc: 0.5831636233762201 | test logloss: 0.3594089769215294
+domain: 0, task: 0, auc: 0.4575628011328111 | test logloss: 0.29653190033287513
+domain: 0, task: 1, auc: 0.47517549137585235 | test logloss: 0.18652392932338652
+domain: 1, task: 0, auc: 0.5568349013959413 | test logloss: 0.5785956669921127
+domain: 1, task: 1, auc: 0.5883455274435082 | test logloss: 0.41337810162524924
+domain: 2, task: 0, auc: 0.594982880755608 | test logloss: 0.6824389722621271
+domain: 2, task: 1, auc: 0.6065849255878715 | test logloss: 0.6898726136597768
+wrote to file: output/MDMTRec_kuaishou_domain_all_task_all_exp_4_0.01.csv

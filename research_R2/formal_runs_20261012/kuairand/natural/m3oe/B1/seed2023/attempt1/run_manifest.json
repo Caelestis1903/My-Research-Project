@@ -1,0 +1,57 @@
+{
+  "manifest_type": "formal_run_manifest",
+  "status": "INCOMPLETE",
+  "dataset": "kuairand",
+  "setting": "natural",
+  "backbone": "m3oe",
+  "arm": "B1",
+  "seed": 2023,
+  "run_dir": "/home/xzf/Code/phase0-3/research_R2/formal_runs_20261012/kuairand/natural/m3oe/B1/seed2023/attempt1",
+  "attempt": 1,
+  "config_path": "/home/xzf/Code/phase0-3/research_R2/configs/runtime_20261012/kuairand_natural_m3oe.json",
+  "config_sha256": "3f2840c3abd8a460e3de83f7dd03ac554d807cd54cb8f466d52e7a0dcb0cffb4",
+  "epochs_requested": 50,
+  "epochs_completed": 38,
+  "last_completed_epoch": 38,
+  "selected_epoch_at_interruption": 27,
+  "resume_used": 1,
+  "resume_budget_per_run": 1,
+  "failure_events": [
+    {
+      "event": "initial_process_native_segfault",
+      "pid": 1072336,
+      "recorded_at": "2026-10-12 14:39:09 +0800",
+      "evidence": "Linux kernel dmesg recorded python PID 1072336 segmentation fault at 2026-10-12 14:39:09 +0800; no run manifest had been written. This is recorded as an execution failure, not a completed run."
+    },
+    {
+      "event": "authorized_exact_resume_native_sigfpe",
+      "pid": 1080981,
+      "started_at": "2026-10-12 14:41:10 +0800",
+      "exit_code": 136,
+      "evidence": "The exec session returned: /bin/bash: line 1: 1080981 Floating point exception (core dumped) <same frozen run_formal command>. last_resume.pt remained unchanged at epoch 38; no COMPLETE/FAILED manifest was produced."
+    }
+  ],
+  "failure_receipt": "preflight/B1_kuairand_seed2023_resume1_receipt_20261012.json",
+  "failure_receipt_sha256": "cd81063bc6a28393f3104ee77b8fa66ded9c40297dcfbbe6bf489010a47a6ed5",
+  "dataset_termination_manifest": "formal_decisions_20261012/kuairand_r2a_termination_manifest.json",
+  "dataset_termination_manifest_sha256": "081e6291f5dd47a145faad15198858044695c70f5857eea279e9963516ee5043",
+  "last_resume_checkpoint": {
+    "path": "last_resume.pt",
+    "sha256": "cd39915a8669cf2539a6d995713e18a1cffcecc1eca8cd268be15e760427472a",
+    "bytes": 26632265
+  },
+  "training_logs": {
+    "complete": false,
+    "initial_launch_log": "preflight/logs/formal_B1_kuairand_seed2023_launch.log",
+    "initial_launch_log_bytes": 0,
+    "resume_launch_log": "preflight/logs/formal_B1_kuairand_seed2023_resume1_launch.log",
+    "resume_launch_log_bytes": 0,
+    "stdout_buffering": "run_formal buffers stdout in memory until normal exit; buffered output was lost on native process termination and is unrecoverable"
+  },
+  "metrics_complete": false,
+  "final_test_evaluated": false,
+  "excluded_from_global_test_unlock": true,
+  "test_prediction_calls": 0,
+  "recorded_at_utc": "2026-10-12T07:06:49.221180+00:00",
+  "note": "Audit sidecar created after failures using exclusive create; no checkpoint, config, prior evidence, or metrics overwritten. This is not a COMPLETE run and contains no fabricated full metrics."
+}

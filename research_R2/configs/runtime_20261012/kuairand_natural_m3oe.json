@@ -1,0 +1,105 @@
+{
+  "stage": "R2",
+  "design": "ao04_v12",
+  "dataset": "kuairand",
+  "setting": "natural",
+  "backbone": "m3oe",
+  "run_type": "joint",
+  "arms": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+  ],
+  "r2a_arms": [
+    "B0",
+    "B1",
+    "B2"
+  ],
+  "r2b_arms": [
+    "B3",
+    "B4"
+  ],
+  "seeds": [
+    2022,
+    2023
+  ],
+  "dataset_path": "/home/xzf/data/kuairand/processed/kuai_rand.csv",
+  "dataset_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+  "dataset_size_bytes": 416370411,
+  "batch_size": 40960,
+  "epochs": 50,
+  "num_workers": 0,
+  "shuffle_train": true,
+  "drop_last": false,
+  "learning_rate": 0.01,
+  "learning_rate_arch": 0.001,
+  "weight_decay": 1e-05,
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "eps": 1e-08,
+  "scheduler": null,
+  "embedding_dim": 16,
+  "fcn_dims": [
+    512,
+    256,
+    256,
+    64
+  ],
+  "expert_num": 4,
+  "m3oe_init": {
+    "exp_d": 1,
+    "exp_t": 1,
+    "bal_d": 1,
+    "bal_t": 1
+  },
+  "shadow_patience": 10,
+  "shadow_breaks": false,
+  "selection": {
+    "metric": "validation_macro_auc",
+    "rule": "strict_greater",
+    "tie_break": "earliest_epoch"
+  },
+  "common_epochs": [
+    9,
+    19,
+    29,
+    39,
+    49
+  ],
+  "device": "cuda:0",
+  "cudnn_deterministic": true,
+  "cudnn_benchmark": false,
+  "arch_update": {
+    "batches_per_epoch": 1,
+    "source": "persistent_iterator_over_shuffled_train_loader",
+    "rng": "preserve_rng_state"
+  },
+  "expected_train_counts": {
+    "0": 172782,
+    "1": 1743898,
+    "2": 89452
+  },
+  "expected_val_counts": {
+    "0": 2692,
+    "1": 246232,
+    "2": 1843
+  },
+  "expected_test_counts": {
+    "0": 2613,
+    "1": 246284,
+    "2": 1870
+  },
+  "expected_param_total": {
+    "B0": 1614258,
+    "B1": 1614264,
+    "B2": 1614261,
+    "B3": 1614258,
+    "B4": 1614264
+  },
+  "b3_table_sha256": "182edcbe382257dedfc725e7f0939e90edff68569dca889a1d10b918fc5a9957",
+  "hpost_enabled": false
+}

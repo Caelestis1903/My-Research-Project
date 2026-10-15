@@ -1,0 +1,114 @@
+{
+  "arch_update": {
+    "batches_per_epoch": 1,
+    "rng": "preserve_rng_state",
+    "source": "persistent_iterator_over_shuffled_train_loader"
+  },
+  "arms": [
+    "B0",
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+  ],
+  "b3_table_sha256": "182edcbe382257dedfc725e7f0939e90edff68569dca889a1d10b918fc5a9957",
+  "backbone": "m3oe",
+  "batch_size": 40960,
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "code": {
+    "ao04_v12_decision.py": "ff684c25201a4d2ce56044770f454e155638c95da4413f7b6d486b5b30b30c4c",
+    "ao04_v12_hpost.py": "360c1f7127f208019fc84e4eed428711dbb65c68785436649c91df1406d33516",
+    "ao04_v12_model.py": "8a9d86fe632b91f2b3796b9cb3a8c11b1c96da246d2feae0783425622a9d5231",
+    "ao04_v12_protocol.py": "d125bcb16633ced24e1f9218356770ca1197021ce53ffed55d68d9b2eb9cafcb",
+    "ao04_v12_runner.py": "abb3b40cc0ad6d27aa7c61f076e2ad897016a0913a2193250c0efdfb6f91024a",
+    "ao04_v12_static_check.py": "ebadc58644818540677ffdd7d6eb609f598db2ab9246db4185ecec12bdd70d2f",
+    "ao04_v12_test_evaluator.py": "3921799318fb980c39313bcaf76c5ac06bb7d06d3077dd3fa83d5cbdd80ae419"
+  },
+  "common_epochs": [
+    9,
+    19,
+    29,
+    39,
+    49
+  ],
+  "cudnn_benchmark": false,
+  "cudnn_deterministic": true,
+  "dataset": "movielens",
+  "dataset_path": "/home/xzf/data/ml-1m/ml-1m.csv",
+  "dataset_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+  "dataset_size_bytes": 75514352,
+  "design": "ao04_v12",
+  "device": "cuda:0",
+  "drop_last": false,
+  "embedding_dim": 16,
+  "epochs": 50,
+  "eps": 1e-08,
+  "expected_param_total": {
+    "B0": 773474,
+    "B1": 773480,
+    "B2": 773477,
+    "B3": 773474,
+    "B4": 773480
+  },
+  "expected_test_counts": {
+    "0": 27687,
+    "1": 41434,
+    "2": 30900
+  },
+  "expected_train_counts": {
+    "0": 150000,
+    "1": 34500,
+    "2": 3000
+  },
+  "expected_val_counts": {
+    "0": 27111,
+    "1": 35523,
+    "2": 37387
+  },
+  "expert_num": 4,
+  "fcn_dims": [
+    512,
+    256,
+    256,
+    64
+  ],
+  "hpost_enabled": false,
+  "learning_rate": 0.01,
+  "learning_rate_arch": 0.001,
+  "m3oe_init": {
+    "bal_d": 1,
+    "bal_t": 1,
+    "exp_d": 1,
+    "exp_t": 1
+  },
+  "num_workers": 0,
+  "r2a_arms": [
+    "B0",
+    "B1",
+    "B2"
+  ],
+  "r2b_arms": [
+    "B3",
+    "B4"
+  ],
+  "run_type": "joint",
+  "scheduler": null,
+  "seeds": [
+    2022,
+    2023
+  ],
+  "selection": {
+    "metric": "validation_macro_auc",
+    "rule": "strict_greater",
+    "tie_break": "earliest_epoch"
+  },
+  "setting": "d0_large",
+  "shadow_breaks": false,
+  "shadow_patience": 10,
+  "shuffle_train": true,
+  "stage": "R2",
+  "weight_decay": 1e-05
+}

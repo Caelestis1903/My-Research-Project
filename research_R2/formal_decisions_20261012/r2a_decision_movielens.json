@@ -1,0 +1,171 @@
+{
+  "D_s_by_seed": {
+    "2022": -6.167093048625727e-05,
+    "2023": 7.320015415501757e-05
+  },
+  "T_s_by_seed": {
+    "2022": -8.86271742106537e-06,
+    "2023": -4.821702253021698e-06
+  },
+  "budget": {
+    "attempts_used": 6,
+    "epochs_per_attempt": 50,
+    "epochs_used": 300,
+    "r2a_attempts_allowed": 6,
+    "resume_per_dataset_queue": 2,
+    "resume_per_run": 1,
+    "resumes_used": 0
+  },
+  "code_hashes": {
+    "run_formal.py": "4725c177c1edfdf0dda491b1ac3f55813710936d282faaab2683f7b70711bdc9",
+    "run_g1_replay.py": "7846415c371a463ad33bbec0eca28b4eb8c3e9462a964705ff6de180471e315b",
+    "run_queue.py": "374ec3fc844b8c9195ecf07c918db3458591d544e964c7b60b096a473c1d9bca",
+    "src/ao04_v12_decision.py": "ff684c25201a4d2ce56044770f454e155638c95da4413f7b6d486b5b30b30c4c",
+    "src/ao04_v12_hpost.py": "360c1f7127f208019fc84e4eed428711dbb65c68785436649c91df1406d33516",
+    "src/ao04_v12_model.py": "8a9d86fe632b91f2b3796b9cb3a8c11b1c96da246d2feae0783425622a9d5231",
+    "src/ao04_v12_protocol.py": "d125bcb16633ced24e1f9218356770ca1197021ce53ffed55d68d9b2eb9cafcb",
+    "src/ao04_v12_runner.py": "abb3b40cc0ad6d27aa7c61f076e2ad897016a0913a2193250c0efdfb6f91024a",
+    "src/ao04_v12_static_check.py": "ebadc58644818540677ffdd7d6eb609f598db2ab9246db4185ecec12bdd70d2f",
+    "src/ao04_v12_test_evaluator.py": "3921799318fb980c39313bcaf76c5ac06bb7d06d3077dd3fa83d5cbdd80ae419"
+  },
+  "created_at": "2026-10-12T06:58:21.032789+00:00",
+  "dataset": "movielens",
+  "decision": "NO",
+  "decision_code_sha256": "ff684c25201a4d2ce56044770f454e155638c95da4413f7b6d486b5b30b30c4c",
+  "decision_thresholds": {
+    "EXPLORATORY_D_MEAN": 0.001,
+    "PRACTICAL_D_MEAN": 0.003,
+    "TASK_GAIN_MEAN": 0.001
+  },
+  "guard_thresholds": {
+    "G_a": -0.001,
+    "G_b": -0.001,
+    "G_c": -0.003,
+    "G_d": -0.005,
+    "G_e": 0.01,
+    "G_f": 0.005
+  },
+  "guards": {
+    "all_pass": true,
+    "g_a_pass": true,
+    "g_a_per_task_mean": {
+      "0": 2.4042696644077655e-05,
+      "1": -1.2513472975150819e-05
+    },
+    "g_b_W_mean": 3.6743698600849584e-05,
+    "g_b_pass": true,
+    "g_c_pass": true,
+    "g_c_per_cell_mean": {
+      "(0, 0)": 3.989984731672669e-05,
+      "(0, 1)": 2.784545330186683e-05,
+      "(0, 2)": 4.382789313583935e-06,
+      "(1, 0)": 4.2853819028076945e-05,
+      "(1, 1)": 2.0101689860219096e-05,
+      "(1, 2)": -0.00010049592781380401
+    },
+    "g_d_pass": true,
+    "g_d_per_cell_single_seed": {
+      "(0, 0, 2022)": -3.487625376108472e-05,
+      "(0, 0, 2023)": 0.0001146759483945381,
+      "(0, 1, 2022)": 2.1292134542494345e-05,
+      "(0, 1, 2023)": 3.439877206123931e-05,
+      "(0, 2, 2022)": -0.0001350346498272259,
+      "(0, 2, 2023)": 0.00014380022845439377,
+      "(1, 0, 2022)": -1.1264409259581498e-05,
+      "(1, 0, 2023)": 9.697204731573539e-05,
+      "(1, 1, 2022)": 3.6167854287061374e-05,
+      "(1, 1, 2023)": 4.035525433376819e-06,
+      "(1, 2, 2022)": -0.00024631025889987335,
+      "(1, 2, 2023)": 4.531840327226533e-05
+    },
+    "g_e_pass": true,
+    "g_e_per_cell_mean": {
+      "(0, 0)": 0.0002679663652604414,
+      "(0, 1)": 0.0005731667079179048,
+      "(0, 2)": 0.0008073326146975646,
+      "(1, 0)": 0.00042473164107800776,
+      "(1, 1)": -0.0004641077743795796,
+      "(1, 2)": -0.0010031614127715138
+    },
+    "g_f_macro_logloss_mean": 0.00010098802363384118,
+    "g_f_pass": true
+  },
+  "mean_D": 5.764611834380151e-06,
+  "mean_T": -6.842209837043534e-06,
+  "reasons": [
+    "D_s thresholds not satisfied or guards failed",
+    "task_gain not satisfied (T_s <=0 or mean(T)<0.001)"
+  ],
+  "runs": [
+    {
+      "arm": "B0",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2022",
+      "resumed_from": null,
+      "run_manifest_sha256": "a6492536e752c605e53c1a459956b4e69f95b25e2c5de53e401abb0826b99006",
+      "seed": 2022,
+      "selected_epoch": 7,
+      "selected_validation_macro_auc": 0.7287534532714357,
+      "status": "COMPLETE"
+    },
+    {
+      "arm": "B0",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2023",
+      "resumed_from": null,
+      "run_manifest_sha256": "71cf04f871af09596feb03416ac9a60e219256141253a6fa353b3c6d33e6cffb",
+      "seed": 2023,
+      "selected_epoch": 6,
+      "selected_validation_macro_auc": 0.7263487776204854,
+      "status": "COMPLETE"
+    },
+    {
+      "arm": "B1",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2022",
+      "resumed_from": null,
+      "run_manifest_sha256": "b1c7fba9886a339a4c9149ff99ae8ed54f11637efbf3ae58674811d059171df1",
+      "seed": 2022,
+      "selected_epoch": 7,
+      "selected_validation_macro_auc": 0.7286917823409494,
+      "status": "COMPLETE"
+    },
+    {
+      "arm": "B1",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2023",
+      "resumed_from": null,
+      "run_manifest_sha256": "af1af09109572e3c969ad6d6b58baf4dcb6b3e6c29401e5800672d48b81d43ee",
+      "seed": 2023,
+      "selected_epoch": 6,
+      "selected_validation_macro_auc": 0.7264219777746405,
+      "status": "COMPLETE"
+    },
+    {
+      "arm": "B2",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2022",
+      "resumed_from": null,
+      "run_manifest_sha256": "e23ffff17ebb9765b325335dfd099ff0611589d318f6dc54a7edc2c24009dad2",
+      "seed": 2022,
+      "selected_epoch": 7,
+      "selected_validation_macro_auc": 0.7287006450583705,
+      "status": "COMPLETE"
+    },
+    {
+      "arm": "B2",
+      "epochs_completed": 50,
+      "formal_run_key": "joint|movielens|d0_large|m3oe|2023",
+      "resumed_from": null,
+      "run_manifest_sha256": "691d45ba7073a5f2ad459321fa69dcf87f524b14d51864fd3b34566574b48e2c",
+      "seed": 2023,
+      "selected_epoch": 6,
+      "selected_validation_macro_auc": 0.7264267994768935,
+      "status": "COMPLETE"
+    }
+  ],
+  "signal_class": "none",
+  "test_prediction_calls_at_decision": 0,
+  "valid": true,
+  "validity_note": ""
+}

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "D:\CODE\phase0-3\experiments\stage_S4_run.py", line 345, in <module>
+    raise SystemExit(main())
+  File "D:\CODE\phase0-3\experiments\stage_S4_run.py", line 327, in main
+    info = runner.fit()
+  File "D:\CODE\phase0-3\experiments\stage_S1_run.py", line 741, in fit
+    train_objective, train_records = self._train_epoch(epoch)
+  File "D:\CODE\phase0-3\experiments\stage_S4_run.py", line 215, in _train_epoch
+    self._controlled_step(losses, fingerprint, x_batch, epoch, step, "main")
+  File "D:\CODE\phase0-3\experiments\stage_S4_run.py", line 137, in _controlled_step
+    assert_match(shared_residual, 0.0, "shared Adam formula")
+  File "D:\CODE\phase0-3\experiments\stage_S4_gradient_controls.py", line 56, in assert_match
+    raise AssertionError("S4 norm mismatch {}: {} != {}".format(key, actual, reference))
+AssertionError: S4 norm mismatch shared Adam formula: 1.2112876425028966e-06 != 0.0
