@@ -77,9 +77,14 @@ def audit_state(payload, partition, epoch, batches):
         mapping = {pid: name for group, group_names in zip(state["param_groups"], parameter_names)
                    for pid, name in zip(group["params"], group_names)}
         assert len(mapping) == len(names)
-        assert set(state["state"]).issubset(mapping)
+        # Both B1 arms write FULL history. Every frozen model parameter is
+        # reached in the full-domain batches, including all private tensors.
+        assert set(state["state"]) == set(mapping), "missing FULL-history optimizer state"
+        expected_steps = batches * (epoch + 1) if key == "optimizer" else epoch + 1
         for pid, s in state["state"].items():
             assert {"step", "exp_avg", "exp_avg_sq"}.issubset(s)
+            step = float(s["step"].item()) if isinstance(s["step"], torch.Tensor) else float(s["step"])
+            assert step == expected_steps, "per-parameter Adam step counter mismatch"
             assert s["exp_avg"].shape == s["exp_avg_sq"].shape == payload["model"][mapping[pid]].shape
             assert torch.isfinite(s["exp_avg"]).all() and torch.isfinite(s["exp_avg_sq"]).all()
         state_count[key] = len(state["state"])

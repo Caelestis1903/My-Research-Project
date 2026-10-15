@@ -36,3 +36,9 @@
 在两臂CPU fixture上，分析实际检查100份state和200份预测并贯通表图生成，receipt的scope是ENGINEERING_ONLY，formal_runs_completed=0。默认缺少正式矩阵时确实拒绝且没有创建正式analysis目录（`analysis_scope_gate.json`）。bootstrap的tie/weight AUC用100个独立sklearn加权用例复核，残差低于1e-14（`analysis_oracle.json`）。图表已检查工程标签和坐标。没有将工程数据或小批次曲线用于科学结论。
 
 上述证据扩大了工程覆盖，仍未测得CUDA大batch峰值、未完成4seed正式矩阵，也未验证整段resume；这些限制保持。调度器真实PID及心跳须继续检查，不能从这份静态报告推断训练已开始。
+
+## CUDA正式启动后的在线检查
+
+后续CUDA完整batch测量及首attempt恢复过程见 `b1_native_recovery_review.md`。新的PID983855调度器在GPU0超过90%时，独立向GPU1发出5个正式任务，均进入fit并保存epoch0。首个seed2022/F/attempt2的真实state按SHA读取并核对：C80/P54/A4个参数tensor，主Adam完整134个state、arch完整4个state，每参数step分别49/1，与主/arch执行计数一致；六个验证cell的AUC/loss及train objective有限。seed2022/2023的F-DH epoch0初始化、main/arch累计batch hash均相同。这里只核验了实际首epoch，不代表400份最终状态全部通过。
+
+数值分析器追加严格的FULL-history状态全覆盖及每参数step断言，以满足原分析合同；生产算法、launcher和scheduler未编辑。该检查在既有两臂50epoch工程数据的全部100份state/200份预测上重新贯通，在线epoch0亦通过。默认正式分析入口对当前仅完成部分epoch的运行继续拒绝，未生成正式analysis结果。新receipt绑定当前分析源码；本次增强验证不改变科学定义、选点或模型更新。
