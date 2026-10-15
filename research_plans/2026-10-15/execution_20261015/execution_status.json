@@ -156,7 +156,7 @@
     "Independent scientific review not satisfied; self-review explicitly not equivalent",
     "B1 exact replication identity and dense full-state implementation unverified"
   ],
-  "next_action": "Inspect actual live B1 scheduler PID 953415 and any children; wait for independent per-GPU admission without restarting live work. C2.1 numerical oracle is complete, but does not permit C2 training or replace B1. After 8/8 B1 runs finish, execute full prediction-level analysis and original-plan conditional decisions, complete final reports and push key data. Goal remains active.",
+  "next_action": "Start committed revised scheduler only after confirming prior scheduler/worker are terminal. F retries as attempt2; preserve attempt1 archive. Use source-bound full-batch CUDA profile per GPU; monitor true handles and 90% total memory limit. Complete actual 8/8 formal runs, scientific analysis and final report/key-data push; current publication is partial.",
   "workflow_update_20261016": {
     "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
     "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
@@ -165,7 +165,7 @@
   },
   "reconstruction_study": {
     "study_id": "B1_reconstruction_20261016",
-    "status": "SCHEDULER_LIVE_WAITING_GPU_HEADROOM",
+    "status": "RECOVERY_READY_TO_RELAUNCH",
     "planned_runs": 8,
     "completed_formal_runs": 0,
     "identity": "RECONSTRUCTION_NOT_HISTORICAL_EXACT",
@@ -174,7 +174,7 @@
     "worker": "experiments/b1_reconstruction_20261016.py",
     "scheduler": "experiments/b1_reconstruction_scheduler_20261016.py",
     "verification": "B1_reconstruction_20261016/engineering_verification.json",
-    "scheduler_pid": 953415,
+    "scheduler_pid": null,
     "code_commit": "2089feeadffda1778d3ce1e1d2be17749b557218",
     "scheduler_status": "B1_reconstruction_20261016/scheduler_status.json",
     "formal_runs_started": 0,
@@ -187,7 +187,14 @@
       "receipt": "B1_reconstruction_20261016/engineering_analysis/1792082987636882999/analysis_receipt.json",
       "analysis_spec": "b1_analysis_spec.md",
       "program": "experiments/b1_analyze_20261016.py"
-    }
+    },
+    "previous_scheduler_pid": 953415,
+    "formal_attempts_started": 1,
+    "failed_preflight_attempts": 1,
+    "native_abort_root_cause": "UNRESOLVED_NOT_REPRODUCED",
+    "native_recovery_review": "b1_native_recovery_review.md",
+    "calibrated_reservation_mib": 3325.5,
+    "frozen_algorithm_sha256": "1552aa5aec80c4b1118ee45928ac9a566de50878c1a5f84b2b4199878353fb7f"
   },
   "c2_numeric_oracle": {
     "status": "COMPLETE_NUMERIC_ONLY",

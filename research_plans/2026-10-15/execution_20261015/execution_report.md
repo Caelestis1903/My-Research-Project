@@ -2,6 +2,8 @@
 
 > 同日追加：B1完整CPU工程流程和数值分析流程已验证，正式8-run队列仍待GPU准入。已按原规划§10.1完成C2.1零训练数值oracle：两数据集×4 seeds共8/8cases、96个配置统计，193.19秒；44个producer快照产物哈希复核通过。执行代码/设计/自审/原始数值/科学解释见 `c2_numeric_design_spec.md`、`c2_numeric_implementation_review.md`、`C2_numeric_oracle_20261016/`，本地运行代码提交 `e2bd63b`。没有新增正式训练；C2训练仍未触发。原历史工件缺口不因此关闭。
 
+> B1恢复更新：GPU1释放后，原PID953415调度器启动的首个F进程PID975570在constructor阶段原生中止（exit=-6，munmap_chunk invalid pointer），未产生epoch。已确认进程终止并归档原stdout/terminal状态。独立CUDA Adam、真实loader、完整CUDA constructor及原40960 batch的2 main+1 arch均通过，原生根因仍为未复现。依据实际2046 MiB reserved峰值更新准入，新增有真实attempt id和faulthandler的launcher；冻结科学算法SHA1552aa5a…保持不变。详见 `b1_native_recovery_review.md`；不把工程更新计入正式完成数。
+
 # 2026-10-15 规划执行进度（更新于 2026-10-16）
 
 状态：**PARTIAL / 目标仍未完成**。本次未运行新训练、未加载模型 checkpoint、未恢复 optimizer；完成的是路径修复、真实数据加载验证、A0/A1/A2 可访问证据审计及统计复算。

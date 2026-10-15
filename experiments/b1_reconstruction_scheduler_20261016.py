@@ -14,6 +14,7 @@ import hashlib
 from b1_reconstruction_20261016 import OUT, ROOT, PYTHON, STUDY, save_json, sha
 
 WORKER = ROOT / "experiments/b1_reconstruction_20261016.py"
+LAUNCHER = ROOT / "experiments/b1_reconstruction_attempt_20261016.py"
 
 
 def gpus():
@@ -35,6 +36,17 @@ def scheduler():
     committed_worker = subprocess.check_output(["git", "-C", str(publication_checkout), "show",
         code_commit + ":experiments/b1_reconstruction_20261016.py"])
     assert hashlib.sha256(committed_worker).hexdigest() == sha(WORKER), "commit does not contain actual worker"
+    for executable in (LAUNCHER, Path(__file__).resolve()):
+        content = subprocess.check_output(["git", "-C", str(publication_checkout), "show",
+            code_commit + ":" + str(executable.relative_to(ROOT))])
+        assert hashlib.sha256(content).hexdigest() == sha(executable), "commit does not contain actual launcher/scheduler"
+    profile_path = OUT / "native_diagnostics/cuda_runtime_profile_receipt.json"
+    profile_reservation = 20000.
+    if profile_path.exists():
+        profile = json.loads(profile_path.read_text())
+        assert profile["status"] == "PASS" and profile["worker_sha256"] == sha(WORKER)
+        assert profile["batch_size"] == 40960 and profile["main_steps_checked"] >= 2
+        profile_reservation = float(profile["conservative_reservation_mib"])
     # Reserve enough space for all 400 full-state files and endpoint products.
     estimated_disk = int(gate["estimated_400_checkpoint_bytes"] * 1.25) + 10 * 1024**3
     assert shutil.disk_usage(OUT).free > estimated_disk, (estimated_disk, shutil.disk_usage(OUT).free)
@@ -42,6 +54,10 @@ def scheduler():
               "code_commit": code_commit, "run_dir": str(OUT / "runs" / f"seed{seed}" / arm)}
              for seed in (2022, 2023, 2024, 2025) for arm in ("F", "DH")]
     children = {}
+    for task in tasks:
+        archive = OUT / "failed_attempts" / f"seed{task['seed']}_{task['arm']}"
+        previous = [int(p.name.removeprefix("attempt")) for p in archive.glob("attempt*") if p.is_dir()]
+        task["attempt_id"] = max(previous, default=0) + 1
     history_path = OUT / "scheduler_events.jsonl"
 
     def event(value):
@@ -52,9 +68,10 @@ def scheduler():
         save_json(OUT / "scheduler_status.json", {"study_id": STUDY, "pid": os.getpid(),
             "status": state, "updated": time.time(), "gpu_snapshot": gpu_snapshot,
             "max_processes_per_gpu": 5, "memory_fraction_limit": .9,
-            "memory_check_interval_seconds": 5, "cold_reservation_mib": 20000,
+            "memory_check_interval_seconds": 5, "cold_reservation_mib": profile_reservation,
             "tasks": tasks, "independent_review": False,
-            "worker_sha256": sha(WORKER), "estimated_disk_bytes": estimated_disk})
+            "worker_sha256": sha(WORKER), "launch_wrapper_sha256": sha(LAUNCHER),
+            "estimated_disk_bytes": estimated_disk})
 
     # No automatic restart/overwrite of an earlier attempt.
     for task in tasks:
@@ -104,8 +121,8 @@ def scheduler():
             pending = next((task for task in tasks if task["state"] == "PENDING"), None)
             if pending is None:
                 continue
-            # Peak reserved memory, rounded up with safety margin; before empirical
-            # observation use a conservative 20 GB reservation for the fixed batch.
+            # Use the source-bound full-batch engineering profile; without one,
+            # retain the original conservative 20 GB cold reservation.
             peaks = []
             for task in tasks:
                 progress = Path(task["run_dir"]) / "progress.json"
@@ -113,7 +130,7 @@ def scheduler():
                     peak = json.loads(progress.read_text()).get("peak_reserved_bytes", 0)
                     if peak:
                         peaks.append(peak / 1024**2)
-            reservation = max(peaks) * 1.15 + 512 if peaks else 20000
+            reservation = max(profile_reservation, max(peaks, default=0) * 1.25 + 768)
             # Unobserved CUDA initialization also needs its full reserved headroom.
             initializing = sum(reservation for task in active
                                if not (Path(task["run_dir"]) / "progress.json").exists())
@@ -123,9 +140,10 @@ def scheduler():
             run_dir.mkdir(parents=True, exist_ok=False)
             log = open(run_dir / "stdout.log", "a")
             env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu["index"]),
-                       OMP_NUM_THREADS="2", MKL_NUM_THREADS="2", OPENBLAS_NUM_THREADS="1")
-            process = subprocess.Popen([PYTHON, "-u", str(WORKER), "worker", "--arm", pending["arm"],
-                "--seed", str(pending["seed"]), "--run-dir", str(run_dir)], cwd=ROOT,
+                       OMP_NUM_THREADS="2", MKL_NUM_THREADS="2", OPENBLAS_NUM_THREADS="1", PYTHONFAULTHANDLER="1")
+            process = subprocess.Popen([PYTHON, "-u", str(LAUNCHER), "--arm", pending["arm"],
+                "--seed", str(pending["seed"]), "--run-dir", str(run_dir),
+                "--attempt-id", str(pending["attempt_id"]), "--code-commit", code_commit], cwd=ROOT,
                 env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
             pending.update(state="RUNNING", gpu=gpu["index"], pid=process.pid, started=time.time())
             children[process.pid] = (process, pending, log)

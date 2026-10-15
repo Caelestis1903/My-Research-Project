@@ -17,6 +17,8 @@ CUDA_VISIBLE_DEVICES='' OPENBLAS_NUM_THREADS=1 /home/xzf/miniconda3/envs/phase0-
 
 每卡独立准入；单卡总显存≤90%，每卡最多5个本study进程。首次用20,000 MiB保守预留，取得完整epoch实测峰值后使用峰值×1.15+512 MiB。即使另一卡超过90%，合格卡仍可启动。外部用户任务不终止、不修改。
 
+2026-10-16 native恢复更新：首次F预检进程原生中止（exit=-6），原日志已保留于 `failed_attempts/seed2022_F/attempt1`，旧调度器terminal状态在 `scheduler_history/`。独立CUDA初始化及原40960 batch的2 main+1 arch诊断通过，真实peak reserved为2046 MiB；现按source绑定profile峰值×1.25+768 MiB（3325.5 MiB）准入，并取后续epoch峰值的更保守值。无profile时才保留20GB预留。新attempt launcher只增加phase/faulthandler/真实attempt id；冻结算法SHA不变。首次native根因仍未复现，不称已解决。详见上一级 `b1_native_recovery_review.md`。
+
 `runs/seed*/{F,DH}/dense/epoch*.pt`为完整epoch状态；`dense/validation_epoch*.npz`、`test_epoch*.npz`保留逐行预测；选择先在`selection_frozen.json`固定，再评test。训练原始日志/weights不推到Git。推送关键表格、状态、报告及复现代码；本地保留完整状态供重分析。
 
 正式完成后主agent应逐项审计8/8配对、50epoch state hash、两split预测、R0–R4真实选点、same-epoch与selected时序分解、domain/task AUC与LL、seed变异与配对bootstrap、时间依赖限制。根据原规划判定后续条件，完成三份报告和关键数据推送后才可关闭总目标。
