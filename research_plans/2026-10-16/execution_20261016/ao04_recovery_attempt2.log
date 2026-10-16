@@ -1,0 +1,20 @@
+{"case": "kuairand_B0_2022", "binding": "RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH"}
+{"case": "kuairand_B0_2023", "binding": "RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH"}
+{"case": "kuairand_B1_2022", "binding": "RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH"}
+Traceback (most recent call last):
+  File "/home/xzf/Code/phase0-3/research_plans/2026-10-16/execution_20261016/recover_ao04.py", line 179, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/xzf/Code/phase0-3/research_plans/2026-10-16/execution_20261016/recover_ao04.py", line 111, in main
+    config=json.loads((run/'config.json').read_text());manifest=json.loads((run/'run_manifest.json').read_text())
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/pathlib/_local.py", line 546, in read_text
+    return PathBase.read_text(self, encoding, errors, newline)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/pathlib/_abc.py", line 632, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/xzf/Code/phase0-3/research_R2/formal_runs_20261012/kuairand/natural/m3oe/B1/seed2023/attempt1/config.json'
