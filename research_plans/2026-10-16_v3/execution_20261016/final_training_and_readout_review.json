@@ -2,7 +2,7 @@
   "status": "PASS",
   "independent_review": false,
   "reviewer": "primary_per_start11",
-  "training_sha256": "e230481e29a781af2bfd0fdbc15d3d97b12cff44b28aa43124951b7ca2eb551f",
+  "training_sha256": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
   "checks_receipt": "scientific_identity_checks_final.json",
   "readout_check": "readout_engineering.json",
   "readout_scope": "paired stratified ordinary row bootstrap with>=1000full50epoch selection repetitions; sign-permutation minp=.125 atn4 validated",
@@ -10,8 +10,11 @@
     "matched original v2 vanilla reduction order exactly, preserving numerical trajectory when settingsmatch",
     "corruption transformed x fingerprints recorded",
     "full50epoch model snapshots and resume state implemented before formal starts",
-    "pair readout hard-requires analysis freeze BEFORE reading diagnostic metrics"
+    "pair readout hard-requires analysis freeze BEFORE reading diagnostic metrics",
+    "read-only telemetry first6consecutive steps records actual lag1/2/5",
+    "extension preserves prior receipt/selection snapshots before updating live status"
   ],
   "gate": "No formal trajectory launch until all16objective +4deterministic experiments PASS and primary numerical analysis",
-  "live_status_hash_note": "audit progress.json is intentionally rewritten after receipt; raw files remain immutable, analyzer records final status hash separately rather than treating runtime status as raw measurement."
+  "live_status_hash_note": "audit progress.json is intentionally rewritten after receipt; raw files remain immutable, analyzer records final status hash separately rather than treating runtime status as raw measurement.",
+  "unchanged_math": "vanilla objective exact original v2 reduction order, all steps; metadata/telemetry do not alter updates"
 }

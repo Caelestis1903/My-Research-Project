@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import math
 import random
+import shutil
 from pathlib import Path
 import subprocess
 import time
@@ -101,6 +102,13 @@ class Runner:
                 for index in batches['order']:
                     rows=batches['rows'][starts[index]:starts[index+1]];self.chain.update(self.b.train_row_ids[rows].astype(np.int64).tobytes())
             assert self.chain.hexdigest()==state['batch_chain']
+            for filename in ('receipt.json','selection_frozen.json'):
+                current=self.dir/filename
+                if current.exists():
+                    record=__import__('json').loads(current.read_text())
+                    prior_epoch=record.get('epochs',max(map(int,record.get('history',{'0':0}))))
+                    snapshot=self.dir/f'{current.stem}_until{prior_epoch:03d}.json'
+                    if not snapshot.exists():shutil.copyfile(current,snapshot)
             base.dump(self.dir/f'extension_to{args.epochs}.json',dict(start_epoch=self.start_epoch,new_total_epochs=args.epochs,original_config_sha=base.sha(self.dir/'config.json'),test_read=False))
 
     def state(self,epoch):
@@ -127,7 +135,7 @@ class Runner:
                 gradients=[gs[t][i] if gs[t][i] is not None else torch.zeros_like(p) for t in range(2)]
                 p.grad=gradients[0]+gradients[1];self.opt.task_gradients[p]=gradients
         else:loss.backward()
-        telemetry=index<2
+        telemetry=index<6
         if telemetry:
             before={n:p.detach().clone() for n,p in self.named.items()}
             gradients={g:torch.cat([(p.grad if p.grad is not None else torch.zeros_like(p)).detach().flatten() for n,p in self.named.items() if base.group(n)==g]) for g in 'CPRE'}
@@ -135,12 +143,15 @@ class Runner:
         if telemetry:
             observations=[]
             for g,gradient in gradients.items():
-                names=[n for n in self.named if base.group(n)==g];prior=self.previous.get(g)
+                names=[n for n in self.named if base.group(n)==g];history=self.previous.setdefault(g,[])
                 moments={key:math.sqrt(sum(float(v.double().square().sum()) for n in names for k,v in self.opt.state[self.named[n]].items() if k==key or k.startswith(key+'_'))) for key in ('exp_avg','exp_avg_sq')}
                 observations.append(dict(epoch=epoch,batch=index,steps=self.steps,block=g,gradient_norm=float(gradient.double().norm()),
                     update_norm=math.sqrt(sum(float((self.named[n].detach()-before[n]).double().square().sum()) for n in names)),
-                    lag1_cosine=float(F.cosine_similarity(gradient,prior,dim=0)) if prior is not None else None,**moments))
-                self.previous[g]=gradient.clone()
+                    lag1_cosine=float(F.cosine_similarity(gradient,history[-1],dim=0)) if len(history)>=1 else None,
+                    lag2_cosine=float(F.cosine_similarity(gradient,history[-2],dim=0)) if len(history)>=2 else None,
+                    lag5_cosine=float(F.cosine_similarity(gradient,history[-5],dim=0)) if len(history)>=5 else None,**moments))
+                history.append(gradient.clone())
+                if len(history)>5:history.pop(0)
             base.csv_append(self.dir/'optimizer_observations.csv',observations)
         ids=b.train_row_ids[rows].astype(np.int64);fingerprint=hashlib.sha256(ids.tobytes()).hexdigest();self.chain.update(ids.tobytes())
         domains=b.train_x[rows,-1].astype(int);counts=np.bincount(domains,minlength=3);ww=self.p[domains]/self.q[domains]
