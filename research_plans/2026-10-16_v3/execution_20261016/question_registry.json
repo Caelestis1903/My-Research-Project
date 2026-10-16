@@ -39,9 +39,37 @@
     },
     {
       "id": "Q7",
-      "status": "PENDING",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "STRONG",
+      "evidence": "V8_duplication_decision.json; V8_duplication_primary_verification.json; runs/V8duplication__coupled_refSGD__all4seeds/{receipt.json,coupled_identity.csv}",
+      "conclusion": "Under fixed p,q,N example budget and WR sampling, uniform exact aliases change nominal pool size but not empirical input/label distribution, gradients, optimizer updates or trajectory law. Nominal alias count is not a sufficient explanation of SB-SN.",
+      "remaining_uncertainty": "Increasing genuinely independent support or changing underlying distribution is not the same intervention. Existing three physical domains confound independent support, distribution, labels, difficulty and architecture interactions. No claim that true statistical sample size cannot matter. No PERM invariance claim.",
+      "minimal_completed_experiment": {
+        "seeds": [
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "arms": [
+          "SN",
+          "SB"
+        ],
+        "alias_factors": [
+          2,
+          4
+        ],
+        "records": 16,
+        "production_epochs_mapped_per_record": 50,
+        "full_examples_checked_per_record": 100306600,
+        "fixed_epoch10_actual_gradient_update_oracles": 16,
+        "all_oracle_differences": 0,
+        "baseline_optimizer": "SGD",
+        "baseline_lr": 0.1
+      },
+      "minimal_identifying_design": "To identify independent support, obtain additional independent rows from the same domain population, prespecify disjoint sampling/subsampling sets with matched difficulty, p,q and exposure, and repeat matched SN/SB training across independent dataset draws. Exact aliases do not supply such rows.",
+      "next_action": "Report nominal-pool invariance separately from independent-support size. Do not equate small domains with difficult domains; complete V8 corruption and cell audit for their separate questions."
     },
     {
       "id": "Q8",
@@ -156,9 +184,13 @@
     },
     {
       "id": "Q26",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "STRONG",
+      "evidence": "objective_literature_audit.md; literature_source_receipt.json",
+      "conclusion": "Published D3 DBO and SAF learned sample weights generally change the empirical target measure and are not mechanism-equivalent to objective-preserving SN/SB. Constant-weight degenerations disable their studied mechanism. This does not establish that either method cannot improve metrics.",
+      "remaining_uncertainty": "AdaTask empirical coverage remains Q12/Q27; broad literature/novelty coverage remains Q13/Q25.",
+      "next_action": "Retain objective boundary in final related-work synthesis; complete faithful objective-preserving AdaTask comparison."
     },
     {
       "id": "Q27",
@@ -201,7 +233,7 @@
       "evidence": "support/*/parameter_cell_support.csv; support/*/receipt.json",
       "conclusion": "R/towers cell-private; slots domain-specific/task-shared; C/E tensor sharing across6cells. Correct necessity interventions accordingly.",
       "remaining_uncertainty": "Performance necessity remainsQ6/Q22, coordinate sparsity differs from tensor sharing",
-      "next_action": "Run mechanical gradient-support audit after V1 / during approved training only within CPU resource budget"
+      "next_action": "Completed four-seed support audit; retain sharing map in V7 interpretation."
     },
     {
       "id": "Q30",
@@ -236,12 +268,12 @@
       ],
       "blocking": false,
       "minimal_discriminating_experiment": "Verify matching pilot/finalist seed/init/source metadata and exact20epoch batchprefix after finalists complete; contrast with the fixed-LR reference runs whose LR was frozen before v3 calibration. Independent new tuning/confirmation seeds or an outer LR-selection resampling would be needed for unconditional LR-selection uncertainty.",
-      "status": "PENDING",
-      "evidence_strength": "WEAK",
-      "evidence": "calibration_frozen.json; V4final configs; pending prefixidentity receipt",
-      "conclusion": "Current inferential claim is conditional on finite-grid LR choice. Allfour per-seed effects retained; pilots are never counted as extra primary replicates.",
-      "remaining_uncertainty": "Unconditional LR-selection uncertainty; this does not invalidate a paired fixed-configuration contrast.",
-      "next_action": "Complete formal finalist runs and minimal prefixaudit; report a conditional-inference boundary. No expansion of scientific claims from repeated pilot seeds."
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "evidence": "analysis/V4_pilot_prefix_identity/receipt.json",
+      "conclusion": "All4 selected optimizer/pilotseed pairs have matching initialization/data/source metadata and exact20epoch draw prefixes in formal SN confirmation. Fresh processes do not supply independent tuning-validation seeds. Four-seed contrasts and CIs are conditional on frozen LR; fixed-reference results are retained separately.",
+      "remaining_uncertainty": "Unconditional outer LR-selection uncertainty is not estimated. Two new formal seeds2024/2025 do not turn the full cohort into four independent confirmations of the LR selection procedure.",
+      "next_action": "Retain explicit conditional-inference scope; no repeated training or bootstrap of fixed trajectories can manufacture independent pilot seeds."
     },
     {
       "id": "Q32",
