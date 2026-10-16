@@ -175,7 +175,8 @@ def analyze(phase='P1'):
         for b,n in [('SB','SN'),('EB','EN')]:
             bz=z[z.arm==b].set_index('epoch');nz=z[z.arm==n].set_index('epoch')
             if bz.empty or nz.empty:continue
-            be=int(bz.auc_macro.idxmax());ne=int(nz.auc_macro.idxmax())
+            # Epoch zero is a baseline readout, never a selectable checkpoint.
+            be=int(bz.loc[bz.index>0].auc_macro.idxmax());ne=int(nz.loc[nz.index>0].auc_macro.idxmax())
             selected=bz.loc[be,'auc_macro']-nz.loc[ne,'auc_macro']
             fixed_n=bz.loc[ne,'auc_macro']-nz.loc[ne,'auc_macro'];timing_b=bz.loc[be,'auc_macro']-bz.loc[ne,'auc_macro']
             fixed_b=bz.loc[be,'auc_macro']-nz.loc[be,'auc_macro'];timing_n=nz.loc[be,'auc_macro']-nz.loc[ne,'auc_macro']

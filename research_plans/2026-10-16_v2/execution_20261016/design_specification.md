@@ -51,3 +51,7 @@ P9: explicitly audit CF1 q, CF2 optimizer, CF3 candidate mediator block; only cl
 ## Run/recovery/publication
 
 CPU smoke through save/load/selection, then real full-batch CUDA profile, then one full epoch, then reviewed frozen formal code commit. Each GPU independent admission <=90% memory and <=5study workers, using measured headroom; maximize safe concurrency without stopping external jobs. Persistent scheduler records commands/PIDs/exits/status, attempts isolated, failure does not stop independent jobs. No source edits while its hashed code is active. Reports/CSV/JSON/plots/config/hash tracked; raw datasets, checkpoints and redundant predictions stay local with manifests. Milestone commits and push to dedicated codex/execute-2026-10-16-v2; no force push.
+
+## P7 key-optimizer execution clarification before P1 readout
+
+The already queued MovieLens Adam8runs are the preregistered minimum boundary. If P1-B identifies a stable SGD effect, the P7 key optimizer is SGD, so additionally queue MovieLens SGD SN/SB×4seeds with the frozen .1 learning rate,50epochs and identical within-environment budgets. Adam results alone cannot establish whether the Adam-independent effect repeats. Do not retune using test; KR-only calibration and the different per-environment update count remain explicit boundary limitations.

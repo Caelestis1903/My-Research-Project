@@ -7,3 +7,5 @@ Self-review checks producer manifests without rewriting them; source hashes refe
 All script SHAs in analysis_review_verdict.json. This is primary self-review under latest start§11, not independent reviewer approval. No new training performance mechanism conclusion is inferred by these scripts; scientific analysis remains primary responsibility.
 
 Mechanical CPU queue reviewed: exactly16Adam-grid validation bootstraps,8SN finite-pool probes (Adam/SGD,4seeds),4dependent weighting audits; at most2CPU processes, immutable completed producer manifests required, no scientific branching. Existing successful receipts skip duplicate execution. Failures retain outputs and need primary diagnosis. This queue only automates the already reviewed deterministic readouts.
+
+Selection timing audit: restricted the decomposition argmax to completed epochs1..50, matching the producer selection rule; epoch0 remains a baseline only. This changes no producer state, training metric, or selected checkpoint. Numeric analyzer hash updated before its next execution.

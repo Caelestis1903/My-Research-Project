@@ -12,7 +12,13 @@ def main():
         r=json.loads(receipt.read_text());directory=receipt.parent;dataset=r['dataset'];opt=r['optimizer'];seed=r['seed']
         config=json.loads((OUT/'runs'/dataset/opt/f'seed{seed}'/'SN/attempt1/config.json').read_text());alpha=np.array(config['alpha'])
         for filename,bag in [('geometry.csv',geometry),('cosines.csv',cosines),('covariance_spectrum.csv',spectra)]:
-            bag.append(pd.read_csv(directory/filename).assign(dataset=dataset,optimizer=opt,seed=seed))
+            frame=pd.read_csv(directory/filename)
+            # This legacy producer field scales covariance of a 32-row
+            # microbatch estimator. It is not production batch covariance.
+            if 'batch40960_trace' in frame:
+                frame=frame.rename(columns={'batch40960_trace':'diagnostic_microbatch_trace_divided_by_40960'})
+                frame['scaled_trace_scope']='arithmetic diagnostic only; not the covariance of production40960-row batches'
+            bag.append(frame.assign(dataset=dataset,optimizer=opt,seed=seed))
         for snap in ('initial','selected','final'):
             with np.load(directory/(snap+'_gradient_pool.npz'),allow_pickle=False) as z:
                 pools={block:z[block] for block in ('C','P','R','E')}
