@@ -1,5 +1,6 @@
 """Descriptive Stage2D readouts; no scientific gate or training policy changes."""
 from pathlib import Path
+import hashlib
 import json
 import numpy as np
 import pandas as pd
@@ -33,6 +34,23 @@ def main():
     assert json.loads((A/'receipt.json').read_text())['training_runs_complete']==16
     torch.set_num_threads(2)
     a=pd.read_csv(A/'aggregate_metrics.csv');selected=pd.read_csv(A/'selected_aggregate_metrics.csv')
+    schema=[]
+    for r in pd.read_csv(A/'selected_cell_metrics.csv').itertuples():
+        run=runpath(r.seed,r.arm);m=json.loads((run/'run_manifest.json').read_text())
+        schema.append(dict(study_id=m['study_id'],stage=m['stage'],dataset=m['dataset'],
+            split=r.split,split_hash=m['data']['split_row_id_hashes'][r.split],setting=m['setting'],
+            arm=r.arm,seed=r.seed,objective_alpha=json.dumps(m['alpha']),domain_sampling_q=json.dumps(m['q']),
+            effective_importance_weight=json.dumps(m['importance_weight']),target_domain=1,
+            target_interpretation='reporting reference only; no target-specific training intervention',
+            model_code_sha=hashlib.sha256(json.dumps(m['source_hashes'],sort_keys=True).encode()).hexdigest(),
+            optim_code_sha=m['source_hashes']['experiments/stage2d_20261016.py'],torch_version=str(torch.__version__),
+            config_sha=m['artifact_hashes']['config.json'],init_sha=m['init_sha'],batch_sha=m['main_batch_chain'],
+            epoch=r.epoch,selected_epoch=m['selected_epoch'],step_main=49*(r.epoch+1),step_arch=r.epoch+1,
+            state_complete=m['state_complete'],checkpoint_sha=m['artifact_hashes']['selected_state.pt'],
+            domain=r.domain,task=r.task,cell_auc=r.auc,cell_ll=r.logloss,n=r.n,n_pos=r.n_pos,
+            source_grade='NEW_IID_FORMAL_TRAINING',reviewer_verdict=m['reviewer_verdict'],
+            independent_review=m['independent_review'],code_commit=m['code_commit']))
+    pd.DataFrame(schema).to_csv(A/'unified_selected_run_schema.csv',index=False)
     timing=[];common=[];ranking=[]
     metrics=['auc_macro','auc_target_d1','auc_non_target','logloss_macro']
     for seed in SEEDS:

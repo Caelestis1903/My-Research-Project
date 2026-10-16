@@ -4,7 +4,7 @@
 
 ## 源码和数据
 
-`experiments/stage2d_20261016.py` 复用 config 中 source_hashes 列出的原模型、数据和评价函数。KuaiRand 为 `/home/xzf/data/kuairand/processed/kuai_rand.csv`，SHA256 `a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f`。原数据、checkpoint 和预测不上传 Git；run_manifest 记录其 hash，全部保留在本机 run 目录。
+`experiments/stage2d_20261016.py` 复用 config 中 source_hashes 列出的原模型、数据和评价函数。KuaiRand 为 `/home/xzf/data/kuairand/processed/kuai_rand.csv`，SHA256 `a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f`。原始数据、所有 checkpoint 和重复的 common/final 全量预测保留在本机 run 目录，不上传 Git；run_manifest 记录其 hash。每个 run 的 validation_selected.npz 和 test_selected.npz 约各 2.2 MiB，作为逐行数值核验和 bootstrap 的关键证据随最终归档保存，避免再次只有指标表而无选中点预测。
 
 运行前读取 design_specification.md、review.md、engineering_verification.json、cuda_profile.json、analysis_specification.md。CPU 工程检查和 CUDA profile 的小规模输出不计作正式训练。
 
