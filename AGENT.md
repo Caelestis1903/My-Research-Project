@@ -717,7 +717,7 @@ m_t=\beta_1m_{t-1}+(1-\beta_1)g_t,
 \]
 
 \[
-v_t=\beta_2v_{t-1}+(1-\beta_2)v_t
+v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2
 \]
 
 因此 V2 的 `g_final` 会同时改变：
