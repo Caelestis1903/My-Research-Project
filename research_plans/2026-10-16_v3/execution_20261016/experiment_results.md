@@ -51,3 +51,8 @@ V5已经验证前三种子600个arm-epoch的操纵身份，但四seed性能仍�
 所有新v3 test readout仍未读取。统计解释与限制见 `bootstrap_uncertainty_scope.md`。后续混合50/100预算图保留所有个体轨迹，但粗均值只显示全seed都有观测的epoch，支持数量单独输出。
 
 推断边界Q36：共同pre窗口由冻结操作性classifier产生；没有同时峰值/窗口检验的familywise保证。不能把未检测到onset等同没有潜在过拟合，亦不把“confirmed”写成强于既定程序的统计证明。固定horizon反例和一致结果继续完整报告。
+
+更新：V8 seed23共同污染预算已由冻结规则要求至少150，150训练实际启动；中间100全套快照保持不变。AdaTask seed22/23初始配对读出已完成并复算，另两seed仍在进行，故本报告尚未加入四seedAdaTask结论。
+
+
+更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。

@@ -57,3 +57,10 @@ V5最后SGD seed25四个条件与V8 seed25四个污染条件已按最终100预�
 所有数值来自真实产物。8个环境×seed validation拆分在新训练前冻结；历史全集validation/test已暴露，因此新diagnostic只对本轮调参独立，不称历史完全untouched。当前 `test_readout_frozen.json` 尚不存在，未执行新v3 test性能读出。恢复入口为 `orchestrator_checkpoint.json`、逐阶段 `execution_ledger.json` 与各manifest/status/launch；全局状态持续为RUNNING，不以保存里程碑结束任务。
 
 Q36新增推断边界：冻结onset程序使用观察到的prefix peak并扫描多窗口，没有构造同时置信带或证明familywise错误控制。标签与预算充分性仅按既定操作性规则解释；全部fixed epoch与AULC10/20保留，不修改阈值、不新增未经预设的结论。详见onset_inference_scope_audit.json。最终test汇总器已补齐AULC读出，并要求所有汇总清单SHA在test开封前冻结；test仍未读。
+
+V8 seed23的100轮六条轨迹现已完成归档，但clean SN改善.00579043、mild SB改善.00664922且所有候选selection下降窗口仍不能满足LogLoss恶化。因此按原规则要求全六条至少150；与冻结readout一致的NumPy mean/argmax复算再次确认零可确认窗口。第二段前缀复制保留旧continuation_source.json、另写continuation_source_to150.json，1944个生产者文件/11.1035GiB在新metadata写入后由主agent逐一复核通过，150轮GPU恢复已实际启动。旧50/100输入与其完整读出均保留，不把中间100预算误称终点。
+
+AdaTask前两种子的1000/200完整初始50轮配对读出与主agent六cell复算均通过，最大误差2.22e-16。seed22按selection过拟合规则最终50，seed23匹配Adam100且自身两臂100均平台，最终100；seed24/25仍待。无四seedAdaTask机制结论。
+
+
+更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。

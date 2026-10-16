@@ -25,9 +25,11 @@
     },
     {
       "id": "Q4",
-      "status": "PENDING",
+      "status": "TRIGGERED_STATE_EXPERIMENT_IN_PROGRESS",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "WEAK",
+      "evidence": "V11_state_decomposition_design.json; actualgateverification",
+      "conclusion": "State decomposition now legitimately triggered; no state outcomes yet. Full training beta1zero/v-only,beta2zero,m-only plus common-theta fullstateshadow/normcontrol awaitacceptance."
     },
     {
       "id": "Q5",
@@ -183,9 +185,11 @@
     },
     {
       "id": "Q23",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "STRONG",
+      "evidence": "V11_actual_gate_primary_verification_and_analysis.json; V4_calSGD_initial50_and_V11_actual_analysis.md",
+      "conclusion": "Frozen calibrated globalpre22 interaction actualTRIGGERED, mean-.01391006 all4negative CI[-.01771325,-.01010686]. LR-specific optimizer configurations; no statecausality claim."
     },
     {
       "id": "Q24",
@@ -338,7 +342,7 @@
       "id": "Q34",
       "title": "Recorded exp_avg norm includes secondmomentnorm via overlappingkeyprefix",
       "origin": "Primaryread-onlyinspectionofv3_train.steptelemetry",
-      "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||\u00b2+||v||\u00b2), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
+      "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||²+||v||²), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
       "why_it_matters": "Couldmislabelm/vmagnitudesinstateinterpretation; doesnotalteractualupdatesorperformance.",
       "candidate_explanations": [
         "Overbroadprefixselectorinread-onlystatistics"
@@ -351,7 +355,7 @@
       "design": "moment_telemetry_correction_design.json",
       "next_action": "V6/V11moment-normanalysesmust usecorrected_m_norm, v_norm. Originalrawexp_avg retainedandlabeledmixed; cannotinterpretaspurem. Rerunsameposthocutilityforlaterarchivebudgets innewoutdir.",
       "evidence": "analysis/moment_telemetry_correction_initial50/primary_checkpoint_oracle.json; moment_telemetry_correction_decision.json",
-      "conclusion": "Oldexp_avg column is mixedsqrt(m\u00b2+v\u00b2); exactnormrecoveryfromrawm/vpair verifiedagainst8actualAdam/AdaTaskCPREcheckpointblocks. All80000recoveredrow identitiesverify. Actualoptimizerstates,updates,predictions,AUC/loss andselectionunchanged; no retrainingneeded.",
+      "conclusion": "Oldexp_avg column is mixedsqrt(m²+v²); exactnormrecoveryfromrawm/vpair verifiedagainst8actualAdam/AdaTaskCPREcheckpointblocks. All80000recoveredrow identitiesverify. Actualoptimizerstates,updates,predictions,AUC/loss andselectionunchanged; no retrainingneeded.",
       "remaining_uncertainty": "Rawcolumnstillmixedbydesignpreserved; reportcorrected_m_normonly. Correctionnormidentitydoesnotidentifyanystatecausalmechanism."
     },
     {

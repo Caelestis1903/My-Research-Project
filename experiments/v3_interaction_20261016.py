@@ -25,15 +25,17 @@ def main():
      rows.append(dict(seed=seed,split=split,readout=label,horizon=horizon,metric=metric,adam_delta=delta['adam'],sgd_delta=delta['sgd'],interaction=delta['adam']-delta['sgd']))
   adam=runs['adam'][seed][2];sgd=runs['sgd'][seed][2];merged=adam.merge(sgd,on=['split','readout','metric'],suffixes=('_adam','_sgd'),validate='one_to_one')
   for row in merged.to_dict('records'):rows.append(dict(seed=seed,split=row['split'],readout=row['readout'],horizon=None,metric=row['metric'],adam_delta=row['difference_adam'],sgd_delta=row['difference_sgd'],interaction=row['difference_adam']-row['difference_sgd']))
- frame=pd.DataFrame(rows);frame.to_csv(a.out/'seed_interactions.csv',index=False);summary=[]
+ frame=pd.DataFrame(rows);summary=[]
  # AULC_1_10/20 appears both directly and in paired_readouts, so scope duplicate
  # representation by retaining the direct numerical point-array version.
  frame=frame.drop_duplicates(['seed','split','readout','metric'],keep='first')
+ frame.to_csv(a.out/'seed_interactions.csv',index=False)
  for key,subset in frame.groupby(['split','readout','metric']):
   row=dict(zip(('split','readout','metric'),key));row.update(r.paired_summary(subset.sort_values('seed').interaction));summary.append(row)
  primary=next(row for row in summary if row['split']=='diagnostic' and row['readout']=='PRIMARY_common_pre_AULC' and row['metric']=='auc')
- trigger=max(primary['positive'],primary['negative'])>=3 and (primary['ci_low']>0 or primary['ci_high']<0) and abs(primary['mean'])>=.003
+ required_same_sign=(3*len(seeds)+3)//4
+ trigger=max(primary['positive'],primary['negative'])>=required_same_sign and (primary['ci_low']>0 or primary['ci_high']<0) and abs(primary['mean'])>=.003
  base.dump(a.out/'summary.json',summary);base.dump(a.out/'gate.json',dict(status='TRIGGERED' if trigger else 'NOT_TRIGGERED',primary_interaction=primary,common_window=minimum,
-  criteria='>=3/4 same sign AND paired seed95%CI excludes0 AND absmean>=.003',scope='optimizer configurations, LR-specific; state causality not established',
+  criteria='>=75% seeds same sign AND paired seed95%CI excludes0 AND absmean>=.003',seeds=seeds,required_same_sign=required_same_sign,scope='optimizer configurations, LR-specific; state causality not established',
   source_sha=base.sha(__file__),manifest_sha=base.sha(a.manifest)))
 if __name__=='__main__':main()

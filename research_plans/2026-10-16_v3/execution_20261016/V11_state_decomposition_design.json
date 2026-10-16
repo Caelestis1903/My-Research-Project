@@ -1,0 +1,92 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "status": "FROZEN_BEFORE_IMPLEMENTATION",
+  "independent_review": false,
+  "time": 1792182191.2262976,
+  "trigger": "V11_actual_gate_primary_verification_and_analysis.json PASS_TRIGGER_ACTUAL; global1..22 interaction -0.0139100568,4/4 negative",
+  "question": "Q4: distinguish first-moment history, second-moment preconditioning/history, current-gradient response, global step magnitude and stage. New sampling question only; old Equal-objective S5-S8 conclusions remain frozen.",
+  "full_training": {
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "dataset": "kuairand",
+    "model": "unchanged M3OE",
+    "arms": [
+      "SN",
+      "SB"
+    ],
+    "objective": "unchanged p/q weighted mean task BCE; coupled L2 1e-5",
+    "variants": {
+      "beta1_zero_v_only": {
+        "betas": [
+          0,
+          0.999
+        ],
+        "definition": "Adam without first-moment history; exact v-only alias, one training condition covers both"
+      },
+      "beta2_zero": {
+        "betas": [
+          0.9,
+          0
+        ],
+        "definition": "Adam with instantaneous g^2 denominator; retains m history, NOT SGD"
+      },
+      "m_only": {
+        "beta1": 0.9,
+        "definition": "m_t=.9*m_(t-1)+.1*(g_data+lambda*theta); theta-=lr*m_t/(1-.9^t); denominator1, no second moment"
+      }
+    },
+    "lr": 0.003,
+    "epsilon": 1e-08,
+    "hyperparameter_scope": "All at calibrated Adam fixed LR .003; no variant-specific tuning. Absolute learning-speed differences cannot establish necessity. Explicit local norm matching and fixed-stage shadow contrasts test this competing explanation.",
+    "initial_budget": {
+      "2022": 50,
+      "2023": 100,
+      "2024": 50,
+      "2025": 50
+    },
+    "budget": "Preserve completed calibrated Adam budget per seed as minimum, then existing <=.005 train plateau OR selection-confirmed overfit. If any variant/q needs extension, all six variant arms for that seed extend +50. No hard cap; reference baseline own final budget remains separate. Report matched common horizons and global pre <=22 separately from unequal selected horizons.",
+    "pairing": "Same initialization, base sampler, seed, batching, WR and order. Only update formula differs. Reuse frozen trainer via new wrapper; do not edit frozen train/readout/dependencies.",
+    "outputs": "All standard raw trainer artifacts and 1000/200 paired readouts, seed/cell/task/domain AUC and loss. No new test before global freeze."
+  },
+  "shadow": {
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "stages": [
+      1,
+      10,
+      40
+    ],
+    "anchor": "Calibrated Adam SN native parameter path reconstructed from initialization, exact production stored SN batches and actual Adam updates through40 epochs; verify stage model and moments against archived checkpoint. No replay on a changed theta path.",
+    "histories": "Two complete m/v states start zero and equal clocks. H_SN updated with native SN gradient at current SN theta. H_SB updated with stored production SB-batch gradient reevaluated at the SAME SN theta, never using SB-native theta and never applying H_SB update to anchor parameters. Include coupled weight decay in both. Native path is unaffected by shadow.",
+    "current_gradient": "At each stage use two independently drawn held-out production batches, q=SN and SB, deterministic seed20261016+seed*1000+epoch*10+armindex. Hold each current gradient and theta fixed across state interventions. Training inputs only.",
+    "interventions": [
+      "native H_SN",
+      "swap m only from H_SB",
+      "swap v only from H_SB",
+      "full state H_SB",
+      "beta1_zero/v_only response with H_SN v",
+      "beta2_zero response with H_SN m",
+      "m_only response with H_SN m"
+    ],
+    "formula": "Apply one next step t+1 using explicit Adam bias correction and epsilon; beta1_zero sets m=g and beta1=0; beta2_zero sets v=g^2 and beta2=0; m_only denominator1. Native/swap variants use beta1=.9 beta2=.999. All states same t; no incorrect bias-clock transplant.",
+    "norm_control": "Evaluate both raw and global-L2-norm-matched deltas; match each condition to native H_SN delta for same current gradient. Norm<1e-12 => uninformative recorded, never divide/claim attenuation.",
+    "readouts": "Full empirical training data objective, selection/diagnostic six cells macro/domain/task AUC and logloss at BASE theta and every delta; displacement norms per CPRE, delta cosine, m/v changes. No test. Pair across4seeds and prespecified3stages, no stage cherry-picking.",
+    "scope": "Identifies local state/history effects at a common SN path. Native SB full-training path remains different; shadow is not proof of long-run performance mediation. Report disagreements with full-training ablations and AdaTask."
+  },
+  "acceptance": [
+    "AST/syntax only plus minimal numerical oracle: m-only closed-form two-step in float64; beta1/v-only identity via actual torchAdam; beta2zero vs actual torchAdam; raw standard .9/.999 formula vs actual torchAdam and full identical-state null",
+    "One real seed2022 epoch1 native replay oracle: actual checkpoint parameter and moment agreement within explicit float32 relative tolerance 1e-5; exact stored batch identity. Failure blocks shadow runs until corrected. Oracle does not select variants/hyperparameters.",
+    "Primary self review PASS before mechanical smoke/oracle; actual numerical PASS before formal GPU matrix. All sources pinned and live existing sources unchanged."
+  ],
+  "analysis": "A consistent local swap effect that survives norm matching supports local history beyond scalar step length; lack of it falsifies this local history account. Full-training ablation gap changes alone confound trajectory/effective LR. State necessity never inferred merely from optimizer interaction. Four seed CI, sign consistency, effect sizes and contradiction tables required.",
+  "implementation_status": "NOT_STARTED",
+  "test_access": false
+}

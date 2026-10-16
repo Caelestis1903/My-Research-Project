@@ -1,0 +1,69 @@
+{
+  "status": "PASS_TRIGGER_ACTUAL",
+  "independent_review": false,
+  "time": 1792182093.946001,
+  "gate": {
+    "status": "TRIGGERED",
+    "primary_interaction": {
+      "split": "diagnostic",
+      "readout": "PRIMARY_common_pre_AULC",
+      "metric": "auc",
+      "n": 4,
+      "mean": -0.013910056773812015,
+      "sd": 0.004668138624875904,
+      "median": -0.014194966326853312,
+      "positive": 0,
+      "negative": 4,
+      "seed_values": [
+        -0.018769297074899657,
+        -0.016657211786393095,
+        -0.008480997366641778,
+        -0.011732720867313529
+      ],
+      "ci_low": -0.017713254430646377,
+      "ci_high": -0.010106859116977653,
+      "paired_sign_randomization_p": 0.125
+    },
+    "common_window": 22,
+    "criteria": ">=75% seeds same sign AND paired seed95%CI excludes0 AND absmean>=.003",
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "required_same_sign": 3,
+    "scope": "optimizer configurations, LR-specific; state causality not established",
+    "source_sha": "21349b0f7180b0ea866999ca5097c089004f10797f3f920fe27acff9900008af",
+    "manifest_sha": "ca50aae604e9a6780bc85497a351a02921923615a8c2b64733885506726f1313"
+  },
+  "independent_point_recalculation": [
+    {
+      "seed": 2022,
+      "adam": -0.017517098435744057,
+      "sgd": 0.0012521986391555995,
+      "interaction": -0.018769297074899657
+    },
+    {
+      "seed": 2023,
+      "adam": -0.01874861430512995,
+      "sgd": -0.0020914025187368564,
+      "interaction": -0.016657211786393095
+    },
+    {
+      "seed": 2024,
+      "adam": -0.008279449820014873,
+      "sgd": 0.00020154754662690425,
+      "interaction": -0.008480997366641778
+    },
+    {
+      "seed": 2025,
+      "adam": -0.011259496507998169,
+      "sgd": 0.00047322435931535965,
+      "interaction": -0.011732720867313529
+    }
+  ],
+  "max_error": 0.0,
+  "interpretation": "STRONG for operational frozen LR-specific optimizer-configuration interaction. No inference that Adam/history is necessary or sufficient; SGD later gap counterevidence retained. Four-seed sign-test p=.125, separate seed-bootstrap CI. New state design required before implementation.",
+  "next_stage": "DESIGN V11 state decomposition and norm-matched shadow counterfactuals"
+}

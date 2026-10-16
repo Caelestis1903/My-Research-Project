@@ -51,7 +51,12 @@ def main():
                           prefix_identity='ALL_ORIGINAL_PRODUCER_HASHES_MATCH',
                           independent_training_replicate=False,
                           original_inputs_mutated=False, preparation_seconds=time.time() - started)
-        (target / 'continuation_source.json').write_text(json.dumps(provenance, indent=2) + '\n')
+        metadata = target / 'continuation_source.json'
+        if metadata.exists():
+            metadata = target / f'continuation_source_to{item["to_epochs"]}.json'
+        assert not metadata.exists(), metadata
+        provenance['provenance_artifact'] = metadata.name
+        metadata.write_text(json.dumps(provenance, indent=2) + '\n')
         records.append(provenance)
     args.out.write_text(json.dumps(dict(status='PASS', source_sha=sha(Path(__file__)),
                                         manifest_sha=sha(args.manifest), continuations=records), indent=2) + '\n')
