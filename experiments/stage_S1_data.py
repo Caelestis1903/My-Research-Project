@@ -29,8 +29,8 @@ from stage_S1_protocol import (
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-DEFAULT_MOVIELENS_PATH = "/xzf/data/movielens"
-DEFAULT_KUAIRAND_PATH = "/xzf/data/kuairand/processed"
+DEFAULT_MOVIELENS_PATH = "/home/xzf/data/ml-1m"
+DEFAULT_KUAIRAND_PATH = "/home/xzf/data/kuairand/processed"
 
 MOVIELENS_COLUMNS = (
     "user_id", "movie_id", "gender", "age", "occupation", "zip", "cate_id",
