@@ -77,7 +77,7 @@ def main():
     summary=[]
     for key, subset in frame.groupby(['split','steps','metric']):
         assert not subset.seed.duplicated().any()
-        item=dict(zip(('split','steps','metric'),key),n_observed=len(subset),
+        item=dict(split=key[0],steps=int(key[1]),metric=key[2],n_observed=len(subset),
             n_required=len(curves['B0_sgd']),all_seeds_present=len(subset)==len(curves['B0_sgd']))
         if item['all_seeds_present']:
             item.update(r.paired_summary(subset.sort_values('seed').interaction))

@@ -76,3 +76,6 @@ GPU bootstrap等价工程实际同一完整50轮1000/200 oracle通过：数组�
 
 
 迁移GPU首批16配对现已全部实际COMPLETE、主agent核验PASS。新增Q39跨预算数值复用问题经actual AdaTask23 GPU100→原CPU50完整1000/200 oracle解决：最大误差3.33e−16，全部4000次重选epoch与onset/selected/budget完全一致，原点值和cell完全一致。归档在archive/engineering_evidence/prefix_GPU100_to_CPU50_actual_oracle；允许严格父缓存复用，不能称所有CPU/GPU浮点位完全相同。
+
+
+实际新进展：原生Adam23完整100轮读数已完成exit0、主agent全部输出/生产者哈希及六cell点值复核PASS。V10四种子最终匹配预算50/100/50/50全部完整，统一早期14、固定50、最终预算、AUC/LL选轮与所有域任务已完成分析，见V10_final_vs_calAdam_analysis.md。V4 B2四种子初始50统一pre37及精确1225步/全阈值首次达到分析也已完成，见V4_B2_initial50_analysis.md。V11训练part1全部8项COMPLETE，其余状态、matchedstress200等继续执行。未读取新test，不代表全部任务终局。

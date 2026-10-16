@@ -60,3 +60,12 @@ Q36补充限制：onset的观察prefix峰值和多窗口扫描未包含同时误
 
 
 校准交互的统一1–22窗口域/任务分解已实际完成并核验，见 `V11_joint_early_domain_task_interaction_analysis.md`。三个域及两个任务的平均AUC交互均4/4负；cell层保留d0t1、d2t0单seed反例。该结果仍是LR配置特定交互，状态因果拆解正在运行。
+
+
+状态实验的首个seed2022初始50出现明确退化，已登记Q40，详见V11_state_seed2022_single_seed_health_observation.json。beta2zero的SN/SB selection AUC约0.5，训练J分别40.68/13.99；m-only AUC约0.56014且学习较慢。当前只有单seed描述，证据WEAK，不将gap收缩解释为状态必要性。继续预注册四seed、共同theta状态交换/范数控制；不擅自调LR/eps，操作性plateau不等于全局收敛。
+
+
+AdaTask四seed初始50匹配分析已完成并主核验，见V10_initial50_vs_calAdam_analysis.md：共同pre14 q-gap−.00783937（3负1正、CI排除0），未消除早期敏感性；减弱交互+.00628296的CI跨±.003，不能宣称稳定救援或等价。epoch50 gap反而更负但两arm绝对AUC平均均优于native；AUC与logloss阶段方向不同，全部反例保留。最终匹配100 selected比较尚待native23完整readout，test仍未读。
+
+
+新增判别边界：大批量前50早期q差距未消除且绝对两臂学习较慢；等步数与等样本量不能同时保持，exact1225step不确定，不能把批量结果单独归因噪声。V10同目标task-wise组件在完整匹配预算仍有早期/晚期q敏感性，但gap扩大可与两臂绝对性能提升并存，不能以gap一项宣布方法更差、充分覆盖或创新。详见两份实际分析；V5/V7/V11仍为待完成机制判别，不把相关性升级必要性。

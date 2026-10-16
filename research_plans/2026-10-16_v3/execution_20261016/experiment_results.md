@@ -66,3 +66,12 @@ V5已经验证前三种子600个arm-epoch的操纵身份，但四seed性能仍�
 初始50轮轨迹图：![四配置全部seed诊断AUC轨迹](figures/initial50_trajectory_comparison/initial50_auc_trajectories.png)
 
 图中粗线为4seed均值、细线为个体seed；22虚线为跨配置描述窗口，各面板纵轴刻度不同。延长训练充分预算及selected终点另行分析，不能把本图视为最终充分预算结论。
+
+
+状态实验的首个seed2022初始50出现明确退化，已登记Q40，详见V11_state_seed2022_single_seed_health_observation.json。beta2zero的SN/SB selection AUC约0.5，训练J分别40.68/13.99；m-only AUC约0.56014且学习较慢。当前只有单seed描述，证据WEAK，不将gap收缩解释为状态必要性。继续预注册四seed、共同theta状态交换/范数控制；不擅自调LR/eps，操作性plateau不等于全局收敛。
+
+
+AdaTask四seed初始50匹配分析已完成并主核验，见V10_initial50_vs_calAdam_analysis.md：共同pre14 q-gap−.00783937（3负1正、CI排除0），未消除早期敏感性；减弱交互+.00628296的CI跨±.003，不能宣称稳定救援或等价。epoch50 gap反而更负但两arm绝对AUC平均均优于native；AUC与logloss阶段方向不同，全部反例保留。最终匹配100 selected比较尚待native23完整readout，test仍未读。
+
+
+V4 B2初始50：jointpre37 AUC交互−.00112517四负，而两臂绝对AUC下降；exact1225step交互−.00358827两负两正、CI跨零。V10最终匹配50/100/50/50：early14AdaTaskgap−.00783937，3负1正，缓解交互+.00628296区间宽；最终预算Adagap−.01916006四负，但绝对SN/SB均优于Adam。完整数值、域任务、损失和反例分别见V4_B2_initial50_analysis.md及V10_final_vs_calAdam_analysis.md。新test仍未读取。

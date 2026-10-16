@@ -115,7 +115,9 @@
       "id": "Q12",
       "status": "PENDING",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": null,
+      "partial_evidence": "objective_literature_audit.md; V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json",
+      "partial_conclusion": "D3/SAFfulllearnedweightchangesobjective. SameobjectiveTaskAdamcomponentfixedLR.003actualall4matchedbudgetscomplete; residualearlyqeffectandstage/metriccounterexamples. Doesnoteliminateq-sensitivityinthisconfiguration; nofullpaperoptimum/universalcoverageclaim. Finalpriorworkmatrix/teststillpending."
     },
     {
       "id": "Q13",
@@ -127,7 +129,9 @@
       "id": "Q14",
       "status": "PENDING",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": null,
+      "partial_evidence": "V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json",
+      "partial_conclusion": "V10fullmatched50/100/50/50diagnosticcomplete. EarlyAdaTaskgap-.00783937 3negative1positive; finalbudgetgap-.01916006 all4negative whilebothabsoluteAUCbetterthanAdam. Mitigationearly/selecteduncertain. Thisisprior-componentinputtoV13, NOTGOdecision. Q14actualquestioniswhethermethodizationworthwhile, remainsPENDINGallGOcriteria."
     },
     {
       "id": "Q15",
@@ -164,7 +168,9 @@
       "id": "Q19",
       "status": "PENDING",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": null,
+      "partial_evidence": "V5_readout_scope_addendum.md; V5_PERM_conditional_gradient_scope_clarification.json; verifiedsampleridentity",
+      "partial_scope": "PERMchangescoverage/repeatlocations/temporaldependencejointly; fixedtheta positionalmarginalunbiasedness doesnotimply conditionalunbiasednessalongadaptivePERMtrajectory. Pendingmatchedperformance; no unique repetition necessity claim."
     },
     {
       "id": "Q20",
@@ -223,9 +229,12 @@
     },
     {
       "id": "Q27",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json",
+      "conclusion": "Auditedsame-objectiveTaskAdamcomponentfixedLR.003 doesnoteliminateq-sensitivityinthisconfiguration: earlyjoint14gap-.00783937 3negative1positiveCI[-.014013,-.001666], actualfinalmatched50/100/50/50gap-.01916006all4negative. Selectedgapandmitigationinteractionsuncertain, nozero/equivalencestatement.",
+      "remaining_uncertainty": "Notoriginalpaperfullarchitectureorbestvarianttunedbenchmark. Newtestdeferred, historicalholdoutsexposed. Residualcannotestablishuniversalnoncoverageorinnovation; Q12/Q13/Q14remainseparate. All4same-budgetabsoluteAUC/LLanddomain/task/stagecounterexamplesinreport."
     },
     {
       "id": "Q28",
@@ -459,6 +468,26 @@
       "next_action": "Allow reviewedstress200->100/150projection afteractualparentcomplete; recordparentbackendandSHA.",
       "conclusion": "ActualGPU100->CPU50 full1000/200 arrays within1e-12; all4000epochchoices,onsets/selected/budgets exact. SourceRNG/epochseparableformula andactualcrossT support literal-parent-cache reuse; no approximate ornew bootstrap replicates.",
       "remaining_uncertainty": "Arithmetic equivalence withinfloat64tolerance, notuniversalCPU/GPUbitidentity; allfutureprojections stillverifyactualproducer/model/pred/trajectoryprefix hashes."
+    },
+    {
+      "id": "Q40",
+      "question": "Can state-ablation gap attenuation be distinguished from fixed-LR saturation or slow learning?",
+      "status": "PENDING_ALREADY_PLANNED_STATE_CONTROLS",
+      "evidence_strength": "WEAK",
+      "origin": "Actualfirstcompletedseed2022all6stateconditions, notahypotheticalengineeringrisk.",
+      "observation": "Atinitial50 beta2zeroSN selectionAUC=.5, trainJlast5=40.676386; SB selectionAUC=.499977, trainJlast5=13.990647. m-only selectionAUCboth~.56014 withJ~.58351. Allformula/resumeoraclesPASS; noNaNfailureandnoLRrescue.",
+      "why_unresolved": "AtidenticalnominalLRdifferentstatevariantscanhaveverydifferentactualstepsizes, saturation orlearningprogress. Near-zeroSB-SNgapcouldreflectpoorperformancefloor, notnecessaryhistorymechanism. Frozenrelativeplateaucriterionisanoperationalbudgetrule, notglobalconvergenceproof.",
+      "blocking": "Blockspositivefull-trainingstate-necessityclaims; doesnotblockremainingindependentexperiments ornegative/boundaryreport.",
+      "candidate_explanations": [
+        "Actualm/vhistorydependence atcommontheta",
+        "Magnitude/instantaneousdenominatorpathology atfixedLR",
+        "Slowlearningandfinitebudgetfloor",
+        "Seed-specificfailureorstageeffect"
+      ],
+      "evidence": "V11_state_seed2022_single_seed_health_observation.json; V11_state_decomposition_design.json; V11_state_implementation_self_review.json",
+      "completed_experiments": "Oneinitial50seedall3variantsbothq; explicitmin100matchedextensiontriggeredbyfrozencriterion. Otherseedsandfullshadowstillrunning.",
+      "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
+      "next_action": "Analyzeall4actualhealthprofilesandshadowrawvsnormmatched effects, preserveallstage/cellcounterexamples andseparatelocalstateevidencefromlong-runcausality."
     }
   ]
 }

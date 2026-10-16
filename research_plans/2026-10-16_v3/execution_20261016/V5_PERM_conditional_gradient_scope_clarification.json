@@ -1,0 +1,17 @@
+{
+  "status": "BOUNDARY_CLARIFICATION_EXISTING_Q19_Q20",
+  "independent_review": false,
+  "time": 1792186580.1970563,
+  "scope": "ExistingWR/PERMintervention: no newtraining, endpoint/thresholdchange or outcome-dependentcondition.",
+  "sources": {
+    "v2_20261016.py": "ebb88d73c05c28788b89574cdcf2f337082bb14e8d154dc29f98d811c1b773ce",
+    "stage2d_20261016.py": "115c37e1e865a8e2da7802bcf7a90c1edecc3eec5dabfe783e165457b7706b91",
+    "v3_train_20261016.py": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b"
+  },
+  "observation": "PERMusesper-domainshuffledordersandpersistentpositions, drawsfromremainingprefix, reshufflesonlyatexhaustion. Domainsequenceandquotaheldexactlyasverified; optimizerstepdependsonthepastrows.",
+  "derivation": "Uniformrandompermutation givesuniformmarginalrowateachfixedposition. Atfixednonadaptive theta, eachpositionmarginalaveragesfullsupport. Givenpastrows andtheta_t, however, remainingpoolgradientmean neednotequalfullpoolmean; no claim E[g_hat_t|history]=G*(theta_t) forPERM. Ifbatchcrossescycleboundaries, conditionalmean ismixtureofremaining/currentnewcycle contributions. Batch generation before epochupdates doesnotremove model/historydependence.",
+  "example": "Two equallyweighted rows withfixed graphgradients0and2 havefullmean1; conditionalonfirstdrawbeing2, secondPERMgradient0, not1. This algebraillustratesconditionaldependence, notaperformanceprediction.",
+  "interpretation": "Fixed empiricalsample-objective functional andp/q coefficientsremainunchanged; conditionalestimatorhistorychanges. A positivePERMcontrastidentifiessamplerbundle(coverage/repeatpositions/temporaldependence), notindependenttotalrepeatnecessity. OriginalIIDWRsameexpectedgraphgradient result remainsseparateandvalidunderitsassumptions.",
+  "decision": "No newablationforwording. Completeplannedmatchedperformancefactor, retainQ20nonidentifiability andQ19bundle-sensitivityscope. NeverusePERMconditionalbiasasobservedreasonfornegativeAUCwithoutinterventionevidence.",
+  "test_access": false
+}
