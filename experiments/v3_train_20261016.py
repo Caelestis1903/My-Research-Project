@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import math
+import random
 from pathlib import Path
 import subprocess
 import time
@@ -47,10 +48,13 @@ def corruption(b,prob,domain):
 
 class Runner:
     def __init__(self,args):
-        self.a=args;self.dir=args.run_dir;self.dir.mkdir(parents=True,exist_ok=False)
+        self.a=args;self.dir=args.run_dir;self.dir.mkdir(parents=True,exist_ok=args.resume)
         self.device=torch.device(args.device);torch.set_num_threads(2);base.setup_seed(args.seed)
         if self.device.type=='cuda':torch.cuda.set_device(self.device);torch.cuda.reset_peak_memory_stats(self.device)
-        self.b=audit.bundle(args.dataset,args.seed);self.selection,self.diagnostic=audit.frozen_split(self.b,args.dataset,args.seed)
+        self.b=audit.bundle(args.dataset,args.seed)
+        split_file=OUT/'splits'/f'{args.dataset}_seed{args.seed}.npz'
+        frozen=np.load(split_file);assert np.array_equal(frozen['row_ids'],self.b.val_row_ids)
+        self.selection=frozen['selection'];self.diagnostic=frozen['diagnostic']
         self.data_manifest=self.b.manifest_fields();self.model=base.fixed_model(self.b,args.seed).to(self.device)
         self.named=dict(self.model.named_parameters());self.initial=base.initial_state_hash(self.model)
         self.p=np.array([self.b.train_counts[d] for d in range(3)],dtype=float);self.p/=self.p.sum()
@@ -73,9 +77,31 @@ class Runner:
             learned_fusion=False,darts=False,optimizer_count=1,weight_decay=1e-5,loss='mean_i[p_d/q_d * mean_task BCE]',
             selection='selection validation macro AUC, earliest strict max epochs>=1',diagnostic_used_for_selection=False,test_access=False,
             independent_review=False,split_sha256=base.sha(OUT/'splits'/f'{args.dataset}_seed{args.seed}.npz'))
-        base.dump(self.dir/'config.json',self.config);self.started=time.time();self.steps=0;self.best=-math.inf;self.selected=0;self.history={}
+        if args.corruption:
+            self.config['transformed_feature_sha256']={split:hashlib.sha256(np.ascontiguousarray(getattr(self.b,split+'_x')).view(np.uint8)).hexdigest() for split in ('train','val','test')}
+        if not args.resume:base.dump(self.dir/'config.json',self.config)
+        self.started=time.time();self.steps=0;self.best=-math.inf;self.selected=0;self.history={};self.start_epoch=0
         self.counts=np.zeros(len(self.b.train_x),dtype=np.int32);self.first_seen=np.full(len(self.counts),-1,dtype=np.int32)
         self.chain=hashlib.sha256();self.previous={}
+        if args.resume:
+            original=__import__('json').loads((self.dir/'config.json').read_text())
+            for key in ('dataset','seed','arm','optimizer','lr','batch_size','replacement','order','duplication','corruption','source_hashes','init_sha256'):
+                assert original[key]==self.config[key],f'Resume mismatch {key}'
+            self.config=original;state=torch.load(self.dir/'last_resume.pt',map_location='cpu',weights_only=False)
+            self.model.load_state_dict(state['model']);self.opt.load_state_dict(state['optimizer'])
+            self.sampler.rng.bit_generator.state=state['sampler_rng'];self.sampler.cycle_rng.bit_generator.state=state['sampler_cycle_rng']
+            self.sampler.orders=state['sampler_orders'];self.sampler.positions=state['sampler_positions']
+            self.counts=state['counts'];self.first_seen=state['first_seen'];self.steps=state['steps'];self.best=state['best']
+            self.selected=state['selected'];self.history=state['history'];self.start_epoch=state['epoch']
+            rng=state['rng'];torch.set_rng_state(rng['torch_cpu']);np.random.set_state(rng['numpy']);random.setstate(rng['python'])
+            if self.device.type=='cuda':torch.cuda.set_rng_state_all(rng['torch_cuda'])
+            # Reconstruct hashlib internal state from immutable exact batch row lists.
+            for epoch in range(1,self.start_epoch+1):
+                batches=np.load(self.dir/f'batches_epoch{epoch:03d}.npz');starts=np.r_[0,np.cumsum(batches['sizes'])]
+                for index in batches['order']:
+                    rows=batches['rows'][starts[index]:starts[index+1]];self.chain.update(self.b.train_row_ids[rows].astype(np.int64).tobytes())
+            assert self.chain.hexdigest()==state['batch_chain']
+            base.dump(self.dir/f'extension_to{args.epochs}.json',dict(start_epoch=self.start_epoch,new_total_epochs=args.epochs,original_config_sha=base.sha(self.dir/'config.json'),test_read=False))
 
     def state(self,epoch):
         return dict(epoch=epoch,model=base.cpu(self.model.state_dict()),optimizer=base.cpu(self.opt.state_dict()),
@@ -135,8 +161,8 @@ class Runner:
 
     def fit(self):
         a=self.a;n=len(self.b.train_x) if not a.smoke else 3*min(a.batch_size,64)
-        self.save(0,'epoch00.pt')
-        for epoch in range(1,a.epochs+1):
+        if not a.resume:self.save(0,'epoch00.pt')
+        for epoch in range(self.start_epoch+1,a.epochs+1):
             before=self.counts.copy();self.previous={}
             batches=[self.sampler.sample(min(a.batch_size,n-offset)) for offset in range(0,n,a.batch_size)]
             order=np.arange(len(batches))
@@ -167,9 +193,11 @@ class Runner:
             base.csv_append(self.dir/'trajectory.csv',[stats]);self.save(epoch,'last_resume.pt')
             if improved:self.save(epoch,'selected_state.pt')
             if epoch in COMMON or epoch==a.epochs:self.save(epoch,f'epoch{epoch:03d}.pt')
+            torch.save(dict(epoch=epoch,model=base.cpu(self.model.state_dict())),self.dir/f'epoch{epoch:03d}_model.pt')
             base.dump(self.dir/'progress.json',dict(status='TRAINING',epoch_completed=epoch,selected_epoch=self.selected,
                 elapsed_seconds=time.time()-self.started,peak_reserved_mib=torch.cuda.max_memory_reserved(self.device)/1024**2 if self.device.type=='cuda' else 0))
             print(epoch,score,'elapsed',time.time()-self.started,flush=True)
+            assert all(base.sha(ROOT/name)==fingerprint for name,fingerprint in self.sources.items()),'Frozen source drift'
         base.dump(self.dir/'selection_frozen.json',dict(selected_epoch=self.selected,history=self.history,rules=['macro_auc','macro_logloss','early_auc_1_10','fixed50'],test_read=False))
         np.savez_compressed(self.dir/'exposure_final.npz',counts=self.counts,first_seen_step=self.first_seen)
         # Diagnostic/test are deliberately deferred to orchestrator's global LR/rule freeze.
@@ -186,6 +214,7 @@ def main():
     p.add_argument('--replacement',choices=['WR','PERM'],default='WR');p.add_argument('--order',choices=['ORIGINAL','PERMUTED'],default='ORIGINAL')
     p.add_argument('--duplication',type=int,default=1);p.add_argument('--corruption',type=float,default=0.)
     p.add_argument('--device',default='cuda:0');p.add_argument('--run-dir',type=Path,required=True);p.add_argument('--smoke',action='store_true')
+    p.add_argument('--resume',action='store_true')
     args=p.parse_args()
     try:Runner(args).fit()
     except Exception:

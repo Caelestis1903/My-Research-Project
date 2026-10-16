@@ -1,0 +1,185 @@
+{
+  "status": "RUNNING",
+  "questions": [
+    {
+      "id": "Q1",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q2",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q3",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q4",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q5",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q6",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q7",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q8",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q9",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q10",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q11",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q12",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q13",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q14",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q15",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q16",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q17",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q18",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q19",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q20",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q21",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q22",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q23",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q24",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q25",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q26",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q27",
+      "status": "PENDING",
+      "plan": "../QUESTION_REGISTRY.md",
+      "evidence_strength": null
+    },
+    {
+      "id": "Q28",
+      "title": "Frozen M3OE routing uses stop-gradient representation input",
+      "origin": "V0 actual StageS1M3OEAdapter.forward emb.detach()",
+      "observation": "Gate input representation is detached, so data loss autograd is the established stopped-gradient update field",
+      "why_it_matters": "Literal mathematical full derivative of scalar prediction loss differs in shared C; exact empirical gradients refer to same established graph derivative",
+      "candidate_explanations": [
+        "Intended upstream routing control, common to SN/SB"
+      ],
+      "blocking": false,
+      "minimal_discriminating_experiment": "Code-level computation-graph audit; linear expectation identity holds for the same per-row autograd update vector. No unrelated algorithm change needed.",
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "evidence": "experiments/stage_S1_models.py StageS1M3OEAdapter.forward",
+      "conclusion": "Same expected loss values and same expected graph gradients are preserved; no claim this graph computes the ordinary total derivative through routing. Do not silently restore missing path.",
+      "remaining_uncertainty": "Whether removing detach changes performance is separate architecture experiment, not required for matched fixed protocol",
+      "next_action": "Report scope in objective chapter"
+    }
+  ]
+}
