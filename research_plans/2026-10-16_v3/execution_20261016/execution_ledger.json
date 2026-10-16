@@ -5,24 +5,28 @@
     "receipt": "V0_decision.json"
   },
   "V1": {
-    "status": "RUNNING",
+    "status": "COMPLETE_NUMERICALLY_VERIFIED_PRIMARY_ANALYZED",
     "required": true,
     "manifest": "audit_manifest.json",
     "tasks": 16,
     "batches_per_arm": 512,
-    "deterministic_manifest": "deterministic_manifest.json"
+    "deterministic_manifest": "deterministic_manifest.json",
+    "receipt": "V1_decision.json"
   },
   "V2": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "AUTHORIZED",
+    "required": true,
+    "manifest": "trajectory_manifest.json",
+    "primary_runs": 16
   },
   "V3": {
     "status": "PENDING_DEPENDENCIES",
     "required": true
   },
   "V4": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "PILOTS_AUTHORIZED_SELECTION_ONLY",
+    "required": true,
+    "pilot_runs": 16
   },
   "V5": {
     "status": "PENDING_DEPENDENCIES",

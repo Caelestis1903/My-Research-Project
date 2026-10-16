@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "primary_analysis_complete": true,
+  "independent_review": false,
+  "scope": "Same empirical sample loss and same per-row stopped-gradient computation graph; full model coordinates",
+  "experiments": {
+    "fixed_theta_audits": 16,
+    "independent_batches_per_arm": 512,
+    "batch_size": 40960,
+    "training_seeds": 4,
+    "deterministic_subset_seeds": 4
+  },
+  "observations": {
+    "maximum_full_population_decomposition_residual": 3.352464390894073e-07,
+    "pointwise_bootstrap95_bias_checks_within": 155,
+    "pointwise_comparisons": 160,
+    "maximum_bias_over_bootstrap95": 1.2277912441390866,
+    "predeclared_conservative_gate_all_pass": true,
+    "full_covariance_trace_SB_SN_range": [
+      2.315512,
+      2.752228
+    ],
+    "deterministic_exact_pair_absolute_difference_all_seeds": 0,
+    "stochastic_pair_distances": [
+      0.6668367553478031,
+      0.62552088597184,
+      0.5460138412890784,
+      0.4889035968025995
+    ]
+  },
+  "scientific_decision": "Objective mismatch not supported; sampling changes estimator dispersion at these checkpoints. No AUC mechanism, optimizer necessity or beneficial sampling claim established. Continue mandatory trajectory/selection/budget/sampling experiments.",
+  "evidence": {
+    "same_graph_expectation_identity": "STRONG numerical+algebraic within fixed protocol",
+    "covariance_trace_change": "STRONG within these snapshots; not unique causal mediator",
+    "stochastic_subset_parameter_separation": "STRONG diagnostic identity; no population generalization inference"
+  },
+  "no_final_stop": true,
+  "authorized_next_manifest": "trajectory_manifest.json",
+  "training_source_sha256": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
+  "time": 1792166639.990816
+}

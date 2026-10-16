@@ -87,9 +87,12 @@
     },
     {
       "id": "Q15",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "STRONG",
+      "evidence": "V1_decision.json",
+      "conclusion": "Same sample objective and same established graph-gradient expectation identity verified; no implementation mismatch detected",
+      "remaining_uncertainty": "Does not imply same covariance or optimization outcome; routing stop-gradient scopeQ28"
     },
     {
       "id": "Q16",
@@ -191,13 +194,13 @@
         "C representation shared through input while R parameters are cell-private",
         "Domain/task expert labels do not imply strictly private usage under fixed fusion"
       ],
-      "blocking": true,
+      "blocking": false,
       "minimal_discriminating_experiment": "Per-parameter six-cell gradient support audit at common initialization for four seeds plus source-level masking/fusion identity; V7 local CPRE replacement still run as planned",
-      "status": "PENDING_SUPPORT_AUDIT",
-      "evidence_strength": null,
-      "evidence": "experiments/stage_S1_models.py",
-      "conclusion": null,
-      "remaining_uncertainty": "Coordinate-level sparsity and effective support of each block; performance necessity remains V7 question",
+      "status": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "evidence": "support/*/parameter_cell_support.csv; support/*/receipt.json",
+      "conclusion": "R/towers cell-private; slots domain-specific/task-shared; C/E tensor sharing across6cells. Correct necessity interventions accordingly.",
+      "remaining_uncertainty": "Performance necessity remainsQ6/Q22, coordinate sparsity differs from tensor sharing",
       "next_action": "Run mechanical gradient-support audit after V1 / during approved training only within CPU resource budget"
     }
   ]
