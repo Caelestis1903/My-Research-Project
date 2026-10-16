@@ -1,0 +1,47 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792174817.0490847,
+  "basis": [
+    "analysis_budget_addendum.md",
+    "matched_budget_control_addendum.md",
+    "analysis_rules_frozen.json"
+  ],
+  "decision_inputs": [
+    "training objective previous5 vs recent5",
+    "selection-only confirmed overfitting"
+  ],
+  "receipt": "analysis/V4final_adam_seed2023_until050/receipt.json",
+  "receipt_sha": "4c61ada1eff5af0180044f8e3ae4420f43ddbba564f08e2acf9e2f22fd246155",
+  "seed": 2023,
+  "optimizer": "adam",
+  "lr": 0.003,
+  "from_epochs": 50,
+  "to_epochs": 100,
+  "paired_arms": [
+    "SN",
+    "SB"
+  ],
+  "extension_reason": [
+    {
+      "arm": "SN",
+      "prior5_objective": 0.4535528845902214,
+      "last5_objective": 0.4485071595682948,
+      "relative_improvement": 0.011124887953221528,
+      "practical_plateau": false,
+      "selection_confirmed_overfitting": true,
+      "extension_required": false
+    },
+    {
+      "arm": "SB",
+      "prior5_objective": 0.4635007704074619,
+      "last5_objective": 0.4591796127292471,
+      "relative_improvement": 0.009322870541112731,
+      "practical_plateau": false,
+      "selection_confirmed_overfitting": false,
+      "extension_required": true
+    }
+  ],
+  "implementation": "Reuse unchanged frozen trainer --resume. Restore same model optimizer sampler RNG exact batch-chain; scientific arguments unchanged except epochs100 and resume. Do not read diagnostic to decide duration. Preserve original50 archive and completed50 readout; new100 readout uses --epochs100 and fresh output. Repeat frozen rule at100 without maximum-budget assumption.",
+  "V5_duration": "Seed2023 Adam PERM pending final common budget; do not launch50 then pretend matched100."
+}

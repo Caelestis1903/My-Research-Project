@@ -14,20 +14,21 @@
     "receipt": "V1_decision.json"
   },
   "V2": {
-    "status": "ALL16FORMAL50EPOCH_COMPLETE_READOUT_RUNNING",
+    "status": "ALL16FIXED_REFERENCE_TRAINING50_COMPLETE_ADAM4PAIRS_ANALYZED_SGD_READOUT_RUNNING",
     "required": true,
     "manifest": "trajectory_manifest.json",
-    "primary_runs": 16
+    "primary_runs": 16,
+    "fixedAdam_analysis": "V2_fixedAdam_analysis.md"
   },
   "V3": {
-    "status": "PAIRED_BOOTSTRAP_RUNNING_FIRST_PAIR_COMPLETE",
+    "status": "ROW_BOOTSTRAP_READOUTS_PARTIAL_COMPLETE_TEST_DEFERRED",
     "required": true,
     "rules": "analysis_rules_frozen.json",
     "manifest": "V2_readout_manifest.json",
     "first_complete": "analysis/V2readout__adam__seed2022__until050/receipt.json"
   },
   "V4": {
-    "status": "CALIBRATION_COMPLETE_FINALISTS_BATCH_RUNNING",
+    "status": "INITIAL24_COMPLETE_SEED23_ADAM_EXTENSION100_RUNNING_OTHER_FINAL_BUDGETS_PENDING",
     "required": true,
     "pilot_runs": 16,
     "selected_lr": {
@@ -38,11 +39,23 @@
     "formal_runs": 24,
     "receipt": "calibration_frozen.json",
     "engineering_failure_receipt": "V4_attempt1_postmortem.json",
-    "fix_review": "V4_startup_fix_review.json"
+    "fix_review": "V4_startup_fix_review.json",
+    "training_runs_complete_initial": 24,
+    "extension_manifest": "V4_Adam_seed2023_extension100_manifest.json",
+    "Adam_seed2022_budget": 50,
+    "Adam_seed2023_budget": "100ongoing_thenrepeatcriterion",
+    "SGD_seed2022_2024_budget": 50,
+    "SGD_seed2025_budget": "PENDING_SELECTION_OVERFIT_CHECK",
+    "Adam_seed2024_budget": 50,
+    "Adam_seed2025_budget": 50,
+    "initial_Adam_analysis": "V4_calAdam_until050_analysis.md"
   },
   "V5": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "18OF24_ADMITTED_8COMPLETE_6RUNNING_4PENDING_CAPACITY",
+    "required": true,
+    "sampler_identity": "analysis/V5_sampler_identity_seed2022/primary_descriptive_summary.json",
+    "remaining": "Adamseeds2023/24/25andSGDseed2025 budgets_pending",
+    "readout_manifest": "V5_partial_readout_manifest.json"
   },
   "V6": {
     "status": "PENDING_DEPENDENCIES",
@@ -54,16 +67,27 @@
     "required": true
   },
   "V8": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "DUPLICATION_AND_CLEAN_CELL_COMPLETE_MILD_SEED22_RUNNING",
+    "required": true,
+    "duplication": "V8_duplication_decision.json",
+    "corruption_runs_admitted": 2,
+    "corruption_runs_required": 16,
+    "cell_receipt": "analysis/V8_clean_cell_primary_until050/receipt.json",
+    "Q9": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN"
   },
   "V9": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "ALL8TRAINING_ALL4PAIR_READOUTS_PRIMARY_ANALYSIS_COMPLETE_TEST_DEFERRED",
+    "required": true,
+    "receipt": "V9_diagnostic_decision.json",
+    "analysis": "V9_diagnostic_analysis.md",
+    "paired_environment_analysis": "PENDING_KR_CALIBRATED_SGD_FINAL"
   },
   "V10": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "ALL8ADATASK_INITIAL50_TRAINING_COMPLETE_4PAIR_READOUT_RUNNING",
+    "required": true,
+    "objective_audit": "objective_literature_audit.md",
+    "readout_manifest": "V10_readout_manifest.json",
+    "necessity_comparison": "PENDING_MATCHED_BUDGET_ANALYSIS"
   },
   "V11": {
     "status": "PENDING_DEPENDENCIES",

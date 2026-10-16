@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_ANALYSIS_IMPLEMENTATION_SELF_REVIEW",
+  "independent_review": false,
+  "time": 1792173395.2869866,
+  "design": "V5.6 batch composition in originalplan; read-only reduction of complete production counts/ESS/weight variance. No new hypothesis, experimentalcondition, endpoint or training algorithm.",
+  "implementation": "experiments/v3_batch_composition_20261016.py",
+  "source_sha": "7dd2dbf921a1feb48a1e14c907ac193195092cbddecf40c44a89d0d45ccb28fa",
+  "verification": "Run actual48formalcomplete baselines V2+V4+V9; recompute ESS, variance and maxweight fromexact domaincounts andconfigured p/q; compareproducer CSV andhashes; sumexamples/steps. Skip16calibrationpilots. Noextraunit tests duplicating formulas.",
+  "scope": "1/Ew\u00b2 is asymptoticESS/n, notexactfinitebatch expectation; gradientcovariance contains domainsecondmoments andcommonmeans, soESS cannot itself establishAUCmediation. Telemetryweights p/q float64; actualloss tensorFP32 hasexisting numericaltolerances.",
+  "frozen_sources_changed": false
+}

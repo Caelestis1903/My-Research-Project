@@ -1,0 +1,12 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "time": 1792174065.9887393,
+  "author": "primary_per_start11",
+  "independent_review": false,
+  "purpose": "Required per-domain/per-task/per-cell seed statistics fromalreadycompleted pairedreadout andaggregate artifacts, includingabsoluteSN/SB, mean/SD/median/sign/CI. No trainingalgorithm or experimentalcondition.",
+  "input": "Existinggroup manifest pairreceipts +aggregate domain_task_trajectory.csv andcell_trajectory.csv. Reuse frozen paired_summary numericalseed method. No model/data/test reads.",
+  "reductions": "Retain bothselection/diagnostic; allpredeclaredcommon5/10/15/20/30/40/50 thatallgroupseeds supply, AULC1..10/20, groupcommonprewindow; optionaljointwindow usesmin acrossallcomparedgroups forV5. Independentfourfrozenselectionrules, commonSN/SBselectedmacroAUC. Per-cell usesSAMEgloballyfrozenepoch, neverreselectcelloptimum.",
+  "weights": "Reuseverifiedaggregate evaluation-n/training-p weightedcell/macro/domain/task curves; pivotrawcells withoutaveragingduplicates. Eachstatisticalreplicateistrainingseed, notcell or epoch.",
+  "budget": "Recordactualselectedepochs/finalbudgets perseed. commonepochsummary mustincludeeverygroupseed; adaptivefinalbudget maydifferacrossseeds andisexplicitlylabeled. Jointwindowusedonlyforcommensuratecomparedfactors.",
+  "validation": "ComparefixedAdam commonpre27macroanddomain/task seed statistics toalreadyindependentlycomputed outputs; compareV9primarymacroseedvalues directlyto sourcepoint arrays. No mirroredunit tests or changedreadout rules."
+}
