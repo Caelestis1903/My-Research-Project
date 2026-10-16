@@ -9,12 +9,13 @@ base=readout.base;OUT=readout.OUT
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
-    a.out.mkdir(parents=True,exist_ok=False);manifest=json.loads(a.manifest.read_text());records=[];cells=[];bootstrap=[];stages=[];identities=[]
+    a.out.mkdir(parents=True,exist_ok=False);manifest=json.loads(a.manifest.read_text());records=[];cells=[];bootstrap=[];stages=[];identities=[];train_weights={}
     for group,pairs in manifest['groups'].items():
         receipts=[json.loads((Path(directory)/'receipt.json').read_text()) for directory in pairs]
         common=min(r['common_pre_degradation_epochs'] for r in receipts)
         for directory,receipt in zip(map(Path,pairs),receipts):
             assert receipt['status']=='COMPLETE';seed=receipt['seed']
+            config=json.loads((Path(receipt['source_runs'][0])/'config.json').read_text());train_weights[(group,seed)]=np.array(config['p'])
             frame=pd.read_csv(directory/'paired_readouts.csv');frame['group']=group;frame['seed']=seed;records.extend(frame.to_dict('records'))
             array=np.load(directory/'bootstrap_curves.npz');point=array['point']
             for j,split in enumerate(('selection','diagnostic')):
@@ -46,6 +47,7 @@ def main():
         item=dict(zip(('group','seed','split','arm','epoch'),key))
         for metric in ('auc','logloss'):
             item['macro_'+metric]=rows[metric].mean();item['sample_weighted_cell_'+metric]=np.average(rows[metric],weights=rows.n)
+            item['train_objective_weighted_cell_'+metric]=np.average(rows[metric],weights=train_weights[(key[0],key[1])][rows.domain.to_numpy(dtype=int)])
             for domain,part in rows.groupby('domain'):item[f'd{domain}_{metric}']=part[metric].mean()
             for task,part in rows.groupby('task'):item[f't{task}_{metric}']=part[metric].mean()
         marginal.append(item)

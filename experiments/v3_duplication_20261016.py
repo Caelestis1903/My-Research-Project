@@ -25,6 +25,7 @@ def main():
         for factor in (2,4):
             rng=np.random.default_rng(c['seed']+factor*100000+20261016);virtual=np.tile(pool,factor);chain=hashlib.sha256();count=0;checked=0
             for file in sorted(directory.glob('batches_epoch*.npz')):
+                assert base.sha(file)==receipt['artifact_hashes'][file.name],f'Batch hash mismatch {file}'
                 batches=np.load(file);rows=batches['rows'];chosen=rows[b.train_x[rows,-1]==small]
                 alias=rng.integers(0,factor,size=len(chosen));indices=inverse[chosen]+alias*len(pool)
                 mapped=virtual[indices];assert np.array_equal(mapped,chosen)

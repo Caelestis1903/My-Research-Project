@@ -15,9 +15,12 @@ def main():
   baseline,variant=map(Path,(comparison['baseline'],comparison['variant']));kind=comparison['intervention'];assert kind in ('ORDER','PERM')
   configs=[json.loads((d/'config.json').read_text()) for d in (baseline,variant)]
   for key in ('dataset','seed','arm','optimizer','lr','batch_size','init_sha256','split_sha256','corruption','duplication','data'):assert configs[0][key]==configs[1][key],key
+  producers=[json.loads((d/'receipt.json').read_text()) for d in (baseline,variant)]
   b=audit.bundle(configs[0]['dataset'],configs[0]['seed']);files=sorted(baseline.glob('batches_epoch*.npz'));others=sorted(variant.glob('batches_epoch*.npz'));assert len(files)==len(others)
   for file,other in zip(files,others):
-   assert file.name==other.name;x=np.load(file);y=np.load(other);assert np.array_equal(x['sizes'],y['sizes'])
+   assert file.name==other.name
+   for path,producer in zip((file,other),producers):assert base.sha(path)==producer['artifact_hashes'][path.name],f'Batch hash mismatch {path}'
+   x=np.load(file);y=np.load(other);assert np.array_equal(x['sizes'],y['sizes'])
    changed=not np.array_equal(x['order'],y['order'])
    if kind=='ORDER':
     assert np.array_equal(x['rows'],y['rows'])
