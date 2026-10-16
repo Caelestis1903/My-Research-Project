@@ -31,3 +31,11 @@ MovieLens独立诊断：共同pre1–16宏AUC差+.00139069、CI跨零；最小�
 以上是持续执行中的里程碑记录，不是终局交付。V6/V7/V11的条件分支、V12/V13、冻结后test和三份完整终稿仍待按全部规划完成。最近一次已远程核实的提交见orchestrator_checkpoint.json；本里程碑提交不结束实验任务。
 
 最新校准Adam四种子50轮分析见V4_calAdam_until050_analysis.md：共同pre22 AULC−.01395116、LogLoss+.00521778，均4/4更差；固定50仍存在反向seed，最终充分预算尚待seed23延长读出。全macro点已用原六cell表复算，最大误差2.22e-16。新增V5部分九对readout和seed23显式100轮readout各一CPU worker；10秒资源实测20.82/32核、可用内存32.26GiB后，将readout计算上限复核为10另加1个cell/sampler。V8 clean全8次cell审计完成，主agent验证132条性能、192条支持量数据；Q9按现有三域中多因素未独立分配记录NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN，最小已完成实验和所需识别设计均保留，不据此免除腐化对照。
+
+后续状态：seed2023 Adam两臂均完成100轮，最近两段5轮目标改善为−.00240046和+.00453707，按冻结平台判据固定预算100，不需等selection分类才停止延长。完整50/100紧凑原始表均已归档；100轮正式读出仍在进行。其PERM对照已按100轮审查入队；AdaTask seed23匹配100轮的需求已固定，但必须等原50轮配对读出结束后再恢复，避免混读生长轨迹。V5目前20/24原始训练条件已入队，剩SGD seed25四个对照依赖预算判定。V8现12/16腐化训练已入队，seed25四个仍待匹配预算。
+
+CPU派发顺序纠正：原九对V5读出清单误将尚未结束的Adam排在前面。主agent发现后，仅暂停并终止其未进入数值计算的stdlib等待器和调度器；无任何读出输出，未触及训练。原启动/状态/日志保存在archive/dispatch_corrections/V5_partial_readout_attempt1。九条科学读出命令与输出逐项不变，重排成3个SGD PERM立即读出（max1），其余6对在V2原八项全完成释放两个CPU槽后读出（max2）。V8的六对初始50轮读出另等待V10全四对读出完成后接替其两个槽。严格分别接替既有配额，全部数值readout上限仍10，另1个cell/sampler；等待器不计数值计算worker。
+
+V5前三个SGD种子的原始操纵审计完成：600个arm-epoch核对，其中300个PERM保持精确物理域序列、300个ORDER保持精确batch集合且全部实际改变顺序；ORDER的每epoch配额、unique/repeat/coverage直方图与WR一致。主agent对合并输出独立复核通过。第四种子仍必须完成，不能据前三个种子闭环性能效应。
+
+Q34遥测标签问题已处理：原exp_avg范数前缀也匹配exp_avg_sq，记录的是sqrt(||m||²+||v||²)。此错误仅在只读遥测，实际优化器状态和训练/性能未变。保持冻结训练源码不变，从原两列恢复纯m范数。68个预算快照8万条记录核验通过，并对真实Adam/AdaTask检查点8个CPRE块按精确key独立复算，恢复误差最大4.34e-19。单条范数最大相对修正22.51%，故未来状态解释必须采用corrected_m_norm，不能称旧误标可忽略。完整导出CSV留本地，以hash及可复现工具追溯；紧凑修正统计/收据/oracle上传。该纠正不触发或豁免V11 interaction门控。

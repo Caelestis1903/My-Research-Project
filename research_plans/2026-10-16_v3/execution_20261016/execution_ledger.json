@@ -28,7 +28,7 @@
     "first_complete": "analysis/V2readout__adam__seed2022__until050/receipt.json"
   },
   "V4": {
-    "status": "INITIAL24_COMPLETE_SEED23_ADAM_EXTENSION100_RUNNING_OTHER_FINAL_BUDGETS_PENDING",
+    "status": "INITIAL24_COMPLETE_ADAM_SEED23_100_COMPLETE_ALLADAM_FINALBUDGETS_FIXED_SGD_B2_READOUT_RUNNING",
     "required": true,
     "pilot_runs": 16,
     "selected_lr": {
@@ -43,37 +43,46 @@
     "training_runs_complete_initial": 24,
     "extension_manifest": "V4_Adam_seed2023_extension100_manifest.json",
     "Adam_seed2022_budget": 50,
-    "Adam_seed2023_budget": "100ongoing_thenrepeatcriterion",
+    "Adam_seed2023_budget": 100,
     "SGD_seed2022_2024_budget": 50,
     "SGD_seed2025_budget": "PENDING_SELECTION_OVERFIT_CHECK",
     "Adam_seed2024_budget": 50,
     "Adam_seed2025_budget": 50,
-    "initial_Adam_analysis": "V4_calAdam_until050_analysis.md"
+    "initial_Adam_analysis": "V4_calAdam_until050_analysis.md",
+    "Adam_extended_receipt": "V4_Adam_seed2023_extension100_train_budget_check.json"
   },
   "V5": {
-    "status": "18OF24_ADMITTED_8COMPLETE_6RUNNING_4PENDING_CAPACITY",
+    "status": "20OF24_ORIGINALS_ADMITTED_LAST4_SGD25_PENDING_BASELINE_BUDGET",
     "required": true,
     "sampler_identity": "analysis/V5_sampler_identity_seed2022/primary_descriptive_summary.json",
     "remaining": "Adamseeds2023/24/25andSGDseed2025 budgets_pending",
-    "readout_manifest": "V5_partial_readout_manifest.json"
+    "readout_manifest": "V5_partial_readout_manifest.json",
+    "sampler_verification": "V5_sampler_first3seeds_primary_verification.json",
+    "readout_manifests": [
+      "V5_priority_SGD_PERM_readout_attempt2_manifest.json",
+      "V5_deferred_ORDER_Adam_readout_attempt2_manifest.json"
+    ],
+    "dispatch_correction": "V5_readout_dispatch_correction_self_review.json"
   },
   "V6": {
     "status": "PENDING_DEPENDENCIES",
     "required": true,
-    "task_direction_supplement": "COMPLETE8fullgradientruns+primaryindependentverification; V1_task_direction_decision.json; geometrycausalstatus stillpendingV5"
+    "task_direction_supplement": "COMPLETE8fullgradientruns+primaryindependentverification; V1_task_direction_decision.json; geometrycausalstatus stillpendingV5",
+    "moment_telemetry_correction": "Q34RESOLVEDSTRONG; moment_telemetry_correction_decision.json; usecorrected_m_norm"
   },
   "V7": {
     "status": "PENDING_DEPENDENCIES",
     "required": true
   },
   "V8": {
-    "status": "DUPLICATION_AND_CLEAN_CELL_COMPLETE_MILD_SEED22_RUNNING",
+    "status": "DUPLICATION_CLEAN_CELL_COMPLETE_12OF16_CORRUPTION_ADMITTED",
     "required": true,
     "duplication": "V8_duplication_decision.json",
-    "corruption_runs_admitted": 2,
+    "corruption_runs_admitted": 12,
     "corruption_runs_required": 16,
     "cell_receipt": "analysis/V8_clean_cell_primary_until050/receipt.json",
-    "Q9": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN"
+    "Q9": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+    "readout_manifest": "V8_deferred_corruption_seeds2022_2024_readout_manifest.json"
   },
   "V9": {
     "status": "ALL8TRAINING_ALL4PAIR_READOUTS_PRIMARY_ANALYSIS_COMPLETE_TEST_DEFERRED",
@@ -87,7 +96,8 @@
     "required": true,
     "objective_audit": "objective_literature_audit.md",
     "readout_manifest": "V10_readout_manifest.json",
-    "necessity_comparison": "PENDING_MATCHED_BUDGET_ANALYSIS"
+    "necessity_comparison": "PENDING_MATCHED_BUDGET_ANALYSIS",
+    "matching_seed23_budget100": "PREPARED_WAIT_ORIGINAL50READOUT_COMPLETE"
   },
   "V11": {
     "status": "PENDING_DEPENDENCIES",

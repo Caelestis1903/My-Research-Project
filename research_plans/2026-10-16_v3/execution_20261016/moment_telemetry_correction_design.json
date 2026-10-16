@@ -1,0 +1,17 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792176209.922778,
+  "issue": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||\u00b2+||v||\u00b2), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
+  "classification": "Relevant to eventualm/vnorm interpretation; trainingoptimizer/math/model/predictions/metrics unaffected. No researchconclusion hasusedtelemetryfirstmomentnorm. Do noteditfrozentraining whileactive.",
+  "repair": "Posthoc exactalgebra corrected_m=sqrt(max(raw_exp_avg\u00b2-raw_exp_avg_sq\u00b2,0)); preserveallraws andsourceSHA, outputfreshcorrectedtelemetry fromcompactimmutablearchives. Checknonnegativewithinroundoff; reportprecisionlimits. No retraining needed.",
+  "minimal_verification": "Onexisting fullAdam andAdaTask checkpointstates, compute theoldprefix norms anddirectexplicit-key m/vnorm forCPRE; comparealgebraicrecovery toindependentdirectnorm. This testsactualstatekeyschemes without rerunningoptimization. Verifyinputarchivefilehashes.",
+  "implementation": "Standaloneposthocreadoututility only, archive-root/out arguments; saved-checkpoint oracle separatelyperformedbyprimary. No training/readoutfrozenedits. Originalloss/AUCstatisticsunchanged.",
+  "acceptance": [
+    "all8Adam/AdaTaskblockoracle recoverednorm agreesat1e-12relative+1e-14absolute",
+    "rawarchivehashesmatchproducer",
+    "no materiallynegative radicand",
+    "retainrawm/vandcorrectednormexplicitlabels",
+    "primarySELFREVIEWPASSbeforemechanicalRUN"
+  ]
+}

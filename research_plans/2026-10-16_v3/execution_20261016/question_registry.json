@@ -134,9 +134,13 @@
     },
     {
       "id": "Q16",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V2_fixedAdam_analysis.md; V4_calAdam_until050_analysis.md; respectiveprimaryverification andall4pairreceipts",
+      "conclusion": "A late-only interpretation is contradicted in both frozenAdamconfigurations undertheprespecifieddiagnosticdegradationclassifier: fixed.01commonpre27AULC-.006980 andcal.003commonpre22-.013951, each4/4negativewithpairedseedCIexcluding0 andfourworseLogLoss. Theseearly common-epoch effectsdonotdependonindependentbestcheckpointselection.",
+      "remaining_uncertainty": "RestrictedtothetwoAdamconfigurationsandoperationalclassifier, notproofthatalllatentoverfittinghasbeenexcluded. Otheroptimizers/stages, adequatelybudgetedendpointandtestremainQ3/Q17/Q2. Seedn4, smallesttwo-sidedexactsignp=.125.",
+      "next_action": "Retainlate/selectedcounterexamples andfulltrajectories; completeallotherrequiredconfigurations, withoutstoppingatthisscopeclosure."
     },
     {
       "id": "Q17",
@@ -329,6 +333,26 @@
       "conclusion": "Current claims are conditional commonLR sampling contrasts. No separate SB-optimal tuning or globally optimized SN/SB superiority is established or claimed.",
       "remaining_uncertainty": "Arm-specific hyperparameter response and outerLR-selection uncertainty; distinct fromQ30 gridboundary andQ31 pilotseedoverlap.",
       "next_action": "Retain this estimand boundary throughout budget/optimizer/method interpretation. Additionalarm-specific tuning is required only if a new claim needs separatelyoptimized superiority; do not silently retune fromdiagnostic/test."
+    },
+    {
+      "id": "Q34",
+      "title": "Recorded exp_avg norm includes secondmomentnorm via overlappingkeyprefix",
+      "origin": "Primaryread-onlyinspectionofv3_train.steptelemetry",
+      "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||²+||v||²), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
+      "why_it_matters": "Couldmislabelm/vmagnitudesinstateinterpretation; doesnotalteractualupdatesorperformance.",
+      "candidate_explanations": [
+        "Overbroadprefixselectorinread-onlystatistics"
+      ],
+      "blocking": false,
+      "claim_block": "No purefirstmomentnorminterpretationuntilposthoccorrectionverified",
+      "minimal_discriminating_experiment": "Onexisting fullAdam andAdaTask checkpointstates, compute theoldprefix norms anddirectexplicit-key m/vnorm forCPRE; comparealgebraicrecovery toindependentdirectnorm. This testsactualstatekeyschemes without rerunningoptimization. Verifyinputarchivefilehashes.",
+      "status": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "design": "moment_telemetry_correction_design.json",
+      "next_action": "V6/V11moment-normanalysesmust usecorrected_m_norm, v_norm. Originalrawexp_avg retainedandlabeledmixed; cannotinterpretaspurem. Rerunsameposthocutilityforlaterarchivebudgets innewoutdir.",
+      "evidence": "analysis/moment_telemetry_correction_initial50/primary_checkpoint_oracle.json; moment_telemetry_correction_decision.json",
+      "conclusion": "Oldexp_avg column is mixedsqrt(m²+v²); exactnormrecoveryfromrawm/vpair verifiedagainst8actualAdam/AdaTaskCPREcheckpointblocks. All80000recoveredrow identitiesverify. Actualoptimizerstates,updates,predictions,AUC/loss andselectionunchanged; no retrainingneeded.",
+      "remaining_uncertainty": "Rawcolumnstillmixedbydesignpreserved; reportcorrected_m_normonly. Correctionnormidentitydoesnotidentifyanystatecausalmechanism."
     }
   ]
 }
