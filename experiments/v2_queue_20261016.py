@@ -74,14 +74,21 @@ def main():
             if len(active)+len(other)>=5:continue
             pending=next((t for t in tasks if t['status']=='PENDING'),None)
             if pending is None:continue
-            initializing=sum(reservation for t in active+other if not (Path(t['run_dir'])/'progress.json').exists())
-            if gpu['used']+initializing+reservation>.9*gpu['total']:continue
+            task_reservation=float(pending.get('reservation_mib',reservation))
+            initializing=sum(float(t.get('reservation_mib',reservation)) for t in active+other if not (Path(t['run_dir'])/'progress.json').exists())
+            if gpu['used']+initializing+task_reservation>.9*gpu['total']:continue
             logpath=OUT/'logs'/(pending['id']+'.log');log=logpath.open('a')
             env=dict(os.environ,CUDA_VISIBLE_DEVICES=str(gpu['index']),OPENBLAS_NUM_THREADS='1',OMP_NUM_THREADS='2',
                 MKL_NUM_THREADS='2',PYTHONFAULTHANDLER='1',PYTHONDONTWRITEBYTECODE='1')
-            cmd=[PYTHON,'-B','-u',str(WORKER),'--run-dir',pending['run_dir'],'--code-commit',commit]+pending['args']
+            program=ROOT/pending.get('worker',str(WORKER.relative_to(ROOT)))
+            task_commit=pending.get('code_commit',commit)
+            if program!=WORKER:
+                task_review=json.loads((ROOT/pending['review_receipt']).read_text())
+                assert task_review['verdict']=='PASS_PRIMARY_SELF_REVIEW' and task_review['worker_sha256']==sha(program)
+                assert hashlib.sha256(subprocess.check_output(['git','show',task_commit+':'+str(program.relative_to(ROOT))],cwd=ROOT)).hexdigest()==sha(program)
+            cmd=[PYTHON,'-B','-u',str(program),'--run-dir',pending['run_dir'],'--code-commit',task_commit]+pending['args']
             proc=subprocess.Popen(cmd,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
-            pending.update(status='RUNNING',gpu=gpu['index'],pid=proc.pid,command=cmd,stdout=str(logpath),start=time.time())
+            pending.update(status='RUNNING',gpu=gpu['index'],pid=proc.pid,command=cmd,stdout=str(logpath),start=time.time(),reservation_mib=task_reservation)
             children[proc.pid]=(proc,pending,log);event(dict(event='START',id=pending['id'],pid=proc.pid,gpu=gpu))
         done=all(t['status'] in ('COMPLETE','FAILED') for t in tasks)
         dump(OUT/(wave+'_status.json'),dict(status='FINISHED_PENDING_PRIMARY_ANALYSIS' if done else 'RUNNING',

@@ -83,7 +83,9 @@ class Runner:
         self.arm=arm;self.seed=seed;self.epochs=epochs;self.calibration=calibration;self.engineering=engineering
         self.device=torch.device(device);self.started=time.time();self.dataset=dataset
         setup_seed(seed);torch.set_num_threads(2)
-        if self.device.type=='cuda':torch.cuda.reset_peak_memory_stats()
+        if self.device.type=='cuda':
+            torch.cuda.set_device(self.device)
+            torch.cuda.reset_peak_memory_stats(self.device)
         self.bundle=load_stage_s1_bundle(dataset,None,'natural' if dataset=='kuairand' else 'd2_large',seed)
         self.p=np.array([self.bundle.train_counts[d] for d in range(3)],dtype=float);self.p/=self.p.sum()
         self.alpha=self.p if arm[0]=='S' else np.ones(3)/3
@@ -198,7 +200,7 @@ class Runner:
                 self.save(epoch,f'epoch{epoch:02d}.pt');np.savez_compressed(self.dir/f'validation_epoch{epoch:02d}.npz',**pred)
             assert self.sources==sources(),'source drift'
             dump(self.dir/'progress.json',dict(status='TRAINING',epoch_completed=epoch,selected_epoch=self.selected,
-                elapsed_seconds=time.time()-self.started,peak_reserved_mib=torch.cuda.max_memory_reserved()/1024**2 if self.device.type=='cuda' else 0))
+                elapsed_seconds=time.time()-self.started,peak_reserved_mib=torch.cuda.max_memory_reserved(self.device)/1024**2 if self.device.type=='cuda' else 0))
             print(json.dumps(dict(epoch=epoch,val_macro_auc=score,best=self.best,elapsed=time.time()-self.started)),flush=True)
         dump(self.dir/'selection_frozen.json',dict(selected_epoch=self.selected,validation_macro_auc=self.best,
             initial_validation_auc=self.initial_score,history=self.history,test_access_started=False,calibration=self.calibration))
@@ -211,7 +213,7 @@ class Runner:
                 csv_append(self.dir/'metrics_test.csv',metrics);np.savez_compressed(self.dir/f'test_{key}.npz',**pred)
         progress=dict(status='COMPLETE',epochs_completed=self.epochs,selected_epoch=self.selected,
             best_validation_macro_auc=self.best,initial_validation_macro_auc=self.initial_score,
-            wall_seconds=time.time()-self.started,peak_reserved_mib=torch.cuda.max_memory_reserved()/1024**2 if self.device.type=='cuda' else 0)
+            wall_seconds=time.time()-self.started,peak_reserved_mib=torch.cuda.max_memory_reserved(self.device)/1024**2 if self.device.type=='cuda' else 0)
         dump(self.dir/'progress.json',progress)
         dump(self.dir/'run_manifest.json',dict(**progress,config=self.config,artifact_hashes={p.name:sha(p) for p in self.dir.iterdir()
             if p.is_file() and p.name not in ('stdout.log','run_manifest.json')}))
@@ -257,7 +259,7 @@ def main():
             dataset=args.dataset,epochs=args.epochs,calibration=args.calibration,variant=args.variant,code_commit=args.code_commit)
         if args.mode=='profile':
             for i in range(3):r.step(r.sampler.sample(BATCH),1,i,telemetry=i<2)
-            torch.cuda.synchronize();peak=torch.cuda.max_memory_reserved()/1024**2
+            torch.cuda.synchronize(r.device);peak=torch.cuda.max_memory_reserved(r.device)/1024**2
             dump(OUT/'cuda_profile.json',dict(status='PASS',peak_reserved_mib=peak,reservation_mib=peak*1.2+512,worker_sha256=sha(__file__)))
         else:r.fit()
     except BaseException as exc:
