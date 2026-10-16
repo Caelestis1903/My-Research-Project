@@ -72,13 +72,23 @@ def main():
             entropy=float(-(positive.probability*np.log(positive.probability)).sum()),
             scope='200 stratified validation-row draws conditional on seven saved trained checkpoints'))
     pd.DataFrame(bootrows).to_csv(target/'selection_grid_uncertainty.csv',index=False)
-    budgets=[]
+    budgets=[];profiles=[];seen=set()
     for path in sorted((OUT/'runs').glob('*/*/seed*/*/attempt*/run_manifest.json')):
         c=json.loads(path.read_text())['config'];trace=pd.read_csv(path.parent/'batch_trace.csv')
         budgets.append(dict(dataset=c['dataset'],optimizer=c['optimizer'],variant=c['sampler'],seed=c['seed'],arm=c['arm'],
             epochs=c['epochs'],updates=len(trace),row_draws=int(trace.n.sum()),
             train_rows=sum(c['data']['train_domain_counts'].values()),run=str(path.parent)))
+        identity=(c['dataset'],c['seed'])
+        if identity not in seen:
+            seen.add(identity)
+            for split,cells in c['data']['cell_stats'].items():
+                denominator=sum(v['count'] for k,v in cells.items() if k.endswith('t0'))
+                for cell,values in cells.items():
+                    domain,task=cell[1:].split('t')
+                    profiles.append(dict(dataset=c['dataset'],seed=c['seed'],split=split,
+                        domain=int(domain),task=int(task),domain_share=values['count']/denominator,**values))
     pd.DataFrame(budgets).to_csv(target/'completed_training_budgets.csv',index=False)
+    pd.DataFrame(profiles).to_csv(target/'split_cell_profiles.csv',index=False)
     for dataset in a.dataset.unique():
         fig,axes=plt.subplots(1,2,figsize=(12,4))
         trajectories=a[(a.dataset==dataset)&(a.split=='validation')&(a.checkpoint=='trajectory')]
