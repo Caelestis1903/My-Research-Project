@@ -79,3 +79,6 @@ GPU bootstrap等价工程实际同一完整50轮1000/200 oracle通过：数组�
 
 
 实际新进展：原生Adam23完整100轮读数已完成exit0、主agent全部输出/生产者哈希及六cell点值复核PASS。V10四种子最终匹配预算50/100/50/50全部完整，统一早期14、固定50、最终预算、AUC/LL选轮与所有域任务已完成分析，见V10_final_vs_calAdam_analysis.md。V4 B2四种子初始50统一pre37及精确1225步/全阈值首次达到分析也已完成，见V4_B2_initial50_analysis.md。V11训练part1全部8项COMPLETE，其余状态、matchedstress200等继续执行。未读取新test，不代表全部任务终局。
+
+
+V4全部实际正式训练、完整配对读数与最终速度表完成，主agent核验PASS；V9最终KR/ML共同1–16窗口揭露自身窗口37/16符号差并非单独环境因果证据，新增Q41/BOUNDARY。状态shadow原实现漏存设计要求的方向余弦，独立只读补充已设计/实现/自审，尚不RUN、不得跳过实际四seed复核。

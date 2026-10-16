@@ -107,9 +107,12 @@
     },
     {
       "id": "Q11",
-      "status": "PENDING",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V9_final_cross_environment_analysis.md; V9_final_cross_environment_primary_verification.json",
+      "conclusion": "Requiredsecond-environment4seedSGD.3same-objective qcomparisoncomplete, no stableadversemacroprimaryreplication. MLearly1..16+.0013913positive1negativeCI[-.000131,.003849], selected+.000241CI[-.001222,.001127]. KRcalSGDatjoint16+.000078also3positive1negative, so ownwindow37/16oppositesignsnotisolateddatasetflip.",
+      "remaining_uncertainty": "Crossenvironmentdataset/labels/support/architectureinputdimandupdatesperepocharebundled. Noidentifiedmediatorreplicationgate triggered. Fulltestremainspredeclaredvalidation, notnewconditionselection."
     },
     {
       "id": "Q12",
@@ -154,9 +157,12 @@
     },
     {
       "id": "Q17",
-      "status": "PENDING",
+      "status": "OPTIMIZER-BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V4_final_budget_and_learning_speed_analysis.md; V4_final_aggregate_and_contrasts_primary_verification.json; V4_final_exact_steps_and_speed_primary_verification.json",
+      "conclusion": "AllV4LR/batch/requiredextendedbudget controlscompleted. EffectdependsLR/stage/metric/budget: calibratedB0seed25gapchanges-.009424E50to+.000713E100, final4seedendpointmixed; Adamselectedearlynegative andB2selected4negativepersist. Neitheruniversalspeed-onlynoruniversalpermanentgap established. exact1225stepinteractionmixed/uncertain; B0/B2equalepochschangeupdatesteps, equalstepschangedexamples.",
+      "remaining_uncertainty": "Practicalplateau/selectionadequacydoesnotproveglobaloptimum; noisolatednoise/optimizationprogresscausality. KeynullCI notusedtoassertzero; V5/V7/V11anddeferredtestkeepownrequirements."
     },
     {
       "id": "Q18",
@@ -207,9 +213,12 @@
     },
     {
       "id": "Q24",
-      "status": "PENDING",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V9_final_cross_environment_analysis.md; Q41; analysis/batch_composition_baselines",
+      "conclusion": "Explicitboundarydecompositioncompletedforobjective,optimizer,architecture,data/labels,imbalance/size,overfit/stage. Sameobjectiveform/SGDfamily/LR/M3OEfamilycontrolled, butfinitepopulations/labels/p/inputdim/updateclockco-vary. UniqueenvironmentdriverNOT_IDENTIFIABLEinexistingtwo-environmentdesign, no claimsize/difficultycausaldriver.",
+      "remaining_uncertainty": "Identification: environmentDjointlysetsallcandidatecovariates, so dataset-only/size-only/label-onlyexplanationscanagreeontwosupportpoints; 4seedsrepeattheseconfigurationswithoutcreatingindependentfactorvariation. Minimaluniqueattributionneedonefactorinterventionwithothersfixed. Currentfinalclaimexplicitbundleboundaryrequiresnosuchuniqueattribution."
     },
     {
       "id": "Q25",
@@ -488,6 +497,20 @@
       "completed_experiments": "Oneinitial50seedall3variantsbothq; explicitmin100matchedextensiontriggeredbyfrozencriterion. Otherseedsandfullshadowstillrunning.",
       "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
       "next_action": "Analyzeall4actualhealthprofilesandshadowrawvsnormmatched effects, preserveallstage/cellcounterexamples andseparatelocalstateevidencefromlong-runcausality."
+    },
+    {
+      "id": "Q41",
+      "question": "Does differing early-window definition create an apparent cross-environment sampling-effect sign reversal?",
+      "status": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "observation": "ActualfinalcalSGD ownwindowKR1..37gap-.00049257 vsML1..16+.00139069. Jointallcondition1..16 givesKR+.000077586 andML+.001390687, both3positive1negative. Thus ownwindow signs are not evidence of an isolated dataset sign flip.",
+      "why_unresolved": "Early-window lengths differ andmodel/data/labeldefinitions/updatesperepoch differ. Sameepochnotmatchedoptimizationprogress; only2bundledenvironments.",
+      "blocking": "Blocksclaimthatdataenvironmentalonecausedearlysignflip; doesnotblockexplicitconfiguration/stageboundary orremainingexperiments.",
+      "completed_experiments": "All8finalpairedfull1000/200, ownwindows37/16 andjoint16 directpointoraclePASS. No newtrainingneededtoexposethewindowcomparisonerror.",
+      "current_boundary": "Retainbothown andcommonwindowestimates. No stableadversemacroreplicationinMLSGD. Cannotuniquelyattribute tosize,imbalance,architectureordataset; cannotclaimbothenvironmentsoppositesignatmatchedstage.",
+      "minimal_experiment": "Ifuniquedriverclaimwereessential, independentlyvarydataset/label/supportfactorwithsameinput/modelandmatchedactualupdates/examples wherepossible; exactsimultaneousmatchingnotgenerallypossible. Currenttaskmakesboundary/NIstatementinstead ofcausaldriverclaim.",
+      "next_action": "Includejoint16counterexampleandallstagesinV9/V12/V14 andNewlyExposedQuestions; finishpredeclaredV5/V7/V11andtest.",
+      "evidence": "V9_final_cross_environment_primary_verification.json; analysis/V9_final_cross_environment_joint16_marginals; V9_final_cross_environment_analysis.md"
     }
   ]
 }

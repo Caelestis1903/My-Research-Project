@@ -75,3 +75,6 @@ AdaTask四seed初始50匹配分析已完成并主核验，见V10_initial50_vs_ca
 
 
 V4 B2初始50：jointpre37 AUC交互−.00112517四负，而两臂绝对AUC下降；exact1225step交互−.00358827两负两正、CI跨零。V10最终匹配50/100/50/50：early14AdaTaskgap−.00783937，3负1正，缓解交互+.00628296区间宽；最终预算Adagap−.01916006四负，但绝对SN/SB均优于Adam。完整数值、域任务、损失和反例分别见V4_B2_initial50_analysis.md及V10_final_vs_calAdam_analysis.md。新test仍未读取。
+
+
+V4完整预算B0selected−.003907三负一正、B2selected−.002849四负；完整等步数20条和首次达到2448条全核验。V9统一1–16时KR+.0000776、ML+.0013907，均三正一负，保留窗口/进度边界Q41。
