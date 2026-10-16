@@ -19,17 +19,21 @@
     },
     {
       "id": "Q3",
-      "status": "PENDING",
+      "status": "FALSIFIED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "STRONG",
+      "evidence": "V2_fixedSGD_primary_verification.json; V2_fixedSGD_and_interaction_sensitivity_analysis.md; calibratedSGDinitial50",
+      "conclusion": "UniversalAdamnecessityfalsified: fixedSGD.1 commonpre1..50 AUCmean-.00304265 fournegativeCI[-.00515485,-.00177798]; common20/fixed50/selected alsonegative. Adam notnecessary forANY q-dependent AUCtrajectoryeffect. LogLosscanimprove, noallmetricsworseclaim.",
+      "remaining_uncertainty": "General optimizer independence/equivalence andfinaladequatebudget effects notestablished; calibratedconfigurationinteractions clearlymatter andQ4stateworkcontinues."
     },
     {
       "id": "Q4",
       "status": "TRIGGERED_STATE_EXPERIMENT_IN_PROGRESS",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": "WEAK",
-      "evidence": "V11_state_decomposition_design.json; actualgateverification",
-      "conclusion": "State decomposition now legitimately triggered; no state outcomes yet. Full training beta1zero/v-only,beta2zero,m-only plus common-theta fullstateshadow/normcontrol awaitacceptance."
+      "evidence_strength": "STRONG",
+      "evidence": "V11_actual_gate_primary_verification_and_analysis.json; V11_state_implementation_self_review.json; V11_joint_early_domain_task_interaction_analysis.md",
+      "conclusion": "Calibratedconfigurationinteraction actualglobalpre22 mean-.0139100568 all4negativeCIexcludes0; fixedreferenceinteractionnottriggered. Strongconfigevidenceonly. NumericalacceptancePASS;24fullstatevarianttraining+4shadowmechanicalrunsapprovedandrunning/queued; no completedstateoutcomeconclusion.",
+      "remaining_uncertainty": "SameLR statevariants, common-theta state swaps and norm-matched controls needed before history mechanism inference; no proof of Adam necessity."
     },
     {
       "id": "Q5",
@@ -164,12 +168,16 @@
     },
     {
       "id": "Q20",
-      "status": "PENDING",
+      "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null,
+      "evidence_strength": "STRONG",
       "partial_evidence": "V5_readout_scope_addendum.md; analysis/V5_sampler_identity_seed2022/primary_analysis.md",
       "partial_conclusion": "At fixed totaldraws E and realizedunique U, repeateddrawsR=E-U exactly, so unique coverage and repeat count cannot be independently intervened by WR/PERM atfixedE. Completed twoq seed22 full50schedule/exposureaudit illustrates jointchanges. This is algebraic nonidentifiability, not a performance conclusion.",
-      "next_action": "Finish allplanned4seedWR/PERM/ORDER; reportcoverage/repetitionboundary, do not reinterpretPERM as unique repetition intervention."
+      "next_action": "Report mathematicalidentifiabilityboundary, finishperformancecontrasts Q5/Q18/Q19; no additionalorthogonalcoverageclaim.",
+      "evidence": "local_diagnostic_design_addendum.md; analysis/V5_sampler_identity_seed2025_until100/receipt.json; V5_sampler_identity_seed2025_until100_primary_verification.json; prior600armepoch identity",
+      "conclusion": "At fixed physicaldomain support N and exposure E, cumulativecoverage U/N and totalrepeats R=E-U are deterministic transforms, so currentWR/PERM cannot identify their independent scalar mediation. PERM changescoverage/repeats jointly; ORDER preservesboth andchangesorder.",
+      "minimal_completed_experiment": "All4seed exactproductionmanipulation audit: first3seeds600armepochs plusseed25actual100400armepochs, matchedbaseline exactdomainsequence/PERM andsamebatchmultiset/ORDER. No zero-repetition fictionforSBquota>N.",
+      "remaining_uncertainty": "Repeatconcentration/order can vary atsameE/U/R; that is a different mediator from totalrepeatcount. Genuinely independent new support unavailable, virtualaliasesnotnewinformation."
     },
     {
       "id": "Q21",
@@ -188,8 +196,8 @@
       "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
       "evidence_strength": "STRONG",
-      "evidence": "V11_actual_gate_primary_verification_and_analysis.json; V4_calSGD_initial50_and_V11_actual_analysis.md",
-      "conclusion": "Frozen calibrated globalpre22 interaction actualTRIGGERED, mean-.01391006 all4negative CI[-.01771325,-.01010686]. LR-specific optimizer configurations; no statecausality claim."
+      "evidence": "V11_actual_gate_primary_verification_and_analysis.json; V11_fixed_reference_primary_verification_and_analysis.json",
+      "conclusion": "CalibratedLRspecificcommonpre22 interactionTRIGGERED mean-.01391006 all4negativeCIexcludes0; fixedLRreferencecommonpre27 NOTTRIGGERED mean-.00514906 3negative/1positiveCIcrosses0. Strong evidenceconditionalconfigurationinteraction, notuniversalAdamhistorycause."
     },
     {
       "id": "Q24",
@@ -396,6 +404,61 @@
       "remaining_uncertainty": "Actualfamilywiseerrorrate, adaptivepeakuncertaintyandlatentoverfit; not estimatedbyconditionalrowbootstrap.",
       "minimal_discriminating_experiment": "Forformalglobalclaims,newpreregisteredsimultaneouspeak/windows procedure calibratedbeforefreshtraining; outsidecurrentoperationalestimand, no newglobalguaranteeclaimed.",
       "next_action": "Useoperationalwordinginallbudget/prewindowinterpretation andfinalNewlyExposedQuestions; retainfixed5/10/15/20/30/40/50+AULC10/20."
+    },
+    {
+      "id": "Q37",
+      "question": "Does seed/epoch-only permutation of IID WR batches identify a systematic order-policy mechanism, or only conditional path sensitivity?",
+      "origin": "V5 ORDERsourceaudit beforefourseedperformanceinterpretation",
+      "observation": "Allbatchlists generatedbeforeupdates; permutationdoesnotinspectrealizedfeatures/labels/gradients. Fourseedexactbatchmultisetsverified, updateoperators noncommuting.",
+      "why_it_matters": "A pathwisepermutation effect shouldnotbecomeanunconditionalcurriculum/orderbias claim orunique mediatorwithoutadditionalidentification.",
+      "candidate_explanations": [
+        "Conditionalnoncommutativeoptimizationpath sensitivity",
+        "Finite4seedcoupling/randomization variation",
+        "Actualdata-dependentorderingpolicy, nottested"
+      ],
+      "blocking": false,
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "minimal_completed_experiment": "Existingfourseedexactbatchmultiset/orderidentity plusread-onlysourceaudit andintendedIIDpermutation-law derivation; noextraunnecessarytraining.",
+      "evidence": "Q37_IID_order_permutation_scope_audit.json; Q38_ORDER_tail_batch_position_audit.json",
+      "conclusion": "Equal-cardinalityIIDnondatadependentpermutationhasinvariantjointlaw, butactualwholeORDERincludesone shorttail(Q38), so theorem cannotestablishfullproductiondistributionequivalence. Existingexperimentvalidlyreadsconditionalrealizedfull-batch-set sensitivity only.",
+      "remaining_uncertainty": "Data-dependentcurricula, finitePRNGcoupling andshorttail-sizeclock(Q38) notisolated; no automaticordernecessaryclaim.",
+      "next_action": "CompleteV5ORDER performance, reportallseeds/contradictions andcoupling scope; no newtrainingunlessanewclaim actuallyrequirespolicyidentification."
+    },
+    {
+      "id": "Q38",
+      "question": "Does ORDER move a short tail batch and therefore mix content order with the batch-size noise schedule?",
+      "origin": "V5 implementation audit following Q37IIDexchangeabilityscope check",
+      "observation": "All500actualORDERarmepochscontain48full40960batchesandone40052tail; tailmovedin478armepochs. Bothqshareidenticalpermutationandtailposition.",
+      "why_it_matters": "Samebatchmultisetcontrolisvalid, butn_tscheduleisnotheldfixed. A claimofpureequal-sizeIIDorderpolicycausecouldbeincorrect; invariance theoremforIIDequal-cardinalitybatchesdoesnotapplydirectly.",
+      "candidate_explanations": [
+        "Noncommutativecontentorder sensitivity",
+        "Movedshorttailvariance/stepschedule",
+        "Finitepathwise variation"
+      ],
+      "blocking": false,
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "minimal_completed_experiment": "Actualproducer-hash-verified500armepochbatchtrace audit, exactsameq-pairtailpositions andsizes; nofullbatchfiles/extra training needed.",
+      "evidence": "Q38_ORDER_tail_batch_position_audit.json",
+      "conclusion": "ORDERchangeswholebatchorderincludingtailposition. Itretainsallrows/exposure/examples; neitherabug norpurecontent-orderholdingbatchsizeschedulefixed. No negligible-tail-effect claim.",
+      "remaining_uncertainty": "Smallrelativebatchsizechange doesnotprove negligible causal effect.",
+      "next_action": "IfactualORDERperformance would driveblockingpurecontent-ordernecessity/noveltyclaim, performmatchedtail-fixed full-batch-onlypermutation control. OtherwisekeepboundaryandallactualORDERdata; do notaddtrainingmerelytorepairwording."
+    },
+    {
+      "id": "Q39",
+      "status": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "observation": "GPU bootstrap helper passed complete CPU50 oracle andsame50 GPUparent prefix oracle; stressreusewillproject200->100/150. Epoch-separable metric formula/RNG supportsreuse, butsame-T oraclealone doesnot directly check matrix-widthdependent float64 reduction rounding.",
+      "why_unresolved": "DifferentT CUDA GEMM width may cause tiny numerical differences; categorical selection/onset sensitivity mustbe excluded byoneactualcrossTcache/serializercomparison, not assumed bitexact.",
+      "blocks_core_conclusion": false,
+      "blocks_dispatch": "Only actualstresscrossTprefixreuse untilminimaloraclePASS; independenttraining andstandalonefullreadouts continue.",
+      "evidence": "prefix_GPU_cross_horizon_actual_oracle_primary_verification.json",
+      "completed_experiments": "Same50 full1000/200 CPU-vsGPU <=3.33e-16 andallcategoricalexact; same50GPUparentprojection bitexact.",
+      "minimal_experiment": "ActualalreadyplannedAdaTask23GPU100 parent projectto originalimmutable50, compareexistingcompleteCPU50 arrays1e-12 andall4000reselection/onsets/selected/budgetcategoricalexact. No newtraining/condition.",
+      "next_action": "Allow reviewedstress200->100/150projection afteractualparentcomplete; recordparentbackendandSHA.",
+      "conclusion": "ActualGPU100->CPU50 full1000/200 arrays within1e-12; all4000epochchoices,onsets/selected/budgets exact. SourceRNG/epochseparableformula andactualcrossT support literal-parent-cache reuse; no approximate ornew bootstrap replicates.",
+      "remaining_uncertainty": "Arithmetic equivalence withinfloat64tolerance, notuniversalCPU/GPUbitidentity; allfutureprojections stillverifyactualproducer/model/pred/trajectoryprefix hashes."
     }
   ]
 }

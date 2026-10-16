@@ -14,11 +14,12 @@
     "receipt": "V1_decision.json"
   },
   "V2": {
-    "status": "ALL16FIXED_REFERENCE_TRAINING50_COMPLETE_ADAM4PAIRS_ANALYZED_SGD_READOUT_RUNNING",
+    "status": "ALL16FIXED_REFERENCE_TRAINING50_AND_ALL8PAIRED_READOUTS_COMPLETE_PRIMARY_ANALYZED",
     "required": true,
     "manifest": "trajectory_manifest.json",
     "primary_runs": 16,
-    "fixedAdam_analysis": "V2_fixedAdam_analysis.md"
+    "fixedAdam_analysis": "V2_fixedAdam_analysis.md",
+    "evidence": "V2_fixedAdam_analysis.md; V2_fixedSGD_and_interaction_sensitivity_analysis.md"
   },
   "V3": {
     "status": "ROW_BOOTSTRAP_READOUTS_PARTIAL_COMPLETE_TEST_DEFERRED",
@@ -55,10 +56,10 @@
     "SGD_seed2025_final_receipt": "V4_SGD_seed2025_continuation100_train_budget_check.json"
   },
   "V5": {
-    "status": "ALL24_ORIGINAL_CONDITIONS_ADMITTED_FULL4SEED_READOUT_PENDING",
+    "status": "ORIGINAL24_TRAIN_COMPLETE_MATCHED_FACTOR_BUDGETS_ADAPTIVE_EXTENSIONS_PENDING",
     "required": true,
     "sampler_identity": "analysis/V5_sampler_identity_seed2022/primary_descriptive_summary.json",
-    "remaining": "Final4SGD25at100 queued; fullreadouts/ownbudgetselectionpending",
+    "remaining": "Adamseed24WR/PERM4 min100admitted; Adamseed23factorfinal100actualreadoutPASS,22/25final50. SGDseed25wholeWR/PERM/ORDERmatchedfactor min200copyrunning. OriginalreadoutsmigratedGPUexceptliveCPUjobs.",
     "readout_manifest": "V5_partial_readout_manifest.json",
     "sampler_verification": "V5_sampler_first3seeds_primary_verification.json",
     "readout_manifests": [
@@ -80,7 +81,7 @@
     "required": true
   },
   "V8": {
-    "status": "STRESS22_24INITIAL50CELLS_PASS_SEED23MIN200_SEED25MIN150_IN_PROGRESS",
+    "status": "INITIAL50_CELLS_COMPLETE_SEED23_AND25_MATCHED_FACTORS_MIN200_REQUIRED",
     "required": true,
     "duplication": "V8_duplication_decision.json",
     "corruption_runs_admitted": 16,
@@ -88,13 +89,16 @@
     "cell_receipt": "analysis/V8_clean_cell_primary_until050/receipt.json",
     "Q9": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
     "readout_manifest": "V8_deferred_corruption_seeds2022_2024_readout_manifest.json",
-    "seed2023_common_budget": "MINIMUM150_REQUIRED_NEW6CLONES_VERIFIED_AND_GPU_LAUNCHED",
+    "seed2023_common_budget": "Actual150all6complete,strongSBnonplateauzeroeligible=>min200; sixGPUqueueadmitted",
     "seed2023_extension150_certificate": "V8_seed2023_extension150_required_certificate.json",
     "latest_evidence": [
       "V8_all12_initial50_corruption_cell_primary_verification.json",
       "V8_seed2023_extension200_required_design.json",
-      "V5V8_seed2025_continuation150_activation_review.json"
-    ]
+      "V5V8_seed2025_continuation150_activation_review.json",
+      "V5V8_seed2025_extension200_required_design.json",
+      "V8_clean_seed2025_actual100_cell_primary_verification.json"
+    ],
+    "seed2025_common_budget": "Actual150all10V5V8complete,cleanSNnonplateauzeroeligible=>min200; copy10running,trainingwaitsrootcopyreview"
   },
   "V9": {
     "status": "ALL8TRAINING_ALL4PAIR_READOUTS_PRIMARY_ANALYSIS_COMPLETE_TEST_DEFERRED",
@@ -115,10 +119,14 @@
     "AdaTask_seed2023_budget": 100
   },
   "V11": {
-    "status": "ACTUAL_INTERACTION_TRIGGERED_STATE_DESIGN_FROZEN_ACCEPTANCE_PENDING",
+    "status": "ACTUAL_CALIBRATED_INTERACTION_TRIGGERED_ALL_ACCEPTANCE_PASS_FORMAL_STATE_TRAINING_RUNNING",
     "required": true,
     "evidence": "V11_actual_gate_primary_verification_and_analysis.json",
-    "state_design": "V11_state_decomposition_design.json"
+    "state_design": "V11_state_decomposition_design.json",
+    "acceptance": "V11_state_implementation_self_review.json PASS; float64allformulasexact, all3resumeexact; nativeepoch1theta/m/v exact",
+    "formal": "24statevarianttraining +4fullstateshadow approved splitqueues; part1running,part2queued",
+    "contradiction": "Fixedreferenceinteraction NOT_TRIGGERED; LR/config/stagedependenceexplicit",
+    "domain_task": "V11_joint_early_domain_task_interaction_analysis.md"
   },
   "V12": {
     "status": "PENDING_DEPENDENCIES",

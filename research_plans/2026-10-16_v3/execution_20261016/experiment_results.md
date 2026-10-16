@@ -56,3 +56,13 @@ V5已经验证前三种子600个arm-epoch的操纵身份，但四seed性能仍�
 
 
 更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。
+
+更新：固定SGD.1四组完整读数已核验，pre50宏AUC平均−.00304265、4负，宏LogLoss却略改善；固定LR参考交互NOT_TRIGGERED，与校准组TRIGGERED形成配置敏感性反例。详见 `V2_fixedSGD_and_interaction_sensitivity_analysis.md`。Q3“Adam普遍必要”被反驳，仍需继续Q4已触发的状态机制条件实验，未泛化所有LR/optimizer。
+
+
+校准交互的统一1–22窗口域/任务分解已实际完成并核验，见 `V11_joint_early_domain_task_interaction_analysis.md`。三个域及两个任务的平均AUC交互均4/4负；cell层保留d0t1、d2t0单seed反例。该结果仍是LR配置特定交互，状态因果拆解正在运行。
+
+
+初始50轮轨迹图：![四配置全部seed诊断AUC轨迹](figures/initial50_trajectory_comparison/initial50_auc_trajectories.png)
+
+图中粗线为4seed均值、细线为个体seed；22虚线为跨配置描述窗口，各面板纵轴刻度不同。延长训练充分预算及selected终点另行分析，不能把本图视为最终充分预算结论。

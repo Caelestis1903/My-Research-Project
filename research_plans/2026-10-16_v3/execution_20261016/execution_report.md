@@ -1,6 +1,6 @@
 # v3 实验执行报告（RUNNING，非终局）
 
-任务继续执行，未达到全部流程完成或最终提前停止条件。完整计划来自 origin/main@d18f194，工作分支 `codex/execute-2026-10-16-v3`。最近核实的远程里程碑为 `ff934d738139c67cdd9e74e6fd2b09ea1494bb37`；之后仍有持续实验产物，该提交不表示最终验收。
+任务继续执行，未达到全部流程完成或最终提前停止条件。完整计划来自 origin/main@d18f194，工作分支 `codex/execute-2026-10-16-v3`。最近核实的远程里程碑为 `63e8a3d7869e34cd7479d565a396447a63353e01`；之后仍有持续实验产物，该提交不表示最终验收。
 
 ## 规范、工作区与环境
 
@@ -64,3 +64,15 @@ AdaTask前两种子的1000/200完整初始50轮配对读出与主agent六cell复
 
 
 更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。
+
+
+最新执行修订（持续 RUNNING）：V2固定SGD全部四组1000/200读出及主agent核验已完成，固定参考interaction未触发而校准interaction实际触发的矛盾被保留。V11三种状态训练均通过两步float64公式、fresh/resume轨迹与native真实epoch1状态重放核验，24条正式训练和4条完整shadow回放已经分两段队列启动。原GPU/训练/readout冻结源未改。
+
+GPU bootstrap等价工程实际同一完整50轮1000/200 oracle通过：数组最大误差3.33e−16，全部4000重选epoch、onset与预算类别一致，174MiB实际峰值、167秒。基于该测量，pending-only CPU读出迁移为同一严格1000/200 GPU引擎；7个等待队列归档且没有终止其已运行数值工作。当前原CPU仍10个数值readout继续，GPU跨训练/readout合计保持每卡5进程及90%显存限制，并增加主存预约。PERMSGD24仅pending迁移，23仍计算；父调度器SIGSTOP防止重复派发，等待23自然退出再清理父进程，详见dispatch_corrections。
+
+预算最新状态：V8 seed23实际150六条完成后strongSB改善.00922897且无eligible selection确认窗口，故全六条最低200；seed25的V5/V8实际150共十条完成后cleanSN改善.00634126756且无eligible窗口，故共享clean的两个六条件factor共十条最低200。不存在200硬上限，需按实际产物继续检查。V5 AdamPERM23实际100完整读出确认selection过拟合，匹配WR/PERM最终100无需150；AdamPERM24初始50 SN仍未确认过拟合，匹配四条最低100，copy676文件/5.339GB及主agent24关键文件SHA/inode通过后已启动队列。任何中间100/150均保留，V4自己基线最终预算不被stress实验改写。
+
+统一早期窗口的cell/domain/task交互计算及图已实际生成核验：`V11_joint_early_domain_task_interaction_analysis.md`；`figures/initial50_trajectory_comparison/`包含初始50全部个体seed轨迹及PDF/PNG，图中22虚线仅标共同描述窗口，各面板纵轴刻度须逐一阅读，logloss带为观测seed范围并非置信区间。终局仍需完成后续匹配factor、V7与状态分析，再冻结所有条件后才读test。
+
+
+迁移GPU首批16配对现已全部实际COMPLETE、主agent核验PASS。新增Q39跨预算数值复用问题经actual AdaTask23 GPU100→原CPU50完整1000/200 oracle解决：最大误差3.33e−16，全部4000次重选epoch与onset/selected/budget完全一致，原点值和cell完全一致。归档在archive/engineering_evidence/prefix_GPU100_to_CPU50_actual_oracle；允许严格父缓存复用，不能称所有CPU/GPU浮点位完全相同。

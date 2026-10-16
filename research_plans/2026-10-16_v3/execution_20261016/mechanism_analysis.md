@@ -55,3 +55,8 @@ Q36补充限制：onset的观察prefix峰值和多窗口扫描未包含同时误
 
 
 更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。
+
+更新：固定SGD.1四组完整读数已核验，pre50宏AUC平均−.00304265、4负，宏LogLoss却略改善；固定LR参考交互NOT_TRIGGERED，与校准组TRIGGERED形成配置敏感性反例。详见 `V2_fixedSGD_and_interaction_sensitivity_analysis.md`。Q3“Adam普遍必要”被反驳，仍需继续Q4已触发的状态机制条件实验，未泛化所有LR/optimizer。
+
+
+校准交互的统一1–22窗口域/任务分解已实际完成并核验，见 `V11_joint_early_domain_task_interaction_analysis.md`。三个域及两个任务的平均AUC交互均4/4负；cell层保留d0t1、d2t0单seed反例。该结果仍是LR配置特定交互，状态因果拆解正在运行。

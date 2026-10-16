@@ -1,0 +1,12 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792185232.7852733,
+  "utility": "v3_factorial_contrasts_20261016.py",
+  "purpose": "Paired seed difference-in-differences of SB-SN gaps between prespecified factorial groups; all cells/domain/task/macro and both AUC/logloss. Reuses existing exact point/seed summaries; no new bootstrap arithmetic or training.",
+  "inputs": "Completed v3_marginal_statistics output made with --joint-window, its completed aggregate/manifest, explicit baseline group and full group list; all groups same seed set, primary seeds2022..2025 unless explicit extension.",
+  "estimands": "For each seed/split/readout/variable: (SB-SN)_condition-(SB-SN)_baseline; also report SN_condition-SN_base and SB_condition-SB_base. common_pre_AULC requires identical global horizon across all factorial groups; common epochs require identical epochs. Independently selected epochs retained but explicitly condition-dependent, never an equal-time causal contrast. All actual epoch/horizon and source budgets retained.",
+  "statistics": "Frozen r.paired_summary: deterministic 20000 paired seed bootstrap draws and exhaustive sign enumeration; no new mechanistic gate.",
+  "checks": "Completed sources and joint_window true, unique records, identical keys/seeds, common horizons exact; validate analytic contrasts against one direct raw-cell case and baseline self-contrast zero. Minimal arithmetic verification only.",
+  "review_before_run": true
+}

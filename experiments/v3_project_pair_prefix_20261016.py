@@ -11,6 +11,7 @@ import pandas as pd
 import v3_readout_20261016 as readout
 
 FROZEN_READOUT_SHA = '655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c'
+GPU_READOUT_SHA = '3e2024481c2a5f86a24c34b6a503c370a096f3bc7ec0b1c39694684998fa2900'
 base = readout.base
 
 
@@ -27,7 +28,11 @@ def main():
     parent = args.parent.absolute()
     receipt = json.loads((parent / 'receipt.json').read_text())
     assert receipt['status'] == 'COMPLETE'
-    assert receipt['source_sha'] == FROZEN_READOUT_SHA
+    assert receipt['source_sha'] in (FROZEN_READOUT_SHA, GPU_READOUT_SHA)
+    if receipt['source_sha'] == GPU_READOUT_SHA:
+        assert base.sha(source.with_name('v3_gpu_readout_20261016.py')) == GPU_READOUT_SHA
+        assert receipt['original_pair_serializer_sha'] == FROZEN_READOUT_SHA
+        assert receipt['compute_backend'] == 'CUDA_float64'
     assert receipt['freeze_sha'] == base.sha(readout.OUT / 'analysis_rules_frozen.json')
     for name in ('bootstrap_curves.npz', 'cell_trajectory.csv'):
         assert base.sha(parent / name) == receipt['hashes'][name], name
@@ -95,6 +100,7 @@ def main():
         design='prefix_bootstrap_cache_reuse_design.json', parent=str(parent),
         parent_receipt_sha=base.sha(parent / 'receipt.json'),
         parent_cache_sha=base.sha(parent / 'bootstrap_curves.npz'),
+        parent_compute_backend=receipt.get('compute_backend', 'CPU_numpy_float64'),
         serializer_sha=FROZEN_READOUT_SHA, epochs=count, sources=verified,
         bootstrap_weights_depend_on='seed, split, domain rows, replicate count; independent of epoch horizon',
         new_resampling=False, independent_replicates_added=False, test_access=False))

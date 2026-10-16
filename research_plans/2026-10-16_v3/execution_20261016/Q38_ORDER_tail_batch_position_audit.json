@@ -1,0 +1,87 @@
+{
+  "status": "PASS_ACTUAL500_ARM_EPOCHS",
+  "independent_review": false,
+  "time": 1792184541.8807309,
+  "runs": [
+    {
+      "seed": 2022,
+      "arm": "SN",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 47,
+      "producer_receipt_sha": "4e81f4942032138e2b3e21ef5e8d8015d3e04fdd4a632aa49544d0a6b28d105f"
+    },
+    {
+      "seed": 2022,
+      "arm": "SB",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 47,
+      "producer_receipt_sha": "14349cc550ee8e2604aa80626f8f56769f6b65da1dcdb0a2388d9d2224a33d83"
+    },
+    {
+      "seed": 2023,
+      "arm": "SN",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 49,
+      "producer_receipt_sha": "90783716079c7b5d14265e5fc4d0681d490d64ab39e26764fbee6a04d2798fd4"
+    },
+    {
+      "seed": 2023,
+      "arm": "SB",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 49,
+      "producer_receipt_sha": "b5320b83255373b23517e25b420624a0f5a2ff8546ff49959f968ff7f80da77e"
+    },
+    {
+      "seed": 2024,
+      "arm": "SN",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 47,
+      "producer_receipt_sha": "d583b0be6f1c7aaf5d9a3ec3080ab29978ace7ba484ebc9aa144edff611d22eb"
+    },
+    {
+      "seed": 2024,
+      "arm": "SB",
+      "epochs": 50,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 47,
+      "producer_receipt_sha": "c2884679f91bb71e653cb2e6b790e86a36a471f5b3d40221ae549a519dc733a0"
+    },
+    {
+      "seed": 2025,
+      "arm": "SN",
+      "epochs": 100,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 96,
+      "producer_receipt_sha": "01c8d746ae702e3ad28a7aaa96e3020baf8c7d29a67968d37baf8e3838b950b0"
+    },
+    {
+      "seed": 2025,
+      "arm": "SB",
+      "epochs": 100,
+      "full_batch": 40960,
+      "tail_batch": 40052,
+      "tail_position_changed_epochs": 96,
+      "producer_receipt_sha": "64317f5cb32ab0a3b1538be31417c4afc9a8d4efaf190b823fad9304c4da0c90"
+    }
+  ],
+  "total_arm_epochs": 500,
+  "tail_moved_arm_epochs": 478,
+  "tail_batch_relative_size": 0.97783203125,
+  "inverse_batch_size_variance_proxy_ratio": 1.022670528313193,
+  "same_tail_order_per_q_pair": true,
+  "interpretation": "Wholebatchreordering includes movingone2.22percent-shortertailbatch. Equal-sizeIIDexchangeability theorem DOESNOTdirectly applytofullproductionbatchvectors withdifferentcardinalityschedule. This isvalidsame-realized-batch-set order intervention, notpurecontent-orderholdingn_tfixed.",
+  "minimal_followup_if_blocking": "Keepone40052tailfixedatlaststep, permuteonly48full40960batches withsameRNGandseed. RequiredonlyifactualORDERdatawouldsupportablockingpurecontent-order/necessarymediatorclaim; otherwiseexplicitboundary,noextraexperiment.",
+  "classification": "Relevant to ORDERinterpretation; nottrainingimplementationbug, no data dropped, no model-outputrepair/test change."
+}
