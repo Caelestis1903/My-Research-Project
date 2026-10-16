@@ -1,3 +1,41 @@
-# v2 mechanism analysis — PENDING FORMAL RESULTS
+# v2 机制分析 — INTERIM_NOT_FINAL
 
-The independently rechecked historical Stage2D q-effect is evidence under its learned-fusion/two-optimizer protocol. Its Adam moments and exposure co-vary, so Adam-specific AUC mediation remains unestablished. v2 uses the plan-required fixed fusion/single optimizer and will measure that protocol boundary explicitly. No new v2 mechanism or novelty conclusion is asserted from partial trajectories. All P1–P9 obligations remain in the execution ledger; conditional branch stops will not silently close independent phases. Final evidence labels STRONG/MEDIUM/WEAK will attach to individual claims and their scope.
+本文件仍在更新。全部67项训练和最终审计尚未结束，不能据此认定本轮实验完成。下列 P1 读数来自完整的16项 Sample 实验；P2/P8 结果仍待实际训练完成。
+
+## 已确定的协议边界
+
+历史 Stage2D 的16项产物通过原始哈希、配对和预测数值审计，但其实际协议为 learned fusion / two optimizers。本轮遵循 v2 明文要求，使用 fixed fusion / single optimizer。新协议的复现强度不能倒推历史结果错误，也不能将历史 Adam 与本轮 SGD 当作严格配对。融合可学习性、优化器组织和具体随机实现的作用尚未分开。
+
+## P1：相同目标不意味着相同训练，但 Adam 必要性未成立
+
+验证集独立选择的 SB−SN AUC：Adam 为 −0.005556，3负1正，配对种子95%区间 [−0.012286,+0.005721]，MEDIUM；SGD 为 −0.002104，4负0正，区间 [−0.002478,−0.001680]，STRONG。两者的效应差区间跨零。Adam 的 selected LogLoss 则四种子均恶化；第10个共同 epoch 的 Adam AUC 也四种子一致为负。这不是“所有 sampling effect 消失”，也不能从两个均值的比例证明 Adam 必要。
+
+冻结的 A/B/C 判定为 Case C。原规划 section6 的独立条件仍被触发：SGD 稳定保留负效应，因此执行 SGD cyclic8 和 MovieLens-SGD8，并保留已规定的 Case C 最小 Adam cyclic8。P2-A 的 Adam 必要性前置条件未成立，正式 shadow 分解未触发；工程 oracle 的通过不等于已做完机制实验。
+
+SGD 的验证校准只搜索 [.1,1,10]，胜出 .1 为下边界。其基线水平和常在晚期达到最优的轨迹与 Adam 不同。优化制度、有限校准和未达到相同优化程度都是替代解释，不能把 SGD 较小的差异当作等效证明。
+
+## P3/P4：参数块与域任务异质性
+
+Adam 终点的 C/P/R/E 距离除以各自从共同初始化的平均位移，四种子均值分别约1.054/.142/1.154/.782；SGD 约.294/.248/.346/.470。共享表示和路由器存在更大分离，但并非只有 C 变化，且这种结构依赖 optimizer。参数距离和 reachability 只支持关联，不能证明共享表示必要。固定融合没有可训练 architecture scalar，路由器 R 也不是历史 fusion block。
+
+Adam selected AUC 的域均值差为 d0 +.002721、d1 −.011534、d2 −.007856。d1 和 d2 均四种子下降；d0 两升两降。两个较小域并不同向，不能使用“小域=困难”或“全部小域改善、大域下降”的单一叙事。四种子中没有两小域同时改善且大域下降的例子，只有两个种子出现某一个小域改善、大域下降。
+
+KuaiRand 训练域计数为172782/1743898/89452，验证域计数为2692/246232/1843；d0 第二任务仅101个验证正例。训练/验证域比例和正例率发生变化。只有三个物理域，探索性回归虽数值满秩，条件数约1.34万；seed/task 重复不是新的独立域。无法由此认定 size、difficulty、exposure 任一是主因。
+
+## P5：selection 是重要修饰项，不能吞并 trajectory
+
+Adam 的2023种子 SN/SB 都选 epoch40，正向差异在同一个时点存在。因此反向种子不能全部归因于各臂选择了不同 epoch。复用已保存的相同验证行 bootstrap，在这个固定时点得到区间约[−.00249,+.02693]；有限验证样本仍是合理解释。这是固定模型条件下的行不确定性，不能替代训练种子不确定性。
+
+其余种子中，Natural 选择时点上的 trajectory 差与独立 selected 差可明显不同。两个锚点的代数分解均保留，不能把其中一个锚点叫作唯一因果分解。200次 bootstrap 只在七个已保存可选 epoch 上计算，不能冒充完整50epoch重新选择的不确定性。
+
+## P6：几何测量已完成，scalar variance 因果解释尚未排除
+
+八项自然臂、初始/selected/终点的有限池探测均通过相同期望梯度和协方差PSD检查。Balanced 通常提高投影 trace 并降低 effective rank；C/P/R/E 结构不同。这还不足以排除 scalar variance、早期 coverage 或时间依赖的竞争解释。
+
+测量单位是每域八个32行微批、每块256个坐标，24个混合支持点的协方差秩最多23，不是全模型内在维度。原始字段 `batch40960_trace` 仅为这个诊断协方差除40960，聚合文件已明确更名；不能解释为实际40960行生产批次协方差。实际相邻梯度 cosine、分训练阶段的梯度范数相关和固定 theta 的合成 IID 自相关分开报告。
+
+## 尚在执行的独立义务
+
+P2循环遍历控制共同改变 repetition、coverage 和 temporal dependence；即使 gap 衰减，也不能声称 exposure 被单独识别。P7 的 Adam 第二环境已完成，selected 验证 AUC 四种子负向，均值−.005884；SGD 对应环境仍需完成，不能用 Adam 结果代替。P8 的 AdaTask 正式实验正在训练。D3/SAF 的权重目标检查属于机制替代控制，尚未建立完整方法复现或覆盖/不覆盖结论。
+
+最终必须重新审计全部训练，逐项回答 Q1–Q14，登记所有真实暴露的开放问题，完成 P9 反事实审查和 P10 GO/NO_GO，再生成终局报告与远程归档。

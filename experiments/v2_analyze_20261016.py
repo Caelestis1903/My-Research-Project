@@ -159,14 +159,15 @@ def analyze(phase='P1'):
     pairing=[]
     for dataset in a.dataset.unique():
         for seed in (2022,2023,2024,2025):
-            refs=[r for r in runs if r['dataset']==dataset and r['seed']==seed and r['variant']=='iid']
+            refs=[r for r in runs if r['dataset']==dataset and r['seed']==seed]
             if not refs:continue
             cfg=[json.loads((Path(r['run'])/'config.json').read_text()) for r in refs]
             assert len({c['init_sha'] for c in cfg})==1
             assert all(c['data']==cfg[0]['data'] for c in cfg)
-            for q in ('N','B'):
-                ts=[pd.read_csv(Path(r['run'])/'batch_trace.csv') for r in refs if r['arm'][1]==q]
-                assert all(t.row_ids_sha256.equals(ts[0].row_ids_sha256) for t in ts)
+            for variant in sorted({r['variant'] for r in refs}):
+                for q in ('N','B'):
+                    ts=[pd.read_csv(Path(r['run'])/'batch_trace.csv') for r in refs if r['arm'][1]==q and r['variant']==variant]
+                    assert all(t.row_ids_sha256.equals(ts[0].row_ids_sha256) for t in ts)
             pairing.append(dict(dataset=dataset,seed=seed,runs=len(refs),passed=True))
     pd.DataFrame(pairing).to_csv(target/'pairing_checks.csv',index=False)
     # Both timing anchors give exact algebra, not causal decomposition.

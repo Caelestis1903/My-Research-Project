@@ -54,6 +54,7 @@ def main():
     pd.DataFrame(normcorr).to_csv(target/'actual_lag1_gradient_norm_correlation.csv',index=False)
     dump(target/'geometry_receipt.json',dict(status='COMPLETE',probe_runs=len(geometry),source_sha256=sha(__file__),
         synthetic_temporal_rows=len(temporal),actual_training_stage_rows=len(actual),
+        finite_support_atoms=24,maximum_finite_pool_covariance_rank=23,
         full_coordinate_training_covariance_unmeasured=True,causal_variance_explanation_identified=False))
     print('P6 temporal and spectrum packet complete',len(temporal),len(actual))
 
