@@ -66,6 +66,40 @@ def main():
     pd.DataFrame(common).to_csv(A/'common_epoch_paired_differences.csv',index=False)
     pd.DataFrame(ranking).to_csv(A/'common_epoch_val_test_ranking.csv',index=False)
 
+    pairs=pd.read_csv(A/'selected_paired_differences.csv')
+    interactions=[]
+    for (seed,split),v in selected.groupby(['seed','split']):
+        v=v.set_index('arm')
+        for metric in [c for c in selected.columns if c.startswith(('auc_','logloss_'))]:
+            natural=v.loc['EN',metric]-v.loc['SN',metric]
+            balanced=v.loc['EB',metric]-v.loc['SB',metric]
+            interactions.append(dict(seed=seed,split=split,metric=metric,
+                equal_minus_sample_natural=natural,equal_minus_sample_balanced=balanced,
+                difference_of_differences=balanced-natural,
+                interpretation='SECONDARY_OBJECTIVE_BY_SAMPLING_INTERACTION_NOT_SAMPLING_ONLY'))
+    pd.DataFrame(interactions).to_csv(A/'objective_sampling_interaction.csv',index=False)
+    gates=[]
+    auc_cells=[f'auc_d{d}t{t}' for d in range(3) for t in range(2)]
+    ll_cells=[f'logloss_d{d}t{t}' for d in range(3) for t in range(2)]
+    for contrast,v in pairs[pairs.split=='validation'].groupby('contrast'):
+        assert len(v)==4
+        mean=float(v.auc_macro.mean());positive=int((v.auc_macro>0).sum())
+        guard_auc=bool((v[auc_cells].mean()>=-.003).all())
+        guard_seed=bool((v[auc_cells]>=-.005).all().all())
+        guard_ll=bool((v[ll_cells].mean()<=.010).all())
+        gates.append(dict(contrast=contrast,validation_selected_mean_auc_delta=mean,
+            positive_seeds=positive,practical_positive_seeds=int((v.auc_macro>=.003).sum()),
+            strong_positive_seeds=int((v.auc_macro>=.005).sum()),
+            practical_and_direction=bool(mean>=.003 and positive>=3),
+            strong_and_direction=bool(mean>=.005 and positive>=3),
+            cell_mean_auc_guard=guard_auc,individual_cell_auc_guard=guard_seed,
+            cell_mean_logloss_guard=guard_ll,all_nonharm_guards=guard_auc and guard_seed and guard_ll,
+            minimum_cell_mean_auc=float(v[auc_cells].mean().min()),
+            minimum_individual_cell_auc=float(v[auc_cells].min().min()),
+            maximum_cell_mean_ll=float(v[ll_cells].mean().max()),
+            scientific_decision='PENDING_PRIMARY_AGENT'))
+    (A/'frozen_threshold_readout.json').write_text(json.dumps(gates,indent=2)+'\n')
+
     exposure=pd.read_csv(A/'exposure_and_loss.csv');expected=[]
     counts=np.array([172782,1743898,89452]);n=counts.sum()
     for r in exposure.itertuples():
