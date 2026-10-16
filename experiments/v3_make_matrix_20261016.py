@@ -15,7 +15,7 @@ def main():
    fixed={'sgd':.1,'adam':.01}
    if lrs[opt]==fixed[opt]:directory=OUT/'runs'/f'V2__{dataset}__{opt}__{arm}__seed{seed}';reuse.append(str(directory));return directory
   command=[sys.executable,'experiments/v3_train_20261016.py','--dataset',dataset,'--seed',str(seed),'--optimizer',opt,'--lr',str(lrs['adam' if opt=='adatask' else opt]),'--arm',arm,'--epochs','50','--device','{device}','--run-dir',str(directory),*extra]
-  tasks.append(dict(name=name,command=command,log=str(directory/'stdout.log'),reservation_mib=3000 if '--batch-size' in extra else 1900));return directory
+  tasks.append(dict(name=name,command=command,log=str(OUT/'logs'/(name+'.log')),reservation_mib=3000 if '--batch-size' in extra else 1900));return directory
  def paired(group,opt,extra=None,dataset='kuairand',baseline=False):
   for seed in audit.SEEDS:
    runs=[add(group,opt,seed,arm,extra,dataset,baseline) for arm in ('SN','SB')]

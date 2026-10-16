@@ -1,0 +1,30 @@
+{
+  "status": "COMPLETE_PRIMARY_VERIFIED_AND_ANALYZED",
+  "raw_runs": 8,
+  "verification": "analysis/V1_task_verified/receipt.json",
+  "max_half_sum_residual": 1.535514884419195e-05,
+  "numeric_tolerance": "per-domain norm atol1e-6 + rtol1e-4, all8runs/24domains PASS",
+  "coordinate_scope": "all1,614,254coordinates, complete empirical domain-task populations, oldV2epoch10SNtheta",
+  "summaries": [
+    {
+      "optimizer": "adam",
+      "n_seeds": 4,
+      "task_cosine_min": 0.2738480961817433,
+      "task_cosine_max": 0.4261544707495184,
+      "positive": 4,
+      "negative": 0
+    },
+    {
+      "optimizer": "sgd",
+      "n_seeds": 4,
+      "task_cosine_min": 0.1110542953772403,
+      "task_cosine_max": 0.2880209787812795,
+      "positive": 4,
+      "negative": 0
+    }
+  ],
+  "evidence_strength": "MEDIUM",
+  "conclusion": "At these epoch10theta total weighted cross-task gradients align positively for both optimizers/all4seeds; cross-task conflict is not universal. Domain/block-specific negative cosines may coexist. This is a direction observation, not an explanation of SN/SB performance or a domain-difficulty ranking.",
+  "covariance_or_necessity_claim": false,
+  "next": "V5factorcontrols and V7local interventions still required; no fullgradient-derived causal claim"
+}
