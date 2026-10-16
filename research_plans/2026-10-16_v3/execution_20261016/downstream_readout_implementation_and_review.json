@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_SELF_REVIEW",
+  "independent_review": false,
+  "design": [
+    "design_specification.md",
+    "analysis_budget_addendum.md",
+    "local_diagnostic_design_addendum.md",
+    "interaction_readout_addendum.md"
+  ],
+  "sources": {
+    "experiments/v3_readout_20261016.py": "655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c",
+    "experiments/v3_aggregate_20261016.py": "8817b6fc3a3015b4472b479bc0c593a8d8f6f39035bbaacd861e634165c99352",
+    "experiments/v3_make_matrix_20261016.py": "bbf0146750d0b2505b230b0255120667997f7443178c0665c814240b8726cbe3",
+    "experiments/v3_sampler_readout_20261016.py": "d38b7e8f156a6d56660861df8084e221e0d7f52f3975654daf59b0fe244bf9b2",
+    "experiments/v3_cell_audit_20261016.py": "7d97cea88c1ebe23e2c0a7b00223eb7093d725a033757a81c760fafd8f2e866d",
+    "experiments/v3_interaction_20261016.py": "6bee38d3f111d651a153ca17180d5491f83698180b3e27dc265c9f6609142e77"
+  },
+  "basic_checks": "syntax PASS; cached bootstrap expanded-row numerical oracle PASS; prior WR/PERM domain-sequence and same-batch replay identity PASS",
+  "review_findings": [
+    "No new training algorithm or frozen dependency changed",
+    "Common-selected epochs and absolute arm endpoints retained",
+    "Repeated AULC horizons deduplicated before paired merge",
+    "Interaction uses same pre-degradation interval across all16trajectories, no different-window interaction",
+    "Cell objective contribution recomputed using same BCE operator as training",
+    "Finalist fourseed runs separate from calibration; exactly matching existing formal V2 runs reusable",
+    "PERM quotas verified at every row position; ORDER requires identical exact stored batches",
+    "Domain-weighted cell AUC explicitly distinct from pooled AUC"
+  ],
+  "formal_numerical_execution": "PENDING, not represented as complete",
+  "source_hash_refresh_required_before_readout": false,
+  "final_numerical_checks": [
+    "bootstrap_cache_oracle.json",
+    "onset_semantics_check.json"
+  ],
+  "analysis_rules_sha": "8c91f64f2b55a06221f9900bbd00b2b8d8c2fd3b993c3855eb00b57a5e5ce91a"
+}

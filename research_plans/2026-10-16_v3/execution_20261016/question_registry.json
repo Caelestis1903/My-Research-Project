@@ -202,6 +202,26 @@
       "conclusion": "R/towers cell-private; slots domain-specific/task-shared; C/E tensor sharing across6cells. Correct necessity interventions accordingly.",
       "remaining_uncertainty": "Performance necessity remainsQ6/Q22, coordinate sparsity differs from tensor sharing",
       "next_action": "Run mechanical gradient-support audit after V1 / during approved training only within CPU resource budget"
+    },
+    {
+      "id": "Q30",
+      "question": "Adam calibration winner is at the lower boundary of the preregistered grid; is a globally optimal LR established?",
+      "origin": "V4 calibration_pilot_scores.csv",
+      "observation": "Adam .003 wins among .003/.01/.03/.1 on two selection-only pilotseeds; SGD .3 wins inside .03/.1/.3/1 grid",
+      "why_it_matters": "Optimizer magnitude comparisons must be conditional on finite-grid calibrated configurations, not global-optimum or state-only claims",
+      "candidate_explanations": [
+        "True optimum below .003",
+        "20epoch pilot learning-speed/regularization tradeoff",
+        "Selection noise with two training seeds"
+      ],
+      "blocking": false,
+      "minimal_discriminating_experiment": "Completed prescribed16 pilots; separate4seed full-budget finalist and fixed-reference runs now authorized. Expanding one lower LR neighbor under a new preregistered validation-only design would test that neighbor but cannot prove a continuous global optimum.",
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "evidence": "calibration_frozen.json; calibration_grid_summary.csv",
+      "conclusion": "Finite-grid winner established by frozen rule; global LR optimality not identified and not claimed.",
+      "remaining_uncertainty": "Pilot selection uncertainty and continuous-grid optimum; no diagnostic/test used",
+      "next_action": "Report finite-grid scope; analyze separate fourseed formal finalists without reselection of LR"
     }
   ]
 }

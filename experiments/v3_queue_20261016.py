@@ -12,7 +12,7 @@ def write(path,obj):
     temp=path.with_suffix('.tmp');temp.write_text(json.dumps(obj,indent=2));temp.replace(path)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--preceding-status',type=Path,action='append',default=[]);a=p.parse_args()
     lock=a.manifest.with_suffix('.lock').open('w');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     manifest=json.loads(a.manifest.read_text());tasks=manifest['tasks'];status=a.manifest.with_suffix('.status.json')
     completed={};active={}
@@ -29,10 +29,17 @@ def main():
         pending=[t for t in tasks if t['name'] not in completed and t['name'] not in active]
         mem=subprocess.check_output(['nvidia-smi','--query-gpu=index,memory.total,memory.used','--format=csv,noheader,nounits'],text=True)
         devices={int(row.split(',')[0]):[float(x) for x in row.split(',')[1:]] for row in mem.strip().splitlines()}
+        external=[];prior_pending=False
+        for preceding in a.preceding_status:
+            prior=json.loads(preceding.read_text())
+            prior_pending=prior_pending or any(x['status']=='PENDING' for x in prior['tasks'].values())
+            external.extend(x for x in prior['tasks'].values() if x['status']=='RUNNING' and Path(f'/proc/{x["pid"]}').exists())
+        external=list({x['pid']:x for x in external}.values())
         for task in pending:
+            if prior_pending:break
             choices=[]
             for gpu,(total,used) in devices.items():
-                count=sum(x[1]==gpu for x in active.values())
+                count=sum(x[1]==gpu for x in active.values())+sum(x['gpu']==gpu for x in external)
                 # Include reservation for children still importing/initializing, admission per device.
                 reserved=count*manifest.get('reservation_mib',1800)
                 estimate=max(used,reserved)+task.get('reservation_mib',manifest.get('reservation_mib',1800))
@@ -46,7 +53,7 @@ def main():
         current={**completed,**{name:dict(status='RUNNING',gpu=value[1],pid=value[0].pid,command=value[3],started=value[4]) for name,value in active.items()}}
         for task in tasks:
             if task['name'] not in current:current[task['name']]=dict(status='PENDING')
-        write(status,dict(status='RUNNING' if active else 'COMPLETE',queue_pid=os.getpid(),time=time.time(),tasks=current))
+        write(status,dict(status='RUNNING' if active else ('WAITING_PREDECESSOR_OR_CAPACITY' if pending else 'COMPLETE'),queue_pid=os.getpid(),time=time.time(),tasks=current))
         if len(completed)==len(tasks):break
         time.sleep(10)
     return 1 if any(x['status']=='FAILED' for x in completed.values()) else 0

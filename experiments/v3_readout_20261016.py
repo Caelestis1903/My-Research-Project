@@ -58,16 +58,22 @@ def selection_indices(curves):
         early_auc_1_10=np.argmax(curves[...,:10,0],axis=-1),fixed_budget=np.full(shape,curves.shape[-2]-1,dtype=int))
 
 def onset(point,boot,train_objective):
-    e=len(point)
+    e=len(point);first=None;confirmation=None
     for start in range(1,e-2):
         peak=int(np.argmax(point[:start,0]));window=np.arange(start,start+3)
         uncertainty=np.quantile(boot[:,window,0]-boot[:,peak,None,0],.975,axis=0)
         if np.all(point[window,0]<point[peak,0]) and np.all(uncertainty<0):
             ll_worse=bool(np.all(point[window,1]>point[peak,1]))
             loss_down=bool(train_objective[start+2]<train_objective[peak])
-            return dict(auc_degradation_onset=start+1,peak_epoch=peak+1,confirmed_overfitting=ll_worse and loss_down,
-                logloss_worse=ll_worse,train_objective_decreased=loss_down)
-    return dict(auc_degradation_onset=None,peak_epoch=None,confirmed_overfitting=False,logloss_worse=False,train_objective_decreased=False)
+            if first is None:first=dict(auc_degradation_onset=start+1,peak_epoch=peak+1,
+                logloss_worse_at_first_degradation=ll_worse,train_objective_decreased_at_first_degradation=loss_down)
+            if ll_worse and loss_down:
+                confirmation=dict(onset=start+1,peak_epoch=peak+1);break
+    if first is None:first=dict(auc_degradation_onset=None,peak_epoch=None,
+        logloss_worse_at_first_degradation=False,train_objective_decreased_at_first_degradation=False)
+    return dict(**first,confirmed_overfitting=confirmation is not None,
+        confirmed_overfitting_onset=None if confirmation is None else confirmation['onset'],
+        confirmation_peak_epoch=None if confirmation is None else confirmation['peak_epoch'])
 
 def paired_summary(values,seed=20261016):
     values=np.asarray(values,dtype=float);rng=np.random.default_rng(seed);n=len(values)
@@ -81,14 +87,22 @@ def pair(args):
     freeze=json.loads((OUT/'analysis_rules_frozen.json').read_text());assert freeze['status']=='FROZEN' and freeze['test_used_to_choose_conditions'] is False
     out=args.out;out.mkdir(parents=True,exist_ok=False);configs=[json.loads((p/'config.json').read_text()) for p in (args.natural,args.balanced)]
     assert configs[0]['arm']=='SN' and configs[1]['arm']=='SB'
-    for key in ('dataset','seed','optimizer','lr','batch_size','replacement','order','duplication','corruption','init_sha256','split_sha256','data'):
+    receipts=[json.loads((p/'receipt.json').read_text()) for p in (args.natural,args.balanced)]
+    assert all(r['status']=='COMPLETE_TRAINING_TEST_DEFERRED' for r in receipts)
+    assert all(not c['smoke'] for c in configs)
+    for key in ('epochs','steps','examples'):assert receipts[0][key]==receipts[1][key],key
+    for key in ('dataset','seed','optimizer','lr','batch_size','replacement','order','duplication','corruption','init_sha256','split_sha256','data','source_hashes'):
         assert configs[0][key]==configs[1][key],f'Pair mismatch {key}'
     dataset=configs[0]['dataset'];seed=configs[0]['seed'];b=audit.bundle(dataset,seed)
     frozen=np.load(OUT/'splits'/f'{dataset}_seed{seed}.npz');domains=b.val_x[:,-1].astype(int)
     directories=(args.natural,args.balanced);files=[sorted(p.glob('validation_epoch*.npz')) for p in directories]
     epochs=[int(p.stem.split('epoch')[1]) for p in files[0]]
     assert epochs==[int(p.stem.split('epoch')[1]) for p in files[1]]
-    assert epochs==list(range(1,len(epochs)+1)) and len(epochs)>=50
+    assert epochs==list(range(1,len(epochs)+1)) and len(epochs)>=50 and len(epochs)==receipts[0]['epochs']
+    for paths,receipt in zip(files,receipts):
+        for path in paths:assert base.sha(path)==receipt['artifact_hashes'][path.name],f'Prediction hash mismatch {path}'
+    for directory,receipt in zip(directories,receipts):
+        for name in ('config.json','trajectory.csv'):assert base.sha(directory/name)==receipt['artifact_hashes'][name],name
     predictions=np.array([[np.load(p)['predictions'] for p in paths] for paths in files])
     rows=[];point=np.empty((2,2,len(epochs),2))
     for split_index,split in enumerate(('selection','diagnostic')):
@@ -125,7 +139,7 @@ def pair(args):
             if epoch in epochs:
                 i=epochs.index(epoch)
                 for j,metric in enumerate(('auc','logloss')):summaries.append(dict(split=split,readout=f'common_epoch{epoch}',metric=metric,SN=float(point[split_index,0,i,j]),SB=float(point[split_index,1,i,j]),difference=float(point[split_index,1,i,j]-point[split_index,0,i,j])))
-        for horizon in (10,20,stop):
+        for horizon in dict.fromkeys((10,20,stop)):
             if horizon<=0:continue
             h=min(horizon,len(epochs))
             for j,metric in enumerate(('auc','logloss')):
@@ -133,21 +147,27 @@ def pair(args):
                 summaries.append(dict(split=split,readout=f'AULC_1_{h}',metric=metric,SN=float(np.mean(point[split_index,0,:h,j])),SB=float(np.mean(point[split_index,1,:h,j])),difference=float(np.mean(point[split_index,1,:h,j]-point[split_index,0,:h,j]))))
         for rule,ix in selection_indices(point[0]).items():
             for j,metric in enumerate(('auc','logloss')):summaries.append(dict(split=split,readout=f'selected_{rule}',metric=metric,SN=float(point[split_index,0,ix[0],j]),SB=float(point[split_index,1,ix[1],j]),difference=float(point[split_index,1,ix[1],j]-point[split_index,0,ix[0],j])))
+            for selecting_arm,index in zip(('SN','SB'),ix):
+                for j,metric in enumerate(('auc','logloss')):summaries.append(dict(split=split,readout=f'common_{selecting_arm}_selected_{rule}',metric=metric,SN=float(point[split_index,0,index,j]),SB=float(point[split_index,1,index,j]),difference=float(point[split_index,1,index,j]-point[split_index,0,index,j])))
     pd.DataFrame(summaries).to_csv(out/'paired_readouts.csv',index=False)
     base.dump(out/'receipt.json',dict(status='COMPLETE',seed=seed,dataset=dataset,optimizer=configs[0]['optimizer'],
-        source_runs=list(map(str,directories)),onsets=onsets,selection_onsets=selection_onsets,optimization_budget=budget,common_pre_degradation_epochs=stop,bootstrap_count=args.bootstraps,
+        source_sha=base.sha(__file__),freeze_sha=base.sha(OUT/'analysis_rules_frozen.json'),source_run_receipt_sha=[base.sha(p/'receipt.json') for p in directories],source_runs=list(map(str,directories)),selected_epochs={rule:{arm:epochs[int(index)] for arm,index in zip(('SN','SB'),ix)} for rule,ix in selection_indices(point[0]).items()},onsets=onsets,selection_onsets=selection_onsets,optimization_budget=budget,common_pre_degradation_epochs=stop,bootstrap_count=args.bootstraps,
         bootstrap_unit='domain-stratified validation rows, paired across arms epochs tasks',seed_uncertainty_separate=True,
         hashes={p.name:base.sha(p) for p in out.iterdir() if p.is_file()}))
 
 def test(args):
-    frozen=json.loads((OUT/'analysis_rules_frozen.json').read_text());assert frozen['status']=='FROZEN'
-    directory=args.natural;config=json.loads((directory/'config.json').read_text());assert frozen.get('all_condition_definitions_frozen') is True;assert (directory/'receipt.json').exists()
+    frozen=json.loads((OUT/'analysis_rules_frozen.json').read_text());assert frozen['status']=='FROZEN' and frozen['test_used_to_choose_conditions'] is False
+    global_freeze=json.loads((OUT/'test_readout_frozen.json').read_text());assert global_freeze['status']=='FROZEN' and global_freeze['all_condition_definitions_frozen'] is True
+    assert global_freeze['analysis_rules_sha']==base.sha(OUT/'analysis_rules_frozen.json')
+    directory=args.natural;config=json.loads((directory/'config.json').read_text());assert (directory/'receipt.json').exists()
+    producer=json.loads((directory/'receipt.json').read_text())
     device=torch.device(args.device);torch.set_num_threads(2)
     if device.type=='cuda':torch.cuda.set_device(device)
     b=audit.bundle(config['dataset'],config['seed']);train.corruption(b,config['corruption'],int(np.argmin(config['p'])))
     model=base.fixed_model(b,config['seed']).to(device)
     rows=[];epochs=[]
     for path in sorted(directory.glob('epoch*_model.pt')):
+        assert base.sha(path)==producer['artifact_hashes'][path.name],f'Model hash mismatch {path}'
         state=torch.load(path,map_location='cpu',weights_only=False);model.load_state_dict(state['model'],strict=True)
         predictions=train.predict(model,b,'test',device);epoch=state['epoch'];epochs.append(epoch)
         np.savez_compressed(directory/f'test_epoch{epoch:03d}.npz',predictions=predictions)
@@ -155,7 +175,7 @@ def test(args):
         for row in cells:row.update(epoch=epoch,split='test',arm=config['arm'],seed=config['seed']);rows.append(row)
     pd.DataFrame(rows).to_csv(directory/'metrics_test.csv',index=False)
     base.dump(directory/'test_readout_receipt.json',dict(status='COMPLETE',epochs=epochs,freeze_sha=base.sha(OUT/'analysis_rules_frozen.json'),
-        test_previously_exposed=True,hashes={p.name:base.sha(p) for p in directory.glob('test_epoch*.npz')}))
+        test_global_freeze_sha=base.sha(OUT/'test_readout_frozen.json'),source_sha=base.sha(__file__),test_previously_exposed=True,hashes={p.name:base.sha(p) for p in directory.glob('test_epoch*.npz')}))
 
 def check(args):
     from stage_S1_metrics import safe_auc

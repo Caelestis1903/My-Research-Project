@@ -14,19 +14,27 @@
     "receipt": "V1_decision.json"
   },
   "V2": {
-    "status": "AUTHORIZED",
+    "status": "RUNNING",
     "required": true,
     "manifest": "trajectory_manifest.json",
     "primary_runs": 16
   },
   "V3": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "RULES_FROZEN_WAITING_COMPLETE_MATCHED_TRAJECTORIES",
+    "required": true,
+    "rules": "analysis_rules_frozen.json"
   },
   "V4": {
-    "status": "PILOTS_AUTHORIZED_SELECTION_ONLY",
+    "status": "PILOTS_COMPLETE_CALIBRATION_FROZEN_FINALISTS_AND_BATCH_AUTHORIZED",
     "required": true,
-    "pilot_runs": 16
+    "pilot_runs": 16,
+    "selected_lr": {
+      "adam": 0.003,
+      "sgd": 0.3
+    },
+    "manifest": "V4_training_manifest.json",
+    "formal_runs": 24,
+    "receipt": "calibration_frozen.json"
   },
   "V5": {
     "status": "PENDING_DEPENDENCIES",
@@ -34,7 +42,8 @@
   },
   "V6": {
     "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "required": true,
+    "task_direction_supplement": "8CPUtasks RUNNING afterV1PASS; no causal upgrade beforeV5"
   },
   "V7": {
     "status": "PENDING_DEPENDENCIES",

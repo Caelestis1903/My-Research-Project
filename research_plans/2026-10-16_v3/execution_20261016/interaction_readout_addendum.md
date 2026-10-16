@@ -1,0 +1,9 @@
+# Interaction endpoint and independence scope — frozen before diagnostic readout
+
+V11 primary interaction gate uses diagnostic AULC over one COMMON pre-degradation window across both optimizers, both sampling arms and all four seeds. The window ends before the earliest preregistered AUC-degradation onset among these trajectories; no optimizer gets its own different time interval for the interaction. Its criterion remains >=3/4 same direction, paired seed bootstrap95%CI excluding zero and absolute mean>=.003. All common-epoch, 1..10/1..20 AULC, independently selected and common-selected interactions are retained as sensitivity readouts, with no scan for a favorable epoch. A large contradictory secondary interaction is registered as a new question rather than silently replacing this gate.
+
+Report fixed reference LRs and recalibrated finalists separately. Optimizer comparisons with optimizer-specific calibrated LR are comparisons of optimizer configurations, not an isolated causal intervention on Adam's state. Even a triggered interaction requires a new controlled design to separate state from step magnitude/budget; it does not by itself prove Adam necessity.
+
+Diagnostic readout is post-hoc. A diagnostic interaction may open the preregistered mechanism-analysis branch V11, but never choose a predictive method's LR, architecture, corruption strength or checkpoint. Any new predictive/architecture condition is chosen on selection rows and frozen before test. Test is withheld until all training conditions and questions are frozen; no test-guided continuation.
+
+Pilot runs remain calibration-only. Finalist four-seed training is separate even when a pilot uses the same seed; the eight fixed-LR V2 pairs may be reused only when their entire configuration matches a finalist, as allowed for already existing identical formal experiments. No pilot score is counted as an extra training replicate.
