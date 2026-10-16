@@ -17,7 +17,9 @@ def main():
         en=pd.read_csv(nr/'exposure.csv');eb=pd.read_csv(br/'exposure.csv')
         norms=OUT/'probes'/dataset/opt/f'seed{seed}'/'task_gradient_norms.csv'
         covariances=norms.with_name('task_covariance.csv')
-        grad=pd.read_csv(norms) if norms.exists() else None;cov=pd.read_csv(covariances) if covariances.exists() else None
+        # Never attach IID selected-theta geometry to a cyclic trajectory.
+        grad=pd.read_csv(norms) if variant=='iid' and norms.exists() else None
+        cov=pd.read_csv(covariances) if variant=='iid' and covariances.exists() else None
         for d in range(3):
             exp_n=float(en[f'exposure_d{d}'].sum());exp_b=float(eb[f'exposure_d{d}'].sum())
             for t in range(2):

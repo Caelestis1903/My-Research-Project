@@ -98,13 +98,24 @@ def audit_run(run):
         checks.append(dict(run=str(run),file=filename,match=sha(run/filename)==h));assert checks[-1]['match'],checks[-1]
     for source,h in c['source_hashes'].items():assert sha(OUT.parents[2]/source)==h,(source,'source drift')
     v=pd.read_csv(run/'metrics_epoch.csv');assert len(v)==6*(c['epochs']+1)
+    assert set(v.epoch)==set(range(c['epochs']+1)) and not v.duplicated(['epoch','domain','task']).any()
+    train_count=sum(c['data']['train_domain_counts'].values());steps_per_epoch=math.ceil(train_count/c['batch_size'])
+    assert np.array_equal(v.steps.to_numpy(),v.epoch.to_numpy()*steps_per_epoch)
+    trace=pd.read_csv(run/'batch_trace.csv');assert len(trace)==c['epochs']*steps_per_epoch
+    assert not trace.duplicated(['epoch','batch']).any() and set(trace.epoch)==set(range(1,c['epochs']+1))
+    assert (trace[['d0','d1','d2']].sum(axis=1)==trace.n).all()
+    assert (trace.groupby('epoch').n.sum()==train_count).all()
+    assert c['optimizer_count']==1 and c['learned_fusion'] is False and c['darts'] is False
+    assert np.isfinite(trace[['weighted_loss','unweighted_bce']].to_numpy()).all()
     select=json.loads((run/'selection_frozen.json').read_text());epoch=int(v[v.epoch>0].groupby('epoch').auc.mean().idxmax())
     assert epoch==select['selected_epoch'] and select['test_access_started'] is False
     for split,ref in [('validation',v[v.epoch==epoch]),('test',pd.read_csv(run/'metrics_test.csv').query("checkpoint=='selected'"))]:
         bind_prediction_to_data(run/(split+'_selected.npz'),c['dataset'],split)
         calc=cells_from_prediction(run/(split+'_selected.npz')).sort_values(['domain','task']);ref=ref.sort_values(['domain','task'])
         for field in ('auc','logloss'):assert np.max(np.abs(calc[field].to_numpy()-ref[field].to_numpy()))<1e-10
-    return c,v,pd.read_csv(run/'metrics_test.csv'),checks
+    test=pd.read_csv(run/'metrics_test.csv')
+    assert len(test)==6*9 and not test.duplicated(['checkpoint','domain','task']).any()
+    return c,v,test,checks
 
 
 def analyze(phase='P1'):
