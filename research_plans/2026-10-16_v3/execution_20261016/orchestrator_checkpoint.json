@@ -9,14 +9,16 @@
   "runner": "/root/mechanical_runner",
   "python": "/home/xzf/miniconda3/envs/phase0-3-env/bin/python",
   "active": {
-    "GPU_queue_pid": 82360,
-    "GPU_manifest": "trajectory_manifest.json",
-    "CPU_queue_pid": 88131,
-    "CPU_manifest": "task_gradient_manifest.json",
-    "stage": "V1 COMPLETE/PASS; 32 trajectory tasks active; 8 missing exact domain-task gradients active CPU2",
-    "CPU_readout_pid": 93882,
-    "CPU_readout_manifest": "V2_readout_manifest.json",
-    "V4_queue": "authorized24, runner waits trajectorypending0 then starts with --preceding-status; notyetstarted"
+    "GPU_original_queue_pid": "FINISHED32/32COMPLETE",
+    "GPU_original_manifest": "trajectory_manifest.json all16pilots+16V2COMPLETE",
+    "GPU_V4_queue_pid": 101915,
+    "GPU_V4_manifest": "V4_training_manifest_attempt2.json --preceding-status trajectory_manifest.status.json; totaloriginal+V4<=5/GPU, confirmed",
+    "CPU_V2_readout_pid": 93882,
+    "CPU_V2_manifest": "V2_readout_manifest.json max2; firsttwo pairs calculating1000bootstrap",
+    "CPU_V4_readout_pid": 103456,
+    "CPU_V4_manifest": "V4_readout_manifest.json max4; firstfour wait fortraining. max6activecompute acrossreadoutqueues, threads2, observed32cores/MemAvailable44GB",
+    "CPU_task_gradient": "8/8COMPLETE PASS and primary v3_verify_tasks COMPLETE PASS; no longeractive",
+    "CPU_V2_readout_status": "first2fixedAdam22/23COMPLETE; fixedAdam24/25running. Seed23diag AULC1..10-.006914,1..20-.007499 butselected+.008719; firstdegrade41 confirmedoverfit43 inSN only. SINGLESEEDpartial, no cohortconclusion."
   },
   "preserved": "original user root alluntracked/noHEAD; oldv2worktree dirty untouched; separateworktree fromoriginmain. Newv3plans copied to root and execution subdir symlink; runs symlink /home_new/xzf_phase0_3_v3_artifacts_20261016 (1.5TBfree)",
   "important": [
@@ -29,10 +31,12 @@
     "Latestuncommitted independentutilities need finalsourcehashrefresh/selfreviewbeforeformalreadout. 6c87825committedpriorversion. Latestfixedreadout deduplicateshorizons/verifiescompletereceipts/fullbudgets/commonselected; bootstraporaclePASS oncacheversion",
     "Frozeninteraction_readout_addendum writtenbeforediagnostic, allreadoutskeepcounterexamples. No methodorLRdecisionsfromdiagnostic/test",
     "Userrequirescontinueuntilcomplete; longtrainingisnotpermissiontostop. Atmost5processperGPUand<90%memory;queuecountsownchildrenonly, neverlaunchsecondGPUqueueconcurrently. CPUqueuesmax2independent safe",
-    "V5/V8/V9/V10 manifests preparedonly; beforeRUN adapt epochs to finalized commonbaselinebudgets, reviewdelta. matched_budget_control_addendum enforces commonexamples acrossfactors. Test stillblockeduntilallconditionalbranches/questionsfrozen."
+    "V5/V8/V9/V10 manifests preparedonly; beforeRUN adapt epochs to finalized commonbaselinebudgets, reviewdelta. matched_budget_control_addendum enforces commonexamples acrossfactors. Test stillblockeduntilallconditionalbranches/questionsfrozen.",
+    "TaskAdam import monkeypatches base.sources to include itsownv2_adatask file; reviewedexplicitly, so frozen trainingalreadycaptures thatoptimizer source. No extra source change needed.",
+    "bootstrap_uncertainty_scope.md: diagnostic-at-reselectedquantiles reflectselection-epochuncertaintyonly, notdiagnosticrowCI. Fixedruledegeneratebyconstruction. No onset detected is notproofnooverfit."
   ],
   "next": [
-    "Finish16pilot -> selection-only freeze score mean best macroAUC across2022/23 tie lowerLR, no pilot-primary mixing. v3_make_matrix --phase V4 creates fresh8/opt finalists unless formalV2 exact reuse; B2primarySGD8runs",
+    "Calibrated Adam.003 /SGD.3 frozen in calibration_frozen.json.16pilotsarchived/committed. V2fixedrefs.01/.1 stillretained. V4freshfinalists16+batch2B8runningattempt2; pilotsnotmixedwithprimary.",
     "Freeze analysis_rules_frozen.json with all preset rules andLR aftercalibration; all_condition_definitions_frozen FALSE keeps test blocked until conditional investigations fixed",
     "CompleteV2full50pairs, CPUreadout v3_readout --mode pair --bootstraps1000 (ordinarydomainstratified rowbootstrap;cachedranks numericaloraclePASS). Selected/common-selected/fixed/early/loss/AULC, absolute and deltas; selection and diagnostic separated",
     "V4 extension receipt optimization_budget from train andSELECTIONonsets only. Botharms extend by50 if either required; source af6 remains immutable. Actual contiguousepochcount pairvalidation supportsresume originalconfigepochs",
@@ -47,15 +51,24 @@
     "V12CF1..6 V13all10GOelseNO_GO, noGOdoesnotwaiveblockingQs. Finalallconditions/questionsfreeze BEFORE deferredtestall50/extendedmodelpreds. v3_readout test requires all_condition_definitions_frozen true",
     "V14threefullreports+FINALschema/registry/literature/decision; compactCSVJSONconfigs/hashes/plots archive, nohugeweights/preds/gradients inGit. Commit/push exactremoteverify. Do not endturnbeforewholeplan/genuinefinalstop"
   ],
-  "updated_unix": 1792168535.9038048,
+  "updated_unix": 1792170463.2512293,
   "last_training_freeze_commit": "0f83141",
   "training_source_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
   "V1_decision": "V1_decision.json",
-  "last_committed_milestone": "b9107d9eaade0b01c0fea20fdc2cd002f78b5844",
-  "last_verified_remote_commit": "b9107d9eaade0b01c0fea20fdc2cd002f78b5844",
+  "last_committed_milestone": "42b4864056373680a9f1f4f32b2c683b668e361d",
+  "last_verified_remote_commit": "42b4864056373680a9f1f4f32b2c683b668e361d",
   "calibrated_lr": {
     "adam": 0.003,
     "sgd": 0.3
   },
-  "analysis_rules": "analysis_rules_frozen.json immutable; readoutsource frozen; separate test_readout_frozen.json NOT EXISTS/NO TEST AUTH"
+  "analysis_rules": "analysis_rules_frozen.json immutable; readoutsource frozen; separate test_readout_frozen.json NOT EXISTS/NO TEST AUTH",
+  "pending_push_session": null,
+  "engineering_failure": "V4attempt1 logpaths were inside fresh trainer-owned run_dir:8startup failures beforemodelinit. Scheduler100859SIGTERM only, all8dirs preserved archive/failed_starts/V4_attempt1, originalmanifest/status notoverwritten. Postmortem+fixreview+attempt2manifestcommitted42b486. Retrycommand scientificargs identical24/24, onlylogs movedOUT/logs. Actualattempt2progress/initialweights confirmed, noFileExistsError.",
+  "V1_task_direction": "All8oldV2epoch10full domain-task gradients independently verified rawNPZ/checkpoint hashes, fullvectornorm/cosCSV. Maxhalf-sumresidual1.5355e-5 withinatol1e-6+rtol1e-4 per-domain bound. ALLtrain-p-weightedtaskcos all8positive SGD.1111..2880 Adam.2738..4262, individualdomainnegativeexceptions. NoAUCinference.",
+  "first_completed_V2_pair": "analysis/V2readout__adam__seed2022__until050/receipt.json: no diagnostic onset detected eitherarm, selectionSBoverfit22 butSNnone. Bothtrainrelativegain<.005 ->NO extension for this fixedAdam pair by frozencriterion. diagnostic earlyAULC1..10 -.012875,1..20 -.013620, selectedAUC-.009710. SINGLESEEDONLY, no cohortconclusion. 600selectioncellmetrics exactmatchproducerCSV.",
+  "partial_fixedAdam": "all8fixedAdam50complete: selectionselecteddeltas[-.00832164,+.00846445,-.01352542,-.01540282] mean-.00719636 seed95CI[-.0144641,+.00296698], p=.375; fixed50twopos/twoneg mean-.00551593 CIcrossbroad. Savedanalysis/V2_fixedAdam_selection_only*. NOTdiagnostic/testgeneralizationconclusion.",
+  "Q31": "RegisteredPENDINGnonblocking pilotseedsoverlapfinalistcohort; v3_pilot_prefix_audit.py ready forafterformalSNfinalistcomplete. Verifyseed/init/source/exact20epochdrawprefix, thenconditionalLRselectionuncertaintyBOUNDARY; nevercountpilotsextraseeds.",
+  "Q32": "RESOLVED STRONG via existingartifact audit, historical_SGD_reconciliation_decision.json. All8runs 2450batches each, init/data/base-source hashes, online losses exactlysame; model10/50 andoldselectedepochpreds bit-identical. OldfullvalDelta-.00210445 ->sameoldtheta onnewhalf-.00018125 ->newhalfselection-.00021110. Evalpopulation component+.001923198, epochreselection-.0000298436, trainingnumerics0. No pipeline repair/rerun indicated; rawv3 independentdiag/test stillrequired.",
+  "V2_all_training_complete": "32/32originalqueueCOMPLETE, includes16pilots+16primary. Allfixedrefs last5trainobjectiveimprovement<.005 criterion, so no corefixedref extensionflag expected (checkcompletepairedreceipts). RawSGDselectionselectedmean-.0002111 CI[-.0012943,+.0012841]3neg1pos, reevaluationpopulationdependenceverified. Notgeneralizationnull.",
+  "archive_note": "v3_archive --name-prefix V2__ snapshots all16formal baseline compactraws in archive/formal, producerhashverified. No weights/preds/batchNPZ copied. Otherlocalhugeartifacts retainedbyhash."
 }

@@ -8,9 +8,10 @@ import time
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
 def main():
- p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args();manifest=json.loads(a.manifest.read_text())
+ p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--name-prefix',default='');a=p.parse_args();manifest=json.loads(a.manifest.read_text())
  state_path=a.manifest.with_suffix('.status.json');states=json.loads(state_path.read_text())['tasks'] if state_path.exists() else {};entries=[]
  for task in manifest['tasks']:
+  if not task['name'].startswith(a.name_prefix):continue
   command=task['command']
   if '--run-dir' not in command:continue
   directory=Path(command[command.index('--run-dir')+1]);receipt_path=directory/'receipt.json'

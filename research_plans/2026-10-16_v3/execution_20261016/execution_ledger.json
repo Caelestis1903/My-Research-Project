@@ -14,27 +14,31 @@
     "receipt": "V1_decision.json"
   },
   "V2": {
-    "status": "RUNNING",
+    "status": "ALL16FORMAL50EPOCH_COMPLETE_READOUT_RUNNING",
     "required": true,
     "manifest": "trajectory_manifest.json",
     "primary_runs": 16
   },
   "V3": {
-    "status": "RULES_FROZEN_WAITING_COMPLETE_MATCHED_TRAJECTORIES",
+    "status": "PAIRED_BOOTSTRAP_RUNNING_FIRST_PAIR_COMPLETE",
     "required": true,
-    "rules": "analysis_rules_frozen.json"
+    "rules": "analysis_rules_frozen.json",
+    "manifest": "V2_readout_manifest.json",
+    "first_complete": "analysis/V2readout__adam__seed2022__until050/receipt.json"
   },
   "V4": {
-    "status": "PILOTS_COMPLETE_CALIBRATION_FROZEN_FINALISTS_AND_BATCH_AUTHORIZED",
+    "status": "CALIBRATION_COMPLETE_FINALISTS_BATCH_RUNNING",
     "required": true,
     "pilot_runs": 16,
     "selected_lr": {
       "adam": 0.003,
       "sgd": 0.3
     },
-    "manifest": "V4_training_manifest.json",
+    "manifest": "V4_training_manifest_attempt2.json",
     "formal_runs": 24,
-    "receipt": "calibration_frozen.json"
+    "receipt": "calibration_frozen.json",
+    "engineering_failure_receipt": "V4_attempt1_postmortem.json",
+    "fix_review": "V4_startup_fix_review.json"
   },
   "V5": {
     "status": "PENDING_DEPENDENCIES",
@@ -43,7 +47,7 @@
   "V6": {
     "status": "PENDING_DEPENDENCIES",
     "required": true,
-    "task_direction_supplement": "8CPUtasks RUNNING afterV1PASS; no causal upgrade beforeV5"
+    "task_direction_supplement": "COMPLETE8fullgradientruns+primaryindependentverification; V1_task_direction_decision.json; geometrycausalstatus stillpendingV5"
   },
   "V7": {
     "status": "PENDING_DEPENDENCIES",

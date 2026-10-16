@@ -1,0 +1,9 @@
+# Bootstrap uncertainty scopes
+
+1. Selection-row bootstrap (1000 replicates/seed) resamples selection observations, reselects each fitted arm's epoch, and reports the selected selection-metric distribution. It conditions on the fitted trajectories and chosen LR. It does not include training-seed or LR-selection uncertainty.
+2. `diagnostic_auc_at_reselected_epochs` applies those reselected epochs to the fixed diagnostic trajectory. Its quantiles measure ONLY selection-induced epoch uncertainty propagated to diagnostic performance. They are not a diagnostic-row confidence interval. In the fixed-budget rule they are necessarily a single value; this is not zero generalization uncertainty.
+3. Diagnostic-row bootstrap (200 replicates/seed) is separately paired across epochs and arms and defines the preregistered AUC-degradation classifier. An absent onset means no degradation was detected by this finite-data rule, not proof that the model cannot overfit. First AUC degradation and later confirmed overfit are distinct fields.
+4. The four-seed paired bootstrap summarizes training-seed variability. Small n, seed overlap with LR pilots, historical data exposure and conditional LR scope remain explicit. Exact sign randomization is retained;4/4 signs alone cannot give two-sided p<.125. Do not combine row replicates into a fictitious large training-seed sample.
+5. Test-at-reselected-epoch quantiles, computed only after the global test freeze, have the same selection-induced conditional scope as item2. Test seed uncertainty is separate.
+
+The first completed V2 pair illustrates the distinction: fixed-budget diagnostic-at-reselection quantiles are degenerate by construction, while its diagnostic-row bootstrap remains non-degenerate. No analysis rule or experimental condition is changed by this explanation.
