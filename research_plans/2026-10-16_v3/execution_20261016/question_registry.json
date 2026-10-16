@@ -180,6 +180,25 @@
       "conclusion": "Same expected loss values and same expected graph gradients are preserved; no claim this graph computes the ordinary total derivative through routing. Do not silently restore missing path.",
       "remaining_uncertainty": "Whether removing detach changes performance is separate architecture experiment, not required for matched fixed protocol",
       "next_action": "Report scope in objective chapter"
+    },
+    {
+      "id": "Q29",
+      "title": "R is domain-task-private routing parameters, whereas E and parts of P have mixed sharing roles",
+      "origin": "V0/ V7 actual StageS1M3OEAdapter graph audit",
+      "observation": "6 gate modules indexed by task*3+domain and predictions selected per actual domain; slot_* domain-specific but shared across tasks; fixed expert fusion mixes E across cells",
+      "why_it_matters": "High R distance does not establish shared-router state; cannot call all P private or propose redundant R privatization as new necessity intervention",
+      "candidate_explanations": [
+        "C representation shared through input while R parameters are cell-private",
+        "Domain/task expert labels do not imply strictly private usage under fixed fusion"
+      ],
+      "blocking": true,
+      "minimal_discriminating_experiment": "Per-parameter six-cell gradient support audit at common initialization for four seeds plus source-level masking/fusion identity; V7 local CPRE replacement still run as planned",
+      "status": "PENDING_SUPPORT_AUDIT",
+      "evidence_strength": null,
+      "evidence": "experiments/stage_S1_models.py",
+      "conclusion": null,
+      "remaining_uncertainty": "Coordinate-level sparsity and effective support of each block; performance necessity remains V7 question",
+      "next_action": "Run mechanical gradient-support audit after V1 / during approved training only within CPU resource budget"
     }
   ]
 }

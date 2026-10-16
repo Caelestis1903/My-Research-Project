@@ -118,7 +118,8 @@ class Runner:
         y=torch.tensor(b.train_y[rows],device=self.device,dtype=torch.float32)
         self.model.train();self.opt.zero_grad(set_to_none=True)
         terms=F.binary_cross_entropy(self.model(x),y,reduction='none');task_losses=(terms*self.weight[x[-1].long(),None]).mean(0)/2
-        loss=task_losses.sum();assert torch.isfinite(loss)
+        loss=task_losses.sum() if self.a.optimizer=='adatask' else (terms.mean(1)*self.weight[x[-1].long()]).mean()
+        assert torch.isfinite(loss)
         if self.a.optimizer=='adatask':
             params=list(self.named.values());gs=[torch.autograd.grad(task_losses[t],params,retain_graph=t==0,allow_unused=True) for t in range(2)]
             self.opt.task_gradients={}
