@@ -1,20 +1,83 @@
 {
-  "status": "ACTIVE_NOT_FINAL",
-  "current_required_work": "Finish all 16 Stage2D runs, numerical audits, primary scientific analysis, then evaluate conditional next stages",
+  "status": "EXECUTABLE_PLAN_COMPLETE_WITH_HISTORICAL_GAPS",
+  "current_required_work": "Final report/data Git publication and remote verification",
   "previous_global_stop_interpretation": "SUPERSEDED; see continuation_gate_reassessment.md",
   "stages": [
-    {"stage": "WP1/A0", "status": "AUDIT_COMPLETE_WITH_HISTORICAL_GAPS", "evidence": "../execution_20261016/artifact_inventory.csv", "limits": "Original S5/S6 lineage and prediction/state artifacts remain absent"},
-    {"stage": "WP2/A1/A2", "status": "AVAILABLE_FORENSICS_COMPLETE", "evidence": "../execution_20261016/selection_receipt.json", "limits": "Original S6 exact prediction-level audit remains INCOMPLETE"},
-    {"stage": "2A/WP3", "status": "COMPLETE_TARGETED_REVIEW", "evidence": "../execution_20261016/novelty_matrix.csv"},
-    {"stage": "2B", "status": "COMPLETE_FINITE_POOL_SCOPE", "evidence": "../execution_20261016/numeric_analysis_receipt.json", "limits": "Fixed initialization and projected coordinates, not whole training trajectories"},
-    {"stage": "2C", "status": "COMPLETE_FIXED_THETA_SCOPE", "evidence": "../execution_20261016/state_contrasts.csv", "limits": "State propagation oracle is not causal identification of normal-training AUC"},
-    {"stage": "2D", "status": "RUNNING", "planned_runs": 16, "actual_state_source": "queue_status.json", "result_gate": "PENDING_ALL_RUNS_AND_ANALYSIS"},
-    {"stage": "3", "status": "COMPLETE_RECONSTRUCTION_FORENSIC", "evidence": "../execution_20261016/r0_timing_decomposition.csv", "limits": "Reconstructed B1 is not the missing original S6 identity"},
-    {"stage": "3B", "status": "INCOMPLETE_MISSING_ORIGINAL_PREDICTIONS", "evidence": "../execution_20261016/bounded_recovery_recheck.json"},
-    {"stage": "4", "status": "BLOCKED_ORIGINAL_S5_A0_A1", "evidence": "../execution_20261016/historical_missing_recheck.json", "limits": "Do not replace original-history decomposition with a new-init study"},
-    {"stage": "4B", "status": "NOT_RUN_STAGE4_DEPENDENCY", "limits": "No valid original same-theta shadow-history causal probe available"},
-    {"stage": "5", "status": "AVAILABLE_ARTIFACTS_DIAGNOSTIC_COMPLETE_WITH_GAPS", "evidence": "../execution_20261016/ao04_recovery_attempt3/", "limits": "One complete B1 seed/two states; no all-epoch/all-seed coverage; no B3/B4/B5"},
-    {"stage": "6", "status": "CONDITIONAL_PENDING_STAGE2D_ANALYSIS", "limits": "Must confirm a specified mechanism; no automatic boundary grid from local state differences"},
-    {"stage": "7/E1", "status": "NOT_ALLOWED_GATES_UNMET", "limits": "Requires strong Sample comparison, four seeds, independent setting, untouched holdout and distinct causal intervention"}
-  ]
+    {
+      "stage": "WP1/A0",
+      "status": "AUDIT_COMPLETE_WITH_HISTORICAL_GAPS",
+      "evidence": "../execution_20261016/artifact_inventory.csv",
+      "limits": "Original S5/S6 lineage and prediction/state artifacts remain absent"
+    },
+    {
+      "stage": "WP2/A1/A2",
+      "status": "AVAILABLE_FORENSICS_COMPLETE",
+      "evidence": "../execution_20261016/selection_receipt.json",
+      "limits": "Original S6 exact prediction-level audit remains INCOMPLETE"
+    },
+    {
+      "stage": "2A/WP3",
+      "status": "COMPLETE_TARGETED_REVIEW",
+      "evidence": "../execution_20261016/novelty_matrix.csv"
+    },
+    {
+      "stage": "2B",
+      "status": "COMPLETE_FINITE_POOL_SCOPE",
+      "evidence": "../execution_20261016/numeric_analysis_receipt.json",
+      "limits": "Fixed initialization and projected coordinates, not whole training trajectories"
+    },
+    {
+      "stage": "2C",
+      "status": "COMPLETE_FIXED_THETA_SCOPE",
+      "evidence": "../execution_20261016/state_contrasts.csv",
+      "limits": "State propagation oracle is not causal identification of normal-training AUC"
+    },
+    {
+      "stage": "2D",
+      "status": "COMPLETE_VERIFIED_16_OF_16",
+      "planned_runs": 16,
+      "actual_state_source": "queue_status.json",
+      "result_gate": "NO_PRACTICAL_BENEFIT_GUARDS_FAILED",
+      "completed_runs": 16
+    },
+    {
+      "stage": "3",
+      "status": "COMPLETE_RECONSTRUCTION_FORENSIC",
+      "evidence": "../execution_20261016/r0_timing_decomposition.csv",
+      "limits": "Reconstructed B1 is not the missing original S6 identity"
+    },
+    {
+      "stage": "3B",
+      "status": "INCOMPLETE_MISSING_ORIGINAL_PREDICTIONS",
+      "evidence": "../execution_20261016/bounded_recovery_recheck.json"
+    },
+    {
+      "stage": "4",
+      "status": "BLOCKED_ORIGINAL_S5_A0_A1",
+      "evidence": "../execution_20261016/historical_missing_recheck.json",
+      "limits": "Do not replace original-history decomposition with a new-init study"
+    },
+    {
+      "stage": "4B",
+      "status": "NOT_RUN_STAGE4_DEPENDENCY",
+      "limits": "No valid original same-theta shadow-history causal probe available"
+    },
+    {
+      "stage": "5",
+      "status": "AVAILABLE_ARTIFACTS_DIAGNOSTIC_COMPLETE_WITH_GAPS",
+      "evidence": "../execution_20261016/ao04_recovery_attempt3/",
+      "limits": "One complete B1 seed/two states; no all-epoch/all-seed coverage; no B3/B4/B5"
+    },
+    {
+      "stage": "6",
+      "status": "NOT_TRIGGERED_FROZEN_BENEFIT_GUARDS_FAILED",
+      "limits": "Must confirm a specified mechanism; no automatic boundary grid from local state differences"
+    },
+    {
+      "stage": "7/E1",
+      "status": "NO_GO_NO_STRONG_SAMPLE_IMPROVEMENT_AND_OTHER_GATES_UNMET",
+      "limits": "Requires strong Sample comparison, four seeds, independent setting, untouched holdout and distinct causal intervention"
+    }
+  ],
+  "scientific_decision": "scientific_decision.json"
 }

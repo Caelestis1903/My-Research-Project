@@ -1,7 +1,9 @@
 # 2026-10-16 科研执行入口
 
-**当前任务继续执行，尚未结束。**
+**Stage2D 正式训练16/16完成，逐行数值核验和科学分析完成。**
 
-最新进度：[Stage2D续执行](stage2d_execution_20261016/design_specification.md)，实际队列状态在该目录queue_status.json（创建前表示尚未启动）。用户纠正了上一轮将历史工件缺口及代理分工冲突扩大成全局停止的错误。先前execution_20261016的数值/取证有效范围保留，但其中全局停止判断不能作为本轮最终停止结论。
+最新报告：[执行报告](stage2d_execution_20261016/execution_report.md)、[实验结果](stage2d_execution_20261016/experiment_results.md)、[机制分析](stage2d_execution_20261016/mechanism_analysis.md)。机器状态见 [execution_status.json](stage2d_execution_20261016/execution_status.json)，逐track判断见 [scientific_decision.json](stage2d_execution_20261016/scientific_decision.json)。
 
-研究按最终规划的条件链推进：首先完成Stage2D四臂×四seed，分析真实训练结果后判定后续条件。Stage3B/4的历史身份缺口与独立新训练分别处理。当前不声称全部完成或已经触发全局科学STOP。
+SB−SN validation-selected macro AUC四seed均值−0.010406，4/4负；EB−EN为−0.006547，1/4正。两者无实用收益且guard失败，因此不升级条件性边界训练或新方法开发。Sample的负效应本身稳定，**不能写成整个Track A“没有效应所以STOP”**；Adam-specific性能因果仍未识别。
+
+原Stage3B/4/4B的历史材料依赖仍为INCOMPLETE/BLOCKED，不用新IID研究替代。可执行的预定矩阵及分析已完成，不能声称所有条件阶段都跑过。用户纠正的上轮全局禁训解释已撤销，旧 `execution_20261016/` 的数值/取证保留，其全局停止判断仅为历史快照。
