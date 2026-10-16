@@ -101,17 +101,24 @@
     "CPU_V5_partial_readout_pid": "CANCELLED_BEFORE_COMPUTE; archive/dispatch_corrections/V5_partial_readout_attempt1. No actualreadoutstarted. RawmanifestAdamfirst causedwaiter; same9commandsrepartitioned",
     "CPU_V4extension100_readout_pid": 163132,
     "CPU_sampler_partial2_pid": 164212,
-    "CPU_capacity": "10computereadout+1cell/sampler. OriginalV2(2)+V4(4)+V10(2)+V5priority(1)+V4extension(1)=10. V5deferred2waitV2ALLcomplete thenreplacesits2freedslots. V8deferred2waitV10ALLcomplete thenreplacesONLYV10twofreedslots. Neverallocateeitherfreedpairagain. Stdlibwaitersnotcompute. CurrentcellsamplerORDER23/24 running thenpreparedmomentcorrection.",
+    "CPU_capacity": "NOW12compute readouts+1cell/sampler. CPU_readout_capacity_review_v4_SGD100.json observed10actualreadouts19.95/32cores+34.29GiBfree, adds2allocatedONLYtoSGD25B0/B2continuation100 max2. Oldbase10allocation: V5deferred2replacesV2two; V8deferred2replacesV10two; PERMAdam23deferred1takesONEofV4fourfreedslots. THREEV4slotsstillunallocated. Preserveallguards; stdlibwaitersnotcompute.",
     "CPU_V5_priority_SGD_PERM_readout_pid": 169097,
     "CPU_V5_deferred_ORDER_Adam_readout_pid": 169098,
-    "CPU_V8_deferred_corruption_readout_pid": 170934
+    "CPU_V8_deferred_corruption_readout_pid": 170934,
+    "GPU_SGD25_continuation100_pid": 186295,
+    "CPU_SGD25_continuation100_readout_pid": 186893,
+    "CPU_V5_Adam23_until100_deferred_readout_pid": 180542,
+    "CPU_V8_mild22_23_cell_pid": 181492,
+    "GPU_V8_mild24_cell_pid": 191394,
+    "GPU_V10_seed23_continuation100_pid": 192907,
+    "GPU_V8_seed23_continuation100_pid": 195817
   },
   "preserved": "original user root alluntracked/noHEAD; oldv2worktree dirty untouched; separateworktree fromoriginmain. Newv3plans copied to root and execution subdir symlink; runs symlink /home_new/xzf_phase0_3_v3_artifacts_20261016 (1.5TBfree)",
   "important": [
-    "Latest/specificstartGB18030§11overridesinitialAGENTSdesigner/reviewer delegation; primaryallscience/code/selfreview, independent_review=false, existingmechanical_runner onlyrawexecution",
+    "Latest/specificstartGB18030\u00a711overridesinitialAGENTSdesigner/reviewer delegation; primaryallscience/code/selfreview, independent_review=false, existingmechanical_runner onlyrawexecution",
     "Originalworkspace noHEAD/alluntracked andoldv2dirtyworktree preserved. Realnewworktree branchcodex/execute-2026-10-16-v3. runs symlink /home_new/xzf_phase0_3_v3_artifacts_20261016",
     "Frozen v3_train af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b plusv3_audit/base/model/data dependenciesmustnoteditduringtraining; assertions everyepoch. Independent readout filesmayeditbeforetheirfreeze",
-    "V1 16exactthetaK512SN/SBfull1,614,254coords PASS; maxexactresidual3.352e-7; covarianceSB/SN2.3155–2.7522. Chebyshevplug-innotprovenFWER;155/160withinpointwise95bootstrap. NoAUCmechanisminference. 4seedexactsubsetdistance0, stochasticdistance>0. FullsupportRcellprivate/Pmixed/EsharedQ29resolved",
+    "V1 16exactthetaK512SN/SBfull1,614,254coords PASS; maxexactresidual3.352e-7; covarianceSB/SN2.3155\u20132.7522. Chebyshevplug-innotprovenFWER;155/160withinpointwise95bootstrap. NoAUCmechanisminference. 4seedexactsubsetdistance0, stochasticdistance>0. FullsupportRcellprivate/Pmixed/EsharedQ29resolved",
     "Historicalval/testexposed; newhalfdiagnosticindependentofNEWv3tuningonly. Actualv3diagnostic nowreadandreported, allnewtestperformance stilldeferred and test_readout_frozen.jsonabsent.",
     "ActiveCPU v3_local sourceDO NOT EDIT until8tasksdone. V7localnotrunyet; archiveimplementationreport/selfreviewalreadycreated",
     "Latestuncommitted independentutilities need finalsourcehashrefresh/selfreviewbeforeformalreadout. 6c87825committedpriorversion. Latestfixedreadout deduplicateshorizons/verifiescompletereceipts/fullbudgets/commonselected; bootstraporaclePASS oncacheversion",
@@ -123,13 +130,14 @@
     "EVERY newGPUqueue passes ALLcurrent active_gpu_status_files asrepeatableprecedingstatus; own+external deduplicatedlivePIDs<=5/GPU,memory<90%. Do not includefailedV4attempt1stalePENDINGstatus. Completedactivepredecessors harmless."
   ],
   "next": [
-    "Finishseed23Adam100andexplicit100readout; repeattrain+selectioncriterion. AnalyzecompletedcalAdam50 report retained. CalSGDseed25 initial50readoutnowrunning; ifSNnooverfit extendALL4 B0/B2SN/SB after BOTH original50readouts complete. Baseline/B2 currentlyCPUqueuefirst4SGD running, 2B pending.",
+    "Monitor4SGD25newclone100runs; onactual100checktrainplateaufirst, selectionifneeded; finalizecommonB0/B2seed25budget thenlaunchremaining4V5SGD25 and4V8corruption25 atthatbudget, allfutureexactidentitybaseline refsNEWclonepaths. Original50readoutscontinueimmutable. CalAdam23final100alreadyplateau; PERMAdam23two100nowGPUadmitted/running orpendingcap; originalpaired100readoutrunning.",
+    "V11gate caneventuallyuseinitial50calibrated4Adam+4SGDcompletedreceiptswithoneglobalprewindow. Addinglater50->100cannotalterearlieronsetscanbecausepeakusespastprefix; globalwindowalready<=22 fromAdam. Mustdocumentprefixinvarianceandinitial50scope, notwaitfull100justforgateifthecomplete50receiptsevidenceissufficient. No branchuntilactualprimarygatecomputed. Newdesignbeforestateimplementation; isolatehistoryvsstepmagnitude/stage, noAdamrootassumption.",
     "FinishQ34posthocnormrepair +primarydirectoptimizerstateoracle; addboundedlabelcorrection, no retraining. FinishsampleridentityandprimaryverifyORDER hashes/coverage withoutclaiming4seedperformance untilseed25data.",
     "Freeze analysis_rules_frozen.json with all preset rules andLR aftercalibration; all_condition_definitions_frozen FALSE keeps test blocked until conditional investigations fixed",
     "CompleteV2full50pairs, CPUreadout v3_readout --mode pair --bootstraps1000 (ordinarydomainstratified rowbootstrap;cachedranks numericaloraclePASS). Selected/common-selected/fixed/early/loss/AULC, absolute and deltas; selection and diagnostic separated",
     "V4 extension receipt optimization_budget from train andSELECTIONonsets only. Botharms extend by50 if either required; source af6 remains immutable. Actual contiguousepochcount pairvalidation supportsresume originalconfigepochs",
     "V5 PERM2opt16runs, exactsamebatchorderSGD8runs; v3_sampler_readout verifies exactidentity andextractsexposure/coverage/repeats/firstseen. PERM does not remove repeats ifquota>support",
-    "V6 taskgradient raw8CPU jobs noanalysisbyrunner; combinewithV1full512geometry andactualfirst6steptelemetry, spectrum≠causality",
+    "V6 taskgradient raw8CPU jobs noanalysisbyrunner; combinewithV1full512geometry andactualfirst6steptelemetry, spectrum\u2260causality",
     "V7 primarySGD local4seeds1/10/40 afterV5analysis. Script v3_local usesidentical theta+optimizerstate; interventionthreshold onlySELECTION 4/4>=50%attenuation in>=2stages; diagnosticposthoc. Stronggenuine sharedblockcandidate triggersnewcapacity-controlledfulltrainingdesign. Ralreadyprivate",
     "V8 aliasduplication v3_duplication scansallbaselinebatchlists factors2/4 fourseedsbothq; objective/gradient/updateexactoracle commoncheckpoint10; WRfulltrajectory reusebyexactinduction. No PERMidentityclaim/noindependentsupport. Corruption .1/.3 primarySGD16runs. v3_cell_audit traincellobjectivecontributions/exposures/positivecounts",
     "V9ML existingd2_largeprimarySGD8runs. Ifreproducesreplicateonlydecisiveidentifiedmediator; ifboundaryassessconfoundswithoutfakeuniqueattribution",
@@ -139,12 +147,12 @@
     "V12CF1..6 V13all10GOelseNO_GO, noGOdoesnotwaiveblockingQs. Finalallconditions/questionsfreeze BEFORE deferredtestall50/extendedmodelpreds. v3_readout test requires all_condition_definitions_frozen true",
     "V14threefullreports+FINALschema/registry/literature/decision; compactCSVJSONconfigs/hashes/plots archive, nohugeweights/preds/gradients inGit. Commit/push exactremoteverify. Do not endturnbeforewholeplan/genuinefinalstop"
   ],
-  "updated_unix": 1792176714.1517425,
+  "updated_unix": 1792178725.2825913,
   "last_training_freeze_commit": "0f83141",
   "training_source_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
   "V1_decision": "V1_decision.json",
-  "last_committed_milestone": "f47e6b182080e3d5e84941c9b928a668ae930a72",
-  "last_verified_remote_commit": "f47e6b182080e3d5e84941c9b928a668ae930a72",
+  "last_committed_milestone": "e07a93cef7f856ecbfff44fe78ecb041b689af9c",
+  "last_verified_remote_commit": "e07a93cef7f856ecbfff44fe78ecb041b689af9c",
   "calibrated_lr": {
     "adam": 0.003,
     "sgd": 0.3
@@ -178,9 +186,13 @@
     "V8_corruption01_seed2022_manifest.status.json",
     "V5_PERM_Adam_seeds2024_2025_manifest.status.json",
     "V8_corruption_remaining_seeds2022_2024_manifest.status.json",
-    "V5_PERM_Adam_seed2023_until100_manifest.status.json"
+    "V5_PERM_Adam_seed2023_until100_manifest.status.json",
+    "V4_SGD_seed2025_continuation100_manifest.status.json",
+    "V8_cell_corruption01_seed2024_GPU_manifest.status.json",
+    "V10_seed2023_continuation100_manifest.status.json",
+    "V8_seed2023_continuation100_manifest.status.json"
   ],
-  "V4_SGD_budget_exception": "V4_SGD_train_budget_verification.json: 15/16B0/B2SGDarms gain<=.005, BUT calibratedB0 seed2025 SN gain.0070817887. Its own4armmatchedseed25 duration remainsPENDING untilselectionconfirmedoverfit bootstrap; ifnooverfit, extend ALL4 B0/B2SN/SB to100, thenrepeatcriterion. Seeds22/23/24 all4arms plateau ->budget50finalized. DO NOT blanketdeclareallSGDplateau.",
+  "V4_SGD_budget_exception": "SGD25extension nowREQUIRED: exactnecessary-conditioncertificate all3pointAUCdegradationwindowsfailselectionLogLossby>.01, so confirmedselectionoverfit impossibleforANYbootstrap. B0SNgain.0070817887>.005 triggersALL4B0/B2SN/SB minimum100. Thisusesonlytrain+selectionlogicofunchangedrule; 1000/200original50readoutsstillfullyrun.",
   "V5_progress": "20/24originalsadmitted: all12SGDseeds22..24PERM/ORDERCOMPLETE; AdamPERM22COMPLETE,24/25fourRUNNING; AdamPERMseed23two100PENDINGcapacityafterV8queuependingclear. RemainingonlySGDseed25fourawaitfinalbaselinebudget. Allfirst3SGDseedexactidentities600armepochsPASS/primaryverified including300ORDERchangedepochs; full4seedperformancepending. CPU9initial50pairspriority/deferred2queuesactive.",
   "analysis_pending": "Allmandatory phasesstillinprogress; V2fixedSGD,calAdam4seed50/fullbudget,calSGD/B2,V5allcontrols,V8corruption/cellaudits,V10AdaTask,V7local,V11conditional,V12-14anddeferredtestremain. Do not finish aftermilestonecommit.",
   "V9_complete": "V9_diagnostic_analysis.md anddecision: all4pairs verified nooverfitconfirmation; commonpre16macro+.00139069 CI[-.00013064,+.00384857]; smallestd1+.00527041all4+,largestd2-.00116193CIcross0. Selectedmacro+.00024124. Notstableadversereplication; Q11/Q24pendingmatchedKRanddeferredtest.",
@@ -188,5 +200,12 @@
   "V4_calAdam50_complete": "V4_calAdam_until050_analysis.md andprimaryverificationPASS all4pairs sixcellmacro/max2.22e-16. pre22macro-.01395116,LL+.00521778,all4worse. All3domains/all2tasks4negativepre; selected3neg1posmean-.0124021, fixed50mean-.006578CIcross0. Seed24counterexample+.004497at50. Onlyseed23extend100; seeds22/24/25 final50byselectionoverfit.",
   "Q34": "RESOLVEDSTRONG via moment_telemetry_correction_decision.json. 68archivedsnapshots/80000rowscorrected; maxrelativefirstnormrepair22.51%, actualAdam/AdaTask8blockstateoracle maxerr4.34e-19, allrow reconstruction identitiesverified. Training/performanceunchanged; usecorrected_m_normonly forV6/V11. Full15MBderivedCSVlocal/hash+reproduciblescript, uploadcompactsummary/receipt/oracle.",
   "Q16": "RESOLVEDMEDIUMlate-onlyinterpretationcontradictedinbothAdamconfigs underfrozenclassifier; restrictedscope, no waiverremainingphases.",
-  "V10_budget_matching": "V10_seed2023_matching_budget100_prepared_decision.json freezesneedforpairedAdaTask23extension100 forfullymatchedbudgetcomparison; doNOTresume untiloriginal50pairreadoutCOMPLETE andarchive50. No automaticresume authorized to runner; needmanifest/review."
+  "V10_budget_matching": "V10_seed2023_matching_budget100_prepared_decision.json freezesneedforpairedAdaTask23extension100 forfullymatchedbudgetcomparison; doNOTresume untiloriginal50pairreadoutCOMPLETE andarchive50. No automaticresume authorized to runner; needmanifest/review.",
+  "V4_SGD_continuation": "DoNOTmutateoriginal50dirs whiletheirreadoutsrun. 4new__continuation100copies verifiedall676producerhashes/4.484GiB anddistinctinodes; primarycriticalSHAchecksPASS, sourceaf6unchanged, GPUresume4running ONLYnewdirs. Original50readoutmanifestsstayoldpaths; useV4_SGD_seed2025_continuation100_pairs.json NEWpathsforfull100readouts,V5/V8matchingbaselineaudits. Same4trajectories/prefixes, notnewindependentseeds. Finaldurationat100awaittrain/selectioncriterion; nohard100cap.",
+  "V10_initial_budget_alert": "V10_initial50_train_budget_verification.json:7/8AdaTaskarmsgain>.005. Needcomplete50selectiononsetbeforeownpairdurationexceptseed23 matching100alreadyfixed. DoNOTassumeallAdaTask50final. Preserve50readout beforeinplaceresume; useverifiedcontinuationcopyifneededtoavoidgrowinginputrace.",
+  "V4_calSGD_provisional": "analysis/V4_calSGD_fixed_horizons_provisional fromall4complete1200cellpointCSVs; initial50rowbootstrapsstillrunning. diagAULC10+.00079036all4positive CI[+.0005488,+.0011237],AULC20-.00009218(3+/1-)CIcross0, fixed50-.00384147(3-/1+)CI[-.00749053,-.00043945]. Notprimaryglobalprewindow andNOTV11activation/SGD25stopdecision. Otherinitial50rulesfullreadoutsremainrequired.",
+  "Q35": "RESOLVEDSTRONG actualwithin-epochlagfilter; V6_geometry_observational_analysis.md andprimaryverification. Cross-epochrawlag1=44steps, not1.",
+  "V6_observational": "320rowsverified, V1/task/fullgeometry+sparseactualmovingtheta synthesized. No causalnecessityclosure; V5/V7/V11pending.",
+  "V8_seed23_budget": "All6minimum100required bymildSB>.005 andselectionLLnecessary-conditionfailure. Freshcopies1014SHA/6.737GiBverified; 6GPUresumequeueactive. V4ownadequacy50notreplaced; thisisV8matchedstressbudget.",
+  "V10_seed23_budget": "338producerSHA/2.729GiBfreshcopiesverified; GPUtwoadataskresume100running. Original50bootstrapinputsunchanged; notnewindependentseeds."
 }

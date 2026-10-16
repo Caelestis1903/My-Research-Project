@@ -57,16 +57,23 @@ def main():
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     marginal=pd.DataFrame(marginal)
+    plot_support=[]
     for group,rows in marginal[marginal.split=='diagnostic'].groupby('group'):
+        n_required=rows.seed.nunique()
         fig,axes=plt.subplots(1,2,figsize=(10,3.7),layout='constrained')
         for ax,metric in zip(axes,('macro_auc','macro_logloss')):
             for arm,color in (('SN','#2469ad'),('SB','#c45132')):
                 subset=rows[rows.arm==arm]
                 for _,seedrows in subset.groupby('seed'):ax.plot(seedrows.epoch,seedrows[metric],color=color,alpha=.22,lw=.8)
-                avg=subset.groupby('epoch')[metric].mean();ax.plot(avg.index,avg.values,color=color,label=arm,lw=2)
+                counts=subset.groupby('epoch').seed.nunique()
+                avg=subset.groupby('epoch')[metric].mean().loc[counts==n_required]
+                ax.plot(avg.index,avg.values,color=color,label=arm,lw=2)
+                if metric=='macro_auc':
+                    plot_support.extend(dict(group=group,arm=arm,epoch=int(epoch),n_observed=int(n),n_required=int(n_required),mean_plotted=bool(n==n_required)) for epoch,n in counts.items())
             ax.set(xlabel='Completed epoch',ylabel=metric.replace('_',' '));ax.legend(frameon=False)
-        fig.suptitle(group+' | diagnostic | thin: individual seeds')
+        fig.suptitle(group+f' | diagnostic | thin: seeds; thick: all {n_required} seeds present')
         safe=''.join(c if c.isalnum() or c in '-_' else '_' for c in group)
         fig.savefig(a.out/f'{safe}_trajectory.png',dpi=180);fig.savefig(a.out/f'{safe}_trajectory.pdf');plt.close(fig)
+    pd.DataFrame(plot_support).to_csv(a.out/'plot_mean_support.csv',index=False)
     base.dump(a.out/'receipt.json',dict(status='COMPLETE',source_sha=base.sha(__file__),sources=identities,training_seed_uncertainty_separate_from_row_bootstrap=True))
 if __name__=='__main__':main()
