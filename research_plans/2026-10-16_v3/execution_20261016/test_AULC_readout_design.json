@@ -1,0 +1,10 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792179593.331713,
+  "problem": "Existingtestsummaryretainsselected/fixedepoch metricsbutomitsrequiredAULC1..10/20 and frozencommonpre-window endpoints. Testpredictionsarealreadyplannedforallcompletedepochs; noadditionalfitting/datapeekneeded.",
+  "specification": "AddfixedAULC1..10/20/50 plus explicit group-common pre-window mean for macro/sampleweighted/trainpweighted/domain/task andsixcell AUC/LL. Groupwindow defaultsminimumallpairreceiptprewindows; optionalmanifestcommon_pre_windowscanonlyshortenit (e.g.globalV11/factorialwindow) andmustalreadybeinall-conditionstestfreeze. Retainallseedvalues/n, avoidduplicatereadoutlabels ifcommon10/20/50. Existingepochandselectedoutputsunchanged.",
+  "validation": "Sourceinspection/AST/basicnumericmeans; no testdataaccess. Actualrunstillrequiresimmutabletestfreeze allconditions/questionsfixed, absentnow.",
+  "boundary": "Thischangesreadoutcompletenessonly; no selection/LR/budget/method fromtest. AULCaveragewithin-cellAUC notpooledAUC. Rowreselectionuncertainty remainsconditionaltesttrajectory, independentseedCIseparate.",
+  "manifest_freeze": "Beforetest, includeeverytestsummarymanifestSHAinimmutabletest_readout_frozen.test_summary_manifest_hashes. SummaryassertsitsmanifestSHAinthathashlist; no optionalwindowchangeaftertest."
+}

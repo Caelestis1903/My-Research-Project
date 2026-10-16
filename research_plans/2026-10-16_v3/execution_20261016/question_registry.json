@@ -372,6 +372,26 @@
       "conclusion": "Cross-epochtelemetrylags measuregapsinobservations, not actualoptimizersteplags. Existinginitial50readoutnowusesonlybatch>=lag andcounts5/4/1 within6firstbatches. No performance/trainingchange. No causalconclusionhadused unfilteredlags.",
       "evidence": "analysis/V6_geometry_synthesis_initial50/primary_verification.json; moving_theta_stages.csv",
       "remaining_uncertainty": "Onlyfirst6productionbatchesperstageobserved; lag5onepair. Cannotinferwholeepoch autocorrelation or causalmemoryfromthesevalues."
+    },
+    {
+      "id": "Q36",
+      "question": "Does the frozen point-peak/window bootstrap onset classifier establish simultaneous familywise overfitting guarantees?",
+      "origin": "Primarysourceinspection ofonset uncertainty whilefinalreportpreparation",
+      "observation": "Pointprefixpeakchosenoutsidebootstrap andmanythree-epochwindows scanned; no explicit simultaneousband/familywisecalibration implemented.",
+      "why_it_matters": "Couldoverstateconfirmedoverfitorabsenceoflatentoverfit andpracticalbudgetadequacy; classificationsareoperationalunderfixedprotocol.",
+      "candidate_explanations": [
+        "Genuinerepeateddegradationbeyondpointwiseuncertainty",
+        "Data-dependentpeak/windowselectionuncertainty"
+      ],
+      "blocking": false,
+      "status": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "evidence": "onset_inference_scope_audit.json; bootstrap_uncertainty_scope.md",
+      "minimal_completed_experiment": "DirectfrozenfunctionauditatrecordedSHA; allonset-independentfixedhorizoncontrastsalreadyretained. No empiricalFWERclaim.",
+      "conclusion": "Theprespecifiedclassifierisreportedasanoperationaldefinitiononly. No simultaneousFWER guarantee orproof ofabsenceofoverfit. Frozenbudget/thresholdsunchanged; earlyfixedhorizoncontrastsremainvisible.",
+      "remaining_uncertainty": "Actualfamilywiseerrorrate, adaptivepeakuncertaintyandlatentoverfit; not estimatedbyconditionalrowbootstrap.",
+      "minimal_discriminating_experiment": "Forformalglobalclaims,newpreregisteredsimultaneouspeak/windows procedure calibratedbeforefreshtraining; outsidecurrentoperationalestimand, no newglobalguaranteeclaimed.",
+      "next_action": "Useoperationalwordinginallbudget/prewindowinterpretation andfinalNewlyExposedQuestions; retainfixed5/10/15/20/30/40/50+AULC10/20."
     }
   ]
 }

@@ -1,41 +1,59 @@
-# v3 执行记录（进行中）
+# v3 实验执行报告（RUNNING，非终局）
 
-本轮完整规划来源main@d18f194；独立分支codex/execute-2026-10-16-v3。start.md为GB18030，按其§11由主agent设计、实现、自审和科研分析，仅机械运行委派luna-runner。independent_review=false；未伪称独立审查。
+任务继续执行，未达到全部流程完成或最终提前停止条件。完整计划来自 origin/main@d18f194，工作分支 `codex/execute-2026-10-16-v3`。最近核实的远程里程碑为 `ff934d738139c67cdd9e74e6fd2b09ea1494bb37`；之后仍有持续实验产物，该提交不表示最终验收。
 
-V0 已完成。V1 的16组完整经验梯度/生产批次审计均已完成并通过主agent数值复核，每臂512批、每批40960行、全模型1614254坐标。四种子确定性对照、参数单元支持审计、八组完整 domain-task 梯度及其独立数值复算也已完成。8个环境×种子 validation 拆分已在训练前冻结。详见 V1_decision.json、V1_task_direction_decision.json 和 V1_analysis.md。
+## 规范、工作区与环境
 
-PyTorch2.9.0+cu126，CUDA12.6，2×RTX3090 24GiB；复用phase0-3-env和现有KuaiRand/MovieLens数据。GPU最多5进程/设备，按该设备90%显存预算准入；跨队列使用前序状态和实时PID共同计数。32个可用CPU、约64GiB主存；经资源复核，最多10个双线程 readout 计算进程另加1个cell/sampler审计进程（容量复核见CPU_readout_capacity_review_v3.json）。原始训练产物保存在 /home_new 本轮专属目录，逻辑路径为 runs/；完整梯度矩阵留在本地，由散列索引追溯。
+`start.md` 按 GB18030 解码，较新且明确的 §11 要求主 agent 完成设计、实现、自审、科学分析，仅机械运行委派既有 luna-runner。因此全部新实验保留 DESIGN→IMPLEMENT→SELF REVIEW→RUN→ANALYZE 记录，`independent_review=false`，没有虚称独立 reviewer。规划与启动文件末尾旧 v2 路径冲突时采用明确指定的 v3 目录，并保留原文件。
 
-16个规定学习率 pilot 和16个固定参考学习率正式训练均已完成。LR pilot 仅使用 selection validation，冻结 Adam=.003、SGD=.3；Adam 是规定网格的下边界 winner，不能声称全局最优。V4 正式 finalist 与2B batch共24个初始50轮训练均已完成，正在按冻结规则逐种子判定扩展，V2/V3/V4 的1000次逐行重新选择与200次 diagnostic 重采样同步进行。固定参考组50epoch训练已结束，正式泛化结论仍待四种子完整 readout 和冻结后 test。所有扩展只使用 train objective 与 selection 判定，不能使用 diagnostic 决定训练预算。
+用户原工作区 `/home/xzf/Code/phase0-3` 无 HEAD、文件未跟踪；旧 v2 worktree 也有已有改动，均保持原状。本轮另建 `/home/xzf/Code/phase0-3-20261016-v3-git`。复用 Python3.13、PyTorch2.9.0+cu126、CUDA12.6、2×RTX3090 24GiB、32 CPU/64GiB 主存及原有数据；未重装环境或重下载数据。完整产物通过 `runs/` 指向 `/home_new/xzf_phase0_3_v3_artifacts_20261016`。原始权重、逐行预测、batch 索引、完整梯度不上传 Git，以生产者 SHA 索引本地保留。
 
-V4 首次启动有8个 FileExistsError，原因是队列日志目录抢先建立了训练器要求不存在的 run_dir；均发生于模型初始化之前。仅停止该调度器，原失败目录、状态和日志完整保留。第二次尝试仅把日志移到 OUT/logs，24条科学命令逐项相同，修复自审通过后重启。详见 V4_startup_fix_review.json 及对应 postmortem；此处不把启动失败算作完成训练。
+GPU 跨所有队列合计每设备最多5进程、显存<90%，每个新队列显式引用全部当前前序状态并去重实时 PID。不能只计本队列或等两卡同时满足容量。CPU 经逐次实际资源复核，现上限12个双线程数值 readout +1个CPU cell/sampler；最多两个 GPU cell worker 占用现有 GPU 五进程配额。等待训练或其他队列的 stdlib 等待器不提前导入 numpy/torch。`CPU_readout_capacity_review_v4_SGD100.json` 和各 activation review 记录了配额归属，防止把已释放槽位重复分配。
 
-历史 SGD 差异审计已完成：8个 run 的19600个 batch、在线 loss、epoch10/50参数和同epoch预测一致。旧全集验证与新 selection 半集的效应变化主要由评分样本变化产生，epoch重选贡献很小；不是训练实现漂移。证据见 historical_SGD_reconciliation_decision.json。
+## 已完成并验证
 
-V8 的2×/4×精确别名复制已完成，四种子、两个q共16个映射及实际梯度/更新数值检验全部通过。它保持 p/q、预算和独立支持量，按完全相同输入序列复用完整训练；不是16次独立重训。结论仅限 WR 下名义别名池大小不改变轨迹分布，不推断真实独立样本量无作用。详见 V8_duplication_decision.json。
+| 阶段/对象 | 实际状态 | 证据入口 |
+|---|---|---|
+| V0 实现/历史审计 | COMPLETE | V0_decision.json |
+| V1 同目标、512批完整梯度、确定性对照 | COMPLETE，主agent数值复核 | V1_decision.json、V1_analysis.md |
+| 八组完整 domain-task 梯度 | COMPLETE，独立数值复算身份 | V1_task_direction_decision.json |
+| 16个LR pilot | COMPLETE，selection-only冻结 | calibration_frozen.json |
+| V2固定参考16条50轮训练 | COMPLETE | trajectory_manifest、archive/formal |
+| V2固定Adam四配对1000/200读出 | COMPLETE，已聚合/主agent复算 | V2_fixedAdam_analysis.md |
+| V4初始24条50轮训练 | COMPLETE | V4_training_manifest_attempt2 |
+| V4校准Adam四配对初始50读出 | COMPLETE，已聚合/主agent复算 | V4_calAdam_until050_analysis.md |
+| V4 Adam seed23两臂100轮 | COMPLETE且均平台，最终100 | V4_Adam_seed2023_extension100_train_budget_check.json |
+| V5前三种子SGD PERM/ORDER训练与操纵审计 | 12条训练COMPLETE，600 arm-epoch身份PASS；性能读出尚待完成 | V5_sampler_first3seeds_primary_verification.json |
+| V8精确别名复制2×/4× | 16个耦合映射/梯度/更新PASS | V8_duplication_decision.json |
+| V8 clean逐cell审计 | 8/8完成、主agent复算 | analysis/V8_clean_cell_primary_until050/ |
+| V8污染seed22–24初始训练 | 12/12初始50轮COMPLETE；需另行预算匹配 | archive/formal/V8*、V5_V8_completed_initial_train_budget_audit_v2.json |
+| V9 MovieLens | 8条训练、4配对读出及主agent分析COMPLETE，test仍未读 | V9_diagnostic_analysis.md |
+| V10 AdaTask初始训练 | 8/8初始50轮COMPLETE，原始配对读出继续 | V10_initial50_train_budget_verification.json |
+| V6观测读出 | 固定θ几何+320条移动θ阶段读出COMPLETE，干预因果部分仍待 | V6_geometry_observational_analysis.md |
 
-Q31 的80个 pilot/finalist epoch前缀数值核验完成，确认 pilot seed 与正式种子重叠；新的运行目录不会增加独立种子。该短诊断的 detached launcher 未保存实际 wait 返回码，记录为 null，完整 PASS 收据和原始日志保留，不反推 exit0，也不重复运行。
+## 正在执行与依赖
 
-当前整体状态为 RUNNING。V5及后续对照仍须按依赖门控实际执行；V4可能需要50epoch增量延长。test 尚未授权或读出。完整待办与恢复上下文见 orchestrator_checkpoint.json；机器状态见各 manifest.status.json，不能把“已启动”写成“结果验证完成”。
+V2剩余SGD、V4校准SGD及2B、V5全部配对、V8污染和V10 AdaTask的1000次selection行bootstrap/200次diagnostic读出仍按冻结命令运行。行重采样、epoch重新选择和四训练种子不确定性分别报告，不能用其中一类替代另一类。已完成的点轨迹不等于完整 bootstrap 已完成。
 
-固定参考 Adam 四种子的完整 readout 已完成并由主agent复算：共同pre27 AULC差−.006980、4/4负，固定50为2正2负，尚不能形成稳定最终泛化差距的结论。见 V2_fixedAdam_analysis.md。聚合器首跑因重复arm关键字退出，已作单关键字修复，失败输出保留，实际重跑与原始point交叉检查通过，未修改冻结训练或readout源码。
+训练预算只用 train objective 与 selection 规则。V4 Adam seed22/24/25最终50，seed23最终100；后者两臂最近5轮相对前5轮改善 −.00240046/+.00453707，均满足<=.005。SGD seed25原B0 SN改善.00708179，全部可能的selection AUC下降窗口都不满足LogLoss恶化必要条件，故按原规则要求B0/2B×两q至少100。四条副本现已完成100，改善率依次+.00337749/+.00132855/+.00284449/−.00105820，全部达到冻结平台标准，最终共同预算100，无需150；50/100原始产物均保留，100轮完整读出继续。
 
-MovieLens四种子两臂8个基础训练全部完成，均达到自身冻结的平台标准；V9四个独立配对readout、聚合和主agent复算已完成。AdaTask原定8条科学命令拆成两个队列运行，初始50轮训练均已完成，四配对readout仍在计算，未新增条件或选择种子；四种子完整分析和与校准Adam匹配预算仍待完成。资源复核允许8个双线程readout和1个cell审计，观测总CPU约19.7/32核、可用内存44.7GiB后增加两个readout；GPU合计限制仍为5进程/卡、显存<90%。
+V8轻度污染 seed23 SB改善.00581024，全部四个候选下降窗口均不满足selection LogLoss恶化，故clean/mild/strong×两q六条配对轨迹至少100。这里的clean100是V8共同污染预算条件；V4该seed自身平台50的判定仍保留，V5初始匹配50的对照不与clean100错配。V10 seed23因匹配Adam最终100而两臂延长；其余AdaTask七条> .005的条件仍需完成selection判定。未从diagnostic决定预算。
 
-本次新进度：V5 已接纳原始24项中的14项，SGD PERM三种子6项、SGD ORDER seed2022两项训练完成；SGD ORDER seeds2023/2024四项与Adam PERM seed2022两项运行中。seed2022的100个WR/PERM arm-epoch审计PASS，主agent复算全部300个域配额相等；覆盖、重复与首次见样本时间共同改变，尚无四种子性能归因。V8规定的.1特征遮蔽seed2022两臂已审查并启动，其余14个腐化训练仍待运行；clean cell审计8/8完成并经主agent复核。
+为保持正在读出的50轮输入不可变，使用 `v3_prepare_continuation_20261016.py` 完整复制prefix到新目录：SGD25四副本676个产物SHA/4.484GiB、AdaTask23两副本338 SHA/2.729GiB、V8seed23六副本1014 SHA/6.737GiB。每个文件核验不同inode、生产者SHA、原收据未变；主agent另核对config/trajectory/selection/resume关键SHA后才批准GPU恢复。恢复模型、优化器、RNG、sampler和计数，50轮原始config作为历史保留，实际100由新的extension descriptor/launch/receipt说明。这些副本延续同一轨迹，不增加独立seed。
 
-V4校准Adam seed2022两臂已确认selection过拟合，按预定规则固定50轮。seed2023的SB目标改善.00932287且selection未确认过拟合，触发两臂成对延长100轮；原50轮七类小体积文件已逐一SHA比对归档，50轮配对readout结束后才恢复训练，设计/自审和实际启动记录均保存。seed2024/2025随后完成读出并确认两臂selection过拟合，预算同样固定50轮。不可把diagnostic过拟合结果用于预算。SGD seed2025原batch SN仍改善.00708179，预算同样等待selection判定，不能以其他15/16条已平台化概括其预算。
+V5最后SGD seed25四个条件与V8 seed25四个污染条件已按最终100预算全部审查并入队，因此原始V5共24个、V8污染共16个条件均已接纳；部分仍按全局GPU guard排队或训练中，不能记作全部完成。V7局部反事实依赖V5分析；V11只有真实四种子 primary interaction 门控触发后才设计状态分解，不能由初始固定horizon或某个seed激活。V12反事实图、V13方法门控、终局报告、全部条件/问题冻结和最终test尚未完成。
 
-MovieLens独立诊断：共同pre1–16宏AUC差+.00139069、CI跨零；最小训练域d1平均+.00527041且4/4正，最大域d2平均−.00116193且CI跨零；selected宏差+.00024124。证据见V9_diagnostic_analysis.md及完整单元/种子表。此结果具有阶段与域差异，不能概括为各域无差异或稳定小域获益/大域受损；与同配置KuaiRand比较及冻结test仍未完成。
+## 异常、修正与可追溯性
 
-以上是持续执行中的里程碑记录，不是终局交付。V6/V7/V11的条件分支、V12/V13、冻结后test和三份完整终稿仍待按全部规划完成。最近一次已远程核实的提交见orchestrator_checkpoint.json；本里程碑提交不结束实验任务。
+- V4首次8个启动在模型初始化前因日志先建立run_dir触发FileExistsError。原目录/状态/日志保留，修复仅移动日志路径，24条科学命令逐项一致；第二次全部训练完成。见V4_attempt1_postmortem及startup_fix_review。
+- 聚合器首跑重复arm关键字导致异常。单点修复后重跑并以原六cell表交叉核验；未改变训练或冻结readout。
+- 原V5九对读出误按Adam先行而等待未完训练。确认无实际数值读出/输出后只停止等待器及调度器，保存原始启动记录，科学命令逐项不变地划分为SGD优先与释放槽位后读出。见archive/dispatch_corrections及对应自审。
+- Q31核验80个pilot/finalist epoch前缀一致，明确pilot和正式种子重叠；启动器未保存某次wait返回码则记录null，不反推exit0或重复计算。
+- Q32历史SGD同batch/参数/预测身份确认，旧新效应差主要由评分总体改变加小量重选构成，未发现训练漂移。
+- Q34只读遥测一阶矩标签混入二阶矩范数；原值保留，80,000条平方差恢复及真实状态八块oracle通过。最大相对修正22.51%；实际训练/性能未变，后续只用corrected_m_norm。
+- Q35跨epoch稀疏观测lag并非实际steplag；原始值保留，轮内batch_index≥lag读出完成，数量5/4/1明确。真实轮首lag1跨44step已核验；不改训练、不声称整轮自相关。
+- 混合50/100预算图只在全部seed均有观测的epoch画粗均值，保留所有实际seed细线并输出支持数量表，防止一条延长轨迹被误看成四seed均值。
 
-最新校准Adam四种子50轮分析见V4_calAdam_until050_analysis.md：共同pre22 AULC−.01395116、LogLoss+.00521778，均4/4更差；固定50仍存在反向seed，最终充分预算尚待seed23延长读出。全macro点已用原六cell表复算，最大误差2.22e-16。新增V5部分九对readout和seed23显式100轮readout各一CPU worker；10秒资源实测20.82/32核、可用内存32.26GiB后，将readout计算上限复核为10另加1个cell/sampler。V8 clean全8次cell审计完成，主agent验证132条性能、192条支持量数据；Q9按现有三域中多因素未独立分配记录NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN，最小已完成实验和所需识别设计均保留，不据此免除腐化对照。
+所有数值来自真实产物。8个环境×seed validation拆分在新训练前冻结；历史全集validation/test已暴露，因此新diagnostic只对本轮调参独立，不称历史完全untouched。当前 `test_readout_frozen.json` 尚不存在，未执行新v3 test性能读出。恢复入口为 `orchestrator_checkpoint.json`、逐阶段 `execution_ledger.json` 与各manifest/status/launch；全局状态持续为RUNNING，不以保存里程碑结束任务。
 
-后续状态：seed2023 Adam两臂均完成100轮，最近两段5轮目标改善为−.00240046和+.00453707，按冻结平台判据固定预算100，不需等selection分类才停止延长。完整50/100紧凑原始表均已归档；100轮正式读出仍在进行。其PERM对照已按100轮审查入队；AdaTask seed23匹配100轮的需求已固定，但必须等原50轮配对读出结束后再恢复，避免混读生长轨迹。V5目前20/24原始训练条件已入队，剩SGD seed25四个对照依赖预算判定。V8现12/16腐化训练已入队，seed25四个仍待匹配预算。
-
-CPU派发顺序纠正：原九对V5读出清单误将尚未结束的Adam排在前面。主agent发现后，仅暂停并终止其未进入数值计算的stdlib等待器和调度器；无任何读出输出，未触及训练。原启动/状态/日志保存在archive/dispatch_corrections/V5_partial_readout_attempt1。九条科学读出命令与输出逐项不变，重排成3个SGD PERM立即读出（max1），其余6对在V2原八项全完成释放两个CPU槽后读出（max2）。V8的六对初始50轮读出另等待V10全四对读出完成后接替其两个槽。严格分别接替既有配额，全部数值readout上限仍10，另1个cell/sampler；等待器不计数值计算worker。
-
-V5前三个SGD种子的原始操纵审计完成：600个arm-epoch核对，其中300个PERM保持精确物理域序列、300个ORDER保持精确batch集合且全部实际改变顺序；ORDER的每epoch配额、unique/repeat/coverage直方图与WR一致。主agent对合并输出独立复核通过。第四种子仍必须完成，不能据前三个种子闭环性能效应。
-
-Q34遥测标签问题已处理：原exp_avg范数前缀也匹配exp_avg_sq，记录的是sqrt(||m||²+||v||²)。此错误仅在只读遥测，实际优化器状态和训练/性能未变。保持冻结训练源码不变，从原两列恢复纯m范数。68个预算快照8万条记录核验通过，并对真实Adam/AdaTask检查点8个CPRE块按精确key独立复算，恢复误差最大4.34e-19。单条范数最大相对修正22.51%，故未来状态解释必须采用corrected_m_norm，不能称旧误标可忽略。完整导出CSV留本地，以hash及可复现工具追溯；紧凑修正统计/收据/oracle上传。该纠正不触发或豁免V11 interaction门控。
+Q36新增推断边界：冻结onset程序使用观察到的prefix peak并扫描多窗口，没有构造同时置信带或证明familywise错误控制。标签与预算充分性仅按既定操作性规则解释；全部fixed epoch与AULC10/20保留，不修改阈值、不新增未经预设的结论。详见onset_inference_scope_audit.json。最终test汇总器已补齐AULC读出，并要求所有汇总清单SHA在test开封前冻结；test仍未读。

@@ -11,7 +11,12 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('--manifest',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
  freeze=json.loads((OUT/'test_readout_frozen.json').read_text());assert freeze['status']=='FROZEN' and freeze['all_condition_definitions_frozen']
  assert freeze['analysis_rules_sha']==base.sha(OUT/'analysis_rules_frozen.json');a.out.mkdir(parents=True,exist_ok=False);results=[];cell_results=[];selection_uncertainty=[]
- for group,pairs in json.loads(a.manifest.read_text())['groups'].items():
+ manifest=json.loads(a.manifest.read_text())
+ assert base.sha(a.manifest) in freeze['test_summary_manifest_hashes'], 'Test summary manifest must be frozen before test'
+ for group,pairs in manifest['groups'].items():
+  observed_pre=min(json.loads((Path(directory)/'receipt.json').read_text())['common_pre_degradation_epochs'] for directory in pairs)
+  common_pre=int(manifest.get('common_pre_windows',{}).get(group,observed_pre))
+  assert 1<=common_pre<=observed_pre
   for directory in map(Path,pairs):
    receipt=json.loads((directory/'receipt.json').read_text());seed=receipt['seed'];budget=len(np.load(directory/'bootstrap_curves.npz')['epochs']);curves=[];frames=[]
    for source in map(Path,receipt['source_runs']):
@@ -37,6 +42,18 @@ def main():
     left=frames[0][frames[0].epoch==ne];right=frames[1][frames[1].epoch==be];joined=left.merge(right,on=['domain','task'],suffixes=('_SN','_SB'),validate='one_to_one')
     for row in joined.to_dict('records'):
      for metric in ('auc','logloss'):cell_results.append(dict(group=group,seed=seed,readout=label,domain=row['domain'],task=row['task'],metric=metric,SN_epoch=ne,SB_epoch=be,SN=row[metric+'_SN'],SB=row[metric+'_SB'],difference=row[metric+'_SB']-row[metric+'_SN']))
+   intervals={f'AULC_1_{end}':end for end in (10,20,50) if end<=budget}
+   intervals[f'common_pre_AULC_1_{common_pre}']=common_pre
+   for label,end in intervals.items():
+    assert end<=budget
+    for metric in curves[0].columns:
+     sn,sb=(curve.loc[1:end,metric].mean() for curve in curves)
+     results.append(dict(group=group,seed=seed,readout=label,metric=metric,SN_epoch=None,SB_epoch=None,analysis_budget=budget,SN=sn,SB=sb,difference=sb-sn))
+    averaged=[frame[frame.epoch<=end].groupby(['domain','task'])[['auc','logloss']].mean() for frame in frames]
+    for domain,task in averaged[0].index:
+     for metric in ('auc','logloss'):
+      sn,sb=(frame.loc[(domain,task),metric] for frame in averaged)
+      cell_results.append(dict(group=group,seed=seed,readout=label,domain=domain,task=task,metric=metric,SN_epoch=None,SB_epoch=None,SN=sn,SB=sb,difference=sb-sn))
    bs=pd.read_csv(directory/'selection_bootstrap.csv')
    for rule,part in bs.groupby('rule'):
     effect=curves[1].loc[part.SB_epoch.to_numpy(),'macro_auc'].to_numpy()-curves[0].loc[part.SN_epoch.to_numpy(),'macro_auc'].to_numpy()

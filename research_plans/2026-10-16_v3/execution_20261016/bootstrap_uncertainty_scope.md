@@ -7,3 +7,5 @@
 5. Test-at-reselected-epoch quantiles, computed only after the global test freeze, have the same selection-induced conditional scope as item2. Test seed uncertainty is separate.
 
 The first completed V2 pair illustrates the distinction: fixed-budget diagnostic-at-reselection quantiles are degenerate by construction, while its diagnostic-row bootstrap remains non-degenerate. No analysis rule or experimental condition is changed by this explanation.
+
+6. Q36: onset uses the observed prefix peak and scans multiple windows with paired pointwise bootstrap differences. It does not implement a simultaneous confidence band or establish familywise error control across all candidate peaks/windows. Labels are the frozen operational classifier; absence of a label is not absence of latent overfitting. Budget adequacy is conditional on this practical stopping rule. All fixed epochs and AULC1..10/20 remain visible; this scope clarification does not change any threshold, training budget rule, or endpoint. See onset_inference_scope_audit.json.
