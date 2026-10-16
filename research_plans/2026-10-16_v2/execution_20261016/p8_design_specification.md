@@ -17,3 +17,7 @@ Compare exactly on the same theta and rows: J0 original loss; JW weighted loss; 
 This branch is a prior-work mechanism test, not new-method development; it does not require GO-METHOD. It cannot alone establish that a novelty gap exists. All P8 findings are per-mechanism, not a claim to have exhausted the literature.
 
 Verification required before formal P8-AT: two-task gradient sum identity; exact official shared-update and torch private-update agreement for several noncollinear steps including nonzero starting moments; save/load optimizer state; real-batch GPU profile; primary self-review and source commit. No need to repeat unrelated general engineering tests. Required control outcomes derived only from genuine finite-pool evaluations.
+
+## Pre-readout entropy degeneracy amendment
+
+Static inspection shows SparseFeature initializes embeddings with std1e-4, making identity-attention entropy effectively uniform at initialization. Compute float64 entropy and retain initial std. If pool entropy std<=1e-8, use frozen common epoch10 embedding for the weighting control (same deterministic threshold for all seeds), never selected/test-derived weights. Preserve this prerequisite failure and weight-source field. If common10 also degenerates, report the failed nonconstant-weight prerequisite rather than inflate/fit arbitrary weights. No performance readout was used to specify this amendment.

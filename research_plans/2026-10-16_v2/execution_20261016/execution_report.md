@@ -1,0 +1,13 @@
+# v2 execution report — RUNNING
+
+This is an active run, not final delivery. Plan pulled from origin/main c591d36; execution branch codex/execute-2026-10-16-v2 retains Stage2D history. Original workspace remains protected; its v2 plan path links to this branch worktree. Root start.md GB18030 decoded and archived. Latest start§11 overrides previous delegation: primary design/implementation/self-review/analysis, mechanical running agents only; independent reviewer=false. A specialized luna-runner declined self-review under its role gate; no job was started by it; a mechanical default runner performs only authorized RUN operations under the user's latest instruction.
+
+P0 completed:16historical runs,400producer artifact hashes, source/pairing/initialization checks,32selected prediction files bound to raw CSV row IDs/labels/domains/splits and metrics, earliest argmax. Historical learned-fusion/two-optimizer protocol is distinct from v2 fixed-fusion/single-optimizer. Not reused as a matched new Adam arm.
+
+New protocol has fixed effective fusion sigmoid(1), one Adam(.01) or vanilla SGD, objective mean_i(alpha_d/q_d * mean_task BCE), IID replacement domain/within-domain sampler. No DBO/augmentation/gradient balancing/architecture update. Same seeds2022–2025, data split and q-coupled uniforms. Required initial/1/5/10/20/30/40/50 and selected states/predictions. Validation selection freezes before forensic test readout.
+
+CPU smoke passed; original full49-update engineering epoch passed. CUDA telemetry first used the wrong default card; attempt2 reset-before-init failed before training; fixed set_device + explicit-device stats, attempt3 peak1192MiB. All attempts preserved. Frozen formal worker commit978592f. Queue reserves1942.4MiB per base run, each card<=90% memory, <=5study workers, no external jobs interrupted.
+
+Wave1 persists with PID/commands/exits in wave1_status.json and events. Three preregistered SGD calibrations(.1/1/10, seed2022 SN10epochs, validation only) all completed; frozen lr=.1 (lower boundary, optimization-regime limitation).16formal Adam+8formal SGD runs queued; no formal completion claimed until actual manifest/audit. P3/P4/P5/P6 supplemental analysis code and P8 official AdaTask mechanism are independently specified before readout. P2 branch and P7 boundary depend on full paired P1 evidence.
+
+Environment: Python3.13.5, Torch2.9.0+cu126/CUDA12.6, two RTX3090, existing phase0-3-env. Raw data hashes in dataset_provenance.json. Reports and key artifacts will be committed by milestones; raw datasets/checkpoints/common predictions stay local and producer-hashed. Initial milestones already pushed; final publication remains pending.

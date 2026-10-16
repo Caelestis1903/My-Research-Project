@@ -58,11 +58,12 @@ def probe(run,device='cpu'):
     for g,ii in blocks.items():
         dim=sum(params[i].numel() for i in ii);projections[g]=np.sort(selectrng.choice(dim,min(256,dim),replace=False))
     np.savez_compressed(target/'projection_coordinates.npz',**projections)
-    geometry=[];reach=[];cosines=[];spectrum=[]
+    geometry=[];reach=[];cosines=[];spectrum=[];tasknorms=[];taskcov=[]
     snapshots=[('initial',run/'epoch00.pt'),('selected',run/'selected_state.pt'),('final',run/'epoch50.pt')]
     for key,path in snapshots:
         state=torch.load(path,map_location='cpu',weights_only=False);model.load_state_dict(state['model'],strict=True);model.eval()
         vectors={g:np.zeros((3,8,len(projections[g])),dtype=float) for g in blocks};task_vectors={g:np.zeros((3,2,len(projections[g])),dtype=float) for g in blocks}
+        task_pools={g:np.zeros((3,8,2,len(projections[g])),dtype=float) for g in blocks}
         for d in range(3):
             for j in range(8):
                 chosen=pools[d,j];x=torch.tensor(b.train_x[chosen],device=device).T;y=torch.tensor(b.train_y[chosen],device=device)
@@ -75,6 +76,8 @@ def probe(run,device='cpu'):
                         vec=torch.cat([(grad[i] if grad[i] is not None else torch.zeros_like(params[i])).detach().flatten() for i in ii])
                         proj=vec[torch.tensor(projections[g],device=device)].double().cpu().numpy();projected[g]=proj
                         task_vectors[g][d,task]+=proj/8
+                        task_pools[g][d,j,task]=proj
+                        tasknorms.append(dict(snapshot=key,domain=d,task=task,microbatch=j,block=g,gradient_norm=float(vec.double().norm())))
                         if j==0:
                             for i in ii:
                                 reach.append(dict(snapshot=key,domain=d,task=task,block=g,parameter=names[i],
@@ -82,7 +85,12 @@ def probe(run,device='cpu'):
                                     parameter_count=params[i].numel()))
                     taskgrads.append(projected)
                 for g in blocks:vectors[g][d,j]=(taskgrads[0][g]+taskgrads[1][g])/2
-        np.savez_compressed(target/(key+'_gradient_pool.npz'),**vectors)
+        np.savez_compressed(target/(key+'_gradient_pool.npz'),**vectors,**{g+'_task':v for g,v in task_pools.items()})
+        for g,values in task_pools.items():
+            for d in range(3):
+                for task in range(2):
+                    taskcov.append(dict(snapshot=key,domain=d,task=task,block=g,
+                        projected_within_domain_microbatch_covariance_trace=float(values[d,:,task].var(axis=0).sum())))
         for g,pool in vectors.items():
             alpha=p;true_mean=sum(alpha[d]*pool[d].mean(0) for d in range(3))
             for policy,q in [('N',p),('B',np.ones(3)/3)]:
@@ -105,7 +113,7 @@ def probe(run,device='cpu'):
         dump(target/(key+'_receipt.json'),dict(state_sha256=sha(path),state_path=str(path),epoch=state['epoch'],
             matched_theta=True,finite_pool=True,units='32-row domain microbatch gradients; not individual example covariance',
             inference_limit='coordinate projection and finite pool, no full-data covariance or AUC mediation claim'))
-    for name,data in [('geometry',geometry),('reachability',reach),('cosines',cosines),('covariance_spectrum',spectrum)]:
+    for name,data in [('geometry',geometry),('reachability',reach),('cosines',cosines),('covariance_spectrum',spectrum),('task_gradient_norms',tasknorms),('task_covariance',taskcov)]:
         pd.DataFrame(data).to_csv(target/(name+'.csv'),index=False)
     dump(target/'receipt.json',dict(status='COMPLETE',dataset=dataset,seed=seed,optimizer=config['optimizer'],
         source_worker_sha256=config['source_hashes']['experiments/v2_20261016.py'],probe_sha256=sha(__file__),

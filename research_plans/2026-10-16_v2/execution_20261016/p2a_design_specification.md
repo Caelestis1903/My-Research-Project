@@ -11,3 +11,7 @@ Five readouts at same theta: A raw current-gradient SGD update; B common first m
 Interpretation: B attenuation suggests a first-moment local mediator; C attenuation a second-moment local mediator; D residual shows current gradient nonlinearity remains; multiple effects can coexist. Finite projection/pool/MC, common-state choice and frozen-theta histories limit extrapolation. None of these controls blocks a mediator in an actual final-AUC trajectory, so P9 performance causality remains unestablished unless an additional preregistered performance intervention is actually run. This cannot be relabeled a causal mechanism merely because a local mean update differs.
 
 Verification: same state/hash/coordinate mapping, initial m/v zero, moments nonnegative, update equations against direct torch.Adam on arbitrary projected vectors with nonzero prior state, no optimizer/model step applied to original loaded state, repeat reproducibility. Save raw readouts and source hashes. Primary self-review before RUN.
+
+## Pre-execution component definition clarification
+
+B/C block the realized m/v component at the final one-step readout: use the paired mean of post-current m (B) or v (C) identically in N/B; the other component retains its own update. D shares prior m/v only and allows each current gradient to update both. This distinguishes full component blocking from sharing only history. All are same-theta shadow operations, not live optimizer-state transplants or final-AUC interventions.

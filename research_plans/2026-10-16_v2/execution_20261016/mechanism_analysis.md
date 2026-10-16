@@ -1,0 +1,3 @@
+# v2 mechanism analysis — PENDING FORMAL RESULTS
+
+The independently rechecked historical Stage2D q-effect is evidence under its learned-fusion/two-optimizer protocol. Its Adam moments and exposure co-vary, so Adam-specific AUC mediation remains unestablished. v2 uses the plan-required fixed fusion/single optimizer and will measure that protocol boundary explicitly. No new v2 mechanism or novelty conclusion is asserted from partial trajectories. All P1–P9 obligations remain in the execution ledger; conditional branch stops will not silently close independent phases. Final evidence labels STRONG/MEDIUM/WEAK will attach to individual claims and their scope.

@@ -11,6 +11,28 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from v2_20261016 import OUT,sha,dump
+RAW_CACHE={}
+
+
+def bind_prediction_to_data(path,dataset,split):
+    if dataset not in RAW_CACHE:
+        if dataset=='kuairand':
+            raw=pd.read_csv('/home/xzf/data/kuairand/processed/kuai_rand.csv',usecols=['tab','is_click','long_view'])
+            labels=raw[['is_click','long_view']].to_numpy();domains=raw.tab.map({0:0,1:1,4:2}).to_numpy()
+        else:
+            raw=pd.read_csv('/home/xzf/data/ml-1m/ml-1m.csv',usecols=['rating','age'])
+            labels=np.stack([(raw.rating.to_numpy()>3),(raw.rating.to_numpy()>4)],axis=1)
+            mapping={a:d for d,ages in enumerate(({1,18},{25},{35,45,50,56})) for a in ages}
+            domains=raw.age.map(mapping).to_numpy()
+        RAW_CACHE[dataset]=(labels,domains)
+    labels,domains=RAW_CACHE[dataset]
+    with np.load(path,allow_pickle=False) as z:
+        ids=z['row_ids'];assert np.array_equal(labels[ids],z['labels'])
+        assert np.array_equal(domains[ids],z['domains'])
+    lo=int(.8*len(labels)) if split=='validation' else int(.9*len(labels))
+    hi=int(.9*len(labels)) if split=='validation' else len(labels)
+    expected=np.flatnonzero(np.isin(domains[lo:hi],[0,1,2]))+lo
+    assert np.array_equal(ids,expected),'missing/extra/reordered evaluation rows'
 
 
 def summarize(values):
@@ -79,6 +101,7 @@ def audit_run(run):
     select=json.loads((run/'selection_frozen.json').read_text());epoch=int(v[v.epoch>0].groupby('epoch').auc.mean().idxmax())
     assert epoch==select['selected_epoch'] and select['test_access_started'] is False
     for split,ref in [('validation',v[v.epoch==epoch]),('test',pd.read_csv(run/'metrics_test.csv').query("checkpoint=='selected'"))]:
+        bind_prediction_to_data(run/(split+'_selected.npz'),c['dataset'],split)
         calc=cells_from_prediction(run/(split+'_selected.npz')).sort_values(['domain','task']);ref=ref.sort_values(['domain','task'])
         for field in ('auc','logloss'):assert np.max(np.abs(calc[field].to_numpy()-ref[field].to_numpy()))<1e-10
     return c,v,pd.read_csv(run/'metrics_test.csv'),checks
