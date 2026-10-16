@@ -17,3 +17,7 @@ V8 的2×/4×精确别名复制已完成，四种子、两个q共16个映射及�
 Q31 的80个 pilot/finalist epoch前缀数值核验完成，确认 pilot seed 与正式种子重叠；新的运行目录不会增加独立种子。该短诊断的 detached launcher 未保存实际 wait 返回码，记录为 null，完整 PASS 收据和原始日志保留，不反推 exit0，也不重复运行。
 
 当前整体状态为 RUNNING。V5及后续对照仍须按依赖门控实际执行；V4可能需要50epoch增量延长。test 尚未授权或读出。完整待办与恢复上下文见 orchestrator_checkpoint.json；机器状态见各 manifest.status.json，不能把“已启动”写成“结果验证完成”。
+
+固定参考 Adam 四种子的完整 readout 已完成并由主agent复算：共同pre27 AULC差−.006980、4/4负，固定50为2正2负，尚不能形成稳定最终泛化差距的结论。见 V2_fixedAdam_analysis.md。聚合器首跑因重复arm关键字退出，已作单关键字修复，失败输出保留，实际重跑与原始point交叉检查通过，未修改冻结训练或readout源码。
+
+MovieLens四种子两臂8个基础训练全部完成，均达到自身冻结的平台标准；V9独立readout已启动。AdaTask原定8条科学命令拆成两个队列进行安全并发，未新增条件或选择种子；四种子完整分析和与校准Adam匹配预算仍待完成。资源复核允许8个双线程readout和1个cell审计，观测总CPU约19.7/32核、可用内存44.7GiB后增加两个readout；GPU合计限制仍为5进程/卡、显存<90%。

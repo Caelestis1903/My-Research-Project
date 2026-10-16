@@ -23,7 +23,7 @@ def main():
                     values=point[j,:,:common,k].mean(1)
                     records.append(dict(group=group,seed=seed,split=split,readout=f'four_seed_common_pre_AULC_1_{common}',metric=metric,SN=values[0],SB=values[1],difference=values[1]-values[0]))
             for arm,onset,budget in zip(('SN','SB'),receipt['onsets'],receipt['optimization_budget']):
-                stages.append(dict(group=group,seed=seed,arm=arm,**onset,**budget))
+                stages.append(dict(group=group,seed=seed,**onset,**budget))
             frame=pd.read_csv(directory/'cell_trajectory.csv');frame['group']=group;cells.extend(frame.to_dict('records'))
             frame=pd.read_csv(directory/'selection_bootstrap.csv')
             for rule,rows in frame.groupby('rule'):
