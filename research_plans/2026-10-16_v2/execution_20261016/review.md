@@ -1,0 +1,7 @@
+# PRIMARY SELF REVIEW
+
+DESIGN and actual worker inspected after implementation. This is not independent review; latest start.md forbids non-running subagents. PASS_PRIMARY_SELF_REVIEW for engineering run; formal queue requires CUDA profile as an additional gate.
+
+Checked: old training loop not inherited (there is only one optimizer/no arch step); constants replace learned scalar modules while preserving other initialization; alpha/q and task mean match specification; no objective-gradient balancing; full train support; shared RNG pairs across optimizer/objective arms; held-out preprocessing unchanged; snapshots one-based; initial excluded from checkpoint selection; earliest strict validation argmax saved before tests; calibration has no test path; no source change allowed during active worker; attempt dirs require nonexistence. Optimizer telemetry reads detached values; first-two-step lag1 state resets every epoch. Actual routing gates are R, architecture scalars have no parameters.
+
+Known limitations: four-seed bootstrap low precision; fixed-fusion result is a protocol boundary to historical learned fusion, not exact identity; SGD grid may underoptimize and cannot prove necessity by a null alone; one-step probes alone cannot establish a performance mediator; no verified partial-epoch resume CLI (complete states retained). Cyclic controls are not yet experimentally authorized until supplemental design. Queue initialization headroom is conservative and admits cards independently.
