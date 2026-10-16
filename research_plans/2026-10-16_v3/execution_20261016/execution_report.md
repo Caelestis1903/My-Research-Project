@@ -82,3 +82,11 @@ GPU bootstrap等价工程实际同一完整50轮1000/200 oracle通过：数组�
 
 
 V4全部实际正式训练、完整配对读数与最终速度表完成，主agent核验PASS；V9最终KR/ML共同1–16窗口揭露自身窗口37/16符号差并非单独环境因果证据，新增Q41/BOUNDARY。状态shadow原实现漏存设计要求的方向余弦，独立只读补充已设计/实现/自审，尚不RUN、不得跳过实际四seed复核。
+
+
+V3七基线28对完整112000次重选记录与点值/文件身份通过主agent复核，见V3_final_baseline_selection_analysis.md。V8seed23最终200六个cell全部完成，主agent物理重哈希全部1200个批次文件，三corruption同q逐epoch字节一致，标签/支持/暴露一致，J分解误差最大1.03646e−8。V11seed23实际100全六完成后beta2SN仍>.005且零eligible确认窗口，必须全六最低150；1920文件11.424GiB副本与主agent36关键SHA通过后队列313608/第39已接入，原100保留并计划由未来最终parent精确派生100读数。
+
+
+## 四种子影子性能反事实完成，完整状态实验继续
+
+四个原始影子回放及其19,836行绝对指标、71,820行对比、17,955组四种子统计均实际完成、主代理核验PASS（最大4.1e−16）。局部第10轮m/full-shadow改善两臂绝对AUC，但当前q的AUC差距仍四负；范数与阶段对loss/AUC影响不同。详见`V11_shadow_local_statistics_analysis.md`及图表，局部影响MEDIUM，长期唯一必要机制未识别。方向补充4回放已注册第41GPU队列，匹配延长22到100/23到150/25到100与24初始选择判据仍待完成。Q40已保留四种子beta2饱和和m-only学习不足，也保留v-only两臂较好的反例。Adam24四个actual100输入PASS，CPU2完整读数进行中；WR_SN尚须selectionbootstrap确认预算。新test仍未读取，未达到终局停止条件。

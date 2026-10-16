@@ -13,9 +13,12 @@
     },
     {
       "id": "Q2",
-      "status": "PENDING",
+      "status": "RESOLVED",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "V3_final_baseline_selection_analysis.md; V3_selection_baselines_final_primary_verification.json",
+      "conclusion": "Selectionisamodifierbutnotuniversalartifactexplanation: fixedSGD.1andcalAdam.003 retainsnegativeAUCunderbothcommonSN-selectedandcommonSB-selectedepochs, alsoindependentfixedearlyreadouts. Otherfamiliesrulescanchange sign/magnitude. No globalrule-invariantgapclaimed.",
+      "remaining_uncertainty": "Baseline7families28pairsfull4rules/112000reselectionrowsverified. Sampler/corruption/statefullbudgetreadoutsandteststillmandatory, nopendingworkwaived. Rowselectionuncertaintyconditionalonfits, noouterLRorhistoricalleakageCI."
     },
     {
       "id": "Q3",
@@ -103,7 +106,9 @@
       "id": "Q10",
       "status": "PENDING",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": null,
+      "partial_evidence": "V3_final_baseline_selection_analysis.md; V3_selection_baselines_final_primary_verification.json",
+      "partial_conclusion": "All7baselinefamilies28pairs4rules1000each reselect verified; retainedsingle-seedselectionCI/histogramsandtrainingseedCI separately. Pendingfinalsampler/corruption/state/testtablesbeforewholequestionclosed."
     },
     {
       "id": "Q11",
@@ -482,9 +487,9 @@
       "id": "Q40",
       "question": "Can state-ablation gap attenuation be distinguished from fixed-LR saturation or slow learning?",
       "status": "PENDING_ALREADY_PLANNED_STATE_CONTROLS",
-      "evidence_strength": "WEAK",
+      "evidence_strength": "MEDIUM",
       "origin": "Actualfirstcompletedseed2022all6stateconditions, notahypotheticalengineeringrisk.",
-      "observation": "Atinitial50 beta2zeroSN selectionAUC=.5, trainJlast5=40.676386; SB selectionAUC=.499977, trainJlast5=13.990647. m-only selectionAUCboth~.56014 withJ~.58351. Allformula/resumeoraclesPASS; noNaNfailureandnoLRrescue.",
+      "observation": "ActualcommonE50all4seeds32armrows: nativeSN selectionAUCmean.661549/SB.647912; beta1zero-vonlySN.673805/SB.669116 (healthy favorable counterexample); beta2zeroSN.498354/SB.500340 withtrainJ13.99..41.27; m-onlySN.543079/SB.543266 withJ.581..584. Allactualproducer/trajectory/metrics/model50SHAs verified. Alloriginalfourshadowreplays COMPLETEexit0 andtheta/m/vcheckpointreplayerrors0 at1/10/40.",
       "why_unresolved": "AtidenticalnominalLRdifferentstatevariantscanhaveverydifferentactualstepsizes, saturation orlearningprogress. Near-zeroSB-SNgapcouldreflectpoorperformancefloor, notnecessaryhistorymechanism. Frozenrelativeplateaucriterionisanoperationalbudgetrule, notglobalconvergenceproof.",
       "blocking": "Blockspositivefull-trainingstate-necessityclaims; doesnotblockremainingindependentexperiments ornegative/boundaryreport.",
       "candidate_explanations": [
@@ -493,10 +498,12 @@
         "Slowlearningandfinitebudgetfloor",
         "Seed-specificfailureorstageeffect"
       ],
-      "evidence": "V11_state_seed2022_single_seed_health_observation.json; V11_state_decomposition_design.json; V11_state_implementation_self_review.json",
-      "completed_experiments": "Oneinitial50seedall3variantsbothq; explicitmin100matchedextensiontriggeredbyfrozencriterion. Otherseedsandfullshadowstillrunning.",
+      "evidence": "V11_state_all4_common50_health_observation.json; archive/formal/V11_state_all4_common50_health.csv; V11_shadow_derived_actual_activation_review.json; V11_beta1_zero_v_only_seed2022_until050_primary_verification.json; V11_state_decomposition_design.json; V11_state_implementation_self_review.json",
+      "completed_experiments": "All24originalfullstateconditions actualinitialbudgets50/100/50/50, commonE50health32rows; fouroriginalshadowsCOMPLETE/rootphysicalcheckpointandparentCSVverificationPASS. Seed22initial50full1000/200all3readoutsalsoactualPASS. Matchedextensions22to100,23to150,25to100 remainongoing,24selectionconfirmationpending.",
       "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
-      "next_action": "Analyzeall4actualhealthprofilesandshadowrawvsnormmatched effects, preserveallstage/cellcounterexamples andseparatelocalstateevidencefromlong-runcausality."
+      "next_action": "Completealreadyapprovedmatchedextensionsandfinalreadouts, CPUlocalstatisticsandmissinggeometrytelemetryreplay. Reportabsoluteperformance,percellandallstages; distinguishtrainJdata/weighting/clippingfromevaluationmacroLL. NoLR/epsrescue.",
+      "conclusion_so_far": "Repeatedfixed-LRbeta2zeroextremeloss/near-randomAUCandm-onlyunderlearningmakegapcollapsealoneinsufficientfornecessity. Do notgeneralizetoallablations: v-onlyhasbetterabsoluteAUCinbotharmsatcommon50. Thisishealth/selectionpointobservation, notdiagnosticstateeffectclosure.",
+      "remaining_uncertainty": "Fullfinalbudgetpairedmetrics, all4stage-specificstate/normcontrols anddirectiongeometry. LocalstatecausalityisconditionalonnativeSNtheta; evennormmatchedlocalresults cannotuniquelyidentifylong-runmediation."
     },
     {
       "id": "Q41",

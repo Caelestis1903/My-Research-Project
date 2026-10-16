@@ -58,6 +58,22 @@ def state_contrasts(frame):
     return pd.DataFrame(rows)
 
 
+def summarize_contrasts(values, expected_seeds=(2022, 2023, 2024, 2025)):
+    keys = ['epoch', 'split', 'variable', 'condition', 'norm_control',
+            'current_arm', 'contrast']
+    summaries = []
+    for key, part in values.groupby(keys):
+        assert not part.seed.duplicated().any()
+        seeds = sorted(part.seed.tolist())
+        item = dict(zip(keys, key)) | dict(n_observed=len(seeds), n_required=4,
+            observed_seeds=seeds, all_seeds_present=seeds == list(expected_seeds))
+        item['epoch'] = int(item['epoch'])
+        if item['all_seeds_present']:
+            item.update(r.paired_summary(part.sort_values('seed').difference))
+        summaries.append(item)
+    return summaries, keys
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--manifest', type=Path, required=True)
@@ -132,17 +148,7 @@ def main():
     frame = pd.DataFrame(records)
     assert not frame.duplicated(KEYS + ['condition', 'norm_control', 'current_arm']).any()
     values = state_contrasts(frame)
-    keys = ['epoch', 'split', 'variable', 'condition', 'norm_control',
-            'current_arm', 'contrast']
-    summaries = []
-    for key, part in values.groupby(keys):
-        assert not part.seed.duplicated().any()
-        seeds = sorted(part.seed.tolist())
-        item = dict(zip(keys, key)) | dict(n_observed=len(seeds), n_required=4,
-            observed_seeds=seeds, all_seeds_present=seeds == expected_seeds)
-        if item['all_seeds_present']:
-            item.update(r.paired_summary(part.sort_values('seed').difference))
-        summaries.append(item)
+    summaries, keys = summarize_contrasts(values, expected_seeds)
     args.out.mkdir(parents=True, exist_ok=False)
     frame.to_csv(args.out / 'absolute_seed_readouts.csv', index=False)
     values.to_csv(args.out / 'seed_contrasts.csv', index=False)
