@@ -13,12 +13,14 @@
     },
     {
       "id": "Q2",
-      "status": "RESOLVED",
+      "status": "PENDING_FROZEN_TEST_CONFIRMATION",
       "plan": "../QUESTION_REGISTRY.md",
       "evidence_strength": "MEDIUM",
       "evidence": "V3_final_baseline_selection_analysis.md; V3_selection_baselines_final_primary_verification.json",
       "conclusion": "Selectionisamodifierbutnotuniversalartifactexplanation: fixedSGD.1andcalAdam.003 retainsnegativeAUCunderbothcommonSN-selectedandcommonSB-selectedepochs, alsoindependentfixedearlyreadouts. Otherfamiliesrulescanchange sign/magnitude. No globalrule-invariantgapclaimed.",
-      "remaining_uncertainty": "Baseline7families28pairsfull4rules/112000reselectionrowsverified. Sampler/corruption/statefullbudgetreadoutsandteststillmandatory, nopendingworkwaived. Rowselectionuncertaintyconditionalonfits, noouterLRorhistoricalleakageCI."
+      "remaining_uncertainty": "Baseline7families28pairsfull4rules/112000reselectionrowsverified. Sampler/corruption/statefullbudgetreadoutsandteststillmandatory, nopendingworkwaived. Rowselectionuncertaintyconditionalonfits, noouterLRorhistoricalleakageCI.",
+      "diagnostic_component_status": "RESOLVED_MEDIUM_SELECTION_MODIFIER_NOT_UNIVERSAL_ARTIFACT",
+      "remaining_gate": "OriginalQ2closureexplicitlyincludesfrozentest. Nonewtestyet; retainwholequestionpendinguntilallpredeclaredfrozenreadoutscomplete. Baseline112000reselectionandcommontrajectoryevidenceremainsvalid."
     },
     {
       "id": "Q3",
@@ -121,11 +123,16 @@
     },
     {
       "id": "Q12",
-      "status": "PENDING",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null,
+      "evidence_strength": "MEDIUM",
       "partial_evidence": "objective_literature_audit.md; V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json",
-      "partial_conclusion": "D3/SAFfulllearnedweightchangesobjective. SameobjectiveTaskAdamcomponentfixedLR.003actualall4matchedbudgetscomplete; residualearlyqeffectandstage/metriccounterexamples. Doesnoteliminateq-sensitivityinthisconfiguration; nofullpaperoptimum/universalcoverageclaim. Finalpriorworkmatrix/teststillpending."
+      "partial_conclusion": "D3/SAFfulllearnedweightchangesobjective. SameobjectiveTaskAdamcomponentfixedLR.003actualall4matchedbudgetscomplete; residualearlyqeffectandstage/metriccounterexamples. Doesnoteliminateq-sensitivityinthisconfiguration; nofullpaperoptimum/universalcoverageclaim. Finalpriorworkmatrix/teststillpending.",
+      "evidence": "literature_source_receipt.json; objective_literature_audit.md; V10_existing_work_coverage_boundary.md; V10_final_vs_calAdam_analysis.md; V11_shadow_local_statistics_analysis.md",
+      "minimal_completed_experiment": "Launchdaycutoff2026-10-16nineprimarysourceequation/settingaudit; D3/SAFtargetmeasureidentity; importedTaskAdamgradientidentityandactual4seedmatched50/100/50/50comparison; localstatecontrolactualall4statistics.",
+      "conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
+      "remaining_uncertainty": "V5/V7/fullV11causalnecessityandfinaltestpending; nineauditedsourcesnotproofexhaustiveliteraturecoverage. Optimalfullpaperperformanceandallobjective-preservingmethodvariantsnotestimated.",
+      "next_action": "UseboundarymatrixinV12/V14; finishallalreadytriggeredexperiments. Q13uniquegapandQ14methoddecisionremainpending; nofakeD3/SAFapproximationorpositiveinnovationclaim."
     },
     {
       "id": "Q13",
@@ -162,12 +169,14 @@
     },
     {
       "id": "Q17",
-      "status": "OPTIMIZER-BOUNDARY",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
       "evidence_strength": "MEDIUM",
       "evidence": "V4_final_budget_and_learning_speed_analysis.md; V4_final_aggregate_and_contrasts_primary_verification.json; V4_final_exact_steps_and_speed_primary_verification.json",
       "conclusion": "AllV4LR/batch/requiredextendedbudget controlscompleted. EffectdependsLR/stage/metric/budget: calibratedB0seed25gapchanges-.009424E50to+.000713E100, final4seedendpointmixed; Adamselectedearlynegative andB2selected4negativepersist. Neitheruniversalspeed-onlynoruniversalpermanentgap established. exact1225stepinteractionmixed/uncertain; B0/B2equalepochschangeupdatesteps, equalstepschangedexamples.",
-      "remaining_uncertainty": "Practicalplateau/selectionadequacydoesnotproveglobaloptimum; noisolatednoise/optimizationprogresscausality. KeynullCI notusedtoassertzero; V5/V7/V11anddeferredtestkeepownrequirements."
+      "remaining_uncertainty": "Practicalplateau/selectionadequacydoesnotproveglobaloptimum; noisolatednoise/optimizationprogresscausality. KeynullCI notusedtoassertzero; V5/V7/V11anddeferredtestkeepownrequirements.",
+      "boundary_classification": "OPTIMIZER-BOUNDARY",
+      "status_normalization": "Useprotocolallowedclosedstatus; scientificclassificationunchanged."
     },
     {
       "id": "Q18",
@@ -198,9 +207,15 @@
     },
     {
       "id": "Q21",
-      "status": "PENDING",
+      "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "Q21_spectrum_vs_trace_identifiability.md; V6_geometry_observational_analysis.md; V1_decision.json",
+      "minimal_completed_experiment": "16fixedtheta×2q×512IIDfull-coordinateprobes, exactmean/trace/spectrum/CPRE+taskdirectionandactualsparse-timeaudit. Noindependenttrace-vs-shapedistributionintervention.",
+      "conclusion": "Shapehasdescriptiveinformationbeyondtrace, but independentdownstreamexplanatorypower/necessitynotidentified. qchangesbothandotherfactors; repeatednoisebatchesnotindependentYtrials. V7blockandV11single-stepnormcontrolsnotdistribution-tracecontrols.",
+      "remaining_uncertainty": "Causalspectrum-vs-scaleeffectandhighermoments; nonstationarytheta andoptimizer/history. Cannotrankmediatorsfromobservationalfit.",
+      "minimal_discriminating_experiment": "Independentmean/trace-matchednoise-shapecontrolplusshape-fixedtracecontrolatsamethetaandmatchedbudget, explicitdistribution/highermomentboundary. Notexecutedbecauseunregisterednewalgorithmandcoreconclusiondoesnotrelyonpositiveshapesuperiority.",
+      "next_action": "PreserveNIinV12/V14; finishpredeclaredV5/V7/V11, no newregressionorhypothesis-confirmingmatrix."
     },
     {
       "id": "Q22",
@@ -227,9 +242,14 @@
     },
     {
       "id": "Q25",
-      "status": "PENDING",
+      "status": "BOUNDARY",
       "plan": "../QUESTION_REGISTRY.md",
-      "evidence_strength": null
+      "evidence_strength": "MEDIUM",
+      "evidence": "literature_source_receipt.json; objective_literature_audit.md; V10_existing_work_coverage_boundary.md; V10_final_vs_calAdam_analysis.md; V11_shadow_local_statistics_analysis.md",
+      "minimal_completed_experiment": "Launchdaycutoff2026-10-16nineprimarysourceequation/settingaudit; D3/SAFtargetmeasureidentity; importedTaskAdamgradientidentityandactual4seedmatched50/100/50/50comparison; localstatecontrolactualall4statistics.",
+      "conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
+      "remaining_uncertainty": "V5/V7/fullV11causalnecessityandfinaltestpending; nineauditedsourcesnotproofexhaustiveliteraturecoverage. Optimalfullpaperperformanceandallobjective-preservingmethodvariantsnotestimated.",
+      "next_action": "UseboundarymatrixinV12/V14; finishallalreadytriggeredexperiments. Q13uniquegapandQ14methoddecisionremainpending; nofakeD3/SAFapproximationorpositiveinnovationclaim."
     },
     {
       "id": "Q26",

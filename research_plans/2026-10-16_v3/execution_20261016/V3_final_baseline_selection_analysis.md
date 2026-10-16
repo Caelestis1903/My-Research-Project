@@ -51,3 +51,6 @@ Q2 的“所有轨迹差异都是 selection artifact”解释已被若干配置�
 域大小、困难度和小域收益/大域受损问题不能由 selection 规则表单独识别。详细绝对性能/域任务证据仍以各组报告及统一cell轨迹为准；已有结果不支持一个跨配置与阶段稳定的这种权衡。最有判别力的下一证据是已规定的同batch顺序、同theta分块及状态反事实，而不是再寻找最有利checkpoint。
 
 依据：`V3_selection_baselines_final_primary_verification.json`、`V3_selection_baselines_final_scope_review.json`、`analysis/V3_selection_baselines_final_aggregate/{seed_summary.json,selection_uncertainty.csv,cell_trajectory.csv,training_stages.csv}`。基线V3 diagnostic部分完成，全部任务与最终test继续执行。
+
+
+终局状态范围校正：本报告关闭Q2的diagnostic/selection分解部分；原始问题表还要求冻结后的test，因此整个Q2在机器表中保留`PENDING_FROZEN_TEST_CONFIRMATION`。这一状态校正不改变112,000条重选核验、共同轮次证据或任何阈值。
