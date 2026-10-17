@@ -39,3 +39,5 @@ DESIGN（正式重试前冻结）：
 
 正式重试已启动（13:39–13:40 UTC）：retry queue PID830855，两个原锚条件各自新目录。准入协调曾因status文件尚未生成被误判为PENDING0而提前恢复主queue；机械执行器随即核实两项均已准入、PENDING0、CUDA PID可见，并恢复retry状态更新。主agent复核全部8个活动CUDA PID均可见，每卡4个本轮+1外部；无健康子进程被停止。异常过程完整保留于N2_retry_admission_mechanical.json，不伪报原先协调逻辑无误。当前两个scheduler均正常，retry无剩余准入，后续只由原scheduler准入。
 两重试通过首draw同图检查并进入原512draw流水线。seed2033首draw行SHA9254cb7…与CPU/CUDA复核原失败draw一致，未换输入；其余14原N2已成功完成，不重跑。正式重试尚未终态，数值误差相对MC尺度和N2正式科学分析仍待统一汇总。
+
+元数据记录：原14+重试2均完整终态，四臂各512批/正计数/配额整数/有限逐批能量核验通过。主agent状态投影辅助命令误包含了已有native retry status文件，只改了外层状态时间/队列标记，原每任务command/PID/GPU/start/finish/exit原样保留；已补回queue PID并明确标记外层写时间为metadata restoration，而非伪造原native终态时间。误生成投影保留在N2_identity_retry_terminal_projection.json。科研config/receipt/gradient/MC结果全未改，无结果或结论变化路径，不阻塞分析、不重跑。

@@ -63,3 +63,8 @@ N1 pilot终态及完整源数已归档；N1_pilot_validation.json为32/32完成�
 确认里程碑：全部16条Adam确认H100完成，N1_confirmation_partial16_validation.json核验步数、样本数、逐batch域计数、最早选轮、初始化配对和固定人口身份通过；SGD继续运行。未从Adam完成前缀提前决定分支，test仍封存。
 
 确认终态：32/32 H100完成、失败0，完整预算/配对核验通过，训练源指纹仅1种。N1_diagnostic_gates.json冻结两优化器重要残差、Adam优先、quota新增16条及SGD整体C对照；两优化器均未触发H200。N2/N3联合64项只读N1锚并写新目录，N1目录不再修改，故可与只读N1元数据归档并行，不再等待归档IO才填充GPU。N5-C已触发并准备16条pilot清单，正式训练待N2/N3阶段闭合。test继续封存。详见N1_DIAGNOSTIC_GATE_ANALYSIS.md、N2_N3_RUN_AUTHORIZATION.json。
+
+
+## N2 固定点里程碑（2026-10-17，整轮仍进行中）
+
+16个resolved锚已完成并验证，原14成功+2验证修正重试；原FAILED保留。详见 [N2_FIXEDPOINT_ANALYSIS.md](N2_FIXEDPOINT_ANALYSIS.md) 及 N2_fixedpoint_summary/receipt.json。全参数IID SB/SN trace比2.008914–2.584112，quota后1.994669–2.550850；预测域计数份额仅0.001297%–0.105936%。该固定点结论不能替代完整quota训练的长期性能对照。Adam q平均更新作用尚无法判定；未识别出超出MC尺度的总体均值漂移。N3开发仍运行，独立确认、条件N4、N5-C、全局test freeze及最终统计尚未闭合。

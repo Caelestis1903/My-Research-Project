@@ -11,3 +11,8 @@
 原Q1–Q46语义保留；Q47–Q52进度见question_registry_working.json。最终需逐项记录稳定现象、反例、证据强弱、未排除解释和最小后续，目前不作终局裁决。
 
 **WEAK，尚仅调参描述：** 本轮tuning的H10与H100共同赢家在两优化器均不同；这支持按完整预算冻结配置的必要性，但n=2且用同一selection选点，不能作为独立泛化或q机制确认。两个H100赢家都在上边界，相邻范围不确定性保留，不追加无限LR网格。
+
+
+## N2 固定点里程碑（2026-10-17，整轮仍进行中）
+
+16个resolved锚已完成并验证，原14成功+2验证修正重试；原FAILED保留。详见 [N2_FIXEDPOINT_ANALYSIS.md](N2_FIXEDPOINT_ANALYSIS.md) 及 N2_fixedpoint_summary/receipt.json。全参数IID SB/SN trace比2.008914–2.584112，quota后1.994669–2.550850；预测域计数份额仅0.001297%–0.105936%。该固定点结论不能替代完整quota训练的长期性能对照。Adam q平均更新作用尚无法判定；未识别出超出MC尺度的总体均值漂移。N3开发仍运行，独立确认、条件N4、N5-C、全局test freeze及最终统计尚未闭合。
