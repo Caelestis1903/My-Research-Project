@@ -11,3 +11,5 @@ n17_method_guards.py输出所有读数，不以某个有利阶段替换预先声
 主agent自审：公式、方向、七项族及ratio定义逐项对照原规划，无新test数据参与；PASS_SELF_REVIEW。实际最终清单/字段仍在统一冻结前核对；尚未运行最终test读数或收益判定。
 
 最终图实现n17_figures.py：仅接受已完成performance receipt与同SHA比较清单，再绘N1两主要共同eta的六cell、H100 AUC/完整train J曲线及预设alpha权重敏感性。八训练seed逐点t区间，不作为全局onset或同时保护界；六cell图也明确pointwise，七项Bonferroni保护另表。沿用原宏主指标，不从图挑权重或选点。主agent逐式读数/条件门及语法核对PASS_SELF_REVIEW；尚未运行最终图或新test。
+
+域规模读数n17_domain_context.py：从已完成冻结test统计生成六cell的训练N/test人数/标签率/baseline与差值；按实际训练N识别唯一最大域，不固定某一域号适用于所有环境。两任务域内平均AUC的“两个较小域均增/大域减”“至少一个较小域增/大域减”及相反模式分别给每seed记录，实用版本界.003。原始seed计数只作描述，配对区间另表；不将三个域当独立样本做因果回归，也不把baseline指标等同自然难度。语法/逐式范围自审核对PASS_SELF_REVIEW，未读取新test。
