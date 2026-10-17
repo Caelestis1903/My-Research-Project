@@ -7,6 +7,38 @@ import pandas as pd
 from scipy.stats import t
 import n17_common as c
 
+def update_context(directories,out):
+    """Actual update sizes and coordinate counts required by N3.3."""
+    sizes=[];norms=[];seen=set()
+    for directory in map(Path,directories):
+        conf=json.loads((directory/'config.json').read_text())
+        counts={key:0 for key in ['C','P','R','E','C_embedding','C_shared_STAR','C_skip','C_star_mlp','C_experts','ALL']}
+        for item in conf['parameter_order']:
+            size=item['end']-item['start'];counts['ALL']+=size;counts[item['block']]+=size
+            if item['block']=='C':
+                name=item['name']
+                block='C_embedding' if name.startswith('embedding.') else 'C_shared_STAR' if name in ('shared_weight','shared_bias') else 'C_skip' if name.startswith('skip_conn.') else 'C_star_mlp' if name.startswith('star_mlp.') else 'C_experts' if name.startswith('expert.') else None
+                assert block is not None
+                counts[block]+=size
+        assert counts['C']==sum(counts[k] for k in ['C_embedding','C_shared_STAR','C_skip','C_star_mlp','C_experts'])
+        assert counts['ALL']==sum(counts[k] for k in ['C','P','R','E'])
+        for block,size in counts.items():sizes.append(dict(directory=str(directory),optimizer=conf['optimizer'],seed=conf['seed'],anchor_arm=conf['anchor_arm'],epoch=conf['epoch'],block=block,coordinates=size))
+        frame=pd.read_csv(directory/'macro_readouts.csv');frame=frame[(frame.split=='diagnostic')&(frame.draw>=0)]
+        for (draw,case),row in frame.set_index(['draw','case']).iterrows():
+            key=(conf['optimizer'],conf['seed'],conf['anchor_arm'],conf['epoch'],int(draw),case)
+            assert key not in seen,'overlapping supplementary draw in update context';seen.add(key)
+            baseline=frame[(frame.draw==draw)&(frame.case=='native_SB')].iloc[0]
+            norms.append(dict(optimizer=conf['optimizer'],seed=conf['seed'],anchor_arm=conf['anchor_arm'],epoch=conf['epoch'],draw=int(draw),case=case,block=row.block,
+                coordinates=counts[row.block],applied_block_update_norm=float(row.applied_block_update_norm),target_block_update_norm=row.target_block_update_norm,
+                direction_undefined=bool(row.direction_undefined),same_predictions_as_native_SB=row.predictions_sha==baseline.predictions_sha))
+    pd.DataFrame(sizes).to_csv(out/'parameter_counts.csv',index=False)
+    norms=pd.DataFrame(norms);norms.to_csv(out/'actual_block_update_norms.csv',index=False)
+    keys=['optimizer','seed','anchor_arm','epoch','case','block','coordinates'];rows=[]
+    for key,part in norms.groupby(keys):
+        rows.append(dict(zip(keys,key),draws=len(part),applied_norm_mean=float(part.applied_block_update_norm.mean()),applied_norm_min=float(part.applied_block_update_norm.min()),applied_norm_max=float(part.applied_block_update_norm.max()),
+            direction_undefined_draws=int(part.direction_undefined.sum()),identical_prediction_draws=int(part.same_predictions_as_native_SB.sum())))
+    pd.DataFrame(rows).to_csv(out/'actual_block_update_norm_seed_summary.csv',index=False)
+
 def cell_readouts(directories,out):
     """Keep per-cell counterexamples without inflating the training-seed unit."""
     records=[]
@@ -84,6 +116,7 @@ def collect(directories,out):
         summaries.append(dict(zip(keys[:-1],key),n=n,seeds=part.seed.to_list(),mean=mu,positive=int(sum(x>0)),negative=int(sum(x<0)),seed_t95_low=float(mu-t.ppf(.975,n-1)*se) if n>1 else None,seed_t95_high=float(mu+t.ppf(.975,n-1)*se) if n>1 else None,mc_se=float(np.sqrt(np.square(part.mc_se).sum())/n),minimum_draws=int(part.draws.min()),maximum_draws=int(part.draws.max()),undefined_draws=int(part.direction_undefined.sum())))
     pd.DataFrame(summaries).to_csv(out/'conditional_summary.csv',index=False)
     cell_readouts(directories,out)
+    update_context(directories,out)
     c.dump(out/'receipt.json',dict(status='COMPLETE',source_sha=c.sha(__file__),sources=list(map(str,directories)),training_seed_unit=True,draws_are_not_training_seeds=True,test_read=False,cell_summaries='descriptive secondary counterexamples; candidate nomination uses only preregistered diagnostic macro AUC'))
     return pd.DataFrame(summaries)
 

@@ -12,3 +12,6 @@ IMPLEMENT COMPLETE；PASS_SELF_REVIEW；`independent_review=false`（start.md §
 - 只写新manifest/audit；无启动、副进程或调度状态修改。准入仍由单个活跃scheduler或书面机械协调完成。
 
 语法AST通过。未为操作清单增加合成科研结果或额外训练smoke；实际正式结果的核验将在对应完整产物存在后执行。本报告不表示N3确认已运行或已通过科学门槛。
+
+
+N3.3必要描述读数补充：主readout新增parameter_counts、每draw实际块更新范数、每seed范数范围及与native SB预测SHA相同次数。坐标数逐名复用冻结geometry的五子块映射，核对C分解和ALL分解；只用diagnostic记录去除selection重复，补充draw区间不得重叠。未知/缺失量不填零；SHA相等只说明逐bit预测相同，不是输出敏感性连续量。候选选择与确认公式完全不变。主agent逐字段对照原始macro/config及AST核验PASS_SELF_REVIEW；未读取未完成开发片段提名或实际执行该readout。
