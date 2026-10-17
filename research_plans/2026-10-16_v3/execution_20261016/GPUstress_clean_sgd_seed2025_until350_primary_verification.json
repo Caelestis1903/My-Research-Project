@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "time": 1792207837.9761047,
+  "independent_review": false,
+  "results": [
+    {
+      "pair": "GPUstress_clean_sgd_seed2025_until350",
+      "status": "PASS",
+      "receipt_sha": "4418eaf313e6ba6f81d279224e4d42fa69b1548f2010642fcd6b5a5e34815ac1",
+      "actual_epochs": 350,
+      "max_point_error": 2.220446049250313e-16,
+      "selection_bootstrap_choices_checked": 4000,
+      "budgets": [
+        {
+          "arm": "SN",
+          "prior5_objective": 0.49197251305621964,
+          "last5_objective": 0.49124845294639136,
+          "relative_improvement": 0.001471749113238655,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": false,
+          "extension_required": false
+        },
+        {
+          "arm": "SB",
+          "prior5_objective": 0.49192226282654883,
+          "last5_objective": 0.49309696090925836,
+          "relative_improvement": -0.0023879750348353972,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": false,
+          "extension_required": false
+        }
+      ]
+    },
+    {
+      "pair": "GPUstress_PERM_sgd_seed2025_until350",
+      "status": "PASS",
+      "receipt_sha": "2ef3e3086332f266404557c9b6240e2f49b3c433e776a190fc665c150dc9ca2b",
+      "actual_epochs": 350,
+      "max_point_error": 2.220446049250313e-16,
+      "selection_bootstrap_choices_checked": 4000,
+      "budgets": [
+        {
+          "arm": "SN",
+          "prior5_objective": 0.48470821683375026,
+          "last5_objective": 0.48859673711104873,
+          "relative_improvement": -0.00802239397280981,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": true,
+          "extension_required": false
+        },
+        {
+          "arm": "SB",
+          "prior5_objective": 0.492303834042482,
+          "last5_objective": 0.490441336452281,
+          "relative_improvement": 0.0037832278796356045,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": false,
+          "extension_required": false
+        }
+      ]
+    }
+  ],
+  "test_access": false,
+  "scope": "Existing immutable paired readout hash, actual duration, sixcell-to-point, full reselection, onset and budget validation. Intermediate state budget already requires matched extension."
+}

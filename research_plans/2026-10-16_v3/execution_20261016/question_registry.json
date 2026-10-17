@@ -507,7 +507,7 @@
     {
       "id": "Q40",
       "question": "Can state-ablation gap attenuation be distinguished from fixed-LR saturation or slow learning?",
-      "status": "PENDING_ALREADY_PLANNED_STATE_CONTROLS",
+      "status": "BOUNDARY",
       "evidence_strength": "MEDIUM",
       "origin": "Actualfirstcompletedseed2022all6stateconditions, notahypotheticalengineeringrisk.",
       "observation": "ActualcommonE50all4seeds32armrows: nativeSN selectionAUCmean.661549/SB.647912; beta1zero-vonlySN.673805/SB.669116 (healthy favorable counterexample); beta2zeroSN.498354/SB.500340 withtrainJ13.99..41.27; m-onlySN.543079/SB.543266 withJ.581..584. Allactualproducer/trajectory/metrics/model50SHAs verified. Alloriginalfourshadowreplays COMPLETEexit0 andtheta/m/vcheckpointreplayerrors0 at1/10/40.",
@@ -520,14 +520,15 @@
         "Seed-specificfailureorstageeffect"
       ],
       "evidence": "V11_state_all4_common50_health_observation.json; archive/formal/V11_state_all4_common50_health.csv; V11_shadow_derived_actual_activation_review.json; V11_beta1_zero_v_only_seed2022_until050_primary_verification.json; V11_state_decomposition_design.json; V11_state_implementation_self_review.json",
-      "completed_experiments": "Alloriginal24statefulltrainings/commonE50health32rows, all4shadowstatistics/direction/rootchecksCOMPLETE. Finalstate23/24/25 budgets150/100/200certified. State25all3full200root12000PASS; beta1/beta2prefix50&100root16000PASS,5remainingprefixesexecuting. State22actual250all6COMPLETE/root36critical/archive42PASS, beta1SBnonplateauawaitingexactfull250selectionconfirmation, beta1/beta2full250running.",
+      "completed_experiments": "All4statefinaltrainingbudgets250/150/100/200; ALL39requiredstatefull/historicalpairedreadouts/root156000choicesPASS. All4shadowperformance/direction/1740geometry/12checkpointreplaysdone. All16native/statefullparents,15008marginal/14336contrast/3584summaryreconstructionandactualabsolutehealth/fixed22/ownfinalsensitivitiesPASS.",
       "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
-      "next_action": "Completealreadyapprovedmatchedextensionsandfinalreadouts, CPUlocalstatisticsandmissinggeometrytelemetryreplay. Reportabsoluteperformance,percellandallstages; distinguishtrainJdata/weighting/clippingfromevaluationmacroLL. NoLR/epsrescue.",
+      "next_action": "Diagnosticminimalhealth/lengthcontrolscomplete; retainBOUNDARYandfrozenmatrix, noLR/epsretuneoradditionaltraining. CompleteglobalfrozentestandremainingV5/V7/V8; onlynewpositivefullhistorynecessityclaimwouldneedhealth-preservingblock-norm/progressmatchedcontrol.",
       "conclusion_so_far": "Repeatedfixed-LRbeta2zeroextremeloss/near-randomAUCandm-onlyunderlearningmakegapcollapsealoneinsufficientfornecessity. Do notgeneralizetoallablations: v-onlyhasbetterabsoluteAUCinbotharmsatcommon50. Thisishealth/selectionpointobservation, notdiagnosticstateeffectclosure.",
-      "remaining_uncertainty": "Fullfinalbudgetpairedmetrics andlong-runnecessity; localcausalityconditionalonnativeSNtheta. Globalnormmatchedstates stillredistributeblockmagnitudes (Q42), so notuniqueanglemediation.",
+      "remaining_uncertainty": "Whole-updatehistory/scale/blockredistribution/learningprogressnotuniquelyseparated. Localnormmatchedwhole-historycausalityconditionalonnativeSNtheta, notlong-runnecessity; Q42andnewQ44 retained. NoequivalencezeroassumedfromwideCI.",
       "latest_stage_health_observation": "V11_state_seed2022_T150_budget_and_health_note.md: beta2zeroSBtrainJ40.7441to16.9016 at146..150while selectionmacroAUC stays.5. Notoscillation/no permanentfailureclaim. All6matchedMIN200 required; final200orlonger andoriginal150prefix readouts remainmandatory.",
       "latest_actual200_health_observation": "V11_state_seed2022_T200_budget_and_health_note.md: all6\u00d74stages24selectionhealthrows fromphysicalproducerlogs. \u03b22SB longstageJnonmonotonic13.99/39.90/16.90/28.92 whileAUC~.49\u2013.50; no stationaryoscillatorclaim. m-onlyimprovesAUC~.560to.583, v-onlylateAUCdropsdespiteJdecline; do notextrapolateE50healthpermanently. Actual\u03b22SN1000confirmationFALSE/rootPASSforcesall6MIN250; six150/200prefixesstillrequired.",
-      "latest_final200_seed25_health": "V11_state_seed2025_beta2zero_final200_health_note.md: actualfull200/root4000PASS; beta2zeroBOTHq selection/diagnostic macroAUCexactly.5 withlargeLL/J. Zeroqgap isperformancefloor, not successfulmediation. 20actualhealthrows/currentproducerpinsretained; seed/stageobservationsSTRONG, long-runnecessitynotidentified."
+      "latest_final200_seed25_health": "V11_state_seed2025_beta2zero_final200_health_note.md: actualfull200/root4000PASS; beta2zeroBOTHq selection/diagnostic macroAUCexactly.5 withlargeLL/J. Zeroqgap isperformancefloor, not successfulmediation. 20actualhealthrows/currentproducerpinsretained; seed/stageobservationsSTRONG, long-runnecessitynotidentified.",
+      "conclusion": "UnderfixedLR.003 beta2zeroall4ownfinalbothqdiagnosticAUC=.5 withlargeLL/J; m-onlylearnsovertimebutlagsnativeAUC, whileLLcanimprove. Healthyv-onlycounterexample: fixedE50bothqabsoluteAUCimproves4/4yetgapinteraction3negative1positive; original22gapattenuation4positivechieflySNdegradation. Gapcollapsealonecannotidentifynecessaryhistoryorhealthyrescue."
     },
     {
       "id": "Q41",
@@ -582,6 +583,21 @@
       "current_boundary": "Crossenvironmentconfiguration/stageboundary retained; noisolatedsize/difficulty/datasetdriver orvariancecomponentclaim.",
       "minimal_discriminating_experiment": "Onlyifvariancecomponentseparationbecomesessential: freezeoneMLtrainrowlist andvaryoptimizerseeds, thencrossindependentsubsamplingseeds andoptimizerseeds. Notrunbecausecurrentlimitedpaired-effect/boundaryclaims donotrequirethisunregisteredmatrix.",
       "next_action": "RetainQ43inFinalNewlyExposedQuestions withrequiredsixfields; applycoupledpipelinewordingtoMLseedCI/testsummaryinterpretation; continueallmandatoryV5/V7/V8/V11/test."
+    },
+    {
+      "id": "Q44",
+      "question": "Does adding a destructive control change the common early-window estimand and the apparent absolute benefit?",
+      "status": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "origin": "ActualV11four-groupfinaldata jointprewindow4 vsoriginalnative22; observedafterall16fullparents werecomplete.",
+      "observation": "V-onlySNabsoluteAUCdelta +.001180 atjoint4 (2+/2-) versus-.012157 atoriginalfixed22 (4negative); SB +.008938(4+) vs+.000755(2+/2-). Interactionpositive4/4bothwindows, notsignflip. \u03b22floorcontroldeterminesjoint4.",
+      "why_unresolved": "Frozenjointmin-ruleisvalidforitsown4epochestimand, butcohortcompositionchangesit. Itdoesnotansweroriginal22epochhealthy-rescueclaim; time-windowandwhole-stateeffectcannotbeconflated.",
+      "blocking": "Onlyunqualifiedoriginal-early-stagehealthy-rescue/necessityclaims; no blockonlimitedboundaryclosure.",
+      "completed_experiments": "All16actualfullparents/32producerpins, prescribedjoint4 andpredeclaredfixed22plusfixed10/20/50/ownfinalhealth,15008marginal/14336contrast/3584summaryreconstructionPASSmax8.88e-15; eightseed/windowrowsarchived.",
+      "current_boundary": "Differentpredeclaredestimands; preserveoriginalnative22gate, labeljoint4asjoint4. Scope/absoluteeffectdirectiondependsstage. No scientificsource/thresholdmodified.",
+      "next_minimal_experiment": "Currentminimalcomparisoncomplete. Foranewprogress-matchednecessityclaim preregisterexternalclockorhealth-preservingprogress rule beforetraining; do notselectwindowfromdesiredsign.",
+      "evidence": "Q44_intervention_cohort_window_scope_audit.json; archive/formal/Q44_joint4_vs_original22_v_only_absolute_auc.csv; analysis/V11_fullstate_final_numeric_reconstruction/receipt.json",
+      "test_access": false
     }
   ]
 }

@@ -1,5 +1,15 @@
 # 实验结果报告（进行中：只纳入已完成并复核的读出）
 
+## 当前已核实状态：V11 诊断分析完成，全部实验继续执行
+
+V11 四种子状态训练最终预算为 **250/150/100/200**；全部12对最终状态和27对历史读数已完成并通过156000次选择索引检查。与native最终50/100/50/50的16父读数已完成聚合、联合边际、支持交互和原始六单元数值重建（最大误差8.89e−15）。[完整状态分析](V11_fullstate_final_diagnostic_analysis.md)同时报告绝对AUC/loss/J、逐域逐任务、种子CI、训练阶段与预算限制。主控自审，independent_review=false。
+
+原始22轮窗口的v-only AUC交互 +.012912（四seed正），同时SN绝对变化 −.012157（四seed负）、SB仅 +.000755（2正2负）；共同E50两臂AUC均四seed改善，交互却不稳定。β2=0最终AUC=.5且loss/J很高；m-only长期有学习，AUC与loss不总同向。以上支持整个更新状态映射的条件影响（MEDIUM），不识别唯一、必要的长期历史机制。新增Q44（BOUNDARY/MEDIUM）记录联合窗口从原始native22缩到4后，绝对收益估计随窗口改变；不能将不同窗口混为同一健康恢复证据。own_final_epoch仅为selected_fixed_budget标签别名，不能双计独立结果。
+
+V5/V8 seed25实际350的clean/PERM/ORDER/mild四对训练均COMPLETE且满足平台，根核验48关键哈希/56归档PASS；前两对完整350读数/root8000选择检查PASS。ORDER/mild完整350读数已实际启动（GPU79/80，PID496265/496480），强扰动pair5续训已实际启动GPU78/PID495771。**全十条件最终预算仍UNKNOWN**；22对旧预算前缀须等待整组实际最终证书和各自最终父读数，不以单对平台或350当硬上限。V7仍需在V5 SGD最终分析后执行，不能跳过。
+
+问题登记共44项；最终Newly Exposed Questions至少覆盖Q28–Q44共17项，六字段工作附录已保留。Q40的诊断最小补充已完成、定为BOUNDARY/MEDIUM，最终新测试仍待全条件冻结。test_readout_frozen.json不存在，本次新test性能未计算；历史test已暴露，不声称pristine holdout。V5/V7/V8、最终遥测、V12/V13、冻结测试和最终报告/归档推送仍有义务。下文初始快照和过程更新仅为历史，不覆盖本段和实际收据。
+
 以下为早期初始50轮快照；其后已完成的最终预算结果以独立阶段报告为准：`V3_final_baseline_selection_analysis.md`、`V4_final_budget_and_learning_speed_analysis.md`、`V5_Adam_final_matched_analysis.md`、`V9_final_cross_environment_analysis.md`、`V10_final_vs_calAdam_analysis.md`、`V11_shadow_local_statistics_analysis.md`、`V11_shadow_direction_and_norm_analysis.md`。V5 SGD/V8 seed25最终匹配预算、V7和完整状态最终合成仍在执行。本报告持续更新，不能将它视作全任务或充分预算的最终结果。表内差值统一为 SB−SN；AUC正值更好、LogLoss负值更好。CI为训练种子重采样95%区间，selection行重采样与diagnostic行重采样另见各配对文件。n=4时双侧精确符号随机化p最小为.125，CI和同号不等于高功效显著性。原始逐seed数值、两臂绝对值、SD、中位数、CI、符号p均保留在 `analysis/completed_primary_summary_snapshot.csv` 及原聚合目录。
 
 ## 已完成配置：共同pre窗口
@@ -99,3 +109,8 @@ V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份�
 
 
 状态 seed 2025 的 β1=0/v-only、β2=0 两对最终 200 epoch 完整读出已完成，主 agent 核验 8,000 次选择重采样。β2=0 两臂最终 selection/diagnostic 宏观 AUC 均为 0.5，诊断 LL 为 SN 9.932614 / SB 6.087876，训练 J 仍很高；不能把该性能下限上的零差距解释为成功介导。该 seed/阶段绝对健康观测为 STRONG，长期必要机制仍 WEAK/未识别。见 [实际健康边界](V11_state_seed2025_beta2zero_final200_health_note.md)。m-only 最终读出、九对前缀及 seed22 最终预算/读出仍在执行，Q40 尚未关闭。
+
+
+### 完整状态训练预算已确认，读出仍在闭合
+
+V11 四 seed 的六组匹配状态训练最终预算为 **2022:250 / 2023:150 / 2024:100 / 2025:200**。seed22 的五臂满足操作性平台，唯一非平台 β1=0/v-only SB 由实际完整250的精确1000选择重采样确认退化（起点104、参照峰值24）；首次AUC下降48当时不满足训练目标下降，不将二者混同。全部250生产者36关键哈希、42归档已核验，最终预算证书已记录。seed25的三对完整200及九对严格50/100/150前缀全部验证完成（累计48000次选择检查，前缀不是独立重复）；seed22剩余m-only完整250、六对150/200前缀及全四seed联合分析仍在执行。native最终50/100/50/50与状态最终预算不同，受控比较须保留共同固定阶段，最终或各自选择轮次不能一概标为匹配。
