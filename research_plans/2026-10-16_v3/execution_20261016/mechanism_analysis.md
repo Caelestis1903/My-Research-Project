@@ -1,6 +1,6 @@
 # 科研机制分析（进行中，非终局判定）
 
-当前最明确的结论是：在保持Sample objective的条件下，改变q会改变有限batch估计器及训练轨迹；两个KuaiRand Adam配置的早期diagnostic表现存在四seed同向差异。但现有证据尚不能指认唯一必要中介，也没有资格给出GO-METHOD。V5/V7/V10/V11及冻结test仍在执行，本文件不会把未完成分支写成反证或不可识别。
+当前最明确的结论是：在保持Sample objective的条件下，改变q会改变有限batch估计器及训练轨迹；两个KuaiRand Adam配置及固定参考无动量SGD的早期diagnostic表现存在四seed同向差异，故Adam不是通用必要条件。校准Adam×SGD早期interaction触发了已实际执行的状态分解，但固定参考interaction保留为反例。现有证据尚不能指认唯一必要中介，也尚未进行最终GO/NO-GO验收。V10已完成；V5 SGD/V8共同预算、V7、完整状态最终合成及冻结test仍在执行。下文保留早期分析记录，最新因果综合见 `V12_pretest_causal_synthesis_IN_PROGRESS.md` 及各最终阶段报告，不把未完成分支写成反证或不可识别。
 
 ## 稳定现象与证据等级
 

@@ -1,0 +1,17 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "time": 1792197892.367429,
+  "independent_review": false,
+  "scope": "Final V5 actual producer trace audit only; no experimental condition/algorithm or performance gate.",
+  "inputs": "Actual final40V5run paths: SGD WR/PERM/ORDER x4seedsx2q, Adam WR/PERM x4seedsx2q. Manifest may split completed subsets with honest duration labels; finalcombined certificate mustall40actualfinalpaths. Every config/trace/trajectory hashed against current COMPLETE producer; actualTfromreceipt notinitialconfig.",
+  "requirements": [
+    "Derive p/q weights and independently reconstruct everybatch ESS=(sum_d n_dw_d)^2/sum_d n_dw_d^2, variance=sum n_dw_d^2/n-(sum n_dw_d/n)^2, maxweight overpresentdomains. Comparetracewithin numerical tolerance.",
+    "Verify per-epoch stepindicescontiguous/totalrowsN/threecounts sum, exposurematchestrajectory. Two tasks fullyobserved in unchangedtrainingcode, each count equals domain/sample count; label this implication, do not fabricate missingness measurement.",
+    "Compute actualshortbatch position directly from production trace n at actualenumeration index; native/PERM orderNATURAL tail last, ORDER canmove it. Preserve allseed/q/epoch and actualT.",
+    "For sameq/seed WRvsPERM assert exact trace domaincounts/n/orderposition/weights; for WRvsORDER assert identical multiset of domaincounts/n and weights, nevercomparelosses asidentity.",
+    "Per-run/epoch exactdescriptors only; do notpoolbatches as independent performance trials; no causal claim from ESS scalar.",
+    "KeeprawproducerCSV files andhashes; separate existing fullsamplerphysicalNPZ hashes remainmandatory, no redundantwholeNPZ rereadforthis traceaudit."
+  ],
+  "validation": "Synthetic two domainweights/counts expandedvector ESS/var/max identities, SNunitweights, ORDERpermutationtailmovement; basicAST. Formal actualrun only finalinputs certified.",
+  "test_access": false
+}

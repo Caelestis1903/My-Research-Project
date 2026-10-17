@@ -33,6 +33,7 @@ def main():
      records.append(item)
     curves.append(pd.DataFrame(records).set_index('epoch'))
    readouts={f'common_epoch{e}':(e,e) for e in (5,10,15,20,30,40,50,100) if e<=budget}
+   readouts['final_epoch']=(budget,budget)
    for rule,chosen in receipt['selected_epochs'].items():
     readouts['selected_'+rule]=(chosen['SN'],chosen['SB']);readouts['common_SN_selected_'+rule]=(chosen['SN'],chosen['SN']);readouts['common_SB_selected_'+rule]=(chosen['SB'],chosen['SB'])
    for label,(ne,be) in readouts.items():

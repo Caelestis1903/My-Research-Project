@@ -1,6 +1,6 @@
 # 实验结果报告（进行中：只纳入已完成并复核的读出）
 
-当前仅有下列配置完成四种子初始50轮的全部数值读出和主agent复算。本报告持续更新，不能将它视作全任务或充分预算的最终结果。表内差值统一为 SB−SN；AUC正值更好、LogLoss负值更好。CI为训练种子重采样95%区间，selection行重采样与diagnostic行重采样另见各配对文件。n=4时双侧精确符号随机化p最小为.125，CI和同号不等于高功效显著性。原始逐seed数值、两臂绝对值、SD、中位数、CI、符号p均保留在 `analysis/completed_primary_summary_snapshot.csv` 及原聚合目录。
+以下为早期初始50轮快照；其后已完成的最终预算结果以独立阶段报告为准：`V3_final_baseline_selection_analysis.md`、`V4_final_budget_and_learning_speed_analysis.md`、`V5_Adam_final_matched_analysis.md`、`V9_final_cross_environment_analysis.md`、`V10_final_vs_calAdam_analysis.md`、`V11_shadow_local_statistics_analysis.md`、`V11_shadow_direction_and_norm_analysis.md`。V5 SGD/V8 seed25最终匹配预算、V7和完整状态最终合成仍在执行。本报告持续更新，不能将它视作全任务或充分预算的最终结果。表内差值统一为 SB−SN；AUC正值更好、LogLoss负值更好。CI为训练种子重采样95%区间，selection行重采样与diagnostic行重采样另见各配对文件。n=4时双侧精确符号随机化p最小为.125，CI和同号不等于高功效显著性。原始逐seed数值、两臂绝对值、SD、中位数、CI、符号p均保留在 `analysis/completed_primary_summary_snapshot.csv` 及原聚合目录。
 
 ## 已完成配置：共同pre窗口
 
