@@ -16,6 +16,17 @@ def main():
     raw = pd.read_csv(a.summary / 'raw_moments.csv')
     contrasts = pd.read_csv(a.summary / 'trace_contrasts.csv')
     maps = pd.read_csv(a.summary / 'mean_mapping_contrasts.csv')
+    # SGD is affine in g at common theta. Unit eta states the scale explicitly;
+    # the common coupled-L2 term cancels in the q contrast. These are transformed
+    # existing moments, not new draws or measured zero Jensen residuals.
+    linear = maps[['optimizer', 'seed', 'anchor_arm', 'epoch', 'block', 'variant',
+                   'gradient_mean_difference_norm', 'gradient_difference_mc_rms_upper_bound']].rename(columns={'optimizer': 'anchor_optimizer'}).copy()
+    linear['mapping_optimizer'] = 'sgd'
+    linear['mapping_eta'] = 1.0
+    linear['SGD_mean_q_update_contrast_norm'] = linear.gradient_mean_difference_norm
+    linear['SGD_marginal_MC_RMS_sum'] = linear.gradient_difference_mc_rms_upper_bound
+    linear['contrast_over_MC_RMS_sum'] = linear.SGD_mean_q_update_contrast_norm / linear.SGD_marginal_MC_RMS_sum.where(linear.SGD_marginal_MC_RMS_sum > 0)
+    linear.to_csv(a.summary / 'SGD_affine_mapping_control.csv', index=False)
     mapping_rows = []
     inputs = {}
     for entry in receipt['inputs']:
@@ -65,6 +76,7 @@ def main():
         fixedD_over_native_q_mean_contrast_ALL_range=[float(ratio.min()), float(ratio.max())],
         SB_weight_second_moment=float(3 * np.square(p_train).sum()),
         zero_sampled_gradient_unique_anchors=int(len(zero[['seed', 'anchor_arm', 'epoch']].drop_duplicates())),
+        SGD_affine_control='Unit eta transform of stored gradient means/MC moments; common theta L2 cancels. E[U(g)]=U(E[g]) algebraically, not a separately measured zero. Finite-bank contrasts retain sampling and floating-point uncertainty; no paired covariance/CI is inferred.',
         scope='Four training seeds reused across path/stage. MC RMS sum is not a CI. Zero sampled gradient is not by itself a claim about every population row or about module irrelevance. Same-bank trace decomposition is not an independent oracle.'))
 
 

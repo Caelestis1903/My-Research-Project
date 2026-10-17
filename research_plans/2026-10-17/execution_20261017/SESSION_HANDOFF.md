@@ -55,3 +55,8 @@ cc2fc2b已推送：完整审计/诊断门槛/64联合清单和授权，N1 origin
 后续派生状态不要再次覆盖任何原生queue status：N3 audit不依赖status，只要原主队列全16对应COMPLETE再调用；需要归档则写N3_development_terminal_snapshot.json。quota audit需--run-dir-only清单与状态投影时写新的N2_quota_completed_audit_manifest[.status].json，明确DERIVED_READONLY_PROJECTION，原815642.status和830855.status不可由主agent投影改写。ML select使用其未来真正原生队列status。未来如需在主queue有PENDING时优先准入确认，只SIGSTOP原scheduler，子进程健康继续；新增status必须存在、任务集合完全匹配、全部8或16预期任务已准入且RUNNING PID都GPU可见（终态任务有exit），再恢复旧scheduler。确认只5cases每draw比开发21cases快，仍守每卡外部YOLO+本轮≤5。
 
 最终八seed主CI若跨越±.003的有益/有害界，规划要求新增具体精度问题（可Q53，或按现注册新增顺序），不加seed追阳性。旧46entry永远不覆盖。N5 A/B/D和shape只有核心主张仍需相应辨别时触发，不为强行唯一归因扩矩阵；C已资源触发必须按准备MLpilot16→对称winner→正式8seed完成。global test仍SEALED，不得提前。
+
+
+UTC15:33更新：24948cc已实际推送，归档N3开发前8锚(2032/33×双路径E10/E40)config/receipt/draws/macro/cell全部科学表和N3_development_first8_validation.json，原生完整性检查PASS，未提名候选。N3开发现10/16 COMPLETE，seed2034 SN两阶段30/32、seed2035 SN18/32 SB22/32；两个SGD整体C对照已开始12/13draw。主815642计数24complete+2原failed+8running+30pending。N3_first8_norm_control_measurement.json只读已完成raw，最大实际/目标范数相对误差3.808e-6(sharedSTAR)，其余C子块≤7.149e-8，未改四格。
+
+必要N3.5显式线性对照补充：n17_geometry_context.py现在额外将N2已有gradient_mean_difference_norm及gradient MC尺度作单位eta SGD仿射变换，输出N2_fixedpoint_summary/SGD_affine_mapping_control.csv共320行；anchor_optimizer=adam、mapping_optimizer=sgd，绝非SGD训练锚或新抽样。相同theta的L2项相消；E[U(g)]=U(Eg)只作理论恒等，未伪造测得0Jensen。ALL有限bank对比/边际RMSsum为.360744–1.251960，RMS不是CI，不能阈值1判显著；仍保留MC/float精度边界。不影响已有raw moments/Adam表或N2图，context脚本已实际重跑、原文件内容未变，仅新增SGD表及context_receipt source SHA。N2报告和READOUT_REVIEW已补说明，原训练源码全冻。新小里程碑待此次commit/push；后续仍等待N3全16→一次候选冻结→独立8确认/必要64，不能现在final。

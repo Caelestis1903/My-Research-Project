@@ -1,0 +1,54 @@
+{
+  "status": "DESCRIPTIVE_PHYSICAL_CONTROL_CHECK",
+  "anchors": 8,
+  "validation_sha": "fdfbdb61316c14bd4170d994960c2ba9147a17c34837854d8d60fa8f6fe295ef",
+  "results": [
+    {
+      "block": "C",
+      "controls": 768,
+      "max_absolute_relative_error": 6.077669967297084e-08,
+      "mean_absolute_relative_error": 1.4545307010632261e-08
+    },
+    {
+      "block": "C_embedding",
+      "controls": 768,
+      "max_absolute_relative_error": 6.395320917285119e-08,
+      "mean_absolute_relative_error": 1.4996167710535035e-08
+    },
+    {
+      "block": "C_experts",
+      "controls": 768,
+      "max_absolute_relative_error": 7.148533998080353e-08,
+      "mean_absolute_relative_error": 1.5171943003004552e-08
+    },
+    {
+      "block": "C_shared_STAR",
+      "controls": 768,
+      "max_absolute_relative_error": 3.808006416416987e-06,
+      "mean_absolute_relative_error": 2.8336293230206075e-07
+    },
+    {
+      "block": "C_skip",
+      "controls": 768,
+      "max_absolute_relative_error": 6.335265656520761e-08,
+      "mean_absolute_relative_error": 1.5274740502972905e-08
+    },
+    {
+      "block": "C_star_mlp",
+      "controls": 768,
+      "max_absolute_relative_error": 5.996367224980759e-08,
+      "mean_absolute_relative_error": 8.969014219251809e-09
+    },
+    {
+      "block": "P",
+      "controls": 256,
+      "max_absolute_relative_error": 0.0,
+      "mean_absolute_relative_error": 0.0
+    }
+  ],
+  "test_read": false,
+  "additional_draws": 0,
+  "scope": "post-storage applied norm versus recorded target; no AUC selection, no new tolerance or scientific gate",
+  "formula": "abs(applied_block_update_norm / target_block_update_norm - 1)",
+  "filter": "diagnostic rows, draw>=0, recorded target>0; full, norm and direction cases retained separately in source"
+}
