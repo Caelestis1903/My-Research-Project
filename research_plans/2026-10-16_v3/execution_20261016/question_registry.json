@@ -211,7 +211,7 @@
       "plan": "../QUESTION_REGISTRY.md",
       "evidence_strength": "MEDIUM",
       "evidence": "Q21_spectrum_vs_trace_identifiability.md; V6_geometry_observational_analysis.md; V1_decision.json",
-      "minimal_completed_experiment": "16fixedtheta\u00d72q\u00d7512IIDfull-coordinateprobes, exactmean/trace/spectrum/CPRE+taskdirectionandactualsparse-timeaudit. Noindependenttrace-vs-shapedistributionintervention.",
+      "minimal_completed_experiment": "16fixedtheta×2q×512IIDfull-coordinateprobes, exactmean/trace/spectrum/CPRE+taskdirectionandactualsparse-timeaudit. Noindependenttrace-vs-shapedistributionintervention.",
       "conclusion": "Shapehasdescriptiveinformationbeyondtrace, but independentdownstreamexplanatorypower/necessitynotidentified. qchangesbothandotherfactors; repeatednoisebatchesnotindependentYtrials. V7blockandV11single-stepnormcontrolsnotdistribution-tracecontrols.",
       "remaining_uncertainty": "Causalspectrum-vs-scaleeffectandhighermoments; nonstationarytheta andoptimizer/history. Cannotrankmediatorsfromobservationalfit.",
       "minimal_discriminating_experiment": "Independentmean/trace-matchednoise-shapecontrolplusshape-fixedtracecontrolatsamethetaandmatchedbudget, explicitdistribution/highermomentboundary. Notexecutedbecauseunregisterednewalgorithmandcoreconclusiondoesnotrelyonpositiveshapesuperiority.",
@@ -393,7 +393,7 @@
       "id": "Q34",
       "title": "Recorded exp_avg norm includes secondmomentnorm via overlappingkeyprefix",
       "origin": "Primaryread-onlyinspectionofv3_train.steptelemetry",
-      "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||\u00b2+||v||\u00b2), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
+      "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||²+||v||²), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
       "why_it_matters": "Couldmislabelm/vmagnitudesinstateinterpretation; doesnotalteractualupdatesorperformance.",
       "candidate_explanations": [
         "Overbroadprefixselectorinread-onlystatistics"
@@ -406,7 +406,7 @@
       "design": "moment_telemetry_correction_design.json",
       "next_action": "V6/V11moment-normanalysesmust usecorrected_m_norm, v_norm. Originalrawexp_avg retainedandlabeledmixed; cannotinterpretaspurem. Rerunsameposthocutilityforlaterarchivebudgets innewoutdir.",
       "evidence": "analysis/moment_telemetry_correction_initial50/primary_checkpoint_oracle.json; moment_telemetry_correction_decision.json",
-      "conclusion": "Oldexp_avg column is mixedsqrt(m\u00b2+v\u00b2); exactnormrecoveryfromrawm/vpair verifiedagainst8actualAdam/AdaTaskCPREcheckpointblocks. All80000recoveredrow identitiesverify. Actualoptimizerstates,updates,predictions,AUC/loss andselectionunchanged; no retrainingneeded.",
+      "conclusion": "Oldexp_avg column is mixedsqrt(m²+v²); exactnormrecoveryfromrawm/vpair verifiedagainst8actualAdam/AdaTaskCPREcheckpointblocks. All80000recoveredrow identitiesverify. Actualoptimizerstates,updates,predictions,AUC/loss andselectionunchanged; no retrainingneeded.",
       "remaining_uncertainty": "Rawcolumnstillmixedbydesignpreserved; reportcorrected_m_normonly. Correctionnormidentitydoesnotidentifyanystatecausalmechanism."
     },
     {
@@ -486,7 +486,8 @@
       "evidence": "Q38_ORDER_tail_batch_position_audit.json",
       "conclusion": "ORDERchangeswholebatchorderincludingtailposition. Itretainsallrows/exposure/examples; neitherabug norpurecontent-orderholdingbatchsizeschedulefixed. No negligible-tail-effect claim.",
       "remaining_uncertainty": "Smallrelativebatchsizechange doesnotprove negligible causal effect.",
-      "next_action": "IfactualORDERperformance would driveblockingpurecontent-ordernecessity/noveltyclaim, performmatchedtail-fixed full-batch-onlypermutation control. OtherwisekeepboundaryandallactualORDERdata; do notaddtrainingmerelytorepairwording."
+      "next_action": "IfactualORDERperformance would driveblockingpurecontent-ordernecessity/noveltyclaim, performmatchedtail-fixed full-batch-onlypermutation control. OtherwisekeepboundaryandallactualORDERdata; do notaddtrainingmerelytorepairwording.",
+      "latest_completed_subset": "V5_completed34_batch_weight_tail_primary_verification.json: actualfinalSGDfirst3seeds ORDER300armepochs286tailmoves, ORIGINAL/PERMtailslast. Old500armepoch/478 audit remains historical (includesseed25old100). Finalseed25>=300matchedORDER audit stillrequired; do not callold500final."
     },
     {
       "id": "Q39",
@@ -523,7 +524,8 @@
       "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
       "next_action": "Completealreadyapprovedmatchedextensionsandfinalreadouts, CPUlocalstatisticsandmissinggeometrytelemetryreplay. Reportabsoluteperformance,percellandallstages; distinguishtrainJdata/weighting/clippingfromevaluationmacroLL. NoLR/epsrescue.",
       "conclusion_so_far": "Repeatedfixed-LRbeta2zeroextremeloss/near-randomAUCandm-onlyunderlearningmakegapcollapsealoneinsufficientfornecessity. Do notgeneralizetoallablations: v-onlyhasbetterabsoluteAUCinbotharmsatcommon50. Thisishealth/selectionpointobservation, notdiagnosticstateeffectclosure.",
-      "remaining_uncertainty": "Fullfinalbudgetpairedmetrics andlong-runnecessity; localcausalityconditionalonnativeSNtheta. Globalnormmatchedstates stillredistributeblockmagnitudes (Q42), so notuniqueanglemediation."
+      "remaining_uncertainty": "Fullfinalbudgetpairedmetrics andlong-runnecessity; localcausalityconditionalonnativeSNtheta. Globalnormmatchedstates stillredistributeblockmagnitudes (Q42), so notuniqueanglemediation.",
+      "latest_stage_health_observation": "V11_state_seed2022_T150_budget_and_health_note.md: beta2zeroSBtrainJ40.7441to16.9016 at146..150while selectionmacroAUC stays.5. Notoscillation/no permanentfailureclaim. All6matchedMIN200 required; final200orlonger andoriginal150prefix readouts remainmandatory."
     },
     {
       "id": "Q41",
@@ -552,7 +554,7 @@
       ],
       "blocking": false,
       "claim_block": "Blocks pure-direction unique-necessity claims; limited whole-state local effect and boundary synthesis remain valid.",
-      "minimal_completed_experiment": "All4seeds\u00d73anchors\u00d72currentq\u00d77conditions, raw/globalnormmatchedCPRE+ALL; originaltheta/m/vreplayzeroerrors,12physicalcheckpoints,1740actualrows, normpartition andtriangleidentities checked.",
+      "minimal_completed_experiment": "All4seeds×3anchors×2currentq×7conditions, raw/globalnormmatchedCPRE+ALL; originaltheta/m/vreplayzeroerrors,12physicalcheckpoints,1740actualrows, normpartition andtriangleidentities checked.",
       "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
       "evidence_strength": "MEDIUM",
       "evidence": "Q42_global_norm_vs_block_scale_identifiability.md; V11_shadow_direction_and_norm_analysis.md; V11_shadow_geometry_all4_primary_verification.json; analysis/V11_shadow_geometry_all4/all4_geometry.csv",

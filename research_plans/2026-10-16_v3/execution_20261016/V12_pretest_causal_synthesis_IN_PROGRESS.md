@@ -45,7 +45,7 @@ flowchart LR
 |---|---|---|---|
 | CF1 同目标改变q | V1全部身份/完整梯度审计PASS；V2/V4多LR四种子完整诊断完成；新test待冻结 | 该实现中的q总干预改变估计器、训练路径及配置/阶段依赖的性能 | 不唯一识别暴露、重复、谱或共享结构中介 |
 | CF2 同q改变optimizer | fixed/calibrated Adam与无动量SGD均四种子；实际LR校准、预算/2B、AdaTask均完成 | Adam不是所有采样敏感性的必要条件；calibrated早期interaction存在，固定参考反例保留 | 不把两种optimizer的差异全归于历史；学习率、映射及优化进度也不同 |
-| CF3 同q改变域内sampler | Adam全部四种子最终匹配读数与104,064值重建PASS；SGD seed25共同预算仍在完成 | 在相同目标/配额下，域内采样方案这个整体干预；Adam共同早期PERM的q gap四负，不能由此宣称它完全消除了重复 | PERM同时改变覆盖、重复位置和条件依赖，不能单独称纯repetition intervention或完全无重复 |
+| CF3 同q改变域内sampler | Adam全部四种子最终匹配读数与104,064值重建PASS；SGD seed25共同预算仍在完成；34条最终轨迹102900批次的域计数与权重身份PASS | 在相同目标/配额下，域内采样方案这个整体干预；Adam共同早期PERM的q gap四负，不能由此宣称它完全消除了重复 | PERM同时改变覆盖、重复位置和条件依赖。域内每轮抽取E_d次、支持N_d时，R_d≥max(0,E_d−N_d)；SB小域的E_d>N_d使固定曝光和支持下的零重复控制不可行，故不能从PERM残差排除重复必要性 |
 | CF4 同q、同batch multiset改顺序 | 四种子精确multiset/计数验证；最终匹配性能待V5 | 固定实现、已抽batch集合的条件路径敏感性 | 短尾batch也被移动，size-clock没固定；非数据依赖的IID置换不等于curriculum策略因果收益 |
 | CF5 同theta替换参数块 | 12个实际native检查点SHA核验PASS，清单prepared；必须V5分析后执行 | 条件于theta/状态/当前draw的局部块直接效应；达预定门槛后才可能触发完整训练 | 未执行前不能称必要；即便局部阳性也不是长期自然间接效应，R不构成共享R必要性 |
 | CF6 2B/确定性对照 | B0/B2完整适足预算、相同examples与精确step读数完成；可控子集exact优化与随机比较完成 | 移除抽样噪声时同一路径身份；batch大小与step-clock敏感性 | 2B改变优化步数/时钟，不能单独当作只改变scalar covariance；toy不是完整模型真实泛化训练 |
