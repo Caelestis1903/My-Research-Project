@@ -1,5 +1,5 @@
 {
-  "status": "N1_CONFIRMATION_RUNNING",
+  "status": "N2_N3_AUTHORIZED",
   "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
   "stages": [
     {
@@ -36,27 +36,27 @@
     },
     {
       "stage": "N1_confirmation",
-      "status": "RUNNING"
+      "status": "COMPLETE_VALIDATED"
     },
     {
       "stage": "N2_fixedpoint",
-      "status": "WAIT_N1"
+      "status": "AUTHORIZED"
     },
     {
       "stage": "N2_training",
-      "status": "CONDITIONAL"
+      "status": "TRIGGERED_AUTHORIZED"
     },
     {
       "stage": "N3",
-      "status": "WAIT_N1"
+      "status": "AUTHORIZED"
     },
     {
       "stage": "N4",
-      "status": "CONDITIONAL"
+      "status": "WAIT_INDEPENDENT_N3"
     },
     {
       "stage": "N5",
-      "status": "CONDITIONAL"
+      "status": "C_TRIGGERED_WAIT_N2_N3_OTHERS_CONDITIONAL"
     },
     {
       "stage": "TEST",
@@ -82,13 +82,21 @@
   },
   "confirmation_runs": 32,
   "latest_confirmation_snapshot": {
-    "time_utc": "2026-10-17T11:53:09.382682+00:00",
+    "time_utc": "2026-10-17T13:09:23.704628+00:00",
     "counts": {
-      "COMPLETE": 16,
-      "RUNNING": 8,
-      "PENDING": 8
+      "COMPLETE": 32,
+      "FAILED": 0
     },
-    "validated_complete_runs": 16,
-    "validation": "N1_confirmation_partial16_validation.json"
-  }
+    "validated_complete_runs": 32,
+    "validation": "N1_confirmation_validation.json"
+  },
+  "conditional_branches": {
+    "N1_H200_adam": "NOT_TRIGGERED_RHO",
+    "N1_H200_sgd": "NOT_TRIGGERED_RHO",
+    "N2_quota": "TRIGGERED_ADAM",
+    "N3_SGD_control": "TRIGGERED",
+    "N4": "WAIT_N3_CONFIRMATION",
+    "N5_C": "TRIGGERED_WAIT_N2_N3"
+  },
+  "N1_metadata_archive": "RUNNING_READ_ONLY"
 }

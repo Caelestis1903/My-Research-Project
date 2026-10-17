@@ -1,0 +1,63 @@
+{
+  "status": "AUTHORIZED",
+  "date_utc": "2026-10-17T13:09:23.625172+00:00",
+  "decision_by": "primary",
+  "independent_review": false,
+  "reason": "start.md section11; documented sequential design, implementation and primary self-review PASS",
+  "manifest_sha256": "5f42ee534b9e14eeee91f5fcf9a68b1b94ead813b14b8432716bff0aae205cfc",
+  "evidence_sha256": {
+    "N1_confirmation_validation.json": "01db55d9e190bfec6948ded9cafbed33bb73bf0ba10682a9cf2d7830cf794fc7",
+    "N1_diagnostic_gates.json": "60ca0e5bdb91fcb1c656cd4d98bb4a25225f788f208888ed4294d37ef8643671",
+    "N2_N3_anchor_freeze.json": "c7a3531f362d84670f74b148a1e4794d2f6e26245b5a53f044a700fe336dca57",
+    "N2_DESIGN_ADDENDUM.md": "5ffa31bce13dc65c867e2e8039eb45df9e8f053fead0a85f513dd5afc3dcfbb1",
+    "N3_DESIGN_ADDENDUM.md": "59d6a376b80c343e5c2c6762f4fcc381f7a7d1fb358322be248671eaa93ef40f",
+    "N2_N3_REVIEW.md": "05edcdefd8ee79e76d7ea939ed99f224dfacc185f65011c4e9ea07e0d83978fa",
+    "FOLLOWUP_READOUT_REVIEW.md": "b2547207379d9ee2d80ec08c60cc205f09d550adc22059ab2974f7fb59eaff50",
+    "preflight/quota_receipt.json": "d86e8ed583c4c3bafb56a8cf6b01eb13a2be1294aa90219a555683765318b8a0",
+    "preflight/geometry_smoke_final/receipt.json": "310f21406e9f5bd4a19b5941204ed8862591603f78af389800cf2c160b8e860c",
+    "preflight/local_smoke_final/receipt.json": "e2804f8b7345d7c72dfc4129408d83f36412c1a053968423bcf6d8d3c1383013"
+  },
+  "source_sha256": {
+    "n17_geometry.py": "ea6a8af4b6d52a66c947cfb193bb655796273e411caabafdf5251a8c5616d168",
+    "n17_local.py": "99ef673d41c8a4a7e8af2b5a162e05f1924e2f0593dcdd45fd82b11e990a24a0",
+    "n17_quota.py": "695d459c57170937c2f3828ac84a3b4f991780746063486fe4e3ae369220ad01",
+    "n17_capture.py": "3f374e67da1c49eceb36f9209bcd394e5758b79edd1bcfe25ae74ac208158ada",
+    "n17_train.py": "d2ba416ac4da12adca13946ca3d193f0bc245ef3f9cf19ddd8104768e613996e",
+    "n17_common.py": "2fe01ddc0ccb33803e424e98d070f206037f38a1490cafc5dd3955e8f2e4660a",
+    "n17_queue.py": "ca7cdd2c98223ed6dc00352cccef8743045ad8a5192d7f8eefcfbc8153341cc5",
+    "n17_geometry_readout.py": "8f3025ca50af8a3d5c6a1959bb8426f95819f70e0a5311854a1b34bba8a7969c",
+    "n17_local_readout.py": "44635f8e89befeb0a74023b7d572071362bc41f461dbc4789b9b0985653237d8"
+  },
+  "tasks": 64,
+  "counts": {
+    "N2_fixedpoints": 16,
+    "N3_development": 16,
+    "N3_SGD_control": 16,
+    "N2_quota": 16
+  },
+  "N1_H200_triggered": false,
+  "N2_optimizer": "adam",
+  "N2_lr": 0.01,
+  "N3_SGD_control_lr": 1.0,
+  "N3_development_seeds": [
+    2032,
+    2033,
+    2034,
+    2035
+  ],
+  "N2_quota_seeds": [
+    2032,
+    2033,
+    2034,
+    2035,
+    2036,
+    2037,
+    2038,
+    2039
+  ],
+  "test_read": false,
+  "scientific_conclusions": "not authorized by resource gate alone",
+  "N5_C": "triggered; manifest prepared; training waits N2/N3 closure",
+  "N4": "wait independent local confirmation",
+  "archive_concurrency": "N1 H200 not triggered; N1 run directories immutable. Existing archive reads only N1 outputs and ready tasks read frozen anchors/write new directories, so archival can proceed concurrently without mixed H100/H200 receipts."
+}

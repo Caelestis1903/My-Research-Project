@@ -61,3 +61,5 @@ N1 pilot终态及完整源数已归档；N1_pilot_validation.json为32/32完成�
 独立确认首8条H100已完成且预算/配对/逐epochmodel存在性验证通过；model_capture_runtime_identity.json进一步核对一条真实E100纯model与native完整state全部tensor完全相同，未读取test。新确认的逐epochmodel SHA、原始轨迹和域曝光见run_metadata，剩余确认继续运行。
 
 确认里程碑：全部16条Adam确认H100完成，N1_confirmation_partial16_validation.json核验步数、样本数、逐batch域计数、最早选轮、初始化配对和固定人口身份通过；SGD继续运行。未从Adam完成前缀提前决定分支，test仍封存。
+
+确认终态：32/32 H100完成、失败0，完整预算/配对核验通过，训练源指纹仅1种。N1_diagnostic_gates.json冻结两优化器重要残差、Adam优先、quota新增16条及SGD整体C对照；两优化器均未触发H200。N2/N3联合64项只读N1锚并写新目录，N1目录不再修改，故可与只读N1元数据归档并行，不再等待归档IO才填充GPU。N5-C已触发并准备16条pilot清单，正式训练待N2/N3阶段闭合。test继续封存。详见N1_DIAGNOSTIC_GATE_ANALYSIS.md、N2_N3_RUN_AUTHORIZATION.json。

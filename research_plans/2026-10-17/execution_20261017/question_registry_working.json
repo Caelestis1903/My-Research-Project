@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "date": "2026-10-17",
-  "status": "PROPOSED_NEXT_PHASE_NOT_EXECUTED",
+  "status": "IN_PROGRESS",
   "source": {
     "repository": "Caelestis1903/My-Research-Project",
     "branch": "codex/execute-2026-10-16-v3",
@@ -21,30 +21,30 @@
     "new_proposed_questions": 6,
     "total_questions": 52
   },
-  "preservation_rule": "\u6bcf\u4e2a\u539f\u95ee\u9898\u7684original_registry_entry\u5b8c\u6574\u4fdd\u7559\u539f\u5b57\u6bb5\u548c\u503c\uff1bnext_phase_proposal\u4e3a\u65b0\u5efa\u8bae\uff0c\u4e0d\u8986\u76d6\u539f\u7ed3\u8bba/\u72b6\u6001\u3002\u5386\u53f2\u672a\u89e6\u53d1\u4e0e\u7ed3\u6784\u4e0d\u53ef\u8bc6\u522b\u4e0d\u5f97\u4f2a\u88c5\u65b0\u9634\u6027\u3002",
-  "new_question_policy": "Q47\u2013Q52\u53ea\u662f\u672c\u6b21\u65b0\u589e\u8d77\u70b9\uff1b\u540e\u7eed\u65b0\u589e\u4e0d\u8bbe\u4e0a\u9650\uff0c\u4e0d\u5408\u5e76\u6389\u53cd\u4f8b\u4ee5\u51d1\u56fa\u5b9a\u6570\u91cf\u3002",
+  "preservation_rule": "每个原问题的original_registry_entry完整保留原字段和值；next_phase_proposal为新建议，不覆盖原结论/状态。历史未触发与结构不可识别不得伪装新阴性。",
+  "new_question_policy": "Q47–Q52只是本次新增起点；后续新增不设上限，不合并掉反例以凑固定数量。",
   "source_registry_metadata": {
     "status": "FINAL_ALL_46_QUESTIONS_TERMINAL",
-    "historical_field_scope": "observation/origin/test_access\u7b49\u5b57\u6bb5\u4fdd\u7559\u95ee\u9898\u63d0\u51fa\u65f6\u7684\u5386\u53f2\u8bed\u5883\uff0c\u4e0d\u8868\u793a\u6700\u7ec8\u5c1a\u672a\u5b8c\u6210\uff1b\u51bb\u7ed3test\u73b0\u5df2\u5168\u90e8\u5b8c\u6210\uff0c\u65e7next_action\u5df2\u5355\u72ec\u4fdd\u7559\u3002",
+    "historical_field_scope": "observation/origin/test_access等字段保留问题提出时的历史语境，不表示最终尚未完成；冻结test现已全部完成，旧next_action已单独保留。",
     "time_finalized": 1792214241.1230974,
     "new_questions_count": 19,
     "scientific_classification": "BOUNDARY-CONFIRMED",
     "method_decision": "NO_GO"
   },
   "stage_definitions": {
-    "N0": "\u5df2\u6709\u7ed3\u679c\u8bc4\u4ef7\u51fd\u6570\u3001\u4eba\u53e3\u3001\u9009\u62e9\u89c4\u5219\u4e0e\u56fa\u5b9a\u7a97\u53e3\u590d\u7b97",
-    "N1": "\u5bf9\u79f0q\u00d7LR\u6821\u51c6\uff0c\u72ec\u7acb\u65b0\u79cd\u5b50\u548c\u5b8c\u6574\u5171\u540c\u9884\u7b97",
-    "N2": "IID\u4e0e\u968f\u673a\u6574\u6570\u57dfquota\uff1a\u76f8\u540c\u76ee\u6807\u4e0e\u76f8\u540c\u9884\u671f\u66dd\u5149\uff0c\u5206\u79bb\u57df\u8ba1\u6570\u901a\u9053",
-    "N3": "\u53cc\u8def\u5f84\u951a\u3001\u591adraw\u3001C\u5b50\u5757\u4e0enorm\u00d7direction\u4ea4\u4e92\uff1b\u6761\u4ef6\u77ac\u65f6Adam\u6620\u5c04",
-    "N4": "N3\u72ec\u7acb\u786e\u8ba4\u540e\uff0c\u4f7f\u7528\u65b0seed\u7684tied/untied\u4e0e\u771f\u5b9e/\u56fa\u5b9a\u968f\u673a\u5206\u7ec4\u603b\u62d3\u6251\u5bf9\u7167",
-    "N5": "\u6761\u4ef6ORDER\u5c3e\u90e8\u3001\u652f\u6301/\u91cd\u590d\u3001ML\u4eba\u53e3\u89e3\u8026\u4e0emask\u4fe1\u606f\u7834\u574f\u8fb9\u754c",
-    "N6": "\u5b9a\u9898\u6587\u732e\u8986\u76d6\u4e0e\u6548\u5e94/\u673a\u5236/\u65b9\u6cd5\u5206\u5c42\u7ec8\u5c40"
+    "N0": "已有结果评价函数、人口、选择规则与固定窗口复算",
+    "N1": "对称q×LR校准，独立新种子和完整共同预算",
+    "N2": "IID与随机整数域quota：相同目标与相同预期曝光，分离域计数通道",
+    "N3": "双路径锚、多draw、C子块与norm×direction交互；条件瞬时Adam映射",
+    "N4": "N3独立确认后，使用新seed的tied/untied与真实/固定随机分组总拓扑对照",
+    "N5": "条件ORDER尾部、支持/重复、ML人口解耦与mask信息破坏边界",
+    "N6": "定题文献覆盖与效应/机制/方法分层终局"
   },
   "questions": [
     {
       "id": "Q1",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "Objective-equivalent sampling \u662f\u5426\u771f\u7684\u6539\u53d8 training trajectory\uff1f",
+      "question": "Objective-equivalent sampling 是否真的改变 training trajectory？",
       "original_registry_entry": {
         "id": "Q1",
         "status": "RESOLVED",
@@ -53,7 +53,7 @@
         "evidence": "V1_decision.json; V2_fixedAdam_analysis.md; V2_fixedAdam_primary_verification.json; analysis/V2_fixedAdam_aggregate_until050",
         "conclusion": "Objective-equivalent q changes can produce seed-consistent early diagnostic trajectory performance in the frozen fixed-reference Adam.01 configuration: commonpre1..27 AULC mean-.006980, fournegative, CI[-.011226,-.002734]. Not a selected-only or late-only observation in that configuration.",
         "remaining_uncertainty": "Calibrated optimizers, final common-budget generalization, cross-environment scope and mediation remain their separate questions; n4 signrandomization p=.125, no untouchedhistoricalholdout claim.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retain fixed-reference scope and all contrary later/selected seeds; complete other configurations and deferred test without extrapolating this existential result."
       },
       "next_phase_proposal": {
@@ -62,24 +62,24 @@
           "N1"
         ],
         "priority": "confirm_scope",
-        "next_action": "\u590d\u7b97\u8bc4\u4ef7\u51fd\u6570/\u4eba\u53e3\u540e\uff0c\u4ee5\u5bf9\u79f0q\u00d7LR\u548c\u72ec\u7acb\u786e\u8ba4\u79cd\u5b50\u754c\u5b9a\u6761\u4ef6\u6548\u5e94\u3002",
-        "resolution": "\u4fdd\u7559RESOLVED\u5b58\u5728\u6027\u7ed3\u8bba\uff1b\u65b0\u589e\u7ed3\u679c\u63cf\u8ff0\u6210\u7acb/\u53cd\u8f6c/\u6d88\u5931\u7684\u914d\u7f6e\u8303\u56f4\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u91cd\u8dd1\u539f\u540c\u76ee\u6807\u5b58\u5728\u6027\u5ba1\u8ba1\uff0c\u4e0d\u628a\u539f4seed\u5f53\u65b0\u8c03\u53c2\u72ec\u7acb\u786e\u8ba4\u3002"
+        "next_action": "复算评价函数/人口后，以对称q×LR和独立确认种子界定条件效应。",
+        "resolution": "保留RESOLVED存在性结论；新增结果描述成立/反转/消失的配置范围。",
+        "estimand_or_identification_boundary": "不重跑原同目标存在性审计，不把原4seed当新调参独立确认。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q2",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u662f\u5426\u53ea\u662f checkpoint-selection artifact\uff1f",
+      "question": "是否只是 checkpoint-selection artifact？",
       "original_registry_entry": {
         "id": "Q2",
         "status": "RESOLVED",
         "plan": "../QUESTION_REGISTRY.md",
         "evidence_strength": "MEDIUM",
         "evidence": "V3_final_baseline_selection_analysis.md; V3_selection_baselines_final_primary_verification.json; analysis/test_baseline7_summary/test_seed_summary.json; analysis/test_all_cohorts_primary_verification/receipt.json",
-        "conclusion": "RESOLVED/MEDIUM\uff1aselection\u4f1a\u6539\u53d8\u7b26\u53f7\u3001\u5927\u5c0f\u53ca\u4e24\u81c2\u5065\u5eb7\u89e3\u91ca\uff0c\u4f46\u4e0d\u662f\u6240\u6709q\u6548\u5e94\u7684\u552f\u4e00\u6765\u6e90\u3002\u51bb\u7ed3test\u56fa\u5b9aSGD\u65e9\u671f\u2212.001430\u53ca\u5171\u540cE50\u2212.001405\u56db\u8d1f\uff0ccommon-SN/common-SB AUC\u9009\u8f6e\u5206\u522b\u2212.002747/\u2212.001380\u56db\u8d1f\uff1b\u6821\u51c6Adam\u65e9\u671f\u2212.009821\u53ca\u5171\u540c\u9009\u62e9\u2212.011520/\u2212.010323\u56db\u8d1f\u3002calSGD\u65e9\u671f+.001614\u56db\u6b63\u5374AUC\u81ea\u9009\u2212.000972\u56db\u8d1f\uff0cML\u65e9\u671f+.003015\u56db\u6b63\u3001E50\u2212.000986\u56db\u8d1f\u3001\u81ea\u9009\u5747\u503c+.000539\u4ec51\u6b633\u8d1f\uff0c\u663e\u793a\u89c4\u5219/\u9636\u6bb5/\u4eba\u53e3\u8fb9\u754c\u3002\u5168\u90e8\u56db\u89c4\u5219\u30011000\u91cd\u9009\u533a\u95f4\u4e0e\u5171\u540c\u8f6e\u6b21\u5206\u522b\u5f52\u6863\uff0c\u4e0d\u628a\u6761\u4ef6\u9009\u62e9\u533a\u95f4\u5f53\u5916\u5c42\u8c03\u53c2\u6216pristine holdout\u4e0d\u786e\u5b9a\u6027\u3002",
-        "remaining_uncertainty": "\u5386\u53f2test\u66b4\u9732\uff1b\u56dbseed\u6761\u4ef6\u6548\u5e94\uff0c\u4e0d\u542b\u5916\u5c42LR\u9009\u62e9\u4e0d\u786e\u5b9a\u6027\u3002\u5168\u90e8\u89c4\u5b9a\u6700\u7ec8sampler/corruption/state\u53catest\u73b0\u5747\u5b8c\u6210\u3002",
+        "conclusion": "RESOLVED/MEDIUM：selection会改变符号、大小及两臂健康解释，但不是所有q效应的唯一来源。冻结test固定SGD早期−.001430及共同E50−.001405四负，common-SN/common-SB AUC选轮分别−.002747/−.001380四负；校准Adam早期−.009821及共同选择−.011520/−.010323四负。calSGD早期+.001614四正却AUC自选−.000972四负，ML早期+.003015四正、E50−.000986四负、自选均值+.000539仅1正3负，显示规则/阶段/人口边界。全部四规则、1000重选区间与共同轮次分别归档，不把条件选择区间当外层调参或pristine holdout不确定性。",
+        "remaining_uncertainty": "历史test暴露；四seed条件效应，不含外层LR选择不确定性。全部规定最终sampler/corruption/state及test现均完成。",
         "diagnostic_component_status": "RESOLVED_MEDIUM_SELECTION_MODIFIER_NOT_UNIVERSAL_ARTIFACT",
         "remaining_gate": "COMPLETE_ALL14_FROZEN_TEST_AND_NUMERIC_RECONSTRUCTION"
       },
@@ -89,16 +89,16 @@
           "N1"
         ],
         "priority": "confirm_scope",
-        "next_action": "\u56fa\u5b9aselection/evaluation\u4eba\u53e3\u548c\u8bfb\u6570\uff0c\u590d\u7b97\u5171\u540c\u8f6e\u6b21\u4e0e\u81ea\u9009\u5dee\u5f02\uff1b\u65b0\u786e\u8ba4\u4f7f\u7528\u51bb\u7ed3\u89c4\u5219\u3002",
-        "resolution": "\u4fdd\u7559RESOLVED\uff1aselection\u5e76\u975e\u5168\u90e8\u6548\u5e94\u552f\u4e00\u6765\u6e90\u3002",
-        "estimand_or_identification_boundary": "selected\u3001common-epoch\u548c\u52a0\u6743\u4eba\u53e3\u6307\u6807\u5c5e\u4e8e\u4e0d\u540cestimand\u3002"
+        "next_action": "固定selection/evaluation人口和读数，复算共同轮次与自选差异；新确认使用冻结规则。",
+        "resolution": "保留RESOLVED：selection并非全部效应唯一来源。",
+        "estimand_or_identification_boundary": "selected、common-epoch和加权人口指标属于不同estimand。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q3",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u662f\u5426\u4f9d\u8d56 Adam\uff1f",
+      "question": "是否依赖 Adam？",
       "original_registry_entry": {
         "id": "Q3",
         "status": "FALSIFIED",
@@ -108,21 +108,21 @@
         "conclusion": "UniversalAdamnecessityfalsified: fixedSGD.1 commonpre1..50 AUCmean-.00304265 fournegativeCI[-.00515485,-.00177798]; common20/fixed50/selected alsonegative. Adam notnecessary forANY q-dependent AUCtrajectoryeffect. LogLosscanimprove, noallmetricsworseclaim.",
         "remaining_uncertainty": "General optimizer independence/equivalence andfinaladequatebudget effects notestablished; calibratedconfigurationinteractions clearlymatter andQ4stateworkcontinues.",
         "previous_evidence_strength": "STRONG",
-        "strength_scope": "\u660e\u786e\u914d\u7f6e/\u56dbseed\u53cd\u4f8b\u7684\u7ecf\u9a8c\u5f3a\u5ea6\u4e3aMEDIUM\uff1b\u4e0d\u662f\u8de8\u914d\u7f6e\u603b\u4f53\u6548\u5e94STRONG\u6216p<.05\u3002"
+        "strength_scope": "明确配置/四seed反例的经验强度为MEDIUM；不是跨配置总体效应STRONG或p<.05。"
       },
       "next_phase_proposal": {
         "next_phases": [],
         "priority": "frozen",
-        "next_action": "\u5c01\u5b58\u65e0\u52a8\u91cfSGD\u53cd\u4f8b\uff0c\u4e0d\u91cd\u505aAdam\u901a\u7528\u5fc5\u8981\u6027\u68c0\u9a8c\u3002",
-        "resolution": "\u4fdd\u6301FALSIFIED\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u628a\u8be5\u53cd\u4f8b\u5199\u6210optimizer\u7b49\u4ef7\u6216\u6240\u6709optimizer\u540c\u5411\u3002"
+        "next_action": "封存无动量SGD反例，不重做Adam通用必要性检验。",
+        "resolution": "保持FALSIFIED。",
+        "estimand_or_identification_boundary": "不把该反例写成optimizer等价或所有optimizer同向。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q4",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u82e5 optimizer-specific\uff0c\u662f\u5426\u4e3a m/v/history\uff1f",
+      "question": "若 optimizer-specific，是否为 m/v/history？",
       "original_registry_entry": {
         "id": "Q4",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -132,28 +132,28 @@
         "conclusion": "Actualcalibratedinteractiontriggeredallmandatoryfour-seedwhole-stateandshadowcontrols; allfinalbudgets250/150/100/200 and39pairscompleted. Whole-state update mapping influencesearlygap, but fixed22SNdegradation, E50healthyabsoluteimprovementwithunstablegap, beta2floor and unmatchedlongrunbudgets prevent identification of unique necessary m/v/history mediator.",
         "remaining_uncertainty": "FixedLR/epsilon/effectivescale andpath/health/stage cochange; localnative-SNtheta swaps estimateconditionaldirecteffects, globalnormmatchingdoesnotfixblockscales. No pristineholdoutclaim. Newtestremainsforwholetaskbutcannotbyitselfidentifyuniquehistory.",
         "minimal_completed_experiments": "All4state variants/native;12final+27historypairs, normmatchedlocalshadows+directiontelemetry; fixed4/22/50 andownfinal readouts, allrawreconstructionPASS.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retainfiniteconditionalboundary; foruniquehistoryclaim predeclareblockwiseupdatenorm/progressmatching before newtraining. ContinueV5/V7/V8/frozentest required bytask.",
-        "completed_minimal_experiment": "\u56dbseed\u4e09\u72b6\u6001\u6700\u7ec8250/150/100/200\uff1b12\u6700\u7ec8+27\u5386\u53f2\u914d\u5bf9\u300112\u5f71\u5b50\u540c\u03b8/\u8303\u6570\u63a7\u5236\u4e0e1740\u65b9\u5411\u884c\u5747\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "\u6574\u4f53\u66f4\u65b0\u6620\u5c04\u4e0e\u6b65\u5e45/\u8fdb\u5ea6/\u5757\u95f4\u5c3a\u5ea6\u8054\u5408\u53d8\u5316\uff0c\u72b6\u6001\u6700\u7ec8\u9884\u7b97\u4e0enative\u4e0d\u540c\u4e14\u6709floor\uff1b\u6ca1\u6709\u552f\u4e00\u957f\u671f\u5386\u53f2\u5fc5\u8981\u6027\u8bc6\u522b\u3002",
+        "completed_minimal_experiment": "四seed三状态最终250/150/100/200；12最终+27历史配对、12影子同θ/范数控制与1740方向行均完成。",
+        "why_current_design_cannot_identify": "整体更新映射与步幅/进度/块间尺度联合变化，状态最终预算与native不同且有floor；没有唯一长期历史必要性识别。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N3"
         ],
         "priority": "conditional_mechanism",
-        "next_action": "\u5148\u4ece\u5df2\u5b58\u72b6\u6001\u53cd\u4e8b\u5b9e\u505a\u9010\u5757\u65b9\u5411\u00d7\u5e45\u5ea6\u533a\u5206\uff1b\u53ea\u6709\u65b0\u72b6\u6001\u5047\u8bf4\u4ecd\u6709\u8bc1\u636e\u624d\u65b0\u8bbe\u5065\u5eb7\u4fdd\u7559\u957f\u671f\u72b6\u6001\u63a7\u5236\u3002",
-        "resolution": "\u53ef\u8bc6\u522b\u6761\u4ef6\u66f4\u65b0\u6620\u5c04\u6548\u5e94\uff1b\u5f53\u524d\u552f\u4e00\u957f\u671f\u5386\u53f2\u5fc5\u8981\u6027\u4ecdNI\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u628a\u540c\u4e00m/v\u4e0b\u7684Adam\u77ac\u65f6\u975e\u7ebf\u6027\u5f52\u5230\u5386\u53f2\u5fc5\u8981\u6027\uff0c\u4e0d\u590d\u6d3bS5\u2013S8\u3002"
+        "next_action": "先从已存状态反事实做逐块方向×幅度区分；只有新状态假说仍有证据才新设健康保留长期状态控制。",
+        "resolution": "可识别条件更新映射效应；当前唯一长期历史必要性仍NI。",
+        "estimand_or_identification_boundary": "不把同一m/v下的Adam瞬时非线性归到历史必要性，不复活S5–S8。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q5",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u975e Adam \u673a\u5236\u662f exposure/repetition/coverage/order/geometry \u4e2d\u54ea\u4e00\u4e2a\uff1f",
+      "question": "非 Adam 机制是 exposure/repetition/coverage/order/geometry 中哪一个？",
       "original_registry_entry": {
         "id": "Q5",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -162,12 +162,12 @@
         "conclusion": "FullWR/PERM/ORDER all4Adam/SGD controlsandfinalrawsampler/coverage/weight auditscomplete. FixedE,N enforcesR=E-U>=max(0,E-N); SBsmallE>N preventsfixedquota/supportzero-repeatcontrol. PERMchangescoverage/dependenceandretainsrepeats; ORDERjointlychanges tailclock. CannotassignuniquenecessarynonAdammediator.",
         "evidence": "V5_Adam_final_matched_analysis.md; V5_SGD_final_matched_analysis.md; V6_geometry_observational_analysis.md; V8_final_matched_diagnostic_analysis.md",
         "remaining_uncertainty": "Alternatives notseparatelyidentified. WidePERMCI notusedasequivalencezeroornecessityexclusion.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Currentminimalcontrolscomplete; noimpossiblezero-repeatcontrol orkeynullclosure. Futurefeasibleresourcejointdesignonlyifstrongerclaimneeded.",
-        "completed_minimal_experiment": "Adam/SGD\u5168\u90e8WR/PERM\u53caSGD ORDER\u56dbseed\u6700\u7ec8\u8bad\u7ec3/\u91c7\u6837\u8eab\u4efd\u3001\u5b8c\u6574\u51e0\u4f55\u4e0e\u4efb\u52a1\u65b9\u5411\u5747\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "\u91cd\u590d/\u8986\u76d6/\u6761\u4ef6\u4f9d\u8d56\u8054\u52a8\uff0cshape\u4e0etrace\u53ca\u540e\u7eed\u03b8\u5171\u540c\u53d8\u5316\uff0c\u4e0d\u80fd\u552f\u4e00\u5f52\u56e0\u975eAdam\u4e2d\u4ecb\u3002",
+        "completed_minimal_experiment": "Adam/SGD全部WR/PERM及SGD ORDER四seed最终训练/采样身份、完整几何与任务方向均完成。",
+        "why_current_design_cannot_identify": "重复/覆盖/条件依赖联动，shape与trace及后续θ共同变化，不能唯一归因非Adam中介。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -176,16 +176,16 @@
           "N5"
         ],
         "priority": "core_mechanism",
-        "next_action": "\u5148IID/\u56fa\u5b9aquota\u5206\u79bb\u57df\u8ba1\u6570\u6ce2\u52a8\uff0c\u518d\u591adraw\u5757\u5e72\u9884\uff1b\u91cd\u590d/coverage/order\u4ec5\u6309\u6761\u4ef6\u4fa7\u652f\u3002",
-        "resolution": "\u5141\u8bb8\u591a\u4e2a\u53ef\u64cd\u7eb5\u8def\u5f84\u5171\u540c\u89e3\u91ca\uff0c\u4e0d\u5f3a\u6c42\u552f\u4e00\u4e2d\u4ecb\u3002",
-        "estimand_or_identification_boundary": "\u56fa\u5b9aquota\u6539\u53d8\u8ba1\u6570/\u6279\u6b21\u4f9d\u8d56\u7ed3\u6784\uff1b\u5176\u6548\u5e94\u4e0d\u81ea\u52a8\u7b49\u4e8e\u7eafscalar trace\u4f5c\u7528\u3002"
+        "next_action": "先IID/固定quota分离域计数波动，再多draw块干预；重复/coverage/order仅按条件侧支。",
+        "resolution": "允许多个可操纵路径共同解释，不强求唯一中介。",
+        "estimand_or_identification_boundary": "固定quota改变计数/批次依赖结构；其效应不自动等于纯scalar trace作用。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q6",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "shared/private parameter \u662f\u5426\u5fc5\u8981\uff1f",
+      "question": "shared/private parameter 是否必要？",
       "original_registry_entry": {
         "id": "Q6",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -194,12 +194,12 @@
         "evidence": "V7_local_counterfactual_analysis.md; V7_local_gate_primary_decision.json",
         "conclusion": "All12minimallocalcontrolscomplete: CpositiveAUCscreenE10/E40, E40loss/Jconflictpreventscompletefrozengate; conditionalfulltrainingNOT_TRIGGERED. Currentlocalpathwayeffectnotunique/long-termnecessity.",
         "remaining_uncertainty": "Long-termsharedCnecessityunidentified; noabsenceclaim. Ralreadyprivate,Pmixed; onefixedbatchpertheta/q.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "RetainQ46andCpositivescreen; no unregisteredAUC-onlygatechange. Proceedfrozenfinaltests.",
-        "completed_minimal_experiment": "12\u89c4\u5b9a\u540c\u03b8\u5c40\u90e8\u00d77\u6761\u4ef6\u5168\u5b8c\u6210\uff1bC E10/E40 AUC\u9633\u6027\uff0cE40 LL/J\u51b2\u7a81\uff0c\u539f\u8054\u5408\u5b8c\u6574\u8bad\u7ec3\u6761\u4ef6\u672a\u89e6\u53d1\u3002",
-        "why_current_design_cannot_identify": "\u5c40\u90e8\u5355draw\u76f4\u63a5\u4f5c\u7528\u4e0d\u7b49\u4e8e\u957f\u7a0b\u67b6\u6784\u5fc5\u8981\u6027\uff1b\u6ca1\u6709\u4e8b\u540e\u653e\u5bbdloss\u4e00\u81f4\u6761\u4ef6\u3002",
+        "completed_minimal_experiment": "12规定同θ局部×7条件全完成；C E10/E40 AUC阳性，E40 LL/J冲突，原联合完整训练条件未触发。",
+        "why_current_design_cannot_identify": "局部单draw直接作用不等于长程架构必要性；没有事后放宽loss一致条件。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -207,16 +207,16 @@
           "N4"
         ],
         "priority": "conditional_mechanism",
-        "next_action": "SN/SB\u53cc\u8def\u5f84\u951a\u548c32draw\u786e\u8ba4C\u5c40\u90e8\u4f5c\u7528\uff0c\u518d\u6761\u4ef6\u6267\u884ctied/untied\u957f\u671f\u62d3\u6251\u5bf9\u7167\u3002",
-        "resolution": "\u82e5\u5c40\u90e8\u4f5c\u7528\u8de8draw/\u4eba\u53e3\u6210\u7acb\u5219\u53ef\u5347\u4e3a\u91cd\u590d\u5c40\u90e8\u8def\u5f84\uff1b\u957f\u671f\u62d3\u6251\u4ea4\u4e92\u53e6\u5224\u3002",
-        "estimand_or_identification_boundary": "\u5c40\u90e8\u66f4\u65b0\u66ff\u6362\u4e0d\u7b49\u4e8e\u5171\u4eab\u62d3\u6251\u5fc5\u8981\u6027\uff1b\u53c2\u6570\u91cf/\u81ea\u7531\u5ea6/\u521d\u59cb\u51fd\u6570\u4e0d\u80fd\u88ab\u4e00\u53e5\u5339\u914d\u5b8c\u5168\u6d88\u9664\u3002"
+        "next_action": "SN/SB双路径锚和32draw确认C局部作用，再条件执行tied/untied长期拓扑对照。",
+        "resolution": "若局部作用跨draw/人口成立则可升为重复局部路径；长期拓扑交互另判。",
+        "estimand_or_identification_boundary": "局部更新替换不等于共享拓扑必要性；参数量/自由度/初始函数不能被一句匹配完全消除。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q7",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "domain size \u662f\u5426\u89e3\u91ca effect\uff1f",
+      "question": "domain size 是否解释 effect？",
       "original_registry_entry": {
         "id": "Q7",
         "status": "BOUNDARY",
@@ -249,7 +249,7 @@
           "baseline_lr": 0.1
         },
         "minimal_identifying_design": "To identify independent support, obtain additional independent rows from the same domain population, prespecify disjoint sampling/subsampling sets with matched difficulty, p,q and exposure, and repeat matched SN/SB training across independent dataset draws. Exact aliases do not supply such rows.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Report nominal-pool invariance separately from independent-support size. Do not equate small domains with difficult domains; complete V8 corruption and cell audit for their separate questions."
       },
       "next_phase_proposal": {
@@ -257,16 +257,16 @@
           "N5"
         ],
         "priority": "structural_boundary",
-        "next_action": "\u4fdd\u7559\u522b\u540d\u590d\u5236\u5728WR\u4e0b\u5b8c\u5168\u540c\u89c4\u5f8b\u7ed3\u8bba\uff1b\u4ec5\u72ec\u7acb\u652f\u6301N\u6210\u4e3a\u76ee\u6807\u65f6\u4f7f\u7528\u771f\u5b9e\u72ec\u7acb\u6837\u672c\u6216\u53d7\u63a7\u751f\u6210\u5206\u5e03\u3002",
-        "resolution": "\u539f\u540d\u4e49pool-size\u5b9e\u9a8cBOUNDARY\u4e0d\u6539\uff1b\u65b0\u7684N\u5b9e\u9a8c\u5355\u72ec\u767b\u8bb0\u3002",
-        "estimand_or_identification_boundary": "\u590d\u5236\u884c\u4e0d\u662f\u72ec\u7acb\u652f\u6301\uff1b\u771f\u5b9e\u589e\u51cf\u6837\u672c\u6539\u53d8empirical J\uff0c\u4e0d\u80fd\u4ecd\u58f0\u79f0\u8de8N\u540c\u4e00\u4e2a\u7ecf\u9a8c\u76ee\u6807\u3002"
+        "next_action": "保留别名复制在WR下完全同规律结论；仅独立支持N成为目标时使用真实独立样本或受控生成分布。",
+        "resolution": "原名义pool-size实验BOUNDARY不改；新的N实验单独登记。",
+        "estimand_or_identification_boundary": "复制行不是独立支持；真实增减样本改变empirical J，不能仍声称跨N同一个经验目标。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q8",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "domain difficulty \u662f\u5426\u89e3\u91ca effect\uff1f",
+      "question": "domain difficulty 是否解释 effect？",
       "original_registry_entry": {
         "id": "Q8",
         "status": "BOUNDARY",
@@ -275,8 +275,8 @@
         "conclusion": "All4severitycomparisonsatmatched50/200/50/350complete. Targetd2SNmeanAUC decreaseswithseverity, butE50mildSNlossimproves andqgapnonmonotonic/stagedependent. Onefixednestedmaskper split, changesfeaturelaw/J_c, notpurelatentdifficultycause.",
         "evidence": "V8_final_matched_diagnostic_analysis.md; V8_final_diagnostic_obligations_primary_certificate.json",
         "remaining_uncertainty": "Natural difficulty asunique mediator/Nmaincauseunidentified; noallmetricsmonotonicoruniversalsmall=hard claim.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
-        "final_test_boundary": "\u5f3amask own-final d2\u4ea4\u4e92test+.003822821\u56db\u6b63 vsdiagnostic\u2212.0139043\u56db\u8d1f\uff1btest SN\u2212.030256968/SB\u2212.026434147\uff0c\u4e24\u81c2\u7edd\u5bf9\u4e0b\u964d\u3002mild selected\u5b8f\u4ea4\u4e92+.006399416\u56db\u6b63\u4f34SN\u4e0b\u964d\u2212.0046963\uff0c\u76ee\u6807d2\u4e24\u81c2\u4e0b\u964d\u3002\u56f0\u96be\u5ea6\u3001\u9636\u6bb5\u3001\u4eba\u53e3\u4e0e\u7edd\u5bf9\u5065\u5eb7\u4e0d\u80fd\u6df7\u4e3a\u5355\u4e00\u56e0\u679c\u89c4\u5f8b\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
+        "final_test_boundary": "强mask own-final d2交互test+.003822821四正 vsdiagnostic−.0139043四负；test SN−.030256968/SB−.026434147，两臂绝对下降。mild selected宏交互+.006399416四正伴SN下降−.0046963，目标d2两臂下降。困难度、阶段、人口与绝对健康不能混为单一因果规律。",
         "historical_pre_final_next_action": "Preserveconditionalmask/inputlawboundary andallcells; frozenfinaltests."
       },
       "next_phase_proposal": {
@@ -285,16 +285,16 @@
           "N5"
         ],
         "priority": "conditional_boundary",
-        "next_action": "\u4fdd\u7559mask\u9636\u6bb5/\u4eba\u53e3\u53cd\u4f8b\uff1b\u5148\u91cd\u7b97\u8bc4\u4ef7\u51fd\u6570\uff0c\u53ea\u6709\u81ea\u7136\u96be\u5ea6\u5f52\u56e0\u6210\u4e3a\u76ee\u6807\u624d\u591amask\u53ca\u72ec\u7acb\u53d7\u63a7\u56e0\u5b50\u3002",
-        "resolution": "\u62a5\u544a\u53ef\u63a7corruption\u654f\u611f\u6027\u4e0e\u6392\u5e8f/\u635f\u5931\u53d6\u820d\u3002",
-        "estimand_or_identification_boundary": "mask\u540c\u65f6\u6539\u53d8\u8f93\u5165law\u548cJ\uff1b\u5355\u4e2a\u56fa\u5b9amask\u4e0d\u8bc6\u522b\u81ea\u7136\u56f0\u96be\u5ea6\u552f\u4e00\u56e0\u679c\u3002"
+        "next_action": "保留mask阶段/人口反例；先重算评价函数，只有自然难度归因成为目标才多mask及独立受控因子。",
+        "resolution": "报告可控corruption敏感性与排序/损失取舍。",
+        "estimand_or_identification_boundary": "mask同时改变输入law和J；单个固定mask不识别自然困难度唯一因果。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q9",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "task/domain imbalance \u662f\u5426\u89e3\u91ca effect\uff1f",
+      "question": "task/domain imbalance 是否解释 effect？",
       "original_registry_entry": {
         "id": "Q9",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -305,12 +305,12 @@
         "minimal_completed_experiment": "4seeds x2q fullsupport/positive/exposure/weightedBCEaudit at10,50 andoriginal50-selectedepochs, primaryverified132cellrows and192supportrows",
         "minimal_identifying_design": "Obtain/construct independentcontrolledpopulations withorthogonalclassprior,p,support assignments andmatchedconditionalfeature/label laws; repeatmatchedSN/SBwithineach empiricaltarget. Explicitlyreport changedcross-populationtarget.",
         "remaining_uncertainty": "Uniqueimbalancecause notidentified; controlledcorruptionsensitivity andsamplinginterventions remain theirseparatequestions.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retainallcelltables andboundary; finishremainingV8controls andupdatefinalselectedsnapshotsifextended.",
-        "completed_minimal_experiment": "\u771f\u5b9e\u57df\u4efb\u52a1N/\u6b63\u4f8b\u7387/\u66dd\u5149/\u516dcell\u652f\u6301\u5ba1\u8ba1\u30012x/4x\u522b\u540d\u4e0e\u4e09mask\u5f3a\u5ea6\u5b8c\u6574\u56dbseed\u63a7\u5236\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "3\u81ea\u7136\u57df\u7684N/p/\u8f93\u5165/\u6807\u7b7e\u7387/\u57fa\u7ebf\u96be\u5ea6\u5171\u540c\u53d8\u5316\uff0c\u4e0d\u80fd\u5355\u72ec\u8bc6\u522btask/domain imbalance\u3002",
+        "completed_minimal_experiment": "真实域任务N/正例率/曝光/六cell支持审计、2x/4x别名与三mask强度完整四seed控制完成。",
+        "why_current_design_cannot_identify": "3自然域的N/p/输入/标签率/基线难度共同变化，不能单独识别task/domain imbalance。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -318,16 +318,16 @@
           "N5"
         ],
         "priority": "structural_boundary",
-        "next_action": "N2\u5728\u56fa\u5b9a\u603b\u4f53\u4e0b\u8bc6\u522b\u8ba1\u6570\u6ce2\u52a8\uff1b\u72ec\u7acbimbalance\u4e3b\u5f20\u987bN5\u53d7\u63a7\u652f\u6301/\u76ee\u6807p/\u91c7\u6837q\u56e0\u5b50\u3002",
-        "resolution": "\u73b0\u67093\u81ea\u7136\u57df\u7684\u5355\u72ecimbalance\u539f\u56e0\u7ee7\u7eedNI\uff1b\u65b0\u56e0\u5b50\u5b9e\u9a8c\u56de\u7b54\u9650\u5b9a\u95ee\u9898\u3002",
-        "estimand_or_identification_boundary": "N/p/\u6807\u7b7e/\u8f93\u5165/\u56f0\u96be\u5ea6\u5171\u53d8\uff1b\u589e\u52a0\u8bad\u7ec3seed\u4e0d\u589e\u52a0\u72ec\u7acb\u57df\u56e0\u5b50\u6c34\u5e73\u3002"
+        "next_action": "N2在固定总体下识别计数波动；独立imbalance主张须N5受控支持/目标p/采样q因子。",
+        "resolution": "现有3自然域的单独imbalance原因继续NI；新因子实验回答限定问题。",
+        "estimand_or_identification_boundary": "N/p/标签/输入/困难度共变；增加训练seed不增加独立域因子水平。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q10",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "validation selection \u662f\u5426\u6539\u53d8\u7ed3\u8bba\uff1f",
+      "question": "validation selection 是否改变结论？",
       "original_registry_entry": {
         "id": "Q10",
         "status": "BOUNDARY",
@@ -338,7 +338,7 @@
         "conclusion": "AllfrozenAUC/loss/early/fixedselection andcommonSN/SBchosenrulescomplete. Selectionmodifieseffectsize/sign andpopulationQ32; fixed/pre effects remaininconfigurations. Frozennewtest confirmationseparatelyQ2.",
         "evidence": "V3_final_baseline_selection_analysis.md; V5_SGD_final_matched_analysis.md; V11_fullstate_final_diagnostic_analysis.md",
         "remaining_uncertainty": "Differentselectionpools/budgets/metrics aredifferentestimands; no singleuniversal selectedeffect.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Frozenonce-onlytest confirm; no newselectionrule."
       },
       "next_phase_proposal": {
@@ -347,16 +347,16 @@
           "N1"
         ],
         "priority": "core_readout",
-        "next_action": "\u5b8c\u6574\u4fdd\u7559\u56dbselection\u3001common-epoch\u53ca\u4e0d\u540c\u8bc4\u4ef7\u6743\u91cd\uff0cN1\u9884\u5148\u9009\u62e9\u4e3b\u8981estimand\u3002",
-        "resolution": "\u660e\u786e\u54ea\u4e2a\u9009\u62e9/\u4eba\u53e3/\u9884\u7b97\u4f1a\u7ffb\u8f6c\u7ed3\u8bba\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u628a\u9009\u62e9\u4eba\u53e3\u4e0a\u7684\u6700\u4f18\u6392\u540d\u5f53\u72ec\u7acb\u8bc4\u4ef7\u4eba\u53e3\u4e0a\u7684\u6392\u540d\u3002"
+        "next_action": "完整保留四selection、common-epoch及不同评价权重，N1预先选择主要estimand。",
+        "resolution": "明确哪个选择/人口/预算会翻转结论。",
+        "estimand_or_identification_boundary": "不把选择人口上的最优排名当独立评价人口上的排名。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q11",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u662f\u5426\u8de8\u73af\u5883\u6210\u7acb\uff1f",
+      "question": "是否跨环境成立？",
       "original_registry_entry": {
         "id": "Q11",
         "status": "BOUNDARY",
@@ -365,23 +365,23 @@
         "evidence": "V9_final_cross_environment_analysis.md; V9_final_cross_environment_primary_verification.json",
         "conclusion": "Requiredsecond-environment4seedSGD.3same-objective qcomparisoncomplete, no stableadversemacroprimaryreplication. MLearly1..16+.0013913positive1negativeCI[-.000131,.003849], selected+.000241CI[-.001222,.001127]. KRcalSGDatjoint16+.000078also3positive1negative, so ownwindow37/16oppositesignsnotisolateddatasetflip.",
         "remaining_uncertainty": "Crossenvironmentdataset/labels/support/architectureinputdimandupdatesperepocharebundled. Noidentifiedmediatorreplicationgate triggered. Fulltestremainspredeclaredvalidation, notnewconditionselection.",
-        "final_test_boundary": "\u51bb\u7ed3test\u5171\u540c16\u8f6e\uff1aKR +.001185\uff083\u6b631\u8d1f\uff09\u3001ML +.003015\uff08\u56db\u6b63\uff09\uff1bE50\u5206\u522b+.001075\uff082\u6b632\u8d1f\uff09/\u2212.000986\uff08\u56db\u8d1f\uff09\uff1bAUC\u81ea\u9009\u5206\u522b\u2212.000972\uff08\u56db\u8d1f\uff09/+.000539\uff081\u6b633\u8d1f\uff09\u3002ML E50\u51fa\u73b0\u8d1f\u5411\u4f46early\u4e3a\u6b63\uff0c\u4e0d\u80fd\u9057\u6f0f\u4e5f\u4e0d\u80fd\u53cd\u5411\u6539\u52a8\u51bb\u7ed3\u524d\u57fa\u4e8ediagnostic early\u5224\u636e\u800c\u672a\u89e6\u53d1\u7684\u6df1\u5c42\u590d\u5236\u5206\u652f\u300249/5\u6b65\u3001\u6570\u636e/\u6807\u7b7e/\u5b50\u96c6\u914d\u7f6e\u675f\u548c\u603b\u4f53\u8bc4\u4ef7\u4eba\u53e3\u4f9d\u7136\u9650\u5236\u5f52\u56e0\u3002"
+        "final_test_boundary": "冻结test共同16轮：KR +.001185（3正1负）、ML +.003015（四正）；E50分别+.001075（2正2负）/−.000986（四负）；AUC自选分别−.000972（四负）/+.000539（1正3负）。ML E50出现负向但early为正，不能遗漏也不能反向改动冻结前基于diagnostic early判据而未触发的深层复制分支。49/5步、数据/标签/子集配置束和总体评价人口依然限制归因。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N5"
         ],
         "priority": "conditional_replication",
-        "next_action": "\u56fa\u5b9aML\u8bad\u7ec3\u884c\u5217\u8868\u53ca\u4f18\u5316seed\uff0c\u590d\u5236N1\u5173\u952eq\u5bf9\u6bd4\uff1b\u4ec5\u673a\u5236\u5b58\u6d3b\u624d\u590d\u5236\u8be5\u673a\u5236\u3002",
-        "resolution": "\u786e\u8ba4\u65b9\u5411/\u91cf\u7ea7\u6216\u5f97\u5230\u660e\u786e\u73af\u5883\u8fb9\u754c\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u8981\u6c42\u6240\u6709\u73af\u5883\u540c\u5411\uff1b\u540cepoch\u4e0d\u7b49\u540cexamples/updates\u8fdb\u5ea6\u3002"
+        "next_action": "固定ML训练行列表及优化seed，复制N1关键q对比；仅机制存活才复制该机制。",
+        "resolution": "确认方向/量级或得到明确环境边界。",
+        "estimand_or_identification_boundary": "不要求所有环境同向；同epoch不等同examples/updates进度。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q12",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "SAF/D3/AdaTask \u662f\u5426\u8986\u76d6\uff1f",
+      "question": "SAF/D3/AdaTask 是否覆盖？",
       "original_registry_entry": {
         "id": "Q12",
         "status": "BOUNDARY",
@@ -393,7 +393,7 @@
         "minimal_completed_experiment": "Launchdaycutoff2026-10-16nineprimarysourceequation/settingaudit; D3/SAFtargetmeasureidentity; importedTaskAdamgradientidentityandactual4seedmatched50/100/50/50comparison; localstatecontrolactualall4statistics.",
         "conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
         "remaining_uncertainty": "V5/V7/fullV11causalnecessityandfinaltestpending; nineauditedsourcesnotproofexhaustiveliteraturecoverage. Optimalfullpaperperformanceandallobjective-preservingmethodvariantsnotestimated.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "UseboundarymatrixinV12/V14; finishallalreadytriggeredexperiments. Q13uniquegapandQ14methoddecisionremainpending; nofakeD3/SAFapproximationorpositiveinnovationclaim."
       },
       "next_phase_proposal": {
@@ -401,16 +401,16 @@
           "N6"
         ],
         "priority": "literature",
-        "next_action": "\u4f9d\u636eN2/N3/N4\u5177\u4f53\u547d\u9898\u6838\u5bf9SAF/D3/AdaTask\u53ca\u65b0\u589e\u76f8\u5173\u6587\u732e\uff1b\u673a\u5236\u7b49\u4ef7\u4e0e\u6027\u80fd\u57fa\u7ebf\u5206\u5f00\u3002",
-        "resolution": "\u5f62\u6210\u9010\u516c\u5f0f/\u5e72\u9884/\u7ed3\u8bba\u7684\u8986\u76d6\u8868\u3002",
-        "estimand_or_identification_boundary": "\u56fa\u5b9aAdaTask\u7ec4\u4ef6\u5931\u8d25\u4e0d\u4ee3\u8868\u5b8c\u6574\u8bba\u6587\u8c03\u4f18\u5931\u8d25\uff1b\u76ee\u6807\u4e0d\u540c\u4e5f\u4e0d\u81ea\u52a8\u4fdd\u8bc1\u521b\u65b0\u3002"
+        "next_action": "依据N2/N3/N4具体命题核对SAF/D3/AdaTask及新增相关文献；机制等价与性能基线分开。",
+        "resolution": "形成逐公式/干预/结论的覆盖表。",
+        "estimand_or_identification_boundary": "固定AdaTask组件失败不代表完整论文调优失败；目标不同也不自动保证创新。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q13",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u662f\u5426\u5b58\u5728\u672a\u88ab\u5df2\u6709\u5de5\u4f5c\u8986\u76d6\u7684 mechanism gap\uff1f",
+      "question": "是否存在未被已有工作覆盖的 mechanism gap？",
       "original_registry_entry": {
         "id": "Q13",
         "status": "BOUNDARY",
@@ -419,7 +419,7 @@
         "conclusion": "Generalobjective-equivalentsamplingcovariance,orderandhistorythemes overlappriorwork. CurrentMDMTconditionalCPREpathway/optimizerboundaries donotidentifyunique necessarymediator oruncoverspecificnovelmethod. Ninesourceauditnotexhaustivenessproof.",
         "evidence": "V10_existing_work_coverage_boundary.md; V12_diagnostic_causal_closure.md",
         "remaining_uncertainty": "No universalnoveltyabsence/presenceclaim; currentuniquemechanismgapunidentified.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retainpartialcoverage/identifiabilityboundary in final; donotforceinnovation."
       },
       "next_phase_proposal": {
@@ -427,16 +427,16 @@
           "N6"
         ],
         "priority": "literature",
-        "next_action": "\u5c06\u62df\u58f0\u660e\u673a\u5236\u5199\u6210\u53ef\u8bc1\u4f2a\u547d\u9898\u540e\u6838\u5bf9\u5df2\u6709\u7406\u8bba\u548c\u5b9e\u8bc1\u8986\u76d6\u3002",
-        "resolution": "\u8d21\u732e\u53ef\u4ee5\u662f\u65b0\u8fb9\u754c\u3001\u53cd\u4f8b\u3001\u9884\u6d4b\u6216\u53ef\u64cd\u7eb5\u673a\u5236\uff0c\u4e0d\u4ee5\u552f\u4e00\u5fc5\u8981\u4e2d\u4ecb\u4e3a\u95e8\u69db\u3002",
-        "estimand_or_identification_boundary": "\u4e5d\u7bc7\u6216\u4efb\u4f55\u6709\u9650\u68c0\u7d22\u90fd\u4e0d\u8bc1\u660e\u7a77\u5c3d\u65b0\u9896\u6027\u3002"
+        "next_action": "将拟声明机制写成可证伪命题后核对已有理论和实证覆盖。",
+        "resolution": "贡献可以是新边界、反例、预测或可操纵机制，不以唯一必要中介为门槛。",
+        "estimand_or_identification_boundary": "九篇或任何有限检索都不证明穷尽新颖性。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q14",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u662f\u5426\u503c\u5f97\u65b9\u6cd5\u5316\uff1f",
+      "question": "是否值得方法化？",
       "original_registry_entry": {
         "id": "Q14",
         "status": "RESOLVED",
@@ -446,25 +446,25 @@
         "partial_conclusion": "V10fullmatched50/100/50/50diagnosticcomplete. EarlyAdaTaskgap-.00783937 3negative1positive; finalbudgetgap-.01916006 all4negative whilebothabsoluteAUCbetterthanAdam. Mitigationearly/selecteduncertain. Thisisprior-componentinputtoV13, NOTGOdecision. Q14actualquestioniswhethermethodizationworthwhile, remainsPENDINGallGOcriteria.",
         "decision": "NO_GO",
         "evidence": "V13_final_method_decision.md; final_scientific_decision.json",
-        "conclusion": "\u5341\u9879GO\u8981\u6c42\u672a\u540c\u65f6\u6ee1\u8db3\uff1a\u660e\u786e\u914d\u7f6e\u6709\u5171\u540c\u65e9\u671f\u548c\u975e\u666e\u904dselection-only\u8bc1\u636e\uff08MEDIUM\uff09\uff0c\u5e76\u5f97\u5230\u6d4b\u8bd5\u786e\u8ba4\uff1b\u8de8\u73af\u5883\u5b58\u5728\u53ef\u63cf\u8ff0\u8fb9\u754c\uff0c\u5c40\u90e8C\u548c\u6574\u4f53\u72b6\u6001\u6620\u5c04\u6709\u6761\u4ef6\u53cd\u4e8b\u5b9e\u4f5c\u7528\u3002\u4f46\u552f\u4e00\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb\u3001\u5bf9\u901f\u5ea6/coverage/repetition/short-tail clock\u7b49\u66ff\u4ee3\u7684\u72ec\u7acb\u6392\u9664\u3001\u72ec\u7279\u73b0\u6709\u5de5\u4f5c\u7f3a\u53e3\u5747\u672a\u6210\u7acb\uff0c\u4e5f\u6ca1\u6709\u672c\u8f6e\u65b0\u65b9\u6cd5\u5728\u771f\u5b9eprimary endpoint\u3001\u56dbseed\u7a33\u5b9a\u4e14\u6240\u6709\u57df\u4efb\u52a1/\u539f\u76ee\u6807\u65e0\u635f\u7684\u5b8c\u6574\u8bc1\u636e\u3002C\u5c40\u90e8AUC\u9633\u6027\u548closs/J\u51b2\u7a81\u5982\u5b9e\u4fdd\u7559\uff0c\u672a\u89e6\u53d1\u539f\u5b8c\u6574\u8054\u5408\u8bad\u7ec3\u95e8\u69db\uff1b\u4e0d\u4ee5\u5bbdCI\u8bc1\u660e\u96f6\u6548\u5e94\uff0c\u4e0d\u4ecetest\u751f\u6210\u5019\u9009\u6216\u8c03\u53c2\u3002NO_GO\u53ea\u5173\u95ed\u672c\u8f6e\u65b9\u6cd5\u5316\uff0c\u4e0d\u5ba3\u79f0\u6240\u6709\u672a\u6765\u65b9\u6cd5\u5931\u8d25\u3002",
-        "remaining_uncertainty": "\u4e0d\u7b49\u4e8e\u6240\u6709\u672a\u6765\u65b9\u6cd5/\u8c03\u53c2\u4e0d\u53ef\u80fd\uff1b\u672c\u8f6e\u4e0d\u4ecetest\u63d0\u51fa\u65b0\u5019\u9009\u3002",
-        "next_action": "\u672c\u8f6e\u4e0d\u8fdb\u884c\u65b0\u65b9\u6cd5\u5f00\u53d1\uff1b\u89c4\u5b9a\u5b9e\u9a8c/\u62a5\u544a/\u5f52\u6863\u63a8\u9001\u5168\u90e8\u5b8c\u6210\u540e\u7ed3\u675f\u3002"
+        "conclusion": "十项GO要求未同时满足：明确配置有共同早期和非普遍selection-only证据（MEDIUM），并得到测试确认；跨环境存在可描述边界，局部C和整体状态映射有条件反事实作用。但唯一长期必要中介、对速度/coverage/repetition/short-tail clock等替代的独立排除、独特现有工作缺口均未成立，也没有本轮新方法在真实primary endpoint、四seed稳定且所有域任务/原目标无损的完整证据。C局部AUC阳性和loss/J冲突如实保留，未触发原完整联合训练门槛；不以宽CI证明零效应，不从test生成候选或调参。NO_GO只关闭本轮方法化，不宣称所有未来方法失败。",
+        "remaining_uncertainty": "不等于所有未来方法/调参不可能；本轮不从test提出新候选。",
+        "next_action": "本轮不进行新方法开发；规定实验/报告/归档推送全部完成后结束。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N6"
         ],
         "priority": "frozen_with_new_decision",
-        "next_action": "\u4fdd\u6301v3 NO_GO\uff0c\u65b0\u8f6e\u5206\u522b\u8bc4\u4f30\u6548\u5e94\u3001\u673a\u5236\u3001\u65b9\u6cd5\u4e09\u79cd\u6210\u529f\u6807\u51c6\u3002",
-        "resolution": "\u65b0\u65b9\u6cd5\u987b\u6709\u9884\u5b9aprimary\u6536\u76ca\u4e0e\u5408\u7406\u8ba1\u7b97/\u5173\u952ecell\u98ce\u9669\uff1b\u4e0d\u5355\u9760gap\u4fee\u590d\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u4e8b\u540e\u4fee\u6539v3\u95e8\u69db\uff1b\u5168cell\u9010\u70b9\u7edd\u5bf9\u4e0d\u4e0b\u964d\u4e0d\u662f\u901a\u7528\u65b9\u6cd5\u903b\u8f91\u5fc5\u8981\u6761\u4ef6\u3002"
+        "next_action": "保持v3 NO_GO，新轮分别评估效应、机制、方法三种成功标准。",
+        "resolution": "新方法须有预定primary收益与合理计算/关键cell风险；不单靠gap修复。",
+        "estimand_or_identification_boundary": "不事后修改v3门槛；全cell逐点绝对不下降不是通用方法逻辑必要条件。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q15",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "SN/SB \u7684\u201csame objective\u201d\u5728\u4ee3\u7801\u548c empirical gradient \u4e0a\u662f\u5426\u4e25\u683c\u6210\u7acb\uff1f",
+      "question": "SN/SB 的“same objective”在代码和 empirical gradient 上是否严格成立？",
       "original_registry_entry": {
         "id": "Q15",
         "status": "RESOLVED",
@@ -479,16 +479,16 @@
           "N2"
         ],
         "priority": "frozen_with_formula_check",
-        "next_action": "\u6cbf\u7528\u539f\u540c\u56fe\u540cJ\u8eab\u4efd\uff0c\u4ec5\u6838\u9a8c\u65b0\u589e\u56fa\u5b9aquota\u4e0e\u65b0q\u6743\u91cd\u7684\u671f\u671b/\u6570\u503c\u8eab\u4efd\u3002",
-        "resolution": "\u539fRESOLVED\u4fdd\u7559\uff0c\u65b0\u516c\u5f0f\u901a\u8fc7\u6700\u5c0f\u5fc5\u8981\u68af\u5ea6\u5206\u89e3\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u91cd\u505a16\u03b8\u00d7512\u5b8c\u6574\u5ba1\u8ba1\u6765\u8bc1\u660e\u65e7\u4ee3\u7801\uff1bPERM\u6761\u4ef6\u4e8e\u5386\u53f2\u7684\u65e0\u504f\u6027\u4e0eIID\u4e0d\u540c\u3002"
+        "next_action": "沿用原同图同J身份，仅核验新增固定quota与新q权重的期望/数值身份。",
+        "resolution": "原RESOLVED保留，新公式通过最小必要梯度分解。",
+        "estimand_or_identification_boundary": "不重做16θ×512完整审计来证明旧代码；PERM条件于历史的无偏性与IID不同。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q16",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u73b0\u8c61\u662f\u5426\u4e3b\u8981\u53d1\u751f\u5728 overfitting \u4e4b\u540e\uff1f",
+      "question": "现象是否主要发生在 overfitting 之后？",
       "original_registry_entry": {
         "id": "Q16",
         "status": "RESOLVED",
@@ -497,7 +497,7 @@
         "evidence": "V2_fixedAdam_analysis.md; V4_calAdam_until050_analysis.md; respectiveprimaryverification andall4pairreceipts",
         "conclusion": "A late-only interpretation is contradicted in both frozenAdamconfigurations undertheprespecifieddiagnosticdegradationclassifier: fixed.01commonpre27AULC-.006980 andcal.003commonpre22-.013951, each4/4negativewithpairedseedCIexcluding0 andfourworseLogLoss. Theseearly common-epoch effectsdonotdependonindependentbestcheckpointselection.",
         "remaining_uncertainty": "RestrictedtothetwoAdamconfigurationsandoperationalclassifier, notproofthatalllatentoverfittinghasbeenexcluded. Otheroptimizers/stages, adequatelybudgetedendpointandtestremainQ3/Q17/Q2. Seedn4, smallesttwo-sidedexactsignp=.125.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retainlate/selectedcounterexamples andfulltrajectories; completeallotherrequiredconfigurations, withoutstoppingatthisscopeclosure."
       },
       "next_phase_proposal": {
@@ -506,16 +506,16 @@
           "N1"
         ],
         "priority": "frozen_with_readout",
-        "next_action": "\u4fdd\u7559\u64cd\u4f5c\u6027pre\u9636\u6bb5\u5df2\u5b58\u5728\u6548\u5e94\uff0c\u65b0\u7684\u4e3b\u8981\u65e9\u671f\u7a97\u56fa\u5b9a\u4e8e\u5916\u90e8clock\u3002",
-        "resolution": "\u4e0d\u518d\u7528\u65b0\u6d88\u878d\u5931\u8d25\u6539\u53d8\u539fpre\u7ed3\u8bba\u3002",
-        "estimand_or_identification_boundary": "onset\u672a\u68c0\u51fa\u4e0d\u8bc1\u660e\u6ca1\u6709\u8fc7\u62df\u5408\uff1b\u4e0d\u5ba3\u79f0\u5168\u5c40FWER\u4fdd\u8bc1\u3002"
+        "next_action": "保留操作性pre阶段已存在效应，新的主要早期窗固定于外部clock。",
+        "resolution": "不再用新消融失败改变原pre结论。",
+        "estimand_or_identification_boundary": "onset未检出不证明没有过拟合；不宣称全局FWER保证。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q17",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "effect \u662f\u5426\u53ea\u662f learning-speed / finite-budget effect\uff1f",
+      "question": "effect 是否只是 learning-speed / finite-budget effect？",
       "original_registry_entry": {
         "id": "Q17",
         "status": "BOUNDARY",
@@ -533,16 +533,16 @@
           "N2"
         ],
         "priority": "core_boundary",
-        "next_action": "\u5bf9\u79f0q\u00d7LR\u3001\u5171\u540c\u9884\u7b97\u3001\u66f4\u65b0/\u6837\u672c\u949f\u548c\u9608\u503c\u53f3\u5220\u5931\uff1bN2\u5339\u914d\u6b65\u6570/\u6837\u672c\u9884\u7b97\u68c0\u9a8c\u8ba1\u6570\u6ce2\u52a8\u3002",
-        "resolution": "\u82e5\u53ea\u6709\u9650\u9884\u7b97\u5dee\u5f02\u5219\u660e\u786e\u5f52\u4e3a\u901f\u5ea6\u6548\u5e94\uff0c\u4e0d\u56e0\u4e0d\u6c38\u4e45\u800c\u505c\u6b62\u79d1\u7814\u3002",
-        "estimand_or_identification_boundary": "train-J\u5339\u914d\u662f\u5904\u7406\u540e\u63cf\u8ff0\uff0c\u4e0d\u80fd\u636e\u6b64\u5ba3\u79f0\u6d88\u9664\u6240\u6709\u4f18\u5316\u8def\u5f84\u539f\u56e0\u3002"
+        "next_action": "对称q×LR、共同预算、更新/样本钟和阈值右删失；N2匹配步数/样本预算检验计数波动。",
+        "resolution": "若只有限预算差异则明确归为速度效应，不因不永久而停止科研。",
+        "estimand_or_identification_boundary": "train-J匹配是处理后描述，不能据此宣称消除所有优化路径原因。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q18",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u5728\u76f8\u540c sample multiset \u4e0b\uff0c\u4ec5\u6539\u53d8 optimizer-step \u987a\u5e8f\u662f\u5426\u6539\u53d8\u7ed3\u679c\uff1f",
+      "question": "在相同 sample multiset 下，仅改变 optimizer-step 顺序是否改变结果？",
       "original_registry_entry": {
         "id": "Q18",
         "status": "RESOLVED",
@@ -551,8 +551,8 @@
         "conclusion": "Exactbatchmultiset/ordercontrols complete all4final50/50/50/350. E50ORDERqinteraction+.0058155all4positive, finalmean-.0067918 due2025interaction-.0419133. Stage/selection-sensitivepath effect established; notcurriculumoruniformabsoluteimprovement.",
         "evidence": "V5_SGD_final_matched_analysis.md; V5_SGD_final_scientific_obligations_primary_certificate.json",
         "remaining_uncertainty": "Content-order jointlychanges shorttailclock,964/1000armepochs tailmoved; purecontentnecessityunidentified.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
-        "final_test_boundary": "ORDER E50\u4ea4\u4e92test\u2212.000123232 CI[\u2212.0037483,+.0030867]\uff0c\u672a\u7a33\u5b9a\u590d\u73b0diagnostic+.0058155\uff1bselected\u4ea4\u4e92+.003418736\u56db\u6b63\uff0cSN\u7edd\u5bf9\u2212.0019982/SB+.0014205\u3002CI\u8de8\u96f6\u4e0d\u4f5c\u4e3a\u7b49\u6548\u96f6/\u5fc5\u8981\u6027\u6392\u9664\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
+        "final_test_boundary": "ORDER E50交互test−.000123232 CI[−.0037483,+.0030867]，未稳定复现diagnostic+.0058155；selected交互+.003418736四正，SN绝对−.0019982/SB+.0014205。CI跨零不作为等效零/必要性排除。",
         "historical_pre_final_next_action": "PreserveQ37/Q38; noextraunregisteredorderstrategy."
       },
       "next_phase_proposal": {
@@ -560,16 +560,16 @@
           "N5"
         ],
         "priority": "conditional_boundary",
-        "next_action": "\u4fdd\u7559same-multiset\u6574\u4f53ORDER\u4f5c\u7528\uff1b\u7eaf\u5185\u5bb9\u987a\u5e8f\u4e3b\u5f20\u9700\u8981\u5c3e\u6279\u56fa\u5b9a\u4e0e\u7b49\u5927\u5c0fbatch\u7f6e\u6362\u3002",
-        "resolution": "\u65b0\u5b9e\u9a8c\u53ea\u8fdb\u4e00\u6b65\u5206\u89e3\u65e7\u603bORDER\u5e72\u9884\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u628a\u6761\u4ef6\u8def\u5f84\u5dee\u5f02\u5f53\u603b\u4f53\u8bfe\u7a0b\u7b56\u7565\u6536\u76ca\u3002"
+        "next_action": "保留same-multiset整体ORDER作用；纯内容顺序主张需要尾批固定与等大小batch置换。",
+        "resolution": "新实验只进一步分解旧总ORDER干预。",
+        "estimand_or_identification_boundary": "不把条件路径差异当总体课程策略收益。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q19",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "repetition \u662f\u5426\u662f exposure effect \u7684\u5fc5\u8981\u7ec4\u6210\uff1f",
+      "question": "repetition 是否是 exposure effect 的必要组成？",
       "original_registry_entry": {
         "id": "Q19",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -580,28 +580,28 @@
         "conclusion": "FullWR/PERM/ORDER all4Adam/SGD controlsandfinalrawsampler/coverage/weight auditscomplete. FixedE,N enforcesR=E-U>=max(0,E-N); SBsmallE>N preventsfixedquota/supportzero-repeatcontrol. PERMchangescoverage/dependenceandretainsrepeats; ORDERjointlychanges tailclock. CannotassignuniquenecessarynonAdammediator.",
         "evidence": "V5_Adam_final_matched_analysis.md; V5_SGD_final_matched_analysis.md; V6_full_geometry_and_task_analysis.md; V8_final_matched_diagnostic_analysis.md",
         "remaining_uncertainty": "Alternatives notseparatelyidentified. WidePERMCI notusedasequivalencezeroornecessityexclusion.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Currentminimalcontrolscomplete; noimpossiblezero-repeatcontrol orkeynullclosure. Futurefeasibleresourcejointdesignonlyifstrongerclaimneeded.",
-        "completed_minimal_experiment": "\u5168\u90e8\u56dbseed\u4e24optimizer WR/PERM\u6700\u7ec8\u91c7\u6837/coverage/repeat\u8eab\u4efd\u53ca\u6027\u80fd\u5b8c\u6210\uff0cSB\u5c0f\u57dfE>N\u5df2\u5b9e\u8ba1\u3002",
-        "why_current_design_cannot_identify": "\u56fa\u5b9aE,N\u4f7fR=E\u2212U\u2265max(0,E\u2212N)\uff0c\u4e0d\u5b58\u5728\u540c\u914d\u989d\u540c\u652f\u6301\u7684\u96f6\u91cd\u590d\u63a7\u5236\uff0cPERM\u6b8b\u5dee\u4e0d\u80fd\u6392\u9664\u5fc5\u8981\u6027\u3002",
+        "completed_minimal_experiment": "全部四seed两optimizer WR/PERM最终采样/coverage/repeat身份及性能完成，SB小域E>N已实计。",
+        "why_current_design_cannot_identify": "固定E,N使R=E−U≥max(0,E−N)，不存在同配额同支持的零重复控制，PERM残差不能排除必要性。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N5"
         ],
         "priority": "structural_boundary",
-        "next_action": "\u4ee5\u56fa\u5b9aE,N\u7684R=E\u2212U\u7ed9\u51fa\u539f\u96f6\u91cd\u590d\u5e72\u9884\u4e0d\u53ef\u884c\u8bc1\u660e\uff1b\u53ef\u6761\u4ef6\u7814\u7a76E\u2264N\u65e9\u671f\u7a97\u6216\u540cE/U/R\u91cd\u590d\u65f6\u95f4\u7ed3\u6784\u3002",
-        "resolution": "\u539f\u5fc5\u8981\u6027\u95ee\u9898\u7ee7\u7eedNI\uff1b\u65b0\u53ef\u884cestimand\u72ec\u7acb\u7ed9\u7ed3\u8bba\u3002",
-        "estimand_or_identification_boundary": "E\u2264N\u8bbe\u8ba1\u6539\u53d8\u9884\u7b97\u652f\u6301\u8303\u56f4\uff1bPERM\u4ecd\u4f1a\u5728\u8017\u5c3d\u540e\u91cd\u590d\uff0c\u4e0d\u80fd\u79f0\u963b\u65ad\u6240\u6709\u91cd\u590d\u3002"
+        "next_action": "以固定E,N的R=E−U给出原零重复干预不可行证明；可条件研究E≤N早期窗或同E/U/R重复时间结构。",
+        "resolution": "原必要性问题继续NI；新可行estimand独立给结论。",
+        "estimand_or_identification_boundary": "E≤N设计改变预算支持范围；PERM仍会在耗尽后重复，不能称阻断所有重复。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q20",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "coverage \u662f\u5426\u72ec\u7acb\u4e8e exposure/repetition\uff1f",
+      "question": "coverage 是否独立于 exposure/repetition？",
       "original_registry_entry": {
         "id": "Q20",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -609,48 +609,48 @@
         "evidence_strength": "STRONG",
         "partial_evidence": "V5_readout_scope_addendum.md; analysis/V5_sampler_identity_seed2022/primary_analysis.md",
         "partial_conclusion": "At fixed totaldraws E and realizedunique U, repeateddrawsR=E-U exactly, so unique coverage and repeat count cannot be independently intervened by WR/PERM atfixedE. Completed twoq seed22 full50schedule/exposureaudit illustrates jointchanges. This is algebraic nonidentifiability, not a performance conclusion.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "evidence": "local_diagnostic_design_addendum.md; analysis/V5_sampler_identity_seed2025_until100/receipt.json; V5_sampler_identity_seed2025_until100_primary_verification.json; prior600armepoch identity",
         "conclusion": "At fixed physicaldomain support N and exposure E, cumulativecoverage U/N and totalrepeats R=E-U are deterministic transforms, so currentWR/PERM cannot identify their independent scalar mediation. PERM changescoverage/repeats jointly; ORDER preservesboth andchangesorder.",
         "minimal_completed_experiment": "All4seed exactproductionmanipulation audit: first3seeds600armepochs plusseed25actual100400armepochs, matchedbaseline exactdomainsequence/PERM andsamebatchmultiset/ORDER. No zero-repetition fictionforSBquota>N.",
         "remaining_uncertainty": "Repeatconcentration/order can vary atsameE/U/R; that is a different mediator from totalrepeatcount. Genuinely independent new support unavailable, virtualaliasesnotnewinformation.",
         "historical_pre_final_next_action": "Report mathematicalidentifiabilityboundary, finishperformancecontrasts Q5/Q18/Q19; no additionalorthogonalcoverageclaim.",
-        "completed_minimal_experiment": "4200\u6700\u7ec8\u81c2\u8f6e\u7684unique/repeat/exposure\u3001first-seen\u4e0e\u7d2f\u8ba1coverage\u53ca\u91c7\u6837\u64cd\u7eb5\u6838\u9a8c\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "\u56fa\u5b9a\u66dd\u5149\u4e0e\u652f\u6301\u4e0brepeat\u548cunique coverage\u53d7\u4ee3\u6570\u7ea6\u675f\uff0c\u5f53\u524d\u8bbe\u8ba1\u4e0d\u80fd\u72ec\u7acb\u6539\u53d8coverage\u800c\u4fdd\u6301repeat\u3002",
+        "completed_minimal_experiment": "4200最终臂轮的unique/repeat/exposure、first-seen与累计coverage及采样操纵核验完成。",
+        "why_current_design_cannot_identify": "固定曝光与支持下repeat和unique coverage受代数约束，当前设计不能独立改变coverage而保持repeat。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N5"
         ],
         "priority": "structural_boundary",
-        "next_action": "\u4fdd\u7559coverage\u4e0erepeat\u4ee3\u6570\u7ea6\u675f\uff1b\u7814\u7a76\u540cE/U/R\u4e0b\u91cd\u590d\u96c6\u4e2d\u5ea6/\u95f4\u9694\uff0c\u6216\u53e6\u884c\u771f\u5b9e\u652f\u6301\u5b9e\u9a8c\u3002",
-        "resolution": "\u539f\u72ec\u7acbtotal-coverage\u5fc5\u8981\u6027\u4ecdNI\uff0c\u4e0d\u80fd\u9760\u591aseed\u4fee\u590d\u3002",
-        "estimand_or_identification_boundary": "\u56fa\u5b9aE\u65f6unique\u4e0erepeat\u4e00\u4e00\u8054\u7cfb\uff1b\u65b0\u65f6\u5e8f\u5b9e\u9a8c\u4e0d\u7b49\u4e8e\u72ec\u7acb\u6539\u53d8\u603bcoverage\u3002"
+        "next_action": "保留coverage与repeat代数约束；研究同E/U/R下重复集中度/间隔，或另行真实支持实验。",
+        "resolution": "原独立total-coverage必要性仍NI，不能靠多seed修复。",
+        "estimand_or_identification_boundary": "固定E时unique与repeat一一联系；新时序实验不等于独立改变总coverage。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q21",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "estimator covariance \u7684 anisotropy \u662f\u5426\u6bd4 scalar variance \u66f4\u6709\u89e3\u91ca\u529b\uff1f",
+      "question": "estimator covariance 的 anisotropy 是否比 scalar variance 更有解释力？",
       "original_registry_entry": {
         "id": "Q21",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "plan": "../QUESTION_REGISTRY.md",
         "evidence_strength": "MEDIUM",
         "evidence": "Q21_spectrum_vs_trace_identifiability.md; V6_geometry_observational_analysis.md; V1_decision.json",
-        "minimal_completed_experiment": "16fixedtheta\u00d72q\u00d7512IIDfull-coordinateprobes, exactmean/trace/spectrum/CPRE+taskdirectionandactualsparse-timeaudit. Noindependenttrace-vs-shapedistributionintervention.",
+        "minimal_completed_experiment": "16fixedtheta×2q×512IIDfull-coordinateprobes, exactmean/trace/spectrum/CPRE+taskdirectionandactualsparse-timeaudit. Noindependenttrace-vs-shapedistributionintervention.",
         "conclusion": "Shapehasdescriptiveinformationbeyondtrace, but independentdownstreamexplanatorypower/necessitynotidentified. qchangesbothandotherfactors; repeatednoisebatchesnotindependentYtrials. V7blockandV11single-stepnormcontrolsnotdistribution-tracecontrols.",
         "remaining_uncertainty": "Causalspectrum-vs-scaleeffectandhighermoments; nonstationarytheta andoptimizer/history. Cannotrankmediatorsfromobservationalfit.",
         "minimal_discriminating_experiment": "Independentmean/trace-matchednoise-shapecontrolplusshape-fixedtracecontrolatsamethetaandmatchedbudget, explicitdistribution/highermomentboundary. Notexecutedbecauseunregisterednewalgorithmandcoreconclusiondoesnotrelyonpositiveshapesuperiority.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "PreserveNIinV12/V14; finishpredeclaredV5/V7/V11, no newregressionorhypothesis-confirmingmatrix.",
-        "completed_minimal_experiment": "16\u56fa\u5b9a\u03b8\u00d7512/q\u5b8c\u6574\u8c31\u3001320\u79fb\u52a8\u03b8/\u5757\u8bb0\u5f55\u30018\u5b8c\u6574\u4efb\u52a1\u68af\u5ea6\u53ca\u4e0b\u6e38\u63a7\u5236\u5206\u6790\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "q\u540c\u65f6\u6539\u53d8trace/shape/direction/\u9ad8\u9636\u77e9/\u03b8\uff1b\u6ca1\u6709\u72ec\u7acbtrace-matched shape\u64cd\u7eb5\uff0c\u76f8\u5173\u8c31\u4e0d\u8bc6\u522b\u989d\u5916\u56e0\u679c\u89e3\u91ca\u529b\u3002",
+        "completed_minimal_experiment": "16固定θ×512/q完整谱、320移动θ/块记录、8完整任务梯度及下游控制分析完成。",
+        "why_current_design_cannot_identify": "q同时改变trace/shape/direction/高阶矩/θ；没有独立trace-matched shape操纵，相关谱不识别额外因果解释力。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -658,16 +658,16 @@
           "N3"
         ],
         "priority": "core_mechanism",
-        "next_action": "N2\u5148\u8bc6\u522b\u8ba1\u6570\u6ce2\u52a8\uff1bN3\u5fc5\u8981\u65f6\u505a\u540c\u5747\u503c\u548ctrace\u5339\u914d\u7684\u5c40\u90e8shape\u566a\u58f0\u5e72\u9884\u3001\u9010\u5757\u5e45\u5ea6/\u65b9\u5411\u3002",
-        "resolution": "\u533a\u5206scalar scale\u4e0e\u65b9\u5411/shape\u7684\u5c40\u90e8\u8d21\u732e\uff0c\u4e0d\u4ec5\u62df\u5408\u8c31\u4e0eAUC\u76f8\u5173\u3002",
-        "estimand_or_identification_boundary": "\u56fa\u5b9aquota\u4e0d\u662f\u7eafshape\u5e72\u9884\uff1bLR\u7f29\u653e\u540c\u65f6\u6539\u5747\u503c\u6b65\u5e45\uff1b\u5c40\u90e8\u53d7\u63a7\u6b8b\u5dee\u5e93\u4e0d\u81ea\u52a8\u5916\u63a8\u81ea\u7136\u5168\u8bad\u7ec3\u3002"
+        "next_action": "N2先识别计数波动；N3必要时做同均值和trace匹配的局部shape噪声干预、逐块幅度/方向。",
+        "resolution": "区分scalar scale与方向/shape的局部贡献，不仅拟合谱与AUC相关。",
+        "estimand_or_identification_boundary": "固定quota不是纯shape干预；LR缩放同时改均值步幅；局部受控残差库不自动外推自然全训练。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q22",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "shared C/R \u662f\u5426\u662f\u5fc5\u8981 mediator \u800c\u975e\u76f8\u5173\u53c2\u6570\u5757\uff1f",
+      "question": "shared C/R 是否是必要 mediator 而非相关参数块？",
       "original_registry_entry": {
         "id": "Q22",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
@@ -676,12 +676,12 @@
         "evidence": "V7_local_counterfactual_analysis.md; V7_local_gate_primary_decision.json",
         "conclusion": "All12minimallocalcontrolscomplete: CpositiveAUCscreenE10/E40, E40loss/Jconflictpreventscompletefrozengate; conditionalfulltrainingNOT_TRIGGERED. Currentlocalpathwayeffectnotunique/long-termnecessity.",
         "remaining_uncertainty": "Long-termsharedCnecessityunidentified; noabsenceclaim. Ralreadyprivate,Pmixed; onefixedbatchpertheta/q.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "RetainQ46andCpositivescreen; no unregisteredAUC-onlygatechange. Proceedfrozenfinaltests.",
-        "completed_minimal_experiment": "\u540cQ6\u5168\u90e812\u5c40\u90e8\u53ca\u5171\u4eab\u652f\u6301\u5ba1\u8ba1\u5b8c\u6210\uff0cC AUC\u9633\u6027\u3001\u539f\u5b8c\u6574\u8054\u5408\u6761\u4ef6\u672a\u89e6\u53d1\uff1bR\u5df2\u79c1\u6709\u3002",
-        "why_current_design_cannot_identify": "C\u5c40\u90e8\u8def\u5f84\u4e0d\u662f\u552f\u4e00\u957f\u671f\u5fc5\u8981\u6027\uff1b\u5df2\u79c1\u6709R\u4e0d\u80fd\u4f2a\u88c5\u6210\u5171\u4eabR\u79c1\u6709\u5316\u53cd\u4e8b\u5b9e\u3002",
+        "completed_minimal_experiment": "同Q6全部12局部及共享支持审计完成，C AUC阳性、原完整联合条件未触发；R已私有。",
+        "why_current_design_cannot_identify": "C局部路径不是唯一长期必要性；已私有R不能伪装成共享R私有化反事实。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -689,16 +689,16 @@
           "N4"
         ],
         "priority": "conditional_mechanism",
-        "next_action": "\u4e0eQ6\u5171\u540c\u6267\u884cC\u591adraw/\u53cc\u951a\u548c\u6761\u4ef6\u5171\u4eab\u62d3\u6251\uff1bR\u7ef4\u6301\u5df2\u79c1\u6709\u4e8b\u5b9e\u3002",
-        "resolution": "\u4fdd\u7559C\u5c40\u90e8AUC\u771f\u9633\u6027\uff1b\u62d3\u6251\u4f9d\u8d56\u6839\u636e\u957f\u671f\u53cd\u4e8b\u5b9e\u53e6\u5224\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u5c06R\u79c1\u6709\u5316\u5305\u88c5\u4e3a\u65b0\u5171\u4eab\u963b\u65ad\uff1b\u4e0d\u5f3a\u6c42\u552f\u4e00\u957f\u671f\u4e2d\u4ecb\u3002"
+        "next_action": "与Q6共同执行C多draw/双锚和条件共享拓扑；R维持已私有事实。",
+        "resolution": "保留C局部AUC真阳性；拓扑依赖根据长期反事实另判。",
+        "estimand_or_identification_boundary": "不将R私有化包装为新共享阻断；不强求唯一长期中介。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q23",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "optimizer effect \u4e0e sampling effect \u662f\u5426\u5b58\u5728\u771f\u5b9e interaction\uff1f",
+      "question": "optimizer effect 与 sampling effect 是否存在真实 interaction？",
       "original_registry_entry": {
         "id": "Q23",
         "status": "RESOLVED",
@@ -706,7 +706,7 @@
         "evidence_strength": "STRONG",
         "evidence": "V11_actual_gate_primary_verification_and_analysis.json; V11_fixed_reference_primary_verification_and_analysis.json",
         "conclusion": "CalibratedLRspecificcommonpre22 interactionTRIGGERED mean-.01391006 all4negativeCIexcludes0; fixedLRreferencecommonpre27 NOTTRIGGERED mean-.00514906 3negative/1positiveCIcrosses0. Strong evidenceconditionalconfigurationinteraction, notuniversalAdamhistorycause.",
-        "strength_scope": "STRONG\u6307\u51bb\u7ed3\u89e6\u53d1\u5224\u636e\u6570\u503c\u6210\u7acb\u7684\u53ef\u8ffd\u6eaf\u6027\uff0c\u4e0d\u662f\u603b\u4f53optimizer\u673a\u5236\u56e0\u679c\u5f3a\u5ea6\u3002"
+        "strength_scope": "STRONG指冻结触发判据数值成立的可追溯性，不是总体optimizer机制因果强度。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -714,16 +714,16 @@
           "N3"
         ],
         "priority": "frozen_with_scope",
-        "next_action": "\u4fdd\u7559\u6821\u51c6\u914d\u7f6einteraction\u53ca\u56fa\u5b9areference\u53cd\u4f8b\uff1bN1\u660e\u786eq\u00d7LR\u54cd\u5e94\uff0cN3\u533a\u5206\u66f4\u65b0\u5e45\u5ea6/\u65b9\u5411\u3002",
-        "resolution": "\u539f\u914d\u7f6e\u5185interaction\u5df2RESOLVED\uff0c\u4e0d\u91cd\u8dd1\u5168\u5957state\u77e9\u9635\u3002",
-        "estimand_or_identification_boundary": "optimizer/LR\u7ec4\u5408\u4ea4\u4e92\u4e0d\u7b49\u4e8e\u552f\u4e00m/v\u5386\u53f2\u673a\u5236\u3002"
+        "next_action": "保留校准配置interaction及固定reference反例；N1明确q×LR响应，N3区分更新幅度/方向。",
+        "resolution": "原配置内interaction已RESOLVED，不重跑全套state矩阵。",
+        "estimand_or_identification_boundary": "optimizer/LR组合交互不等于唯一m/v历史机制。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q24",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u7b2c\u4e8c\u73af\u5883\u5931\u8d25\u65f6\uff0cboundary \u7a76\u7adf\u6765\u81ea\u54ea\u91cc\uff1f",
+      "question": "第二环境失败时，boundary 究竟来自哪里？",
       "original_registry_entry": {
         "id": "Q24",
         "status": "BOUNDARY",
@@ -732,7 +732,7 @@
         "evidence": "V9_final_cross_environment_analysis.md; Q41; analysis/batch_composition_baselines",
         "conclusion": "Explicitboundarydecompositioncompletedforobjective,optimizer,architecture,data/labels,imbalance/size,overfit/stage. Sameobjectiveform/SGDfamily/LR/M3OEfamilycontrolled, butfinitepopulations/labels/p/inputdim/updateclockco-vary. UniqueenvironmentdriverNOT_IDENTIFIABLEinexistingtwo-environmentdesign, no claimsize/difficultycausaldriver.",
         "remaining_uncertainty": "Identification: environmentDjointlysetsallcandidatecovariates, so dataset-only/size-only/label-onlyexplanationscanagreeontwosupportpoints; 4seedsrepeattheseconfigurationswithoutcreatingindependentfactorvariation. Minimaluniqueattributionneedonefactorinterventionwithothersfixed. Currentfinalclaimexplicitbundleboundaryrequiresnosuchuniqueattribution.",
-        "final_test_boundary": "\u51bb\u7ed3test\u5171\u540c16\u8f6e\uff1aKR +.001185\uff083\u6b631\u8d1f\uff09\u3001ML +.003015\uff08\u56db\u6b63\uff09\uff1bE50\u5206\u522b+.001075\uff082\u6b632\u8d1f\uff09/\u2212.000986\uff08\u56db\u8d1f\uff09\uff1bAUC\u81ea\u9009\u5206\u522b\u2212.000972\uff08\u56db\u8d1f\uff09/+.000539\uff081\u6b633\u8d1f\uff09\u3002ML E50\u51fa\u73b0\u8d1f\u5411\u4f46early\u4e3a\u6b63\uff0c\u4e0d\u80fd\u9057\u6f0f\u4e5f\u4e0d\u80fd\u53cd\u5411\u6539\u52a8\u51bb\u7ed3\u524d\u57fa\u4e8ediagnostic early\u5224\u636e\u800c\u672a\u89e6\u53d1\u7684\u6df1\u5c42\u590d\u5236\u5206\u652f\u300249/5\u6b65\u3001\u6570\u636e/\u6807\u7b7e/\u5b50\u96c6\u914d\u7f6e\u675f\u548c\u603b\u4f53\u8bc4\u4ef7\u4eba\u53e3\u4f9d\u7136\u9650\u5236\u5f52\u56e0\u3002"
+        "final_test_boundary": "冻结test共同16轮：KR +.001185（3正1负）、ML +.003015（四正）；E50分别+.001075（2正2负）/−.000986（四负）；AUC自选分别−.000972（四负）/+.000539（1正3负）。ML E50出现负向但early为正，不能遗漏也不能反向改动冻结前基于diagnostic early判据而未触发的深层复制分支。49/5步、数据/标签/子集配置束和总体评价人口依然限制归因。"
       },
       "next_phase_proposal": {
         "next_phases": [
@@ -740,16 +740,16 @@
           "N5"
         ],
         "priority": "conditional_boundary",
-        "next_action": "\u5148\u7edf\u4e00\u62a5\u544a\u8bc4\u4ef7\u51fd\u6570/\u4eba\u53e3\u4e0e\u5916\u90e8clock\uff0c\u518d\u56fa\u5b9aML\u652f\u6301\uff1b\u9700\u8981\u552f\u4e00driver\u624d\u72ec\u7acb\u64cd\u7eb5\u5019\u9009\u56e0\u5b50\u3002",
-        "resolution": "\u5df2\u6709\u914d\u7f6e\u675f\u8fb9\u754c\u6709\u6548\uff1b\u552f\u4e00dataset/N\u539f\u56e0\u7ee7\u7eed\u9650\u5b9a\u3002",
-        "estimand_or_identification_boundary": "\u4e24\u4e2a\u81ea\u7136\u73af\u5883\u652f\u6301\u70b9\u52a0\u591aseed\u4e0d\u8db3\u4ee5\u5206\u89e3\u6240\u6709\u5171\u540c\u53d8\u5316\u56e0\u7d20\u3002"
+        "next_action": "先统一报告评价函数/人口与外部clock，再固定ML支持；需要唯一driver才独立操纵候选因子。",
+        "resolution": "已有配置束边界有效；唯一dataset/N原因继续限定。",
+        "estimand_or_identification_boundary": "两个自然环境支持点加多seed不足以分解所有共同变化因素。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q25",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "existing literature \u662f\u5426\u5df2\u7ecf\u8986\u76d6\u201csame objective + different q + MDMT trajectory\u201d\u673a\u5236\uff1f",
+      "question": "existing literature 是否已经覆盖“same objective + different q + MDMT trajectory”机制？",
       "original_registry_entry": {
         "id": "Q25",
         "status": "BOUNDARY",
@@ -759,7 +759,7 @@
         "minimal_completed_experiment": "Launchdaycutoff2026-10-16nineprimarysourceequation/settingaudit; D3/SAFtargetmeasureidentity; importedTaskAdamgradientidentityandactual4seedmatched50/100/50/50comparison; localstatecontrolactualall4statistics.",
         "conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
         "remaining_uncertainty": "V5/V7/fullV11causalnecessityandfinaltestpending; nineauditedsourcesnotproofexhaustiveliteraturecoverage. Optimalfullpaperperformanceandallobjective-preservingmethodvariantsnotestimated.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "UseboundarymatrixinV12/V14; finishallalreadytriggeredexperiments. Q13uniquegapandQ14methoddecisionremainpending; nofakeD3/SAFapproximationorpositiveinnovationclaim."
       },
       "next_phase_proposal": {
@@ -767,16 +767,16 @@
           "N6"
         ],
         "priority": "literature",
-        "next_action": "\u540cQ12/Q13\uff0c\u6309\u65b0\u5177\u4f53\u540c\u76ee\u6807/\u91c7\u6837/MDMT\u547d\u9898\u6838\u5bf9\u901a\u7528\u4e0e\u573a\u666f\u5de5\u4f5c\u3002",
-        "resolution": "\u8f93\u51fa\u5df2\u6709\u8986\u76d6\u3001\u6210\u7acb\u8303\u56f4\u548c\u771f\u6b63\u65b0\u589e\u53ef\u68c0\u9a8c\u5dee\u5f02\u3002",
-        "estimand_or_identification_boundary": "\u6362\u573a\u666f\u672c\u8eab\u4e0d\u80fd\u8bc1\u660e\u521b\u65b0\uff0c\u4e5f\u4e0d\u8981\u6c42\u5fc5\u987b\u552f\u4e00\u5fc5\u8981\u4e2d\u4ecb\u3002"
+        "next_action": "同Q12/Q13，按新具体同目标/采样/MDMT命题核对通用与场景工作。",
+        "resolution": "输出已有覆盖、成立范围和真正新增可检验差异。",
+        "estimand_or_identification_boundary": "换场景本身不能证明创新，也不要求必须唯一必要中介。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q26",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "D3/SAF \u7684 objective change \u662f\u5426\u4f7f\u5176\u4e0d\u80fd\u4f5c\u4e3a mechanism-equivalent prior work\uff1f",
+      "question": "D3/SAF 的 objective change 是否使其不能作为 mechanism-equivalent prior work？",
       "original_registry_entry": {
         "id": "Q26",
         "status": "RESOLVED",
@@ -785,22 +785,22 @@
         "evidence": "objective_literature_audit.md; literature_source_receipt.json",
         "conclusion": "Published D3 DBO and SAF learned sample weights generally change the empirical target measure and are not mechanism-equivalent to objective-preserving SN/SB. Constant-weight degenerations disable their studied mechanism. This does not establish that either method cannot improve metrics.",
         "remaining_uncertainty": "AdaTask empirical coverage remains Q12/Q27; broad literature/novelty coverage remains Q13/Q25.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retain objective boundary in final related-work synthesis; complete faithful objective-preserving AdaTask comparison."
       },
       "next_phase_proposal": {
         "next_phases": [],
         "priority": "frozen",
-        "next_action": "\u4fdd\u7559D3/SAF\u5b8c\u6574\u5b66\u4e60\u6743\u91cd\u4e00\u822c\u6539\u53d8J\u7684\u516c\u5f0f\u8fb9\u754c\u3002",
-        "resolution": "\u4fdd\u6301RESOLVED\u3002",
-        "estimand_or_identification_boundary": "\u53ef\u53e6\u505a\u65b9\u6cd5\u6027\u80fd\u57fa\u7ebf\uff0c\u4f46\u4e0d\u80fd\u628a\u865a\u6784\u9000\u5316\u7248\u5f53\u5b8c\u6574\u539f\u65b9\u6cd5\u3002"
+        "next_action": "保留D3/SAF完整学习权重一般改变J的公式边界。",
+        "resolution": "保持RESOLVED。",
+        "estimand_or_identification_boundary": "可另做方法性能基线，但不能把虚构退化版当完整原方法。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q27",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "AdaTask \u7684 optimizer-state intervention \u662f\u5426\u80fd\u6d88\u9664 sampling effect\uff1f",
+      "question": "AdaTask 的 optimizer-state intervention 是否能消除 sampling effect？",
       "original_registry_entry": {
         "id": "Q27",
         "status": "RESOLVED",
@@ -809,23 +809,23 @@
         "evidence": "V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json",
         "conclusion": "Auditedsame-objectiveTaskAdamcomponentfixedLR.003 doesnoteliminateq-sensitivityinthisconfiguration: earlyjoint14gap-.00783937 3negative1positiveCI[-.014013,-.001666], actualfinalmatched50/100/50/50gap-.01916006all4negative. Selectedgapandmitigationinteractionsuncertain, nozero/equivalencestatement.",
         "remaining_uncertainty": "Notoriginalpaperfullarchitectureorbestvarianttunedbenchmark. Newtestdeferred, historicalholdoutsexposed. Residualcannotestablishuniversalnoncoverageorinnovation; Q12/Q13/Q14remainseparate. All4same-budgetabsoluteAUC/LLanddomain/task/stagecounterexamplesinreport.",
-        "final_test_boundary": "AdaTask\u65e9\u671f14 q-gap\u2212.0057423\u56db\u8d1f\uff0c\u76f8\u5bf9native\u4ea4\u4e92+.0038868\u56db\u6b63\uff1bselected q-gap\u2212.0189167\u56db\u8d1f\u3001\u4ea4\u4e92\u2212.0102186\u56db\u8d1f\uff0cSN+.0030624/SB\u2212.0071562\uff1b\u6240\u6709\u516dcell selected AUC\u5404\u56db\u8d1f\u3002\u4e0d\u63a8\u51fa\u5b8c\u6574\u539f\u8bba\u6587\u5168\u8c03\u53c2\u5931\u8d25\u3002"
+        "final_test_boundary": "AdaTask早期14 q-gap−.0057423四负，相对native交互+.0038868四正；selected q-gap−.0189167四负、交互−.0102186四负，SN+.0030624/SB−.0071562；所有六cell selected AUC各四负。不推出完整原论文全调参失败。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N6"
         ],
         "priority": "frozen_with_scope",
-        "next_action": "\u56fa\u5b9a\u540c\u76ee\u6807AdaTask\u7ec4\u4ef6\u672a\u6d88\u9664q\u654f\u611f\u6027\u5df2\u56de\u7b54\uff1b\u53ea\u6709\u5b8c\u6574\u65b9\u6cd5\u4f18\u52a3\u95ee\u9898\u624d\u7b49\u9884\u7b97\u8c03\u53c2\u5bf9\u6bd4\u3002",
-        "resolution": "\u4fdd\u6301\u539fRESOLVED\u5e76\u9650\u5b9a\u7ec4\u4ef6/LR/\u9884\u7b97\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u7531\u6b8b\u4f59q-gap\u63a8\u51fa\u8bba\u6587\u5168\u65b9\u6cd5\u5931\u8d25\u6216\u521b\u65b0\u6210\u7acb\u3002"
+        "next_action": "固定同目标AdaTask组件未消除q敏感性已回答；只有完整方法优劣问题才等预算调参对比。",
+        "resolution": "保持原RESOLVED并限定组件/LR/预算。",
+        "estimand_or_identification_boundary": "不由残余q-gap推出论文全方法失败或创新成立。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q28",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "routing \u7684 stop-gradient \u8fb9\u754c",
+      "question": "routing 的 stop-gradient 边界",
       "original_registry_entry": {
         "id": "Q28",
         "title": "Frozen M3OE routing uses stop-gradient representation input",
@@ -842,22 +842,22 @@
         "evidence": "experiments/stage_S1_models.py StageS1M3OEAdapter.forward",
         "conclusion": "Same expected loss values and same expected graph gradients are preserved; no claim this graph computes the ordinary total derivative through routing. Do not silently restore missing path.",
         "remaining_uncertainty": "Whether removing detach changes performance is separate architecture experiment, not required for matched fixed protocol",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Report scope in objective chapter"
       },
       "next_phase_proposal": {
         "next_phases": [],
         "priority": "frozen_boundary",
-        "next_action": "\u4fdd\u6301routing detach\u56fe\uff0c\u4e0d\u9759\u9ed8\u6539\u8ba1\u7b97\u56fe\u3002",
-        "resolution": "\u539f\u540c\u56fe\u76ee\u6807\u7ed3\u8bba\u6709\u6548\u3002",
-        "estimand_or_identification_boundary": "\u79fb\u9664detach\u662f\u72ec\u7acb\u67b6\u6784\u5047\u8bbe\uff0c\u975e\u5f53\u524d\u9519\u8bef\u4fee\u590d\u4e49\u52a1\u3002"
+        "next_action": "保持routing detach图，不静默改计算图。",
+        "resolution": "原同图目标结论有效。",
+        "estimand_or_identification_boundary": "移除detach是独立架构假设，非当前错误修复义务。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q29",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u53c2\u6570\u5757\u540d\u79f0\u4e0e\u5b9e\u9645\u5171\u4eab\u652f\u6301",
+      "question": "参数块名称与实际共享支持",
       "original_registry_entry": {
         "id": "Q29",
         "title": "R is domain-task-private routing parameters, whereas E and parts of P have mixed sharing roles",
@@ -875,7 +875,7 @@
         "evidence": "support/*/parameter_cell_support.csv; support/*/receipt.json",
         "conclusion": "R/towers cell-private; slots domain-specific/task-shared; C/E tensor sharing across6cells. Correct necessity interventions accordingly.",
         "remaining_uncertainty": "Performance necessity remainsQ6/Q22, coordinate sparsity differs from tensor sharing",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Completed four-seed support audit; retain sharing map in V7 interpretation."
       },
       "next_phase_proposal": {
@@ -884,16 +884,16 @@
           "N4"
         ],
         "priority": "frozen_with_design",
-        "next_action": "\u6cbf\u7528C/E\u5171\u4eab\u3001R gates/towers\u5355\u5143\u79c1\u6709\u3001P\u6df7\u5408\u7684\u771f\u5b9e\u652f\u6301\u5b9a\u4e49\u3002",
-        "resolution": "\u53c2\u6570\u547d\u540d\u5ba1\u8ba1RESOLVED\u4e0d\u91cd\u8dd1\uff0c\u65b0\u589e\u62d3\u6251\u636e\u771f\u5b9e\u5171\u4eab\u8bbe\u8ba1\u3002",
-        "estimand_or_identification_boundary": "\u5f20\u91cf\u5171\u4eab\u4e0e\u5b9e\u9645batch\u5750\u6807\u652f\u6301\u4e0d\u540c\u3002"
+        "next_action": "沿用C/E共享、R gates/towers单元私有、P混合的真实支持定义。",
+        "resolution": "参数命名审计RESOLVED不重跑，新增拓扑据真实共享设计。",
+        "estimand_or_identification_boundary": "张量共享与实际batch坐标支持不同。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q30",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "Adam \u5b66\u4e60\u7387\u8d62\u5bb6\u4f4d\u4e8e\u7f51\u683c\u4e0b\u8fb9\u754c",
+      "question": "Adam 学习率赢家位于网格下边界",
       "original_registry_entry": {
         "id": "Q30",
         "question": "Adam calibration winner is at the lower boundary of the preregistered grid; is a globally optimal LR established?",
@@ -912,7 +912,7 @@
         "evidence": "calibration_frozen.json; calibration_grid_summary.csv",
         "conclusion": "Finite-grid winner established by frozen rule; global LR optimality not identified and not claimed.",
         "remaining_uncertainty": "Pilot selection uncertainty and continuous-grid optimum; no diagnostic/test used",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Report finite-grid scope; analyze separate fourseed formal finalists without reselection of LR"
       },
       "next_phase_proposal": {
@@ -920,16 +920,16 @@
           "N1"
         ],
         "priority": "core_calibration",
-        "next_action": "\u8865Adam\u9884\u5b9a\u4f4e\u90bb\u70b9\u5e76\u5bf9\u4e24q\u63d0\u4f9b\u76f8\u540c\u8c03\u53c2\u9884\u7b97\u3002",
-        "resolution": "\u5f97\u5230\u9884\u8bbebounded-grid\u6761\u4ef6\u9009\u62e9\u3002",
-        "estimand_or_identification_boundary": "\u5355\u4e2a\u4f4e\u90bb\u70b9\u6216\u6709\u9650\u7f51\u683c\u4e0d\u80fd\u8bc1\u660e\u8fde\u7eed\u5168\u5c40\u6700\u4f18\u3002"
+        "next_action": "补Adam预定低邻点并对两q提供相同调参预算。",
+        "resolution": "得到预设bounded-grid条件选择。",
+        "estimand_or_identification_boundary": "单个低邻点或有限网格不能证明连续全局最优。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q31",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "pilot \u4e0e finalist \u79cd\u5b50\u91cd\u5408",
+      "question": "pilot 与 finalist 种子重合",
       "original_registry_entry": {
         "id": "Q31",
         "question": "Does four-seed finalist confirmation provide an independent assessment of LR-selection uncertainty when two seeds also served as pilots?",
@@ -948,7 +948,7 @@
         "evidence": "analysis/V4_pilot_prefix_identity/receipt.json",
         "conclusion": "All4 selected optimizer/pilotseed pairs have matching initialization/data/source metadata and exact20epoch draw prefixes in formal SN confirmation. Fresh processes do not supply independent tuning-validation seeds. Four-seed contrasts and CIs are conditional on frozen LR; fixed-reference results are retained separately.",
         "remaining_uncertainty": "Unconditional outer LR-selection uncertainty is not estimated. Two new formal seeds2024/2025 do not turn the full cohort into four independent confirmations of the LR selection procedure.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retain explicit conditional-inference scope; no repeated training or bootstrap of fixed trajectories can manufacture independent pilot seeds."
       },
       "next_phase_proposal": {
@@ -956,16 +956,16 @@
           "N1"
         ],
         "priority": "core_calibration",
-        "next_action": "\u65e72022/2023\u4ec5\u4f5ctuning\uff0c\u6b63\u5f0f\u786e\u8ba4\u7528\u4e0d\u91cd\u5408\u65b0seed\uff1b\u590d\u7528\u8f68\u8ff9\u4e0d\u8ba1\u72ec\u7acb\u91cd\u590d\u3002",
-        "resolution": "\u5206\u79bb\u6761\u4ef6\u914d\u7f6e\u786e\u8ba4\u548c\u5916\u5c42\u8c03\u53c2\u4e0d\u786e\u5b9a\u6027\u3002",
-        "estimand_or_identification_boundary": "\u72ec\u7acb\u786e\u8ba4seed\u4ecd\u4e0d\u81ea\u52a8\u4f30\u8ba1\u5b8c\u6574\u5916\u5c42LR\u9009\u62e9\u5206\u5e03\u3002"
+        "next_action": "旧2022/2023仅作tuning，正式确认用不重合新seed；复用轨迹不计独立重复。",
+        "resolution": "分离条件配置确认和外层调参不确定性。",
+        "estimand_or_identification_boundary": "独立确认seed仍不自动估计完整外层LR选择分布。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q32",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u5386\u53f2\u56fa\u5b9a SGD \u6570\u5b57\u53d8\u5316\u6765\u81ea\u54ea\u91cc",
+      "question": "历史固定 SGD 数字变化来自哪里",
       "original_registry_entry": {
         "id": "Q32",
         "question": "Why is fixed-SGD selected effect weaker than the frozen v2 result: changed validation/selection population or changed training implementation?",
@@ -985,7 +985,7 @@
         "evidence": "historical_SGD_reconciliation_decision.json; analysis/historical_SGD_reconciliation/*",
         "conclusion": "The apparent fixedSGD v2-v3 selected-effect discrepancy is generated by changing evaluation population plus a small epoch-reselection component, with zero measured trajectory/numerical contribution. It is not a new training implementation failure.",
         "remaining_uncertainty": "Population-level generalization effect remains Q1/Q2/Q10; this audit closes pipeline-drift explanation only.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "No training repair/rerun. Complete current independent diagnostic and deferred test readouts."
       },
       "next_phase_proposal": {
@@ -993,16 +993,16 @@
           "N0"
         ],
         "priority": "frozen_with_readout",
-        "next_action": "\u4fdd\u6301\u539f\u8bad\u7ec3\u6570\u503c\u6f02\u79fb\u5df2\u6392\u9664\uff0c\u4ec5\u5728\u56fe\u8868\u6807\u6e05selection/evaluation\u4eba\u53e3\u3002",
-        "resolution": "\u4fdd\u6301RESOLVED\uff0c\u4e0d\u91cd\u8bad\u3002",
-        "estimand_or_identification_boundary": "\u65b0\u6743\u91cd/\u4eba\u53e3\u654f\u611f\u6027\u662f\u53e6\u4e00\u4e2aestimand\uff0c\u4e0d\u662f\u65e7pipeline\u6545\u969c\u590d\u53d1\u3002"
+        "next_action": "保持原训练数值漂移已排除，仅在图表标清selection/evaluation人口。",
+        "resolution": "保持RESOLVED，不重训。",
+        "estimand_or_identification_boundary": "新权重/人口敏感性是另一个estimand，不是旧pipeline故障复发。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q33",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u53ea\u7528 SN \u8c03 LR \u7684\u4f30\u8ba1\u5bf9\u8c61",
+      "question": "只用 SN 调 LR 的估计对象",
       "original_registry_entry": {
         "id": "Q33",
         "question": "Does SN-only LR calibration establish separately optimized SN-versus-SB performance?",
@@ -1022,7 +1022,7 @@
         "evidence": "Q33_commonLR_estimand_audit.json; calibration_frozen.json; design_specification.md",
         "conclusion": "Current claims are conditional commonLR sampling contrasts. No separate SB-optimal tuning or globally optimized SN/SB superiority is established or claimed.",
         "remaining_uncertainty": "Arm-specific hyperparameter response and outerLR-selection uncertainty; distinct fromQ30 gridboundary andQ31 pilotseedoverlap.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retain this estimand boundary throughout budget/optimizer/method interpretation. Additionalarm-specific tuning is required only if a new claim needs separatelyoptimized superiority; do not silently retune fromdiagnostic/test."
       },
       "next_phase_proposal": {
@@ -1030,21 +1030,21 @@
           "N1"
         ],
         "priority": "core_calibration",
-        "next_action": "\u540c\u65f6\u4f30\u8ba1\u540cLR q\u5e72\u9884\u4e0eSN/SB\u7b49\u9884\u7b97\u5404\u81ea\u8c03\u4f18\u8868\u73b0\u3002",
-        "resolution": "\u660e\u786e\u56de\u7b54\u63a7\u5236\u6bd4\u8f83A\u548c\u6027\u80fd\u6bd4\u8f83B\u3002",
-        "estimand_or_identification_boundary": "\u4e24\u8005\u4e0d\u53ef\u4e92\u76f8\u66ff\u4ee3\uff1b\u4e0d\u6839\u636ediagnostic/test\u9009\u62e9LR\u3002"
+        "next_action": "同时估计同LR q干预与SN/SB等预算各自调优表现。",
+        "resolution": "明确回答控制比较A和性能比较B。",
+        "estimand_or_identification_boundary": "两者不可互相替代；不根据diagnostic/test选择LR。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q34",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u4e00\u9636\u77e9\u9065\u6d4b\u6df7\u5165\u4e8c\u9636\u77e9\u8303\u6570",
+      "question": "一阶矩遥测混入二阶矩范数",
       "original_registry_entry": {
         "id": "Q34",
         "title": "Recorded exp_avg norm includes secondmomentnorm via overlappingkeyprefix",
         "origin": "Primaryread-onlyinspectionofv3_train.steptelemetry",
-        "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||\u00b2+||v||\u00b2), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
+        "observation": "v3_train.step telemetry key==exp_avg or startswith(exp_avg_) also matchesexp_avg_sq andexp_avg_sq_<task>. Thus recordedexp_avg=sqrt(||m||²+||v||²), not pure||m||. Recordedexp_avg_sq remains pure||v||.",
         "why_it_matters": "Couldmislabelm/vmagnitudesinstateinterpretation; doesnotalteractualupdatesorperformance.",
         "candidate_explanations": [
           "Overbroadprefixselectorinread-onlystatistics"
@@ -1055,25 +1055,25 @@
         "status": "RESOLVED",
         "evidence_strength": "STRONG",
         "design": "moment_telemetry_correction_design.json",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "evidence": "analysis/moment_telemetry_correction_initial50/primary_checkpoint_oracle.json; moment_telemetry_correction_decision.json; Q34_final_all_training_moment_refresh_primary_verification.json",
-        "conclusion": "\u539fexp_avg\u662fsqrt(||m||\u00b2+||v||\u00b2)\uff0c8\u4e2a\u5b9e\u9645Adam/AdaTask\u72b6\u6001\u5757\u72ec\u7acb\u6838\u9a8c\u540e\uff0c\u6700\u7ec8254\u5f52\u6863\u5feb\u7167756800\u884c\u5168\u90e8\u5237\u65b0\uff0ccompact1016\u7ec4\uff1b\u5e8f\u5217\u5316\u8303\u6570\u516c\u5f0f\u6700\u5927\u76f8\u5bf9\u8bef\u5dee3.324e-11\uff0c\u539fmixed\u4e0ecorrected m\u6700\u5927\u76f8\u5bf9\u5dee99.973%\u3002\u8bad\u7ec3\u66f4\u65b0/\u9884\u6d4b/\u6307\u6807\u4e0d\u53d7\u5f71\u54cd\uff0c\u65e0\u9700\u91cd\u8bad\u3002",
+        "conclusion": "原exp_avg是sqrt(||m||²+||v||²)，8个实际Adam/AdaTask状态块独立核验后，最终254归档快照756800行全部刷新，compact1016组；序列化范数公式最大相对误差3.324e-11，原mixed与corrected m最大相对差99.973%。训练更新/预测/指标不受影响，无需重训。",
         "remaining_uncertainty": "Rawcolumnstillmixedbydesignpreserved; reportcorrected_m_normonly. Correctionnormidentitydoesnotidentifyanystatecausalmechanism.",
         "historical_pre_final_next_action": "Finalall254archive snapshots refreshed756800rows withrawSHA/compactsummary; no pendingtelemetryobligation. Keepoldmixedcolumn/Q35sparseclockscope; proceedtest."
       },
       "next_phase_proposal": {
         "next_phases": [],
         "priority": "frozen",
-        "next_action": "\u53ea\u4f7f\u7528\u5df2\u4fee\u6b63corrected_m_norm\u4e0ev_norm\uff0c\u65e7mixed\u5217\u5982\u5b9e\u4fdd\u7559\u3002",
-        "resolution": "\u4fdd\u6301RESOLVED\uff0c\u65e0\u9700\u518d\u6b21\u5168\u91cf\u5237\u65b0\u6216\u91cd\u8bad\u3002",
-        "estimand_or_identification_boundary": "\u8303\u6570\u4fee\u590d\u4e0d\u8bc6\u522b\u72b6\u6001\u56e0\u679c\u3002"
+        "next_action": "只使用已修正corrected_m_norm与v_norm，旧mixed列如实保留。",
+        "resolution": "保持RESOLVED，无需再次全量刷新或重训。",
+        "estimand_or_identification_boundary": "范数修复不识别状态因果。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q35",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u7a00\u758f\u9065\u6d4b lag \u4e0e\u771f\u5b9e step lag",
+      "question": "稀疏遥测 lag 与真实 step lag",
       "original_registry_entry": {
         "id": "Q35",
         "question": "Do sparse first-six-batch telemetry lags represent actualoptimizer-step lags across epochs?",
@@ -1088,7 +1088,7 @@
         "evidence_strength": "STRONG",
         "design": "V6_geometry_synthesis_design.json",
         "minimal_discriminating_experiment": "Existingbatch/stepcolumnsverifywithin-epochcontiguity; filterbatch>=lag andretaincount. No retrainingorfullgradientloggingneeded forscopedtimecos.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "conclusion": "Cross-epochtelemetrylags measuregapsinobservations, not actualoptimizersteplags. Existinginitial50readoutnowusesonlybatch>=lag andcounts5/4/1 within6firstbatches. No performance/trainingchange. No causalconclusionhadused unfilteredlags.",
         "evidence": "analysis/V6_geometry_synthesis_initial50/primary_verification.json; moving_theta_stages.csv",
         "remaining_uncertainty": "Onlyfirst6productionbatchesperstageobserved; lag5onepair. Cannotinferwholeepoch autocorrelation or causalmemoryfromthesevalues.",
@@ -1099,16 +1099,16 @@
           "N3"
         ],
         "priority": "conditional_measurement",
-        "next_action": "\u65e7\u7a00\u758flag\u4e8b\u5b9e\u4fdd\u7559\uff1b\u82e5N3\u786e\u9700\u65f6\u95f4\u76f8\u5173\u6027\u5219\u9884\u8bbe\u8fde\u7eed\u6b65\u7a97\u53e3\u53ca\u771f\u5b9estep\u7f16\u53f7\u3002",
-        "resolution": "\u4ec5\u5bf9\u5b9e\u6d4b\u6b65\u8ddd\u7ed9\u7ed3\u8bba\u3002",
-        "estimand_or_identification_boundary": "\u539flag5\u6bcf\u8f6e\u4e00\u5bf9\uff0c\u4e0d\u80fd\u63a8\u65ad\u6574\u8f6e\u5e73\u7a33\u566a\u58f0\u6216\u957f\u671f\u8bb0\u5fc6\u3002"
+        "next_action": "旧稀疏lag事实保留；若N3确需时间相关性则预设连续步窗口及真实step编号。",
+        "resolution": "仅对实测步距给结论。",
+        "estimand_or_identification_boundary": "原lag5每轮一对，不能推断整轮平稳噪声或长期记忆。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q36",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "onset \u7a0b\u5e8f\u4e0d\u63d0\u4f9b\u5168\u65cf\u9519\u8bef\u7387\u4fdd\u8bc1",
+      "question": "onset 程序不提供全族错误率保证",
       "original_registry_entry": {
         "id": "Q36",
         "question": "Does the frozen point-peak/window bootstrap onset classifier establish simultaneous familywise overfitting guarantees?",
@@ -1127,7 +1127,7 @@
         "conclusion": "Theprespecifiedclassifierisreportedasanoperationaldefinitiononly. No simultaneousFWER guarantee orproof ofabsenceofoverfit. Frozenbudget/thresholdsunchanged; earlyfixedhorizoncontrastsremainvisible.",
         "remaining_uncertainty": "Actualfamilywiseerrorrate, adaptivepeakuncertaintyandlatentoverfit; not estimatedbyconditionalrowbootstrap.",
         "minimal_discriminating_experiment": "Forformalglobalclaims,newpreregisteredsimultaneouspeak/windows procedure calibratedbeforefreshtraining; outsidecurrentoperationalestimand, no newglobalguaranteeclaimed.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Useoperationalwordinginallbudget/prewindowinterpretation andfinalNewlyExposedQuestions; retainfixed5/10/15/20/30/40/50+AULC10/20."
       },
       "next_phase_proposal": {
@@ -1135,16 +1135,16 @@
           "N0"
         ],
         "priority": "frozen_boundary",
-        "next_action": "\u65b0\u4e3b\u7aef\u70b9\u7528\u9884\u5b9a\u5916\u90e8\u7a97\u53e3\uff1b\u53ea\u6709\u6b63\u5f0f\u5168\u5c40onset\u4e3b\u5f20\u624d\u53e6\u5916\u6821\u51c6\u540c\u65f6\u7a0b\u5e8f\u3002",
-        "resolution": "\u4fdd\u7559\u64cd\u4f5c\u6027onset\u5206\u7c7b\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u9760\u989d\u5916\u8bad\u7ec3\u77e9\u9635\u4fee\u590d\u70b9bootstrap\u6ca1\u6709FWER\u4fdd\u8bc1\u7684\u6570\u5b66\u9650\u5236\u3002"
+        "next_action": "新主端点用预定外部窗口；只有正式全局onset主张才另外校准同时程序。",
+        "resolution": "保留操作性onset分类。",
+        "estimand_or_identification_boundary": "不靠额外训练矩阵修复点bootstrap没有FWER保证的数学限制。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q37",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "IID \u6279\u6b21\u7f6e\u6362\u4e0e\u8bfe\u7a0b\u7b56\u7565",
+      "question": "IID 批次置换与课程策略",
       "original_registry_entry": {
         "id": "Q37",
         "question": "Does seed/epoch-only permutation of IID WR batches identify a systematic order-policy mechanism, or only conditional path sensitivity?",
@@ -1163,7 +1163,7 @@
         "evidence": "Q37_IID_order_permutation_scope_audit.json; Q38_ORDER_tail_batch_position_audit.json",
         "conclusion": "Equal-cardinalityIIDnondatadependentpermutationhasinvariantjointlaw, butactualwholeORDERincludesone shorttail(Q38), so theorem cannotestablishfullproductiondistributionequivalence. Existingexperimentvalidlyreadsconditionalrealizedfull-batch-set sensitivity only.",
         "remaining_uncertainty": "Data-dependentcurricula, finitePRNGcoupling andshorttail-sizeclock(Q38) notisolated; no automaticordernecessaryclaim.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "CompleteV5ORDER performance, reportallseeds/contradictions andcoupling scope; no newtrainingunlessanewclaim actuallyrequirespolicyidentification."
       },
       "next_phase_proposal": {
@@ -1171,16 +1171,16 @@
           "N5"
         ],
         "priority": "conditional_boundary",
-        "next_action": "\u76f8\u540cbatch\u96c6\u5408\u4e0b\u591a\u4e2a\u9884\u5b9aorder seed\uff0c\u533a\u5206\u6761\u4ef6\u8def\u5f84\u65b9\u5dee\u4e0e\u603b\u4f53\u7b56\u7565\u5e73\u5747\u3002",
-        "resolution": "\u82e5\u65e0\u6570\u636e\u4f9d\u8d56\u7b56\u7565\u4ec5\u62a5\u544a\u968f\u673aorder\u654f\u611f\u6027\u3002",
-        "estimand_or_identification_boundary": "\u7b49\u5927\u5c0fIID\u7f6e\u6362\u540c\u5206\u5e03\uff0c\u4e0d\u652f\u6301\u8bfe\u7a0b\u666e\u904d\u6536\u76ca\u3002"
+        "next_action": "相同batch集合下多个预定order seed，区分条件路径方差与总体策略平均。",
+        "resolution": "若无数据依赖策略仅报告随机order敏感性。",
+        "estimand_or_identification_boundary": "等大小IID置换同分布，不支持课程普遍收益。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q38",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "ORDER \u4e5f\u79fb\u52a8\u77ed\u5c3e\u6279\u6b21",
+      "question": "ORDER 也移动短尾批次",
       "original_registry_entry": {
         "id": "Q38",
         "question": "Does ORDER move a short tail batch and therefore mix content order with the batch-size noise schedule?",
@@ -1199,7 +1199,7 @@
         "evidence": "V5_all40_final_batch_weight_tail_primary_verification.json; V5_SGD_final_matched_analysis.md",
         "conclusion": "FinalORDER1000armepochs/964tailmovesverified (old286/300 +new678/700), all4200epochs205800batchweightsandORIGINALtail-last verified. Samecontentmultisetdoesnotisolatepurecontentfromsize-clock.",
         "remaining_uncertainty": "Smallrelativebatchsizechange doesnotprove negligible causal effect.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "latest_completed_subset": "V5_completed34_batch_weight_tail_primary_verification.json: actualfinalSGDfirst3seeds ORDER300armepochs286tailmoves, ORIGINAL/PERMtailslast. Old500armepoch/478 audit remains historical (includesseed25old100). Finalseed25>=300matchedORDER audit stillrequired; do not callold500final.",
         "historical_pre_final_next_action": "Currentfinalauditcomplete; newfixedtail/ordercontrolonlyifpurecontentnecessityclaim required."
       },
@@ -1208,16 +1208,16 @@
           "N5"
         ],
         "priority": "conditional_order",
-        "next_action": "\u9700\u8981\u7eaf\u5185\u5bb9\u987a\u5e8f\u89e3\u91ca\u65f6\uff0c\u5c3e\u6279\u56fa\u5b9a\u4ec5\u7f6e\u6362\u7b49\u5927\u5c0fbatch\uff0c\u5e76\u5355\u72ec\u6bd4\u8f83\u5c3e\u90e8\u4f4d\u7f6e\u5e72\u9884\u3002",
-        "resolution": "\u5206\u89e3content\u548csize-clock\uff0c\u800c\u975e\u91cd\u505a\u539f\u6574\u5957ORDER\u3002",
-        "estimand_or_identification_boundary": "964/1000\u79fb\u52a8\u4e8b\u5b9e\u5df2\u786e\u8ba4\uff1b2.22%\u5c3e\u6279\u5dee\u4e0d\u80fd\u81ea\u52a8\u5ffd\u7565\u3002"
+        "next_action": "需要纯内容顺序解释时，尾批固定仅置换等大小batch，并单独比较尾部位置干预。",
+        "resolution": "分解content和size-clock，而非重做原整套ORDER。",
+        "estimand_or_identification_boundary": "964/1000移动事实已确认；2.22%尾批差不能自动忽略。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q39",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "GPU \u8de8\u9884\u7b97\u524d\u7f00\u6570\u503c\u590d\u7528",
+      "question": "GPU 跨预算前缀数值复用",
       "original_registry_entry": {
         "id": "Q39",
         "status": "RESOLVED",
@@ -1229,7 +1229,7 @@
         "evidence": "prefix_GPU_cross_horizon_actual_oracle_primary_verification.json",
         "completed_experiments": "Same50 full1000/200 CPU-vsGPU <=3.33e-16 andallcategoricalexact; same50GPUparentprojection bitexact.",
         "minimal_experiment": "ActualalreadyplannedAdaTask23GPU100 parent projectto originalimmutable50, compareexistingcompleteCPU50 arrays1e-12 andall4000reselection/onsets/selected/budgetcategoricalexact. No newtraining/condition.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "conclusion": "ActualGPU100->CPU50 full1000/200 arrays within1e-12; all4000epochchoices,onsets/selected/budgets exact. SourceRNG/epochseparableformula andactualcrossT support literal-parent-cache reuse; no approximate ornew bootstrap replicates.",
         "remaining_uncertainty": "Arithmetic equivalence withinfloat64tolerance, notuniversalCPU/GPUbitidentity; allfutureprojections stillverifyactualproducer/model/pred/trajectoryprefix hashes.",
         "historical_pre_final_next_action": "Allow reviewedstress200->100/150projection afteractualparentcomplete; recordparentbackendandSHA."
@@ -1237,16 +1237,16 @@
       "next_phase_proposal": {
         "next_phases": [],
         "priority": "frozen",
-        "next_action": "\u6cbf\u7528\u5df2\u6838\u9a8c\u524d\u7f00\u590d\u7528\uff0c\u5bf9\u65b0\u4ea7\u7269\u53ea\u68c0\u67e5\u5fc5\u8981producer/model/pred\u6765\u6e90\u3002",
-        "resolution": "\u4fdd\u6301RESOLVED\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u628aprefix\u5f53\u72ec\u7acbseed\uff0c\u4e0d\u58f0\u79f0\u6240\u6709CPU/GPU\u666e\u904dbit\u76f8\u540c\u3002"
+        "next_action": "沿用已核验前缀复用，对新产物只检查必要producer/model/pred来源。",
+        "resolution": "保持RESOLVED。",
+        "estimand_or_identification_boundary": "不把prefix当独立seed，不声称所有CPU/GPU普遍bit相同。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q40",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u72b6\u6001\u6d88\u878d\u7684\u5065\u5eb7\u3001\u5e45\u5ea6\u548c\u5b66\u4e60\u8fdb\u5ea6",
+      "question": "状态消融的健康、幅度和学习进度",
       "original_registry_entry": {
         "id": "Q40",
         "question": "Can state-ablation gap attenuation be distinguished from fixed-LR saturation or slow learning?",
@@ -1265,11 +1265,11 @@
         "evidence": "V11_state_all4_common50_health_observation.json; archive/formal/V11_state_all4_common50_health.csv; V11_shadow_derived_actual_activation_review.json; V11_beta1_zero_v_only_seed2022_until050_primary_verification.json; V11_state_decomposition_design.json; V11_state_implementation_self_review.json",
         "completed_experiments": "All4statefinaltrainingbudgets250/150/100/200; ALL39requiredstatefull/historicalpairedreadouts/root156000choicesPASS. All4shadowperformance/direction/1740geometry/12checkpointreplaysdone. All16native/statefullparents,15008marginal/14336contrast/3584summaryreconstructionandactualabsolutehealth/fixed22/ownfinalsensitivitiesPASS.",
         "minimal_experiment": "Completealreadyregisteredfour-seedfulltraining, actualabsoluteJ/AUC/LL andnormmatchedcommon-theta state-swaps atstages1/10/40, plusmatchedhorizon/learningprogressreadouts. Do notretuneLR/epsfromoutcomes. Ifthese cannotidentifylong-runnecessity, reportBOUNDARY/NOT_IDENTIFIABLEratherthanaddingunregisteredmatrix.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "conclusion_so_far": "Repeatedfixed-LRbeta2zeroextremeloss/near-randomAUCandm-onlyunderlearningmakegapcollapsealoneinsufficientfornecessity. Do notgeneralizetoallablations: v-onlyhasbetterabsoluteAUCinbotharmsatcommon50. Thisishealth/selectionpointobservation, notdiagnosticstateeffectclosure.",
         "remaining_uncertainty": "Whole-updatehistory/scale/blockredistribution/learningprogressnotuniquelyseparated. Localnormmatchedwhole-historycausalityconditionalonnativeSNtheta, notlong-runnecessity; Q42andnewQ44 retained. NoequivalencezeroassumedfromwideCI.",
         "latest_stage_health_observation": "V11_state_seed2022_T150_budget_and_health_note.md: beta2zeroSBtrainJ40.7441to16.9016 at146..150while selectionmacroAUC stays.5. Notoscillation/no permanentfailureclaim. All6matchedMIN200 required; final200orlonger andoriginal150prefix readouts remainmandatory.",
-        "latest_actual200_health_observation": "V11_state_seed2022_T200_budget_and_health_note.md: all6\u00d74stages24selectionhealthrows fromphysicalproducerlogs. \u03b22SB longstageJnonmonotonic13.99/39.90/16.90/28.92 whileAUC~.49\u2013.50; no stationaryoscillatorclaim. m-onlyimprovesAUC~.560to.583, v-onlylateAUCdropsdespiteJdecline; do notextrapolateE50healthpermanently. Actual\u03b22SN1000confirmationFALSE/rootPASSforcesall6MIN250; six150/200prefixesstillrequired.",
+        "latest_actual200_health_observation": "V11_state_seed2022_T200_budget_and_health_note.md: all6×4stages24selectionhealthrows fromphysicalproducerlogs. β2SB longstageJnonmonotonic13.99/39.90/16.90/28.92 whileAUC~.49–.50; no stationaryoscillatorclaim. m-onlyimprovesAUC~.560to.583, v-onlylateAUCdropsdespiteJdecline; do notextrapolateE50healthpermanently. Actualβ2SN1000confirmationFALSE/rootPASSforcesall6MIN250; six150/200prefixesstillrequired.",
         "latest_final200_seed25_health": "V11_state_seed2025_beta2zero_final200_health_note.md: actualfull200/root4000PASS; beta2zeroBOTHq selection/diagnostic macroAUCexactly.5 withlargeLL/J. Zeroqgap isperformancefloor, not successfulmediation. 20actualhealthrows/currentproducerpinsretained; seed/stageobservationsSTRONG, long-runnecessitynotidentified.",
         "conclusion": "UnderfixedLR.003 beta2zeroall4ownfinalbothqdiagnosticAUC=.5 withlargeLL/J; m-onlylearnsovertimebutlagsnativeAUC, whileLLcanimprove. Healthyv-onlycounterexample: fixedE50bothqabsoluteAUCimproves4/4yetgapinteraction3negative1positive; original22gapattenuation4positivechieflySNdegradation. Gapcollapsealonecannotidentifynecessaryhistoryorhealthyrescue.",
         "historical_pre_final_next_action": "Diagnosticminimalhealth/lengthcontrolscomplete; retainBOUNDARYandfrozenmatrix, noLR/epsretuneoradditionaltraining. CompleteglobalfrozentestandremainingV5/V7/V8; onlynewpositivefullhistorynecessityclaimwouldneedhealth-preservingblock-norm/progressmatchedcontrol."
@@ -1280,16 +1280,16 @@
           "N3"
         ],
         "priority": "conditional_mechanism",
-        "next_action": "\u56fa\u5b9a\u5916\u90e8clock\uff0c\u9010\u5757\u8303\u6570/\u65b9\u5411\u548c\u7edd\u5bf9AUC/LL/J\u5171\u540c\u62a5\u544a\uff1b\u53ea\u6709\u65b0\u8bc1\u636e\u624d\u957f\u671f\u5065\u5eb7\u4fdd\u7559state\u63a7\u5236\u3002",
-        "resolution": "gap\u4fee\u590d\u4e0e\u7edd\u5bf9\u5065\u5eb7\u5206\u5f00\uff0cfloor\u4e0d\u652f\u6301\u5fc5\u8981\u6027\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u91cd\u505a\u5df2\u7834\u574f\u6027\u03b22=0\uff0c\u4e0d\u636e\u7ed3\u679c\u6539LR/eps\u4ee5\u62ef\u6551\u5047\u8bf4\u3002"
+        "next_action": "固定外部clock，逐块范数/方向和绝对AUC/LL/J共同报告；只有新证据才长期健康保留state控制。",
+        "resolution": "gap修复与绝对健康分开，floor不支持必要性。",
+        "estimand_or_identification_boundary": "不重做已破坏性β2=0，不据结果改LR/eps以拯救假说。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q41",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u81ea\u8eab\u65e9\u671f\u7a97\u53e3\u9020\u6210\u7684\u73af\u5883\u8868\u89c2\u7ffb\u8f6c",
+      "question": "自身早期窗口造成的环境表观翻转",
       "original_registry_entry": {
         "id": "Q41",
         "question": "Does differing early-window definition create an apparent cross-environment sampling-effect sign reversal?",
@@ -1301,9 +1301,9 @@
         "completed_experiments": "All8finalpairedfull1000/200, ownwindows37/16 andjoint16 directpointoraclePASS. No newtrainingneededtoexposethewindowcomparisonerror.",
         "current_boundary": "Retainbothown andcommonwindowestimates. No stableadversemacroreplicationinMLSGD. Cannotuniquelyattribute tosize,imbalance,architectureordataset; cannotclaimbothenvironmentsoppositesignatmatchedstage.",
         "minimal_experiment": "Ifuniquedriverclaimwereessential, independentlyvarydataset/label/supportfactorwithsameinput/modelandmatchedactualupdates/examples wherepossible; exactsimultaneousmatchingnotgenerallypossible. Currenttaskmakesboundary/NIstatementinstead ofcausaldriverclaim.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "evidence": "V9_final_cross_environment_primary_verification.json; analysis/V9_final_cross_environment_joint16_marginals; V9_final_cross_environment_analysis.md",
-        "final_test_boundary": "\u51bb\u7ed3test\u5171\u540c16\u8f6e\uff1aKR +.001185\uff083\u6b631\u8d1f\uff09\u3001ML +.003015\uff08\u56db\u6b63\uff09\uff1bE50\u5206\u522b+.001075\uff082\u6b632\u8d1f\uff09/\u2212.000986\uff08\u56db\u8d1f\uff09\uff1bAUC\u81ea\u9009\u5206\u522b\u2212.000972\uff08\u56db\u8d1f\uff09/+.000539\uff081\u6b633\u8d1f\uff09\u3002ML E50\u51fa\u73b0\u8d1f\u5411\u4f46early\u4e3a\u6b63\uff0c\u4e0d\u80fd\u9057\u6f0f\u4e5f\u4e0d\u80fd\u53cd\u5411\u6539\u52a8\u51bb\u7ed3\u524d\u57fa\u4e8ediagnostic early\u5224\u636e\u800c\u672a\u89e6\u53d1\u7684\u6df1\u5c42\u590d\u5236\u5206\u652f\u300249/5\u6b65\u3001\u6570\u636e/\u6807\u7b7e/\u5b50\u96c6\u914d\u7f6e\u675f\u548c\u603b\u4f53\u8bc4\u4ef7\u4eba\u53e3\u4f9d\u7136\u9650\u5236\u5f52\u56e0\u3002",
+        "final_test_boundary": "冻结test共同16轮：KR +.001185（3正1负）、ML +.003015（四正）；E50分别+.001075（2正2负）/−.000986（四负）；AUC自选分别−.000972（四负）/+.000539（1正3负）。ML E50出现负向但early为正，不能遗漏也不能反向改动冻结前基于diagnostic early判据而未触发的深层复制分支。49/5步、数据/标签/子集配置束和总体评价人口依然限制归因。",
         "historical_pre_final_next_action": "Includejoint16counterexampleandallstagesinV9/V12/V14 andNewlyExposedQuestions; finishpredeclaredV5/V7/V11andtest."
       },
       "next_phase_proposal": {
@@ -1312,16 +1312,16 @@
           "N5"
         ],
         "priority": "core_scope",
-        "next_action": "\u8de8\u73af\u5883\u4f7f\u7528\u9884\u5b9a\u5171\u540c\u7a97\u53e3\u5e76\u5217\u5b9e\u9645updates/examples\uff1b\u5fc5\u8981\u65f6\u56fa\u5b9a\u8bad\u7ec3\u652f\u6301\u3002",
-        "resolution": "\u4fdd\u7559\u65e7\u81ea\u8eab\u7a97\u53e3\u53cd\u4f8b\uff0c\u907f\u514d\u6df7\u5408estimand\u3002",
-        "estimand_or_identification_boundary": "\u540cepoch\u6216\u540cAUC\u8fdb\u5ea6\u5747\u4e0d\u80fd\u6d88\u9664\u6570\u636e/\u6807\u7b7e/\u6a21\u578b\u8f93\u5165\u675f\u5dee\u5f02\u3002"
+        "next_action": "跨环境使用预定共同窗口并列实际updates/examples；必要时固定训练支持。",
+        "resolution": "保留旧自身窗口反例，避免混合estimand。",
+        "estimand_or_identification_boundary": "同epoch或同AUC进度均不能消除数据/标签/模型输入束差异。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q42",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u5168\u5c40\u7b49\u8303\u6570\u6ca1\u6709\u9694\u79bb\u89d2\u5ea6\u4e0e\u5757\u5c3a\u5ea6",
+      "question": "全局等范数没有隔离角度与块尺度",
       "original_registry_entry": {
         "id": "Q42",
         "title": "Does global update-norm matching identify direction separately from block-scale redistribution?",
@@ -1335,35 +1335,35 @@
         ],
         "blocking": false,
         "claim_block": "Blocks pure-direction unique-necessity claims; limited whole-state local effect and boundary synthesis remain valid.",
-        "minimal_completed_experiment": "All4seeds\u00d73anchors\u00d72currentq\u00d77conditions, raw/globalnormmatchedCPRE+ALL; originaltheta/m/vreplayzeroerrors,12physicalcheckpoints,1740actualrows, normpartition andtriangleidentities checked.",
+        "minimal_completed_experiment": "All4seeds×3anchors×2currentq×7conditions, raw/globalnormmatchedCPRE+ALL; originaltheta/m/vreplayzeroerrors,12physicalcheckpoints,1740actualrows, normpartition andtriangleidentities checked.",
         "status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "evidence_strength": "MEDIUM",
         "evidence": "Q42_global_norm_vs_block_scale_identifiability.md; V11_shadow_direction_and_norm_analysis.md; V11_shadow_geometry_all4_primary_verification.json; analysis/V11_shadow_geometry_all4/all4_geometry.csv",
         "conclusion": "Globalnormequivalence isonescalarconstraint anddoesnotfix4blockmagnitudes. Existinginterventions jointlychangeangles/blockscales andlackcrossedcounterfactuals; whole-state local effects identified, pure-angle contribution not uniquely identified.",
         "remaining_uncertainty": "Blocknormmatched local effects and their separation from direction; neither proves long-run mediation.",
         "minimal_discriminating_experiment": "Atfixedtheta/historysource/currentq/heldbatch preserveconditiondirections andmatchCPREindividualnormstonative, explicitzeronormrule; comparewithglobalmatch/native. Independentanglecontrolneededforpure-directionnecessity. Notrunbecauseunregisteredandnotblockingcurrentlimitedcoreclaims.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "Retain asQ42 inFinalReportNewlyExposedQuestions; do not infer uniqueanglemechanism. CompletealreadyplannedV5/V7/V11/test; triggernewcontrols onlyifapositivecoreclaimrequiresuniquedecomposition.",
-        "completed_minimal_experiment": "12\u540c\u03b8shadow/raw\u4e0e\u5168\u5c40\u7b49\u8303\u6570\u63a7\u5236\u30011740\u65b9\u5411/\u5757\u5e45\u5ea6\u8bb0\u5f55\u548c12\u68c0\u67e5\u70b9replay\u5b8c\u6210\u3002",
-        "why_current_design_cannot_identify": "\u5168\u5c40\u4e00\u4e2a\u8303\u6570\u7ea6\u675f\u4e0d\u56fa\u5b9aCPRE\u5757\u5c3a\u5ea6\uff1bswap_v\u7684R/P/E\u4ecd\u7ea61.48/1.35/1.18\uff0c\u7eaf\u89d2\u5ea6\u4f5c\u7528\u65e0\u6cd5\u9694\u79bb\u3002",
+        "completed_minimal_experiment": "12同θshadow/raw与全局等范数控制、1740方向/块幅度记录和12检查点replay完成。",
+        "why_current_design_cannot_identify": "全局一个范数约束不固定CPRE块尺度；swap_v的R/P/E仍约1.48/1.35/1.18，纯角度作用无法隔离。",
         "blocks_limited_final_conclusion": false,
-        "blocks_stronger_claim": "\u552f\u4e00\u6216\u957f\u671f\u5fc5\u8981\u4e2d\u4ecb/\u72ec\u7acb\u56e0\u679cN\u7b49\u672a\u8bc6\u522b\u5f3a\u4e3b\u5f20\uff0c\u8303\u56f4\u89c1\u5f53\u524d\u95ee\u9898\u3002"
+        "blocks_stronger_claim": "唯一或长期必要中介/独立因果N等未识别强主张，范围见当前问题。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N3"
         ],
         "priority": "core_mechanism",
-        "next_action": "\u9010\u5757native/candidate\u65b9\u5411\u00d7native/candidate\u8303\u65702\u00d72\uff0c\u96f6\u5757\u5904\u7406\u9884\u8bbe\u3002",
-        "resolution": "\u65b0\u5b9e\u9a8c\u53ef\u8bc6\u522b\u5c40\u90e8\u65b9\u5411\u4e0e\u5e45\u5ea6\uff0c\u539f\u5168\u5c40\u7b49\u8303\u6570\u8bbe\u8ba1\u7684NI\u4fdd\u6301\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u540c\u5757\u8303\u6570\u662f\u591a\u4e2a\u7ea6\u675f\uff0c\u5168\u5c40\u4e00\u4e2a\u8303\u6570\u7ea6\u675f\u4e0d\u591f\uff1b\u5c40\u90e8\u4f5c\u7528\u4e0d\u7b49\u4e8e\u957f\u671f\u5fc5\u8981\u3002"
+        "next_action": "逐块native/candidate方向×native/candidate范数2×2，零块处理预设。",
+        "resolution": "新实验可识别局部方向与幅度，原全局等范数设计的NI保持。",
+        "estimand_or_identification_boundary": "不同块范数是多个约束，全局一个范数约束不够；局部作用不等于长期必要。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q43",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "MovieLens \u7684 seed \u540c\u65f6\u6539\u53d8\u8bad\u7ec3\u5b50\u96c6",
+      "question": "MovieLens 的 seed 同时改变训练子集",
       "original_registry_entry": {
         "id": "Q43",
         "question": "Does MovieLens four-seed uncertainty mix training-subsample variation with optimizer randomness?",
@@ -1380,7 +1380,7 @@
         "conclusion": "MLfourpairedseedreplicates jointlyvarytrainingsubset andoptimizationrandomness, withfixedvalidation. Report uncertaintyoverthiscoupledpipeline, notpurefixedtrainpopulationoptimization. Same-seedobjective-equivalentqcomparisons remainvalid.",
         "current_boundary": "Crossenvironmentconfiguration/stageboundary retained; noisolatedsize/difficulty/datasetdriver orvariancecomponentclaim.",
         "minimal_discriminating_experiment": "Onlyifvariancecomponentseparationbecomesessential: freezeoneMLtrainrowlist andvaryoptimizerseeds, thencrossindependentsubsamplingseeds andoptimizerseeds. Notrunbecausecurrentlimitedpaired-effect/boundaryclaims donotrequirethisunregisteredmatrix.",
-        "next_action": "\u672c\u8f6e\u89c4\u5b9a\u4e14\u5df2\u89e6\u53d1\u7684\u5b9e\u9a8c\u548c\u51bb\u7ed3test\u5747\u5df2\u5b8c\u6210\uff1b\u66f4\u5f3a\u65b0\u4e3b\u5f20\u4ec5\u6309\u4fdd\u7559\u7684\u6700\u5c0f\u5b9e\u9a8c\u53e6\u884c\u9884\u6ce8\u518c\u3002",
+        "next_action": "本轮规定且已触发的实验和冻结test均已完成；更强新主张仅按保留的最小实验另行预注册。",
         "historical_pre_final_next_action": "RetainQ43inFinalNewlyExposedQuestions withrequiredsixfields; applycoupledpipelinewordingtoMLseedCI/testsummaryinterpretation; continueallmandatoryV5/V7/V8/V11/test."
       },
       "next_phase_proposal": {
@@ -1388,23 +1388,23 @@
           "N5"
         ],
         "priority": "conditional_replication",
-        "next_action": "\u5148\u56fa\u5b9aML\u8bad\u7ec3\u884c\u5217\u8868\uff0c\u4ec5\u6539\u53d8\u4f18\u5316seed\uff1b\u9700\u8981\u65b9\u5dee\u5206\u91cf\u65f6\u518d\u72ec\u7acbsubset_seed\u00d7optimization_seed\u4ea4\u53c9\u3002",
-        "resolution": "\u7ed9\u56fa\u5b9a\u652f\u6301\u4e0bq\u5bf9\u6bd4\u6216\u4e24\u79cd\u968f\u673a\u6765\u6e90\u5206\u89e3\u3002",
-        "estimand_or_identification_boundary": "\u539f\u56db\u4e2a\u5bf9\u89d2\u7ec4\u5408\u4e0d\u80fd\u5206\u79bb\u4e24\u79cd\u65b9\u5dee\uff1b\u65b0\u76ee\u5f55\u4e0d\u5236\u9020\u72ec\u7acb\u4eba\u53e3\u3002"
+        "next_action": "先固定ML训练行列表，仅改变优化seed；需要方差分量时再独立subset_seed×optimization_seed交叉。",
+        "resolution": "给固定支持下q对比或两种随机来源分解。",
+        "estimand_or_identification_boundary": "原四个对角组合不能分离两种方差；新目录不制造独立人口。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q44",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u7834\u574f\u6027\u63a7\u5236\u6539\u53d8\u5171\u540c\u65e9\u671f\u7a97\u53e3",
+      "question": "破坏性控制改变共同早期窗口",
       "original_registry_entry": {
         "id": "Q44",
         "question": "Does adding a destructive control change the common early-window estimand and the apparent absolute benefit?",
         "status": "BOUNDARY",
         "evidence_strength": "MEDIUM",
         "origin": "ActualV11four-groupfinaldata jointprewindow4 vsoriginalnative22; observedafterall16fullparents werecomplete.",
-        "observation": "V-onlySNabsoluteAUCdelta +.001180 atjoint4 (2+/2-) versus-.012157 atoriginalfixed22 (4negative); SB +.008938(4+) vs+.000755(2+/2-). Interactionpositive4/4bothwindows, notsignflip. \u03b22floorcontroldeterminesjoint4.",
+        "observation": "V-onlySNabsoluteAUCdelta +.001180 atjoint4 (2+/2-) versus-.012157 atoriginalfixed22 (4negative); SB +.008938(4+) vs+.000755(2+/2-). Interactionpositive4/4bothwindows, notsignflip. β2floorcontroldeterminesjoint4.",
         "why_unresolved": "Frozenjointmin-ruleisvalidforitsown4epochestimand, butcohortcompositionchangesit. Itdoesnotansweroriginal22epochhealthy-rescueclaim; time-windowandwhole-stateeffectcannotbeconflated.",
         "blocking": "Onlyunqualifiedoriginal-early-stagehealthy-rescue/necessityclaims; no blockonlimitedboundaryclosure.",
         "completed_experiments": "All16actualfullparents/32producerpins, prescribedjoint4 andpredeclaredfixed22plusfixed10/20/50/ownfinalhealth,15008marginal/14336contrast/3584summaryreconstructionPASSmax8.88e-15; eightseed/windowrowsarchived.",
@@ -1418,16 +1418,16 @@
           "N0"
         ],
         "priority": "core_readout",
-        "next_action": "\u4e3b\u8981\u65e9\u671f\u7a97\u53e3\u72ec\u7acb\u4e8e\u5019\u9009\u6d88\u878d\u5931\u8d25\uff1b\u56fa\u5b9a10/20/50\u7b49\u65f6\u949f\u4e0e\u539f\u7a97\u53e3\u540c\u65f6\u4fdd\u7559\u3002",
-        "resolution": "\u540c\u4e00\u4e3bestimand\u6bd4\u8f83\u7edd\u5bf9\u6536\u76ca\u4e0einteraction\u3002",
-        "estimand_or_identification_boundary": "\u4e0d\u8ba9\u03b22=0\u7b49\u7834\u574f\u6027arm\u5c0622\u8f6e\u95ee\u9898\u6539\u62104\u8f6e\u95ee\u9898\u3002"
+        "next_action": "主要早期窗口独立于候选消融失败；固定10/20/50等时钟与原窗口同时保留。",
+        "resolution": "同一主estimand比较绝对收益与interaction。",
+        "estimand_or_identification_boundary": "不让β2=0等破坏性arm将22轮问题改成4轮问题。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q45",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u957f\u65f6\u949f\u8bfb\u6570\u53ea\u6709\u9884\u7b97\u6761\u4ef6\u4e0b\u7684\u90e8\u5206\u79cd\u5b50\u652f\u6301",
+      "question": "长时钟读数只有预算条件下的部分种子支持",
       "original_registry_entry": {
         "id": "Q45",
         "question": "Does adaptive final-budget eligibility make long-horizon test summaries conditional on a subset of training seeds?",
@@ -1442,23 +1442,23 @@
         "next_minimal_experiment": "Onlyif anunconditionalcommon100effectisrequired: predeclarematched100sensitivitytraining forcurrentlyunsupportedseeds/conditions; existingvalidruns reused. Currentlimitedcore doesnotrequireunregisteredextension.",
         "evidence": "Q45_adaptive_budget_partial_horizon_support_audit.json; archive/formal/Q45_actual_budget_epoch100_support.csv; frozen_test_summary_verifier_partial_support_v2_design.json; frozen_test_summary_verifier_partial_support_v2_self_review.json",
         "remaining_uncertainty": "No four-seedfixed100estimandwithoutunsupportedfits; ownfinal remainsdifferentclockacrossseeds; no causal missingness ignorability assumed.",
-        "final_actual_support_verification": "\u51bb\u7ed3v2\u5df2\u5b9e\u9645\u6838\u9a8c\u5168\u90e814cohort\uff0cn1\u20134\u6309\u771f\u5b9e\u652f\u6301\u4ea4\u96c6\uff0c\u90e8\u5206\u56fa\u5b9a100\u4ecd\u4ec5\u9884\u7b97\u8d44\u683c\u6761\u4ef6\u63cf\u8ff0\uff1b\u672a\u8865\u9020\u5df2\u505c\u6b62seed\u3002"
+        "final_actual_support_verification": "冻结v2已实际核验全部14cohort，n1–4按真实支持交集，部分固定100仍仅预算资格条件描述；未补造已停止seed。"
       },
       "next_phase_proposal": {
         "next_phases": [
           "N1"
         ],
         "priority": "core_budget",
-        "next_action": "\u9884\u5148\u9009\u62e9\u5171\u540c\u4e3b\u8981\u9884\u7b97\uff1b\u5982\u4e3b\u5f20100\u8f6e\u5219\u6240\u6709\u6b63\u5f0f\u786e\u8ba4seed\u5177100\u8f6e\uff0c\u5426\u5219\u9650\u5b9a50\u8f6e\u3002",
-        "resolution": "\u6bcfendpoint\u62a5\u544a\u771f\u5b9en\u548c\u652f\u6301\u96c6\u3002",
-        "estimand_or_identification_boundary": "\u5df2\u6709\u81ea\u9002\u5e94\u505c\u6b62\u5bfc\u81f4\u7684\u957f\u9884\u7b97\u7f3a\u5931\u975e\u968f\u673a\uff1b\u65e7n2\u7ed3\u679c\u4e0d\u80fd\u8865\u6210n4\u3002"
+        "next_action": "预先选择共同主要预算；如主张100轮则所有正式确认seed具100轮，否则限定50轮。",
+        "resolution": "每endpoint报告真实n和支持集。",
+        "estimand_or_identification_boundary": "已有自适应停止导致的长预算缺失非随机；旧n2结果不能补成n4。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q46",
       "record_type": "EXISTING_QUESTION_WITH_PROPOSED_DISPOSITION",
-      "question": "\u5c40\u90e8C\u7684AUC\u9633\u6027\u4e0eloss/J\u51b2\u7a81",
+      "question": "局部C的AUC阳性与loss/J冲突",
       "original_registry_entry": {
         "id": "Q46",
         "question": "Does a positive local C AUC-attenuation screen imply consistent objective/loss attenuation or a full-training trigger?",
@@ -1480,23 +1480,23 @@
           "N4"
         ],
         "priority": "core_mechanism",
-        "next_action": "\u5206\u522b\u770b\u6392\u5e8f/LL/J\u4e0e\u8bc4\u4ef7\u4eba\u53e3\uff1bC\u591adraw/\u53cc\u951a\u68c0\u9a8c\uff0c\u6761\u4ef6\u957f\u671f\u62d3\u6251\u3002",
-        "resolution": "\u4fdd\u7559v3 C AUC\u7b5b\u9009\u9633\u6027\u53ca\u8054\u5408loss\u5931\u8d25\uff1b\u65b0\u8f6e\u53ef\u9884\u6ce8\u518cAUC\u4e3b\u95ee\u9898\u800c\u4e0d\u8ffd\u6539v3\u3002",
-        "estimand_or_identification_boundary": "attenuation\u63a5\u8fd1SN\u4e0d\u7b49\u4e8e\u7edd\u5bf9\u6539\u5584\uff0c\u5c24\u5176SB\u539f\u672c\u6b63gap\u65f6\uff1bAUC-only\u673a\u5236\u5e76\u4e0d\u5ba3\u79f0\u5168\u6307\u6807\u5065\u5eb7\u3002"
+        "next_action": "分别看排序/LL/J与评价人口；C多draw/双锚检验，条件长期拓扑。",
+        "resolution": "保留v3 C AUC筛选阳性及联合loss失败；新轮可预注册AUC主问题而不追改v3。",
+        "estimand_or_identification_boundary": "attenuation接近SN不等于绝对改善，尤其SB原本正gap时；AUC-only机制并不宣称全指标健康。"
       },
       "current_execution": "HISTORICAL_STATUS_PRESERVED; FOLLOW_ORIGINAL_NEXT_PHASES"
     },
     {
       "id": "Q47",
-      "question": "\u5b8f\u8bc4\u4ef7\u3001train-p\u4e0etest-p\u8bc4\u4ef7\u7684\u53cd\u8f6c\u7531\u54ea\u4e9bcell\u8d21\u732e\uff1f\u8bc4\u4ef7\u6743\u91cd\u53d8\u5316\u4e0e\u57df\u5185\u4eba\u53e3\u53d8\u5316\u5982\u4f55\u533a\u5206\uff1f",
-      "trigger_observation": "calAdam .003\u5171\u540cE50\uff0c\u540c\u4e00test\u9884\u6d4b\u7684macro AUC\u5dee\u4e3a\u22120.0090742877\uff0ctest-count\u52a0\u6743\u5355\u5143AUC\u5dee\u4e3a+0.0031080192\uff1bd1\u8bad\u7ec3\u5360\u6bd4\u7ea686.928%\uff0ctest\u7ea698.212%\u3002",
-      "estimand": "\u56fa\u5b9a\u6a21\u578b\u9884\u6d4b\u7684\u8bc4\u4ef7\u6743\u91cd\u654f\u611f\u6027\uff1b\u53e6\u884c\u5206\u6790\u4e0d\u540csplit\u7684\u57df\u5185\u5206\u5e03\u4e0e\u6392\u5e8f/\u6821\u51c6\uff0c\u4e0d\u5c06\u4e8c\u8005\u7b49\u540c\u3002",
+      "question": "宏评价、train-p与test-p评价的反转由哪些cell贡献？评价权重变化与域内人口变化如何区分？",
+      "trigger_observation": "calAdam .003共同E50，同一test预测的macro AUC差为−0.0090742877，test-count加权单元AUC差为+0.0031080192；d1训练占比约86.928%，test约98.212%。",
+      "estimand": "固定模型预测的评价权重敏感性；另行分析不同split的域内分布与排序/校准，不将二者等同。",
       "next_phases": [
         "N0",
         "N1"
       ],
-      "minimal_experiment": "\u56fa\u5b9a\u9884\u6d4b\u9010cell\u7b97\u672f\u5206\u89e3\u3001\u9884\u5b9a\u4e09\u5957\u6743\u91cd\u3001\u4e25\u683c\u5355\u8c03\u6821\u51c6\uff1bN1\u72ec\u7acb\u8bad\u7ec3seed\u786e\u8ba4\u8be5\u73b0\u8c61\u3002",
-      "decision_rule": "\u4fdd\u7559macro\u4e3b\u6307\u6807\uff1b\u540c\u4e00\u9884\u6d4b\u6743\u91cd\u53cd\u8f6c\u53ef\u7cbe\u786e\u9a8c\u8bc1\uff0c\u57df\u5185\u4eba\u53e3\u53d8\u5316\u53ea\u4f5c\u63cf\u8ff0\u6216\u72ec\u7acb\u63a7\u5236\uff0c\u4e0d\u80fd\u81ea\u52a8\u4f5c\u56e0\u679c\u5f52\u56e0\u3002",
+      "minimal_experiment": "固定预测逐cell算术分解、预定三套权重、严格单调校准；N1独立训练seed确认该现象。",
+      "decision_rule": "保留macro主指标；同一预测权重反转可精确验证，域内人口变化只作描述或独立控制，不能自动作因果归因。",
       "related_original_questions": [
         "Q2",
         "Q8",
@@ -1512,26 +1512,26 @@
         "research_plans/2026-10-16_v3/execution_20261016/analysis/V8_final_domain_task_context/domain_task_context.csv"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "source_urls": [
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/analysis/test_baseline7_summary/seed_cell_test_readouts.csv",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/splits/kuairand_seed2022.json",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/analysis/V8_final_domain_task_context/domain_task_context.csv"
       ],
-      "current_execution": "N0_COMPLETE; N1_CONFIRMATION_PENDING"
+      "current_execution": "N0_COMPLETE; N1_CONFIRMATION_VALIDATED; NEW_TEST_PENDING"
     },
     {
       "id": "Q48",
-      "question": "\u77edpilot\u9009\u51fa\u7684LR\u8d62\u5bb6\u662f\u5426\u53ea\u4f18\u5316\u65e9\u671f\u901f\u5ea6\uff0c\u4e14\u53cc\u65b9\u7b49\u9884\u7b97\u8c03\u53c2\u540e\u91c7\u6837\u5dee\u8ddd\u662f\u5426\u4fdd\u7559\uff1f",
-      "trigger_observation": "Adam .003\u76f8\u5bf9.01\uff0c\u524d\u5341\u8f6eAULC\u5728\u4e24\u81c2\u5747\u56dbseed\u6539\u5584\uff0cE50\u5728\u4e24\u81c2\u5747\u56dbseed\u4e0b\u964d\uff1b\u73b0\u670916\u4e2apilot\u5747\u4e3aSN\uff0cpilot\u4e0efinalist seed\u91cd\u5408\u3002",
-      "estimand": "\u5171\u540ceta\u7684q\u5e72\u9884\uff0c\u4ee5\u53ca\u4e24q\u5404\u81ea\u5728\u76f8\u540c\u641c\u7d22/\u8bad\u7ec3\u9884\u7b97\u4e0b\u7684\u8868\u73b0\uff0c\u4e8c\u8005\u5206\u5f00\u3002",
+      "question": "短pilot选出的LR赢家是否只优化早期速度，且双方等预算调参后采样差距是否保留？",
+      "trigger_observation": "Adam .003相对.01，前十轮AULC在两臂均四seed改善，E50在两臂均四seed下降；现有16个pilot均为SN，pilot与finalist seed重合。",
+      "estimand": "共同eta的q干预，以及两q各自在相同搜索/训练预算下的表现，二者分开。",
       "next_phases": [
         "N1"
       ],
-      "minimal_experiment": "Adam/SGD\u54044\u70b9LR\u00d72q\u00d72tuning seed\uff0cH100\uff1b\u51bb\u7ed3\u5171\u540c\u4e0e\u5404\u81eaeta\uff0c\u75288\u4e2a\u72ec\u7acbconfirmation seed\u786e\u8ba4\u3002",
-      "decision_rule": "\u9075\u5faaNEXT_EXPERIMENT_PLAN.md N1\uff1b\u53ea\u79f0\u9884\u8bbe\u7f51\u683c\u548c\u9884\u7b97\u5185\u8d62\u5bb6\uff0c\u4e0d\u58f0\u79f0\u8fde\u7eed\u5168\u5c40\u6700\u4f18\u3002",
+      "minimal_experiment": "Adam/SGD各4点LR×2q×2tuning seed，H100；冻结共同与各自eta，用8个独立confirmation seed确认。",
+      "decision_rule": "遵循NEXT_EXPERIMENT_PLAN.md N1；只称预设网格和预算内赢家，不声称连续全局最优。",
       "related_original_questions": [
         "Q17",
         "Q23",
@@ -1545,25 +1545,25 @@
         "research_plans/2026-10-16_v3/execution_20261016/question_registry.json"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "source_urls": [
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/analysis/test_baseline7_summary/seed_cell_test_readouts.csv",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/question_registry.json"
       ],
-      "current_execution": "N1_PILOT_32_VALIDATED; WINNERS_FROZEN; INDEPENDENT_CONFIRMATION_32_RUNNING"
+      "current_execution": "PILOT_32_AND_CONFIRMATION_32_VALIDATED; WINNERS_FROZEN; H200_NOT_TRIGGERED; TEST_PENDING"
     },
     {
       "id": "Q49",
-      "question": "\u57df\u8ba1\u6570\u6ce2\u52a8\u76f8\u5bf9\u4e8e\u57df\u5185\u6837\u672c\u566a\u58f0\u8d21\u732e\u591a\u5c11\uff0c\u56fa\u5b9a\u57df\u914d\u989d\u662f\u5426\u6539\u53d8downstream\u91c7\u6837\u6548\u5e94\uff1f",
-      "trigger_observation": "\u540c\u56fe\u76ee\u6807\u5747\u503c\u76f8\u540c\uff0c\u4f46SB/SN covariance trace\u7ea62.3155\u20132.7522\uff1b\u5df2\u6709WR/PERM\u4e0e2B\u4e0d\u80fd\u5355\u72ec\u8bc6\u522b\u57df\u8ba1\u6570\u901a\u9053\u3002",
-      "estimand": "\u540c\u76ee\u6807\u3001\u540c\u9884\u671f\u66dd\u5149\u4e0bIID\u4e0equota\u57df\u805a\u5408\u8fc7\u7a0b\u7684\u5e72\u9884\uff1b\u6539\u53d8\u6279\u5185\u7ed3\u6784\u548c\u9ad8\u9636\u77e9\uff0c\u4e0d\u7b49\u4e8e\u7eaftrace\u5f00\u5173\u3002",
+      "question": "域计数波动相对于域内样本噪声贡献多少，固定域配额是否改变downstream采样效应？",
+      "trigger_observation": "同图目标均值相同，但SB/SN covariance trace约2.3155–2.7522；已有WR/PERM与2B不能单独识别域计数通道。",
+      "estimand": "同目标、同预期曝光下IID与quota域聚合过程的干预；改变批内结构和高阶矩，不等于纯trace开关。",
       "next_phases": [
         "N2"
       ],
-      "minimal_experiment": "IID/quota\u00d7SN/SB\u56db\u81c2\uff1b\u968f\u673a\u7cfb\u7edf\u820d\u5165\u914d\u989d\u3001\u5b9e\u9645\u6743\u91cdBp_d/n_d\uff1b\u514816\u951a\u56fa\u5b9a\u70b9\uff0c\u518d\u6309\u8bca\u65ad\u6b8b\u5dee\u89e6\u53d18seed\u8bad\u7ec3\u3002",
-      "decision_rule": "\u9a8c\u8bc1\u4ee3\u6570/\u786e\u5b9a\u6027\u56fe\u8eab\u4efd\uff0c\u533a\u5206Monte Carlo\u8bef\u5dee\uff1b\u62a5\u544aq\u00d7quota\u4ea4\u4e92\u53ca\u4e24\u81c2\u7edd\u5bf9\u53d8\u5316\u3002",
+      "minimal_experiment": "IID/quota×SN/SB四臂；随机系统舍入配额、实际权重Bp_d/n_d；先16锚固定点，再按诊断残差触发8seed训练。",
+      "decision_rule": "验证代数/确定性图身份，区分Monte Carlo误差；报告q×quota交互及两臂绝对变化。",
       "related_original_questions": [
         "Q5",
         "Q9",
@@ -1579,27 +1579,27 @@
         "experiments/v2_20261016.py"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "source_urls": [
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/experiments/v3_train_20261016.py",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/experiments/v2_20261016.py"
       ],
-      "current_execution": "N2_IMPLEMENTED_REVIEWED; WAIT_N1"
+      "current_execution": "N2_FIXEDPOINT_16_AND_QUOTA_16_AUTHORIZED_ADAM"
     },
     {
       "id": "Q50",
-      "question": "C\u5c40\u90e8\u4f5c\u7528\u6765\u81ea\u54ea\u4e9b\u5b50\u6a21\u5757\u3001\u5e45\u5ea6/\u65b9\u5411\u53ca\u5176\u4ea4\u4e92\uff1f\u5171\u4eab\u62d3\u6251\u7684\u957f\u671f\u4f5c\u7528\u662f\u5426\u6210\u7acb\uff1f",
-      "trigger_observation": "C\u7684selection AUC attenuation\u5728E10/E40\u5747\u56dbseed\u226550%\uff0c\u4f46E10 diagnostic\u53ea\u6709\u4e24\u6b63\u4e24\u8d1f\uff0cE40 signed\u66ff\u6362\u964d\u4f4eAUC\uff1b\u539f\u951a\u5747\u6765\u81eaSN\u4e14\u6bcfq\u5355draw\u3002",
-      "estimand": "\u540c\u951a\u4e00\u6b65C\u5750\u6807\u76f4\u63a5\u4f5c\u7528\uff0c\u53ca\u6709\u6761\u4ef6\u7684\u65b0\u957f\u671f\u62d3\u6251\u603b\u6548\u5e94\uff1b\u4e0d\u662f\u552f\u4e00\u4e2d\u4ecb\u6216\u7eaf\u57df\u8bed\u4e49\u3002",
+      "question": "C局部作用来自哪些子模块、幅度/方向及其交互？共享拓扑的长期作用是否成立？",
+      "trigger_observation": "C的selection AUC attenuation在E10/E40均四seed≥50%，但E10 diagnostic只有两正两负，E40 signed替换降低AUC；原锚均来自SN且每q单draw。",
+      "estimand": "同锚一步C坐标直接作用，及有条件的新长期拓扑总效应；不是唯一中介或纯域语义。",
       "next_phases": [
         "N3",
         "N4"
       ],
-      "minimal_experiment": "\u53cc\u8def\u5f84\u951a\u3001\u591adraw\u3001C\u5b50\u6a21\u5757\u3001norm\u00d7direction\u56db\u683c\u53ca\u4ea4\u4e92\uff1b\u72ec\u7acbseed\u786e\u8ba4\u540e\u624d\u505atied/\u771f\u5b9euntied/\u56fa\u5b9a\u968f\u673auntied\u3002",
-      "decision_rule": "\u6309N3.6\u51bb\u7ed3\u5c40\u90e8\u9636\u6bb5\u3001\u5b9e\u9645\u754c\u3001\u65b9\u5411\u548cMC\u7cbe\u5ea6\uff1bN4\u7528\u65b0seed\u5e76\u660e\u786e\u6b63\u5219/\u72b6\u6001\u65f6\u949f\uff0c\u4fdd\u7559\u66dd\u5149\u4e0e\u652f\u6301\u9650\u5236\u3002",
+      "minimal_experiment": "双路径锚、多draw、C子模块、norm×direction四格及交互；独立seed确认后才做tied/真实untied/固定随机untied。",
+      "decision_rule": "按N3.6冻结局部阶段、实际界、方向和MC精度；N4用新seed并明确正则/状态时钟，保留曝光与支持限制。",
       "related_original_questions": [
         "Q6",
         "Q21",
@@ -1614,26 +1614,26 @@
         "experiments/stage_S1_models.py"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "source_urls": [
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/V7_local_counterfactual_analysis.md",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/experiments/v2_20261016.py",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/experiments/stage_S1_models.py"
       ],
-      "current_execution": "N3_IMPLEMENTED_REVIEWED; WAIT_N1"
+      "current_execution": "N3_DEVELOPMENT_16_AND_SGD_CONTROL_16_AUTHORIZED; N4_WAIT_INDEPENDENT_N3"
     },
     {
       "id": "Q51",
-      "question": "\u5728\u76f8\u540ctheta\u3001m/v\u5386\u53f2\u53castep\u4e0b\uff0cAdam\u77ac\u65f6\u975e\u7ebf\u6027\u662f\u5426\u628a\u4e0d\u540c\u68af\u5ea6\u5206\u5e03\u6620\u5c04\u4e3a\u4e0d\u540c\u5e73\u5747\u66f4\u65b0\uff1f",
-      "trigger_observation": "same-mean gradient\u4e0d\u8574\u542bsame-mean Adam update\uff1b\u5f53\u524dg\u8fdb\u5165\u4e8c\u9636\u77e9\u5206\u6bcd\uff0c\u65e7\u7834\u574f\u6027m-only/beta2=0\u4e0d\u80fd\u72ec\u7acb\u8bc6\u522b\u6b64\u901a\u9053\u3002",
-      "estimand": "\u56fa\u5b9a\u72b6\u6001\u4e0b\u5373\u65f6\u975e\u7ebf\u6027\u5f52\u4e00\u5316\u7684\u5e73\u5747\u66f4\u65b0\u6548\u5e94\uff0c\u4e0e\u5386\u53f2\u7d2f\u79ef\u4f5c\u7528\u5206\u5f00\u3002",
+      "question": "在相同theta、m/v历史及step下，Adam瞬时非线性是否把不同梯度分布映射为不同平均更新？",
+      "trigger_observation": "same-mean gradient不蕴含same-mean Adam update；当前g进入二阶矩分母，旧破坏性m-only/beta2=0不能独立识别此通道。",
+      "estimand": "固定状态下即时非线性归一化的平均更新效应，与历史累积作用分开。",
       "next_phases": [
         "N3"
       ],
-      "minimal_experiment": "\u590d\u7528\u540ctheta\u68af\u5ea6bank\u6bd4\u8f83E[U(g)]\u3001U(E[g])\u3001SGD\u53ca\u5171\u540c\u6ede\u540e\u56fa\u5b9a\u5206\u6bcd\u7ebf\u6027\u6620\u5c04\uff1b\u4ec5\u5f53Adam\u6b8b\u5dee\u91cd\u8981\u65f6\u89e6\u53d1\u3002",
-      "decision_rule": "\u7ebf\u6027\u6620\u5c04\u4e0b\u5747\u503c\u76f8\u7b49\u662f\u7406\u8bba\u5bf9\u7167\uff1b\u5b9e\u9645\u5dee\u53ea\u652f\u6301\u5c40\u90e8\u6620\u5c04\u4f5c\u7528\uff0c\u4e0d\u80fd\u79f0\u957f\u671f\u6709\u5bb3\u6216\u5386\u53f2\u5fc5\u8981\u6027\u3002",
+      "minimal_experiment": "复用同theta梯度bank比较E[U(g)]、U(E[g])、SGD及共同滞后固定分母线性映射；仅当Adam残差重要时触发。",
+      "decision_rule": "线性映射下均值相等是理论对照；实际差只支持局部映射作用，不能称长期有害或历史必要性。",
       "related_original_questions": [
         "Q4",
         "Q23",
@@ -1647,25 +1647,25 @@
         "experiments/v3_train_20261016.py"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "source_urls": [
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/research_plans/2026-10-16_v3/execution_20261016/V11_fullstate_final_diagnostic_analysis.md",
         "https://github.com/Caelestis1903/My-Research-Project/blob/2d04c6de6c925eca8563f81b66af3f0e95f99183/experiments/v3_train_20261016.py"
       ],
-      "current_execution": "CONDITIONAL_ADAM_MAPPING_IMPLEMENTED; WAIT_N1"
+      "current_execution": "ADAM_FIXED_STATE_MAPPING_TRIGGERED_AND_AUTHORIZED"
     },
     {
       "id": "Q52",
-      "question": "EMS/variance-adapted LR\u4e0eMIS/OMIS\u73b0\u6709\u5de5\u4f5c\u662f\u5426\u5df2\u8986\u76d6\u6700\u76f4\u63a5\u7684\u5019\u9009\u89e3\u91ca\u548c\u65b9\u6cd5\uff1f",
-      "trigger_observation": "\u539f\u59cb\u8bba\u6587\u5df2\u8986\u76d6trace\u5b9a\u4e49\u6709\u6548batch/\u8c03\u6574LR\uff0c\u4ee5\u53ca\u9ad8\u7ef4\u68af\u5ea6\u4e0d\u540c\u53c2\u6570\u5b50\u96c6\u7684\u591aproposal\u7ec4\u5408\u3002",
-      "estimand": "\u62df\u58f0\u660e\u5177\u4f53\u673a\u5236/\u65b9\u6cd5\u76f8\u5bf9\u73b0\u6709\u5de5\u4f5c\u5047\u8bbe\u3001\u76ee\u6807\u3001\u4f30\u8ba1\u5668\u548c\u5b9e\u8bc1\u8303\u56f4\u7684\u589e\u91cf\u3002",
+      "question": "EMS/variance-adapted LR与MIS/OMIS现有工作是否已覆盖最直接的候选解释和方法？",
+      "trigger_observation": "原始论文已覆盖trace定义有效batch/调整LR，以及高维梯度不同参数子集的多proposal组合。",
+      "estimand": "拟声明具体机制/方法相对现有工作假设、目标、估计器和实证范围的增量。",
       "next_phases": [
         "N6"
       ],
-      "minimal_experiment": "\u9010\u5f0f\u539f\u6587\u5dee\u5f02\u8868\uff1b\u53ea\u6709\u5019\u9009\u4e3b\u5f20\u4ecd\u6210\u7acb\u65f6\u6267\u884c\u8bba\u6587\u89c4\u5b9a\u7684\u540c\u76ee\u6807\u57fa\u7ebf\u3002",
-      "decision_rule": "\u4e0d\u80fd\u4ec5\u51edMDMT\u5e94\u7528\u573a\u666f\u58f0\u660e\u521b\u65b0\uff1b\u4e0d\u5c06ESS\u7b49\u540c\u4e8e\u68af\u5ea6variance ratio\uff0c\u4e0d\u5c06\u5df2\u6709blockwise proposal\u91cd\u547d\u540d\u3002",
+      "minimal_experiment": "逐式原文差异表；只有候选主张仍成立时执行论文规定的同目标基线。",
+      "decision_rule": "不能仅凭MDMT应用场景声明创新；不将ESS等同于梯度variance ratio，不将已有blockwise proposal重命名。",
       "related_original_questions": [
         "Q12",
         "Q13",
@@ -1679,12 +1679,12 @@
         "https://arxiv.org/abs/2407.15525"
       ],
       "record_type": "NEW_PROPOSED_QUESTION",
-      "status": "OPEN_PLANNED",
-      "execution_status": "NOT_EXECUTED",
-      "uncertainty": "\u672c\u6b21\u4e3a\u65b0\u7814\u7a76\u95ee\u9898\u53ca\u9884\u6ce8\u518c\u5efa\u8bae\uff1b\u6ca1\u6709\u65b0\u589e\u8bad\u7ec3\u7ed3\u679c\uff0c\u4e0d\u8986\u76d6v3\u539f\u59cb\u7ec8\u6001\u3002",
+      "status": "OPEN_IN_PROGRESS",
+      "execution_status": "IN_PROGRESS",
+      "uncertainty": "本次为新研究问题及预注册建议；没有新增训练结果，不覆盖v3原始终态。",
       "current_execution": "PRETRAINING_ORIGINAL_PAPER_COMPARISON_COMPLETE; FINAL_CLAIM_PENDING"
     }
   ],
-  "execution_status": "N1_CONFIRMATION_RUNNING",
+  "execution_status": "N1_32_CONFIRMATIONS_VALIDATED; N2_N3_AUTHORIZED; TEST_SEALED",
   "historical_fields_preserved": true
 }
