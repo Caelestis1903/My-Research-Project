@@ -9,3 +9,5 @@ n17_method_guards.py输出所有读数，不以某个有利阶段替换预先声
 训练耗时来自共享GPU资源，不伪称独占吞吐。resume后的elapsed_seconds原字段是当前段时钟；最终处理必须区分重启/延长段与累计计算时间，不能将H200末段时钟当全部200轮成本。samples与steps用原累计字段，KR49/ML5步每epoch分开解释。
 
 主agent自审：公式、方向、七项族及ratio定义逐项对照原规划，无新test数据参与；PASS_SELF_REVIEW。实际最终清单/字段仍在统一冻结前核对；尚未运行最终test读数或收益判定。
+
+最终图实现n17_figures.py：仅接受已完成performance receipt与同SHA比较清单，再绘N1两主要共同eta的六cell、H100 AUC/完整train J曲线及预设alpha权重敏感性。八训练seed逐点t区间，不作为全局onset或同时保护界；六cell图也明确pointwise，七项Bonferroni保护另表。沿用原宏主指标，不从图挑权重或选点。主agent逐式读数/条件门及语法核对PASS_SELF_REVIEW；尚未运行最终图或新test。
