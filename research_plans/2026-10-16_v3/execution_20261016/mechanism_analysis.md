@@ -1,118 +1,33 @@
-> 当前最新状态：V1–V11全部规定诊断项、22最终前缀和Q34最终遥测完成；V7 C的AUC筛选阳性，但C40 loss/J不一致使完整联合条件未触发。全部46问题/Q28–Q46共19项保留。下一步为全定义冻结后的test及最终14章报告。下方旧过程快照不覆盖本条和实际收据。
+# 科研机制分析：证据、反例与边界
 
-# 科研机制分析（进行中，非终局判定）
+**BOUNDARY-CONFIRMED；NO_GO。** 本研究确认：同一Sample经验目标及既有stop-gradient图导数字段期望下，q改变有限batch估计器协方差并可改变训练路径和性能；性能效应只在明确的优化器/LR、阶段、选择规则、评价人口和域任务条件下成立（MEDIUM），同图/同均值与采样身份为STRONG。普遍Adam必要、全部selection-only、全部late-only及“小域等于困难域”的解释被反例限制；课程或动量的普遍收益、N主因和统一小域改善/大域损害取舍没有证据。C局部AUC路径为阳性，但联合loss/J不一致，重复/coverage、形状/trace、内容/尾批时钟和状态/进度未独立分离，唯一长期必要中介仍未识别。既有importance sampling、order和optimizer-memory工作部分覆盖一般主题，D3/SAF完整目标不同，固定AdaTask组件残差不代表原论文方法普遍失败。唯一终局分类为BOUNDARY-CONFIRMED，方法决定NO_GO；所有本轮规定且触发的实验、最小控制和冻结测试均已完成，未触发分支与更强未识别主张逐项保留。
 
-## 当前已核实状态：V11 诊断分析完成，全部实验继续执行
+## 已确认的观察与证据强度
 
-V11 四种子状态训练最终预算为 **250/150/100/200**；全部12对最终状态和27对历史读数已完成并通过156000次选择索引检查。与native最终50/100/50/50的16父读数已完成聚合、联合边际、支持交互和原始六单元数值重建（最大误差8.89e−15）。[完整状态分析](V11_fullstate_final_diagnostic_analysis.md)同时报告绝对AUC/loss/J、逐域逐任务、种子CI、训练阶段与预算限制。主控自审，independent_review=false。
+- **STRONG：** 同前向经验J及同stop-gradient图导数字段期望身份；完整固定θ/批次权重/模型与产物SHA；同q三severity行/顺序/曝光耦合；R已私有/C和E共享/P混合。STRONG身份不等于泛化机制STRONG。
+- **MEDIUM：** 明确配置内早期q影响，optimizer/LR交互与顺序阶段敏感性，whole-state映射局部/条件影响，以及C在E10/E40的selection AUC局部路径。test按冻结规则另行确认，见[数值核验](analysis/test_all_cohorts_primary_verification/receipt.json)。
+- **WEAK或不可识别：** 唯一长期必要中介、纯content-order、coverage独立于repetition、shape独立于trace、全局等范数下纯方向、N主要因果驱动、普遍困难域规律、小域改善/大域下降取舍，以及新方法全面收益。
 
-原始22轮窗口的v-only AUC交互 +.012912（四seed正），同时SN绝对变化 −.012157（四seed负）、SB仅 +.000755（2正2负）；共同E50两臂AUC均四seed改善，交互却不稳定。β2=0最终AUC=.5且loss/J很高；m-only长期有学习，AUC与loss不总同向。以上支持整个更新状态映射的条件影响（MEDIUM），不识别唯一、必要的长期历史机制。新增Q44（BOUNDARY/MEDIUM）记录联合窗口从原始native22缩到4后，绝对收益估计随窗口改变；不能将不同窗口混为同一健康恢复证据。own_final_epoch仅为selected_fixed_budget标签别名，不能双计独立结果。
+## 反事实与竞争解释
 
-V5/V8 seed25十个实际350训练现均COMPLETE并满足平台，最终匹配预算正式认证为FINAL350（root60关键哈希/70归档PASS，不是350硬上限）。四对完整350读数已核验16000次选择，strong完整350由GPU81/PID505078执行；四CPU前缀队列17对及最终sampler/weight队列已启动。最终六个V8单元审计采用每批2个GPU worker，首批clean GPU82/PID507092实际执行。V5 SGD四seed最终匹配50/50/50/350的12父性能已聚合并复核230400值，最大误差3.80e−16；[分析稿](V5_SGD_final_matched_analysis.md)保留ORDER第50轮四正但长程seed25反向、自选差距主要伴SN下降。最终采样身份/22前缀仍需闭合后继续V7。
+[V12终局综合](V12_final_causal_synthesis.md)分别列同J改q、同q改optimizer/sampler、同multiset改order、同θ改块、2B/exact六项。目标/图不一致已反证；泛指所有效应只由Adam、selection、late-overfitting造成均有共同早期反例。不能因此排除速度/clock、参数路径、高阶估计器分布、输入/表示law、coverage/repetition耦合与多通路共享效应。
 
-问题登记共45项；最终Newly Exposed Questions至少覆盖Q28–Q45共18项，六字段工作附录已保留。Q40的诊断最小补充已完成、定为BOUNDARY/MEDIUM，最终新测试仍待全条件冻结。test_readout_frozen.json不存在，本次新test性能未计算；历史test已暴露，不声称pristine holdout。V5/V7/V8、最终遥测、V12/V13、冻结测试和最终报告/归档推送仍有义务。下文初始快照和过程更新仅为历史，不覆盖本段和实际收据。
+固定E,N下R=E−U≥max(0,E−N)，SB小域E>N使零重复同资源对照不可行；PERM保留重复并改变依赖结构。ORDER1000臂轮964次移动短尾，不能把纯内容与batch-size-clock隔离。大batch同时改变步数。名义2x/4x别名没有新独立支持。V8 mask改变J_c且只有一个固定嵌套mask，每seed并非独立mask重复。
 
-当前最明确的结论是：在保持Sample objective的条件下，改变q会改变有限batch估计器及训练轨迹；两个KuaiRand Adam配置及固定参考无动量SGD的早期diagnostic表现存在四seed同向差异，故Adam不是通用必要条件。校准Adam×SGD早期interaction触发了已实际执行的状态分解，但固定参考interaction保留为反例。现有证据尚不能指认唯一必要中介，也尚未进行最终GO/NO-GO验收。V10已完成；V5 SGD/V8共同预算、V7、完整状态最终合成及冻结test仍在执行。下文保留早期分析记录，最新因果综合见 `V12_pretest_causal_synthesis_IN_PROGRESS.md` 及各最终阶段报告，不把未完成分支写成反证或不可识别。
+C的AUC筛选阳性必须保留：10/40轮四seed衰减≥50%；E40 selectionLL和trainJ各2正2负、平均衰减负，原联合一致门槛未满足，条件完整架构训练未触发。局部gap缩小不代表绝对健康；selection与diagnostic也不同。V11固定22的v-only缩gap主要来自SN下降；E50两臂AUC改善而gap交互不稳；β2=0的floor不能当机制被阻断；globalnorm=1仍改变CPRE块幅度。
 
-## 稳定现象与证据等级
+四seedCI、20kbootstrap与精确sign检验分开，n4双侧最小p=.125；部分固定100只按真实n/seed预算资格描述。历史test暴露、ML训练子集seed混合、onset非FWER、移动θ前6批稀疏lag，以及routing detach均限制外推。没有用宽CI证明等效零来关闭核心，所以额外2026–2029分支未触发。
 
-**STRONG（数值身份）**：完整经验目标、域梯度和importance加权分解一致；固定θ有限batch估计器存在明显不同的协方差，SB/SN trace在已审计16个点全部>2。确定性固定子集在去掉随机估计器后四seed路径距离为0，随机估计器路径不同。它支持有限batch估计器参与轨迹形成，但不是实际模型最终AUC机制的反事实证明。Monte Carlo均值处于估计不确定性内与代数无偏身份必须分开；plug-in Chebyshev不是已证明的有限样本FWER保证。
+## Domain/task与模型阶段
 
-**MEDIUM（配置内表现）**：固定参考Adam .01在共同pre27的宏AUC差−.006980、四seed同负；校准Adam .003在pre22为−.013951，LogLoss也四seed更差。共同epoch读出排除了“只有独立选择不同epoch才产生差距”的解释；冻结的操作性过拟合分类也反驳了这两个配置中纯late-rescue解释。n=4、LR选择种子重叠、Adam下网格边界、历史验证集暴露限制外推。
+KR的中等d0在多baseline中比最小d2更低AUC，N不能代替难度；正例率与train/validation人口不同，loss高低不能独立排序难度。V8目标域SN平均AUC随mask下降，但mild E50 loss略改善、q效应不单调；C/P/R/E稀疏范数也不单调。V5 E50局部小中域SB改善/最大域略损，但早期/最终、V8/ML反例阻止统一取舍；证据WEAK。只有3域，不以伪回归识别N主因。
 
-**STRONG（操纵身份），性能机制仍待**：SGD前三seed共300个PERM arm-epoch保持精确物理域序列/配额，300个ORDER arm-epoch保持相同batch集合且顺序实际改变。ORDER不改变epoch覆盖或重复直方图；PERM共同改变覆盖、重复位置、时间依赖。它们是已验证的干预操作，不能因训练完成便声称性能差距被解释。
+ML共同16与KR各自37是不同估计量，跨环境数据/输入维度/标签/步钟/采样子集共同变化，不归于唯一dataset/N/difficulty。预设宏观负效应未稳定复现，深层机制复制条件未触发；最终test不反向新增训练。
 
-**MEDIUM（局部谱形状），WEAK（必要性）**：SGD epoch10 effective rank下降及各向异性提高四seed一致，Adam存在rank略升反例。完整坐标经验谱的秩上限是511，不能当作总体谱精确值。不同谱不自动证明它是downstream AUC的必要中介。真实无动量SGD同样存在强相邻梯度方向交替，不能把时间方向现象直接命名为Adam memory。
+## 文献与方法判断
 
-## 矛盾与重要反例
+九篇原文审计区分目标等价、干预和机制。D3/SAF完整权重一般改J，不能直接覆盖同J问题；固定AdaTask组件残余不能推出最优完整方法失败。一般importance sampling/variance、order与optimizer memory已有先例，没有识别唯一MDMT必要机制就不能宣布创新。详见[文献边界](V10_existing_work_coverage_boundary.md)。
 
-早期差异和固定末轮差异不一致。固定参考Adam固定50为两正两负；校准Adam在seed24固定50反向改善、selected也微正。校准SGD固定horizon点读出显示前10轮四seed微正、20轮符号混合、50轮多数负，完整共同pre分类及充分预算尚待。不能从Adam更大差距跳到“SGD不存在现象”或“所有optimizer早期均负”。
+[V13十项终局](V13_final_method_decision.md)：当前没有新方法在真实primary endpoint、四seed稳定且所有域任务无损的完整证据，方法决定为NO_GO。这不等于所有未来机制方法都失败。后续最能区分解释的设计为固定尾部时钟的顺序控制、可行E≤N资源下支持/重复控制、健康/进度匹配状态，以及另行预注册AUC-only C私有化；这些更强新问题不掩盖本轮必做项，后者已全部完成。
 
-MovieLens pre16宏差为+.001391、CI跨零；最小域早期+.005270、四seed正，但固定50均值转负且seed不一致。当前既不支持均匀跨环境负效应，也不支持不分阶段的小域获益叙事。KuaiRand与MovieLens的数据、标签、域配置、步数和训练阶段共同改变，有限对照不能唯一归因于某个环境属性。
-
-历史SGD负效应从全集validation转到新selection半集时接近零，已由完全相同batch、参数、预测的身份审计定位为评分总体改变加少量epoch重选。不能忽略这个反例，也不能将其解释为训练器漂移后随意重训。
-
-## 竞争解释和最小区分实验
-
-| 解释 | 现有证据 | 关键限制 | 既定区分动作 |
-|---|---|---|---|
-| objective错配 | 完整经验梯度/权重/单batch身份通过 | 只限当前模型实现定义的可微图 | V1已完成；保留routing detach边界 |
-| selection/验证噪声 | 同epoch早期差距存在，selected符号可变 | 小cell阳性数量有限、重选不确定性与seed不确定性不同 | 完成1000行bootstrap、全部规则及冻结后test |
-| 训练速度/有限预算 | 多个末轮或selected反例；seed25需要延长 | 实用平台不是全局最优，batch2B同时改变step数 | V4充分预算、等examples与另列等steps比较 |
-| replacement/coverage | 精确PERM配额不变、覆盖与重复位置改变 | 固定E下R=E−U，无法独立识别两者 | V5完整四seed WR/PERM性能；保留联合解释 |
-| 顺序 | ORDER的同batch multiset身份通过 | 梯度函数相同不代表移动θ上的梯度相同 | V5完整四seed ORDER性能 |
-| geometry/shared blocks | q改变完整梯度分布，部分块方向/位移变化 | 关联不等于必要性，R本已private | V7同θ同state局部替换；仅selection门控触发全训练 |
-| Adam状态 | Adam早期效应较大 | SGD强相邻方向交替、有效步幅和阶段均为竞争解释 | V11全局共同窗口interaction先门控；条件触发后新设计 |
-| task-wise state | AdaTask原始八条已训练 | 7/8在50轮仍未平台，task更新合成还可改变步幅 | 完成selection判定和Adam匹配预算，再区分state与step scale |
-
-## Domain size、difficulty与task/domain结构
-
-当前数据不能识别domain size为主要解释变量。KuaiRand三域训练量分别172,782/1,743,898/89,452，同时标签率、分布、p、模型路径和baseline AUC都不同。clean八次cell审计已完成，132条性能和192条支持记录经主agent复核；两个任务共享行支持但标签不同。三域的多因素共变不能用训练seed伪造更多独立domain或做高自由度回归。
-
-2×/4×别名复制在WR下保持完整输入序列和目标，16个映射/实际梯度/更新身份通过，故纯名义池大小的该操作不改变轨迹分布。它没有增加独立样本支持；PERM下也不保证复制不改变重复调度。最小识别设计需要在受控分布/难度下独立改变真实独特样本量，当前三个现成域不提供这种随机分配。Q7/Q9的边界是完成最小实际审计后的结论，不免除污染条件。
-
-困难域必须以baseline性能、目标loss及标签结构描述，不能由size命名。轻/强特征遮蔽固定size、labels和采样预算，识别的是该输入扰动的敏感性；跨污染级别目标函数J_c本身随输入改变，只在每个c内部SN/SB保持同目标。V8完整四seed匹配预算仍待，不能提前声称自然difficulty是原因。
-
-稳定的小域改善/大域下降trade-off目前证据WEAK：校准Adam早期三个域都下降；MovieLens最小域早期改善、最大域平均微负但CI跨零，阶段更换后小域方向变化。必须保留每域每任务绝对AUC/loss、有效支持及stage，而非按域大小挑选符号。
-
-## 文献、创新与方法门控
-
-D3和SAF的已发表动态权重机制改变目标，不能作为同目标机制解释；也不据此声称它们无法改善实际性能。把动态权重设常数会禁用关键机制，不能伪装成已完成的原方法对照。AdaTask的目标身份和官方数值oracle已核验，是否覆盖本问题仍待完整实际效果与预算匹配。
-
-近期domain-order、optimizer-memory和importance-sampling文献已按启动日审计，见 `objective_literature_audit.md` 和source receipt。MDMT场景本身不构成新颖性；相同multiset顺序机制、状态传播或一般minibatch扰动已有理论覆盖时必须明确对照。尚无最终novelty或GO/NO-GO判定。
-
-Q34矩范数与Q35稀疏lag标签均仅影响观测解释，不影响实际更新或性能。分别使用精确平方差恢复的m范数和轮内真实step-lag，保留原始字段和hash。任何后续因果叙事都必须服从对应反事实而非遥测曲线。终局CF1–CF6、全部动态问题、最终test与方法门控完成前，整体保持RUNNING。
-
-Q36补充限制：onset的观察prefix峰值和多窗口扫描未包含同时误差校准，故“确认过拟合”是冻结的操作性分类。预算停止和pre-window解释均按这一层级表述；未检测到onset不证明潜在过拟合不存在。本限制不改变预设规则，固定epoch与AULC10/20提供不依赖onset切窗的保留读出。
-
-
-更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。
-
-更新：固定SGD.1四组完整读数已核验，pre50宏AUC平均−.00304265、4负，宏LogLoss却略改善；固定LR参考交互NOT_TRIGGERED，与校准组TRIGGERED形成配置敏感性反例。详见 `V2_fixedSGD_and_interaction_sensitivity_analysis.md`。Q3“Adam普遍必要”被反驳，仍需继续Q4已触发的状态机制条件实验，未泛化所有LR/optimizer。
-
-
-校准交互的统一1–22窗口域/任务分解已实际完成并核验，见 `V11_joint_early_domain_task_interaction_analysis.md`。三个域及两个任务的平均AUC交互均4/4负；cell层保留d0t1、d2t0单seed反例。该结果仍是LR配置特定交互，状态因果拆解正在运行。
-
-
-状态实验的首个seed2022初始50出现明确退化，已登记Q40，详见V11_state_seed2022_single_seed_health_observation.json。beta2zero的SN/SB selection AUC约0.5，训练J分别40.68/13.99；m-only AUC约0.56014且学习较慢。当前只有单seed描述，证据WEAK，不将gap收缩解释为状态必要性。继续预注册四seed、共同theta状态交换/范数控制；不擅自调LR/eps，操作性plateau不等于全局收敛。
-
-
-AdaTask四seed初始50匹配分析已完成并主核验，见V10_initial50_vs_calAdam_analysis.md：共同pre14 q-gap−.00783937（3负1正、CI排除0），未消除早期敏感性；减弱交互+.00628296的CI跨±.003，不能宣称稳定救援或等价。epoch50 gap反而更负但两arm绝对AUC平均均优于native；AUC与logloss阶段方向不同，全部反例保留。最终匹配100 selected比较尚待native23完整readout，test仍未读。
-
-
-新增判别边界：大批量前50早期q差距未消除且绝对两臂学习较慢；等步数与等样本量不能同时保持，exact1225step不确定，不能把批量结果单独归因噪声。V10同目标task-wise组件在完整匹配预算仍有早期/晚期q敏感性，但gap扩大可与两臂绝对性能提升并存，不能以gap一项宣布方法更差、充分覆盖或创新。详见两份实际分析；V5/V7/V11仍为待完成机制判别，不把相关性升级必要性。
-
-
-Q41：环境自身pre窗口不同可产生表观均值符号差；共同1–16均为小正均值，且轮次仍不等优化进度。不得声称已识别dataset、size或difficulty导致符号翻转。V11方向遥测漏项已记录独立补充设计，不修改冻结训练/原shadow，不从范数 alone 推断方向机制。
-
-
-新增V3综合支持selection修饰但不是全部早期轨迹差异的唯一来源；所有112000重选来源可核验。V8final200同q跨corruption所有1200实际批次SHA一致、label/support/exposure相同，只识别特征分布敏感性，不自动认定困难度。V11状态23最低150规则继续执行，坏有限性能不豁免预算，也不证明状态必要性。
-
-
-## 四种子影子性能反事实完成，完整状态实验继续
-
-四个原始影子回放及其19,836行绝对指标、71,820行对比、17,955组四种子统计均实际完成、主代理核验PASS（最大4.1e−16）。局部第10轮m/full-shadow改善两臂绝对AUC，但当前q的AUC差距仍四负；范数与阶段对loss/AUC影响不同。详见`V11_shadow_local_statistics_analysis.md`及图表，局部影响MEDIUM，长期唯一必要机制未识别。方向补充4回放已注册第41GPU队列，匹配延长22到100/23到150/25到100与24初始选择判据仍待完成。Q40已保留四种子beta2饱和和m-only学习不足，也保留v-only两臂较好的反例。Adam24四个actual100输入PASS，CPU2完整读数进行中；WR_SN尚须selectionbootstrap确认预算。新test仍未读取，未达到终局停止条件。
-
-
-## 实际预算继续延长：seed25最少250、state24最少100
-
-Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。九个满足平台，mildSN改善率.005263345；完整1,000次selection确认的三个窗口均未通过，因此按冻结规则整组最少250，复制新目录进行中。为避免额外完整中间预算计算，新增只缩减bootstrap轮次的精确工程读数：所有200轮point/1200cell先从真实预测重算，实际完整CPU缓存四轮×1000与单臂子集逐位相同，100个合成确认分类与原函数一致，实际8轮缓存的三个量化窗口已独立复核。它不替代最终完整配对读数，100/150/200共12份中间前缀义务保留。State24三对actual50完整读数均PASS，v-only两臂均需延长，整6条件最少100复制中。四种子Adam抽样审计已实际完成并核验600个配对arm-epoch、3600覆盖行。新test仍未读取，V7尚待V5最终分析，不能停止整轮任务。
-
-
-新增分析边界Q43：MovieLens既有role_reversal_sample使用同一seed决定训练子集，随后该seed也决定优化随机性。四seed不是固定训练人口上的纯优化重复；每seed内SN/SB仍严格共享数据，validation/encoder/scaler固定，配对q比较不受破坏。当前设计不分离两种方差成分，禁止把跨seed反转唯一归因优化器。已完成16配置/当前生产者SHA与源代码最小核对，BOUNDARY/STRONG；当前有限效应/环境边界结论不需要追加未经规划的交叉种子矩阵。新增基线域上下文图和表显示难度代理随optimizer/LR/阶段及指标变化，不能用一个N标量或固定困难度标签解释全部结果。详见baseline_domain_context_analysis.md与Q43_MovieLens_seed_population_scope_audit.json；全部旧问题保留。
-
-
-### 实际 300 epoch 复核及状态 seed 2025 最终预算
-
-V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。
-
-
-状态 seed 2025 的 β1=0/v-only、β2=0 两对最终 200 epoch 完整读出已完成，主 agent 核验 8,000 次选择重采样。β2=0 两臂最终 selection/diagnostic 宏观 AUC 均为 0.5，诊断 LL 为 SN 9.932614 / SB 6.087876，训练 J 仍很高；不能把该性能下限上的零差距解释为成功介导。该 seed/阶段绝对健康观测为 STRONG，长期必要机制仍 WEAK/未识别。见 [实际健康边界](V11_state_seed2025_beta2zero_final200_health_note.md)。m-only 最终读出、九对前缀及 seed22 最终预算/读出仍在执行，Q40 尚未关闭。
-
-
-### 完整状态训练预算已确认，读出仍在闭合
-
-V11 四 seed 的六组匹配状态训练最终预算为 **2022:250 / 2023:150 / 2024:100 / 2025:200**。seed22 的五臂满足操作性平台，唯一非平台 β1=0/v-only SB 由实际完整250的精确1000选择重采样确认退化（起点104、参照峰值24）；首次AUC下降48当时不满足训练目标下降，不将二者混同。全部250生产者36关键哈希、42归档已核验，最终预算证书已记录。seed25的三对完整200及九对严格50/100/150前缀全部验证完成（累计48000次选择检查，前缀不是独立重复）；seed22剩余m-only完整250、六对150/200前缀及全四seed联合分析仍在执行。native最终50/100/50/50与状态最终预算不同，受控比较须保留共同固定阶段，最终或各自选择轮次不能一概标为匹配。
-
-
-新增Q45为BOUNDARY/STRONG：部分固定100轮test表按实际预算仅n=2（V5Adam为2023/24，V8为2023/25），不是四seed复现。76条实际预算元数据已核验；新test未读取，冻结前v2核验器已支持原公式n1–4并标注预算资格。只报告真实支持交集；共同50/全四seed自选和各自最终预算保留各自估计量，不假设长预算缺失随机。详见Q45_adaptive_budget_partial_horizon_support_audit.json。
+全部46问题终态与19新问题六字段见[终局问题表](final_question_closure.md)、[registry](question_registry.json)及[最终报告第13章](FINAL_REPORT.md)。

@@ -2,197 +2,108 @@
   "V0": {
     "status": "COMPLETE",
     "required": true,
-    "receipt": "V0_decision.json"
+    "report_or_receipt": "V0_decision.json",
+    "actual_scope": "\u89c4\u5212d18f194\uff1b\u65e7Equal/late-rescue\u4e0d\u590d\u6d3b",
+    "independent_review": false
   },
   "V1": {
-    "status": "COMPLETE_NUMERICALLY_VERIFIED_PRIMARY_ANALYZED",
+    "status": "COMPLETE",
     "required": true,
-    "manifest": "audit_manifest.json",
-    "tasks": 16,
-    "batches_per_arm": 512,
-    "deterministic_manifest": "deterministic_manifest.json",
-    "receipt": "V1_decision.json"
+    "report_or_receipt": "V1_decision.json",
+    "actual_scope": "16\u03b8\u00d7512batch/q\uff1b1,614,254\u5750\u6807\u53caexact\u63a7\u5236",
+    "independent_review": false
   },
   "V2": {
-    "status": "ALL16FIXED_REFERENCE_TRAINING50_AND_ALL8PAIRED_READOUTS_COMPLETE_PRIMARY_ANALYZED",
+    "status": "COMPLETE",
     "required": true,
-    "manifest": "trajectory_manifest.json",
-    "primary_runs": 16,
-    "fixedAdam_analysis": "V2_fixedAdam_analysis.md",
-    "evidence": "V2_fixedAdam_analysis.md; V2_fixedSGD_and_interaction_sensitivity_analysis.md"
+    "report_or_receipt": "V2_fixedSGD_and_interaction_sensitivity_analysis.md",
+    "actual_scope": "Adam.01/SGD.1\u5404\u56dbseed\u4e24q\uff0c\u56fa\u5b9a\u8f6e/\u65e9\u671f/\u9009\u8f6e\u72ec\u7acb",
+    "independent_review": false
   },
   "V3": {
-    "status": "ALL28_FINAL_BASELINE_PAIRED_RULE_RESELECTIONS_VERIFIED_112000_ROWS_OTHER_CONDITIONS_AND_TEST_PENDING",
+    "status": "COMPLETE",
     "required": true,
-    "rules": "analysis_rules_frozen.json",
-    "manifest": "V2_readout_manifest.json",
-    "first_complete": "analysis/V2readout__adam__seed2022__until050/receipt.json",
-    "baseline_analysis": "V3_final_baseline_selection_analysis.md",
-    "test_summary_endpoint": "PREPAREDONLY beforetestfreeze: explicitactual final_epoch test readout added inadditionallfrozenfixed/selected/AULC; test_final_budget_endpoint_design/selfreviewPASS. No newtestaccess."
+    "report_or_receipt": "V3_final_baseline_selection_analysis.md",
+    "actual_scope": "7\u5bb6\u65cf28\u5bf9112000\u6b21\u9009\u62e9\u68c0\u67e5\uff1b\u51bb\u7ed3test\u5b8c\u6210",
+    "independent_review": false
   },
   "V4": {
-    "status": "ALL_REQUIRED_TRAINING_AND_PAIRED_READOUTS_AND_FULL_SPEED_ANALYSES_COMPLETE_DIAGNOSTIC_PRIMARY_VERIFIED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "pilot_runs": 16,
-    "selected_lr": {
-      "adam": 0.003,
-      "sgd": 0.3
-    },
-    "manifest": "V4_training_manifest_attempt2.json",
-    "formal_runs": 24,
-    "receipt": "calibration_frozen.json",
-    "engineering_failure_receipt": "V4_attempt1_postmortem.json",
-    "fix_review": "V4_startup_fix_review.json",
-    "training_runs_complete_initial": 24,
-    "extension_manifest": "V4_Adam_seed2023_extension100_manifest.json",
-    "Adam_seed2022_budget": 50,
-    "Adam_seed2023_budget": 100,
-    "SGD_seed2022_2024_budget": 50,
-    "SGD_seed2025_budget": 100,
-    "Adam_seed2024_budget": 50,
-    "Adam_seed2025_budget": 50,
-    "initial_Adam_analysis": "V4_calAdam_until050_analysis.md",
-    "Adam_extended_receipt": "V4_Adam_seed2023_extension100_train_budget_check.json",
-    "SGD_seed2025_continuation": "V4_SGD_seed2025_continuation100_pairs.json",
-    "SGD_original50_inputs": "IMMUTABLE_READOUTS_CONTINUE_NEW4CLONESRUN100",
-    "SGD_seed2025_final_receipt": "V4_SGD_seed2025_continuation100_train_budget_check.json",
-    "initial_B2_readouts": "ALL4COMPLETE_PRIMARY_PASS",
-    "initial_B2_analysis": "V4_B2_initial50_analysis.md; V4_B2_initial50_joint_contrast_primary_verification.json; exact1225step all4PASS; fullfinalspeed stillwaitSGD25B0/B2readouts",
-    "Adam_final_readout": "ALL4COMPLETE, native23actual100primaryPASS; final50/100/50/50",
-    "final_analysis": "V4_final_budget_and_learning_speed_analysis.md",
-    "speed": "V4_final_exact_steps_and_speed_primary_verification.json PASS20exactstep+2448firsthits"
+    "report_or_receipt": "V4_final_budget_and_learning_speed_analysis.md",
+    "actual_scope": "16pilot\uff1b\u6b63\u5f0f\u8bad\u7ec3\u4e0e\u5ef6\u957f\uff1b2448hit/censor\uff0c20\u7b49\u6b65\u8bb0\u5f55",
+    "independent_review": false
   },
   "V5": {
-    "status": "ALL_DIAGNOSTIC_OBLIGATIONS_COMPLETE_PRIMARY_ANALYZED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "sampler_identity": "analysis/V5_sampler_identity_seed2022/primary_descriptive_summary.json",
-    "remaining": "FINAL350all10/root60critical/archive70PASS. Fullclean/PERM/ORDER/mild/root16000PASS; strongfullGPU81running. Prefix4queues17pairs actualrunning; strongprefix5awaitownfullrootPASS. Finalsampler4comparisons+tail6CPUrunning; V8cell6 GPU2workers in3sequentialpairs running. Need allrawchecks+V5finalscience\u2192V7, thenfrozentest.",
-    "readout_manifest": "V5_partial_readout_manifest.json",
-    "sampler_verification": "V5_sampler_first3seeds_primary_verification.json",
-    "readout_manifests": [
-      "V5_priority_SGD_PERM_readout_attempt2_manifest.json",
-      "V5_deferred_ORDER_Adam_readout_attempt2_manifest.json"
-    ],
-    "dispatch_correction": "V5_readout_dispatch_correction_self_review.json",
-    "Adam_seed2024": "All4actual100fullpairedandroot8000reselectionPASS, FINAL100byWR-SNselectionconfirmedoverfit/othersplateau.",
-    "Adam_sampler_identity": "V5_Adam_all4_sampler_actual_primary_verification.json PASS8comparisons600epochs16producers, actual64criticalSHAs+allrecordedbatchhashespinned; rawcoverage/firstseenCSVretained.",
-    "seed2025": "MIN350 nohardcap; 22prefix100/150/200/250/300 mandatoryfromeventualfinalparents;5finalfullpairs+6cells+sampler6runs/4comparisons+weight/tail",
-    "Adam_final_analysis": "V5_Adam_final_matched_analysis.md; actualmatched50/100/100/50, root104064numericvaluesmax5.35e-16; noPERMunique-repetitionclaim.",
-    "batch_weight_tail": "Completed34actualfinalruns rootPASS2100armepochs102900batches20comparisons; actualcounts/p/qESS/variance/maxweight andtailpositionsverified. SGD25final6notyetdone. V5_completed34_batch_weight_tail_analysis.md",
-    "SGD_final_training_budget_by_seed": {
-      "2022": 50,
-      "2023": 50,
-      "2024": 50,
-      "2025": 350
-    },
-    "SGD_final_performance": "V5_SGD_final_matched_analysis.md; 230400values max3.80e-16 PASS; finalsampler22prefixes stillpending before V7",
-    "final_certificate": "V5_SGD_final_scientific_obligations_primary_certificate.json"
+    "report_or_receipt": "V5_SGD_final_scientific_obligations_primary_certificate.json",
+    "actual_scope": "40\u6700\u7ec8\u8bad\u7ec34200\u81c2\u8f6e205800\u6279\uff1b350\u6765\u6e9022\u524d\u7f00\u5b8c\u6210",
+    "independent_review": false
   },
   "V6": {
-    "status": "OBSERVATIONAL_READOUT_PRIMARY_VERIFIED_CAUSAL_GATES_PENDING",
+    "status": "COMPLETE",
     "required": true,
-    "task_direction_supplement": "COMPLETE8fullgradientruns+primaryindependentverification; V1_task_direction_decision.json; geometrycausalstatus stillpendingV5",
-    "moment_telemetry_correction": "Q34RESOLVEDSTRONG; moment_telemetry_correction_decision.json; usecorrected_m_norm",
-    "analysis": "V6_geometry_observational_analysis.md",
-    "Q35": "RESOLVEDSTRONG within-epochactualsteplags",
-    "causal_identifiability": "Q21NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN MEDIUM formalproof/Q21_spectrum_vs_trace_identifiability.md; full16theta512spectrum observationaldone; traceandshapejointlychanged, no independentcausalidentification."
+    "report_or_receipt": "V6_geometry_observational_analysis.md",
+    "actual_scope": "320\u51e0\u4f55\u884c\u30018\u5b8c\u6574\u4efb\u52a1\u68af\u5ea6\uff1b254\u5feb\u7167756800\u77e9\u884c\u5237\u65b0",
+    "independent_review": false
   },
   "V7": {
-    "status": "ALL_DIAGNOSTIC_OBLIGATIONS_COMPLETE_PRIMARY_ANALYZED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "prepared": "V7_local_all4_prepared_manifest.json all12physicalcheckpointsPASS; rawlocalnotrun. V7_local_statistics design/implementation/selfreviewPASS_PREPARED (6syntheticalgebra cases), ONLYAUCSCREEN outputs/noautofulltraining, losses independentlyretained. WaitV5finalanalysis.",
-    "final_certificate": "V7_local_gate_primary_decision.json",
-    "conditional_full_training": "NOT_TRIGGERED_BY_COMPLETE_FROZEN_GATE_C_AUC_POSITIVE_LOSS_CONFLICT"
+    "report_or_receipt": "V7_local_gate_primary_decision.json",
+    "actual_scope": "12\u5c40\u90e8\u00d77\u6761\u4ef6\uff1bC AUC\u7b5b\u9009\u9633\u6027\uff0c\u8054\u5408loss\u95e8\u69db\u5931\u8d25\uff0c\u6761\u4ef6\u5b8c\u6574\u8bad\u7ec3\u672a\u89e6\u53d1",
+    "independent_review": false,
+    "conditional_full_training": "NOT_TRIGGERED_BY_COMPLETE_FROZEN_GATE_C_AUC_POSITIVE_BUT_LOSS_CONFLICT"
   },
   "V8": {
-    "status": "ALL_DIAGNOSTIC_OBLIGATIONS_COMPLETE_PRIMARY_ANALYZED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "duplication": "V8_duplication_decision.json",
-    "corruption_runs_admitted": 16,
-    "corruption_runs_required": 16,
-    "cell_receipt": "analysis/V8_clean_cell_primary_until050/receipt.json",
-    "Q9": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
-    "readout_manifest": "V8_deferred_corruption_seeds2022_2024_readout_manifest.json",
-    "seed2023_common_budget": "FINAL_MATCHED200_ALL6_PLATEAU_ACTUAL_SOURCE_VERIFIED",
-    "seed2023_extension150_certificate": "V8_seed2023_extension150_required_certificate.json",
-    "latest_evidence": [
-      "V8_all12_initial50_corruption_cell_primary_verification.json",
-      "V8_seed2023_extension200_required_design.json",
-      "V5V8_seed2025_continuation150_activation_review.json",
-      "V5V8_seed2025_extension200_required_design.json",
-      "V8_clean_seed2025_actual100_cell_primary_verification.json"
-    ],
-    "seed2025_common_budget": "MIN350 via actual300 strongSN nonplateau/unconfirmed; matched all10 extended; all300immutable/rootPASS. Final6cellsrequired.",
-    "seed2023_final_readout": "All3GPUactual200fullpairedparentsrootPASS; all6strictprefix100/150COMPLETEandroot24000reselection plusallarraysbitexactPASS.",
-    "seed2023_final_cell_audit": "All6actual200cellsrootPASS, ALL1200batchNPZphysicalhashes/coupling verified; objectivecontributions/supportexact. No remainingseed23prefixobligations.",
-    "remaining": "FINAL350all10/root60critical/archive70PASS. Fullclean/PERM/ORDER/mild/root16000PASS; strongfullGPU81running. Prefix4queues17pairs actualrunning; strongprefix5awaitownfullrootPASS. Finalsampler4comparisons+tail6CPUrunning; V8cell6 GPU2workers in3sequentialpairs running. Need allrawchecks+V5finalscience\u2192V7, thenfrozentest.",
-    "final_certificate": "V8_final_diagnostic_obligations_primary_certificate.json"
+    "report_or_receipt": "V8_final_diagnostic_obligations_primary_certificate.json",
+    "actual_scope": "2x/4x\u7cbe\u786e\u522b\u540d\uff1b\u4e09\u5f3a\u5ea64seed\uff1b576\u5355\u5143/384\u7a00\u758f\u8303\u6570\uff1b3300\u7269\u7406batch\u6587\u4ef6",
+    "independent_review": false
   },
   "V9": {
-    "status": "ALL8TRAINING_ALL4PAIR_READOUTS_PRIMARY_ANALYSIS_COMPLETE_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "receipt": "V9_diagnostic_decision.json",
-    "analysis": "V9_diagnostic_analysis.md",
-    "paired_environment_analysis": "V9_final_cross_environment_analysis.md; joint16pointPASS; Q41newwindowalignmentboundary"
+    "report_or_receipt": "V9_final_cross_environment_analysis.md",
+    "actual_scope": "ML\u56dbseed50\uff1b\u5b8f\u89c2\u8d1f\u6548\u5e94\u672a\u7a33\u5b9a\u590d\u73b0\uff0c\u6df1\u5c42\u673a\u5236\u5206\u652f\u672a\u89e6\u53d1",
+    "independent_review": false,
+    "conditional_mediator_replication": "NOT_TRIGGERED_BY_PREDECLARED_DIAGNOSTIC_GATE"
   },
   "V10": {
-    "status": "ALL8INITIAL50_AND_BOTHSEED23_FULL100_PAIRED_READOUTS_COMPLETE_FINAL_MATCHED_BUDGET_DIAGNOSTIC_PRIMARY_ANALYZED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "objective_audit": "objective_literature_audit.md",
-    "readout_manifest": "V10_readout_manifest.json",
-    "necessity_comparison": "V10_final_vs_calAdam_analysis.md; V10_final_vs_calAdam_primary_verification.json PASS, all4paired budgets50/100/50/50, early14residualnegative, mitigationinteractionuncertain; no universalpriorcoverageorinnovationclaim",
-    "matching_seed23_budget100": "Actual100bothqCOMPLETE/full1000-200GPUreadoutPASS",
-    "initial50_pairs_complete": 4,
-    "AdaTask_seed2022_budget": 50,
-    "AdaTask_seed2023_budget": 100,
-    "AdaTask_seed2024_budget": 50,
-    "AdaTask_seed2025_budget": 50,
-    "literature_closure": "Q12/Q25BOUNDARYMEDIUM; V10_existing_work_coverage_boundary.md merges9primarysources+actualTaskAdamfullbudget; D3/SAFtargetchangeSTRONG, genericmechanismspartiallycovered, Q13finaluniquegapnotyetidentified."
+    "report_or_receipt": "V10_final_vs_calAdam_analysis.md",
+    "actual_scope": "9\u539f\u6587\u5ba1\u8ba1\uff1b\u540c\u76ee\u6807\u7ec4\u4ef64seed50/100/50/50",
+    "independent_review": false
   },
   "V11": {
-    "status": "ALL4_FINAL_TRAINING_39PAIRS_AND_LOCAL_SHADOW_DIAGNOSTIC_ANALYSIS_COMPLETE_PRIMARY_VERIFIED_TEST_DEFERRED",
+    "status": "COMPLETE",
     "required": true,
-    "evidence": "V11_actual_gate_primary_verification_and_analysis.json",
-    "state_design": "V11_state_decomposition_design.json",
-    "acceptance": "V11_state_implementation_self_review.json PASS; float64allformulasexact, all3resumeexact; nativeepoch1theta/m/v exact",
-    "formal": "Original24actualinitialtraining50/100/50/50 and4shadowsCOMPLETEexit0. Onlymechanicalrunnerdelegated; primarydesign/implementation/selfreview/analysis.",
-    "contradiction": "Fixedreferenceinteraction NOT_TRIGGERED; LR/config/stagedependenceexplicit",
-    "domain_task": "V11_joint_early_domain_task_interaction_analysis.md",
-    "state_seed2022": "FINAL250all6; all3full250 and all12historical50/100/150/200 paired obligations complete/rootPASS; no prefixremaining.",
-    "GPU_wave1": "All16initial/intermediatepairedreadoutsCOMPLETEandprimaryPASS; nofinalfactorcohortclaim",
-    "shadow_telemetry_supplement": "ALL4actualCOMPLETE/root1740geometry/2610descriptors/12physicalcheckpointandallparenthashesPASS; directionnormreportcomplete, Q42newNIglobalvsblockscale.",
-    "state_seed2023": "FINAL150_ALL6 budgetcertified. All3full150paired/root12000reselectionPASS; all3strictprefix100actual COMPLETE/root12000reselection/parentarrayprovenancePASS. No seed23prefixobligations remain.",
-    "shadow_statistics": "V11_shadow_local_statistics_analysis.md; actual19836absolute/71820contrasts/17955summarygroupsrootPASS, max4.1e-16. LocalconditionalMEDIUM, nofullV11closure.",
-    "state_seed2024": "FINAL100 all6 budgetcertified; all3full100paired/root12000reselectionPASS, original50threepairedalreadyPASS. No prefixobligations remain.",
-    "state_seed2025": "FINAL200all6certified; ALL3full200/root12000 +ALL9prefix50/100/150/root36000 choices andbitexactparentarrays/physicalmodel-predidentityPASS. Owntraining/readoutobligationscomplete; all4jointscience/testpending.",
-    "shadow_direction_analysis": "V11_shadow_direction_and_norm_analysis.md",
-    "supported_contrasts_prepared": "ACTUALCOMPLETE supportedintersections; no fabricatednative100. Ownfinal/selfselectedunmatched; explicitfinalaliasnotindependent.",
-    "state_health_latest": "All4finalbeta2zeroAUC.5floor; v-only22SNdegradation/E50bothhealthyimprovement/ownfinalgapreturns; Q40BOUNDARYMEDIUM. See finaldiagnosticreport.",
-    "final_training_budgets_by_seed": {
-      "2022": 250,
-      "2023": 150,
-      "2024": 100,
-      "2025": 200
-    },
-    "final_diagnostic_analysis": "V11_fullstate_final_diagnostic_analysis.md",
-    "final_all_readouts_certificate": "V11_all4_final_training_and_paired_readout_obligations_primary_certificate.json",
-    "final_analysis_numeric": "analysis/V11_fullstate_final_numeric_reconstruction/receipt.json PASS15008marginals14336contrasts3584summaries_max8.89e-15"
+    "report_or_receipt": "V11_final_diagnostic_report_primary_review.json",
+    "actual_scope": "\u6700\u7ec8250/150/100/200\uff1b12\u6700\u7ec8+27\u5386\u53f2\u914d\u5bf9\u3001156000\u9009\u62e9\u68c0\u67e5",
+    "independent_review": false
   },
   "V12": {
-    "status": "DIAGNOSTIC_CF1_CF6_COMPLETE_FINAL_TEST_PENDING",
+    "status": "COMPLETE",
     "required": true,
-    "draft": "V12_pretest_causal_synthesis_IN_PROGRESS.md",
-    "new_question": "Q42globalnorm/blockscaleNI retained. Q43BOUNDARYSTRONG: MLfourtrainingsubsets vary withseed, pairedSN/SBpopulationsidentical; fixedval/encoders. All43questionsretained, finalNewlyExposedQ28\u2013Q43.",
-    "report": "V12_diagnostic_causal_closure.md"
+    "report_or_receipt": "V12_final_causal_synthesis.md",
+    "actual_scope": "CF1\u20136\u5168\u90e8\u5b8c\u6210\uff0c\u7ed3\u6784NI\u4e0e\u6761\u4ef6\u672a\u89e6\u53d1\u660e\u786e",
+    "independent_review": false
   },
   "V13": {
-    "status": "DIAGNOSTIC_TEN_CRITERIA_COMPLETE_FINAL_TEST_PENDING",
+    "status": "COMPLETE",
     "required": true,
-    "draft": "V13_method_criteria_WORKING.md",
-    "report": "V13_diagnostic_method_criteria.md"
+    "report_or_receipt": "V13_final_method_decision.md",
+    "actual_scope": "NO_GO",
+    "independent_review": false
   },
   "V14": {
-    "status": "PENDING_DEPENDENCIES",
-    "required": true
+    "status": "COMPLETE",
+    "required": true,
+    "report_or_receipt": "FINAL_REPORT.md",
+    "actual_scope": "46\u95ee\u9898\u5168\u90e8\u7ec8\u6001\u300119\u65b0\u95ee\u9898\u516d\u5b57\u6bb5\u300114\u7ae0\uff1b\u63a8\u9001\u6838\u5bf9\u540e\u4efb\u52a1\u7ed3\u675f",
+    "independent_review": false
   }
 }

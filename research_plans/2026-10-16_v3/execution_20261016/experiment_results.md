@@ -1,121 +1,130 @@
-> 当前最新状态：V1–V11全部规定诊断项、22最终前缀和Q34最终遥测完成；V7 C的AUC筛选阳性，但C40 loss/J不一致使完整联合条件未触发。全部46问题/Q28–Q46共19项保留。下一步为全定义冻结后的test及最终14章报告。下方旧过程快照不覆盖本条和实际收据。
+# 实验结果报告：真实全流程读数
 
-# 实验结果报告（进行中：只纳入已完成并复核的读出）
+唯一总分类 **BOUNDARY-CONFIRMED**，方法决定 **NO_GO**。冻结test确认的是有条件效应：固定SGD.1共同早期50轮AUC差SB−SN=−.001430（四负，95%seed CI[−.002317,−.000862]），校准Adam.003共同22轮−.009821（四负），校准SGD.3共同37轮则+.001614（四正）；AUC自选test分别−.002518、−.008698、−.000972。固定SGD早期LL差−.000411与AUC方向相反，不能称全面退化。固定SGD/校准Adam的common-SN/common-SB选择读数也保留负向，故selection不是普遍唯一解释。
 
-## 当前已核实状态：V11 诊断分析完成，全部实验继续执行
+测试同时限制机制外推：ORDER固定50轮交互−.000123、CI跨零，而AUC自选交互+.003419四正伴SN绝对下降；V8强mask最终d2交互+.003823四正，与诊断−.013904四负相反，两臂绝对test AUC下降；AdaTask早期交互+.003887四正却自选交互−.010219四负。ML共同16轮+.003015四正，固定50轮−.000986四负、自选+.000539为1正3负。阶段、评价人口、选择与绝对健康不能混成一个统一优势。
 
-V11 四种子状态训练最终预算为 **250/150/100/200**；全部12对最终状态和27对历史读数已完成并通过156000次选择索引检查。与native最终50/100/50/50的16父读数已完成聚合、联合边际、支持交互和原始六单元数值重建（最大误差8.89e−15）。[完整状态分析](V11_fullstate_final_diagnostic_analysis.md)同时报告绝对AUC/loss/J、逐域逐任务、种子CI、训练阶段与预算限制。主控自审，independent_review=false。
+## 七组baseline的冻结test
 
-原始22轮窗口的v-only AUC交互 +.012912（四seed正），同时SN绝对变化 −.012157（四seed负）、SB仅 +.000755（2正2负）；共同E50两臂AUC均四seed改善，交互却不稳定。β2=0最终AUC=.5且loss/J很高；m-only长期有学习，AUC与loss不总同向。以上支持整个更新状态映射的条件影响（MEDIUM），不识别唯一、必要的长期历史机制。新增Q44（BOUNDARY/MEDIUM）记录联合窗口从原始native22缩到4后，绝对收益估计随窗口改变；不能将不同窗口混为同一健康恢复证据。own_final_epoch仅为selected_fixed_budget标签别名，不能双计独立结果。
+宏AUC为六个物理domain×task单元AUC等权均值，不是pooled AUC；按test样本数和train p加权的单元指标另列。
 
-V5/V8 seed25十个实际350训练现均COMPLETE并满足平台，最终匹配预算正式认证为FINAL350（root60关键哈希/70归档PASS，不是350硬上限）。四对完整350读数已核验16000次选择，strong完整350由GPU81/PID505078执行；四CPU前缀队列17对及最终sampler/weight队列已启动。最终六个V8单元审计采用每批2个GPU worker，首批clean GPU82/PID507092实际执行。V5 SGD四seed最终匹配50/50/50/350的12父性能已聚合并复核230400值，最大误差3.80e−16；[分析稿](V5_SGD_final_matched_analysis.md)保留ORDER第50轮四正但长程seed25反向、自选差距主要伴SN下降。最终采样身份/22前缀仍需闭合后继续V7。
-
-问题登记共45项；最终Newly Exposed Questions至少覆盖Q28–Q45共18项，六字段工作附录已保留。Q40的诊断最小补充已完成、定为BOUNDARY/MEDIUM，最终新测试仍待全条件冻结。test_readout_frozen.json不存在，本次新test性能未计算；历史test已暴露，不声称pristine holdout。V5/V7/V8、最终遥测、V12/V13、冻结测试和最终报告/归档推送仍有义务。下文初始快照和过程更新仅为历史，不覆盖本段和实际收据。
-
-以下为早期初始50轮快照；其后已完成的最终预算结果以独立阶段报告为准：`V3_final_baseline_selection_analysis.md`、`V4_final_budget_and_learning_speed_analysis.md`、`V5_Adam_final_matched_analysis.md`、`V9_final_cross_environment_analysis.md`、`V10_final_vs_calAdam_analysis.md`、`V11_shadow_local_statistics_analysis.md`、`V11_shadow_direction_and_norm_analysis.md`。V5 SGD/V8 seed25最终匹配预算、V7和完整状态最终合成仍在执行。本报告持续更新，不能将它视作全任务或充分预算的最终结果。表内差值统一为 SB−SN；AUC正值更好、LogLoss负值更好。CI为训练种子重采样95%区间，selection行重采样与diagnostic行重采样另见各配对文件。n=4时双侧精确符号随机化p最小为.125，CI和同号不等于高功效显著性。原始逐seed数值、两臂绝对值、SD、中位数、CI、符号p均保留在 `analysis/completed_primary_summary_snapshot.csv` 及原聚合目录。
-
-## 已完成配置：共同pre窗口
-
-共同pre窗口由冻结的AUC下降规则对各arm/seed分类后取交集，不以偏好的效果选择。以下窗口因配置不同而不同；本表不是V11的共同全局窗口interaction估计。
-
-| 配置 | 初始窗口 | SN宏AUC | SB宏AUC | ΔAUC [seed95%CI] | 正/负seed | ΔLogLoss [seed95%CI] |
-|---|---|---:|---:|---|---|---|
-| KuaiRand / Adam .01（固定参考） | 1–27 | 0.634198 | 0.627218 | -0.006980 [-0.011226,-0.002734] | 0/4 | +0.001383 [+0.000646,+0.002293] |
-| KuaiRand / Adam .003（初始50） | 1–22 | 0.648158 | 0.634207 | -0.013951 [-0.018133,-0.009769] | 0/4 | +0.005218 [+0.004387,+0.006547] |
-| MovieLens / SGD .3 | 1–16 | 0.538007 | 0.539398 | +0.001391 [-0.000131,+0.003849] | 3/1 | -0.000013 [-0.000058,+0.000010] |
-
-两个KuaiRand Adam配置在共同pre窗口均四种子AUC下降且LogLoss变差，支持受当前配置限定的早期效应，证据MEDIUM；它不只由独立checkpoint选择或规则所定义的晚期过拟合产生。MovieLens的宏AUC区间跨零，不能以本表声称跨环境稳定同方向。
-
-## 固定50与独立selection-selected readout
-
-| 配置 | readout | SN宏AUC | SB宏AUC | ΔAUC [seed95%CI] | 正/负seed |
-|---|---|---:|---:|---|---|
-| KuaiRand / Adam .01（固定参考） | common_epoch50 | 0.659421 | 0.656117 | -0.003304 [-0.022347,+0.015740] | 2/2 |
-| KuaiRand / Adam .01（固定参考） | selected_macro_auc | 0.663948 | 0.654629 | -0.009319 [-0.021036,+0.003670] | 1/3 |
-| KuaiRand / Adam .003（初始50） | common_epoch50 | 0.636728 | 0.630150 | -0.006578 [-0.014455,+0.001299] | 1/3 |
-| KuaiRand / Adam .003（初始50） | selected_macro_auc | 0.667745 | 0.655343 | -0.012402 [-0.025439,-0.002588] | 1/3 |
-| MovieLens / SGD .3 | common_epoch50 | 0.557809 | 0.557586 | -0.000223 [-0.001553,+0.001107] | 2/2 |
-| MovieLens / SGD .3 | selected_macro_auc | 0.561441 | 0.561682 | +0.000241 [-0.001222,+0.001127] | 3/1 |
-
-固定参考Adam在固定50为2正2负、selected为3负1正且区间跨零；校准Adam也有固定50反向seed与selected微正seed。不能从早期四种子一致下降跳到“最终必然更差”。校准Adam seed23最终预算100，其余三seed为50；最终共同预算/selected解释必须等待100轮完整读出，不能把本表初始50视为全部充分训练。
-
-## 域、任务、大小与阶段
-
-校准Adam共同pre22：三个域的平均ΔAUC分别为d0 −.021447、d1 −.011156、d2 −.009251，各域均4/4负；两个任务分别−.011782/−.016120，均4/4负。最大训练域d1与最小d2未形成稳定一正一负交换。d0的SN基线AUC低于最小d2，不能将小域等同困难域。五个domain-task cell为四seed同负，另一个cell有反例。详细绝对值与种子统计见 `V4_calAdam_until050_analysis.md` 和对应marginal目录。
-
-MovieLens最小训练域d1在pre16平均ΔAUC +.00527041，四seed均正，CI[+.00174322,+.00916846]，两个任务也均四seed改善；该域固定50平均−.00136779且符号不一致。最大域d2 pre16平均−.00116193、CI跨零，故“稳定小域改善、大域退化”的联合证据WEAK。MovieLens每轮5step、KuaiRand每轮49step，标签定义及域定义也不同；相同epoch不等于相同optimizer step阶段。见 `V9_diagnostic_analysis.md`。
-
-## 正在计算的数据不得作为完成结果
-
-校准SGD初始50的固定horizon点轨迹已完整，暂存 `analysis/V4_calSGD_fixed_horizons_provisional/`：AULC1–10平均+.00079036（4/4正），AULC1–20平均−.00009218（3正1负），固定50平均−.00384147（3负1正）。这些仅为预先规定horizon的训练种子统计；1000/200行重采样、共同pre分类和seed25充分预算未结束，未用于触发V11、宣称SGD早期必要性或判定最终预算。
-
-V5已经验证前三种子600个arm-epoch的操纵身份，但四seed性能仍未完整。V8污染12条初始训练完成，seed23要求同clean/mild/strong六臂延长100；seed25条件已匹配最终100预算入队。AdaTask初始八条训练完成、完整selection读出尚待，seed23匹配100已运行。局部参数干预、条件状态分解、最终test均未完成，缺失数据不会用估计数填补。
-
-## 数据与图表入口
-
-- `analysis/V2_fixedAdam_aggregate_until050/`：全部逐seed/规则/epoch、六cell、domain-task轨迹与图。
-- `analysis/V4_calAdam_aggregate_until050/`：校准Adam初始50的同类数据。
-- `analysis/V9_aggregate_until050/`：MovieLens完整初始配对结果。
-- `analysis/V1_full_coordinate_geometry.csv`、`V1_paired_geometry.csv` 及对应谱图：固定参数完整坐标几何。
-- `analysis/V6_geometry_synthesis_initial50/`：真实轮内lag、更新与纠正m/v范数，含逐seed和主agent核验。
-- `archive/formal/`：各已完成预算的紧凑生产者文件与append-only SHA索引；完整大产物留在本地runs。
-
-所有新v3 test readout仍未读取。统计解释与限制见 `bootstrap_uncertainty_scope.md`。后续混合50/100预算图保留所有个体轨迹，但粗均值只显示全seed都有观测的epoch，支持数量单独输出。
-
-推断边界Q36：共同pre窗口由冻结操作性classifier产生；没有同时峰值/窗口检验的familywise保证。不能把未检测到onset等同没有潜在过拟合，亦不把“confirmed”写成强于既定程序的统计证明。固定horizon反例和一致结果继续完整报告。
-
-更新：V8 seed23共同污染预算已由冻结规则要求至少150，150训练实际启动；中间100全套快照保持不变。AdaTask seed22/23初始配对读出已完成并复算，另两seed仍在进行，故本报告尚未加入四seedAdaTask结论。
+|组|端点|指标|n|SN|SB|SB−SN|95%seed CI|正/负|
+|---|---|---|---:|---:|---:|---:|---|---|
+|fixedAdam_001|common_epoch50|macro_auc|4|0.668277|0.659714|-0.008562|[-0.020739,+0.003173]|2/2|
+|fixedAdam_001|common_epoch50|macro_logloss|4|0.444586|0.446477|+0.001891|[-0.002755,+0.006946]|2/2|
+|fixedAdam_001|final_epoch|macro_auc|4|0.668277|0.659714|-0.008562|[-0.020739,+0.003173]|2/2|
+|fixedAdam_001|final_epoch|macro_logloss|4|0.444586|0.446477|+0.001891|[-0.002755,+0.006946]|2/2|
+|fixedAdam_001|selected_macro_auc|macro_auc|4|0.668646|0.661577|-0.007069|[-0.018602,+0.003197]|2/2|
+|fixedAdam_001|selected_macro_auc|macro_logloss|4|0.440392|0.443549|+0.003156|[-0.000227,+0.006539]|3/1|
+|fixedSGD_01|common_epoch50|macro_auc|4|0.623542|0.622137|-0.001405|[-0.002183,-0.000627]|0/4|
+|fixedSGD_01|common_epoch50|macro_logloss|4|0.451402|0.451110|-0.000293|[-0.012092,+0.011506]|2/2|
+|fixedSGD_01|final_epoch|macro_auc|4|0.623542|0.622137|-0.001405|[-0.002183,-0.000627]|0/4|
+|fixedSGD_01|final_epoch|macro_logloss|4|0.451402|0.451110|-0.000293|[-0.012092,+0.011506]|2/2|
+|fixedSGD_01|selected_macro_auc|macro_auc|4|0.623050|0.620532|-0.002518|[-0.004312,-0.000882]|0/4|
+|fixedSGD_01|selected_macro_auc|macro_logloss|4|0.453870|0.456929|+0.003058|[-0.001005,+0.008200]|3/1|
+|calAdam_0003|common_epoch50|macro_auc|4|0.639787|0.630713|-0.009074|[-0.017349,-0.000965]|1/3|
+|calAdam_0003|common_epoch50|macro_logloss|4|0.510412|0.606793|+0.096381|[+0.084736,+0.108027]|4/0|
+|calAdam_0003|final_epoch|macro_auc|4|0.637244|0.626853|-0.010391|[-0.018665,-0.002270]|1/3|
+|calAdam_0003|final_epoch|macro_logloss|4|0.525400|0.638733|+0.113333|[+0.096033,+0.135940]|4/0|
+|calAdam_0003|selected_macro_auc|macro_auc|4|0.664174|0.655476|-0.008698|[-0.012818,-0.005096]|0/4|
+|calAdam_0003|selected_macro_auc|macro_logloss|4|0.446948|0.458027|+0.011079|[-0.000107,+0.022320]|3/1|
+|calSGD_03|common_epoch50|macro_auc|4|0.631678|0.632753|+0.001075|[-0.001033,+0.004089]|2/2|
+|calSGD_03|common_epoch50|macro_logloss|4|0.447063|0.451497|+0.004434|[-0.006990,+0.013484]|3/1|
+|calSGD_03|final_epoch|macro_auc|4|0.635143|0.634710|-0.000434|[-0.004068,+0.003784]|1/3|
+|calSGD_03|final_epoch|macro_logloss|4|0.447168|0.446753|-0.000415|[-0.008662,+0.006975]|2/2|
+|calSGD_03|selected_macro_auc|macro_auc|4|0.636117|0.635145|-0.000972|[-0.001453,-0.000527]|0/4|
+|calSGD_03|selected_macro_auc|macro_logloss|4|0.445168|0.451186|+0.006018|[+0.001106,+0.010929]|3/1|
+|batch2SGD_03|common_epoch50|macro_auc|4|0.619139|0.618164|-0.000975|[-0.002953,+0.001846]|1/3|
+|batch2SGD_03|common_epoch50|macro_logloss|4|0.448565|0.449771|+0.001207|[-0.009477,+0.012756]|2/2|
+|batch2SGD_03|final_epoch|macro_auc|4|0.621333|0.621546|+0.000213|[-0.001851,+0.002277]|2/2|
+|batch2SGD_03|final_epoch|macro_logloss|4|0.450608|0.452351|+0.001742|[-0.009477,+0.013292]|3/1|
+|batch2SGD_03|selected_macro_auc|macro_auc|4|0.621480|0.621228|-0.000253|[-0.002401,+0.002265]|1/3|
+|batch2SGD_03|selected_macro_auc|macro_logloss|4|0.456065|0.457008|+0.000944|[-0.008595,+0.006375]|3/1|
+|MovieLensSGD_03|common_epoch50|macro_auc|4|0.569751|0.568765|-0.000986|[-0.001331,-0.000419]|0/4|
+|MovieLensSGD_03|common_epoch50|macro_logloss|4|0.585458|0.583436|-0.002023|[-0.003170,-0.000967]|0/4|
+|MovieLensSGD_03|final_epoch|macro_auc|4|0.569751|0.568765|-0.000986|[-0.001331,-0.000419]|0/4|
+|MovieLensSGD_03|final_epoch|macro_logloss|4|0.585458|0.583436|-0.002023|[-0.003170,-0.000967]|0/4|
+|MovieLensSGD_03|selected_macro_auc|macro_auc|4|0.573755|0.574293|+0.000539|[-0.001331,+0.003391]|1/3|
+|MovieLensSGD_03|selected_macro_auc|macro_logloss|4|0.585720|0.584025|-0.001695|[-0.003099,-0.000776]|0/4|
+|AdaTask_0003|common_epoch50|macro_auc|4|0.646879|0.641072|-0.005807|[-0.016714,+0.003575]|2/2|
+|AdaTask_0003|common_epoch50|macro_logloss|4|0.478859|0.517902|+0.039043|[+0.031602,+0.044978]|4/0|
+|AdaTask_0003|final_epoch|macro_auc|4|0.647109|0.640283|-0.006826|[-0.019770,+0.003575]|2/2|
+|AdaTask_0003|final_epoch|macro_logloss|4|0.481948|0.533021|+0.051073|[+0.031615,+0.079570]|4/0|
+|AdaTask_0003|selected_macro_auc|macro_auc|4|0.667236|0.648319|-0.018917|[-0.022075,-0.015759]|0/4|
+|AdaTask_0003|selected_macro_auc|macro_logloss|4|0.442278|0.458686|+0.016408|[+0.011732,+0.022356]|4/0|
 
 
-更新：校准SGD四组初始50完整读出及正式V11门槛已完成，见 `V4_calSGD_initial50_and_V11_actual_analysis.md`。共同pre22交互−.01391006、4/4负、CI排除0并超过.003，实际触发状态实验；这是LR特定optimizer交互，尚无状态因果结论。SGD早期1–10小正、1–20不稳定、固定50/selection-selected转负的阶段反例完整保留。V5/V8 seed25因非平台且不能确认selection过拟合，整组最低150；100产物不覆盖，V4自己baseline100仍独立。所有新test仍未读取，任务继续。
+每组四seed真实值、逐域/任务、六cell、AUC/LL以及AULC/四选择/common-SN/common-SB选择规则均见[14cohort清单](test_summary_verifier_manifest.json)。上表final与fixed-budget为别名；最终预算可随seed不同，不能把own-final当统一epoch。固定100可能只有预算条件n2/n1支持，Q45要求不写四seed。n4精确双侧符号随机化最小p=.125；CI为20k训练seed配对bootstrap，1000选择bootstrap是另一个条件不确定性。
 
-更新：固定SGD.1四组完整读数已核验，pre50宏AUC平均−.00304265、4负，宏LogLoss却略改善；固定LR参考交互NOT_TRIGGERED，与校准组TRIGGERED形成配置敏感性反例。详见 `V2_fixedSGD_and_interaction_sensitivity_analysis.md`。Q3“Adam普遍必要”被反驳，仍需继续Q4已触发的状态机制条件实验，未泛化所有LR/optimizer。
+[宏观test图PNG](figures/final_test_selected_macro_gaps.png)/[PDF](figures/final_test_selected_macro_gaps.pdf)、[六cell图PNG](figures/final_test_all_six_cells.png)/[PDF](figures/final_test_all_six_cells.pdf)、[原始画图数值](archive/formal/final_test_selected_all_six_cell_plot_values.csv)。六cell/域/任务不是独立训练seed；图中正负方向需分别看AUC与LL。
+
+## 既定反事实的冻结test交互
+
+|cohort|条件|端点|n|SN绝对变化|SB绝对变化|q-gap交互|95%CI|正/负|
+|---|---|---|---:|---:|---:|---:|---|---|
+|V10_final|AdaTask_final|common_epoch50|4|+0.007092|+0.010359|+0.003267|[-0.011422,+0.013639]|3/1|
+|V10_final|AdaTask_final|common_pre_AULC_1_14|4|-0.000344|+0.003542|+0.003887|[+0.002443,+0.005560]|4/0|
+|V10_final|AdaTask_final|final_epoch|4|+0.009865|+0.013430|+0.003565|[-0.010528,+0.013639]|3/1|
+|V10_final|AdaTask_final|selected_macro_auc|4|+0.003062|-0.007156|-0.010219|[-0.014092,-0.006345]|0/4|
+|V11_final|beta1_zero_v_only|common_epoch50|4|+0.019035|+0.015731|-0.003304|[-0.012358,+0.009404]|1/3|
+|V11_final|beta1_zero_v_only|common_pre_AULC_1_4|4|+0.000168|+0.006399|+0.006232|[+0.001737,+0.011546]|4/0|
+|V11_final|beta1_zero_v_only|final_epoch|4|-0.008845|+0.004726|+0.013570|[+0.005326,+0.026289]|4/0|
+|V11_final|beta1_zero_v_only|selected_macro_auc|4|-0.012374|-0.002397|+0.009978|[-0.004563,+0.024997]|3/1|
+|V11_final|beta2_zero|common_epoch50|4|-0.141397|-0.129958|+0.011439|[+0.002305,+0.021188]|3/1|
+|V11_final|beta2_zero|common_pre_AULC_1_4|4|-0.115653|-0.108872|+0.006780|[+0.004406,+0.009720]|4/0|
+|V11_final|beta2_zero|final_epoch|4|-0.137244|-0.126853|+0.010391|[+0.002270,+0.018665]|3/1|
+|V11_final|beta2_zero|selected_macro_auc|4|-0.159244|-0.149361|+0.009882|[+0.006610,+0.014297]|4/0|
+|V11_final|m_only|common_epoch50|4|-0.103293|-0.093929|+0.009364|[+0.001517,+0.017675]|3/1|
+|V11_final|m_only|common_pre_AULC_1_4|4|-0.097996|-0.091836|+0.006159|[+0.003608,+0.008711]|4/0|
+|V11_final|m_only|final_epoch|4|-0.059724|-0.050371|+0.009353|[+0.001749,+0.017389]|3/1|
+|V11_final|m_only|selected_macro_auc|4|-0.087313|-0.078085|+0.009228|[+0.005256,+0.013162]|4/0|
+|V4_batch_final|B2_sgd|common_epoch50|4|-0.012539|-0.014588|-0.002049|[-0.003669,-0.000308]|1/3|
+|V4_batch_final|B2_sgd|common_pre_AULC_1_37|4|-0.022048|-0.024901|-0.002853|[-0.003950,-0.001757]|0/4|
+|V4_batch_final|B2_sgd|final_epoch|4|-0.013810|-0.013164|+0.000647|[-0.002171,+0.004419]|2/2|
+|V4_batch_final|B2_sgd|selected_macro_auc|4|-0.014636|-0.013918|+0.000719|[-0.001735,+0.003097]|3/1|
+|V4_optimizer_final|calAdam_0003|common_epoch50|4|+0.008109|-0.002040|-0.010149|[-0.018297,-0.003555]|0/4|
+|V4_optimizer_final|calAdam_0003|common_pre_AULC_1_22|4|+0.076705|+0.065256|-0.011449|[-0.014339,-0.008969]|0/4|
+|V4_optimizer_final|calAdam_0003|final_epoch|4|+0.002101|-0.007856|-0.009957|[-0.014597,-0.006054]|0/4|
+|V4_optimizer_final|calAdam_0003|selected_macro_auc|4|+0.028057|+0.020330|-0.007727|[-0.011288,-0.004589]|0/4|
+|V5_Adam_final|Adam_PERM|common_epoch50|4|+0.010401|-0.007410|-0.017810|[-0.030685,-0.002256]|1/3|
+|V5_Adam_final|Adam_PERM|common_pre_AULC_1_22|4|+0.002953|+0.000887|-0.002066|[-0.003183,-0.000921]|0/4|
+|V5_Adam_final|Adam_PERM|final_epoch|4|+0.005067|-0.003740|-0.008807|[-0.026680,+0.009065]|2/2|
+|V5_Adam_final|Adam_PERM|selected_macro_auc|4|+0.008692|+0.001293|-0.007399|[-0.017120,+0.003432]|1/3|
+|V5_SGD_final|SGD_ORDER|common_epoch50|4|+0.001224|+0.001101|-0.000123|[-0.003748,+0.003087]|3/1|
+|V5_SGD_final|SGD_ORDER|common_pre_AULC_1_37|4|+0.000622|-0.000306|-0.000929|[-0.002529,+0.000657]|2/2|
+|V5_SGD_final|SGD_ORDER|final_epoch|4|+0.000872|+0.000469|-0.000403|[-0.003884,+0.002942]|2/2|
+|V5_SGD_final|SGD_ORDER|selected_macro_auc|4|-0.001998|+0.001420|+0.003419|[+0.000938,+0.006087]|4/0|
+|V5_SGD_final|SGD_PERM|common_epoch50|4|+0.001135|-0.001528|-0.002663|[-0.007673,+0.002347]|2/2|
+|V5_SGD_final|SGD_PERM|common_pre_AULC_1_37|4|+0.000869|-0.000774|-0.001643|[-0.004842,+0.002001]|1/3|
+|V5_SGD_final|SGD_PERM|final_epoch|4|+0.000335|-0.001872|-0.002207|[-0.007673,+0.003258]|2/2|
+|V5_SGD_final|SGD_PERM|selected_macro_auc|4|+0.001447|+0.001097|-0.000351|[-0.004296,+0.003595]|2/2|
+|V8_final|mild|common_epoch50|4|-0.001719|-0.001088|+0.000631|[-0.001887,+0.003149]|2/2|
+|V8_final|mild|common_pre_AULC_1_37|4|-0.001992|-0.002116|-0.000125|[-0.000707,+0.000272]|2/2|
+|V8_final|mild|final_epoch|4|-0.001986|+0.000125|+0.002110|[-0.003225,+0.007446]|2/2|
+|V8_final|mild|selected_macro_auc|4|-0.004696|+0.001703|+0.006399|[+0.002218,+0.012309]|4/0|
+|V8_final|strong|common_epoch50|4|-0.008458|-0.008324|+0.000134|[-0.002850,+0.001942]|3/1|
+|V8_final|strong|common_pre_AULC_1_37|4|-0.007668|-0.007092|+0.000576|[-0.000128,+0.001056]|3/1|
+|V8_final|strong|final_epoch|4|-0.008656|-0.009497|-0.000841|[-0.004115,+0.002433]|2/2|
+|V8_final|strong|selected_macro_auc|4|-0.009425|-0.008394|+0.001031|[-0.002426,+0.004119]|3/1|
 
 
-校准交互的统一1–22窗口域/任务分解已实际完成并核验，见 `V11_joint_early_domain_task_interaction_analysis.md`。三个域及两个任务的平均AUC交互均4/4负；cell层保留d0t1、d2t0单seed反例。该结果仍是LR配置特定交互，状态因果拆解正在运行。
+上述只是全量表中预定义共同早期、E50、最终与AUC自选的宏AUC摘录；所有LL/域任务/六cell及每seed绝对变化、支持交集/排除key均在[完整交互](analysis/test_all_cohorts_primary_verification/test_contrast_summary.json)、[逐seed表](analysis/test_all_cohorts_primary_verification/seed_test_contrasts.csv)。不同训练预算/选择池/阶段不能混作同一因果对照；差距缩小还须结合SN/SB绝对健康，不能自动叫修复。
 
+## 诊断轨迹、训练目标与机制读数
 
-初始50轮轨迹图：![四配置全部seed诊断AUC轨迹](figures/initial50_trajectory_comparison/initial50_auc_trajectories.png)
+固定SGD.1共同pre50 AUC−.003043四负，fixedAdam.01 pre27−.006980四负，calAdam.003 pre22−.013951四负，calSGD.3 pre37−.000493为1正3负。V5 ORDER E50交互+.005816四正，但seed25 FINAL350交互−.041913；自选AUC交互+.007723四正伴SN绝对四负。V7 C局部AUC阳性与E40 LL/J冲突并列；V11 β2=0最终floor、v-only健康/差距阶段冲突保留。全部具体CI、每域任务/六cell和trainJ参见下列阶段报告。
 
-图中粗线为4seed均值、细线为个体seed；22虚线为跨配置描述窗口，各面板纵轴刻度不同。延长训练充分预算及selected终点另行分析，不能把本图视为最终充分预算结论。
+|读数|完整报告|
+|---|---|
+|固定SGD与参考interaction|[V2](V2_fixedSGD_and_interaction_sensitivity_analysis.md)|
+|selection与7组baseline|[V3](V3_final_baseline_selection_analysis.md)|
+|LR/batch/足预算/20等步/2448hit与censor|[V4](V4_final_budget_and_learning_speed_analysis.md)|
+|WR/PERM/ORDER最终|[SGD](V5_SGD_final_matched_analysis.md)、[Adam](V5_Adam_final_matched_analysis.md)|
+|均值/trace/谱/CPRE/任务/稀疏时间|[V6](V6_geometry_observational_analysis.md)|
+|12局部×7条件|[V7](V7_local_counterfactual_analysis.md)|
+|规模/输入proxy/正例率/曝光/576cell上下文|[V8](V8_final_matched_diagnostic_analysis.md)|
+|第二环境|[V9](V9_final_cross_environment_analysis.md)|
+|AdaTask固定同目标组件|[V10](V10_final_vs_calAdam_analysis.md)|
+|完整状态与1740方向记录|[V11](V11_fullstate_final_diagnostic_analysis.md)|
 
-
-状态实验的首个seed2022初始50出现明确退化，已登记Q40，详见V11_state_seed2022_single_seed_health_observation.json。beta2zero的SN/SB selection AUC约0.5，训练J分别40.68/13.99；m-only AUC约0.56014且学习较慢。当前只有单seed描述，证据WEAK，不将gap收缩解释为状态必要性。继续预注册四seed、共同theta状态交换/范数控制；不擅自调LR/eps，操作性plateau不等于全局收敛。
-
-
-AdaTask四seed初始50匹配分析已完成并主核验，见V10_initial50_vs_calAdam_analysis.md：共同pre14 q-gap−.00783937（3负1正、CI排除0），未消除早期敏感性；减弱交互+.00628296的CI跨±.003，不能宣称稳定救援或等价。epoch50 gap反而更负但两arm绝对AUC平均均优于native；AUC与logloss阶段方向不同，全部反例保留。最终匹配100 selected比较尚待native23完整readout，test仍未读。
-
-
-V4 B2初始50：jointpre37 AUC交互−.00112517四负，而两臂绝对AUC下降；exact1225step交互−.00358827两负两正、CI跨零。V10最终匹配50/100/50/50：early14AdaTaskgap−.00783937，3负1正，缓解交互+.00628296区间宽；最终预算Adagap−.01916006四负，但绝对SN/SB均优于Adam。完整数值、域任务、损失和反例分别见V4_B2_initial50_analysis.md及V10_final_vs_calAdam_analysis.md。新test仍未读取。
-
-
-V4完整预算B0selected−.003907三负一正、B2selected−.002849四负；完整等步数20条和首次达到2448条全核验。V9统一1–16时KR+.0000776、ML+.0013907，均三正一负，保留窗口/进度边界Q41。
-
-
-## 四种子影子性能反事实完成，完整状态实验继续
-
-四个原始影子回放及其19,836行绝对指标、71,820行对比、17,955组四种子统计均实际完成、主代理核验PASS（最大4.1e−16）。局部第10轮m/full-shadow改善两臂绝对AUC，但当前q的AUC差距仍四负；范数与阶段对loss/AUC影响不同。详见`V11_shadow_local_statistics_analysis.md`及图表，局部影响MEDIUM，长期唯一必要机制未识别。方向补充4回放已注册第41GPU队列，匹配延长22到100/23到150/25到100与24初始选择判据仍待完成。Q40已保留四种子beta2饱和和m-only学习不足，也保留v-only两臂较好的反例。Adam24四个actual100输入PASS，CPU2完整读数进行中；WR_SN尚须selectionbootstrap确认预算。新test仍未读取，未达到终局停止条件。
-
-
-## 实际预算继续延长：seed25最少250、state24最少100
-
-Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。九个满足平台，mildSN改善率.005263345；完整1,000次selection确认的三个窗口均未通过，因此按冻结规则整组最少250，复制新目录进行中。为避免额外完整中间预算计算，新增只缩减bootstrap轮次的精确工程读数：所有200轮point/1200cell先从真实预测重算，实际完整CPU缓存四轮×1000与单臂子集逐位相同，100个合成确认分类与原函数一致，实际8轮缓存的三个量化窗口已独立复核。它不替代最终完整配对读数，100/150/200共12份中间前缀义务保留。State24三对actual50完整读数均PASS，v-only两臂均需延长，整6条件最少100复制中。四种子Adam抽样审计已实际完成并核验600个配对arm-epoch、3600覆盖行。新test仍未读取，V7尚待V5最终分析，不能停止整轮任务。
-
-
-补充已核验的基线域上下文：见[baseline_domain_context_analysis.md](baseline_domain_context_analysis.md)及figures/baseline_domain_size_and_performance.png。全部七基线、四seed、固定10/50轮diagnostic的672个单元与126组汇总保留样本数、正例率、两臂AUC/LL及逐seed差值。范围为描述，非N的因果拟合。KuaiRand六基线SN固定50均是中等规模d0 AUC最低，且排序依阶段改变；不能把最小域视为必然最难。MovieLens训练子集随seed变化，区间应解释为该耦合训练流程的seed差异，详见Q43物理元数据审计。V8最终corruption敏感性和全部新test仍待完成。
-
-
-### 实际 300 epoch 复核及状态 seed 2025 最终预算
-
-V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。
-
-
-状态 seed 2025 的 β1=0/v-only、β2=0 两对最终 200 epoch 完整读出已完成，主 agent 核验 8,000 次选择重采样。β2=0 两臂最终 selection/diagnostic 宏观 AUC 均为 0.5，诊断 LL 为 SN 9.932614 / SB 6.087876，训练 J 仍很高；不能把该性能下限上的零差距解释为成功介导。该 seed/阶段绝对健康观测为 STRONG，长期必要机制仍 WEAK/未识别。见 [实际健康边界](V11_state_seed2025_beta2zero_final200_health_note.md)。m-only 最终读出、九对前缀及 seed22 最终预算/读出仍在执行，Q40 尚未关闭。
-
-
-### 完整状态训练预算已确认，读出仍在闭合
-
-V11 四 seed 的六组匹配状态训练最终预算为 **2022:250 / 2023:150 / 2024:100 / 2025:200**。seed22 的五臂满足操作性平台，唯一非平台 β1=0/v-only SB 由实际完整250的精确1000选择重采样确认退化（起点104、参照峰值24）；首次AUC下降48当时不满足训练目标下降，不将二者混同。全部250生产者36关键哈希、42归档已核验，最终预算证书已记录。seed25的三对完整200及九对严格50/100/150前缀全部验证完成（累计48000次选择检查，前缀不是独立重复）；seed22剩余m-only完整250、六对150/200前缀及全四seed联合分析仍在执行。native最终50/100/50/50与状态最终预算不同，受控比较须保留共同固定阶段，最终或各自选择轮次不能一概标为匹配。
-
-
-新增Q45为BOUNDARY/STRONG：部分固定100轮test表按实际预算仅n=2（V5Adam为2023/24，V8为2023/25），不是四seed复现。76条实际预算元数据已核验；新test未读取，冻结前v2核验器已支持原公式n1–4并标注预算资格。只报告真实支持交集；共同50/全四seed自选和各自最终预算保留各自估计量，不假设长预算缺失随机。详见Q45_adaptive_budget_partial_horizon_support_audit.json。
+所有实际停止依据、各seed预算、56臂onset与选择epoch在[执行报告](execution_report.md)和[onset CSV](archive/formal/final_baseline_onsets_and_selection_56arm_rows.csv)。完整证据分类与竞争解释见[机制报告](mechanism_analysis.md)；14章最终规范见[FINAL_REPORT](FINAL_REPORT.md)。
