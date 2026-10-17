@@ -130,3 +130,6 @@ Clean seed25 actual300完整1000/200读数已COMPLETE/exit0，主agent4000重选
 ### 实际 300 epoch 复核及状态 seed 2025 最终预算
 
 V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。
+
+
+测试执行入口 `v3_launch_frozen_native_tests_20261016.py` 已完成独立工程设计、实现和主 agent 自审（非独立 reviewer），仅作未来冻结后的机械启动。它固定原始测试引擎、校验全局冻结/来源清单及已授权输入，记录真实 PID 与字节哈希；缺少冻结文件的实际拒绝检查已通过，没有读取数据或计算测试性能。新增冻结字段详见 `frozen_native_test_launcher_implementation_self_review.json`。
