@@ -1,0 +1,12 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "time": 1792197111.0262132,
+  "independent_review": false,
+  "scope": "Engineering only: launch already primary-approved CPU manifests with computed byte hashes, durable logs and launch PID; no research/readout algorithm changes.",
+  "requirements": [
+    "Require activation status PASS, manifest hash, source bytes equal reviewed digest",
+    "Require no existing launch/status; max_cpu_processes <=12, primary resource activation separately records other active jobs",
+    "Compute all provenance SHA from bytes; subprocess new session; record actual head/PID/commands",
+    "Allow only approved numerical or prefix utility, no registry mutation"
+  ]
+}
