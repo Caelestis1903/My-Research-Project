@@ -91,3 +91,8 @@ Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。�
 
 
 补充已核验的基线域上下文：见[baseline_domain_context_analysis.md](baseline_domain_context_analysis.md)及figures/baseline_domain_size_and_performance.png。全部七基线、四seed、固定10/50轮diagnostic的672个单元与126组汇总保留样本数、正例率、两臂AUC/LL及逐seed差值。范围为描述，非N的因果拟合。KuaiRand六基线SN固定50均是中等规模d0 AUC最低，且排序依阶段改变；不能把最小域视为必然最难。MovieLens训练子集随seed变化，区间应解释为该耦合训练流程的seed差异，详见Q43物理元数据审计。V8最终corruption敏感性和全部新test仍待完成。
+
+
+### 实际 300 epoch 复核及状态 seed 2025 最终预算
+
+V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。

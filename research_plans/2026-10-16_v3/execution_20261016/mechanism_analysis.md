@@ -88,3 +88,8 @@ Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。�
 
 
 新增分析边界Q43：MovieLens既有role_reversal_sample使用同一seed决定训练子集，随后该seed也决定优化随机性。四seed不是固定训练人口上的纯优化重复；每seed内SN/SB仍严格共享数据，validation/encoder/scaler固定，配对q比较不受破坏。当前设计不分离两种方差成分，禁止把跨seed反转唯一归因优化器。已完成16配置/当前生产者SHA与源代码最小核对，BOUNDARY/STRONG；当前有限效应/环境边界结论不需要追加未经规划的交叉种子矩阵。新增基线域上下文图和表显示难度代理随optimizer/LR/阶段及指标变化，不能用一个N标量或固定困难度标签解释全部结果。详见baseline_domain_context_analysis.md与Q43_MovieLens_seed_population_scope_audit.json；全部旧问题保留。
+
+
+### 实际 300 epoch 复核及状态 seed 2025 最终预算
+
+V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。

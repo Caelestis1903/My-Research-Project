@@ -125,3 +125,8 @@ State22 actual200全六条/root36关键SHA/archive42均PASS，但β2SN改善.092
 Clean seed25 actual300完整1000/200读数已COMPLETE/exit0，主agent4000重选及onset/预算/点值核验PASS，最大2.22e−16；ORDER完整300读数队列444340在全部61前驱后实际启动，仍与PERM合计最多两项GPUbootstrap。旧17份seed25前缀仍遵守实际最终父要求，已另存parent_scope_clarification，不以提前完成300读数冒称全组最终300。
 
 工作附录Newly_Exposed_Questions_WORKING.md已包含Q28–Q43共16项的六个规定字段，Q40/最终遥测/最终尾部审计等未完成部分明确标注；它不是终局报告。全部规定流程继续执行，新v3 test性能仍未读取。
+
+
+### 实际 300 epoch 复核及状态 seed 2025 最终预算
+
+V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。
