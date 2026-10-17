@@ -23,3 +23,6 @@
 
 
 V11完整状态诊断已经完成，见[V11全程分析](V11_fullstate_final_diagnostic_analysis.md)。Q4现为NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN/MEDIUM，已完成最小状态/影子/范数补充；Q40为BOUNDARY/MEDIUM。Q44记录联合4轮与原始22轮的估计量变化；这不是原始native gate被推翻。状态最终250/150/100/200与native50/100/50/50不能当预算匹配对照。方法化仍须等待规定的V5/V7/V8和全冻结测试，不从gap消失或破坏性控制floor签发GO。
+
+
+Q45（BOUNDARY/STRONG）要求各endpoint报告实际n/seed资格：V5Adam和V8的固定100轮仅有两个长预算seed，不满足该endpoint四seed稳定性条件。原完整四seed的共同50、各自自选与最终预算另列；不能用队列种子数替代endpoint样本数。

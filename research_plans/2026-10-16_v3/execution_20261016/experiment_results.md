@@ -8,7 +8,7 @@ V11 四种子状态训练最终预算为 **250/150/100/200**；全部12对最终
 
 V5/V8 seed25十个实际350训练现均COMPLETE并满足平台，最终匹配预算正式认证为FINAL350（root60关键哈希/70归档PASS，不是350硬上限）。四对完整350读数已核验16000次选择，strong完整350由GPU81/PID505078执行；四CPU前缀队列17对及最终sampler/weight队列已启动。最终六个V8单元审计采用每批2个GPU worker，首批clean GPU82/PID507092实际执行。V5 SGD四seed最终匹配50/50/50/350的12父性能已聚合并复核230400值，最大误差3.80e−16；[分析稿](V5_SGD_final_matched_analysis.md)保留ORDER第50轮四正但长程seed25反向、自选差距主要伴SN下降。最终采样身份/22前缀仍需闭合后继续V7。
 
-问题登记共44项；最终Newly Exposed Questions至少覆盖Q28–Q44共17项，六字段工作附录已保留。Q40的诊断最小补充已完成、定为BOUNDARY/MEDIUM，最终新测试仍待全条件冻结。test_readout_frozen.json不存在，本次新test性能未计算；历史test已暴露，不声称pristine holdout。V5/V7/V8、最终遥测、V12/V13、冻结测试和最终报告/归档推送仍有义务。下文初始快照和过程更新仅为历史，不覆盖本段和实际收据。
+问题登记共45项；最终Newly Exposed Questions至少覆盖Q28–Q45共18项，六字段工作附录已保留。Q40的诊断最小补充已完成、定为BOUNDARY/MEDIUM，最终新测试仍待全条件冻结。test_readout_frozen.json不存在，本次新test性能未计算；历史test已暴露，不声称pristine holdout。V5/V7/V8、最终遥测、V12/V13、冻结测试和最终报告/归档推送仍有义务。下文初始快照和过程更新仅为历史，不覆盖本段和实际收据。
 
 以下为早期初始50轮快照；其后已完成的最终预算结果以独立阶段报告为准：`V3_final_baseline_selection_analysis.md`、`V4_final_budget_and_learning_speed_analysis.md`、`V5_Adam_final_matched_analysis.md`、`V9_final_cross_environment_analysis.md`、`V10_final_vs_calAdam_analysis.md`、`V11_shadow_local_statistics_analysis.md`、`V11_shadow_direction_and_norm_analysis.md`。V5 SGD/V8 seed25最终匹配预算、V7和完整状态最终合成仍在执行。本报告持续更新，不能将它视作全任务或充分预算的最终结果。表内差值统一为 SB−SN；AUC正值更好、LogLoss负值更好。CI为训练种子重采样95%区间，selection行重采样与diagnostic行重采样另见各配对文件。n=4时双侧精确符号随机化p最小为.125，CI和同号不等于高功效显著性。原始逐seed数值、两臂绝对值、SD、中位数、CI、符号p均保留在 `analysis/completed_primary_summary_snapshot.csv` 及原聚合目录。
 
@@ -114,3 +114,6 @@ V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份�
 ### 完整状态训练预算已确认，读出仍在闭合
 
 V11 四 seed 的六组匹配状态训练最终预算为 **2022:250 / 2023:150 / 2024:100 / 2025:200**。seed22 的五臂满足操作性平台，唯一非平台 β1=0/v-only SB 由实际完整250的精确1000选择重采样确认退化（起点104、参照峰值24）；首次AUC下降48当时不满足训练目标下降，不将二者混同。全部250生产者36关键哈希、42归档已核验，最终预算证书已记录。seed25的三对完整200及九对严格50/100/150前缀全部验证完成（累计48000次选择检查，前缀不是独立重复）；seed22剩余m-only完整250、六对150/200前缀及全四seed联合分析仍在执行。native最终50/100/50/50与状态最终预算不同，受控比较须保留共同固定阶段，最终或各自选择轮次不能一概标为匹配。
+
+
+新增Q45为BOUNDARY/STRONG：部分固定100轮test表按实际预算仅n=2（V5Adam为2023/24，V8为2023/25），不是四seed复现。76条实际预算元数据已核验；新test未读取，冻结前v2核验器已支持原公式n1–4并标注预算资格。只报告真实支持交集；共同50/全四seed自选和各自最终预算保留各自估计量，不假设长预算缺失随机。详见Q45_adaptive_budget_partial_horizon_support_audit.json。

@@ -1,4 +1,4 @@
-# V5 SGD 最终匹配性能分析（数值已核验，最终采样身份核验待完成）
+# V5 SGD 最终匹配性能分析（性能、采样身份、权重和前缀核验完成）
 
 SGD 的域内采样方案和同一批次集合的顺序干预会改变观察到的采样差距，影响随训练阶段和 selection 规则变化。**共同第50轮的 ORDER AUC 交互四种子为正，但自选 AUC 下的交互主要伴随 SN 下降，最终预算下的平均交互又转负。** 当前证据不支持跨阶段的单一“顺序修复”机制，更不支持课程学习有效。PERM 的区间较宽、方向混合；这里不把不显著当作等效零，也不把保留的重复误称为已移除重复。
 
@@ -8,7 +8,7 @@ KuaiRand / M3OE / 无动量 SGD lr=.3，batch=40960，weight decay=1e−5，目�
 
 12个完整配对、24生产者均COMPLETE且SHA核验；冻结聚合、联合边际、factorial交互均exit0。主控从原始六单元重建了10752行边际、10752行交互、5376组统计，共230400个数值，最大误差3.80e−16。四种子的共同pre窗口为1–37；固定10/20/50、AULC10/20及四种selection规则均保留。采用固定20k种子bootstrap与精确符号随机化，n=4双侧最小p=.125，不能声称四个同号等于严格显著。
 
-**本报告的性能部分已完成；最终350的逐NPZ采样身份、权重/短尾审计和规定中间预算读数仍在运行。本段收尾前不将V5科学阶段标记完成，也不激活V7。** 四种子状态、训练阶段和反向seed均保留，不用训练完成替代操纵核验。
+**V5规定的性能、采样身份、权重/短尾审计和中间预算读数已完成并通过主控核验，现激活V7的12个局部实验。** 最终350来源的12个150/200/250/300轮前缀逐值等于父轨迹相应前缀，48000次selection重选选择核验通过。四种子状态、训练阶段和反向seed均保留。V8另有10个腐蚀前缀继续独立完成，不属于V5本身的闭合依赖。
 
 ## q差距与干预交互
 
@@ -109,13 +109,13 @@ PERM 的早期交互+.000791、E50+.003287、最终−.000964、自选AUC+.00428
 
 E50 ORDER 的SB平均变化为d0 +.006111、最大d1 −.000469、最小d2 +.003281；这一阶段存在小/中等域与最大域平均方向不同的局部取舍，证据WEAK，不能称普遍四seed小域收益。AULC1–37时SB的d0/d1均下降而d2几乎零；各seed最终时三个域的SB均值都下降，SN则均值改善。因此既没有跨阶段的统一小域/大域取舍，也没有N单调解释。E50任务t1交互四seed正、t0为3正1负；宏观一致不代表每个任务/单元一致。
 
-## 操纵身份、曝光与竞争解释（最终审计待补）
+## 操纵身份、曝光与竞争解释
 
 WR→PERM保持每个q的物理域序列/配额，但同时改变域内覆盖、重复位置和时间依赖。固定E_d和支持N_d时，重复R_d=E_d−U_d且R_d≥max(0,E_d−N_d)；SB小域配额超过支持时，不存在同曝光同支持的零重复控制。不能从PERM残差证明重复不必要，也不能把coverage独立于重复识别。
 
 ORDER保存完整batch集合和每个row出现次数，只改变batch的执行顺序；它是seed/epoch驱动的IID批次置换，不是按难度/损失安排的curriculum。短尾batch也被移动，故“内容顺序”与“batch-size noise clock”没有独立固定（Q37/Q38）。域计数与重要性权重矩的置换身份不等于移动θ上的loss或梯度身份。
 
-逐NPZ全350身份、unique/repeat hist、first-seen、累计coverage、movingθ原始遥测，以及最终4200 arm-epoch/205800 batches的权重与尾部身份，须待实际审计完成后写入最终核验证书。当前4200/205800来自已认证预算40条训练的确切应有数量，**不是已经完成逐批核验的数量**。其中ORDER最终应有1000 arm-epoch，实际尾部移动次数仍须计算，不能沿用旧500/478快照。
+最终350采样审计已实际PASS：4项比较、1400个比较臂×epoch、6300行coverage/repetition和50400行原始移动θ遥测。冻结生产者物理核验全部NPZ；主控将全部记录hash绑定当前生产者，独立重算coverage/repeat/遥测并物理复核12个端点NPZ和30个关键文件。40条最终训练的4200个臂×epoch、205800个实际批次权重/尾部核验PASS，新公式最大相对误差1.0232e−15；ORDER的1000个臂×epoch中实际964次移动短尾（新350来源678/700，旧来源286/300）。所有ORIGINAL短尾最后的身份也已独立断言。SN权重为1，SB平均ESS/n约.4357、最大权重2.60785；这些身份不能替代移动θ上的因果机制识别。
 
 ## 科学判断与下一项判别实验
 
@@ -126,7 +126,7 @@ ORDER保存完整batch集合和每个row出现次数，只改变batch的执行�
 
 竞争解释包括长程优化速度、参数路径与采样依赖、覆盖/重复/时间耦合、短尾clock、域任务基线及selection重选。最能区分顺序解释的后续设计，是固定所有位置的batch大小、仅在同大小批次间预定义内容顺序，或独立控制短尾位置；重复解释需要在E_d≤N_d的可行资源条件下预定义支持/曝光控制，不能声称当前固定E,N下可以实现不可能的零重复。
 
-按本轮既定规划，最终采样身份核验与必要前缀完成后执行V7的12个同θ局部块替换；只有预定门槛触发才做完整架构训练。V11/V5的阶段反例不授权跳过V7，也不授权临时新增偏好的课程策略。本轮新test性能尚未读取，最终主要endpoint仍待全条件冻结后的确认。
+按本轮既定规划，V5诊断阶段已完整闭合，接下来执行V7的12个同θ局部块替换；只有预定门槛触发才做完整架构训练。V11/V5的阶段反例不授权跳过V7，也不授权临时新增偏好的课程策略。本轮新test性能尚未读取，最终主要endpoint仍待全条件冻结后的确认。
 
 ## 证据与可导出图
 
@@ -136,3 +136,5 @@ ORDER保存完整batch集合和每个row出现次数，只改变batch的执行�
 - [逐域逐任务轨迹](analysis/V5_SGD_final_matched_aggregate/domain_task_trajectory.csv)、[全六单元轨迹](analysis/V5_SGD_final_matched_aggregate/cell_trajectory.csv)
 - [WR图](analysis/V5_SGD_final_matched_aggregate/SGD_WR_trajectory.png)、[PERM图](analysis/V5_SGD_final_matched_aggregate/SGD_PERM_trajectory.png)、[ORDER图](analysis/V5_SGD_final_matched_aggregate/SGD_ORDER_trajectory.png)，同目录有PDF；已检查可读性，粗线只表示四seed均有支持的前50轮，后续仅seed2025细线。
 - [Adam采样方案最终分析](V5_Adam_final_matched_analysis.md)、[域规模/困难度基线](baseline_domain_context_analysis.md)，Adam的PERM早期q差距四负与本SGD条件不可混为同一普遍规律。
+
+- [V5全部义务证书](V5_SGD_final_scientific_obligations_primary_certificate.json)、[最终采样身份](V5_seed2025_final350_sampler_actual_primary_verification.json)、[全部40权重/短尾](V5_all40_final_batch_weight_tail_primary_verification.json)
