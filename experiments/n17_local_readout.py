@@ -7,6 +7,41 @@ import pandas as pd
 from scipy.stats import t
 import n17_common as c
 
+def cell_readouts(directories,out):
+    """Keep per-cell counterexamples without inflating the training-seed unit."""
+    records=[]
+    for directory in map(Path,directories):
+        conf=json.loads((directory/'config.json').read_text());frame=pd.read_csv(directory/'cell_readouts.csv')
+        for (split,domain,task),part in frame.groupby(['split','domain','task']):
+            baseline=part[part.case=='unupdated_anchor'].iloc[0];sample=part[part.draw>=0]
+            assert not sample.duplicated(['draw','case']).any()
+            for metric in ('auc','logloss'):
+                pivot=sample.pivot(index='draw',columns='case',values=metric)
+                cases=sample[['case','block']].drop_duplicates().set_index('case').block.to_dict()
+                effects=[]
+                for case in pivot.columns:
+                    for label,values in [('absolute',pivot[case]),('vs_SB',pivot[case]-pivot.native_SB),('vs_SN',pivot[case]-pivot.native_SN),('vs_anchor',pivot[case]-baseline[metric])]:
+                        effects.append((case,cases[case],label,values))
+                for block in sample.block.unique():
+                    names=[block+'_full',block+'_norm',block+'_direction']
+                    if all(name in pivot.columns for name in names):
+                        full,norm,direction=[pivot[name] for name in names]
+                        effects.extend([(block+'_factorial',block,'direction_residual',full-norm),(block+'_factorial',block,'norm_direction_interaction',full-norm-direction+pivot.native_SB)])
+                for case,block,label,values in effects:
+                    for draw,value in values.items():
+                        if pd.notna(value):records.append(dict(optimizer=conf['optimizer'],seed=conf['seed'],epoch=conf['epoch'],anchor_arm=conf['anchor_arm'],split=split,domain=int(domain),task=int(task),metric=metric,case=case,block=block,estimand=label,draw=int(draw),value=float(value)))
+    frame=pd.DataFrame(records);keys=['optimizer','epoch','anchor_arm','split','domain','task','metric','case','block','estimand','seed'];rows=[]
+    for key,part in frame.groupby(keys):
+        assert not part.draw.duplicated().any(),'duplicate cell draw prefix'
+        rows.append(dict(zip(keys,key),draws=len(part),mean=float(part.value.mean()),mc_se=float(part.value.std(ddof=1)/np.sqrt(len(part))) if len(part)>1 else None))
+    seeds=pd.DataFrame(rows);seeds.to_csv(out/'cell_seed_estimands.csv',index=False);rows=[]
+    for key,part in seeds.groupby(keys[:-1]):
+        n=len(part);mean=float(part['mean'].mean());se=float(part['mean'].std(ddof=1)/np.sqrt(n)) if n>1 else None
+        rows.append(dict(zip(keys[:-1],key),n=n,mean=mean,positive=int(sum(part['mean']>0)),negative=int(sum(part['mean']<0)),
+            seed_t95_low=float(mean-t.ppf(.975,n-1)*se) if n>1 else None,seed_t95_high=float(mean+t.ppf(.975,n-1)*se) if n>1 else None,
+            mc_se=float(np.sqrt(np.square(part.mc_se).sum())/n),minimum_draws=int(part.draws.min()),maximum_draws=int(part.draws.max())))
+    pd.DataFrame(rows).to_csv(out/'cell_conditional_summary.csv',index=False)
+
 def collect(directories,out):
     records=[];seen=set();identities={}
     for directory in map(Path,directories):
@@ -47,7 +82,9 @@ def collect(directories,out):
     for key,part in seeds.groupby(keys[:-1]):
         n=len(part);x=part['mean'].to_numpy();mu=float(x.mean());se=float(x.std(ddof=1)/np.sqrt(n)) if n>1 else None
         summaries.append(dict(zip(keys[:-1],key),n=n,seeds=part.seed.to_list(),mean=mu,positive=int(sum(x>0)),negative=int(sum(x<0)),seed_t95_low=float(mu-t.ppf(.975,n-1)*se) if n>1 else None,seed_t95_high=float(mu+t.ppf(.975,n-1)*se) if n>1 else None,mc_se=float(np.sqrt(np.square(part.mc_se).sum())/n),minimum_draws=int(part.draws.min()),maximum_draws=int(part.draws.max()),undefined_draws=int(part.direction_undefined.sum())))
-    pd.DataFrame(summaries).to_csv(out/'conditional_summary.csv',index=False);c.dump(out/'receipt.json',dict(status='COMPLETE',source_sha=c.sha(__file__),sources=list(map(str,directories)),training_seed_unit=True,draws_are_not_training_seeds=True,test_read=False))
+    pd.DataFrame(summaries).to_csv(out/'conditional_summary.csv',index=False)
+    cell_readouts(directories,out)
+    c.dump(out/'receipt.json',dict(status='COMPLETE',source_sha=c.sha(__file__),sources=list(map(str,directories)),training_seed_unit=True,draws_are_not_training_seeds=True,test_read=False,cell_summaries='descriptive secondary counterexamples; candidate nomination uses only preregistered diagnostic macro AUC'))
     return pd.DataFrame(summaries)
 
 def nominate(summary,out):

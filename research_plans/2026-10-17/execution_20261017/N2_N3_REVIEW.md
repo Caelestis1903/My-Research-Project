@@ -11,3 +11,5 @@ local：同checkpoint原生optimizer state加载，每q梯度只在anchor计算�
 必要检查已通过；geometry的工程小样本不要求MC均值数值完全相等。添加的trace MC输出/CLI配置属于运行记录，不改变已核验sampler/gradient/optimizer映射身份。正式运行前源码须提交并保持冻结。
 
 Verdict: PASS。仅批准依原规划与已冻结N1门槛启动，不意味着N2/N3已执行或已支持机制。
+
+读数补充（正式N3前）：n17_local_readout现从已保存cell_readouts逐cell输出absolute、vs_SB/SN/anchor、full−norm与四格交互的每seed均值/MCSE及训练seed区间；同一seed/case的draw prefix重复拒绝合并。没有把cell作为重复，没有新增实验/选择目标；候选选择仍只读预注册diagnostic宏AUC。此为原设计六cell反例留存的汇总实现，AST/逐式代码核对通过，PASS_SELF_REVIEW；原始N3训练/反事实计算源码未改。
