@@ -1,0 +1,9 @@
+# 正式确认的模型留存补充（任何confirmation启动前）
+
+N1 pilot的调参响应面、H100选轮和AULC在selection/diagnostic人口计算，逐epoch预测已完整保留；pilot不使用test调参，也不把pilot算独立确认。
+
+独立confirmation及之后正式四臂/拓扑/环境对照需要在统一解封后计算test AULC1..20/100。因此这些正式轨迹须额外保存每epoch纯model state（all_models/epochNNN_model.pt），不提前对test前向或读取test指标。原产物盘845GB可用，允许此必要留存；原先有限快照策略仅足够固定端点，不能单独支持完整test AULC。该缺口在confirmation启动前修正，不需要重复已具完整selection预测的pilot。
+
+n17_capture.py继承冻结训练Runner，仅在每epoch提交last_resume之前原样保存model tensors。loss、sampler、初始化、optimizer、预算和选轮均不变。模型快照先原子写入、完整resume state随后提交，避免已提交epoch丢模型。源码SHA单列，验证捕获model与原生state逐tensor相同。
+
+N2 quota及所有后续正式训练也使用此留存层。完整optimizer/RNG原生锚点仍按原设计保存；不将追加快照视为新训练重复。上述修正不改变科学读数或判断标准，也不提前读取新模型test。

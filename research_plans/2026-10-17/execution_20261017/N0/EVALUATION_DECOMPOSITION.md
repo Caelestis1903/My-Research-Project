@@ -15,3 +15,5 @@ N0已完成；零新增正式训练。七家族、原2022–2025四训练seed，
 竞争解释保留：评价权重/域内人口、LR与优化预算、排序与校准、真实采样几何及共享表示路径。本轮最有辨别力的下一步是已冻结N1对称q×LR和独立种子；不是改变主指标或重训历史矩阵。新训练test尚未用于任何选择。
 
 数据链：readout_manifest.json给模型/时钟/选择人口/评价人口/权重与预测SHA；12个缺少直接文件的预测读数通过原认证prefix引用恢复且SHA匹配（216行校准），不作为新模型。readout ledger中的同义端点与重复预测读数不可当独立重复。
+
+补充：MovieLens原生user_id可经已知原始row IDs恢复，test共1209用户。已补逐split域用户簇数和200次按用户配对条件区间，见ML_user_cluster_counts.csv、ML_paired_user_cluster_intervals.csv与user_cluster_receipt.json。KR当前处理文件仍无user_id；未将其row区间称为user独立。该补充不改变N1配置、阈值或训练选择。

@@ -1,0 +1,13 @@
+# N1独立确认与延迟读数自审
+
+审查对象：CONFIRMATION_RETENTION_ADDENDUM、n17_capture.py、n17_n1_control.py、冻结的n17_train.py，及capture_check原样tensor核对。遵循start第11条，由主agent自审，非独立review。
+
+确认保存层只增加原样model state序列化，不改前向、loss、随机流或optimizer；先写model再提交last_resume，逐epochmodel可支持最后统一test AULC。完整原生状态仍用于E10/E40固定点。
+
+N1选择器等待32个pilot全部终态；共同eta要求四个完整run、自己的eta要求两个完整run，按selection最佳值均值选择，精确平局取较小LR。失败配置完整保留，不能更换seed掩盖失败。新确认seed2032–2039，仅完全同配置去重；两种估计对象有独立uses标签。
+
+门槛只读共同eta H100训练J和selection所选模型的diagnostic预测。rho只按81–90与91–100的完整J计算；完整16条且J有限，训练器逐epoch保证所有参数有限。重要残差的6/8符号必须与均值符号相同。门槛是资源规则，不能当作显著性结论。
+
+H200实际启动前必须保留原H100 selection_frozen、receipt与selected_state原件，使用完整last_resume继续；H100主选轮由原1..100曲线确定。未来报告不能拿H200重新选轮替换H100主要结果。
+
+Verdict: PASS，批准在全部pilot结束、主agent核对选择结果后启动独立确认。n17_test_readout.py与n17_performance.py仅为准备代码，须在统一冻结前再次核对实际清单与字段；此审查不批准提前读取新test。
