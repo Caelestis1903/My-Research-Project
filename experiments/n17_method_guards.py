@@ -13,6 +13,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--endpoints',type=Path,required=True);p.add_argument('--out',type=Path,required=True);a=p.parse_args()
     frame=pd.read_csv(a.endpoints);bounds=[];decisions=[]
     for (group,readout,budget,estimand),part in frame.groupby(['group','readout','budget','estimand']):
+        budget=int(budget)
         lookup=part.set_index(['seed','metric']);seeds=sorted(part.seed.unique());n=len(seeds);assert n>=2
         main=part[part.metric=='macro_auc'].sort_values('seed');assert main.seed.tolist()==seeds
         stat=paired(main.difference);critical=float(t.ppf(1-.05/7,n-1));protected=[]

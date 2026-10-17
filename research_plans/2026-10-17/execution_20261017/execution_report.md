@@ -13,7 +13,7 @@ start明确10-17入口优先于末尾10-15旧入口。其§11要求非机械任�
 |项目|实际值|
 |---|---|
 |版本/模型|2026-10-17方案，沿用V3 fixed M3OE|
-|构造/forward|experiments/v2_20261016.py::fixed_model；stage_S1_models.py::StageS1MDMTRec.forward(x,test_flag=False)|
+|构造/forward|experiments/v2_20261016.py::fixed_model；stage_S1_models.py::StageS1M3OEAdapter.forward(x,test_flag=False)|
 |fusion / DARTS|四融合值固定sigmoid(1)≈.7310586；DARTS关闭|
 |optimizer|单Adam(.9,.999,eps1e-8)或单无动量SGD；coupled WD1e-5|
 |loss|mean_i[(p_d/q_d)*mean_t BCE]；Sample经验目标|
@@ -53,3 +53,5 @@ N2 quota的完整/尾batch计数和目标、同图梯度、RNG恢复通过；小
 |最终分析/问题终态/发布|PENDING|须有真实完成与核验产物|
 
 此前里程碑提交9f273ba（冻结/实现）与3e227ca（N0/启动）已推送origin并回读确认；本报告所处阶段不是最终交付。
+
+进展补充：已完成的首8条pilot原始配置/曲线/指标/状态SHA在run_metadata及completed_artifact_index.json；其余仍在运行或等待，不从不完整响应面提前选LR。已归档历史672个cell/seed/阶段的人口与baseline上下文。N5-C固定ML人口适配已完成必要身份检查：N187500、每epoch5步、尾23660，跨optimizer seed保持同一行列表；是否正式执行仍等待N1门槛。最终七保护界的两例合成算术/JSON检查单独标ENGINEERING，不作为研究结果。分析脚本的NumPy整数JSON序列化问题已最小修正，不影响训练或原始数值，无须重训。
