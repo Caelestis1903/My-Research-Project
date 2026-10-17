@@ -36,3 +36,6 @@ DESIGN（正式重试前冻结）：
 主agent逐项核对：同图参数顺序/unused零填充、两task BCE、p/q与计数系数、retain_graph、原阈值不变、未消费sampler随机数或改变参数、跨forward误差逐块保留、原源文件SHA guard不受影响。AST及全文反向等价检查PASS；independent_review=false。自审PASS，只批准必要工程smoke，smoke通过才准正式同配置重试。不同源SHA不默认为算法不同/相同，汇总须引用该明确证明。
 
 工程smoke已真实通过：CPU、192行工程人口、4臂各2draw、B512，COMPLETE_ENGINEERING，同图身份通过且输出/序列化/来源检查完成；不作研究结果。readout新增显式validation-only等价证明入口，其他base/quota源仍必须一致，并相对实际MC尺度记录首SN-IID draw的跨forward误差（旧结果只有全向量上界）。正式重试只含两个原FAILED锚，N2_identity_retry_manifest及resolved manifest保留替代映射；N2_IDENTITY_RETRY_AUTHORIZATION.json已授权。AST/主agent逐式自审PASS。尚未启动正式重试。
+
+正式重试已启动（13:39–13:40 UTC）：retry queue PID830855，两个原锚条件各自新目录。准入协调曾因status文件尚未生成被误判为PENDING0而提前恢复主queue；机械执行器随即核实两项均已准入、PENDING0、CUDA PID可见，并恢复retry状态更新。主agent复核全部8个活动CUDA PID均可见，每卡4个本轮+1外部；无健康子进程被停止。异常过程完整保留于N2_retry_admission_mechanical.json，不伪报原先协调逻辑无误。当前两个scheduler均正常，retry无剩余准入，后续只由原scheduler准入。
+两重试通过首draw同图检查并进入原512draw流水线。seed2033首draw行SHA9254cb7…与CPU/CUDA复核原失败draw一致，未换输入；其余14原N2已成功完成，不重跑。正式重试尚未终态，数值误差相对MC尺度和N2正式科学分析仍待统一汇总。
