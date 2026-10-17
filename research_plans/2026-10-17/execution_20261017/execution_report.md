@@ -59,3 +59,5 @@ N2 quota的完整/尾batch计数和目标、同图梯度、RNG恢复通过；小
 N1 pilot终态及完整源数已归档；N1_pilot_validation.json为32/32完成核验，N1_winners_frozen.json为选择依据。Adam共同/各自eta=.01，SGD均1.0，均为预设网格上边界。N1_PILOT_ANALYSIS.md与N1_pilot_surface保留128行horizon响应和图。3ae4fca冻结后启动confirmation，config逐条记录该commit；H100原始model每轮留存，test仍封存。原始逐batch trace本地保留SHA，Git新增每epoch实际域曝光汇总epoch_domain_exposure.csv。
 
 独立确认首8条H100已完成且预算/配对/逐epochmodel存在性验证通过；model_capture_runtime_identity.json进一步核对一条真实E100纯model与native完整state全部tensor完全相同，未读取test。新确认的逐epochmodel SHA、原始轨迹和域曝光见run_metadata，剩余确认继续运行。
+
+确认里程碑：全部16条Adam确认H100完成，N1_confirmation_partial16_validation.json核验步数、样本数、逐batch域计数、最早选轮、初始化配对和固定人口身份通过；SGD继续运行。未从Adam完成前缀提前决定分支，test仍封存。
