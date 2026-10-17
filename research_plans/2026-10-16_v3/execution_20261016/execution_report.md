@@ -118,3 +118,10 @@ State25 actual150六条现已全部完成，主agent36关键生产者SHA和42归
 新进展：actual300 clean/PERM/ORDER六条均COMPLETE/exit0，逐对12关键生产者SHA与14紧凑归档文件全部复核PASS，均满足平台；corruption两对仍执行，不能认定全十条终点。clean/PERM全300完整1000/200读数已由固定工具真实启动，严格限制同时最多两项GPUbootstrap。State25六个150->200副本已完成，主agent36关键SHA/全部继承metadata与inode核验PASS，第61队列在全部60前驱后授权。
 
 已有七基线固定10/50轮的域规模/正例率/绝对AUC/LL补表与图已完成：672个cell、126组汇总独立误差最大2.22e−16，见baseline_domain_context_analysis.md。由真实配置新登记Q43：MovieLens每seed训练子集不同，但每seed内SN/SB相同，validation/encoder/scaler固定；ML种子区间包含子集及优化随机性，不能称纯优化方差。16个KR/ML配置及当前生产者SHA、实际抽样源代码完成核对，BOUNDARY/STRONG，不阻塞有限配对/环境边界结论。全43问题保留，最终NewlyExposedQuestions须包含Q28–Q43共16项。任务继续，新v3 test性能尚未读取；历史test已暴露。
+
+
+State22 actual200全六条/root36关键SHA/archive42均PASS，但β2SN改善.09206735，其唯一候选窗口18的精确1000选择确认上界[−.000836,+.001123,+.004320]未通过；主agent独立重算200个真实预测文件、1200个cell和4000条原始重采样记录后确认必须全六条至少250。新六副本清单与训练命令已设计/实现/自复核，实际copier439384执行中；150/200共六份前缀义务保留。24个selection阶段健康读数见V11_state_seed2022_T200_budget_and_health_note.md，既记录β2长期非单调损失，也记录m-only随训练改善和v-only后期反例，不将50轮状态永久化。
+
+Clean seed25 actual300完整1000/200读数已COMPLETE/exit0，主agent4000重选及onset/预算/点值核验PASS，最大2.22e−16；ORDER完整300读数队列444340在全部61前驱后实际启动，仍与PERM合计最多两项GPUbootstrap。旧17份seed25前缀仍遵守实际最终父要求，已另存parent_scope_clarification，不以提前完成300读数冒称全组最终300。
+
+工作附录Newly_Exposed_Questions_WORKING.md已包含Q28–Q43共16项的六个规定字段，Q40/最终遥测/最终尾部审计等未完成部分明确标注；它不是终局报告。全部规定流程继续执行，新v3 test性能仍未读取。
