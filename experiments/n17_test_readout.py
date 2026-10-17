@@ -14,7 +14,7 @@ def main():
     freeze=json.loads(a.freeze.read_text());assert freeze['status']=='FROZEN' and freeze['all_training_and_selection_definitions_frozen'] and freeze['all_required_or_triggered_stages_closed']
     assert freeze['test_readout_source_sha256']==c.sha(__file__)
     key=str(a.run_dir.resolve());entry=freeze['runs'][key];assert c.sha(a.run_dir/'config.json')==entry['config_sha256']
-    conf=json.loads((a.run_dir/'config.json').read_text());assert conf['phase']!='N1_pilot','pilot test is excluded from independent confirmation'
+    conf=json.loads((a.run_dir/'config.json').read_text());assert not conf['phase'].endswith('_pilot'),'pilot test is excluded from independent confirmation'
     device=torch.device(a.device);torch.set_num_threads(2);torch.cuda.set_device(device)
     dataset=conf.get('dataset',conf['data']['dataset_key']);population_seed=int(conf.get('subset_seed',conf.get('population_seed',2022)))
     b=c.bundle(dataset,population_seed);b.seed=conf['seed']
