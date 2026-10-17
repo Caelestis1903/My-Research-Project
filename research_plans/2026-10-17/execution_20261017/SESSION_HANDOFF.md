@@ -23,3 +23,7 @@ N3 n17_local.py已实现，16锚×32draw，整体C、5子块norm×direction四�
 新增准备入口：n17_followups.py在N1 gates后生成H200/quota/fixedpoint/N3dev/SGDwholeC各清单并原样保留H100状态；不自动启动。n17_ml.py与n17_ml_control.py已按N5_C_DESIGN_ADDENDUM实现/自审，固定subset2022，N187500、每epoch5步、尾23660，触发器沿用N1重要残差，优化器沿用N2优先规则；任何重要KR残差即资源触发，无新显著性门槛。n17_local_readout.py --confirm接受原candidate_frozen文件，检查独立2036..2039及MC精度；补开发draw时不得重新--nominate。n17_method_guards.py只给数值收益/七项保护条件，不自动授权GO-METHOD；合成算术检查单独ENGINEERING。n17_performance.py保存原segment时钟，并重建累计active elapsed/epoch compute秒，H200需独立组名。
 
 当前原工作区的research_plans/2026-10-17/execution_20261017已安全链接到实际输出，用户可从原路径找到报告。N0新补672个cell/seed/readout人口baseline上下文及168组摘要，源为历史表，未新增训练/test。N1 current active进度应以状态文件为准；不要依据本交接的8/32快照判断后来完成数。
+
+最新实际状态：2026-10-17 UTC10:42左右，pilot32/32全部H100完成、无失败、完整预算/配对核验PASS；N1_control select已执行，Adam共同和own全.01，SGD全1.0，均网格上边界。H10赢家Adam.001/SGD.3，N1_pilot_surface128行和图已生成并视觉核对。3ae4fca已推送，随后真实启动32条confirmation queue PID736337（不要重复启动），新status=N1_confirmation_manifest.status.json。前8为Adam seeds2032–2035×q。capture配置逐epoch模型True、testFalse，commit3ae4fca已核对。mechanical runner已收到续任务，只监控confirmation原始状态，写confirmation_mechanical_*.json/jsonl，原pilotcompletion保留。N1_PILOT_ANALYSIS和AUTHORIZATION已归档。n17_archive现新增每epoch域曝光求和及本地batch/quota trace SHA，不上传大trace；所有pilot32 metadata已归档，待下一个Git里程碑提交最新归档和启动状态。
+
+N4_DESIGN_ADDENDUM已提前冻结但未实施：随机hash必须按训练p累计阈值划三组，不是mod3/等分；KR无userID按固定rowID、seed2048。若N4选E40作为阶段，最终统计须另保留E40（现性能脚本固定端点只有10/20/50/100/200，需条件补40），不能用其他阶段替换。N3/N4/N5均未正式运行。

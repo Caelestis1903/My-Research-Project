@@ -1,6 +1,6 @@
 # 执行报告：IN PROGRESS
 
-本轮尚未完成。已完成N0、训练前N6原文差异表、冻结N1矩阵和必要检查；32条H100 pilot正在持久运行。未把启动、完整训练、读数验证混同。
+本轮尚未完成。已完成N0、训练前N6原文差异表、冻结N1矩阵和必要检查；32条H100 pilot已全部完成且核验通过，32条独立confirmation已持久启动。未把启动、完整训练、读数验证混同。
 
 ## 来源与工作区
 
@@ -41,8 +41,8 @@ N2 quota的完整/尾batch计数和目标、同图梯度、RNG恢复通过；小
 |---|---|---|
 |N0.1–4|COMPLETE|4068重算读数、672单调校准、人口及ML用户簇条件区间|
 |N6训练前原文表|COMPLETE|八篇原文；最终方法/机制主张待实测|
-|N1 pilot|RUNNING|32×H100；持久PID/argv/状态见N1_pilot_manifest及pilot_launch|
-|N1 confirmation|WAIT_PILOT|冻结共同/单臂赢家后32–64×H100|
+|N1 pilot|COMPLETE_VALIDATED|32×H100；全部4900步/200613200样本，无失败|
+|N1 confirmation|RUNNING|两优化器共同/各自赢家重合，新增32×H100，PID736337|
 |N1 H200|CONDITIONAL|仅训练J的原文rho门槛，主H100保留|
 |N2固定点|WAIT_N1|必须16锚×4臂×512draw|
 |N2完整quota|CONDITIONAL|N1.6诊断残差触发，通常新增16轨迹|
@@ -55,3 +55,5 @@ N2 quota的完整/尾batch计数和目标、同图梯度、RNG恢复通过；小
 此前里程碑提交9f273ba（冻结/实现）与3e227ca（N0/启动）已推送origin并回读确认；本报告所处阶段不是最终交付。
 
 进展补充：已完成的首8条pilot原始配置/曲线/指标/状态SHA在run_metadata及completed_artifact_index.json；其余仍在运行或等待，不从不完整响应面提前选LR。已归档历史672个cell/seed/阶段的人口与baseline上下文。N5-C固定ML人口适配已完成必要身份检查：N187500、每epoch5步、尾23660，跨optimizer seed保持同一行列表；是否正式执行仍等待N1门槛。最终七保护界的两例合成算术/JSON检查单独标ENGINEERING，不作为研究结果。分析脚本的NumPy整数JSON序列化问题已最小修正，不影响训练或原始数值，无须重训。
+
+N1 pilot终态及完整源数已归档；N1_pilot_validation.json为32/32完成核验，N1_winners_frozen.json为选择依据。Adam共同/各自eta=.01，SGD均1.0，均为预设网格上边界。N1_PILOT_ANALYSIS.md与N1_pilot_surface保留128行horizon响应和图。3ae4fca冻结后启动confirmation，config逐条记录该commit；H100原始model每轮留存，test仍封存。原始逐batch trace本地保留SHA，Git新增每epoch实际域曝光汇总epoch_domain_exposure.csv。
