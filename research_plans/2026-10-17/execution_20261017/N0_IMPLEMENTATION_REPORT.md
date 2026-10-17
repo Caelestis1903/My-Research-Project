@@ -1,0 +1,1 @@
+N0实现为experiments/n17_n0.py；仅读取历史缓存/逐cell表和已冻结预测，selection拟合严格正斜率校准，test仅作历史评价。包含全部原readout、预算源和三权重；新训练test未读。
