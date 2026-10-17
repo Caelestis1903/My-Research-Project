@@ -96,3 +96,6 @@ Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。�
 ### 实际 300 epoch 复核及状态 seed 2025 最终预算
 
 V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份归档均通过主 agent 复核；strong SN gain=0.007735 仍超阈值，两个候选退化窗口的精确 1000 次选择 bootstrap 均未确认，整组按规则需 MIN350。前两对独立副本已启动复制，22 对前缀义务保留，350 不是硬上限。clean/PERM/ORDER 的完整 300 epoch 读出已通过复核，mild/strong 正在运行，当前不形成最终 V5/V8 结论。状态 seed 2025 六组实际 200 epoch 均满足操作性平台，FINAL200 已核验；完整三对及九对前缀读出仍待完成。状态 seed 2022 已启动六组 250 epoch 续训。详见 [预算分析](V5V8_actual300_and_state25_final200_budget_analysis.md)。所有本轮必需流程尚未闭合，不能将此阶段判为最终停止。
+
+
+状态 seed 2025 的 β1=0/v-only、β2=0 两对最终 200 epoch 完整读出已完成，主 agent 核验 8,000 次选择重采样。β2=0 两臂最终 selection/diagnostic 宏观 AUC 均为 0.5，诊断 LL 为 SN 9.932614 / SB 6.087876，训练 J 仍很高；不能把该性能下限上的零差距解释为成功介导。该 seed/阶段绝对健康观测为 STRONG，长期必要机制仍 WEAK/未识别。见 [实际健康边界](V11_state_seed2025_beta2zero_final200_health_note.md)。m-only 最终读出、九对前缀及 seed22 最终预算/读出仍在执行，Q40 尚未关闭。

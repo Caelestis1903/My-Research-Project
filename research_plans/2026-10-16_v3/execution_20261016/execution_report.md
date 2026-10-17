@@ -133,3 +133,6 @@ V5/V8 seed 2025 十组实际 300 epoch 已完成，60 项关键哈希、70 份�
 
 
 测试执行入口 `v3_launch_frozen_native_tests_20261016.py` 已完成独立工程设计、实现和主 agent 自审（非独立 reviewer），仅作未来冻结后的机械启动。它固定原始测试引擎、校验全局冻结/来源清单及已授权输入，记录真实 PID 与字节哈希；缺少冻结文件的实际拒绝检查已通过，没有读取数据或计算测试性能。新增冻结字段详见 `frozen_native_test_launcher_implementation_self_review.json`。
+
+
+状态 seed 2025 的 β1=0/v-only、β2=0 两对最终 200 epoch 完整读出已完成，主 agent 核验 8,000 次选择重采样。β2=0 两臂最终 selection/diagnostic 宏观 AUC 均为 0.5，诊断 LL 为 SN 9.932614 / SB 6.087876，训练 J 仍很高；不能把该性能下限上的零差距解释为成功介导。该 seed/阶段绝对健康观测为 STRONG，长期必要机制仍 WEAK/未识别。见 [实际健康边界](V11_state_seed2025_beta2zero_final200_health_note.md)。m-only 最终读出、九对前缀及 seed22 最终预算/读出仍在执行，Q40 尚未关闭。
