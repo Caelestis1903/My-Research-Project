@@ -15,3 +15,6 @@ IMPLEMENT COMPLETE；PASS_SELF_REVIEW；`independent_review=false`（start.md §
 
 
 N3.3必要描述读数补充：主readout新增parameter_counts、每draw实际块更新范数、每seed范数范围及与native SB预测SHA相同次数。坐标数逐名复用冻结geometry的五子块映射，核对C分解和ALL分解；只用diagnostic记录去除selection重复，补充draw区间不得重叠。未知/缺失量不填零；SHA相等只说明逐bit预测相同，不是输出敏感性连续量。候选选择与确认公式完全不变。主agent逐字段对照原始macro/config及AST核验PASS_SELF_REVIEW；未读取未完成开发片段提名或实际执行该readout。
+
+
+N3图入口n17_local_figures.py仅接受已完成主readout和同SHA冻结候选；整体C四格与交互按两路径/E10/E40分别给四训练seed点及pointwise t95，候选开发/独立确认按同阶段并列。虚线±.0001只是原实际量级，非显著性阈值；MC精度仍单独由门槛表报告，不用draw膨胀seed数。字段/方向/不重新筛选/AST自审PASS；尚未在正式结果上运行或视觉检查。
