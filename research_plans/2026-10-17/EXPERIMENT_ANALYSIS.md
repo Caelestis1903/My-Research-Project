@@ -263,3 +263,4 @@ D3 与 SAF 的完整学习权重通常改变目标，不能直接作为本轮严
 [L6]: https://arxiv.org/abs/2606.29554
 [L7]: https://epubs.siam.org/doi/10.1137/25M1726339
 [L8]: https://arxiv.org/abs/2407.15525
+
