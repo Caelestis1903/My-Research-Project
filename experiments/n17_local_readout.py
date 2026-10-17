@@ -32,10 +32,14 @@ def update_context(directories,out):
                 coordinates=counts[row.block],applied_block_update_norm=float(row.applied_block_update_norm),target_block_update_norm=row.target_block_update_norm,
                 direction_undefined=bool(row.direction_undefined),same_predictions_as_native_SB=row.predictions_sha==baseline.predictions_sha))
     pd.DataFrame(sizes).to_csv(out/'parameter_counts.csv',index=False)
-    norms=pd.DataFrame(norms);norms.to_csv(out/'actual_block_update_norms.csv',index=False)
+    norms=pd.DataFrame(norms)
+    norms['applied_minus_target_norm']=norms.applied_block_update_norm-norms.target_block_update_norm
+    norms['relative_norm_error']=norms.applied_minus_target_norm/norms.target_block_update_norm.where(norms.target_block_update_norm>0)
+    norms.to_csv(out/'actual_block_update_norms.csv',index=False)
     keys=['optimizer','seed','anchor_arm','epoch','case','block','coordinates'];rows=[]
     for key,part in norms.groupby(keys):
         rows.append(dict(zip(keys,key),draws=len(part),applied_norm_mean=float(part.applied_block_update_norm.mean()),applied_norm_min=float(part.applied_block_update_norm.min()),applied_norm_max=float(part.applied_block_update_norm.max()),
+            max_absolute_relative_target_error=float(part.relative_norm_error.abs().max()) if part.relative_norm_error.notna().any() else None,
             direction_undefined_draws=int(part.direction_undefined.sum()),identical_prediction_draws=int(part.same_predictions_as_native_SB.sum())))
     pd.DataFrame(rows).to_csv(out/'actual_block_update_norm_seed_summary.csv',index=False)
 
