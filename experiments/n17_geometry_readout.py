@@ -46,8 +46,19 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--validation-equivalence', type=Path)
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text())
+    equivalence = None
+    allowed_sources = None
+    if args.validation_equivalence:
+        equivalence = json.loads(args.validation_equivalence.read_text())
+        assert equivalence['status'] == 'PASS_SELF_REVIEW_VALIDATION_ONLY'
+        assert equivalence['estimator_unchanged_after_validation_reversal']
+        assert equivalence['original_source_sha256'] == equivalence['original_after_reversal_sha256']
+        assert c.sha(equivalence['original_source']) == equivalence['original_source_sha256']
+        assert c.sha(equivalence['corrected_source']) == equivalence['corrected_source_sha256']
+        allowed_sources = {equivalence['original_source_sha256'], equivalence['corrected_source_sha256']}
     anchor_file = c.OUT / 'N2_N3_anchor_freeze.json'
     anchors = json.loads(anchor_file.read_text())
     assert anchors['status'] == 'FROZEN'
@@ -62,7 +73,13 @@ def main():
         assert config['k'] == receipt['k'] == 512 and config['batch_size'] == 40960
         assert receipt['config_sha'] == c.sha(directory / 'config.json')
         assert receipt['source_sha'] == config['source_sha']
-        source_signatures.add(json.dumps({key: config[key] for key in ('source_sha', 'quota_source_sha', 'base_sources')}, sort_keys=True))
+        if allowed_sources:
+            assert config['source_sha'] in allowed_sources
+            if config['source_sha'] == equivalence['corrected_source_sha256']:
+                assert config['identity_validation_version'] == 'same_graph_v1'
+                assert config['original_geometry_source_sha'] == equivalence['original_source_sha256']
+        source_keys = ('quota_source_sha', 'base_sources') if allowed_sources else ('source_sha', 'quota_source_sha', 'base_sources')
+        source_signatures.add(json.dumps({key: config[key] for key in source_keys}, sort_keys=True))
         assert config['checkpoint_sha'] == frozen[config['checkpoint']] == c.sha(Path(config['checkpoint']))
         base = {key: config[key] for key in ('optimizer', 'seed', 'anchor_arm', 'epoch')}
         identity = (base['seed'], base['anchor_arm'], base['epoch'])
@@ -75,17 +92,26 @@ def main():
         vector_files = {(arm, variant): directory / f'{arm}_{variant}_moments.npz'
                         for arm in ('SN', 'SB') for variant in ('IID', 'quota')}
         vectors = {key: dict(np.load(path)) for key, path in vector_files.items()}
+        assert all(np.isfinite(array).all() for bank in vectors.values() for array in bank.values())
         adam = json.loads((directory / 'adam_mapping.json').read_text())
         amap = {(row['arm'], row['variant'], row['block']): row for row in adam}
         assert len(amap) == len(rows) if config['adam_map'] else not amap
         for row in rows:
             assert all(row[key] == value for key, value in base.items())
             assert row['k'] == 512
+            assert all(np.isfinite(value).all() for value in row.values() if isinstance(value, (int, float, list)))
             total = row['sum_trace_prediction']; empirical = row['empirical_covariance_trace']
+            identity = receipt['identity']
+            by_block = identity.get('cross_forward_block_residual_norm')
+            cross = by_block[row['block']] if by_block else identity['residual']
             raw.append({**row, 'predicted_between_fraction': ratio(row['between_trace_prediction'], total),
                         'empirical_over_predicted_trace': ratio(empirical, total),
                         'trace_prediction_residual': empirical - total,
-                        'bias_over_mc_rms': ratio(row['mean_bias_norm'], row['mc_rms_se'])})
+                        'bias_over_mc_rms': ratio(row['mean_bias_norm'], row['mc_rms_se']),
+                        'validation_cross_forward_residual_or_upper_bound': cross,
+                        'validation_cross_forward_scope': 'first SN-IID draw block norm' if by_block else 'first SN-IID draw whole-vector bound for this block',
+                        'validation_cross_over_single_gradient_mc_rms': ratio(cross, np.sqrt(max(0., empirical))),
+                        'validation_cross_over_mean_gradient_mc_rms': ratio(cross, row['mc_rms_se'])})
         for block in sorted(blocks):
             ix = coordinates(config['parameter_order'], block)
             for arm in ('SN', 'SB'):
@@ -135,6 +161,7 @@ def main():
         summary(frame, ['optimizer', 'anchor_arm', 'epoch', 'block', *extras]).to_csv(args.out / (name + '_seed_summary.csv'), index=False)
     c.dump(args.out / 'receipt.json', dict(status='COMPLETE', manifest_sha=c.sha(args.manifest), anchor_freeze_sha=c.sha(anchor_file),
            source_sha=c.sha(__file__), anchors=len(identities), inputs=sources, test_read=False,
+           validation_equivalence_sha=c.sha(args.validation_equivalence) if args.validation_equivalence else None,
            scope='four training seeds separately per path and phase; marginal MC RMS sum is not a confidence bound; nonzero noisy vector norm does not establish population mean drift; no unique trace mediation or historical necessity claim'))
     print('summarized', len(identities), 'formal N2 anchors')
 
