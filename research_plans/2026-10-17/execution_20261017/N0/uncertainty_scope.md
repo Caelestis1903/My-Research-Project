@@ -1,0 +1,7 @@
+# 不确定性范围
+
+训练seed才是训练重复单位；七家族各4seed，多个cell、epoch、selection alias和校准读数不增加n。E100预算资格单独列出，1–2seed读数不推断全体四seed。固定预测权重分解是条件于预测/人口的精确算术，不表示总体效应精确无误。
+
+原处理后KuaiRand CSV没有user_id，不能做用户簇bootstrap；本轮只具row ID。保留row条件区间的独立性假设，不能称用户独立。MovieLens原数据可有user标识，但当前已编码预测表不因此自动提供可跨表联结的稳定用户ID。N1训练seed区间与若有的row区间分开。
+
+校准selection半集拟合、diagnostic/test不参与拟合；原test已有历史暴露，只称冻结协议下复用。重复读同一固定模型不产生新holdout或新训练seed。N1使用新2030/2031 tuning与2032–2039 confirmation，主宏AUC、delta及选择规则均在读取新模型test前冻结。
