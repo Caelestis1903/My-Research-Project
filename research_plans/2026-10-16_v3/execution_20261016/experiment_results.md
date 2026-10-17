@@ -88,3 +88,6 @@ V4完整预算B0selected−.003907三负一正、B2selected−.002849四负；�
 ## 实际预算继续延长：seed25最少250、state24最少100
 
 Seed25全部10个匹配条件actual200/exit0及60个关键文件SHA已核验。九个满足平台，mildSN改善率.005263345；完整1,000次selection确认的三个窗口均未通过，因此按冻结规则整组最少250，复制新目录进行中。为避免额外完整中间预算计算，新增只缩减bootstrap轮次的精确工程读数：所有200轮point/1200cell先从真实预测重算，实际完整CPU缓存四轮×1000与单臂子集逐位相同，100个合成确认分类与原函数一致，实际8轮缓存的三个量化窗口已独立复核。它不替代最终完整配对读数，100/150/200共12份中间前缀义务保留。State24三对actual50完整读数均PASS，v-only两臂均需延长，整6条件最少100复制中。四种子Adam抽样审计已实际完成并核验600个配对arm-epoch、3600覆盖行。新test仍未读取，V7尚待V5最终分析，不能停止整轮任务。
+
+
+补充已核验的基线域上下文：见[baseline_domain_context_analysis.md](baseline_domain_context_analysis.md)及figures/baseline_domain_size_and_performance.png。全部七基线、四seed、固定10/50轮diagnostic的672个单元与126组汇总保留样本数、正例率、两臂AUC/LL及逐seed差值。范围为描述，非N的因果拟合。KuaiRand六基线SN固定50均是中等规模d0 AUC最低，且排序依阶段改变；不能把最小域视为必然最难。MovieLens训练子集随seed变化，区间应解释为该耦合训练流程的seed差异，详见Q43物理元数据审计。V8最终corruption敏感性和全部新test仍待完成。

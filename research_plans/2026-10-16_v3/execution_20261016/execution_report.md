@@ -113,3 +113,8 @@ V11四种子方向补充1740行与12个检查点已全部核验，图figures/V11
 
 
 State25 actual150六条现已全部完成，主agent36关键生产者SHA和42归档文件复核通过。beta2zero SB改善率.01470619、零eligible确认窗口，按原规则整六条最少200；续训清单与独立副本要求已设计/实现/自复核，机械复制已授权。原50/100/150共九份配对读数将从最终完整parent严格派生，旧输入保持不变。该结果不构成最终200充分性声明。
+
+
+新进展：actual300 clean/PERM/ORDER六条均COMPLETE/exit0，逐对12关键生产者SHA与14紧凑归档文件全部复核PASS，均满足平台；corruption两对仍执行，不能认定全十条终点。clean/PERM全300完整1000/200读数已由固定工具真实启动，严格限制同时最多两项GPUbootstrap。State25六个150->200副本已完成，主agent36关键SHA/全部继承metadata与inode核验PASS，第61队列在全部60前驱后授权。
+
+已有七基线固定10/50轮的域规模/正例率/绝对AUC/LL补表与图已完成：672个cell、126组汇总独立误差最大2.22e−16，见baseline_domain_context_analysis.md。由真实配置新登记Q43：MovieLens每seed训练子集不同，但每seed内SN/SB相同，validation/encoder/scaler固定；ML种子区间包含子集及优化随机性，不能称纯优化方差。16个KR/ML配置及当前生产者SHA、实际抽样源代码完成核对，BOUNDARY/STRONG，不阻塞有限配对/环境边界结论。全43问题保留，最终NewlyExposedQuestions须包含Q28–Q43共16项。任务继续，新v3 test性能尚未读取；历史test已暴露。

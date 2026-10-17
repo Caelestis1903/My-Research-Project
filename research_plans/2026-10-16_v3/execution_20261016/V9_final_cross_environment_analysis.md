@@ -37,7 +37,7 @@ MovieLens训练份额与验证份额明显不同，d1验证全集35523行而训�
 | objective | 同为Sample目标、任务半和、p/q重要性校正 | 经验总体、p及标签定义不同 |
 | optimizer | 同SGD .3、无动量、相同耦合WD | .3来自主环境校准；有效进度、梯度尺度不同，未证明各自全局最优 |
 | architecture | 同M3OE家族与计算图规则 | 特征空间、输入维度和数据作用不同，不能唯一排除架构交互 |
-| dataset/labels | 环境内固定数据与划分、四seed | 跨环境成组变化，未隔离特征或标签驱动因子 |
+| dataset/labels | 每seed内SN/SB同数据；KR训练人口固定，ML训练子集随seed变化，验证/编码固定 | 跨环境成组变化，未隔离特征或标签驱动因子 |
 | imbalance/size | 实际支持、标签率、batch/ESS与cell均已审计 | 三域多因素混杂，不能唯一归因某个size/失衡标量 |
 | overfitting/stage | 同冻结分类器，完整early/fixed/selected及实际平台预算 | ML未确认过拟合；KR仅B0 seed25 SB diagnostic38确认；不同窗口与step数影响比较 |
 
@@ -46,3 +46,8 @@ MovieLens训练份额与验证份额明显不同，d1验证全集35523行而训�
 跨环境总表中的 repetition/order/geometry/shared-block 第二环境项应诚实标为 NOT_TRIGGERED/未作复制，理由是上述预定门槛；不填入由主环境推断的结果。所有完整 test 仍将按最终冻结清单执行，再更新总体边界。V5/V7/V11等主环境独立必做流程继续。
 
 依据：`V9_final_cross_environment_primary_verification.json`、`analysis/V9_final_cross_environment_{aggregate,joint16_marginals}`、`V9_diagnostic_analysis.md`、`V4_final_budget_and_learning_speed_analysis.md`；Q41保留全部问题字段，不删除原 Q11/Q24。
+
+
+## Q43：MovieLens种子同时改变训练子集
+
+实际配置再次核对显示，ML四个seed的训练行指纹不同；每域N、p及validation/encoder/scaler相同，每seed内SN/SB数据完全相同。既有role_reversal_sample用RandomState(seed*10+domain)选训练行，故四seed区间包含数据子集与优化随机性的联合变动，不是固定训练人口下纯优化种子方差。该边界不会破坏同seed配对q干预，也不改变上面的实测CI或冻结追加seed规则；它限制对方差来源和跨环境差异的唯一解释。元数据证据STRONG，方差组成在当前对角设计不可分。详见Q43_MovieLens_seed_population_scope_audit.json及baseline_domain_context_analysis.md。原始规划、数据和训练均未改，不为非阻塞的纯方差分解新增矩阵。
