@@ -35,6 +35,14 @@ def main():
     c.dump(out/'cell_context_receipt.json',dict(status='COMPLETE_HISTORICAL_ONLY',rows=len(frame),summaries=len(summaries),
         source_sha=c.sha(__file__),source_table_sha=c.sha(manifest['source_table']),population_sha=c.sha(out/'split_populations.csv'),
         scope='SN is a reference model, not intrinsic domain difficulty; label entropy is descriptive; old ML seed varies population and optimization together; four training seeds, no domain causal regression'))
+    # Compare precisely the same stored predictions/epochs, before calibration.
+    historical=source[source.metric=='logloss'].melt(id_vars=['group','seed','readout','domain','task'],value_vars=['SN','SB'],var_name='arm',value_name='historical_LL')
+    calibration=pd.read_csv(out/'calibration_cell_metrics.csv');calibration=calibration[calibration.split=='test']
+    match=calibration.merge(historical,on=['group','seed','readout','domain','task','arm'],validate='one_to_one');assert len(match)==len(calibration)
+    diagnostic=json.loads((out/'calibration_diagnostics.json').read_text())
+    diagnostic['historical_test_LL_identity']=dict(compared_cells=len(match),max_absolute_residual=float((match.logloss_before-match.historical_LL).abs().max()),
+        prediction_probability_clipped_cells=int(calibration.clipped.sum()),scope='original historical metric table versus before-calibration recomputation; no new model test')
+    c.dump(out/'calibration_diagnostics.json',diagnostic)
     print('historical cell contexts',len(frame),'summaries',len(summaries))
 
 

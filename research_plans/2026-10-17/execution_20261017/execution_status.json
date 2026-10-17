@@ -1,5 +1,5 @@
 {
-  "status": "N1_PILOT_RUNNING",
+  "status": "N1_CONFIRMATION_AUTHORIZED",
   "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
   "stages": [
     {
@@ -32,11 +32,11 @@
     },
     {
       "stage": "N1_pilot",
-      "status": "RUNNING"
+      "status": "COMPLETE_VALIDATED"
     },
     {
       "stage": "N1_confirmation",
-      "status": "WAIT_PILOT"
+      "status": "AUTHORIZED_NOT_YET_STARTED"
     },
     {
       "stage": "N2_fixedpoint",
@@ -73,13 +73,12 @@
   ],
   "tuning_runs": 32,
   "latest_pilot_snapshot": {
-    "time_utc": "2026-10-17T10:07:28.496713+00:00",
     "counts": {
-      "COMPLETE": 24,
-      "RUNNING": 8
+      "COMPLETE": 32,
+      "FAILED": 0
     },
-    "validated_complete_runs": 24,
-    "source_status": "N1_pilot_manifest.status.json",
-    "validation": "N1_pilot_partial_validation.json"
-  }
+    "validated_complete_runs": 32,
+    "validation": "N1_pilot_validation.json"
+  },
+  "confirmation_runs": 32
 }
