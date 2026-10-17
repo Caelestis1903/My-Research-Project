@@ -66,7 +66,7 @@ V11已完成四种子同theta影子历史统计及1,740行方向补充，属于C
 | pure content-order唯一解释 | 实际ORDER保存同multiset，但短尾位置改变，478/500原始arm-epoch移动尾部 | STRONG实现边界Q37/38；最终性能仍需完成，不能凭2.22%大小差就断言尾部无效 |
 | covariance shape优于trace | 谱形状有描述信息，SGD秩/各向异性变化重复，Adam有反例；q同时改变trace/shape | Q21不可识别；没有独立trace-matched shape干预，不做伪回归或唯一中介声明 |
 | shared/routing是核心 | 支持图审计和CPRE几何已完成；V7尚未执行 | 当前必要性证据不足；距离/协方差不替代干预 |
-| 小域是困难域/主因 | 自然域基线不按大小排序；别名2x/4x精确身份；ML早期最小域有利但后期反例 | 名义重复池大小不是新支持，不能推出真样本规模因果；V8难度最终合成仍待完成 |
+| 小域是困难域/主因 | 自然域基线不按大小排序；别名2x/4x精确身份；ML早期最小域有利但后期反例 | 名义重复池大小不是新支持，不能推出真样本规模因果；V8难度最终合成仍待完成。corruption使用每个split固定RNG的嵌套mask，四训练seed不代表四个独立mask实现；需按实际baseline AUC/loss检查信息遮蔽是否真的提高该阶段的难度，不能仅凭.1/.3标签认定单调难度 |
 | AdaTask/D3/SAF已完全覆盖或必定未覆盖 | D3/SAF目标改变；AdaTask预定组件仍有残余q敏感性；一般sampling/order/memory已有先例 | Q12/Q25 BOUNDARY MEDIUM；既不宣布普遍失败，也不从残差推断创新 |
 
 ## 下一项真正有判别力的证据

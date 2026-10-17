@@ -19,3 +19,7 @@
 正式固定参考交互采用两optimizer/双q/全四seed同一窗口1–27：均值−.00514906，3负1正，CI[−.01072663,+.00042852]，signrandomization p=.375。实际门槛NOT_TRIGGERED。与校准组1–22交互−.01391006、4负且CI不含0形成必须保留的反例。它不撤销已经由校准组合法触发的状态实验，但把解释限制在optimizer/LR配置与阶段，反对普遍Adam历史根因叙事。该参考CI未同时覆盖±.003，不触发预定阻塞性null追加4seed规则；也不证明interaction严格为零。
 
 所有种子CI仅描述固定验证人口和已冻结LR下训练种子差异，未计入外层LR选择不确定性；四seed exactsign最小双侧p=.125，不能写成常规严格显著。最终全预算校准、V5/V7/V8/V10/V11状态读数、test及闭环报告继续执行。
+
+## 与Q32历史核对的评价人群区别
+
+上表的selected −.00484873是 selection半区选epoch、diagnostic半区评价。Q32历史核对的new_half_selected −.00021110则是 selection半区选epoch、同一selection半区评价；旧版−.00210445是完整validation选epoch并在完整validation评价。它们不是同一estimand，不能互相替代。Q32的8条训练轨迹、19600个batch损失、16个模型快照和同epoch预测均数值相同，评价人群切换贡献+.00192320、epoch重选贡献−.00002984、训练数值贡献0。该核对解释历史数字变化；独立diagnostic半区的四seed负差距仍按上表保留，不能把selection半区的小均值写成全局null。原始分解见historical_SGD_reconciliation_decision.json及analysis/historical_SGD_reconciliation/。
