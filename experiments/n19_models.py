@@ -11,10 +11,11 @@ class ConstantFusion(nn.Module):
     def forward(self):return self.value
 
 class Model(nn.Module):
-    def __init__(self,features,seed,method):
+    def __init__(self,features,seed,method,backbone=None):
         super().__init__();self.method=method
-        self.base=build_model(features,3,2,method if method in ['mmoe','ple'] else 'm3oe',seed=seed)
-        self.is_m3oe=method not in ['mmoe','ple']
+        self.backbone_name=backbone or (method if method in ['mmoe','ple'] else 'm3oe')
+        self.base=build_model(features,3,2,self.backbone_name,seed=seed)
+        self.is_m3oe=self.backbone_name=='m3oe'
         if not self.is_m3oe:return
         if method not in ['original','original_sample']:
             for name in ['_weight_exp_d','_weight_exp_t','_weight_bal_d','_weight_bal_t']:setattr(self.base,name,ConstantFusion())
@@ -31,7 +32,7 @@ class Model(nn.Module):
                 R=47;self.left=nn.Parameter(torch.randn(dims[0],R)/math.sqrt(R))
                 self.right=nn.Parameter(torch.randn(R,dims[1])/math.sqrt(dims[0]+dims[1]))
                 self.code=nn.Parameter(torch.randn(3,2 if method=='cell_codebook' else 1,R))
-        self.mix_mode=method in ['interaction','domain_mix','full_mix','regret_router','utility_router','coalition_router','reliability_interaction']
+        self.mix_mode=method in ['interaction','domain_mix','axis_mix','full_mix','regret_router','utility_router','coalition_router','reliability_interaction']
         if self.mix_mode:self.mix_logits=nn.Parameter(torch.zeros(3,2,3))
         self.register_buffer('interaction_confidence',torch.ones(3,2,3))
 
@@ -43,6 +44,7 @@ class Model(nn.Module):
                 v=v*self.interaction_confidence
                 v=v-v.mean(0,keepdim=True)-v.mean(1,keepdim=True)+v.mean((0,1),keepdim=True)
         elif self.method=='domain_mix':v=v.mean(1,keepdim=True).expand(-1,2,-1)
+        elif self.method=='axis_mix':v=v.mean(0,keepdim=True)+v.mean(1,keepdim=True)-v.mean((0,1),keepdim=True)
         return v
 
     def slots(self,masks=None):

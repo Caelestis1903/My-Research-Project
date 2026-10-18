@@ -34,7 +34,7 @@ def evaluate(run,device):
     c=json.loads((run/'config.json').read_text());assert not c['engineering']
     if (run/'test_receipt.json').exists():return
     torch.set_num_threads(2);torch.cuda.set_device(device);data=population(c['dataset'],c['suite'])
-    state_dir=Path(c['state_directory']);m=Model(data.features,c['seed'],c['method']).to(device).eval()
+    state_dir=Path(c['state_directory']);m=Model(data.features,c['seed'],c['method'],c.get('backbone')).to(device).eval()
     started=time.time();records=[];diagnostics={}
     for stage,filename in [('selected','selected.pt'),('final','last.pt')]:
         state=torch.load(state_dir/filename,map_location=device,weights_only=False);m.load_state_dict(state['model'])

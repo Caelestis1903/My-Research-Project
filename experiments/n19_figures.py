@@ -22,7 +22,7 @@ def save(fig,target,name):
 
 def main(phase):
     source=OUT/(phase+'_readout');target=OUT/'figures'/phase;target.mkdir(parents=True,exist_ok=True)
-    p=pd.read_csv(source/'paired_comparisons.csv');p=p[p.stage=='selected']
+    p=pd.read_csv(source/'paired_comparisons.csv');p=p[(p.stage=='selected')&(p.tag.fillna('')=='')]
     fig,axes=plt.subplots(1,2,figsize=(11,6),sharey=True);labels=[]
     for row,(name,suite,dataset,method,control) in enumerate(PANELS):
         labels.append(f'{name}: {method} / {control}')
@@ -36,7 +36,7 @@ def main(phase):
     axes[0].set_yticks(range(len(labels)),labels,fontsize=8);axes[0].invert_yaxis()
     fig.suptitle(f'{phase}: selected checkpoints, paired seed means and descriptive 95% t intervals')
     save(fig,target,'paired_effects')
-    cells=pd.read_csv(source/'paired_cells.csv');cells=cells[(cells.stage=='selected')&(cells.metric=='auc')]
+    cells=pd.read_csv(source/'paired_cells.csv');cells=cells[(cells.stage=='selected')&(cells.metric=='auc')&(cells.tag.fillna('')=='')]
     fig,axes=plt.subplots(1,2,figsize=(11,4))
     colors={'kuairand':'#246b8e','movielens':'#b65c36'}
     markers={0:'o',1:'^'}
@@ -51,7 +51,7 @@ def main(phase):
     save(fig,target,'size_and_difficulty')
     dyn=OUT/'dynamics'/'training_trajectories.csv'
     if dyn.exists():
-        frame=pd.read_csv(dyn);fig,axes=plt.subplots(2,3,figsize=(13,7))
+        frame=pd.read_csv(dyn);frame=frame[frame.tag.fillna('')==''];fig,axes=plt.subplots(2,3,figsize=(13,7))
         choices=[('P1','stability','movielens',['fixed','task_cf','task_dro','task_mask']),('P2','noise','movielens',['naive','audit_fixed','nested_axis','joint_axis']),('P3','natural','kuairand',['fixed','rank_uniform','rank_protected','cell_codebook']),('P4','natural','kuairand',['fixed','domain_mix','interaction','reliability_interaction']),('P5','natural','kuairand',['full_mix','utility_router','regret_router','coalition_router']),('P6','sampling','movielens',['mask_independent','mask_antithetic','mask_copula','mask_independent_cv','mask_copula_cv'])]
         for ax,(name,suite,dataset,methods) in zip(axes.flat,choices):
             for method in methods:

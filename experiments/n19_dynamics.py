@@ -10,7 +10,8 @@ def main():
         if not (path/'receipt.json').exists():continue
         c=json.loads((path/'config.json').read_text())
         if c['engineering']:continue
-        base=dict(run_id=c['run_id'],suite=c['suite'],dataset=c['dataset'],method=c['method'],seed=c['seed'])
+        tag=c['run_id'].split('__seed')[1].split('__',1)[1] if '__' in c['run_id'].split('__seed')[1] else ''
+        base=dict(run_id=c['run_id'],suite=c['suite'],dataset=c['dataset'],method=c['method'],seed=c['seed'],tag=tag)
         cells=pd.read_csv(path/'metrics_validation.csv');cells=cells[cells.split=='development'].copy()
         for key,value in base.items():cells[key]=value
         cellrows.append(cells)
@@ -26,8 +27,8 @@ def main():
     if not cellrows:return
     cells=pd.concat(cellrows,ignore_index=True);traj=pd.concat(trajrows,ignore_index=True)
     cells.to_csv(target/'cell_trajectories.csv',index=False);traj.to_csv(target/'training_trajectories.csv',index=False)
-    cells.groupby(['suite','dataset','method','epoch','domain','task'])[['auc','logloss']].agg(['mean','std','count']).to_csv(target/'mean_cell_trajectories.csv')
-    traj.groupby(['suite','dataset','method','epoch'])[['selection_auc','development_auc','objective','epoch_seconds','parameters']].agg(['mean','std','count']).to_csv(target/'mean_training_trajectories.csv')
+    cells.groupby(['suite','dataset','method','tag','epoch','domain','task'])[['auc','logloss']].agg(['mean','std','count']).to_csv(target/'mean_cell_trajectories.csv')
+    traj.groupby(['suite','dataset','method','tag','epoch'])[['selection_auc','development_auc','objective','epoch_seconds','parameters']].agg(['mean','std','count']).to_csv(target/'mean_training_trajectories.csv')
     stages=[]
     for key,g in cells.groupby(['run_id','suite','dataset','method','seed','domain','task']):
         base=dict(zip(['run_id','suite','dataset','method','seed','domain','task'],key));g=g.set_index('epoch')

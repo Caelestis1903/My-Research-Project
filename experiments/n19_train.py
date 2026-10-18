@@ -26,12 +26,13 @@ def metrics(pred,y,domains):
 class Runner:
     def __init__(self,a):
         self.a=a;self.run_id=f'{a.suite}__{a.dataset}__{a.method}__seed{a.seed}'
+        if a.backbone:self.run_id+='__backbone_'+a.backbone
         if a.tag:self.run_id+='__'+a.tag
         self.out=OUT/'runs'/self.run_id;self.state_dir=ART/self.run_id
         self.out.mkdir(parents=True,exist_ok=a.resume);self.state_dir.mkdir(parents=True,exist_ok=a.resume)
         self.device=torch.device(a.device);torch.cuda.set_device(self.device);torch.set_num_threads(2)
         torch.cuda.reset_peak_memory_stats(self.device);seed_all(a.seed);self.data=population(a.dataset,a.suite)
-        self.model=Model(self.data.features,a.seed,a.method).to(self.device)
+        self.model=Model(self.data.features,a.seed,a.method,a.backbone).to(self.device)
         self.channel=NoiseChannel(a.method in ['axis_channel','nested_axis','joint_axis']).to(self.device) if a.method in ['ind_channel','axis_channel','nested_ind','nested_axis','joint_axis','audit_fixed'] else None
         if a.method=='audit_fixed':
             b=self.data;idx=b.main[b.audit[b.main]];d=b.train_x[idx,-1].astype(int);rates=np.zeros((2,3,2));counts=[]
@@ -65,12 +66,12 @@ class Runner:
         self.mask_generator=torch.Generator(device=self.device).manual_seed(a.seed*1000+19)
         self.train_rng=np.random.default_rng(a.seed*1000+19)
         self.validation_p=None;self.total_labels=0;self.total_pairs=0
-        self.config=dict(run_id=self.run_id,seed=a.seed,population_seed=2022,dataset=a.dataset,suite=a.suite,method=a.method,
+        self.config=dict(run_id=self.run_id,seed=a.seed,population_seed=2022,dataset=a.dataset,suite=a.suite,method=a.method,backbone=self.model.backbone_name,
             epochs=a.epochs,lr=a.lr,batch_size=a.batch_size,train_rows=len(b.main),train_meta_rows=len(b.meta),
             p=b.p.tolist(),source_base_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
             optimizer='Adam',optimizer_count=2 if self.archopt else 1,weight_decay=1e-5,
             original_protocol_overlap=bool(self.archopt),objective='Equal group mean sum + epoch Sample architecture update' if self.archopt else 'Sample mean-row mean-task BCE or declared suite objective',
-            learned_fusion=a.method in ['original','original_sample'],fusion_fixed_sigmoid1=a.method not in ['original','original_sample','mmoe','ple'],
+            learned_fusion=self.model.is_m3oe and a.method in ['original','original_sample'],fusion_fixed_sigmoid1=self.model.is_m3oe and a.method not in ['original','original_sample'],
             parameters=sum(p.numel() for p in self.model.parameters()),noise_channel_parameters=sum(p.numel() for p in self.channel.parameters()) if self.channel else 0,
             noise_rates=b.noise_rates,selection='earliest strict maximum six-cell macro AUC on selection half; rank arms eligible only after epoch10 pruning',
             engineering=a.engineering,
@@ -320,6 +321,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--dataset',choices=['kuairand','movielens'],required=True)
     p.add_argument('--suite',choices=['natural','stability','noise','sampling'],default='natural')
     p.add_argument('--method',required=True);p.add_argument('--seed',type=int,required=True);p.add_argument('--device',required=True)
+    p.add_argument('--backbone',choices=['m3oe','mmoe','ple'])
     p.add_argument('--epochs',type=int);p.add_argument('--lr',type=float);p.add_argument('--batch-size',type=int,default=40960)
     p.add_argument('--tag',default='');p.add_argument('--resume',action='store_true');p.add_argument('--engineering',action='store_true');a=p.parse_args()
     if a.epochs is None:a.epochs=50 if a.dataset=='kuairand' else 100
