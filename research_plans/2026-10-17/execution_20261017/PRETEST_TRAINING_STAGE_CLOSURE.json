@@ -1,0 +1,49 @@
+{
+  "status": "FROZEN",
+  "signed_by": "primary orchestrator",
+  "independent_review": false,
+  "time_utc": "2026-10-18T06:24:44.015099+00:00",
+  "all_required_or_triggered_training_and_selection_closed": true,
+  "test_read": false,
+  "completed": {
+    "N0": "COMPLETE",
+    "N6_pretraining": "COMPLETE",
+    "N1_pilot": 32,
+    "N1_formal": 32,
+    "N2_fixedpoint_anchors": 16,
+    "N2_new_quota_H100": 16,
+    "N3_development_anchors": 16,
+    "N3_SGD_control_anchors": 16,
+    "N3_independent_confirmation_anchors": 8,
+    "N5_C_pilot": 16,
+    "N5_C_unique_formal": 24,
+    "total_new_full_training_H100_trajectories": 120
+  },
+  "not_triggered": {
+    "N1_H200": "mean rho rule false for both optimizers",
+    "N3_draw_supplement": "all required MC precision passes at32",
+    "N4": "independent local practical/direction gate false",
+    "other_conditional_branches": "CONDITIONAL_BRANCH_DECISIONS_PRETEST.json frozen before new test"
+  },
+  "frozen_choices": {
+    "N1_adam_common_own": 0.01,
+    "N1_sgd_common_own": 1.0,
+    "N5_common": 0.001,
+    "N5_own_SN": 0.001,
+    "N5_own_SB": 0.0003,
+    "N3_candidate_sha": "713c82008518d85936ca8df007047aff92209dc8a3e7352637c7fc44ab0e508c"
+  },
+  "validation_sha": {
+    "N1_pilot_validation.json": "9fde6edb349473478760186b95a1734294112e8431c5f3b1964998a2f7f56c48",
+    "N1_confirmation_validation.json": "01db55d9e190bfec6948ded9cafbed33bb73bf0ba10682a9cf2d7830cf794fc7",
+    "N2_fixedpoint_validation.json": "9a802c1838ff082b509113d64026485ae65ee31b82a66a7b7b7379ea127f8237",
+    "N2_quota_validation.json": "8bb83b949764284a9f53e8580795faf08d41be9a771e9b8e696cc97d207ace1f",
+    "N3_development_validation.json": "278b2e073dfb8a3ecc1d0de65314c6d9935da6f3cdc8f3b5d205fd68a39727ab",
+    "N3_SGD_control_validation.json": "c429ec3a3a0896c961a2606f34933b625f9770c48854c4ee6fa4d94ea51f500d",
+    "N3_confirmation_validation.json": "6181170a24d33511bc82d29251b1f80f9c14efd8d64517babeadca6e4844d1aa",
+    "N5_pilot_validation.json": "5482a6f678b0b251c2b06c152850dfbb8217beb929d6bf830560f3deb136aab3",
+    "N5_confirmation_validation.json": "d666c5a353faeac7328b678728adb31e4c95f8a303e3f67cf4b327dda94089a4"
+  },
+  "conditional_closure_sha": "973ed8559deb40e7b6217073310a76021215d40e57cf84a8dd085c399ae10027",
+  "scope": "Only required/triggered training, tuning, candidate and resource decisions are closed; final test/statistical analysis/reports/publication remain required and pending. No new test result informed this closure."
+}

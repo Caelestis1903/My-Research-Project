@@ -23,6 +23,9 @@ def main():
     assert closures['status'] == 'FROZEN_PRETEST_CLAIM_SCOPE'
     assert closures['N4']['status'] == 'NOT_TRIGGERED'
     assert closures['N5_C']['status'] == 'TRIGGERED_REQUIRED_FIXED_POPULATION'
+    completed = read(out / 'PRETEST_TRAINING_STAGE_CLOSURE.json')
+    assert completed['status'] == 'FROZEN' and completed['all_required_or_triggered_training_and_selection_closed']
+    assert not completed['test_read']
     stages = {row['stage']: row['status'] for row in read(out / 'execution_status.json')['stages']}
     assert stages['N0'] == stages['N6_pretraining'] == 'COMPLETE'
     mechanism_validations = ['N2_fixedpoint_validation.json', 'N3_development_validation.json',
@@ -116,11 +119,15 @@ def main():
     provenance = validations + mechanism_validations + ['N0/receipt.json', 'LITERATURE_COVERAGE.md',
         'N1_winners_frozen.json', 'N5_winners_frozen.json',
         'N1_diagnostic_gates.json', 'CONDITIONAL_BRANCH_DECISIONS_PRETEST.json',
+        'PRETEST_TRAINING_STAGE_CLOSURE.json',
         'N3_confirmation_summary/confirmation_gate.json', 'completed_artifact_index.json']
     c.dump(destinations[1], dict(status='FROZEN', signed_by='primary orchestrator', independent_review=False,
         time_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         all_training_and_selection_definitions_frozen=True, all_required_or_triggered_stages_closed=True,
         test_readout_source_sha256=c.sha(Path(__file__).with_name('n17_test_readout.py')),
+        analysis_source_sha256={name: c.sha(Path(__file__).with_name(name)) for name in
+            ['n17_performance.py', 'n17_n1_control.py', 'n17_quota_readout.py', 'n17_method_guards.py',
+             'n17_domain_context.py', 'n17_figures.py']},
         builder_source_sha256=c.sha(__file__), comparison_sha256=c.sha(destinations[0]),
         evidence_sha256={name: c.sha(out / name) for name in provenance}, runs=runs,
         scope='Only current N1/quota/fixed-ML H100 branch; no pilot test; historical test reused; '

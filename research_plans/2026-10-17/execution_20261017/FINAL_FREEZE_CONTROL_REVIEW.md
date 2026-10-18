@@ -7,3 +7,7 @@ IMPLEMENT COMPLETE；PASS_SELF_REVIEW；independent_review=false。先有FINAL_F
 硬门覆盖N0/N6完成、N1全部pilot/正式、N2固定点与quota、N3全开发/SGD/独立确认、N5全部pilot/正式核验和真实终态。当前分支H200/N4皆未触发才允许，N5任务数对应实际own/common去重矩阵。闭合前缺file即拒绝，已有freeze拒绝覆盖。
 
 所有源与配置/trajectory/selection/receipt/模型、comparison与stage evidence均在freeze中留SHA，独立训练seed单位、primary Holm族和candidate方向不变。builder只做元数据固定；实际执行后仍由主agent审查真实matrix并commit/push授权mechanical test。未增加研究算法、额外训练或统计选择。
+
+全局freeze同时记录现有performance/paired/quota/protection/domain/figure入口的analysis_source_sha256，固定读数实现。它只是原统计定义的来源索引，不新增端点或改变公式。AST/字段自审PASS，builder仍未运行。
+
+实际N5formal24核验完成后，补充主agent签署的PRETEST_TRAINING_STAGE_CLOSURE检查与证据SHA。只关闭训练/选择/资源分支，test/分析/报告仍pending。对应bool与真实120条H100/所有机制锚核验，AST/字段自审PASS。builder仍待最终archive完成后才运行。
