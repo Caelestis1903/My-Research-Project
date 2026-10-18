@@ -39,7 +39,9 @@ class Model(nn.Module):
         v=self.mix_logits
         if self.method in ['interaction','reliability_interaction']:
             v=v-v.mean(0,keepdim=True)-v.mean(1,keepdim=True)+v.mean((0,1),keepdim=True)
-            if self.method=='reliability_interaction':v=v*self.interaction_confidence
+            if self.method=='reliability_interaction':
+                v=v*self.interaction_confidence
+                v=v-v.mean(0,keepdim=True)-v.mean(1,keepdim=True)+v.mean((0,1),keepdim=True)
         elif self.method=='domain_mix':v=v.mean(1,keepdim=True).expand(-1,2,-1)
         return v
 

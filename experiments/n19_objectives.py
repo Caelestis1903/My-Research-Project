@@ -38,7 +38,7 @@ class NoiseChannel(nn.Module):
         return rowloss.mean()
 
 def clean_predictions(prob,method):
-    if method in ['nested_ind','joint_axis']:
+    if method in ['nested_ind','nested_axis','joint_axis']:
         return torch.stack([prob[:,0],prob[:,0]*prob[:,1]],dim=1)
     return prob
 

@@ -32,8 +32,21 @@ class Runner:
         self.device=torch.device(a.device);torch.cuda.set_device(self.device);torch.set_num_threads(2)
         torch.cuda.reset_peak_memory_stats(self.device);seed_all(a.seed);self.data=population(a.dataset,a.suite)
         self.model=Model(self.data.features,a.seed,a.method).to(self.device)
-        self.channel=NoiseChannel(a.method in ['axis_channel','joint_axis']).to(self.device) if a.method in ['ind_channel','axis_channel','nested_ind','joint_axis'] else None
-        params=list(self.model.parameters())+(list(self.channel.parameters()) if self.channel else [])
+        self.channel=NoiseChannel(a.method in ['axis_channel','nested_axis','joint_axis']).to(self.device) if a.method in ['ind_channel','axis_channel','nested_ind','nested_axis','joint_axis','audit_fixed'] else None
+        if a.method=='audit_fixed':
+            b=self.data;idx=b.main[b.audit[b.main]];d=b.train_x[idx,-1].astype(int);rates=np.zeros((2,3,2));counts=[]
+            for domain in range(3):
+                for task in range(2):
+                    for clean in range(2):
+                        ix=(d==domain)&(b.train_y[idx,task]==clean)
+                        flips=int((b.observed[idx[ix],task]!=clean).sum());n=int(ix.sum())
+                        rates[clean,domain,task]=np.clip((flips+.5)/(n+1),1e-5,.35-1e-5)
+                        counts.append(dict(domain=domain,task=task,clean=clean,n=n,flips=flips))
+            scaled=torch.tensor(rates/.35,device=self.device,dtype=torch.float32)
+            with torch.no_grad():self.channel.raw.copy_(torch.logit(scaled))
+            for parameter in self.channel.parameters():parameter.requires_grad_(False)
+            if not a.resume:dump(self.out/'audit_calibration.json',dict(counts=counts,a=rates[0].tolist(),b=rates[1].tolist()))
+        params=list(self.model.parameters())+([p for p in self.channel.parameters() if p.requires_grad] if self.channel else [])
         self.opt=torch.optim.Adam(params,lr=a.lr,betas=(.9,.999),eps=1e-8,weight_decay=1e-5)
         arch=[p for n,p in self.model.named_parameters() if '._weight_' in n]
         self.archopt=torch.optim.Adam(arch,lr=a.lr,weight_decay=1e-5) if a.method=='original' else None
@@ -59,7 +72,7 @@ class Runner:
             original_protocol_overlap=bool(self.archopt),objective='Equal group mean sum + epoch Sample architecture update' if self.archopt else 'Sample mean-row mean-task BCE or declared suite objective',
             learned_fusion=a.method in ['original','original_sample'],fusion_fixed_sigmoid1=a.method not in ['original','original_sample','mmoe','ple'],
             parameters=sum(p.numel() for p in self.model.parameters()),noise_channel_parameters=sum(p.numel() for p in self.channel.parameters()) if self.channel else 0,
-            noise_rates=b.noise_rates,selection='earliest strict maximum six-cell macro AUC on selection half',
+            noise_rates=b.noise_rates,selection='earliest strict maximum six-cell macro AUC on selection half; rank arms eligible only after epoch10 pruning',
             engineering=a.engineering,
             test_read=False,from_scratch=True,backbone_frozen=False,review='primary self-review under revised start.md',
             data_source=b.metadata,state_directory=str(self.state_dir))
@@ -222,6 +235,37 @@ class Runner:
         loss=F.binary_cross_entropy(p,self.y[rr]);grad=torch.autograd.grad(loss,self.model.mix_logits)[0]
         with torch.no_grad():self.model.mix_logits.add_(grad,alpha=-.1)
 
+    @torch.no_grad()
+    def reliability_update(self,epoch):
+        if self.a.method!='reliability_interaction' or epoch%5:return
+        started=time.time();rng=np.random.default_rng(self.a.seed*10000+epoch);halves=[[],[]]
+        for d in range(3):
+            pool=self.data.meta[self.data.train_x[self.data.meta,-1]==d]
+            count=min(256,len(pool)//2);chosen=rng.choice(pool,2*count,False)
+            halves[0].extend(chosen[:count]);halves[1].extend(chosen[count:])
+        assert not set(halves[0]).intersection(halves[1])
+        batches=[torch.tensor(h,device=self.device) for h in halves]
+        m=self.model;m.eval();slopes=torch.zeros((2,3,2,3),device=self.device);eps=.1
+        for d in range(3):
+            for t in range(2):
+                for k in range(3):
+                    original=m.mix_logits[d,t,k].clone();risks=[]
+                    for sign in [-1,1]:
+                        m.mix_logits[d,t,k].copy_(original+sign*eps)
+                        pair=[]
+                        for rows in batches:
+                            p=m(self.x[rows].T);ix=self.x[rows,-1]==d
+                            pair.append(F.binary_cross_entropy(p[ix,t],self.y[rows][ix,t]))
+                        risks.append(torch.stack(pair))
+                    m.mix_logits[d,t,k].copy_(original)
+                    slopes[:,d,t,k]=(risks[1]-risks[0])/(2*eps)
+        evidence=torch.where(slopes[0]*slopes[1]>0,1.,.25)
+        m.interaction_confidence.mul_(.9).add_(evidence,alpha=.1)
+        dump(self.out/f'reliability_epoch{epoch:03d}.json',dict(epoch=epoch,
+            slopes=slopes.cpu().tolist(),evidence=evidence.cpu().tolist(),
+            confidence=m.interaction_confidence.cpu().tolist(),half_sizes=[len(h) for h in halves],
+            disjoint_train_meta=True,extra_seconds=time.time()-started))
+
     def fit(self):
         a=self.a;n=len(self.data.main);start=time.time()
         for epoch in range(self.start_epoch+1,a.epochs+1):
@@ -235,6 +279,7 @@ class Runner:
                 rr=order[:a.batch_size];rows=torch.tensor(rr,device=self.device)
                 self.model.zero_grad(set_to_none=True);F.binary_cross_entropy(self.model(self.x[rows].T),self.y[rows] if a.suite!='noise' else torch.where(self.audit[rows,None],self.y[rows],self.noisy[rows])).backward();self.archopt.step()
             self.utility_update()
+            self.reliability_update(epoch)
             prune=self.prune_rank() if epoch==10 else None
             if prune:dump(self.out/'rank_allocation.json',prune)
             pred=self.predict('val');records=[]
@@ -244,7 +289,8 @@ class Runner:
                 records.extend(cells)
             select=float(np.mean([r['auc'] for r in records if r['split']=='selection']))
             dev=float(np.mean([r['auc'] for r in records if r['split']=='development']))
-            improved=select>self.best
+            eligible=not getattr(self.model,'rank_mode',False) or epoch>=10
+            improved=eligible and select>self.best
             if improved:self.best=select;self.selected=epoch
             stats=dict(epoch=epoch,objective=total/len(order),selection_auc=select,development_auc=dev,
                 steps=self.steps,examples=epoch*n,epoch_seconds=time.time()-before,elapsed_seconds=time.time()-start,
