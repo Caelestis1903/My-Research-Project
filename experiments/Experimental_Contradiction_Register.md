@@ -1,5 +1,9 @@
 # Experimental Contradiction Register
 
+
+> **2026-10-18：** C001–C023 保留 10-09 历史冲突/反例；本文件新加 C024–C034。区分 **真正相同实验定义的数值冲突** 与 **协议/人口/时钟/选点/统计门不同产生的表面冲突**；同分支后续最终状态覆盖早期进度快照。入口：[跨分支整合](Experimental_Branch_Synthesis_20261018.md)。
+
+
 记录跨报告中的方向差异、后期修正或口径不一致。只有同一条件、同一指标、同一 checkpoint 才构成直接矛盾；不同阶段的结果大多是范围边界，不应强行合并。状态截至 2026-10-09。
 
 ## C001 — comp1 的大幅历史收益 vs S0 匹配 uniform EMA
@@ -188,3 +192,69 @@
 - **Difference in setting:** Complete trained solutions are compared with evaluation-only hybrids assembled from partitions across distinct solutions; seed2025 has a near-zero DH−F denominator for retention ratios。
 - **Can the contradiction currently be explained?** Partially; cross-partition co-adaptation is consistent with the collapse, but does not identify the source of the intact DH gain。
 - **Current interpretation:** The tested swaps show non-composability under this partition definition, not that DH's test-side effect is absent or localized to one component。
+
+
+---
+
+## 2026-10-18 跨分支补充的冲突、修订与处理结果
+
+### C024 — Stage2+ “0正式训练” vs 同分支 Stage2D “16/16完成”
+
+- **Evidence A:** [10-16 early execution](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/execution_20261016/execution_report.md) 在阶段审计时写0新训练、四臂阻塞。
+- **Evidence B:** [10-16 later Stage2D final](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/execution_report.md) 明确16/16、四seed×四臂、数值核验成功。
+- **Classification / Current status:** **RESOLVED / TEMPORAL SNAPSHOT SUPERSEDED**。较晚最终执行优先；早期“NO训练”仅属快照，不能用于新综合报告的阶段完成数。历史 S5/C×A 等未触发范围保持不变。
+
+### C025 — 旧 S6-R2 KR selected test DH非目标阳性 vs 10-15 B1重建接近零
+
+- **A/B:** 旧R0 +0.006757、4/4正；新重建 R0 +0.000579、2/4正，R1/R4 +0.011584、4/4正且LL代价。
+- **Classification / Current status:** **OBSERVATIONAL DIFFERENCE / MECHANISM UNRESOLVED**，并非同init、同历史完整state、同谱系的成对重放；B1文件身份明确 RECONSTRUCTION_NOT_HISTORICAL_EXACT。保留原历史观察但不据此开发部署策略（E028–E029、E033）。
+
+### C026 — Stage2D fixed-J同q显著负向 vs v2 Adam selected 区间跨0
+
+- **A/B:** Stage2D SB−SN validation宏−0.010406，四seed负；v2−0.005556，3/4负且CI跨0。
+- **Difference:** Stage2D **learned fusion、双Adam**；v2 **固定fusion、单optimizer**，后者还改变源码底座/SGD校准。
+- **Classification:** **PROTOCOL BOUNDARY / NOT A DIRECT CONTRADICTION**。不能将两效应做“同设置复现实验成功/失败”的配对差；E035–E036。
+
+### C027 — “Adam是必要条件” vs 无动量SGD也出现采样损伤
+
+- **A/B:** 局部旧S5/Equal Adam历史carrier有作用；v2固定fusion/SGD SB−SN −0.002104（4/4负）；v3 fixedSGD早期也可四负。
+- **Current interpretation:** **通用必要性 FALSIFIED**，但S5原命题是Equal/特定target的完整history source局部效应而非“所有现象要Adam”；不是同一量词。m/v分量、长期纯中介继续未识别；E015、E036–E038。
+
+### C028 — v3多家族四seed负向 vs N17 KR八seed选点主Holm不通过
+
+- **A/B:** v3 calibratedAdam test selected −0.008698（四负）等；N17 common LR KR Adam −0.005203（7/8负）、t95跨0、Holm p=.171875，SGD +0.000837、Holm p=.6953125。
+- **Difference:** optimizer LR/selection预算、独立seed数、确认性家族与模型/人口细项不同。v3四seed同号的双侧随机化最小p=.125，不能硬标p<.05。
+- **Classification:** **EVIDENCE STRENGTH REVISED**：条件效应保留，**N17主selected未确认**；不是证明所有q效果为零。E037、E039。
+
+### C029 — N17 ML own-LR E100大幅正向 vs own selected负向
+
+- **A/B:** 同 ML固定subset 8seed own对照：E100 SB−SN +0.021145、8正；各自验证选点 selected −0.010875、8负。
+- **Difference:** 固定终轮vs各自validation选轮；own定义 SN lr=.001、SB lr=.0003，q与LR同时变化。
+- **Classification:** **BUDGET × SELECTION × LR ESTIMAND BOUNDARY**，不是两份训练报告互相矛盾；E100 cell非劣置信下界不达−.003，不能升格成安全方法。
+
+### C030 — 同一组模型的宏AUC损伤 vs 按训练/测试人口加权AUC获益
+
+- **A/B:** 历史calAdam E50同预测macro −.009074、train-p +.001016、test-p +.003108；新 ML own macro −.010875、train-p +.000744、test-p −.013586。
+- **Classification:** **RESOLVED MATHEMATICAL AGGREGATION DIFFERENCE**。cell macro与cell加权的定义不同，且均不是pooled AUC；不能以切换指标冒充目标上的稳健性能；E040。
+
+### C031 — v3 C局部AUC阳性 vs loss/J不一致与N17 N4未触发
+
+- **A/B:** V7 C的early/mid局部gap attenuation屏幕AUC 4/4正，但第二阶段 LL/trainJ联合门不通过；N17 embedding/E10两路径 full 4/4正、绝对~+3e−5，方向/实用门失败。
+- **Classification:** **LOCAL POSITIVE / LONG-TERM NECESSITY NOT TESTED**。复核明确非“C全无效”和非“C必要机制”，N4 NOT_TRIGGERED，未运行不是阴性结果；E038、E042。
+
+### C032 — same-J q方差差来自count vs N17 quota仍约2倍trace
+
+- **A/B:** 按q改变域计数和每域梯度统计都可影响covariance；N2 fixed θ将域count固定后，ratio IID 2.009–2.584、quota 1.995–2.551，count项只有.001297%–.105936%。
+- **Classification:** **COUNT-DOMINANT HYPOTHESIS FALSIFIED IN ANCHORS**；不能再声称这几锚主要来自count波动，但不能推出全部由shape而非trace或Adam history造成。quota的长期交互CI跨0；E041。
+
+### C033 — S5/S8 late optimizer rescue 与“新q算法有效”混淆
+
+- **A/B:** Equal历史S5 target rescue具有特定history carrier；Sample S8 的late rescue不提高原F best；v3/N17 q路径早期也可影响AUC。
+- **Classification:** **DIFFERENT OBJECTIVE / INTERVENTION / WINDOW**。不能把旧的 history rescue改名为新的Sample采样方法，亦不能从Sample无新方法收益推历史Equal效应不存在。保持方法NO_GO、机制问题有界开放；E015–E027、E038–E043。
+
+### C034 — N17 Adam bootstrap区间负 vs 预定t/符号Holm主准则未确认
+
+- **A/B:** 8seed KR Adam selected: bootstrap95 [−0.010924,−0.000367] 排0，但t95 [−0.012006,+0.001600]跨0、预定Holm p=.171875。
+- **Classification:** **INFERENCE PROCEDURE DIFFERENCE, NOT DATA CONTRADICTION**。两种区间如实记录，不能事后择一有利方法将主终点改写成“确认”；E039。
+
+**整体说明：** 分支结束时“完成全部触发训练”和“独立因果机制已识别”是两个不同命题；53问题中大量 BOUNDARY / NOT_IDENTIFIABLE / INCONCLUSIVE 正是研究剩余空间，不能用发布完成状态自动关闭。完整对照请转[问题去向](Experimental_Question_Disposition_20261018.json)。
