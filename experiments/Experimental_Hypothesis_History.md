@@ -1,5 +1,9 @@
 # Experimental Hypothesis History
 
+
+> **2026-10-18 补充与归因纠正：** H001–H023 是 10-09 的历史研究假设/竞争解释索引，**不是用户曾认可这些假设的清单**。尤其用户从研究早期便不把“小域=困难域”当作自己的结论；H002/H003 中域大小、低SNR等是**供数据挑战的候选解释**，不得反过来当成研究起点或把反复证伪它们冒充新创新。下方新增H024–H032，以及[跨分支综合结论](Experimental_Branch_Synthesis_20261018.md)和[53问题去向](Experimental_Question_Disposition_20261018.json)为当前覆盖口径。历史快照计数不自动代表更新后的条目数。
+
+
 本文件把历史解释与当前允许的最强陈述分开。状态截至 2026-10-09；Hypothesis 状态只使用 `ACTIVE / PARTIALLY_SUPPORTED / WEAKENED / FALSIFIED / SUPERSEDED / OPEN`。
 
 ## H001 — M3oE 独有的大域牺牲
@@ -16,6 +20,8 @@
 
 ## H002 — Domain size 是退化的独立主因
 
+> **2026-10-18来源注记：** 这里是供检验的竞争解释，不等于用户最初认定“小域就是困难域”或认定小域更噪。后续不应以反复否定这一非前提代替真正的新问题探索。
+
 - **Initial Hypothesis:** 大域/小域样本量差异直接造成 observed trade-off。
 - **Origin:** L/M/S 角色结果及 early P0 系列。
 - **Tests Performed:** P0-1/2 role rotation、P0-3 backbone、S2 objective contrasts、S4/S5 KuaiRand natural、S6 两个最大域 target。
@@ -27,6 +33,8 @@
 - **Claims That Should No Longer Be Made:** “小域就是困难域”“大域必然受损”“size 已被证明是根因”。
 
 ## H003 — 小域梯度 SNR 必然更低，因此需要按域动量
+
+> **2026-10-18来源注记：** 这里是供检验的竞争解释，不等于用户最初认定“小域就是困难域”或认定小域更噪。后续不应以反复否定这一非前提代替真正的新问题探索。
 
 - **Initial Hypothesis:** 小域样本少、噪声大，需更长 EMA 记忆。
 - **Origin:** P1 的早期设计动机。
@@ -289,3 +297,57 @@
 | SUPERSEDED | 1 |
 | OPEN | 3 |
 | **合计** | **23** |
+
+
+---
+
+## 新增假设演化 H024–H032（2026-10-15—2026-10-18）
+
+### H024 — 同 Sample 目标下改变q不会产生selected性能影响
+- **Initial/competing claim:** 由于期望目标相同，Natural/Balanced训练效果应相同，或“Sample消除全部optimizer/sampling影响”。
+- **Evidence:** Stage2D同目标 SB−SN validation −0.010406、4/4负；v2固定fusion也观察负向；N17主selected宽CI，不能断言普遍负/非零。
+- **Current Status:** **FALSIFIED**（“相同期望目标必然同训练”的通用命题）。
+- **Allowed Claim:** 相同期望目标下有限batch、状态与trajectory可变；效应大小/方向及统计确认视协议而异，N17 KR主检验未确认。E034–E039。
+
+### H025 — Adam是同目标采样效应发生的通用必要条件
+- **Initial/competing claim:** 不采用Adam或不保留其历史状态，就不会出现q影响训练性能。
+- **Evidence:** v2无动量SGD SB−SN −0.002104、4/4负；v3 SGD亦有条件性差异。
+- **Current Status:** **FALSIFIED**（通用必要性）。
+- **Allowed Claim:** 不排除Adam历史对某些特定Equal/S5或q×LR/状态局部效果有作用；m/v唯一中介尚未被证实。E015、E036–E038。
+
+### H026 — Balanced总是降噪并可普遍提高Sample宏AUC
+- **Evidence:** 固定θ完整C/投影坐标trace比可反号；Stage2D Sample SB−SN selected −0.010406、nonharm失败；N17主宏未确认但无一致候选改善。
+- **Current Status:** **FALSIFIED**（“总是/普遍”陈述及已测候选）。
+- **Allowed Claim:** 对特定α/θ/块/q可缩小某个方差量；不等于全模型或选点性能收益。E034–E035、E039。
+
+### H027 — 同目标Balanced在任意optimizer、LR、阶段均普遍损害AUC
+- **Evidence:** v2/v3部分配置负向；N17 KR SGD selected +0.000837（宽CI）；v3 calSGD共同早期可正；N17 ML own E100 +0.021145（同时改LR）而selected负向。
+- **Current Status:** **FALSIFIED**（“所有/任何”普遍量词）。
+- **Allowed Claim:** 在精确给定的某些KR配置/早期预算存在可重复负效应；不能将 own-LR 跨LR正值当纯q有益证明。E037、E039–E040。
+
+### H028 — 随机域计数波动主导SB与SN的固定θ梯度协方差差异
+- **Evidence:** N17固定quota后SB/SN全部trace仍2.0–2.6左右；计数分量仅0.001297%–0.105936%。
+- **Current Status:** **FALSIFIED**（所测16个固定θ锚的“主导”陈述）。
+- **Allowed Claim:** 域内分布、批内高阶矩与依赖可能更重要；不能外推到所有theta、真实support N或唯一长期selected机制。E041。
+
+### H029 — Covariance shape/anisotropy 而不是scalar trace是唯一性能中介
+- **Evidence:** 固定θ谱、块间trace方向与rank差已测；没有“同均值同trace、仅shape不同”的正式训练因果干预。
+- **Current Status:** **OPEN**。
+- **Allowed Claim:** 各向异性是具体可测的候选解释，不可声称优于trace已证实，更不能根据更多派生图表自动判定必要性。E034、E038、E041。
+
+### H030 — 共享C是Sample q效应的长期、唯一、可实用利用中介
+- **Evidence:** v3局部C AUC屏幕阳性但loss/J联合门未过；N17局部independent full效果约3e−5且绝对实际界/方向门未过，N4未触发。
+- **Current Status:** **OPEN**（长期必要性）；“局部完全无效”同样已被限定。
+- **Allowed Claim:** 给定状态可能有小的C路径作用，尚非容量/预算匹配长期模型收益证据。E038、E042。
+
+### H031 — Checkpoint selection 或后期过拟合单独足以解释所有 q差
+- **Evidence:** v2/v3/N17的共同早期固定轮/AULC已有负向（KR Adam N17 AULC1..20 −0.007480、8/8负）；v3同epoch仍可不同。ML own E100与selected反号。
+- **Current Status:** **FALSIFIED**（“所有差异只因选点/晚期”的强版本）。
+- **Allowed Claim:** 选点、预算、overfitting仍可显著修饰方向，不能说它们完全无关。E033、E037、E040。
+
+### H032 — 单一总体AUC符号对评价权重或部署人口不敏感
+- **Evidence:** 历史calAdam E50相同预测 macro −0.009074、train-p +0.001016、test-p +0.003108；N17 ML own macro−0.010875、train-p +0.000744、test-p −0.013586。
+- **Current Status:** **FALSIFIED**（该强版本）。
+- **Allowed Claim:** 必须冻结主评价函数；cell加权AUC≠pooled AUC，两个任务和六cell不应视独立seed。E040。
+
+**当前研究立场：** 不预设momentum、课程学习、domain size困难性，也不把新出现的若干识别缺口机械转化为无限追加的防御性实验。新假设要以既有MDMT方法的具体前提/迁移边界/未解决问题为对象，并提前规定可否定它的最小观测。
