@@ -38,6 +38,12 @@ historical_cell_population_context.csv给672个历史seed/readout/cell的SN、SB
 同一d0、相同训练规模的两task方向不同；d0/t0的排序略改善与LL恶化共存。小域之间baseline与标签率也不同（test d0/t0正率.0873、d2/t0正率.5882）。这些点估计说明不能从本表将所有cell差异直接归于规模；d0/t0的小幅正均值不等于已独立确认的收益，四seed区间保留在summary。排序与LL并非同一估计对象；本表不识别规模或自然难度的因果贡献，也不排除规模参与作用。该补充为既有冻结结果重算，无新增训练或新test读取。
 
 
+## 两环境的任务与进度定义
+
+数据定义沿用stage_S1_data.py和冻结缓存：KR物理域对应tab0/tab1/tab4，task0为stored_is_click，task1为stored_long_view；MovieLens物理域按原年龄组{1,18}/{25}/{35,45,50,56}划分，task0为1[rating>3]、task1为1[rating>4]。后者标签嵌套；两环境的task1不代表相同事件。模型均沿用对应特征字典的fixed_model及冻结fusion/detached routing，不能把跨环境差异解释为只改人口大小或只改某一个标签。
+
+N5-C明确固定subset_seed=2022、训练row列表与validation分半；optimizer seed独立改变初始化/采样。ML训练187500行，每epoch5更新、尾23660，H100为500更新/18750000样本暴露；KR训练2006132行，每epoch49更新、尾40052，H100为4900更新/200613200暴露。相同epoch是各自人口的相同预期暴露倍数，不是相同step或相同计算量。最终报告记录实际训练产物时钟；固定人口的八优化seed只识别该人口条件下稳定性，不自动给子集抽样方差或跨环境因果结论。
+
 ## 新轮终局对照（尚待）
 
 最终需追加N1两优化器及触发quota/固定ML人口的macro、训练p与评价p加权cell读数、各域各任务和八训练seed区间。主指标、alpha范围与test人口均按原冻结协议，不依据本轮结果换权重或倒推新设计。N0固定预测、校准与用户簇bootstrap属于不同不确定性对象，不合并成新训练seed。

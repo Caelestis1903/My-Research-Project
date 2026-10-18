@@ -1,5 +1,5 @@
 {
-  "status": "N3_DEVELOPMENT_VALIDATED_CANDIDATE_FROZEN_CONFIRMATION_WAIT_ADMISSION",
+  "status": "QUOTA_COMPLETE_AUDIT_RUNNING_N3_CONFIRMATION_RUNNING",
   "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
   "stages": [
     {
@@ -44,11 +44,11 @@
     },
     {
       "stage": "N2_training",
-      "status": "RUNNING_QUOTA_16"
+      "status": "COMPLETE_VALIDATED_16"
     },
     {
       "stage": "N3",
-      "status": "DEVELOPMENT_COMPLETE_VALIDATED_16_CANDIDATE_FROZEN_INDEPENDENT_8_READY_SGD_RUNNING"
+      "status": "DEVELOPMENT_AND_SGD_VALIDATED_INDEPENDENT_8_RUNNING"
     },
     {
       "stage": "N4",
@@ -117,7 +117,7 @@
     "readout": "N2_fixedpoint_summary/receipt.json",
     "analysis": "N2_FIXEDPOINT_ANALYSIS.md"
   },
-  "updated_utc": "2026-10-17T16:20:47.695424+00:00",
+  "updated_utc": "2026-10-18T05:50:14.364463+00:00",
   "N3_development": {
     "anchors": 16,
     "validation": "N3_development_validation.json",
@@ -127,12 +127,18 @@
     "analysis": "N3_DEVELOPMENT_ANALYSIS.md",
     "confirmation_manifest": "N3_confirmation_manifest.json",
     "authorization": "N3_CONFIRMATION_RUN_AUTHORIZATION.json",
-    "independent_confirmation": "NOT_YET_LAUNCHED"
+    "independent_confirmation": "RUNNING_PID_1029763"
   },
   "N3_SGD_control": {
     "status": "COMPLETE_VALIDATED_16",
     "validation": "N3_SGD_control_validation.json",
     "analysis": "N3_SGD_CONTROL_ANALYSIS.md",
     "readout": "N3_SGD_control_summary/receipt.json"
+  },
+  "N2_quota": {
+    "status": "COMPLETE_VALIDATED_16",
+    "validation": "N2_quota_validation.json",
+    "parent_pair_identity": "N2_QUOTA_IID_PAIR_IDENTITY.json",
+    "test_read": false
   }
 }
