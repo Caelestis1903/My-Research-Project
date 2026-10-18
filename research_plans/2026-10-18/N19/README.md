@@ -1,6 +1,6 @@
 # N19 — complete end-to-end MDMT study
 
-Status: **RESEARCH COMPLETE; final PR publication in progress.** All328 formal
+Status: **COMPLETE. [PR #6](https://github.com/Caelestis1903/My-Research-Project/pull/6) is open against main; main is not merged.** All328 formal
 networks finished their full budgets and frozen selected/final test evaluations.
 The six scoped scientific dispositions are complete; negative and contradictory
 results are retained. No post-test method/selection changes. Completion of this
