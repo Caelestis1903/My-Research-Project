@@ -16,14 +16,20 @@ COMPARISONS={
  'sampling': [('mask_copula','mask_independent'),('mask_copula','mask_antithetic'),('mask_copula','mask_positive'),('mask_copula_cv','mask_independent_cv'),('mask_copula_cv','mask_copula'),('mask_independent_cv','mask_independent'),('mask_copula','fixed'),('mask_copula_cv','fixed')],
  'natural': [('original_sample','fixed'),('original','fixed'),('mmoe','fixed'),('ple','fixed'),('rank_uniform','fixed'),('rank_protected','rank_uniform'),('rank_protected','fixed'),('cell_codebook','domain_codebook'),('cell_codebook','rank_uniform'),('domain_codebook','rank_uniform'),('interaction','fixed'),('interaction','domain_mix'),('interaction','full_mix'),('reliability_interaction','interaction'),('regret_router','full_mix'),('regret_router','utility_router'),('coalition_router','regret_router'),('coalition_router','utility_router')]
 }
-for candidate in ['rank_uniform','rank_protected','domain_codebook','cell_codebook','domain_mix','axis_mix','full_mix','interaction','reliability_interaction','utility_router','regret_router','coalition_router']:
+for candidate in ['rank_uniform','rank_protected','domain_codebook','cell_codebook','domain_mix','axis_mix','full_mix','interaction','reliability_interaction','utility_router','regret_router','coalition_router','entropy_router']:
     for control in ['original_sample','mmoe','ple']:
         COMPARISONS['natural'].append((candidate,control))
 COMPARISONS['natural'].extend([('regret_router','fixed'),('coalition_router','fixed')])
+COMPARISONS['natural'].extend([('regret_router','entropy_router'),('coalition_router','entropy_router'),('entropy_router','full_mix'),('entropy_router','fixed'),('entropy_router','utility_router')])
 COMPARISONS['natural'].extend([('interaction','axis_mix'),('reliability_interaction','axis_mix'),('axis_mix','domain_mix'),('full_mix','axis_mix')])
+COMPARISONS['natural'].extend([('cell_codebook','fixed'),('domain_codebook','fixed'),
+ ('reliability_interaction','fixed'),('reliability_interaction','domain_mix'),('reliability_interaction','full_mix'),
+ ('coalition_router','full_mix'),('axis_mix','fixed'),('domain_mix','fixed'),('full_mix','fixed'),
+ ('utility_router','fixed'),('utility_router','full_mix')])
 COMPARISONS['stability'].extend([('task_cf','original_sample'),('task_dro','original_sample')])
 COMPARISONS['noise'].extend([('axis_channel','original_sample'),('joint_axis','original_sample')])
 COMPARISONS['noise'].extend([('profile_axis','axis_channel'),('profile_axis','audit_fixed'),('profile_nested','nested_axis'),('profile_joint','joint_axis'),('profile_joint','profile_nested'),('profile_joint','audit_joint'),('profile_joint','nested_ind'),('profile_joint','audit_fixed'),('profile_joint','naive')])
+COMPARISONS['noise'].extend([('nested_axis','axis_channel'),('nested_ind','ind_channel'),('profile_nested','profile_axis')])
 COMPARISONS['sampling'].extend([('mask_residual_cv','mask_copula_cv'),('mask_residual_cv','mask_independent_cv'),('mask_residual_cv','mask_antithetic_cv'),('mask_antithetic_cv','mask_independent_cv'),('mask_copula_cv','mask_antithetic_cv'),('mask_residual_cv','fixed')])
 
 def interval(values):

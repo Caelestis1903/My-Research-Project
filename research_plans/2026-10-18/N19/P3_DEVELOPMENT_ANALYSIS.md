@@ -71,3 +71,34 @@ A diagnostic-script container mismatch when adding the dense ParameterList was
 corrected before any new diagnostic table was written; old completed training
 and initial rank-only measurements were unaffected. The final script stacks
 slot lists without mutating parameter dtypes.
+
+## Complete MovieLens dictionary alternative reading
+
+Both dictionaries completed4seeds x100epochs. Selected cell-dictionary macro
+AUC .730472/loss .547607/weighted AUC .738662, domain-dictionary
+.730211/.550588/.739164, versus uniform .729633/.551001/.739082 and dense
+fixed .730898/.550470/.739844. Cell-minus-domain AUC+.000261 in2/4, interval
+[-.003652,.004175], loss-.002981 in3/4, interval[-.006857,.000895].
+Cell-minus-uniform AUC+.000840 in3/4, interval[-.000763,.002442], loss-.003393
+in4/4, interval[-.007282,.000495]; weighted AUC instead-.000420 in3/4.
+There is no stable task-coefficient ranking gain beyond the domain dictionary
+or dense reference (WEAK evidence of independent value). The macro loss gain
+is a trade-off, not uniform protection.
+
+Final cell-minus-domain macro AUC+.002589 in3/4, but weighted AUC-.003491
+in3/4 and loss mean-.001995 is driven by one larger improvement (3/4 worsen).
+Selection/stage, task and population weights alter the apparent conclusion.
+Finite slot-removal selected mean |probability change| .001405 cell versus
+.001355 domain, with retained shared norms6.896/6.383; unlike KR Adam, these
+branches are active but modest. Conditional removal slightly lowers train-meta
+loss; that is not a retrained no-slot benefit or held-out evidence.
+
+Deployed parameters629559(cell)/629418(domain) fit below uniform629902 versus
+dense773470, about18.6% total storage reduction. Cell dictionaries evaluate two
+STAR/expert paths. Native KR plus matched AdamW arms still run; no additional
+MovieLens optimizer grid is triggered by this mixed, small dictionary effect.
+
+Reporting coverage now explicitly includes dictionary-versus-dense and all
+confidence/router strong controls, plus nested-versus-unconstrained P2 likelihood
+controls in paired tables. This adds no model/data/selection changes and occurs
+before test freeze; it makes already-designed comparisons directly reviewable.

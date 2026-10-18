@@ -41,3 +41,10 @@
 - Wall time under ten concurrent GPU jobs is an operational measurement, not an
   isolated latency benchmark. Peak memory is PyTorch process-reserved memory,
   whereas admission uses device-wide memory. No unmeasured deployment speedup.
+
+- The cache loader materializes the stored train/validation/test arrays together.
+  A training receipt's test_read=false means test predictions/metrics are not
+  evaluated or used for optimization/selection; it does not mean the cache's
+  serialized test bytes were never loaded. The freeze governs performance
+  readout and method decisions. Native evaluation retains the historical row
+  split and known domain set; it is not an unseen-domain or new-user experiment.

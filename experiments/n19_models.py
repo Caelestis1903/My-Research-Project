@@ -32,7 +32,7 @@ class Model(nn.Module):
                 R=47;self.left=nn.Parameter(torch.randn(dims[0],R)/math.sqrt(R))
                 self.right=nn.Parameter(torch.randn(R,dims[1])/math.sqrt(dims[0]+dims[1]))
                 self.code=nn.Parameter(torch.randn(3,2 if method=='cell_codebook' else 1,R))
-        self.mix_mode=method in ['interaction','domain_mix','axis_mix','full_mix','regret_router','utility_router','coalition_router','reliability_interaction']
+        self.mix_mode=method in ['interaction','domain_mix','axis_mix','full_mix','regret_router','utility_router','coalition_router','reliability_interaction','entropy_router']
         if self.mix_mode:self.mix_logits=nn.Parameter(torch.zeros(3,2,3))
         self.register_buffer('interaction_confidence',torch.ones(3,2,3))
 
@@ -88,6 +88,8 @@ class Model(nn.Module):
                 fused=sh+m._weight_exp_d()*dm+m._weight_exp_t()*tw
                 pred=torch.sigmoid(m.tower[ix](fused[where]).squeeze(1));out[where,task]=pred
                 if details and self.mix_mode:
+                    router_weights.append((d,task,weights))
+                if details and self.method in ['regret_router','coalition_router']:
                     possible=[]
                     for k in range(3):
                         if self.method=='coalition_router':
@@ -95,7 +97,7 @@ class Model(nn.Module):
                         else:alt=dex[:,k]
                         pp=torch.sigmoid(m.tower[ix]((sh+m._weight_exp_d()*alt+m._weight_exp_t()*tw)[where]).squeeze(1))
                         possible.append(pp)
-                    source_probs.append((d,task,where,torch.stack(possible,dim=1)));router_weights.append((d,task,weights))
+                    source_probs.append((d,task,where,torch.stack(possible,dim=1)))
         info=dict(emb=embeddings[0],source_probs=source_probs,router_weights=router_weights)
         return (out,info) if details else out
 

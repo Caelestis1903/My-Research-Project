@@ -48,3 +48,27 @@ not by itself proof of correct expert attribution. Selected regret operational
 training time averages216.0s versus177.4s ordinary full and186.2s utility, with
 1142.5MiB peak reserved versus916MiB. These concurrent costs are descriptive;
 no isolated speed claim. KuaiRand/coalition receipts and final tests remain pending.
+
+## Complete KuaiRand primary reading and matched fixed-target discriminator
+
+All4seeds x50epochs completed. Selected regret AUC .676326/loss .443091/weighted
+AUC .701129, versus full .675159/.444122/.702412 and utility
+.668062/.441074/.697671. Regret-minus-full macro AUC+.001167 in4/4, interval
+[-.001607,.003940], but weighted AUC-.001284 with2/4 positive signs; mean loss
+-.001031 is driven by one seed (3/4 worsen). Versus utility AUC+.008264 in4/4,
+weighted+.003457 in4/4, interval[.000918,.005997], but loss+.002017 worse3/4.
+Versus fixed AUC+.003426 in3/4, weighted-.001167 in3/4.
+
+Task1 accounts for the regret-minus-full macro advantage (+.003895,4/4),
+while task0 decreases-.001562 in3/4. Final regret-minus-full AUC instead
+-.005462 in0/4 positive seeds, interval[-.011192,.000269]. A selected macro
+advantage is not a stable all-task/all-stage improvement.
+
+Selected source entropy1.093691 is near log3=1.098612, and mean weight distance
+from uniform is.018610; full routing distance.291492. The repeated macro sign
+and near-uniform behavior trigger ADDENDUM_12:8 full trainings of entropy_router,
+same architecture/init/auxiliary coefficient but fixed-uniform distillation
+target. This is better matched than static forced-uniform weights and explicitly
+conventional regularization. It tests whether data-dependent finite credit adds
+value beyond uniformization, not whether another lambda can produce a win.
+Leave-one-out and fixed-target arms both complete before final conclusions/test.

@@ -143,7 +143,7 @@ class Runner:
     def step(self,rr):
         a=self.a;rows=torch.tensor(rr,device=self.device,dtype=torch.long);x=self.x[rows].T;y=self.y[rows];d=x[-1].long()
         self.model.train();self.opt.zero_grad(set_to_none=True)
-        details=a.method in ['regret_router','coalition_router'] or a.method.startswith('mask_')
+        details=a.method in ['regret_router','coalition_router','entropy_router'] or a.method.startswith('mask_')
         result=self.model(x,details=details);prob,info=result if details else (result,{})
         loss=self.supervised_loss(prob,rows) if not a.method.startswith('mask_') else None
         extra={}
@@ -170,6 +170,9 @@ class Runner:
                 target=torch.softmax(-costs.detach()/.1,0)
                 kl.append(torch.sum(target*(target.clamp_min(1e-8).log()-weights.clamp_min(1e-8).log())))
             aux=torch.stack(kl).mean();loss=loss+.1*aux;extra['router_kl']=float(aux.detach())
+        if a.method=='entropy_router':
+            aux=torch.stack([torch.sum((1/3)*(math.log(1/3)-weights.clamp_min(1e-8).log())) for _,_,weights in info['router_weights']]).mean()
+            loss=loss+.1*aux;extra['router_kl']=float(aux.detach())
         if a.method.startswith('mask_'):
             mask,r=task_masks(a.method,d,self.mask_generator,self.copula)
             observed=torch.where(mask,y,torch.zeros_like(y))

@@ -18,7 +18,7 @@ def main():
         if not (run/'receipt.json').exists():
             continue
         c = json.loads((run/'config.json').read_text())
-        if c['engineering'] or c['method'] not in ['domain_mix', 'axis_mix', 'full_mix', 'interaction', 'reliability_interaction', 'utility_router', 'regret_router', 'coalition_router']:
+        if c['engineering'] or c['method'] not in ['domain_mix', 'axis_mix', 'full_mix', 'interaction', 'reliability_interaction', 'utility_router', 'regret_router', 'coalition_router', 'entropy_router']:
             continue
         if c['dataset'] not in features:
             features[c['dataset']] = population(c['dataset'], 'natural').features

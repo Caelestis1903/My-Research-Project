@@ -204,6 +204,7 @@ composite likelihood isolation;06 axis-additive routing control;07 P1 MMoE
 architecture falsification after complete primary development results;08 frozen
 audit-profile calibration;09 residual-field coupling and fixed augmented control;
 10 non-additive channel assumption stress;11 active-capacity AdamW discrimination
-after numerical branch attenuation was measured. These
+after numerical branch attenuation was measured;12 fixed-uniform-target routing
+after regret routes became nearly uniform. These
 amendments do not cancel any original run. Actual commands and tags in the
 reloadable queue manifest are the execution authority for this amended design.
