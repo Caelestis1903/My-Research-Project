@@ -102,3 +102,32 @@ Reporting coverage now explicitly includes dictionary-versus-dense and all
 confidence/router strong controls, plus nested-versus-unconstrained P2 likelihood
 controls in paired tables. This adds no model/data/selection changes and occurs
 before test freeze; it makes already-designed comparisons directly reviewable.
+
+## Complete KuaiRand Adam dictionaries and first matched-optimizer evidence
+
+Both original-Adam dictionaries finished4seeds x50epochs. Selected cell/domain
+macro AUC .671825/.671609, loss .446614/.443077, weighted AUC .699370/.699395.
+Cell-minus-domain AUC+.000216 in2/4, interval[-.008056,.008488], loss+.003538
+mixed. Final cell-minus-domain weighted AUC-.001794 in0/4 positive seeds.
+Both slots are numerically inactive at selected/final under this optimizer, so
+these means cannot establish a useful learned slot-sharing mechanism.
+
+All4 dense and4uniform AdamW trainings now finish full50epochs. Dense selected
+AUC .665257/loss .447922/weighted AUC .697624; uniform
+.667099/.449850/.698438. Uniform-minus-dense AUC+.001842 in2/4, interval
+[-.018972,.022655], loss+.001927 mixed. No stable practical win follows from
+this first matched pair. Other AdamW candidates continue to their full budgets.
+
+Crucially, full4seed finite-removal measurements show the dense AdamW path is
+active: selected mean |probability change| .030597, shared norm49.655, versus
+exactly zero selected sensitivity under original Adam. Uniform AdamW selected
+sensitivity .037650, shared norm58.011. Dense final sensitivity rises to.087515.
+The remedy changes parameter activity, but average selected AUC remains below
+original Adam's .672900 and final loss rises to.636211 versus .492377.
+Activating more capacity is not automatically better regularization/generalization.
+The optimizer changes every parameter, so these are regime comparisons rather
+than an isolated causal effect of slot decay.
+
+Complete protected/dictionary matched comparisons and their four-seed activity
+diagnostics remain pending; no universal allocation failure or optimizer cure is
+asserted. Active-factor export and frozen test still follow after all decisions.

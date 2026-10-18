@@ -16,9 +16,9 @@ not satisfy this stage. Do not cite partial development tables as final results.
 - [Completed-run development tables](development_readout/method_means.csv),[paired effects](development_readout/paired_comparisons.csv),[cell effects](development_readout/paired_cells.csv)
 - [Reproduction and local large states](REPRODUCE.md),[actual environment](ENVIRONMENT.json)
 
-Declared full matrix currently totals308 formal runs:180 initial,8 P2 controls,
+Declared full matrix currently totals320 formal runs:180 initial,8 P2 controls,
 8 P4 additive controls,12 P1 MMoE,16 P2 audit-profile,16 P2 non-additive stress,
-8 P6 residual/static-CV,32 preplanned P3/P4/P5 alternatives,20 P3 matched AdamW,8 P5 fixed-target distillation.
+8 P6 residual/static-CV,32 preplanned P3/P4/P5 alternatives,20 P3 matched AdamW,8 P5 fixed-target distillation,12 P3 ML optimizer transfer.
 Seeds2022/2023/2024/2025 throughout. Native datasets for P3/P4/P5; explicit ML
 controlled populations for P1/P2/P6. Some alternatives still await their primary
 development launch triggers; the declared matrix is NOT yet complete. Engineering
@@ -31,7 +31,7 @@ single-seed cancellation, frozen-head substitute or test-driven method changes.
 Only mechanical experiment execution is delegated; design, implementation,
 review and scientific interpretation are primary-only under revised entry11.
 
-Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,routing_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
+Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,routing_diagnostics,credit_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
 Large model/optimizer/random states are under `/home_new/xzf_n19_artifacts`;
 per-run configs identify exact directories. Logs and per-epoch/cell raw numbers
 remain in `logs/` and `runs/`. The final archive will retain key raw evidence,

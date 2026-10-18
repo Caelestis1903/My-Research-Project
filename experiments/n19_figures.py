@@ -68,6 +68,21 @@ def main(phase):
     axes[0].set_yticks(range(4),labels,fontsize=8);axes[0].invert_yaxis()
     fig.suptitle(f'{phase}: fixed audit draw, four optimization seeds; axis assumption falsification')
     save(fig,target,'channel_assumption_falsification')
+    fig,axes=plt.subplots(1,2,figsize=(11,5),sharey=True);labels=[]
+    cases=[('kuairand','','KR Adam'),('kuairand','optimizer_adamw','KR AdamW'),('movielens','','ML Adam')]
+    for row,(dataset,tag,label,method,control) in enumerate([
+        (d,t,l,m,c) for m,c in [('rank_protected','rank_uniform'),('cell_codebook','domain_codebook')] for d,t,l in cases]):
+        labels.append(f'{label}: {method} / {control}')
+        for ax,metric in zip(axes,['macro_auc','macro_logloss']):
+            g=all_pairs[(all_pairs.suite=='natural')&(all_pairs.dataset==dataset)&(all_pairs.tag==tag)&(all_pairs.stage=='selected')&(all_pairs.method==method)&(all_pairs.control==control)&(all_pairs.metric==metric)&(all_pairs.n_seeds==4)]
+            if len(g):
+                r=g.iloc[0];mean=r['mean']*1000;lo=r.ci95_low*1000;hi=r.ci95_high*1000
+                ax.errorbar(mean,row,xerr=[[mean-lo],[hi-mean]],fmt='s' if tag else 'o',capsize=3,color='#246b8e' if dataset=='kuairand' else '#b65c36')
+    axes[0].set_yticks(range(len(labels)),labels,fontsize=8);axes[0].invert_yaxis()
+    for ax,label in zip(axes,['AUC difference x1000 (right favors candidate)','LogLoss difference x1000 (left favors candidate)']):
+        ax.axvline(0,color='0.5',lw=1);ax.set_xlabel(label);ax.grid(axis='x',alpha=.2)
+    fig.suptitle(f'{phase}: capacity mechanisms within optimizer, four-seed descriptive 95% t intervals')
+    save(fig,target,'capacity_mechanism_effects')
     finite=OUT/'dynamics'/'rank_finite_removal.csv'
     if finite.exists():
         f=pd.read_csv(finite).fillna({'tag':''})

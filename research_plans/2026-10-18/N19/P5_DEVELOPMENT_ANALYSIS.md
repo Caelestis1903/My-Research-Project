@@ -72,3 +72,72 @@ target. This is better matched than static forced-uniform weights and explicitly
 conventional regularization. It tests whether data-dependent finite credit adds
 value beyond uniformization, not whether another lambda can produce a win.
 Leave-one-out and fixed-target arms both complete before final conclusions/test.
+
+## Complete MovieLens coalition and fixed-target controls
+
+Selected coalition AUC/loss/weighted AUC .730765/.550121/.739739; fixed-target
+.730579/.549624/.739641. Coalition-minus-regret AUC+.000047 in2/4, loss-.001810
+in3/4; coalition-minus-entropy AUC+.000186 in3/4, interval[-.000785,.001157],
+loss+.000497 mixed. Regret-minus-entropy AUC+.000139 in2/4, interval
+[-.001495,.001774], loss+.002307 worse3/4 and weighted AUC-.000329 mixed.
+Coalition-minus-full AUC+.000302 in4/4, interval[-.000116,.000720], but
+coalition-minus-fixed AUC-.000133 in2/4. Selected independent value remains WEAK.
+
+Final coalition-minus-full loss-.031848 in4/4, interval[-.059817,-.003879],
+but versus fixed loss+.014902 worse3/4 and AUC+.002358 mixed. Regret-minus-
+entropy final AUC+.006421 in4/4, interval[-.001025,.013867], with loss-.003240
+mixed. Thus uniform target explains much of selected behavior without explaining
+every late ranking difference. KR final regret-minus-full AUC is negative4/4;
+there is a stage/dataset contradiction, not a universal credit benefit. The
+bounded same-checkpoint diagnostic in ADDENDUM_12 examines actual finite versus
+local-coordinate choices on disjoint train-meta halves; it does not replace the
+32 P5-dedicated full trainings plus8 shared full-router controls or identify a causal business policy.
+
+The auxiliary KL averages6cells equally whereas the main risk averages rows.
+Its relative strength can therefore differ by domain frequency independently of
+data-dependent credit. KR regret-minus-full task1 gains concentrate in medium
+domain0(+.013161,3/4), versus largest domain1(-.002295,2/4) and smallest
+domain2(+.000820,3/4); all intervals cross0. Task0 falls in all domain means
+(-.002973/-.001709/-.000005). A mean macro/weighted trade-off exists, but a
+repeatable small-size law does not; smallest gains are not largest and task
+identity/auxiliary geometry compete with size.
+
+Operational ML times coalition148.6s, entropy125.3s, regret216.0s, full177.4s;
+peak reserved1328.5/916/1142.5/916MiB. Cohorts differ in GPU contention, so no
+claim that the extra coalition computations are intrinsically faster. Exact
+finite towers/probe count and peak memory are more interpretable than those
+wall ratios. KR coalition/entropy cohorts and frozen test remain pending.
+
+## Conditional finite decisions really differ, without proving trained benefit
+
+The first bounded probe covers384cell records (ML all5routing methods, KR the
+3complete primary methods; remaining KR controls will be added after training).
+Each group has4seeds x6correlated cells. For regret, finite/local coordinate
+preferences agree12/24 ML selected and11/24 KR selected; finite-choice A-to-B
+replication is8/24 and10/24. Early sampled finite-target entropies1.0893/1.0818
+are near log3. These are uncertain small-cost differences, not24 independent
+policy trials. They support a near-uniform explanation of early auxiliary targets.
+
+At final regret states, finite versus coordinate-preferred SINGLE-SOURCE actions
+on B differ in mean risk by-.04353 ML/-.07714 KR; disagreement is not merely
+about expert names. But comparison with the CURRENT MIXTURE is essential:
+A-chosen finite source minus mixture B risk is-.126877 ML (4/4seed improvements)
+yet+.027892 KR (4/4worsen). Even the B-oracle individual source remains worse
+than the KR current mixture on average. Being better than a local preference
+among singleton actions does not mean replacing a nonlinear mixture is beneficial.
+The local preference itself is not utility_router's complete small-gradient step.
+
+Selected ML finite-minus-mixture mean-.004776 is favorable in only2/4seeds;
+full-router selected mean-.001843 is favorable in only1/4. The large late signal
+coexists with poor selected replication and whole-network overfitting. Similar
+finite/local gaps already occur in ordinary full routing, so they are not unique
+to training the proposed credit loss. The coalition arm already tests conditional
+removal credit as the distinct mixture-aware alternative.
+
+Evidence MEDIUM for conditional finite/local decision differences on these fixed
+checkpoints, WEAK for a unique selected endpoint benefit. A new late model-selection
+controller would be a distinct question, not implied effective by this oracle
+probe; it would require same-information whole-training controls and originality
+beyond ordinary validation selection. No additional ad-hoc controller or KL grid
+is accepted from these mixed selected results. Complete KR alternatives, frozen
+test and final80-checkpoint diagnostic still determine the scoped disposition.

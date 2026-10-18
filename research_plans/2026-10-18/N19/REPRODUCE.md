@@ -102,3 +102,10 @@ engineering arrays already tracked are distinguished from ignored formal arrays.
 Large model/optimizer states remain outside Git. Raw numeric evidence and exact
 per-run source snapshots stay in the execution branch. Per-task/cell human-readable
 tables are generated alongside numeric aggregate tables after summary collection.
+
+P5 n19_credit_diagnostics.py is the prespecified same-checkpoint supplement
+triggered by development-stage contradictions. It records finite individual and
+leave-one-source-out costs, local logit-coordinate derivatives and choices on
+disjoint fixed train-meta halves. Run after all five relevant routing methods
+finish to collect80 checkpoints/480cell records. No optimizer steps or test
+performance; its conditional choices are not independent training outcomes.

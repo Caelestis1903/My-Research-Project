@@ -92,3 +92,28 @@ in2/4. Ordinary additive mixing therefore explains another plausible sharing
 family without a robust win. No larger ANOVA interaction should be presumed
 necessary from a fixed-gradient tensor; actual trained strong controls adjudicate.
 Replicated-confidence complete cohorts and frozen test still remain pending.
+
+## Complete MovieLens replicated-confidence alternative
+
+Selected confidence AUC .731063/loss .550442/weighted AUC .739665. Confidence-
+minus-off AUC+.000183 in3/4, interval[-.000164,.000531], loss+.000981 worse3/4.
+Versus fixed AUC+.000165 in2/4, interval[-.000658,.000987], weighted AUC-.000179
+in2/4 and loss-.000028 mixed. Versus full AUC+.000600 in3/4 but loss+.000793
+mixed. No stable practically material selected advantage is established (WEAK).
+
+Final confidence-minus-off AUC+.003812 in4/4, interval[-.003025,.010650], but
+loss-.011682 with2/4 improvements; versus fixed final loss+.028641 worse3/4.
+Late ranking differences do not demonstrate uniform protection/calibration.
+
+Each seed records all20 scheduled probe updates. Mean sign agreement per seed
+.7444/.6389/.6528/.6611; mean median absolute slopes .001720/.001054/.000995/
+.001095. Selected confidence mean .9500 (minimum .8575), final mean .7891
+(minimum .5912). Coordinates/cells and repeated probes are correlated, so these
+are not independent reliability trials or calibrated confidence probabilities.
+Recorded probe costs93.4/93.7/74.5/159.5s, mean105.3s extra. Total operational
+time256.7s versus confidence-off158.8s, same916MiB peak reserved, under differing
+concurrent workloads. These are costs, not an isolated speed ratio.
+
+No further ML shrinkage grid is justified by this mixed tiny selected effect.
+If KR shows a substantial repeatable advantage, a matched global-confidence
+control remains the falsifier; pending KR must complete regardless.
