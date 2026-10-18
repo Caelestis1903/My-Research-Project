@@ -180,6 +180,17 @@ class Runner:
     def prune_rank(self):
         m=self.model
         if not getattr(m,'rank_mode',False) or bool(m.rank_frozen):return None
+        # Fix the factor-coordinate gauge before comparing component deletion.
+        # Both arms receive the SAME spectral canonicalization and moment reset.
+        errors=[]
+        with torch.no_grad():
+            for d in range(3):
+                original=m.left[d]@m.right[d]
+                u,s,vh=torch.linalg.svd(original,full_matrices=False)
+                root=s[:32].clamp_min(0).sqrt()
+                m.left[d].copy_(u[:,:32]*root[None,:]);m.right[d].copy_(root[:,None]*vh[:32])
+                errors.append(float((m.left[d]@m.right[d]-original).norm()/original.norm().clamp_min(1e-12)))
+        for parameter in [m.left,m.right]:self.opt.state[parameter].clear()
         if self.a.method=='rank_uniform':mask=torch.zeros_like(m.rank_mask);mask[:,:16]=1;scores=None
         else:
             chosen=[];rng=np.random.default_rng(191903)
@@ -198,7 +209,9 @@ class Runner:
             ranked=sorted([(float(score[d,r]),d,r) for d in range(3) for r in range(32) if not mask[d,r]],key=lambda x:(-x[0],x[1],x[2]))
             for _,d,r in ranked[:36]:mask[d,r]=1
         m.rank_mask.copy_(mask);m.rank_frozen.fill_(True)
-        return dict(active_ranks=mask.sum(1).cpu().tolist(),mask=mask.cpu().tolist(),scores=scores.cpu().tolist() if scores is not None else None)
+        return dict(active_ranks=mask.sum(1).cpu().tolist(),mask=mask.cpu().tolist(),scores=scores.cpu().tolist() if scores is not None else None,
+            basis='SVD canonical factor coordinates; uniform keeps top16/domain',spectral_reconstruction_relative_errors=errors,
+            factor_optimizer_moments_reset_for_both_arms=True)
 
     def utility_update(self):
         if self.a.method!='utility_router':return

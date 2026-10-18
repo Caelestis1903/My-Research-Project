@@ -33,3 +33,12 @@ Verdict: **PASS for engineering runs; formal runs require these to finish cleanl
 
 Any blocking implementation failure is returned to primary implementation. No
 formal scientific conclusion is licensed by these engineering receipts.
+
+## Formal-training gate
+
+Seven engineering training cases completed, exit0 and COMPLETE_ENGINEERING,
+including original two-Adam, noisy joint likelihood, task counterfactual,
+copula/control-variate, full-batch KR regret and ten-epoch rank transition.
+ADDENDUM_01_SPECTRAL_RANK strengthens the paired rank baseline before formal
+results. Both arms share canonicalization and moment reset. No unresolved blocker.
+Verdict: **PASS WITH FIXES, applied; proceed to full formal budgets.**
