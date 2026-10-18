@@ -159,3 +159,40 @@ finite contribution does not resolve the general endpoint utility problem.
 The remaining KR fixed-uniform KL control and full credit diagnostics complete
 before freeze; no ad-hoc meta-controller or unlimited auxiliary-loss search is
 justified by this selected/later ranking/calibration pattern.
+
+## Complete KuaiRand uniform-target strong control and finite-action record
+
+All4 fixed-uniform KL runs finish50epochs. Selected AUC/loss/weighted AUC
+.675933/.444693/.701452. Regret-minus-uniform selected macro AUC+.000394
+but only1/4 positive seed, interval[-.011451,.012238]; weighted AUC-.000323
+in3/4 negative seeds. Loss mean-.001602 is driven by one improvement(3/4
+worsen). Coalition-minus-uniform selected AUC-.002881 in3/4 negative seeds
+and loss+.001773 worsens3/4. Thus the apparent regret-versus-full macro gain
+is not a stable independent finite-credit gain beyond ordinary KL shrinkage.
+KR final regret-minus-uniform AUC+.000950 mixed2/2; ML final difference is
++.006421 in4/4 but selected effects are tiny/mixed and fixed-model loss is
+better4/4. No shared stage-invariant ranking/calibration advantage emerges.
+
+The complete80-checkpoint/480cell two-half credit measurement preserves every
+finite cost, choice, local derivative, same-tower mixture risk and sample hash.
+At selected regret states finite/local preferences agree12/24 ML and11/24 KR;
+finite A choice replicates on B only8/24 and10/24 respectively. These24cells
+share fixed populations/seeds and are not24 independent trials. Target entropy
+1.0893/1.0818 is near log(3), supporting the uniform-distillation explanation.
+
+At final regret states A-chosen source beats the local-preferred SOURCE on B
+by loss-.043529 ML/-.077144 KR. Yet against the CURRENT MIXTURE it changes
+loss-.126877 ML (4/4 improve) and+.027892 KR (4/4 worsen); even the B-oracle
+one-hot source loses to KR's mixture on average. The same large ML late gap is
+already present under full_mix(-.152726), so it is not unique proposed-method
+credit. Selected ML regret finite-versus-mixture mean-.004776 improves only2/4
+seed means, whereas KR+.003935 improves1/4. A different discrete preference
+is therefore real conditional evidence (MEDIUM), not proof of a better trained
+controller or of superiority to the actual utility optimizer.
+
+Pre-test disposition: complete32 exclusive+8 shared-control networks; stop the
+tested finite/coalition/utility variants, retaining broader mixture-aware credit
+as open. WEAK evidence of independent algorithm utility/originality. No ad-hoc
+meta-controller or new loss grid is scientifically required by late one-hot
+oracle gaps with contradictory selected/current-mixture evidence. Final test
+can update consistency/scope, never select a replacement or trigger retuning.

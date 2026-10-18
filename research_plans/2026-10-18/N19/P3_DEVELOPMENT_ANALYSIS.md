@@ -172,3 +172,31 @@ lose final macro AUC4/4 against dense, while uniform improves final loss4/4
 remain material. Evidence is MEDIUM for condition dependence, WEAK for a stable
 allocation-specific improvement. Finish the8 dictionary transfers, then close
 this complete bounded dataset/optimizer capacity matrix without a tuning grid.
+
+## Complete MovieLens AdamW dictionary transfer and pre-test disposition
+
+All8 additional100epoch networks complete. Selected cell/domain AUC
+.730222/.730255, loss .549858/.551907, weighted AUC .738722/.739182.
+Cell-minus-domain selected AUC-.000034 mixed2/2, interval[-.002680,.002613],
+loss-.002049 mixed2/2 and weighted AUC-.000460 mixed2/2. Final AUC-.001470
+and weighted AUC-.001109 are mixed2/2, loss+.002988 worsens1/4; task0 AUC
++.001664 improves4/4 while task1-.004603 is mixed. The repeated KR late macro
+ranking effect does not transfer. Versus ML dense final macro AUC-.002143
+in3/4 negative seeds while loss-.030068 improves4/4. This is a metric/stage
+trade-off, not universal degradation or improvement.
+
+Final finite-removal collection contains2400cell records=80 models x5saved
+stages x6cells. Every dataset/optimizer/method group has4seeds. All KR Adam
+selected/final paths remain prediction-invariant; AdamW selected sensitivity
+cell/domain .035390/.037344, final .114821/.104247. ML AdamW selected
+cell/domain sensitivity .002414/.002781 and shared norms14.47/14.46 retain
+an active but modest modulation. Conditional removal can lower train-meta
+loss; that is not a retrained no-slot generalization effect.
+
+Pre-test disposition: complete72 exclusive networks plus native dense controls,
+stop these tested rank/dictionary mechanisms without a further hyperparameter
+grid. STRONG descriptive evidence of original-KR numerical path inactivity;
+MEDIUM for stage/optimizer/dataset dependence; WEAK for independent allocation
+or task-dictionary value. Practical storage compression remains measurable,
+with exact active-factor exports after freeze. No causal size conclusion or
+finite-risk protection, and no forced independent top-tier novelty claim.
