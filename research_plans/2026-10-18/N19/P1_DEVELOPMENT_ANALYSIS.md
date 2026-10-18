@@ -52,3 +52,21 @@ Final direction judgment waits for this extension and frozen test readout.
 Raw evidence: development_readout/{runs,method_means,paired_comparisons,paired_cells,resources}.csv,
 all28run receipts/trajectories, and MATHEMATICAL_SCOPE/PROTOCOL_LIMITS. Concurrent
 operational time varies by device load; masks and DRO both require two forwards.
+
+## Completed MMoE falsification (12 additional full runs)
+
+Selected macro AUC mask .762775, DRO .765055; delta+.002280 in4/4 seeds,
+interval[-.000479,.005038]. Train-weighted delta+.002537 in4/4,
+interval[.001041,.004032]. Task0 delta+.006423 in4/4,
+interval[.001767,.011079], whereas task1 delta-.001864 in4/4. Selected LogLoss
+is WORSE by+.010959 in3/4, interval[-.019395,.041312]. Final loss instead
+improves-.113479 in4/4, matching the stage dependence seen with M3oE.
+
+The small task0 effect survives a different shared representation, weakening a
+STAR-only explanation. It still trades stable-task performance and calibration
+against unstable-task discrimination. Evidence **MEDIUM** for this residual
+controlled trade-off across two architectures, **WEAK** for a uniform method
+advantage or independent contribution. Known-rule masking captures most of the
+large robustness benefit; ordinary DRO's principle has prior coverage. No further
+penalty/shift grid is justified for the current novelty claim. The40 full P1
+trainings are complete; final scope and disposition wait for frozen test readout.

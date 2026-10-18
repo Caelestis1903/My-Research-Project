@@ -23,6 +23,8 @@ COMPARISONS['natural'].extend([('regret_router','fixed'),('coalition_router','fi
 COMPARISONS['natural'].extend([('interaction','axis_mix'),('reliability_interaction','axis_mix'),('axis_mix','domain_mix'),('full_mix','axis_mix')])
 COMPARISONS['stability'].extend([('task_cf','original_sample'),('task_dro','original_sample')])
 COMPARISONS['noise'].extend([('axis_channel','original_sample'),('joint_axis','original_sample')])
+COMPARISONS['noise'].extend([('profile_axis','axis_channel'),('profile_axis','audit_fixed'),('profile_nested','nested_axis'),('profile_joint','joint_axis'),('profile_joint','profile_nested'),('profile_joint','audit_joint'),('profile_joint','nested_ind'),('profile_joint','audit_fixed'),('profile_joint','naive')])
+COMPARISONS['sampling'].extend([('mask_residual_cv','mask_copula_cv'),('mask_residual_cv','mask_independent_cv'),('mask_residual_cv','mask_antithetic_cv'),('mask_antithetic_cv','mask_independent_cv'),('mask_copula_cv','mask_antithetic_cv'),('mask_residual_cv','fixed')])
 
 def interval(values):
     x=np.asarray(values,float);n=len(x);mean=float(x.mean())
@@ -36,7 +38,7 @@ def collect(phase):
         if not (path/'receipt.json').exists():continue
         config=json.loads((path/'config.json').read_text());receipt=json.loads((path/'receipt.json').read_text())
         if config['engineering'] or receipt['status']!='COMPLETE_TRAINING_TEST_DEFERRED':continue
-        suite=config['suite'];dataset=config['dataset'];key=(dataset,suite)
+        suite=config['suite'];dataset=config['dataset'];key=(dataset,suite,config.get('noise_interaction',0.))
         if key not in cache:cache[key]=population(*key)
         data=cache[key];base=dict(run_id=config['run_id'],suite=suite,dataset=dataset,method=config['method'],seed=config['seed'],tag=config['run_id'].split('__seed')[1].split('__',1)[1] if '__' in config['run_id'].split('__seed')[1] else '')
         observed_per_visit=receipt['labels_queried']/(config['epochs']*config['train_rows']) if suite=='sampling' else (2. if suite=='natural' and config['method']=='fixed' else None)

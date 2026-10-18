@@ -1,8 +1,36 @@
 """Declared observation likelihoods and task-mask policies, no research decisions."""
 import math
+import numpy as np
+from scipy.optimize import minimize
+from scipy.special import expit
 import torch
 from torch import nn
 import torch.nn.functional as F
+
+def fit_audit_channel(clean,noisy,domains,axis=False):
+    """Inputs are already restricted to audited main rows by the caller."""
+    rates=np.zeros((2,3,2));counts=[];fits=[]
+    design=np.array([[1.,float(d==1),float(d==2),float(t==1)] for d in range(3) for t in range(2)])
+    for value in range(2):
+        nn=[];kk=[]
+        for d in range(3):
+            for t in range(2):
+                ix=(domains==d)&(clean[:,t]==value);n=int(ix.sum());k=int((noisy[ix,t]!=value).sum())
+                nn.append(n);kk.append(k);counts.append(dict(domain=d,task=t,clean=value,n=n,flips=k))
+        n=np.asarray(nn)+1.;k=np.asarray(kk)+.5
+        if axis:
+            def objective(beta):
+                s=expit(design@beta);eta=np.clip(.35*s,1e-12,1-1e-12)
+                loss=-np.sum(k*np.log(eta)+(n-k)*np.log1p(-eta))
+                grad=design.T@((n*eta-k)/(eta*(1-eta))*.35*s*(1-s))
+                return loss,grad
+            result=minimize(objective,np.array([math.log(.1/.25),0.,0.,0.]),jac=True,method='L-BFGS-B',bounds=[(-12,12)]*4,
+                options=dict(maxiter=1000,ftol=1e-12,gtol=1e-8))
+            if not result.success:raise RuntimeError('Audit calibration did not converge: '+str(result.message))
+            rates[value]=(.35*expit(design@result.x)).reshape(3,2)
+            fits.append(dict(clean=value,coefficients=result.x.tolist(),iterations=int(result.nit),objective=float(result.fun),success=bool(result.success),message=str(result.message),gradient_max=float(np.max(np.abs(result.jac)))))
+        else:rates[value]=np.clip(k/n,1e-5,.35-1e-5).reshape(3,2)
+    return rates,counts,fits
 
 class NoiseChannel(nn.Module):
     def __init__(self,axis=False):
@@ -38,15 +66,15 @@ class NoiseChannel(nn.Module):
         return rowloss.mean()
 
 def clean_predictions(prob,method):
-    if method in ['nested_ind','nested_axis','joint_axis']:
+    if method in ['nested_ind','nested_axis','joint_axis','profile_nested','profile_joint','audit_joint']:
         return torch.stack([prob[:,0],prob[:,0]*prob[:,1]],dim=1)
     return prob
 
 def task_masks(method,domains,generator,copula):
     pi=.55
     if method in ['mask_positive']:r=torch.full_like(domains,pi,dtype=torch.float32)
-    elif method in ['mask_antithetic']:r=torch.full_like(domains,.1,dtype=torch.float32)
-    elif method in ['mask_copula','mask_copula_cv']:r=torch.where(copula[domains]>=0,.1,.55)
+    elif method in ['mask_antithetic','mask_antithetic_cv']:r=torch.full_like(domains,.1,dtype=torch.float32)
+    elif method in ['mask_copula','mask_copula_cv','mask_residual_cv']:r=torch.where(copula[domains]>=0,.1,.55)
     else:r=torch.full_like(domains,pi*pi,dtype=torch.float32)
     u=torch.rand(len(domains),device=domains.device,generator=generator)
     both=u<r;t0=both|((u>=r)&(u<pi));t1=both|((u>=pi)&(u<2*pi-r))

@@ -33,7 +33,7 @@ def evaluate(run,device):
     if run.name not in decision['runs']:raise RuntimeError('Run absent from frozen readout manifest')
     c=json.loads((run/'config.json').read_text());assert not c['engineering']
     if (run/'test_receipt.json').exists():return
-    torch.set_num_threads(2);torch.cuda.set_device(device);data=population(c['dataset'],c['suite'])
+    torch.set_num_threads(2);torch.cuda.set_device(device);data=population(c['dataset'],c['suite'],c.get('noise_interaction',0.))
     state_dir=Path(c['state_directory']);m=Model(data.features,c['seed'],c['method'],c.get('backbone')).to(device).eval()
     started=time.time();records=[];diagnostics={}
     for stage,filename in [('selected','selected.pt'),('final','last.pt')]:
@@ -54,13 +54,13 @@ def evaluate(run,device):
         if flips:
             gap=np.concatenate(flips);diagnostics[stage+'_nuisance_flip_abs_probability']=gap.mean(0).tolist()
         if state['channel'] is not None:
-            channel=NoiseChannel(c['method'] in ['axis_channel','nested_axis','joint_axis']).to(device)
+            channel=NoiseChannel(c['method'] in ['axis_channel','nested_axis','joint_axis','profile_axis','profile_nested','profile_joint']).to(device)
             channel.load_state_dict(state['channel']);aa,bb=channel.rates()
             estimated=np.stack([aa.cpu().numpy(),bb.cpu().numpy()]);truth=np.stack([data.noise_rates['a'],data.noise_rates['b']])
             diagnostics[stage+'_noise_channel']=dict(a=estimated[0].tolist(),b=estimated[1].tolist(),rmse=float(np.sqrt(((estimated-truth)**2).mean())),
                 per_rate_errors=(estimated-truth).tolist())
         if c['method'].startswith('mask_'):
-            diagnostics[stage+'_observation_state']=dict(copula=state['copula'].cpu().tolist(),labels=state['total_labels'],paired=state['total_pairs'])
+            diagnostics[stage+'_observation_state']=dict(copula=state['copula'].cpu().tolist(),labels=state['total_labels'],paired=state['total_pairs'],policy_counts=state.get('policy_counts'))
         if getattr(m,'mix_mode',False):
             diagnostics[stage+'_effective_router_logits']=m.router_logits().cpu().tolist()
             x=torch.tensor(data.test_x[:512],device=device,dtype=torch.float32).T

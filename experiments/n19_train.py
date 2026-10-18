@@ -8,7 +8,7 @@ import torch.nn.functional as F
 from sklearn.metrics import roc_auc_score,log_loss
 from n19_data import ROOT,OUT,ART,population,dump
 from n19_models import Model
-from n19_objectives import NoiseChannel,clean_predictions,task_masks
+from n19_objectives import NoiseChannel,clean_predictions,task_masks,fit_audit_channel
 
 def seed_all(seed):
     random.seed(seed);np.random.seed(seed);torch.manual_seed(seed);torch.cuda.manual_seed_all(seed)
@@ -27,31 +27,31 @@ class Runner:
     def __init__(self,a):
         self.a=a;self.run_id=f'{a.suite}__{a.dataset}__{a.method}__seed{a.seed}'
         if a.backbone:self.run_id+='__backbone_'+a.backbone
+        if a.noise_interaction:self.run_id+='__noise_interaction'+format(a.noise_interaction,'g')
         if a.tag:self.run_id+='__'+a.tag
         self.out=OUT/'runs'/self.run_id;self.state_dir=ART/self.run_id
         self.out.mkdir(parents=True,exist_ok=a.resume);self.state_dir.mkdir(parents=True,exist_ok=a.resume)
         self.device=torch.device(a.device);torch.cuda.set_device(self.device);torch.set_num_threads(2)
-        torch.cuda.reset_peak_memory_stats(self.device);seed_all(a.seed);self.data=population(a.dataset,a.suite)
+        torch.cuda.reset_peak_memory_stats(self.device);seed_all(a.seed);self.data=population(a.dataset,a.suite,a.noise_interaction)
         self.model=Model(self.data.features,a.seed,a.method,a.backbone).to(self.device)
-        self.channel=NoiseChannel(a.method in ['axis_channel','nested_axis','joint_axis']).to(self.device) if a.method in ['ind_channel','axis_channel','nested_ind','nested_axis','joint_axis','audit_fixed'] else None
-        if a.method=='audit_fixed':
-            b=self.data;idx=b.main[b.audit[b.main]];d=b.train_x[idx,-1].astype(int);rates=np.zeros((2,3,2));counts=[]
-            for domain in range(3):
-                for task in range(2):
-                    for clean in range(2):
-                        ix=(d==domain)&(b.train_y[idx,task]==clean)
-                        flips=int((b.observed[idx[ix],task]!=clean).sum());n=int(ix.sum())
-                        rates[clean,domain,task]=np.clip((flips+.5)/(n+1),1e-5,.35-1e-5)
-                        counts.append(dict(domain=domain,task=task,clean=clean,n=n,flips=flips))
-            scaled=torch.tensor(rates/.35,device=self.device,dtype=torch.float32)
-            with torch.no_grad():self.channel.raw.copy_(torch.logit(scaled))
+        axis=a.method in ['axis_channel','nested_axis','joint_axis','profile_axis','profile_nested','profile_joint']
+        self.channel=NoiseChannel(axis).to(self.device) if a.method in ['ind_channel','axis_channel','nested_ind','nested_axis','joint_axis','audit_fixed','profile_axis','profile_nested','profile_joint','audit_joint'] else None
+        if a.method in ['audit_fixed','profile_axis','profile_nested','profile_joint','audit_joint']:
+            b=self.data;idx=b.main[b.audit[b.main]];d=b.train_x[idx,-1].astype(int)
+            rates,counts,fits=fit_audit_channel(b.train_y[idx],b.observed[idx],d,axis)
+            with torch.no_grad():
+                if axis:
+                    beta=torch.tensor([f['coefficients'] for f in fits],device=self.device,dtype=torch.float32)
+                    self.channel.mu.copy_(beta[:,0,None,None]);self.channel.row.zero_();self.channel.column.zero_()
+                    self.channel.row[:,1:,0].copy_(beta[:,1:3]);self.channel.column[:,0,1].copy_(beta[:,3])
+                else:self.channel.raw.copy_(torch.logit(torch.tensor(rates/.35,device=self.device,dtype=torch.float32)))
             for parameter in self.channel.parameters():parameter.requires_grad_(False)
-            if not a.resume:dump(self.out/'audit_calibration.json',dict(counts=counts,a=rates[0].tolist(),b=rates[1].tolist()))
+            if not a.resume:dump(self.out/'audit_calibration.json',dict(counts=counts,a=rates[0].tolist(),b=rates[1].tolist(),axis=axis,fits=fits))
         params=list(self.model.parameters())+([p for p in self.channel.parameters() if p.requires_grad] if self.channel else [])
         self.opt=torch.optim.Adam(params,lr=a.lr,betas=(.9,.999),eps=1e-8,weight_decay=1e-5)
         arch=[p for n,p in self.model.named_parameters() if '._weight_' in n]
         self.archopt=torch.optim.Adam(arch,lr=a.lr,weight_decay=1e-5) if a.method=='original' else None
-        self.ema=copy.deepcopy(self.model).eval() if a.method in ['mask_copula_cv','mask_independent_cv'] else None
+        self.ema=copy.deepcopy(self.model).eval() if a.method in ['mask_copula_cv','mask_independent_cv','mask_residual_cv','mask_antithetic_cv'] else None
         if self.ema:
             for p in self.ema.parameters():p.requires_grad_(False)
         # The simulator is separated from policy observations; hidden labels are
@@ -66,13 +66,15 @@ class Runner:
         self.mask_generator=torch.Generator(device=self.device).manual_seed(a.seed*1000+19)
         self.train_rng=np.random.default_rng(a.seed*1000+19)
         self.validation_p=None;self.total_labels=0;self.total_pairs=0
-        self.config=dict(run_id=self.run_id,seed=a.seed,population_seed=2022,dataset=a.dataset,suite=a.suite,method=a.method,backbone=self.model.backbone_name,
+        self.policy_counts=dict(high_rows=0,rows=0) if a.method in ['mask_residual_cv','mask_antithetic_cv'] else None
+        self.config=dict(run_id=self.run_id,seed=a.seed,population_seed=2022,dataset=a.dataset,suite=a.suite,method=a.method,backbone=self.model.backbone_name,noise_interaction=a.noise_interaction,
             epochs=a.epochs,lr=a.lr,batch_size=a.batch_size,train_rows=len(b.main),train_meta_rows=len(b.meta),
             p=b.p.tolist(),source_base_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
             optimizer='Adam',optimizer_count=2 if self.archopt else 1,weight_decay=1e-5,
             original_protocol_overlap=bool(self.archopt),objective='Equal group mean sum + epoch Sample architecture update' if self.archopt else 'Sample mean-row mean-task BCE or declared suite objective',
             learned_fusion=self.model.is_m3oe and a.method in ['original','original_sample'],fusion_fixed_sigmoid1=self.model.is_m3oe and a.method not in ['original','original_sample'],
             parameters=sum(p.numel() for p in self.model.parameters()),noise_channel_parameters=sum(p.numel() for p in self.channel.parameters()) if self.channel else 0,
+            trainable_noise_channel_parameters=sum(p.numel() for p in self.channel.parameters() if p.requires_grad) if self.channel else 0,
             noise_rates=b.noise_rates,selection='earliest strict maximum six-cell macro AUC on selection half; rank arms eligible only after epoch10 pruning',
             engineering=a.engineering,
             test_read=False,from_scratch=True,backbone_frozen=False,review='primary self-review under revised start.md',
@@ -90,6 +92,7 @@ class Runner:
             self.mask_generator.set_state(state['mask_rng'].cpu())
             self.steps=state['steps'];self.best=state['best'];self.selected=state['selected'];self.start_epoch=state['epoch']
             self.total_labels=state['total_labels'];self.total_pairs=state['total_pairs']
+            self.policy_counts=state.get('policy_counts')
             for name in ['trajectory.csv','metrics_validation.csv']:
                 path=self.out/name
                 if path.exists():
@@ -108,7 +111,7 @@ class Runner:
             arch_optimizer=self.archopt.state_dict() if self.archopt else None,copula=self.copula,
             sampler_rng=self.train_rng.bit_generator.state,mask_rng=self.mask_generator.get_state(),
             torch_cpu=torch.get_rng_state(),torch_cuda=torch.cuda.get_rng_state(self.device),steps=self.steps,
-            best=self.best,selected=self.selected,total_labels=self.total_labels,total_pairs=self.total_pairs)
+            best=self.best,selected=self.selected,total_labels=self.total_labels,total_pairs=self.total_pairs,policy_counts=self.policy_counts)
         temp=self.state_dir/(name+'.tmp');torch.save(state,temp);temp.replace(self.state_dir/name)
 
     @torch.no_grad()
@@ -126,7 +129,7 @@ class Runner:
         a=self.a;y=self.y[rows];domains=self.x[rows,-1].long()
         if self.channel:
             clean_audit=torch.where(self.audit[rows,None],y,torch.zeros_like(y))
-            return self.channel.loss(clean_predictions(prob,a.method),self.noisy[rows],clean_audit,self.audit[rows],domains,a.method=='joint_axis')
+            return self.channel.loss(clean_predictions(prob,a.method),self.noisy[rows],clean_audit,self.audit[rows],domains,a.method in ['joint_axis','profile_joint','audit_joint'])
         if a.method=='audit_only':
             ix=self.audit[rows];return F.binary_cross_entropy(prob[ix],y[ix]) if ix.any() else prob.sum()*0
         if a.suite=='noise' and a.method!='clean_oracle':
@@ -169,21 +172,30 @@ class Runner:
             mask,r=task_masks(a.method,d,self.mask_generator,self.copula)
             observed=torch.where(mask,y,torch.zeros_like(y))
             terms=F.binary_cross_entropy(prob,observed,reduction='none')
+            baseline=None
+            if a.method=='mask_residual_cv':
+                with torch.no_grad():teacher=self.ema(x)
+                baseline=F.binary_cross_entropy(prob,teacher,reduction='none')
             both=mask.all(1)
-            if a.method in ['mask_copula','mask_copula_cv'] and both.any():
-                g0=torch.autograd.grad(terms[both,0].sum(),info['emb'],retain_graph=True)[0]
-                g1=torch.autograd.grad(terms[both,1].sum(),info['emb'],retain_graph=True)[0]
+            if a.method in ['mask_copula','mask_copula_cv','mask_residual_cv'] and both.any():
+                field=terms-baseline if a.method=='mask_residual_cv' else terms
+                g0=torch.autograd.grad(field[both,0].sum(),info['emb'],retain_graph=True)[0]
+                g1=torch.autograd.grad(field[both,1].sum(),info['emb'],retain_graph=True)[0]
                 dot=(g0.detach()*g1.detach()).sum(1)
                 for domain in range(3):
                     ix=d==domain
                     if ix.any():self.copula[domain].mul_(.95).add_((dot[ix]/r[ix]).mean(),alpha=.05)
             if self.ema:
-                with torch.no_grad():teacher=self.ema(x)
-                baseline=F.binary_cross_entropy(prob,teacher,reduction='none')
+                if baseline is None:
+                    with torch.no_grad():teacher=self.ema(x)
+                    baseline=F.binary_cross_entropy(prob,teacher,reduction='none')
                 loss=(baseline+(terms-baseline)*mask/.55).mean()
             else:loss=(terms*mask/.55).mean()
             self.total_labels+=int(mask.sum());self.total_pairs+=int(both.sum())
             extra.update(labels=int(mask.sum()),paired=int(both.sum()),copula=self.copula.detach().cpu().tolist())
+            if self.policy_counts is not None:
+                high=int((r>.3).sum());self.policy_counts['high_rows']+=high;self.policy_counts['rows']+=len(rows)
+                extra['high_endpoint_rows']=high
         assert torch.isfinite(loss),'nonfinite loss'
         loss.backward();self.opt.step();self.steps+=1
         if self.ema:
@@ -312,7 +324,7 @@ class Runner:
         dump(self.out/'receipt.json',dict(status='COMPLETE_ENGINEERING' if a.engineering else 'COMPLETE_TRAINING_TEST_DEFERRED',epochs=a.epochs,steps=self.steps,
             selected_epoch=self.selected,best_selection_auc=self.best,wall_seconds=time.time()-self.started,
             peak_reserved_mib=torch.cuda.max_memory_reserved(self.device)/1024**2,parameters=self.model.deployed_parameters(),
-            labels_queried=self.total_labels,pairs_queried=self.total_pairs,from_scratch=True,backbone_frozen=False,test_read=False))
+            labels_queried=self.total_labels,pairs_queried=self.total_pairs,policy_counts=self.policy_counts,from_scratch=True,backbone_frozen=False,test_read=False))
 
     def append(self,file,rows):
         path=self.out/file;pd.DataFrame(rows).to_csv(path,mode='a',header=not path.exists(),index=False)
@@ -322,6 +334,7 @@ def main():
     p.add_argument('--suite',choices=['natural','stability','noise','sampling'],default='natural')
     p.add_argument('--method',required=True);p.add_argument('--seed',type=int,required=True);p.add_argument('--device',required=True)
     p.add_argument('--backbone',choices=['m3oe','mmoe','ple'])
+    p.add_argument('--noise-interaction',type=float,default=0.)
     p.add_argument('--epochs',type=int);p.add_argument('--lr',type=float);p.add_argument('--batch-size',type=int,default=40960)
     p.add_argument('--tag',default='');p.add_argument('--resume',action='store_true');p.add_argument('--engineering',action='store_true');a=p.parse_args()
     if a.epochs is None:a.epochs=50 if a.dataset=='kuairand' else 100

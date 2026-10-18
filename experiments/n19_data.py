@@ -16,7 +16,7 @@ def dump(path,value):
     path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
     tmp=path.with_suffix(path.suffix+'.tmp');tmp.write_text(json.dumps(value,indent=2,ensure_ascii=False,allow_nan=False));tmp.replace(path)
 
-def population(dataset,suite):
+def population(dataset,suite,noise_interaction=0.):
     with (HISTORY/'local_cache'/f'{dataset}_2022.pkl').open('rb') as f:b=pickle.load(f)
     data=SimpleNamespace(features=b.features,metadata=b.preprocessing_metadata,dataset=dataset,suite=suite)
     for split in ['train','val','test']:
@@ -52,8 +52,9 @@ def population(dataset,suite):
         data.observed=data.train_y.copy()
     if suite=='noise':
         assert dataset=='movielens'
-        aa=.35*expit(np.array([-1.,.2,.8])[:,None]+np.array([-.3,.5])[None,:])
-        bb=.35*expit(np.array([.5,-.5,.2])[:,None]+np.array([.4,-.4])[None,:])
+        cross=noise_interaction*np.array([-1.,0.,1.])[:,None]*np.array([-1.,1.])[None,:]
+        aa=.35*expit(np.array([-1.,.2,.8])[:,None]+np.array([-.3,.5])[None,:]+cross)
+        bb=.35*expit(np.array([.5,-.5,.2])[:,None]+np.array([.4,-.4])[None,:]-cross)
         rng=np.random.default_rng(191902);domains=data.train_x[:,-1].astype(int);y=data.train_y
         flips=rng.random(y.shape)<np.where(y==0,aa[domains],bb[domains])
         observed=np.where(flips,1-y,y).astype(np.float32);audit=rng.random(len(y))<.02
