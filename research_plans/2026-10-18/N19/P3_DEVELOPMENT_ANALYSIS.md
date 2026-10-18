@@ -131,3 +131,44 @@ than an isolated causal effect of slot decay.
 Complete protected/dictionary matched comparisons and their four-seed activity
 diagnostics remain pending; no universal allocation failure or optimizer cure is
 asserted. Active-factor export and frozen test still follow after all decisions.
+
+## Complete20-network KuaiRand AdamW capacity cohort
+
+Selected cell/domain dictionary AUC .671507/.666411, loss .450340/.449772,
+weighted AUC .699650/.697690. Cell-minus-domain selected AUC+.005095 in3/4
+with wide interval[-.018263,.028454], loss+.000568 mixed. Final AUC+.020424
+and weighted AUC+.006361 both improve4/4, but final loss is mixed2/2. Against
+uniform rank final AUC+.008108 improves4/4 while loss+.026607 worsens4/4,
+interval[.003907,.049306]. This is a meaningful late ranking/calibration
+contradiction, not a uniformly better task dictionary. ADDENDUM_14 therefore
+adds exactly8 ML AdamW dictionary transfer runs; no coefficient/rank/decay grid.
+
+Protected-minus-uniform selected macro AUC+.003168 and loss-.005195 improve
+4/4, intervals[-.002388,.008724] and[-.012335,.001945]. Weighted AUC instead
+-.000969 in3/4 negative seeds. Final protected-minus-uniform AUC-.007372 in0/4
+positive seeds; task1-.014192 in0/4, interval[-.022375,-.006009]. ADDENDUM_13
+adds12 ML AdamW dense/uniform/protected runs to test transfer of this selected
+macro trade-off. Both full matched cohorts remain separate from original Adam.
+
+These two bounded transfers complete the native dataset x optimizer capacity
+comparison with72 exclusive networks. Activity is necessary to interpret a
+slot allocation, but neither activity nor a positive selected mean establishes
+finite-risk protection or independent novelty. The final4seed ML reading, all
+checkpoint sensitivities, compact exports and frozen test follow.
+
+## Complete MovieLens AdamW rank-transfer falsifier (12 full networks)
+
+Selected dense/uniform/protected macro AUC .730708/.730109/.730092 and loss
+.550455/.551148/.551180. Protected-minus-uniform macro AUC-.00001705 in1/4
+positive seeds, interval[-.0000752,.0000411], loss+.0000315 worse3/4; weighted
+AUC-.0000154 in0/4 positive seeds. The KR selected allocation effect does not
+transfer to this second native dataset/optimizer condition. Against dense both
+rank arms have worse selected loss4/4; no independent protection claim follows.
+
+Final protected-minus-uniform macro AUC+.001545 in3/4, interval[-.002168,
+.005258], but loss+.004214 worse3/4; task1 AUC+.003410 in4/4. Both rank arms
+lose final macro AUC4/4 against dense, while uniform improves final loss4/4
+(-.054487, interval[-.095568,-.013406]). Stage/ranking/calibration distinctions
+remain material. Evidence is MEDIUM for condition dependence, WEAK for a stable
+allocation-specific improvement. Finish the8 dictionary transfers, then close
+this complete bounded dataset/optimizer capacity matrix without a tuning grid.

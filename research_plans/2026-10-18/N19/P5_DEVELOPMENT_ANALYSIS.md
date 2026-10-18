@@ -141,3 +141,21 @@ probe; it would require same-information whole-training controls and originality
 beyond ordinary validation selection. No additional ad-hoc controller or KL grid
 is accepted from these mixed selected results. Complete KR alternatives, frozen
 test and final80-checkpoint diagnostic still determine the scoped disposition.
+
+## Complete KuaiRand mixture-aware leave-one-source-out alternative
+
+Four seeds complete50epochs. Coalition selected AUC/loss/weighted AUC
+.673052/.446467/.700971. Relative to fixed AUC+.000152 mixed2/2, loss
++.002466 worse4/4, weighted AUC-.001326 in3/4 negative seeds. Relative
+to full router AUC-.002108 in3/4 negative seeds and loss+.002345 worse3/4.
+Against train-meta utility AUC+.004990 and weighted AUC+.003299 improve4/4,
+but loss+.005393 worsens4/4, interval[.001874,.008911]. Outperforming one
+utility comparator on ranking is insufficient when fixed/full are stronger.
+
+Final coalition-minus-fixed macro AUC+.000634 and weighted+.000321 are both
+mixed2/2; final loss-.000187 mean is driven by one improvement(3/4 worsen).
+Coalition-minus-full final AUC-.000309 in3/4 negative seeds. A mixture-aware
+finite contribution does not resolve the general endpoint utility problem.
+The remaining KR fixed-uniform KL control and full credit diagnostics complete
+before freeze; no ad-hoc meta-controller or unlimited auxiliary-loss search is
+justified by this selected/later ranking/calibration pattern.

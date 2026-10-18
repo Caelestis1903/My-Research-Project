@@ -74,9 +74,9 @@ def collect(phase):
         aggregates.append(rec)
     aggregate=pd.DataFrame(aggregates)
     # Full-label natural reference shares the sampling data, main split and seeds.
-    reference=aggregate[(aggregate.suite=='natural')&(aggregate.dataset=='movielens')&(aggregate.method=='fixed')].copy()
+    reference=aggregate[(aggregate.suite=='natural')&(aggregate.dataset=='movielens')&(aggregate.method=='fixed')&(aggregate.tag=='')].copy()
     if len(reference):reference['suite']='sampling';aggregate=pd.concat([aggregate,reference],ignore_index=True)
-    cellref=frame[(frame.suite=='natural')&(frame.dataset=='movielens')&(frame.method=='fixed')].copy()
+    cellref=frame[(frame.suite=='natural')&(frame.dataset=='movielens')&(frame.method=='fixed')&(frame.tag=='')].copy()
     if len(cellref):cellref['suite']='sampling';frame=pd.concat([frame,cellref],ignore_index=True)
     return frame,aggregate,resource
 

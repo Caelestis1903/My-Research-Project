@@ -117,3 +117,33 @@ concurrent workloads. These are costs, not an isolated speed ratio.
 No further ML shrinkage grid is justified by this mixed tiny selected effect.
 If KR shows a substantial repeatable advantage, a matched global-confidence
 control remains the falsifier; pending KR must complete regardless.
+
+## Complete KuaiRand replicated-confidence alternative and disposition
+
+All4seeds finish50epochs. Selected AUC/loss/weighted AUC .665568/.446510/
+.700113. Confidence-minus-fixed macro AUC-.007332 in0/4 positive seeds,
+interval[-.018185,.003521]; weighted AUC-.002183 in0/4; task1 AUC-.010206
+in0/4, interval[-.018009,-.002402]. Versus full mixing weighted AUC-.002300
+in0/4, interval[-.004570,-.000029]. Relative to confidence-off, selected macro
+AUC-.004346 in1/4 and loss+.004823 worse3/4, though weighted AUC+.001618
+in3/4. This does not establish a useful selected sharing improvement.
+
+At final epoch confidence-minus-full macro AUC-.012379 in0/4, interval
+[-.022556,-.002201], and task1 AUC-.013086 in0/4, interval[-.026061,-.000111].
+Versus axis final AUC-.012912 in0/4, interval[-.025741,-.000083]. Training-stage
+and task contradictions reinforce the limited scope. The fixed/global-shrink
+falsifier is not triggered: the required substantive benefit beyond fixed/full
+is absent. Adding a shrinkage grid to repair an unsuccessful heuristic would
+change the research question rather than distinguish an observed success.
+
+Evidence: MEDIUM against this tested replicated-confidence mechanism as a
+general endpoint improvement; WEAK for independent algorithm value. Positive
+PCP confidence preserves the feasible interaction family, and risk-sign
+replication is not calibrated reliability. All40 exclusive networks complete;
+stop these two tested families, leaving broader interaction-information sharing
+open. Frozen test checks consistency and cannot select a replacement algorithm.
+
+KR records10 probes/seed, mean sign agreement .6167/.6556/.6333/.5778 and
+extra times82.6/77.9/79.2/53.1s (mean73.2s). Total operational training
+time1059.1s versus confidence-off771.1s,1516MiB both. Differing contention
+means the total wall-time difference is not attributable solely to probes.

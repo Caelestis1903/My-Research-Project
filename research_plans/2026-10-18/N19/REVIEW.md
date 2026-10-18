@@ -57,3 +57,7 @@ Figure comparisons stay within optimizer tags and include the declared ML AdamW
 rank transfer; no undeclared ML AdamW dictionaries are implied. These changes do
 not alter model training, selection, population membership or any saved result.
 Both edited scripts pass syntax parsing; no additional training/test grid.
+
+ADDENDUM_14 now explicitly declares the ML AdamW dictionaries after the complete KR late-ranking result; the capacity figure includes all four dataset/optimizer regimes. Primary self-review: PASS; no training source change.
+
+Reporting-only scope adjustment before freeze: sampling full-label reference is explicitly limited to the declared native Adam fixed runs (empty tag). P3 AdamW dense runs stay in natural tables; they are not additional P6 controls. Existing P6 means/deltas are unchanged. Primary self-review: PASS.
