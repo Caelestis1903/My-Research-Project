@@ -1,0 +1,969 @@
+{
+  "title": "2026-10-18跨分支科研问题整合清单",
+  "generated_from": {
+    "branch": "codex/execute-2026-10-17-run",
+    "source_path": "research_plans/2026-10-17/execution_20261017/QUESTION_REGISTRY_FINAL.json",
+    "source_blob_sha": "5bb446bba0c4f37676d982ac564b99e692217d5d"
+  },
+  "policy": "仅提取问题、历史结论、最新边界及遗留项；状态只在相同协议/估计对象上覆盖。未触发实验≠阴性，INCONCLUSIVE≠等效，历史原字段仍留在源分支。",
+  "question_count": 53,
+  "questions": [
+    {
+      "id": "Q1",
+      "question": "Objective-equivalent sampling 是否真的改变 training trajectory？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Objective-equivalent q changes can produce seed-consistent early diagnostic trajectory performance in the frozen fixed-reference Adam.01 configuration: commonpre1..27 AULC mean-.006980, fournegative, CI[-.011226,-.002734]. Not a selected-only or late-only observation in that configuration.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "N1与N5独立确认完整H100；KR selected主Holm均未通过，但Adam早期AULC8/8负，固定ML selected两种调参估计对象均8/8负。条件轨迹效应保留，非普遍有害。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不能将有限配置推广为所有optimizer/人口/阶段。",
+      "next_discriminating_step": "新假说须冻结其配置与评价对象；不重跑旧存在性审计。",
+      "sources": [
+        "FINAL_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q2",
+      "question": "是否只是 checkpoint-selection artifact？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "RESOLVED/MEDIUM：selection会改变符号、大小及两臂健康解释，但不是所有q效应的唯一来源。冻结test固定SGD早期−.001430及共同E50−.001405四负，common-SN/common-SB AUC选轮分别−.002747/−.001380四负；校准Adam早期−.009821及共同选择−.011520/−.010323四负。calSGD早期+.001614四正却AUC自选−.000972四负，ML早期+.003015四正、E50−.000986四负、自选均值+.000539仅1正3负，显示规则/阶段/人口边界。全部四规则、1000重选区间与共同轮次分别归档，不把条件选择区间当外层调参或pristine holdout不确定性。",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "N0固定同预测权重分解及N1固定轮/AULC与selected并列；ML own E100正而selected负，selection改变大小/符号但不能解释所有早期效应。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不同评价人口与选轮不是同estimand。",
+      "next_discriminating_step": "独立预注册ML完整q×两LR外部预算，检验late作用。",
+      "sources": [
+        "METRIC_AND_POPULATION_DECOMPOSITION.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q3",
+      "question": "是否依赖 Adam？",
+      "historical_status": "FALSIFIED",
+      "historical_conclusion": "UniversalAdamnecessityfalsified: fixedSGD.1 commonpre1..50 AUCmean-.00304265 fournegativeCI[-.00515485,-.00177798]; common20/fixed50/selected alsonegative. Adam notnecessary forANY q-dependent AUCtrajectoryeffect. LogLosscanimprove, noallmetricsworseclaim.",
+      "status_at_2026_10_18": "FALSIFIED",
+      "latest_review_tag": "HISTORICAL_FROZEN",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原无动量SGD反例及FALSIFIED不改。新SGD1.0 selected宏CI跨±.003，不能消除旧配置存在性反例，也不能宣称所有optimizer等效。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "新配置主效应精度不足见Q53；普遍Adam必要性已由旧反例反驳。",
+      "next_discriminating_step": "不重做通用必要性；新精度设计另登记。",
+      "sources": [
+        "FINAL_performance/primary_common_eta_Holm.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q4",
+      "question": "若 optimizer-specific，是否为 m/v/history？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "Actualcalibratedinteractiontriggeredallmandatoryfour-seedwhole-stateandshadowcontrols; allfinalbudgets250/150/100/200 and39pairscompleted. Whole-state update mapping influencesearlygap, but fixed22SNdegradation, E50healthyabsoluteimprovementwithunstablegap, beta2floor and unmatchedlongrunbudgets prevent identification of unique necessary m/v/history mediator.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "同θ/m/v/step的N2映射对比与固定分母完成；ALL对比/边际MC尺度约.48–.62，固定分母后不明确消失。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "未确认总体即时漂移，不识别长期历史必要性。",
+      "next_discriminating_step": "仅在明确定义的新状态假说下预注册健康保留干预。",
+      "sources": [
+        "N2_FIXEDPOINT_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q5",
+      "question": "非 Adam 机制是 exposure/repetition/coverage/order/geometry 中哪一个？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "FullWR/PERM/ORDER all4Adam/SGD controlsandfinalrawsampler/coverage/weight auditscomplete. FixedE,N enforcesR=E-U>=max(0,E-N); SBsmallE>N preventsfixedquota/supportzero-repeatcontrol. PERMchangescoverage/dependenceandretainsrepeats; ORDERjointlychanges tailclock. CannotassignuniquenecessarynonAdammediator.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "固定quota的域计数份额小，q trace和全程q性能差保留；N3局部作用小。不同路径仍可共同解释。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "quota改变批内依赖/高阶矩，不唯一分解order/repetition/coverage。",
+      "next_discriminating_step": "选择一个可操纵剩余解释另立估计对象；不强求唯一中介。",
+      "sources": [
+        "DOMAIN_COUNT_COUNTERFACTUAL.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q6",
+      "question": "shared/private parameter 是否必要？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "All12minimallocalcontrolscomplete: CpositiveAUCscreenE10/E40, E40loss/Jconflictpreventscompletefrozengate; conditionalfulltrainingNOT_TRIGGERED. Currentlocalpathwayeffectnotunique/long-termnecessity.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "N3双路径/多draw及独立seed完成；embedding/E10四项MC达标但实际/方向门槛失败，N4未触发。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "未运行长期拓扑，不是拓扑阴性或共享必要性证明。",
+      "next_discriminating_step": "保持长期未知；新拓扑假说需新的独立局部/长期依据。",
+      "sources": [
+        "C_LOCAL_AND_TOPOLOGY_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q7",
+      "question": "domain size 是否解释 effect？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Under fixed p,q,N example budget and WR sampling, uniform exact aliases change nominal pool size but not empirical input/label distribution, gradients, optimizer updates or trajectory law. Nominal alias count is not a sufficient explanation of SB-SN.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "N0及新模型按N、baseline、标签率、task和阶段分解；严格小域双赢/大域损伤不稳定。没有新真实支持N干预。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "N、p、输入/标签、自然难度共变；原alias大小结构边界保持。",
+      "next_discriminating_step": "真实独立支持量试验须另定义J；复制行不作为新支持。",
+      "sources": [
+        "METRIC_AND_POPULATION_DECOMPOSITION.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q8",
+      "question": "domain difficulty 是否解释 effect？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "All4severitycomparisonsatmatched50/200/50/350complete. Targetd2SNmeanAUC decreaseswithseverity, butE50mildSNlossimproves andqgapnonmonotonic/stagedependent. Onefixednestedmaskper split, changesfeaturelaw/J_c, notpurelatentdifficultycause.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "新结果不把小域等同困难域；ML最小域下降与最大域略改善，baseline不随N统一单调。原mask敏感性仍限定corruption。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "N5-D未触发；自然难度唯一因果仍未知。",
+      "next_discriminating_step": "只有明确难度因果主张才多mask实现/独立optimizer seed。",
+      "sources": [
+        "FINAL_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q9",
+      "question": "task/domain imbalance 是否解释 effect？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "Threephysicaldomains jointlyconfound input/labelpopulation,size,positiveprevalence,p,baselineperformance andmodelpaths; q isintervenedbutthesefactorsarenotindependentlyassigned. Trainingseeds donot create new domainpopulations.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "N2限定计数波动，N0/N1/N5报告人口与任务；同一自然域N下两task可异向。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "三个自然域不分离N/p/标签/输入/baseline，seed不增加域因子水平。",
+      "next_discriminating_step": "独立分配候选因子，不做三个域的高自由度因果回归。",
+      "sources": [
+        "FINAL_domain_context/domain_task_baseline_population_context.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q10",
+      "question": "validation selection 是否改变结论？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "AllfrozenAUC/loss/early/fixedselection andcommonSN/SBchosenrulescomplete. Selectionmodifieseffectsize/sign andpopulationQ32; fixed/pre effects remaininconfigurations. Frozennewtest confirmationseparatelyQ2.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "固定E10/20/50/100、selected、AULC与三权重均保留；ML选轮约11–21轮，E100 own正而selected负。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "选择人口最优与test/不同权重排名不可互换。",
+      "next_discriminating_step": "保留预注册主estimand及全部反向读数。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q11",
+      "question": "是否跨环境成立？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Requiredsecond-environment4seedSGD.3same-objective qcomparisoncomplete, no stableadversemacroprimaryreplication. MLearly1..16+.0013913positive1negativeCI[-.000131,.003849], selected+.000241CI[-.001222,.001127]. KRcalSGDatjoint16+.000078also3positive1negative, so ownwindow37/16oppositesignsnotisolateddatasetflip.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "固定subset2022的ML八optimizer seed完成，selected两估计对象均8/8负，与历史耦合subset/SGD配置不是相同实验。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "两环境bundle与进度共变；只识别该固定ML人口下稳定性。",
+      "next_discriminating_step": "需要单一环境driver才做同框架单因子改变。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q12",
+      "question": "SAF/D3/AdaTask 是否覆盖？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "八篇原文逐公式对照完成；D3/SAF一般改变J，AdaTask组件旧结论不冒充完整方法，EMS/MIS覆盖通用采样思想。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "有限检索不证明新颖性穷尽，也未训练完整方法性能基线。",
+      "next_discriminating_step": "具体方法候选出现时再公平完整baseline。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q13",
+      "question": "是否存在未被已有工作覆盖的 mechanism gap？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Generalobjective-equivalentsamplingcovariance,orderandhistorythemes overlappriorwork. CurrentMDMTconditionalCPREpathway/optimizerboundaries donotidentifyunique necessarymediator oruncoverspecificnovelmethod. Ninesourceauditnotexhaustivenessproof.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "本轮提供q×LR×预算/人口及固定点反证，未识别独有通用机制/新算法；N3长期门槛失败。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "场景差异不保证创新；仍有非唯一未排除解释。",
+      "next_discriminating_step": "把下一具体预测与原文假设逐一对照。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q14",
+      "question": "是否值得方法化？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "十项GO要求未同时满足：明确配置有共同早期和非普遍selection-only证据（MEDIUM），并得到测试确认；跨环境存在可描述边界，局部C和整体状态映射有条件反事实作用。但唯一长期必要中介、对速度/coverage/repetition/short-tail clock等替代的独立排除、独特现有工作缺口均未成立，也没有本轮新方法在真实primary endpoint、四seed稳定且所有域任务/原目标无损的完整证据。C局部AUC阳性和loss/J冲突如实保留，未触发原完整联合训练门槛；不以宽CI证明零效应，不从test生成候选或调参。NO_GO只关闭本轮方法化，不宣称所有未来方法失败。",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "旧NO_GO保持；新轮条件GO-EFFECT、固定点限定GO-MECHANISM分开。所有数值读数无宏收益与七项保护联合通过。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "未触发新候选训练不能推断未来方法全失败；E100 own保护失败是区间精度。",
+      "next_discriminating_step": "有冻结候选、主收益、保护、成本与文献依据才方法化。",
+      "sources": [
+        "FINAL_method_guards/numerical_benefit_guard_summary.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q15",
+      "question": "SN/SB 的“same objective”在代码和 empirical gradient 上是否严格成立？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Same sample objective and same established graph-gradient expectation identity verified; no implementation mismatch detected",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原同图同目标身份保持；新quota实际批域系数n*w/B=p全部核验，新增数值身份验证修正不改估计器。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "routing detach字段非普通总导数；quota依赖不同。",
+      "next_discriminating_step": "不重复旧审计；保持本轮公式及来源。",
+      "sources": [
+        "N2_QUOTA_IID_PAIR_IDENTITY.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q16",
+      "question": "现象是否主要发生在 overfitting 之后？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "A late-only interpretation is contradicted in both frozenAdamconfigurations undertheprespecifieddiagnosticdegradationclassifier: fixed.01commonpre27AULC-.006980 andcal.003commonpre22-.013951, each4/4negativewithpairedseedCIexcluding0 andfourworseLogLoss. Theseearly common-epoch effectsdonotdependonindependentbestcheckpointselection.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "外部固定AULC1..20 KR Adam8/8负；固定E10/E20也负。没有以候选失败重新缩短early窗口。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不以onset未检出证明无过拟合，不证明所有阶段有害。",
+      "next_discriminating_step": "主早期窗口始终外部固定，时钟与LL同时报告。",
+      "sources": [
+        "FINAL_STAGE_MACRO_AUC.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q17",
+      "question": "effect 是否只是 learning-speed / finite-budget effect？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "AllV4LR/batch/requiredextendedbudget controlscompleted. EffectdependsLR/stage/metric/budget: calibratedB0seed25gapchanges-.009424E50to+.000713E100, final4seedendpointmixed; Adamselectedearlynegative andB2selected4negativepersist. Neitheruniversalspeed-onlynoruniversalpermanentgap established. exact1225stepinteractionmixed/uncertain; B0/B2equalepochschangeupdatesteps, equalstepschangedexamples.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "完整H100与所有端点支持阶段依赖；ML own早期负、E100正；H200原rho门槛均未触发。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "没有证明永久差异/纯速度；匹配J是处理后描述。",
+      "next_discriminating_step": "ML完整q×两LR新seed矩阵，以共同外部预算证伪纯LR解释。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q18",
+      "question": "在相同 sample multiset 下，仅改变 optimizer-step 顺序是否改变结果？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Exactbatchmultiset/ordercontrols complete all4final50/50/50/350. E50ORDERqinteraction+.0058155all4positive, finalmean-.0067918 due2025interaction-.0419133. Stage/selection-sensitivepath effect established; notcurriculumoruniformabsoluteimprovement.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "原same-multiset ORDER结果保持；本轮未作新的纯内容顺序或课程策略主张，N5-A未触发。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "原ORDER同时移动短尾，纯内容/size-clock仍未分离。",
+      "next_discriminating_step": "若顺序成为核心，尾固定等长置换与尾移动分别比较。",
+      "sources": [
+        "CONDITIONAL_BRANCH_DECISIONS_PRETEST.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q19",
+      "question": "repetition 是否是 exposure effect 的必要组成？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "FullWR/PERM/ORDER all4Adam/SGD controlsandfinalrawsampler/coverage/weight auditscomplete. FixedE,N enforcesR=E-U>=max(0,E-N); SBsmallE>N preventsfixedquota/supportzero-repeatcontrol. PERMchangescoverage/dependenceandretainsrepeats; ORDERjointlychanges tailclock. CannotassignuniquenecessarynonAdammediator.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "R=E-U及E>N时零重复不可能的结构边界保留；本轮quota未伪装成阻断重复。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "固定E/N/支持下不能独立零重复；N5-B未触发。",
+      "next_discriminating_step": "研究新的可行时序estimand或真实独立支持，另立问题。",
+      "sources": [
+        "CONDITIONAL_BRANCH_DECISIONS_PRETEST.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q20",
+      "question": "coverage 是否独立于 exposure/repetition？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "At fixed physicaldomain support N and exposure E, cumulativecoverage U/N and totalrepeats R=E-U are deterministic transforms, so currentWR/PERM cannot identify their independent scalar mediation. PERM changescoverage/repeats jointly; ORDER preservesboth andchangesorder.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "固定E时unique与repeat代数绑定；quota与N3均未宣称独立coverage中介。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "多seed不修复结构不识别。",
+      "next_discriminating_step": "仅同E/U/R的间隔或真实支持设计可另回答限定问题。",
+      "sources": [
+        "DOMAIN_COUNT_COUNTERFACTUAL.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q21",
+      "question": "estimator covariance 的 anisotropy 是否比 scalar variance 更有解释力？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "Shapehasdescriptiveinformationbeyondtrace, but independentdownstreamexplanatorypower/necessitynotidentified. qchangesbothandotherfactors; repeatednoisebatchesnotindependentYtrials. V7blockandV11single-stepnormcontrolsnotdistribution-tracecontrols.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "N2真实trace分解及跨块差异完成，但未作同均值trace匹配shape干预。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不据q方差/局部AUC推出shape优于trace；该主张未承担结论。",
+      "next_discriminating_step": "仅shape成为核心命题时预注册受控残差库。",
+      "sources": [
+        "CONDITIONAL_BRANCH_DECISIONS_PRETEST.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q22",
+      "question": "shared C/R 是否是必要 mediator 而非相关参数块？",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "All12minimallocalcontrolscomplete: CpositiveAUCscreenE10/E40, E40loss/Jconflictpreventscompletefrozengate; conditionalfulltrainingNOT_TRIGGERED. Currentlocalpathwayeffectnotunique/long-termnecessity.",
+      "status_at_2026_10_18": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "latest_review_tag": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "N3整体C/子块、双路径、四格及独立确认已完成；共享拓扑门槛未触发，R仍按既有私有支持处理。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "局部更新替换不等于共享C/R长期必要性。",
+      "next_discriminating_step": "保持N4未触发而非阴性；新必要性问题另立。",
+      "sources": [
+        "C_LOCAL_AND_TOPOLOGY_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q23",
+      "question": "optimizer effect 与 sampling effect 是否存在真实 interaction？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "CalibratedLRspecificcommonpre22 interactionTRIGGERED mean-.01391006 all4negativeCIexcludes0; fixedLRreferencecommonpre27 NOTTRIGGERED mean-.00514906 3negative/1positiveCIcrosses0. Strong evidenceconditionalconfigurationinteraction, notuniversalAdamhistorycause.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "原特定配置optimizer×q interaction不改；新对称LR下Adam与SGD各条件效应及N3作用大小不同。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "optimizer和LR/state共同变化，不能唯一归于m/v历史。",
+      "next_discriminating_step": "针对实际映射定义单因子控制，不重做旧整体state矩阵。",
+      "sources": [
+        "FINAL_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q24",
+      "question": "第二环境失败时，boundary 究竟来自哪里？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Explicitboundarydecompositioncompletedforobjective,optimizer,architecture,data/labels,imbalance/size,overfit/stage. Sameobjectiveform/SGDfamily/LR/M3OEfamilycontrolled, butfinitepopulations/labels/p/inputdim/updateclockco-vary. UniqueenvironmentdriverNOT_IDENTIFIABLEinexistingtwo-environmentdesign, no claimsize/difficultycausaldriver.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "ML固定支持新八seed完成；与KR并列labels、pop、N/steps及相同宏/加权读数，得到条件环境边界。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不是只改N或只改难度；旧耦合subset方差未分解。",
+      "next_discriminating_step": "若要求唯一driver，在同框架只改该因子。",
+      "sources": [
+        "METRIC_AND_POPULATION_DECOMPOSITION.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q25",
+      "question": "existing literature 是否已经覆盖“same objective + different q + MDMT trajectory”机制？",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "D3/SAFfulllearnedweightstargetchange(STRONGformulaboundary). TaskAdamcomponentatfixed.003doesnotremoveq-sensitivity(MEDIUMscopedempirical). Genericimportance-samplingvariance/speed,order/memoryandreshufflingalreadyhavepriorcoverage. Neitheruniversalcoverage nornewMDMTmechanismidentifiedbythesealone.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原文对同目标采样/协方差/顺序/状态及MIS/EMS的直接覆盖已对照；本轮不将MDMT应用名称当创新。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "有限检索不是穷尽；新颖方法尚未被实测授权。",
+      "next_discriminating_step": "未来具体主张逐公式/假设/估计器比较。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q26",
+      "question": "D3/SAF 的 objective change 是否使其不能作为 mechanism-equivalent prior work？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Published D3 DBO and SAF learned sample weights generally change the empirical target measure and are not mechanism-equivalent to objective-preserving SN/SB. Constant-weight degenerations disable their studied mechanism. This does not establish that either method cannot improve metrics.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "完整D3/SAF一般改变目标的公式边界保持，原文核对完成。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不推断其完整方法效果差，也不把退化常权版冒充原方法。",
+      "next_discriminating_step": "只有性能问题需要完整等预算基线。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q27",
+      "question": "AdaTask 的 optimizer-state intervention 是否能消除 sampling effect？",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Auditedsame-objectiveTaskAdamcomponentfixedLR.003 doesnoteliminateq-sensitivityinthisconfiguration: earlyjoint14gap-.00783937 3negative1positiveCI[-.014013,-.001666], actualfinalmatched50/100/50/50gap-.01916006all4negative. Selectedgapandmitigationinteractionsuncertain, nozero/equivalencestatement.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "HISTORICAL_FROZEN",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "旧同目标AdaTask固定组件未消除q敏感性的RESOLVED原样保留；本轮未重训完整AdaTask。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "旧组件/LR结果不等于完整方法调优失败。",
+      "next_discriminating_step": "有真实完整方法候选比较才公平对称调参。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q28",
+      "question": "routing 的 stop-gradient 边界",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Same expected loss values and same expected graph gradients are preserved; no claim this graph computes the ordinary total derivative through routing. Do not silently restore missing path.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "routing_input_detached及原forward始终保持，config/source SHA冻结。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "同图graph-gradient身份不等于恢复routing的普通总导数。",
+      "next_discriminating_step": "移除detach属于新架构实验，不作为旧错误修复。",
+      "sources": [
+        "GLOBAL_MODEL_AND_PROTOCOL_FREEZE.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q29",
+      "question": "参数块名称与实际共享支持",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "R/towers cell-private; slots domain-specific/task-shared; C/E tensor sharing across6cells. Correct necessity interventions accordingly.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "C/E共享、R单元私有及P混合的真实坐标支持沿用；N3参数计数和实际更新范数完整。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "张量名称、实际梯度支持与共享必要性不同。",
+      "next_discriminating_step": "未来拓扑必须按真实支持设计。",
+      "sources": [
+        "N3_development_summary/parameter_counts.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q30",
+      "question": "Adam 学习率赢家位于网格下边界",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Finite-grid winner established by frozen rule; global LR optimality not identified and not claimed.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "新四点对称网格含低邻点；KR Adam .01/SGD1.0为上边界赢家，ML SB .0003为下边界赢家，均不扩网格。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "预设网格不证明连续全局最优。",
+      "next_discriminating_step": "未来边界邻点属于新预注册调参，不改本轮结果。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q31",
+      "question": "pilot 与 finalist 种子重合",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "All4 selected optimizer/pilotseed pairs have matching initialization/data/source metadata and exact20epoch draw prefixes in formal SN confirmation. Fresh processes do not supply independent tuning-validation seeds. Four-seed contrasts and CIs are conditional on frozen LR; fixed-reference results are retained separately.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "新调参2030/31与正式2032–39不重合；N3提名2032–35与确认2036–39分开，复用别名不计新n。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "仍是条件所选LR确认，不估计完整外层选择方差。",
+      "next_discriminating_step": "保持分离与来源索引；不重做旧配置。",
+      "sources": [
+        "PRETEST_TRAINING_STAGE_CLOSURE.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q32",
+      "question": "历史固定 SGD 数字变化来自哪里",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "The apparent fixedSGD v2-v3 selected-effect discrepancy is generated by changing evaluation population plus a small epoch-reselection component, with zero measured trajectory/numerical contribution. It is not a new training implementation failure.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原fixedSGD读数差源于评价人口/小选轮差的结论保持；N0同预测三权重和新轮明确split。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不重新解释为旧训练数值错误。",
+      "next_discriminating_step": "保持来源/人口/时钟，不重训旧轨迹。",
+      "sources": [
+        "METRIC_AND_POPULATION_DECOMPOSITION.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q33",
+      "question": "只用 SN 调 LR 的估计对象",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Current claims are conditional commonLR sampling contrasts. No separate SB-optimal tuning or globally optimized SN/SB superiority is established or claimed.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "同时给common eta q干预与等预算own估计对象；KR模型相同复用，ML ownSB .0003与common .001不同且均实际确认。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "有限网格性能不等于全局优化；own跨LR差不作纯q机制。",
+      "next_discriminating_step": "ML晚期优势以同LR新seed格证伪。",
+      "sources": [
+        "FINAL_COMPARISONS.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q34",
+      "question": "一阶矩遥测混入二阶矩范数",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "原exp_avg是sqrt(||m||²+||v||²)，8个实际Adam/AdaTask状态块独立核验后，最终254归档快照756800行全部刷新，compact1016组；序列化范数公式最大相对误差3.324e-11，原mixed与corrected m最大相对差99.973%。训练更新/预测/指标不受影响，无需重训。",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "HISTORICAL_FROZEN",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原corrected_m_norm/v_norm修复及无训练改变结论保留，本轮不再全量刷新遥测。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "范数修正不识别状态因果。",
+      "next_discriminating_step": "无需新增训练或工程审计。",
+      "sources": [
+        "原original_registry_entry证据链",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q35",
+      "question": "稀疏遥测 lag 与真实 step lag",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "Cross-epochtelemetrylags measuregapsinobservations, not actualoptimizersteplags. Existinginitial50readoutnowusesonlybatch>=lag andcounts5/4/1 within6firstbatches. No performance/trainingchange. No causalconclusionhadused unfilteredlags.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "本轮保留真实optimizer step与锚计数；N3每draw从同状态重置，不将draw序列称连续记忆lag。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "没有新的连续步相关性/长期记忆证明。",
+      "next_discriminating_step": "仅有具体时间相关假说才预设连续步窗口。",
+      "sources": [
+        "N3_DESIGN_ADDENDUM.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q36",
+      "question": "onset 程序不提供全族错误率保证",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Theprespecifiedclassifierisreportedasanoperationaldefinitiononly. No simultaneousFWER guarantee orproof ofabsenceofoverfit. Frozenbudget/thresholdsunchanged; earlyfixedhorizoncontrastsremainvisible.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "新主端点采用外部E10/20/50/100与AULC，不作全局onset/FWER保证。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "原操作性onset不是过拟合不存在证明。",
+      "next_discriminating_step": "只有提出全局onset命题才校准同时程序。",
+      "sources": [
+        "FINAL_READOUT_PRETEST_REVIEW.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q37",
+      "question": "IID 批次置换与课程策略",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "Equal-cardinalityIIDnondatadependentpermutationhasinvariantjointlaw, butactualwholeORDERincludesone shorttail(Q38), so theorem cannotestablishfullproductiondistributionequivalence. Existingexperimentvalidlyreadsconditionalrealizedfull-batch-set sensitivity only.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "本轮没有数据依赖课程策略实验；原随机ORDER条件路径结论保留。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "IID等长置换同分布不能证明课程收益；尾批因素原样保留。",
+      "next_discriminating_step": "若策略成为目标另预注册独立确认。",
+      "sources": [
+        "CONDITIONAL_BRANCH_DECISIONS_PRETEST.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q38",
+      "question": "ORDER 也移动短尾批次",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "FinalORDER1000armepochs/964tailmovesverified (old286/300 +new678/700), all4200epochs205800batchweightsandORIGINALtail-last verified. Samecontentmultisetdoesnotisolatepurecontentfromsize-clock.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "原短尾移动964/1000事实保留，新完整训练均保留尾40052(KR)/23660(ML)。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "本轮没有分离纯内容与size-clock的新ORDER分支。",
+      "next_discriminating_step": "需要纯顺序主张时尾固定/移动分别处理。",
+      "sources": [
+        "FINAL_TRAINING_RUN_LEDGER.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q39",
+      "question": "GPU 跨预算前缀数值复用",
+      "historical_status": "RESOLVED",
+      "historical_conclusion": "ActualGPU100->CPU50 full1000/200 arrays within1e-12; all4000epochchoices,onsets/selected/budgets exact. SourceRNG/epochseparableformula andactualcrossT support literal-parent-cache reuse; no approximate ornew bootstrap replicates.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "同配置父轨迹/别名复用不计新seed；每formal100纯model和7200预测模型SHA对应实际核验。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不推断所有CPU/GPU普遍bit相同。",
+      "next_discriminating_step": "保持producer/model/pred索引，不重复prefix作为新证据。",
+      "sources": [
+        "TEST_READOUT_VALIDATION.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q40",
+      "question": "状态消融的健康、幅度和学习进度",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "UnderfixedLR.003 beta2zeroall4ownfinalbothqdiagnosticAUC=.5 withlargeLL/J; m-onlylearnsovertimebutlagsnativeAUC, whileLLcanimprove. Healthyv-onlycounterexample: fixedE50bothqabsoluteAUCimproves4/4yetgapinteraction3negative1positive; original22gapattenuation4positivechieflySNdegradation. Gapcollapsealonecannotidentifynecessaryhistoryorhealthyrescue.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "未重做破坏性beta2=0；N3使用原生状态的块norm×direction四格、实际范数与绝对AUC/LL/J。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "floor/gap修复不证明历史必要性；一步健康不代表长期。",
+      "next_discriminating_step": "有新状态假说才健康保留长期控制。",
+      "sources": [
+        "C_LOCAL_AND_TOPOLOGY_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q41",
+      "question": "自身早期窗口造成的环境表观翻转",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "固定外部早期窗口且并列KR49步/ML5步每epoch；ML own早期负与晚期正的反例保留。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "同epoch、相同J或相同AUC均不消除环境bundle差异。",
+      "next_discriminating_step": "未来明确外部steps/暴露estimand，不能同时匹配不同N的两钟。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q42",
+      "question": "全局等范数没有隔离角度与块尺度",
+      "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
+      "historical_conclusion": "Globalnormequivalence isonescalarconstraint anddoesnotfix4blockmagnitudes. Existinginterventions jointlychangeangles/blockscales andlackcrossedcounterfactuals; whole-state local effects identified, pure-angle contribution not uniquely identified.",
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "逐块交叉幅度/方向四格和交互已实际测量，方向未定义预设处理；实际落地范数/目标误差保留。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "单个全局范数不能隔离块尺度；局部方向作用仍非唯一长期原因。",
+      "next_discriminating_step": "本轮局部实际门槛失败，长期拓扑未知。",
+      "sources": [
+        "N3_confirmation_summary/actual_block_update_norms.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q43",
+      "question": "MovieLens 的 seed 同时改变训练子集",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": "MLfourpairedseedreplicates jointlyvarytrainingsubset andoptimizationrandomness, withfixedvalidation. Report uncertaintyoverthiscoupledpipeline, notpurefixedtrainpopulationoptimization. Same-seedobjective-equivalentqcomparisons remainvalid.",
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "固定subset_seed2022及行/分半SHA，独立optimizer2032–39；同人口优化随机性新24formal完整确认。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "未交叉多个subset，不能分解旧耦合总体方差。",
+      "next_discriminating_step": "只有子集方差仍用于主张时才3subset×4optimizer交叉。",
+      "sources": [
+        "N5_confirmation_validation.json",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q44",
+      "question": "破坏性控制改变共同早期窗口",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "本轮外部窗口不由失败arm决定，未以beta2=0等破坏臂缩短共同早期问题。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "保留旧破坏控制/窗口边界。",
+      "next_discriminating_step": "始终比较固定外部时钟及绝对健康。",
+      "sources": [
+        "FINAL_READOUT_PRETEST_REVIEW.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q45",
+      "question": "长时钟读数只有预算条件下的部分种子支持",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "RESOLVED",
+      "latest_review_tag": "RESOLVED",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "新120条全H100，各正式组8seed均有E100；旧N0 E100只有1–2seed的资格不更改，H200未触发。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "旧非随机缺失不能补成四seed；未触发更长预算不等于阴性。",
+      "next_discriminating_step": "每端点继续给实际n/模型支持集。",
+      "sources": [
+        "FINAL_TRAINING_RUN_LEDGER.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q46",
+      "question": "局部C的AUC阳性与loss/J冲突",
+      "historical_status": "BOUNDARY",
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "新N3 full embedding独立AUC小正、LL/J多数改善，但方向残差J/LL不统一、实际门槛失败；旧C阳性及loss冲突保留。",
+      "excluded_explanations": "仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。",
+      "remaining_uncertainty": "不把attenuation接近SN称绝对健康，也不倒改旧联合门槛。",
+      "next_discriminating_step": "保留多度量/路径/阶段反例；长期拓扑未触发。",
+      "sources": [
+        "C_LOCAL_AND_TOPOLOGY_ANALYSIS.md",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q47",
+      "question": "宏评价、train-p与test-p评价的反转由哪些cell贡献？评价权重变化与域内人口变化如何区分？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "N0同预测权重精确反转；新ML own macro−.010875、train-p+.000744(区间在±.003)、test-p−.013586。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "权重算术已识别；不同split域内人口因果仍未识别。",
+      "next_discriminating_step": "如要求人口因果，固定权重并独立操纵/抽样域内人口。",
+      "sources": [
+        "METRIC_AND_POPULATION_DECOMPOSITION.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q48",
+      "question": "短pilot选出的LR赢家是否只优化早期速度，且双方等预算调参后采样差距是否保留？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "KR H10/H100共同LR赢家不同；独立确认全量预算；ML own E100+.021145(8/8正)而selected−.010875(8/8负)。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "有限网格/外部预算/选轮不同，own跨LR不是纯q。",
+      "next_discriminating_step": "新独立seed固定ML人口完整q×LR(.0003,.001)，证伪纯LR/进度解释。",
+      "sources": [
+        "Q_LR_BUDGET_RESPONSE.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q49",
+      "question": "域计数波动相对于域内样本噪声贡献多少，固定域配额是否改变downstream采样效应？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "固定点计数项.001297%–.105936%，quota后约2倍trace保持；全程quota q差−.009191但I_quota−.003988 CI跨0。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "固定点排除计数主导；长期不是纯trace中介，绝对lift未确认。",
+      "next_discriminating_step": "后续仅针对具体剩余依赖/分布解释，不能用gap变化推断纯计数。",
+      "sources": [
+        "DOMAIN_COUNT_COUNTERFACTUAL.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q50",
+      "question": "C局部作用来自哪些子模块、幅度/方向及其交互？共享拓扑的长期作用是否成立？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "MEDIUM",
+      "latest_evidence": "开发一次提名embedding/E10，独立两路径full各4/4正约3e−5；方向/实际界失败且MC达标，不补64；N4未触发。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "pointwise实际界结论限当前状态；长期拓扑未知。",
+      "next_discriminating_step": "保持未触发状态，未来新假说单独预注册。",
+      "sources": [
+        "C_LOCAL_AND_TOPOLOGY_ANALYSIS.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q51",
+      "question": "在相同theta、m/v历史及step下，Adam瞬时非线性是否把不同梯度分布映射为不同平均更新？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "INCONCLUSIVE",
+      "latest_review_tag": "INCONCLUSIVE",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "同状态原生Adam/固定滞后分母/单位eta仿射SGD全部计算；原生ALL q对比/边际MC尺度.479–.624，固定分母比例.911–1.054。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "边际RMS不是CI，有限bank非零范数不确认总体均值漂移；历史必要性未知。",
+      "next_discriminating_step": "只有该均值问题成为核心时预注册向量/投影精度及固定draw预算，不增draw追阳性。",
+      "sources": [
+        "N2_FIXEDPOINT_ANALYSIS.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q52",
+      "question": "EMS/variance-adapted LR与MIS/OMIS现有工作是否已覆盖最直接的候选解释和方法？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "BOUNDARY",
+      "latest_review_tag": "BOUNDARY",
+      "evidence_strength": "STRONG",
+      "latest_evidence": "八原文逐式覆盖IS/variance、bucket、memory/order、EMS及MIS通用方案；D3/SAF目标不同等边界明确。",
+      "excluded_explanations": "以对应最终报告中明确反证/算术界为限",
+      "remaining_uncertainty": "有限检索不证穷尽；无新方法candidate/完整性能baseline声明。",
+      "next_discriminating_step": "具体候选出现时比较对应原工作与公平调参成本。",
+      "sources": [
+        "LITERATURE_COVERAGE.md",
+        "FINAL_NUMERIC_FINDINGS.json"
+      ],
+      "executed_status": "COMPLETE"
+    },
+    {
+      "id": "Q53",
+      "question": "KR无动量SGD共同eta的selected宏AUC q效应在±.003实际界内是否足够精确？",
+      "historical_status": null,
+      "historical_conclusion": null,
+      "status_at_2026_10_18": "INCONCLUSIVE",
+      "latest_review_tag": "INCONCLUSIVE",
+      "evidence_strength": "WEAK",
+      "latest_evidence": "区间同时包含实际伤害−.003与收益+.003，当前不支持等效或确认改善/损伤；不加seed直至显著。",
+      "excluded_explanations": "不是缺失H100或调参seed复用造成的n不足；轨迹完整且调参/正式分离。",
+      "remaining_uncertainty": "小n优化随机性和seed尾部变异；固定test人口条件的区间也不估计自然人口泛化。",
+      "next_discriminating_step": "下一轮先指定置信宽度/实际界、样本预算和分布稳健性分析，再做独立确认；当前闭合，不追加seed搜索阳性。",
+      "sources": [
+        "FINAL_performance/primary_common_eta_Holm.json",
+        "FINAL_performance/paired_seed_endpoints.csv",
+        "FINAL_ANALYSIS.md"
+      ],
+      "executed_status": "COMPLETE_CURRENT_ROUND"
+    }
+  ],
+  "historical_question_count": 46,
+  "new_question_count": 7
+}
