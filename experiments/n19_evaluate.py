@@ -6,7 +6,7 @@ import torch
 from torch import nn
 from n19_data import OUT,population,dump
 from n19_models import Model
-from n19_objectives import clean_predictions
+from n19_objectives import clean_predictions,NoiseChannel
 from n19_train import metrics
 
 class CompactRank(Model):
@@ -47,6 +47,14 @@ def evaluate(run,device):
         for row in metrics(pred,data.test_y,data.test_x[:,-1]):row.update(stage=stage,epoch=state['epoch']);records.append(row)
         if flips:
             gap=np.concatenate(flips);diagnostics[stage+'_nuisance_flip_abs_probability']=gap.mean(0).tolist()
+        if state['channel'] is not None:
+            channel=NoiseChannel(c['method'] in ['axis_channel','nested_axis','joint_axis']).to(device)
+            channel.load_state_dict(state['channel']);aa,bb=channel.rates()
+            estimated=np.stack([aa.cpu().numpy(),bb.cpu().numpy()]);truth=np.stack([data.noise_rates['a'],data.noise_rates['b']])
+            diagnostics[stage+'_noise_channel']=dict(a=estimated[0].tolist(),b=estimated[1].tolist(),rmse=float(np.sqrt(((estimated-truth)**2).mean())),
+                per_rate_errors=(estimated-truth).tolist())
+        if c['method'].startswith('mask_'):
+            diagnostics[stage+'_observation_state']=dict(copula=state['copula'].cpu().tolist(),labels=state['total_labels'],paired=state['total_pairs'])
         if getattr(m,'mix_mode',False):
             diagnostics[stage+'_effective_router_logits']=m.router_logits().cpu().tolist()
             x=torch.tensor(data.test_x[:512],device=device,dtype=torch.float32).T

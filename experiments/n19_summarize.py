@@ -39,6 +39,8 @@ def collect(phase):
             z=np.load(file);ix=data.development if phase=='development' else np.arange(len(z['labels']))
             for record in metrics(z['predictions'][ix],z['labels'][ix],z['domains'][ix]):
                 record.update(base,stage=stage,phase=phase,train_n=int((data.train_x[data.main,-1]==record['domain']).sum()))
+                prevalence=record['positives']/record['n'];h=-prevalence*np.log(prevalence)-(1-prevalence)*np.log1p(-prevalence)
+                record.update(prevalence=prevalence,empirical_label_entropy=float(h),logloss_skill_vs_empirical_constant=float(1-record['logloss']/h))
                 cells.append(record)
     frame=pd.DataFrame(cells);resource=pd.DataFrame(resources)
     if frame.empty:return frame,pd.DataFrame(),resource

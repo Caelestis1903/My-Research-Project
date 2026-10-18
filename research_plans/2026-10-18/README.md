@@ -4,6 +4,12 @@
 
 ## 文件
 
+- [N19/DESIGN_SPECIFICATION.md](./N19/DESIGN_SPECIFICATION.md)：按修订 start.md
+  执行的 **N19 完整端到端研究**；当前正在训练，尚未形成最终判定。
+  [执行状态](./N19/EXECUTION_STATUS.json) 与
+  [开发集读数](./N19/development_readout/method_means.csv) 随实验更新。
+  下方 execution/ 的 COMPLETE 是历史 N18 首轮范围，不能代表 N19 已完成。
+
 - [execution/FINAL_REPORT.md](./execution/FINAL_REPORT.md)：**已完成的六方向首轮实际研究**；包含四种子冻结头新拟合、固定 checkpoint 测量、全部正负证据与停止判定。[执行索引](./execution/README.md) / [复现](./execution/REPRODUCE.md)。
 
 - [MDMT_FRONTIER_RESEARCH_REPORT.md](./MDMT_FRONTIER_RESEARCH_REPORT.md)：完整研究报告。包含仓库证据与反例、论文批判、六个候选方案、三个重点方案的数学设计、必要实验决策树、参考文献 60 项及出处。此文件由同日 39 页研究报告转为适合 GitHub 阅读的 Markdown，保留正文、表格、公式与文献链接。
