@@ -69,9 +69,10 @@ def main(phase):
     fig.suptitle(f'{phase}: fixed audit draw, four optimization seeds; axis assumption falsification')
     save(fig,target,'channel_assumption_falsification')
     fig,axes=plt.subplots(1,2,figsize=(11,5),sharey=True);labels=[]
-    cases=[('kuairand','','KR Adam'),('kuairand','optimizer_adamw','KR AdamW'),('movielens','','ML Adam')]
+    cases=[('kuairand','','KR Adam'),('kuairand','optimizer_adamw','KR AdamW'),('movielens','','ML Adam'),('movielens','optimizer_adamw','ML AdamW')]
     for row,(dataset,tag,label,method,control) in enumerate([
-        (d,t,l,m,c) for m,c in [('rank_protected','rank_uniform'),('cell_codebook','domain_codebook')] for d,t,l in cases]):
+        (d,t,l,m,c) for m,c in [('rank_protected','rank_uniform'),('cell_codebook','domain_codebook')] for d,t,l in cases
+        if not (m=='cell_codebook' and d=='movielens' and t=='optimizer_adamw')]):
         labels.append(f'{label}: {method} / {control}')
         for ax,metric in zip(axes,['macro_auc','macro_logloss']):
             g=all_pairs[(all_pairs.suite=='natural')&(all_pairs.dataset==dataset)&(all_pairs.tag==tag)&(all_pairs.stage=='selected')&(all_pairs.method==method)&(all_pairs.control==control)&(all_pairs.metric==metric)&(all_pairs.n_seeds==4)]

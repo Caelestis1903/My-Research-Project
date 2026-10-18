@@ -109,3 +109,13 @@ leave-one-source-out costs, local logit-coordinate derivatives and choices on
 disjoint fixed train-meta halves. Run after all five relevant routing methods
 finish to collect80 checkpoints/480cell records. No optimizer steps or test
 performance; its conditional choices are not independent training outcomes.
+
+After the primary completes DEVELOPMENT_DECISION_RECORD.md, commits all source
+and verifies every declared training budget, run n19_freeze.py once. It records
+TEST_FREEZE.json and atomically appends one selected/final readout job per formal
+network to the running queue, then seals the manifest. The immutable freeze lists
+all run IDs, selected epochs, receipt/config/selection hashes and source commit.
+Do not call it while any scientific continuation decision remains unresolved.
+The manifest thereafter contains training and evaluation jobs; count formal
+networks from training entries, not total queue jobs. n19_inventory.py --final
+creates the final training/test ledger and SHA256 indices of local arrays/states.

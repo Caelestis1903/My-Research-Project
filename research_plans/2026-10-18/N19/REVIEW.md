@@ -42,3 +42,18 @@ copula/control-variate, full-batch KR regret and ten-epoch rank transition.
 ADDENDUM_01_SPECTRAL_RANK strengthens the paired rank baseline before formal
 results. Both arms share canonicalization and moment reset. No unresolved blocker.
 Verdict: **PASS WITH FIXES, applied; proceed to full formal budgets.**
+
+## Final readout admission and optimizer-transfer reporting
+
+Primary self-review (not independent): PASS for n19_freeze.py and the expanded
+P3 figure. The admission script reads no test performance, requires all declared
+formal budgets and four seeds per group, checks selected/final states and the
+post-pruning selection rule, fingerprints the primary decision/source/receipts,
+then adds only zero-optimization evaluation commands to the existing queue. It
+must be invoked only after the primary writes the final pre-test development
+disposition; file existence alone is not a scientific stopping rule. Historical
+test use remains disclosed. Freeze cannot be recreated over an existing freeze.
+Figure comparisons stay within optimizer tags and include the declared ML AdamW
+rank transfer; no undeclared ML AdamW dictionaries are implied. These changes do
+not alter model training, selection, population membership or any saved result.
+Both edited scripts pass syntax parsing; no additional training/test grid.
