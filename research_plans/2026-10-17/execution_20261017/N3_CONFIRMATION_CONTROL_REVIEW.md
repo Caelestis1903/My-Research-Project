@@ -21,3 +21,5 @@ N3图入口n17_local_figures.py仅接受已完成主readout和同SHA冻结候选
 
 
 实际范数表同时给applied−target及其相对误差，检查参数float32落地后控制是否达到所宣称的量级。target缺失或零时相对误差保留未定义，不设事后有利阈值；有实际影响机制结论的偏差才诊断。未改变四格定义、候选选择或运行中训练源码。AST/公式自审核对PASS。
+
+正式执行补记：N3开发16、SGD整体C16、独立确认8均完成并通过原始完整性核验；提名一次、候选SHA保持，四项独立MCSE均达标且实际门槛不满足，无任何64补充或重选。N3_figures已从真实dev/confirm汇总生成PNG/PDF，并由主agent实际view_image视觉核对：四seed点、均值/t95、两路径和实际界/图例均完整可见，未把MC draw当训练seed。N4按既定门槛NOT_TRIGGERED，非长期拓扑阴性。

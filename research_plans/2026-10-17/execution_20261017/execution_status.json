@@ -1,5 +1,5 @@
 {
-  "status": "QUOTA_COMPLETE_AUDIT_RUNNING_N3_CONFIRMATION_RUNNING",
+  "status": "N2_N3_COMPLETE_VALIDATED_N4_NOT_TRIGGERED_N5_C_AUTHORIZED",
   "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
   "stages": [
     {
@@ -48,15 +48,15 @@
     },
     {
       "stage": "N3",
-      "status": "DEVELOPMENT_AND_SGD_VALIDATED_INDEPENDENT_8_RUNNING"
+      "status": "COMPLETE_VALIDATED_16_DEVELOPMENT_16_SGD_8_INDEPENDENT"
     },
     {
       "stage": "N4",
-      "status": "WAIT_INDEPENDENT_N3"
+      "status": "NOT_TRIGGERED_INDEPENDENT_LOCAL_GATE"
     },
     {
       "stage": "N5",
-      "status": "C_TRIGGERED_WAIT_N2_N3_OTHERS_CONDITIONAL"
+      "status": "C_PILOT_16_AUTHORIZED_OTHERS_NOT_TRIGGERED_BY_CLAIM_SCOPE"
     },
     {
       "stage": "TEST",
@@ -95,8 +95,8 @@
     "N1_H200_sgd": "NOT_TRIGGERED_RHO",
     "N2_quota": "TRIGGERED_ADAM",
     "N3_SGD_control": "TRIGGERED",
-    "N4": "WAIT_N3_CONFIRMATION",
-    "N5_C": "TRIGGERED_WAIT_N2_N3"
+    "N4": "NOT_TRIGGERED_INDEPENDENT_LOCAL_GATE",
+    "N5_C": "TRIGGERED_PILOT_AUTHORIZED"
   },
   "N1_metadata_archive": "COMPLETE_64_RUNS",
   "followup_queue": {
@@ -117,7 +117,7 @@
     "readout": "N2_fixedpoint_summary/receipt.json",
     "analysis": "N2_FIXEDPOINT_ANALYSIS.md"
   },
-  "updated_utc": "2026-10-18T05:50:14.364463+00:00",
+  "updated_utc": "2026-10-18T06:06:31.636445+00:00",
   "N3_development": {
     "anchors": 16,
     "validation": "N3_development_validation.json",
@@ -140,5 +140,12 @@
     "validation": "N2_quota_validation.json",
     "parent_pair_identity": "N2_QUOTA_IID_PAIR_IDENTITY.json",
     "test_read": false
+  },
+  "N3_confirmation": {
+    "status": "COMPLETE_VALIDATED_8",
+    "validation": "N3_confirmation_validation.json",
+    "gate": "N3_confirmation_summary/confirmation_gate.json",
+    "need64": false,
+    "N4_trigger": false
   }
 }
