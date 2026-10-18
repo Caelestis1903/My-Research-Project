@@ -16,4 +16,4 @@
 - [x] P6 four-seed fixed-point strong-IS comparison and cost gate.
 - [x] Primary scientific analysis and six individual dispositions.
 - [x] Integrated report, reproducible commands, raw evidence and limitations.
-- [ ] Commit/push execution branch, create PR targeting main.
+- [x] Commit/push execution branch, create PR targeting main.
