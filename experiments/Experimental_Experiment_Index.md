@@ -1,5 +1,9 @@
 # Experimental Experiment Index
 
+
+> **2026-10-18 增量：** 原 EXP001–EXP032 和底部“32条”仅代表 10-09 **历史快照**。本次**追加 EXP033–EXP042 十个阶段性研究/诊断索引**，并明确继承、派生或复用关系；它们不是10个互相独立的新训练数据集，不能与内部run个数混计。详细解释及最新条件状态：[跨分支综合报告](Experimental_Branch_Synthesis_20261018.md)。
+
+
 整理日期：2026-10-09。此索引覆盖可见的历史实验分析报告、S0–S8 正式阶段、补充数据集运行和后续轨迹重分析。每个 `EXP` 对应一个实验组；实现说明、审查报告、失败重试和纯同矩阵再分析不另计。若对保存状态执行新的选择规则或参数交换评估，则单独登记，并明确其不是独立训练复现。
 
 ## 范围与去重规则
@@ -52,3 +56,25 @@
 - 数据重建/实现文件：[`P3_kuairand.md`](reports/history_report/P3_kuairand.md) 与 [`P4_implementation.md`](reports/history_report/P4_implementation.md) 记录数据和实现来源，不另作性能实验。
 
 **索引总数：32 个实验/门控条目**：29 个既有实验组有正式运行/探测记录，2 个未运行/未过门控（E2、E7），另有 1 个已完成的 evaluation-only S6-R2（复用既有 checkpoint，没有新增训练）。共 30 个条目有运行或评估结果。
+
+
+---
+
+## 2026-10-15—2026-10-18 新增执行分支索引（仅摘要合入 main）
+
+| ID | 时间 / 阶段 | 实验范围与冻结协议 | 新训练 / 计算，是否独立 | 结果与源报告 | 关键结论与遗留问题 |
+| --- | --- | --- | --- | --- | --- |
+| EXP033 | 10-15 / B1 F-DH重建 | KR natural / Sample / M3OE，F/DH×4seed×50epoch，全状态、R0–R4 validation selection | **8/8 新训练**；400state/800预测，**非旧S6 exact** | [B1重建分析](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-15/research_plans/2026-10-15/execution_20261015/B1_reconstruction_20261016/scientific_analysis.md) | R0 test非目标+.000579 2/4正未复制旧+.006757 4/4；lineage和新旧机制差异未识别，R1/R4线索不可变主 |
+| EXP034 | 10-15/16 C2.1 / Stage2B-C固定θ | 两数据集、4seed、样本pool、同α变q、梯度trace / 64-step SGD/Adam/AdamW固定场replay | **0正常训练**；8case×后续4096replay，不可算8正式run | [Stage2+数值](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/execution_20261016/experiment_results.md) | 同期望梯度不同covariance；投影与完整trace判断可反号，非长期性能机制 |
+| EXP035 | 10-16 Stage2D | KR/M3OE，**learned fusion / main+arch双Adam**，Sample/Equal×Natural/Balanced、4seed×50epoch | **16/16正式训练**，无新历史exact S5 | [Stage2D正式结果](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/experiment_results.md) | SB−SN validation−.010406四负；EB−EN−.006547；改善/无害门失败，m/v中介未证 |
+| EXP036 | 10-16 v2 P1及中期P3–P7 | KR fixed fusion / 单optimizer，IID Sample q；Adam vs 无动量SGD，LR受网格界限 | **P1完成，中期非最终全矩阵**；其它P2/P8不能按队列状态算完成 | [v2中期机制分析](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v2/research_plans/2026-10-16_v2/execution_20261016/mechanism_analysis.md) | SGD SB−SN−.002104四负，Adam通用必要性被反例否定，非与EXP035同协议 |
+| EXP037 | 10-16-v3 完整V0–V13 | KR/ML fixed fusion，同Sample J、q控制；Adam/SGD/AdaTask、LR/多预算、ORDER/PERM、谱和C局部状态 | **全部规定及触发分支完成**；继承更早祖先，**与v2 Git历史分叉**；家族数/可用seed按实际各表，不与EXP035叠加 | [v3 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md) | 配置/阶段/selection反例、共享C局部阳性而长期门未触发、method NO_GO；旧Q1–Q46源 |
+| EXP038 | 10-17/18 N0历史读数与人口/校准审计 | 七家族旧冻结模型，不重训；same-model macro/train-p/test-p weighting，既有行预测校准 | **0新正式训练**；历史派生分析，不计8seed新确认 | [N0评价分解](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/METRIC_AND_POPULATION_DECOMPOSITION.md) | 同预测评价权重可反号；校准改善LL但不变AUC；split内部因果未识别 |
+| EXP039 | 10-17/18 N1 q×LR正式矩阵 | KR fixed fusion、同Sample J，Adam/SGD×SN/SB；调参seed2030/31、正式seed2032–39，H100 | **32 tuning +32 formal =64新H100**；N1 common/own模型复用同轨迹不重复计 | [N17 FINAL_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md) | KR Adam selected−.005203/SGD+.000837，预注册Holm都未过；Adam AULC early负是次级 |
+| EXP040 | 10-17/18 N2 quota + 定θcount分解 | KR 16个有效固定θ锚×四臂×512draw；formal追加同8seed quota SN/SB H100，IID父N1复用 | **16新quota H100** +固定θ数值诊断；不把16 IID父重计 | [N2 quota/counterfactual](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/DOMAIN_COUNT_COUNTERFACTUAL.md) | count项占trace仅.001297%–.105936%；quota效应仍存、interactionCI跨0；机制不唯一 |
+| EXP041 | 10-17/18 N3 shared-C局部/方向 | 原生θ/状态下16开发、16 SGD C-controls、8独立confirm局部锚，冻结embedding/E10 | **40局部干预锚，不是40 H100训练**；四confirm优化seed独立 | [N3局部与N4门](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/C_LOCAL_AND_TOPOLOGY_ANALYSIS.md) | 两路径方向4/4正但效应~3e−5，实际/方向门失败，**N4 NOT_TRIGGERED**，不当长期否定 |
+| EXP042 | 10-17/18 N5-C ML固定人口、对称/own LR边界 | ML固定subset_seed2022，16 tuning×H100，8seed×SN.001/SB.001/SB.0003共24 formal×H100 | **16 tuning +24 formal =40新H100**；common/own复用SN同轨迹 | [N17 ML/阶段结论](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md) | common selected−.010392、own selected−.010875与own E100+.021145并存；LR/时钟非纯q；guard未过 |
+
+**新旧计数核对：** 新增阶段索引 EXP033–EXP042 共10条；历史32条仍原编号，现总**42条阶段性实验/审计/门控条目**。N17 独立新增 H100 轨迹数只计 EXP039(64)+EXP040(16)+EXP042(40)=**120**，其中48 tuning、72 formal；EXP038为旧数据重分析、EXP041为局部干预不属于H100，不能算作新增训练轨迹。N17 72 formal的7200逐epoch模型test读数、Stage2D 16run与EXP033的8run各有自己的训练身份，不把派生readout、选点别名当新seed。
+
+**未触发分支：** N17 H200（冻结rho条件不触发）、N4共享拓扑（独立局部门不触发），以及 v3某些受门控全训练；登记条件状态不增加“阴性实验”数量。v2 P2/P8等中期任务未见最后完成判定，不在本索引虚构成功。三个仅方案的Git分支正文已在main的research_plans，**本次不重复按新正式实验计数**。
