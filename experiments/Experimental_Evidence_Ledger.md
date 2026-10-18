@@ -1,5 +1,9 @@
 # Experimental Evidence Ledger
 
+
+> **2026-10-18 增量:** 以下 E001–E032 是截至 2026-10-09 的历史证据，不被覆盖；本文件末尾新增 **E033–E043**。后续阶段主证据以[跨分支整合](Experimental_Branch_Synthesis_20261018.md)限定的数据集、样本、目标、训练协议、选择函数和统计检验为准。以下新编号代表**研究证据组**，不是每个原始训练的独立重复。
+
+
 状态截至 2026-10-09。Evidence 只记录直接观察与审计事实；Interpretation、status 和可接受外推单独列出。AUC 差均注明方向；除非写明，跨 seed 的均值使用报告口径，不能把 cell/epoch 当作独立 seed。
 
 ## E001 — MovieLens 梯度 SNR 不支持“小域必然更噪”
@@ -458,3 +462,86 @@
 | MEDIUM | 19 |
 | WEAK | 3 |
 | **Total** | **32** |
+
+
+---
+
+## 2026-10-15—2026-10-18 分支执行增量（不回写 E001–E032 的历史记录）
+
+### E033 — KR Sample F/DH B1 重建未稳定复制旧 S6-R2 test 非目标增益
+
+- **Observation:** 四seed×F/DH 共8/8新50epoch训练，400完整状态/800预测工件数值核验。R0 selected test 宏ΔAUC +0.000363（2/4正）、非目标 +0.000579（2/4正）、target −0.000069，target LL +0.004007。旧 S6-R2 非目标 test +0.006757（4/4正）、validation −0.003851。
+- **Source:** [10-15 B1 scientific_analysis](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-15/research_plans/2026-10-15/execution_20261015/B1_reconstruction_20261016/scientific_analysis.md)。
+- **Scope:** KR natural / M3OE / Sample，四seed、50epoch、validation macro R0选轮。**RECONSTRUCTION_NOT_HISTORICAL_EXACT**（init/lineage不同）；原test不是全新holdout。
+- **Evidence Strength:** STRONG（工件/数字），MEDIUM（没有稳定实用selected改善的本研究判断），WEAK（旧新差异原因）。
+- **Contrary evidence:** R1/R4 test 非目标 +0.011584、4/4正，但选同批epoch且target LL损伤；同轮次 val/test 也可反号。不能以 R0阴性擦除次要阳性或以R1事后重定主规则。
+
+### E034 — 固定目标同 q 干预的数学身份与有限θ局部 optimizer 差异
+
+- **Observation:** C2.1固定θ两dataset×4seed×8case，以及 Stage2B/2C新8case×4096 replay×64步验证同α不同q期望梯度一致但covariance/Adam局部应用更新可以不同。SGD的平均解析身份和样本路径分叉需区分；完整C与投影坐标 trace 可能相反（KR Sample：所选坐标比0.505344、旧完整C比2.497026）。
+- **Source:** [10-16 experiment_results Stage2B/C](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/execution_20261016/experiment_results.md)；[10-15 fixed θ](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-15/research_plans/2026-10-15/execution_20261015/C2_numeric_oracle_20261016/numeric_analysis.md)。
+- **Scope:** 有限pool、fixed θ、给定梯度图/少量所选坐标；**0新增正常训练**。Expected objective 恒等不等于模型选点等价；不证明S5历史必要性或普适降噪。
+- **Evidence Strength:** STRONG（数值/身份），WEAK（长期性能中介）。
+
+### E035 — KR Stage2D 16/16 实训：same-J Balanced 候选损伤而非无效应
+
+- **Observation:** 16/16配对IID正式训练完成。validation macro selected SB−SN = −0.010406（4/4负），test法证−0.012674；EB−EN validation −0.006547（3/4负），test−0.002714。原预注册收益和nonharm门不通过。Equal某些域/LL与宏AUC方向不一致。
+- **Source:** [10-16 Stage2D experiment_results](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/experiment_results.md)；[final execution](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/execution_report.md)。
+- **Scope:** KR/M3OE；learned fusion / main+arch双Adam；2022–2025；50epoch、独立validation selection。q的总体干预同时改变重复、unique支持、梯度统计与后续θ；历史Stage2+文档“0run”是同分支较早快照。
+- **Evidence Strength:** STRONG（协议内负向重复和完成状态）；WEAK（归因为Adam m/v或唯一曝光中介）。
+
+### E036 — v2 fixed-fusion SGD 反例否定“Adam 对 q 效应通用必要”
+
+- **Observation:** P1 validation selected SB−SN：Adam −0.005556，3/4负，CI[−0.012286,+0.005721]；SGD −0.002104，4/4负，CI[−0.002478,−0.001680]。两optimizer interaction CI跨0。SGD LR=.1为[.1,1,10]校准下边界。
+- **Source:** [10-16 v2 mechanism_analysis](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v2/research_plans/2026-10-16_v2/execution_20261016/mechanism_analysis.md)；[P1 decision](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v2/research_plans/2026-10-16_v2/execution_20261016/p1_decision.json)。
+- **Scope:** fixed fusion / single optimizer，新协议不同E035双Adam；v2正式最终报告未归档完成，P2/P8中期不可当最终。
+- **Evidence Strength:** STRONG（该SGD设置的反例存在），WEAK（归纳所有SGD/LR或声称Adam与SGD等效）。
+
+### E037 — v3 complete：同目标 q 效应在optimizer、LR和checkpoint间有反号
+
+- **Observation:** 原规定/触发实验完成、综合分类BOUNDARY-CONFIRMED、候选方法NO_GO。冻结test selected SB−SN：固定Adam.01 −0.007069（2/4负）、固定SGD.1 −0.002518（4/4负）、校准Adam.003 −0.008698（4/4负）、校准SGD.3 −0.000972（4/4负）、ML SGD.3 +0.000539（1/4正）、AdaTask.003 −0.018917（4/4负）。calSGD共同37轮 +0.001614（4/4正）与selected −0.000972不同。
+- **Source:** [v3 FINAL_REPORT §§1–4](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)。
+- **Scope:** 各家族不同LR/阶段/图定义，n4；测试为已开发并冻结后读取，不是纯净新holdout。SGD有反例，不推出所有 q 对SGD皆负。
+- **Evidence Strength:** MEDIUM（多配置存在阶段/选择边界），WEAK（总体方法收益、跨域普适性）。
+
+### E038 — v3局部共享C/状态作用存在，但长期必要性与健康门未过
+
+- **Observation:** fixedθ全坐标 q协方差不同；V7早/中C的局部selection AUC缩小差距筛查4/4合格，但loss/train J联合门不通过，C-private full training NOT_TRIGGERED。V11 m/v消融含beta2=0的灾难性健康floor；全局等norm不保持各参数块norm，不能识别纯方向、单一m/v必要性。真实C/E共享、R私有、P混合。
+- **Source:** [v3 FINAL_REPORT §§6–9](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)；[v3 V7局部](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/V7_local_counterfactual_analysis.md)。
+- **Scope:** 给定theta/状态/冻结候选及阈值；不能用“full-training 未触发”宣称C机制被否定。
+- **Evidence Strength:** MEDIUM（局部路径），WEAK（长期唯一中介）；STRONG（参数支持及协议边界）。
+
+### E039 — N17 的 KR 主选点 q 效应未过预设多重检验
+
+- **Observation:** 新120条H100训练（48 tuning/72 formal）完成；正式固定test KR选点：Adam SB−SN −0.005203、8seed t95[−0.012006,+0.001600]、Holm p=.171875、7/8负；SGD +0.000837，CI[−0.004309,+0.005984]、Holm p=.6953125、5/8正。Adam bootstrap负区间不能事后代替预注册t/符号Holm主准则。
+- **Source:** [N17 FINAL_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md)；[paired data](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_performance/paired_seed_endpoints.csv)。
+- **Scope:** fixed fusion、Sample J、独立8 optimizer seeds2032–39、已开发历史test。Holm针对两KR主比较；次级AULC/ML/六cell不自动获得该主确认。
+- **Evidence Strength:** STRONG（实训完成/数值），WEAK/INCONCLUSIVE（KR selected primary统计判断）；不得写“等效”“普遍改善/损伤”。
+
+### E040 — N17 长期预算与评价人口可使表面效应变号
+
+- **Observation:** KR Adam早期 AULC1..20 −0.007480、8/8负，CI[−0.010031,−0.004930]；ML固定subset selected common−0.010392、own−0.010875、各8/8负，own E100则 **+0.021145，8/8正**。ML own对比 SN lr=.001 vs SB lr=.0003，既改q也改LR/训练速度，六cell保护未通过。相同历史calAdam E50预测的macro −0.009074、train-p cell +0.001016、test-p cell +0.003108。
+- **Source:** [N17 FINAL_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md)；[metric/population decomposition](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/METRIC_AND_POPULATION_DECOMPOSITION.md)。
+- **Scope:** 选点vs固定E100、early AULC、macro vs cell加权平均**都是不同估计对象**；加权cell AUC不等于 pooled AUC。
+- **Evidence Strength:** STRONG（同预测评价权重算术）；MEDIUM（阶段/配置条件边界），WEAK（把E100解释为pure-q部署收益）。
+
+### E041 — N17 固定quota排除了“随机域计数主导固定θ trace 差”的窄解释
+
+- **Observation:** N2 16有效fixedθ锚×四臂×512draw；SB/SN全部ALL trace比例：IID约2.009–2.584，quota约1.995–2.551；随机域计数项占预测trace的0.001297%–0.105936%。16条quota H100训练后选点q差 −0.009191、8seed t95[−0.015795,−0.002588]；quota×q交互 −0.003988，CI[−0.010310,+0.002333]。
+- **Source:** [N17 DOMAIN_COUNT_COUNTERFACTUAL](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/DOMAIN_COUNT_COUNTERFACTUAL.md)。
+- **Scope:** 固定锚点与给定梯度估计器；quota亦改变批内依赖/高阶矩，既不单独识别trace/performance中介，也不等同改变自然域真实数据集规模。原两项float32身份测试失败后仅更改独立验证逻辑、同seed同draw重验，原错误保存。
+- **Evidence Strength:** STRONG（所测固定点反证）、MEDIUM（quota后的有限条件训练现象）、WEAK（唯一长期因果解释）。
+
+### E042 — N17 C局部独立验证不足以触发长期拓扑机制实验
+
+- **Observation:** N3一次冻结embedding/E10候选，独立4seed两路径 full局部效应方向均4/4正、量级约+3e−5，MC精度条件达标，但实际界与方向门不过，**N4未触发**。这保留有限局部作用而非“C完全无效”；不能声称N4验证为NO。
+- **Source:** [N17 C_LOCAL_AND_TOPOLOGY_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/C_LOCAL_AND_TOPOLOGY_ANALYSIS.md)。
+- **Scope:** 同θ/optimizer状态、冻结微干预；与原 S5/S6 历史共享参数交换不是同一被解释效应。
+- **Evidence Strength:** MEDIUM（局部实际界与未触发条件），WEAK（长期共享必要性）。
+
+### E043 — 文献边界与现有方法候选最终 NO_GO 不代表全研究命题关闭
+
+- **Observation:** 15篇Stage2 targeted 和后续v3/N17原文核对已确认同目标重要性采样、variance-aware、Adam/SGD相互作用、动量/任务历史、顺序及selection是先例。D3/SAF原方法通常改变目标J，不能作为固定J改变q的严格同构反事实；AdaTask组件q-gap读数不代表完整方法最优效果。v3/N17没有候选同时通过预定macro收益和全cell/LL保护。
+- **Source:** [v3 existing-work coverage](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)；[N17 LITERATURE_COVERAGE](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/LITERATURE_COVERAGE.md)。
+- **Scope:** 有限针对性查新（非全面检索）、已测协议与候选；未运行完整D3/SAF性能基线，不宣称这些论文方法失败。
+- **Evidence Strength:** STRONG（已核对的公式边界），MEDIUM（本轮 NO_GO 决策），WEAK（主张全球独有创新）。
