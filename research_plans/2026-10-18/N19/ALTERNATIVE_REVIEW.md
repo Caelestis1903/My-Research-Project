@@ -38,3 +38,12 @@ Both new cases exit0/COMPLETE_ENGINEERING. Reliability epoch5 records two disjoi
 Audit-fixed records class-specific denominators (smallest cell13 audited positives)
 and frozen transition likelihood training. Verdict: PASS for full alternatives
 and audit control; respective primary development readouts remain launch triggers.
+
+## P3 launch review after four-seed MovieLens primary reading
+
+Primary self-review (not independent): PASS. CPU forward/backward on both real
+feature schemas gives finite predictions, nonzero task/domain code gradients,
+and deployed parameter counts below the spectral-uniform48-rank cap. Exact
+counts/gradients are in codebook_basic_check.json. No optimizer training was
+performed by the primary. Both alternative mechanisms now enter full4-seed
+training on both datasets; unfinished primary KuaiRand runs continue.

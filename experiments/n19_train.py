@@ -28,6 +28,7 @@ class Runner:
         self.a=a;self.run_id=f'{a.suite}__{a.dataset}__{a.method}__seed{a.seed}'
         if a.backbone:self.run_id+='__backbone_'+a.backbone
         if a.noise_interaction:self.run_id+='__noise_interaction'+format(a.noise_interaction,'g')
+        if a.optimizer!='adam':self.run_id+='__optimizer_'+a.optimizer
         if a.tag:self.run_id+='__'+a.tag
         self.out=OUT/'runs'/self.run_id;self.state_dir=ART/self.run_id
         self.out.mkdir(parents=True,exist_ok=a.resume);self.state_dir.mkdir(parents=True,exist_ok=a.resume)
@@ -48,7 +49,8 @@ class Runner:
             for parameter in self.channel.parameters():parameter.requires_grad_(False)
             if not a.resume:dump(self.out/'audit_calibration.json',dict(counts=counts,a=rates[0].tolist(),b=rates[1].tolist(),axis=axis,fits=fits))
         params=list(self.model.parameters())+([p for p in self.channel.parameters() if p.requires_grad] if self.channel else [])
-        self.opt=torch.optim.Adam(params,lr=a.lr,betas=(.9,.999),eps=1e-8,weight_decay=1e-5)
+        optimizer_class=torch.optim.AdamW if a.optimizer=='adamw' else torch.optim.Adam
+        self.opt=optimizer_class(params,lr=a.lr,betas=(.9,.999),eps=1e-8,weight_decay=1e-5)
         arch=[p for n,p in self.model.named_parameters() if '._weight_' in n]
         self.archopt=torch.optim.Adam(arch,lr=a.lr,weight_decay=1e-5) if a.method=='original' else None
         self.ema=copy.deepcopy(self.model).eval() if a.method in ['mask_copula_cv','mask_independent_cv','mask_residual_cv','mask_antithetic_cv'] else None
@@ -70,7 +72,7 @@ class Runner:
         self.config=dict(run_id=self.run_id,seed=a.seed,population_seed=2022,dataset=a.dataset,suite=a.suite,method=a.method,backbone=self.model.backbone_name,noise_interaction=a.noise_interaction,
             epochs=a.epochs,lr=a.lr,batch_size=a.batch_size,train_rows=len(b.main),train_meta_rows=len(b.meta),
             p=b.p.tolist(),source_base_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-            optimizer='Adam',optimizer_count=2 if self.archopt else 1,weight_decay=1e-5,
+            optimizer=optimizer_class.__name__,optimizer_count=2 if self.archopt else 1,weight_decay=1e-5,
             original_protocol_overlap=bool(self.archopt),objective='Equal group mean sum + epoch Sample architecture update' if self.archopt else 'Sample mean-row mean-task BCE or declared suite objective',
             learned_fusion=self.model.is_m3oe and a.method in ['original','original_sample'],fusion_fixed_sigmoid1=self.model.is_m3oe and a.method not in ['original','original_sample'],
             parameters=sum(p.numel() for p in self.model.parameters()),noise_channel_parameters=sum(p.numel() for p in self.channel.parameters()) if self.channel else 0,
@@ -335,6 +337,7 @@ def main():
     p.add_argument('--method',required=True);p.add_argument('--seed',type=int,required=True);p.add_argument('--device',required=True)
     p.add_argument('--backbone',choices=['m3oe','mmoe','ple'])
     p.add_argument('--noise-interaction',type=float,default=0.)
+    p.add_argument('--optimizer',choices=['adam','adamw'],default='adam')
     p.add_argument('--epochs',type=int);p.add_argument('--lr',type=float);p.add_argument('--batch-size',type=int,default=40960)
     p.add_argument('--tag',default='');p.add_argument('--resume',action='store_true');p.add_argument('--engineering',action='store_true');a=p.parse_args()
     if a.epochs is None:a.epochs=50 if a.dataset=='kuairand' else 100
