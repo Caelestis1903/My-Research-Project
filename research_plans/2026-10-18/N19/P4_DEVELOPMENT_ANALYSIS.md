@@ -37,3 +37,35 @@ saved selected/final coefficients, reporting all18 source weights and effective
 logit margins without any data/test forward. Primary self-review (not independent):
 PASS; the same fixed prior is used as training, and logit constraints are kept
 distinct from probability margins. Source entropy alone is not useful credit.
+
+## Complete KuaiRand primary comparison
+
+Now all4seeds x50epochs are complete. Selected interaction AUC .669914/loss
+.441687/train-weighted AUC .698495; fixed .672900/.444001/.702296;
+domain-only .674587/.444756/.702568; full .675159/.444122/.702412.
+Interaction-minus-fixed AUC-.002986 in0/4, interval[-.006468,.000495], weighted
+AUC-.003801 in0/4, interval[-.006411,-.001192]. Versus full AUC-.005246 in0/4
+and weighted AUC-.003918 in0/4, interval[-.006905,-.000930]. Loss instead
+improves-.002435 against full in4/4, interval[-.005260,.000391]. This is a
+ranking/calibration trade-off, not a uniform interaction benefit. Final AUC
+remains lower on average versus fixed/domain/full, with mixed seed signs.
+
+Together with MovieLens, the current primary mechanism does not establish a
+stable endpoint advantage. The preplanned confidence alternative still completes
+all8runs, with axis-additive controls and actual cost/sign diagnostics pending.
+Do not infer a size law or interaction impossibility from one centered subspace.
+
+Within selected KR cells, interaction-minus-fixed AUC changes are
+[-.005102,+.000494] for domain0(N164143),[-.004233,-.003785] for the largest
+domain1(N1656704),[-.006608,+.001316] for the smallest domain2(N84980). The
+large-domain task0 decrease repeats4/4 with interval[-.007654,-.000813], but
+the small-domain task0 mean also declines. There is no stable across-task
+small-domain improvement/large-domain decline law. Baseline cell AUCs differ
+(.652800/.642530,.696916/.722716,.663296/.659142), so size is not difficulty.
+
+Actual interaction logits' maximum destination margins are around1e-9 for KR
+and5e-10 for ML at selected states. Mean absolute source-probability departures
+from the fixed prior are only.004292(KR)/.001520(ML), versus full mixing
+.027309/.003173. The constrained source law changes very little early; limited
+movement, subspace restriction and calibration can explain near-baseline scores.
+This is measured behavior, not proof that a larger interaction would help.

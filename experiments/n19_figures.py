@@ -22,7 +22,8 @@ def save(fig,target,name):
 
 def main(phase):
     source=OUT/(phase+'_readout');target=OUT/'figures'/phase;target.mkdir(parents=True,exist_ok=True)
-    p=pd.read_csv(source/'paired_comparisons.csv');p=p[(p.stage=='selected')&(p.tag.fillna('')=='')]
+    all_pairs=pd.read_csv(source/'paired_comparisons.csv').fillna({'tag':''})
+    p=all_pairs[(all_pairs.stage=='selected')&(all_pairs.tag=='')]
     fig,axes=plt.subplots(1,2,figsize=(11,6),sharey=True);labels=[]
     for row,(name,suite,dataset,method,control) in enumerate(PANELS):
         labels.append(f'{name}: {method} / {control}')
@@ -49,6 +50,45 @@ def main(phase):
     for ax in axes:ax.axhline(0,color='0.5',lw=1);ax.set_ylabel('Paired cell AUC difference x1000');ax.grid(alpha=.2)
     fig.suptitle('Domain size and baseline difficulty are separate descriptors; points are correlated')
     save(fig,target,'size_and_difficulty')
+    fig,axes=plt.subplots(1,2,figsize=(11,4),sharey=True)
+    labels=[]
+    for row,(tag,method,control,label) in enumerate([
+        ('','profile_axis','audit_fixed','Additive truth: axis / independent composite'),
+        ('','profile_joint','audit_joint','Additive truth: axis / independent joint'),
+        ('noise_interaction1','profile_axis','audit_fixed','Non-additive truth: axis / independent composite'),
+        ('noise_interaction1','profile_joint','audit_joint','Non-additive truth: axis / independent joint')]):
+        labels.append(label)
+        for ax,metric in zip(axes,['macro_auc','macro_logloss']):
+            g=all_pairs[(all_pairs.suite=='noise')&(all_pairs.stage=='selected')&(all_pairs.tag==tag)&(all_pairs.method==method)&(all_pairs.control==control)&(all_pairs.metric==metric)]
+            if len(g):
+                r=g.iloc[0];mean=r['mean']*1000;lo=r.ci95_low*1000;hi=r.ci95_high*1000
+                ax.errorbar(mean,row,xerr=[[mean-lo],[hi-mean]],fmt='o',capsize=3,color='#246b8e' if not tag else '#b65c36')
+    for ax,label in zip(axes,['AUC difference x1000 (right favors axis)','LogLoss difference x1000 (left favors axis)']):
+        ax.axvline(0,color='0.5',lw=1);ax.set_xlabel(label);ax.grid(axis='x',alpha=.2)
+    axes[0].set_yticks(range(4),labels,fontsize=8);axes[0].invert_yaxis()
+    fig.suptitle(f'{phase}: fixed audit draw, four optimization seeds; axis assumption falsification')
+    save(fig,target,'channel_assumption_falsification')
+    finite=OUT/'dynamics'/'rank_finite_removal.csv'
+    if finite.exists():
+        f=pd.read_csv(finite).fillna({'tag':''})
+        f=f[f.stage.isin(['epoch1','epoch5','epoch10','final'])]
+        fig,axes=plt.subplots(2,2,figsize=(11,7))
+        colors={'fixed':'#246b8e','rank_uniform':'#b65c36','cell_codebook':'#47824a'}
+        for col,dataset in enumerate(['kuairand','movielens']):
+            for method in colors:
+                for tag,style in [('', '-'),('optimizer_adamw','--')]:
+                    g=f[(f.dataset==dataset)&(f.method==method)&(f.tag==tag)]
+                    if not len(g):continue
+                    g=g.groupby('epoch')[['shared_weight_frobenius_norm_float64','probability_absolute_change']].mean()
+                    label=method+(' AdamW' if tag else ' Adam')
+                    axes[0,col].plot(g.index,np.maximum(g.shared_weight_frobenius_norm_float64,1e-40),style,color=colors[method],label=label,marker='o',markersize=3)
+                    axes[1,col].plot(g.index,g.probability_absolute_change,style,color=colors[method],label=label,marker='o',markersize=3)
+            axes[0,col].set_yscale('log');axes[0,col].set_title(dataset)
+            axes[0,col].set_ylabel('Shared STAR weight norm (floor 1e-40)')
+            axes[1,col].set_ylabel('Mean absolute prediction change after slot removal')
+            for ax in axes[:,col]:ax.set_xlabel('Epoch');ax.grid(alpha=.2);ax.legend(fontsize=6)
+        fig.suptitle('Checkpoint capacity activity on fixed train-meta rows; conditional sensitivity, no retraining')
+        fig.tight_layout();save(fig,target,'capacity_activity')
     dyn=OUT/'dynamics'/'training_trajectories.csv'
     if dyn.exists():
         frame=pd.read_csv(dyn);frame=frame[frame.tag.fillna('')==''];fig,axes=plt.subplots(2,3,figsize=(13,7))

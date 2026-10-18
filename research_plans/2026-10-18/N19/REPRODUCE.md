@@ -76,3 +76,15 @@ exports PNG/PDF figures. PROTOCOL_LIMITS.md applies to all interpretation.
 
 This file documents execution; it does not assert that the still-active N19
 matrix or final analysis is complete. See EXECUTION_STATUS.json.
+
+P3's single active-capacity optimizer extension uses --optimizer adamw on KR
+fixed/rank_uniform/rank_protected/domain_codebook/cell_codebook, all4seeds and
+full default budget; automatic suffix optimizer_adamw prevents mixing records.
+Default Adam is preserved. See ADDENDUM_11 for the actual diagnostic trigger.
+
+n19_rank_diagnostics.py reads fixed train-meta rows and saved epochs1/5/10,
+selected/final to measure finite slot removal and parameter norms (no optimizer).
+n19_routing_diagnostics.py reads actual effective routing logits, source weights
+and confidence from selected/final states without data/test forwards. Their
+CSV outputs are supplementary conditional mechanism evidence, not substitute
+training experiments or independent generalization observations.

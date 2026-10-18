@@ -11,6 +11,7 @@ not satisfy this stage. Do not cite partial development tables as final results.
 - [Protocol limits](PROTOCOL_LIMITS.md)
 - [Development decisions and bounded extensions](DEVELOPMENT_DECISION_RULES.md)
 - [Implementation report](IMPLEMENTATION_REPORT.md),[primary self-review](REVIEW.md),[alternative review](ALTERNATIVE_REVIEW.md)
+- [Working scientific report](FINAL_REPORT.md), direction development records: [P1](P1_DEVELOPMENT_ANALYSIS.md), [P2](P2_DEVELOPMENT_ANALYSIS.md), [P3](P3_DEVELOPMENT_ANALYSIS.md), [P4](P4_DEVELOPMENT_ANALYSIS.md), [P5](P5_DEVELOPMENT_ANALYSIS.md), [P6](P6_DEVELOPMENT_ANALYSIS.md)
 - [Live execution snapshot](EXECUTION_STATUS.json),[queue manifest](queue_manifest.json),[mechanical status](queue_manifest.status.json)
 - [Completed-run development tables](development_readout/method_means.csv),[paired effects](development_readout/paired_comparisons.csv),[cell effects](development_readout/paired_cells.csv)
 - [Reproduction and local large states](REPRODUCE.md),[actual environment](ENVIRONMENT.json)
@@ -30,7 +31,7 @@ single-seed cancellation, frozen-head substitute or test-driven method changes.
 Only mechanical experiment execution is delegated; design, implementation,
 review and scientific interpretation are primary-only under revised entry11.
 
-Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
+Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,routing_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
 Large model/optimizer/random states are under `/home_new/xzf_n19_artifacts`;
 per-run configs identify exact directories. Logs and per-epoch/cell raw numbers
 remain in `logs/` and `runs/`. The final archive will retain key raw evidence,
