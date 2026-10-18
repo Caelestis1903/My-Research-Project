@@ -32,7 +32,8 @@ def collect(phase):
         suite=config['suite'];dataset=config['dataset'];key=(dataset,suite)
         if key not in cache:cache[key]=population(*key)
         data=cache[key];base=dict(run_id=config['run_id'],suite=suite,dataset=dataset,method=config['method'],seed=config['seed'],tag=config['run_id'].split('__seed')[1].split('__',1)[1] if '__' in config['run_id'].split('__seed')[1] else '')
-        resources.append(dict(**base,**receipt,epochs_budget=config['epochs'],model_parameters=config['parameters']))
+        observed_per_visit=receipt['labels_queried']/(config['epochs']*config['train_rows']) if suite=='sampling' else (2. if suite=='natural' and config['method']=='fixed' else None)
+        resources.append(dict(**base,**receipt,epochs_budget=config['epochs'],model_parameters=config['parameters'],p6_label_observations_per_row_visit=observed_per_visit))
         for stage in ['selected','final']:
             file=path/(f'validation_{stage}.npz' if phase=='development' else f'test_{stage}.npz')
             if not file.exists():continue

@@ -17,6 +17,10 @@ discrimination, not early termination of authorized budgets.
   to test assumption sensitivity. A clean-oracle win alone proves nothing about
   identification or the proposed estimator. Report channel errors at selected
   and final stages alongside clean risks; do not equate rate recovery with AUC.
+  Competing explanation: additive channel logits have three parameter paths per
+  cell, so Adam's coordinate geometry can move rates faster than independent
+  logits. If sharing appears beneficial, a bounded channel-rate learning-speed
+  control may be necessary before attributing that benefit to information.
 - P3 first reads rank_protected versus spectral-uniform on both datasets, then
   runs both dictionary mechanisms. Distinguish compressed-storage benefit from
   allocation-specific benefit and shared-dictionary benefit from task-specific
@@ -28,6 +32,9 @@ discrimination, not early termination of authorized budgets.
   Evaluate the effective subspace, source weights, replicated slope consistency
   and actual extra measurement time. Do not infer cheap recovery of interactions
   from a selected score if full learned mixing explains it at equal/lower cost.
+  ML's smallest train-meta pool yields only75 rows/half, versus256 elsewhere;
+  replicated-sign noise can therefore differ by probe size as well as true risk.
+  This is not by itself proof that small domains need more or less sharing.
 - P5 reads finite regret versus ordinary full mixing and train-meta utility, then
   completes leave-one-out coalition credit. A meaningful remaining endpoint
   advantage justifies a same-checkpoint decision comparison of finite functions

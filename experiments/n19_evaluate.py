@@ -11,12 +11,18 @@ from n19_train import metrics
 
 class CompactRank(Model):
     def __init__(self,features,seed,method,state):
-        super().__init__(features,seed,method);self.load_state_dict(state)
+        super().__init__(features,seed,method)
+        already_compact='active_left.0' in state
+        if not already_compact:self.load_state_dict(state)
         left=[];right=[]
         for d in range(3):
-            active=self.rank_mask[d].bool();left.append(nn.Parameter(self.left[d,:,active].detach().clone()));right.append(nn.Parameter(self.right[d,active].detach().clone()))
+            if already_compact:
+                left.append(nn.Parameter(state[f'active_left.{d}'].detach().clone()));right.append(nn.Parameter(state[f'active_right.{d}'].detach().clone()))
+            else:
+                active=self.rank_mask[d].bool();left.append(nn.Parameter(self.left[d,:,active].detach().clone()));right.append(nn.Parameter(self.right[d,active].detach().clone()))
         del self.left,self.right,self.rank_mask,self.rank_frozen
         self.active_left=nn.ParameterList(left);self.active_right=nn.ParameterList(right);self.rank_mode=False
+        if already_compact:self.load_state_dict(state)
     def slots(self,masks=None):return [a@b for a,b in zip(self.active_left,self.active_right)]
 
 @torch.no_grad()

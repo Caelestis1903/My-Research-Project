@@ -264,6 +264,7 @@ class Runner:
         dump(self.out/f'reliability_epoch{epoch:03d}.json',dict(epoch=epoch,
             slopes=slopes.cpu().tolist(),evidence=evidence.cpu().tolist(),
             confidence=m.interaction_confidence.cpu().tolist(),half_sizes=[len(h) for h in halves],
+            per_domain_half_sizes=[[int((self.data.train_x[h,-1]==d).sum()) for d in range(3)] for h in halves],
             disjoint_train_meta=True,extra_seconds=time.time()-started))
 
     def fit(self):
