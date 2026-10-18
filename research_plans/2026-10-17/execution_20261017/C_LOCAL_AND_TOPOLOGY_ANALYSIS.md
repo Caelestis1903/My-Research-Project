@@ -1,6 +1,6 @@
 # C局部作用与条件拓扑判定
 
-状态：N3全部完成、通过核验；N4按原门槛未触发。此为机制结果，整轮N5及全局test仍待完成。主agent设计/实施/自审/分析，independent_review=false。
+状态：N3全部完成、通过核验；N4按原门槛未触发。此为已闭合的机制结果；整轮N5和统一test也已完成。主agent设计/实施/自审/分析，independent_review=false。
 
 ## 设计与一次冻结
 
@@ -48,4 +48,4 @@ Adam开发整体Cfull在SN路径略正、SB路径略负，相关t95均跨0；其
 
 ## 条件闭合与后续
 
-CONDITIONAL_BRANCH_DECISIONS_PRETEST.json在新test前固定范围：N4未触发；N5-A/B/D及shape不承担本轮所作的总q干预/固定点计数判断，纯顺序、重复独立中介、自然难度与shape归因均保留未知。N5-C固定ML人口已触发，必须执行对称pilot及8优化seed正式确认。没有新方法候选训练不构成所有未来方法无效。所有test只在必做训练与选择闭合后统一读取。
+CONDITIONAL_BRANCH_DECISIONS_PRETEST.json在新test前固定范围：N4未触发；N5-A/B/D及shape不承担本轮所作的总q干预/固定点计数判断，纯顺序、重复独立中介、自然难度与shape归因均保留未知。N5-C固定ML人口按触发完成16对称pilot及24去重正式轨迹（8优化seed）。没有新方法候选训练不构成所有未来方法无效。所有test已在必做训练与选择闭合后统一读取；其最终表现见FINAL_ANALYSIS，N3局部统计仍仅使用原diagnostic，不与test混合。

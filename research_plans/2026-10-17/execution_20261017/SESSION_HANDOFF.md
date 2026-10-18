@@ -1,4 +1,10 @@
-# 当前执行上下文（持续工作，不是停止通知）
+# 执行已完成：最终交付入口
+
+本轮必做及已触发实验、核验、统一test、分析和报告均已完成。最终状态见execution_status.json；阅读REPORT_INDEX.md及FINAL_ANALYSIS.md。120条训练、72条正式test读取、7200预测；原46问题保持，新注册至Q53。N4/H200等未触发不表示阴性，无待续训练。Git分支codex/execute-2026-10-17-run；最终交付commit以包含本文件的HEAD及origin同名ref为准。
+
+以下仅保留全过程历史交接快照，后续状态覆盖前面快照，不作为当前待办。
+
+# 历史执行上下文
 
 用户要求完整执行start.md和2026-10-17规划，最终分析/报告/Git push。原start为GB18030；最后用户要求严格遵守其§11，非机械任务仅主agent，designer/reviewer阶段由主agent书面设计/自审，明确independent_review=false。RUN由持久机械队列，另有luna-runner n1_mechanical_runner只监督原始状态。不要派发设计/代码/分析子agent。
 
@@ -76,3 +82,5 @@ UTC06:15：N5 pilot16/16完成且audit PASS（500steps/18750000samples，固定s
 UTC06:24：N5formal24/24 COMPLETE exit0、audit PASS24，必做/触发fulltrain已全部完成验证。最后执行n17_archive.py全局归档正在进行（exec session工具返回），预期completed_artifact_index120=原80+MLpilot16+formal24。archive完成后用n17_final_freeze.py仅一次生成GLOBAL freeze/FINAL_COMPARISONS/TEST_manifest，预计56comparison=7group×8seed、72unique formal root×100models（7200模型）。冻结代码当前尚有analysis_source_sha256的小补充，AST/自审/sourceindex已同步但还未commit/push，须与最终训练元数据里程碑提交。Builder不得在archive完成前调用；无新test已读。下一步完整全球freeze实际审查/commit/push/授权mechanicalchild执行TEST_manifest，再实际统计/图/9报告/registry/最终push，绝不可现在final。旧N4未触发不记阴性。ML共同.001 ownSN.001 ownSB.0003。
 
 UTC06:28：最终archive120已结束，n17_final_freeze实际成功执行一次：GLOBAL_MODEL_AND_PROTOCOL_FREEZE、FINAL_COMPARISONS56（7group×8seed）、TEST_manifest72unique formal×100model=7200。主agent实际审查及TEST_READOUT_RUN_AUTHORIZATION已签，GLOBAL_FREEZE_REVIEW详述source/config/models/方向/去重，test仍未启动，须此次commit/push后followup机械child跑全部72。test进度文件名test_progress.json、receipt=test_receipt.json，普通progress.json是旧训练，勿误判。下一步必须统计n17_performance、quota_readout、method_guards（包括absolute_quota_lifts）、domain_context、figures并查看PNG，真实独立分析/9报告/registry/最终push。若主8seedCI同时跨±.003须新增精度问题，不加seed搜索。当前剩余只有posttest读数/分析/交付，不需新增训练；既定未触发分支不能由test反向激活。
+
+UTC06:34实际覆盖：889e012已push，TEST_manifest真实启动PID1037413，机械child n17_mechanical_runner只执行raw test72，当前20complete+10running+42pending无failure，按test_progress/test_receipt记录；普通训练progress/receipt不可误判。所有训练/选择已经120fulltrain COMPLETE_VALIDATED，GLOBAL freeze及models7200/comparison56/test72不可重做或改动。functions store n17_test_poll为紧凑raw进度；n17_poll有全stage。全局锁定analysis_source_sha六入口不得无实际必要改动。FINAL_TRAINING_RUN_LEDGER.csv/receipt已真实生成120行（formal72、pilot48），尚未commit；execution_status已标testRUNNING也待最终提交。当前无其他exec sessions需poll。下一步等全72raw完→源/receipt/config/metrics/index验证并复制test_metadata（不重复大模型/预测全量hash，reader已逐个保存核验）→n17_performance --comparisons FINAL_COMPARISONS --out FINAL_performance→quota_readout→method_guards on performance与quota/absolute lifts→domain_context→n17_figures并view PNG→科学分析/九报告和三常规报告、FINALregistry旧46深拷贝不改、新6终态、必要Q53双界精度问题→commit/push回读HEAD。不要现在final、不要再根据test反向开分支/额外seed；后续只有必做读数/分析/交付。全局test历史exposed不得叫全新holdout；CI以8训练seed为单位。

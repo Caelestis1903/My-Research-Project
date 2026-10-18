@@ -13,6 +13,18 @@
 |[Exploring Variance Reduction in Importance Sampling for Efficient DNN Training, SIAM](https://epubs.siam.org/doi/10.1137/25M1726339), Prop4.1 / Eq5.1–5.2|EMS=N*tr(V_uniform)/tr(V_IS)，来自每样本梯度矩估计；SGD η_EMS=η*(EMS/N)，Adam建议平方根缩放|梯度估计均值和trace匹配；DNN训练/误差/成本；trace等价不保证形状、非线性更新或AUC等价|ESS仅权重矩，不能替代EMS。N1公平LR响应面先检验配置解释；只有后续候选仍需噪声适配才按论文实现EMS基线，不扩张矩阵。|
 |[Multiple Importance Sampling for Stochastic Gradient Estimation](https://arxiv.org/html/2407.15525), Eq3,5–8 / §5|多个面向参数梯度的proposal；按MIS分配组合；OMIS解Aα=b，估计值Σα_j。balance heuristic相当于混合proposal|SGD向量梯度估计、在线近似/输出层重要性及矩EMA；估计质量、收敛和成本|blockwise proposal思想已存在。只有明确未覆盖的MDMT结构命题才讨论新贡献；本轮N2四臂不称OMIS，N3更新替换不称采样策略。|
 
-本轮可检验缺口是冻结数据/图下的q×LR×预算×评价人口取舍，以及域计数和共享C局部干预；是否稳定、是否有机制及方法价值均待N1–N3数据。GO-EFFECT、GO-MECHANISM、GO-METHOD分别判断。新训练test未读。
+本轮可检验缺口是冻结数据/图下的q×LR×预算×评价人口取舍，以及域计数和共享C局部干预；本轮实测的稳定性、机制与方法判断见下文和FINAL_ANALYSIS。GO-EFFECT、GO-MECHANISM、GO-METHOD分别判断。本段原文边界在test读取前冻结；新test现已按全局协议读取。
 
-状态：N6训练前原文差异表COMPLETE；最终结论须在实测后补充。
+状态：N6原文差异表及实测后覆盖判断COMPLETE。
+
+## 实测后的覆盖与方法判断
+
+- q均值身份、重要性修正、不同协方差/trace及采样依赖的通用思想已有JMLR/ICML/EMS/MIS对应，不能因本轮MDMT场景或约2倍trace重新命名为新算法。
+- N1给对称q×LR×H100、独立八seed和评价人口/阶段边界；KR主selected-Holm未通过，ML selected负向与own迟期正向并存。这些实证边界有研究价值，不等于已找到未覆盖的一般机制定理。
+- N2实测域计数贡献小、quota后trace/q差保持，是本模型/人口的限定反证；瞬时Adam总体均值漂移尚不精确，不能套用memory/order论文作为历史必要性的证明。
+- N3冻结embedding独立作用低于实际界，N4未触发。未进行trace-matched shape、长期拓扑、完整EMS/MIS候选方法训练；这些未触发项不是阴性。
+- 所有预设读数没有同时通过宏收益及七项保护，没有新方法候选被授权。D3/SAF完整方法目标不同与本轮控制边界仍成立；本轮未训练完整D3/SAF/AdaTask等预算性能基线，不宣称它们失败。
+
+**STRONG（公式边界）**：完整学权方法一般改变目标，EMS不是权重ESS，MIS包含已有blockwise proposal思路。**MEDIUM（本轮配置边界）**：对称调参、完整预算与多人口读数提供条件反例。**WEAK/未证实**：通用新颖机制或新方法价值；有限八篇原文对照不证明文献穷尽。原Q12/Q13/Q14/Q25/Q26/Q27历史结论完整保留，新增Q52登记具体覆盖边界。
+
+全局freeze引用的逐字训练前版本另存LITERATURE_COVERAGE_PRETEST_FROZEN.md，来自889e012且SHA与GLOBAL evidence完全匹配；本文件在test后增加最终实证解释，原版本可独立复核。

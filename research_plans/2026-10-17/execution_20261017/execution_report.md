@@ -1,70 +1,50 @@
-# 执行报告：IN PROGRESS
+# 实验执行与交付报告
 
-本轮尚未完成。已完成N0、训练前N6原文差异表、冻结N1矩阵和必要检查；32条H100 pilot已全部完成且核验通过，32条独立confirmation已持久启动。未把启动、完整训练、读数验证混同。
+**状态：COMPLETE。** 研究规划规定及已触发的训练、核验、原始读取、分析、图表、问题终态与归档已完成。最终发布commit见Git HEAD及交付消息；本报告的冻结起点为889e012。
 
-## 来源与工作区
+## 入口、工作区和流程
 
-计划取自origin/main@a56639ab，核心目录research_plans/2026-10-17；执行底座为v3@2d04c6de。原目录无HEAD/remote且所有文件未跟踪，全部保留；隔离checkout为/home/xzf/Code/phase0-3-20261017-git，远程分支codex/execute-2026-10-17-run。原start是GB18030，原件、UTF8文本、SHA及未占用种子检查已归档。
+按start.md（GB18030，另存UTF8）及research_plans/2026-10-17实际规划执行。start.md §11要求所有非机械任务由主agent完成，故各实验DESIGN→IMPLEMENT→主agent REVIEW→机械RUN→主agent ANALYZE完整保留，independent_review=false；不伪称独立review。原工作区Git无HEAD/remote且全未跟踪，保留；实际独立checkout /home/xzf/Code/phase0-3-20261017-git，分支codex/execute-2026-10-17-run；计划来自main@a56639ab，研究源底座2d04c6de。原路径的执行输出有链接。
 
-start明确10-17入口优先于末尾10-15旧入口。其§11要求非机械任务只由主agent完成，优先于此前AGENTS的designer/reviewer派发要求；设计、实现和自审依次保留，independent_review=false。RUN阶段luna-runner仅机械监控现有队列及收集原始状态，不作科学分析或选择。
+Python /home/xzf/miniconda3/envs/phase0-3-env/bin/python，3.13.5、torch2.9+cu126、两张3090。复用原缓存及处理人口；线程OMP2/BLAS1，队列每卡总compute PID≤5、显存准入<90%，保留当时外部任务。模型/预测/原始trace在/home_new/xzf_phase0_3_n17_artifacts_20261017，Git收代码、表、图、manifest和SHA索引。未安装新环境或重下数据。
 
-## 实际训练协议
+## 完成矩阵
 
-|项目|实际值|
-|---|---|
-|版本/模型|2026-10-17方案，沿用V3 fixed M3OE|
-|构造/forward|experiments/v2_20261016.py::fixed_model；stage_S1_models.py::StageS1M3OEAdapter.forward(x,test_flag=False)|
-|fusion / DARTS|四融合值固定sigmoid(1)≈.7310586；DARTS关闭|
-|optimizer|单Adam(.9,.999,eps1e-8)或单无动量SGD；coupled WD1e-5|
-|loss|mean_i[(p_d/q_d)*mean_t BCE]；Sample经验目标|
-|domain/task|3域×2任务，训练p加权；主评价为六cell AUC宏均值|
-|DBO / balancing / augmentation|均关闭|
-|routing|emb.detach()保留|
-|数据/物理batch|固定KR人口2006132训练行；B40960、49步/epoch、尾批40052|
-|种子|tuning2030/2031，confirmation2032–2039；二者不混用|
-|LR网格|Adam .0003/.001/.003/.01；SGD .03/.1/.3/1.0；两q完全对称|
-|预算/选轮|H100；selection半集宏AUC1..100最优、最早平局；test解封延后|
-
-Python3.13.5、PyTorch2.9.0+cu126、CUDA12.6、2×3090，复用phase0-3-env及原数据。KR原文件SHA核对通过。GPU原有另一项目进程保留；队列逐设备计入外部计算进程、每卡总数≤5、按显存<90%准入。当前可容纳两卡各4条本轮训练。原产物盘/home_new约845GB空闲；大型产物保留/home_new/xzf_phase0_3_n17_artifacts_20261017，仓库runs为本地忽略链接。
-
-## 已完成的最小验证
-
-CPU三步pipeline：Adam/SGD的loss身份残差5.96e−8，一步参数更新与原表达式完全相同；同seed数据/初始化/采样流及完整state恢复通过。完整GPU工程epoch实测49更新/2006132行、约8.7秒、峰值预留1192MiB；不是独占硬件吞吐估计。
-
-N2 quota的完整/尾batch计数和目标、同图梯度、RNG恢复通过；小人口完整坐标四臂矩流水线完成。N3一draw全部局部替换小流程完成，明确ENGINEERING。首次局部smoke的配置关键字序列化错误已在正式机制实验前修复；未影响N1。
-
-正式确认需完整test AULC，额外纯模型逐epoch留存层已在confirmation前补齐并逐tensor验证；pilot已有全selection/diagnostic预测用于调参，不用pilot test调参。详见CONFIRMATION_RETENTION_ADDENDUM.md。
-
-## 任务与依赖
-
-|节点|状态|依赖/范围|
+|阶段|实际完成|独立重复与说明|
 |---|---|---|
-|N0.1–4|COMPLETE|4068重算读数、672单调校准、人口及ML用户簇条件区间|
-|N6训练前原文表|COMPLETE|八篇原文；最终方法/机制主张待实测|
-|N1 pilot|COMPLETE_VALIDATED|32×H100；全部4900步/200613200样本，无失败|
-|N1 confirmation|RUNNING|两优化器共同/各自赢家重合，新增32×H100，PID736337|
-|N1 H200|CONDITIONAL|仅训练J的原文rho门槛，主H100保留|
-|N2固定点|WAIT_N1|必须16锚×4臂×512draw|
-|N2完整quota|CONDITIONAL|N1.6诊断残差触发，通常新增16轨迹|
-|N3局部/独立确认|WAIT_N1|16锚32draw，选一子块/阶段后另4seed确认；最多64draw|
-|N4拓扑|CONDITIONAL|N1.6及N3.6同时满足才启动|
-|N5各分支|CONDITIONAL|按原文分别判定；ML在KR关键独立确认实用效应后触发|
-|新模型test|SEALED|所有定义/模型/选择规则冻结后统一读取|
-|最终分析/问题终态/发布|PENDING|须有真实完成与核验产物|
+|N0|历史4068行评价分解、672校准拟合、用户簇条件读数|无新正式训练；旧四seed不变，部分E100仅n1–2|
+|N6训练前|八篇直接原文公式/干预对照|有限检索，不宣称穷尽|
+|N1 tuning|32×H100|2030/31，双q四LR两optimizer，未早期淘汰|
+|N1 formal|32×H100|2032–39，common/own同赢家复用|
+|N2固定点|16有效锚×4臂×512draw|四训练seed、双路径E10/E40；原14成功+2验证修正重试|
+|N2 quota|16×H100|同8seed，IID16父复用，4臂总比较|
+|N3|开发16、SGD整体C16、独立确认8，各32draw|一次冻结embedding/E10；无64补充|
+|N5-C tuning|16×H100|固定subset2022、2030/31对称网格|
+|N5-C formal|24×H100|8seed×SN.001/SB.001/SB.0003，去重SN|
+|统一test|72 unique×100model|7200预测，43200有限cell行；48 tuning排除|
 
-此前里程碑提交9f273ba（冻结/实现）与3e227ca（N0/启动）已推送origin并回读确认；本报告所处阶段不是最终交付。
+总计120条新H100训练轨迹、0训练失败；同一轨迹别名不是额外独立重复。N1每条4900steps/200613200examples，ML每条500/18750000。FINAL_TRAINING_RUN_LEDGER保存每条真实配置、选轮、GPU/PID、起止、code commit、source/row/config SHA及时间；约KR32分钟/条、ML2.6–2.7分钟/条为共享GPU条件的实际wall均值，非独占吞吐或纯算法效率比较。
 
-进展补充：已完成的首8条pilot原始配置/曲线/指标/状态SHA在run_metadata及completed_artifact_index.json；其余仍在运行或等待，不从不完整响应面提前选LR。已归档历史672个cell/seed/阶段的人口与baseline上下文。N5-C固定ML人口适配已完成必要身份检查：N187500、每epoch5步、尾23660，跨optimizer seed保持同一行列表；是否正式执行仍等待N1门槛。最终七保护界的两例合成算术/JSON检查单独标ENGINEERING，不作为研究结果。分析脚本的NumPy整数JSON序列化问题已最小修正，不影响训练或原始数值，无须重训。
+## 条件分支闭合
 
-N1 pilot终态及完整源数已归档；N1_pilot_validation.json为32/32完成核验，N1_winners_frozen.json为选择依据。Adam共同/各自eta=.01，SGD均1.0，均为预设网格上边界。N1_PILOT_ANALYSIS.md与N1_pilot_surface保留128行horizon响应和图。3ae4fca冻结后启动confirmation，config逐条记录该commit；H100原始model每轮留存，test仍封存。原始逐batch trace本地保留SHA，Git新增每epoch实际域曝光汇总epoch_domain_exposure.csv。
+H200：四q/optimizer平均rho均<.005，未触发；不是证明已平台。N4：独立局部实际/方向门槛不满足，未触发，不能当拓扑阴性。N3四项MCSE达标，不补64、不重选。N5-A/B/D/shape/交叉subset未承担本轮主张，test前已固定不触发并保留相应识别限制；N5-C已触发且完成。无新方法候选训练。所有依据见CONDITIONAL_BRANCH_DECISIONS_PRETEST、PRETEST_TRAINING_STAGE_CLOSURE、原gate及授权，未按test反向更改。
 
-独立确认首8条H100已完成且预算/配对/逐epochmodel存在性验证通过；model_capture_runtime_identity.json进一步核对一条真实E100纯model与native完整state全部tensor完全相同，未读取test。新确认的逐epochmodel SHA、原始轨迹和域曝光见run_metadata，剩余确认继续运行。
+## 异常、最小修正和交互恢复
 
-确认里程碑：全部16条Adam确认H100完成，N1_confirmation_partial16_validation.json核验步数、样本数、逐batch域计数、最早选轮、初始化配对和固定人口身份通过；SGD继续运行。未从Adam完成前缀提前决定分支，test仍封存。
+两原N2 SN/E40 seed2033/2034在跨batch形状CUDA float32身份检查失败。CPU/同图/float64最小复核支持数值差异；隔离n17_geometry_identity保持原估计器逐字等价，只改验证/记录，同seed同checkpoint同draw重试。原FAILED、日志、配置保留，resolved16有效；未修改健康训练源码，未重跑14个无影响锚。细节及具体误差见N2_IDENTITY_FAILURE_DIAGNOSIS和N2_validation_only_equivalence。
 
-确认终态：32/32 H100完成、失败0，完整预算/配对核验通过，训练源指纹仅1种。N1_diagnostic_gates.json冻结两优化器重要残差、Adam优先、quota新增16条及SGD整体C对照；两优化器均未触发H200。N2/N3联合64项只读N1锚并写新目录，N1目录不再修改，故可与只读N1元数据归档并行，不再等待归档IO才填充GPU。N5-C已触发并准备16条pilot清单，正式训练待N2/N3阶段闭合。test继续封存。详见N1_DIAGNOSTIC_GATE_ANALYSIS.md、N2_N3_RUN_AUTHORIZATION.json。
+机械协调曾出现missing status被误作0PENDING、以及一次派生投影误写retry外层元数据；均记录并修正。后者恢复queue PID、逐task记录未变，原外层terminal写入时间不能恢复；不掩盖此限制。仅scheduler短暂暂停准入，健康计算子进程保留。后续只在真实旧PENDING0且任务集/PID核对后准入，不增加协调框架。
 
+交互中断期间持久主队列完成quota，实际最后完成2026-10-17 17:26:14UTC；用户于10-18要求恢复后核对终态，从冻结候选接续，未重复训练。新独立N3→MLtuning→MLformal→全局冻结→test真实完成。RESUME_20261018及各launch/status/机械观察保留精确记录。
 
-## N2 固定点里程碑（2026-10-17，整轮仍进行中）
+## 冻结、核验、分析与交付
 
-16个resolved锚已完成并验证，原14成功+2验证修正重试；原FAILED保留。详见 [N2_FIXEDPOINT_ANALYSIS.md](N2_FIXEDPOINT_ANALYSIS.md) 及 N2_fixedpoint_summary/receipt.json。全参数IID SB/SN trace比2.008914–2.584112，quota后1.994669–2.550850；预测域计数份额仅0.001297%–0.105936%。该固定点结论不能替代完整quota训练的长期性能对照。Adam q平均更新作用尚无法判定；未识别出超出MC尺度的总体均值漂移。N3开发仍运行，独立确认、条件N4、N5-C、全局test freeze及最终统计尚未闭合。
+训练源与原生状态在运行期间冻结。全局test前提交889e012，56个比较=7组×8seed、72唯一formal、7200纯model；冻结config/trajectory/选轮/模型与reader/analysis源码SHA。test reader逐模型验SHA、逐预测存SHA/行序索引；TEST_READOUT_VALIDATION核对72完整receipt、模型join、600cell行/轨迹、shape/dtype及人口身份，未重复全量二进制oracle。
+
+主agent依冻结入口实际运行performance、quota四臂、两套method guards、domain context和figures，PNG均视觉查看；只做影响定义、模型、指标和结论的必要核验，没有额外可靠性矩阵。完整表/置信界/原seed/反例均归档，Q53记录精度不足，不扩seed。
+
+最终报告：FINAL_ANALYSIS、experiment_results、mechanism_analysis、METRIC_AND_POPULATION_DECOMPOSITION、Q_LR_BUDGET_RESPONSE、DOMAIN_COUNT_COUNTERFACTUAL、C_LOCAL_AND_TOPOLOGY_ANALYSIS、LITERATURE_COVERAGE；问题终态QUESTION_REGISTRY_FINAL；数值FINAL_NUMERIC_FINDINGS及CSV，索引REPORT_INDEX与FINAL_DELIVERY_MANIFEST。原设计/阶段授权保留签署时状态，最终执行状态以本报告为准。
+
+## 注册表字节来源说明
+
+REGISTRY_PRESERVATION_CHECK实测固定Git blob SHA为c63bb2750fc6a15374e7fd22f93ab7a65be942d8c03dee90b10452f4a1387f19；计划提供的original_registry_sha256为efe478…，两者不符，原因/哈希约定未知。原声明保留；46个解码问题对象及全部字段与固定Git来源逐项完全相等。该元数据差异不改变科学字段、模型或结果，记录后不阻塞/重跑实验。

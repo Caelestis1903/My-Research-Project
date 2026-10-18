@@ -1,5 +1,5 @@
 {
-  "status": "GLOBAL_FREEZE_REVIEWED_TEST_72_AUTHORIZED",
+  "status": "COMPLETE_VALIDATED",
   "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
   "stages": [
     {
@@ -60,15 +60,18 @@
     },
     {
       "stage": "TEST",
-      "status": "GLOBAL_FREEZE_REVIEWED_72_RAW_READOUTS_AUTHORIZED_NOT_STARTED"
+      "status": "COMPLETE_VALIDATED_72_RUNS_7200_PREDICTIONS"
     },
     {
       "stage": "FINAL_ANALYSIS",
-      "status": "PENDING"
+      "status": "COMPLETE"
     },
     {
       "stage": "PUBLICATION",
-      "status": "PENDING"
+      "status": "COMPLETE_IN_DELIVERY_COMMIT",
+      "branch": "codex/execute-2026-10-17-run",
+      "remote": "origin",
+      "commit_resolution": "Git HEAD containing this file; remote ref verified after push"
     }
   ],
   "tuning_runs": 32,
@@ -117,7 +120,7 @@
     "readout": "N2_fixedpoint_summary/receipt.json",
     "analysis": "N2_FIXEDPOINT_ANALYSIS.md"
   },
-  "updated_utc": "2026-10-18T06:27:44.762359+00:00",
+  "updated_utc": "2026-10-18T06:59:57.185394+00:00",
   "N3_development": {
     "anchors": 16,
     "validation": "N3_development_validation.json",
@@ -127,7 +130,7 @@
     "analysis": "N3_DEVELOPMENT_ANALYSIS.md",
     "confirmation_manifest": "N3_confirmation_manifest.json",
     "authorization": "N3_CONFIRMATION_RUN_AUTHORIZATION.json",
-    "independent_confirmation": "RUNNING_PID_1029763"
+    "independent_confirmation": "COMPLETE_VALIDATED_8_NO_SUPPLEMENT"
   },
   "N3_SGD_control": {
     "status": "COMPLETE_VALIDATED_16",
@@ -139,7 +142,7 @@
     "status": "COMPLETE_VALIDATED_16",
     "validation": "N2_quota_validation.json",
     "parent_pair_identity": "N2_QUOTA_IID_PAIR_IDENTITY.json",
-    "test_read": false
+    "test_read": true
   },
   "N3_confirmation": {
     "status": "COMPLETE_VALIDATED_8",
@@ -167,5 +170,23 @@
     "authorization": "TEST_READOUT_RUN_AUTHORIZATION.json",
     "unique_formal_runs": 72,
     "models": 7200
+  },
+  "total_new_training_runs": 120,
+  "training_failures": 0,
+  "test_readout": {
+    "status": "COMPLETE_VALIDATED",
+    "unique_runs": 72,
+    "models_and_prediction_sets": 7200,
+    "cell_rows": 43200,
+    "validation": "TEST_READOUT_VALIDATION.json"
+  },
+  "final_analysis": {
+    "report": "FINAL_ANALYSIS.md",
+    "report_index": "REPORT_INDEX.md",
+    "registry": "QUESTION_REGISTRY_FINAL.json",
+    "questions": 53,
+    "artifact_manifest": "FINAL_DELIVERY_MANIFEST.json",
+    "independent_review": false,
+    "untriggered_branches_are_not_negative_results": true
   }
 }
