@@ -48,3 +48,9 @@
   serialized test bytes were never loaded. The freeze governs performance
   readout and method decisions. Native evaluation retains the historical row
   split and known domain set; it is not an unseen-domain or new-user experiment.
+
+- P4/P5 modify a source-domain expert mixture constant within each destination
+  domain-task cell. The underlying shared-expert gate still depends on features,
+  but these new18raw source coefficients do not form an input-dependent policy.
+  Batch/cell mean finite costs can suppress context-specific differences. A null
+  result for these laws does not reject context-dependent expert credit/routing.

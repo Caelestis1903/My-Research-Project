@@ -69,3 +69,26 @@ from the fixed prior are only.004292(KR)/.001520(ML), versus full mixing
 .027309/.003173. The constrained source law changes very little early; limited
 movement, subspace restriction and calibration can explain near-baseline scores.
 This is measured behavior, not proof that a larger interaction would help.
+
+A pre-result mathematical interpretation check also shows positive confidence
+does not change the feasible interaction-logit family: PCP is positive definite
+on range(P) for c in[.25,1]. See MATHEMATICAL_SCOPE. Its scientific distinction
+is data-dependent optimization geometry/regularization; it cannot be described
+as certified hard selection of reliable interactions. If it improves endpoints,
+a matched generic-shrink explanation must be examined before attributing gains
+to replicated risk signs. No confidence result has been used for this identity.
+
+## Complete additive-axis strong control (8 formal runs)
+
+Selected axis-additive AUC/loss/weighted AUC: KR .677149/.439387/.700489;
+ML .730829/.550432/.739454. Interaction-minus-axis KR macro AUC-.007235 in0/4,
+interval[-.016975,.002505], loss+.002300 worse3/4. ML macro AUC+.000050 in4/4,
+interval[-.000056,.000157], loss-.000971 with mixed signs. The tiny ML direction
+does not offset the KR contradiction or establish practical magnitude.
+
+Axis-minus-fixed KR macro AUC+.004249 but only2/4 signs, weighted AUC-.001807
+in3/4 and loss mean-.004614 driven by one seed(3/4 worsen). ML macro AUC-.000069
+in2/4. Ordinary additive mixing therefore explains another plausible sharing
+family without a robust win. No larger ANOVA interaction should be presumed
+necessary from a fixed-gradient tensor; actual trained strong controls adjudicate.
+Replicated-confidence complete cohorts and frozen test still remain pending.

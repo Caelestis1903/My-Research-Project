@@ -109,3 +109,22 @@ support descriptive paired uncertainty, not population-wide causal attribution
 to domain size. Analyze N, baseline difficulty, task, model, stage and metric
 together. A smallest-domain gain with largest-domain decline is a trade-off only
 when it actually repeats; do not infer it from a macro/population gap alone.
+
+## Positive replicated confidence changes geometry, not the feasible family
+
+For P4 let P be the orthogonal destination double-centering projection and
+C=diag(c), with .25<=c_i<=1 under the specified EMA. On S=range(P),
+<v,PCPv>=sum_i c_i v_i^2 >=.25||v||^2. Thus PCP restricted to S is invertible
+and its image is S. Frozen positive confidence therefore retains exactly the
+same effective interaction-logit family as confidence-off; softmax gauge removal
+also leaves the same4 functional degrees. It is a data-dependent optimization
+parameterization/regularization mechanism, not a hard interaction-selection rule
+or a new larger/smaller sharing hypothesis class. Network weights may compensate
+by scaling raw logits. Under fixed C and plain SGD the effective-logit update
+contains (PCP)^2; Adam adds coordinate adaptation, so that exact SGD expression
+is not asserted for the actual optimizer.
+
+If replicated gating has a meaningful empirical advantage, generic uniform
+shrinkage/optimization geometry remains a required competing explanation. No
+new control is triggered by this identity alone; all preplanned confidence runs
+still complete. The identity limits interpretation even if performance improves.

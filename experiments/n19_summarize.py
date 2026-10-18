@@ -85,6 +85,15 @@ def summarize(phase):
     cells,aggregate,resources=collect(phase)
     if cells.empty:dump(target/'status.json',dict(status='NO_COMPLETED_RUNS',phase=phase));return
     cells.to_csv(target/'cells.csv',index=False);aggregate.to_csv(target/'runs.csv',index=False);resources.to_csv(target/'resources.csv',index=False)
+    cellmeans=[]
+    cellkeys=['suite','dataset','method','tag','stage','domain','task']
+    for key,g in cells.groupby(cellkeys,dropna=False):
+        row=dict(zip(cellkeys,key));row.update(n_seeds=g.seed.nunique(),train_n=int(g.train_n.iloc[0]),evaluation_n=int(g.n.iloc[0]),positives=int(g.positives.iloc[0]))
+        for metric in ['auc','logloss','prevalence','empirical_label_entropy','logloss_skill_vs_empirical_constant']:
+            row[metric]=float(g[metric].mean())
+            if metric in ['auc','logloss']:row[metric+'_sd']=float(g[metric].std(ddof=1)) if len(g)>1 else None
+        cellmeans.append(row)
+    pd.DataFrame(cellmeans).to_csv(target/'cell_means.csv',index=False)
     means=[]
     for key,g in aggregate.groupby(['suite','dataset','method','tag','stage']):
         row=dict(zip(['suite','dataset','method','tag','stage'],key));row['n_seeds']=g.seed.nunique()

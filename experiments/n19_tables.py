@@ -28,6 +28,15 @@ def main(phase):
     lines.append('P6 labels/visit is instrumented sampling usage; the natural fixed reference uses both labels. Blank cells are outside this cost comparison, not zero-label training.\n')
     lines.append(table(c,keys+['n_seeds','epochs','parameters','supernet_parameters','wall_seconds','peak_reserved_mib','p6_labels_per_visit']))
     target=source/'NUMERIC_TABLES.md';target.write_text('\n'.join(lines)+'\n');print(target)
+    cellmeans=pd.read_csv(source/'cell_means.csv')
+    details=[f'# {phase} per-task and per-cell tables','',
+        'Complete-run optimization-seed means; SD is across training seeds, not domain/population uncertainty. Task scores macro-average the three domains. Each cell remains a correlated outcome. Paired cell effects and descriptive intervals are in paired_cells.csv.','']
+    for (suite,dataset),g in means.groupby(['suite','dataset']):
+        details.extend([f'## {suite} / {dataset}','',
+            table(g,['method','tag','stage','n_seeds','task0_auc','task1_auc','task0_logloss','task1_logloss']),''])
+        c=cellmeans[(cellmeans.suite==suite)&(cellmeans.dataset==dataset)]
+        details.extend([table(c,['method','tag','stage','domain','task','n_seeds','train_n','evaluation_n','auc','auc_sd','logloss','logloss_sd','prevalence','logloss_skill_vs_empirical_constant']),''])
+    target=source/'PER_TASK_CELL_TABLES.md';target.write_text('\n'.join(details)+'\n');print(target)
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--phase',choices=['development','test'],default='test');a=p.parse_args();main(a.phase)

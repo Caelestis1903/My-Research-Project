@@ -88,3 +88,17 @@ n19_routing_diagnostics.py reads actual effective routing logits, source weights
 and confidence from selected/final states without data/test forwards. Their
 CSV outputs are supplementary conditional mechanism evidence, not substitute
 training experiments or independent generalization observations.
+
+Pending MovieLens reliability/coalition/fixed-target runs were moved earlier in
+the scheduling order to expose short-cohort scientific results before the long
+matched KR optimizer cohort drains. Commands, seeds, budgets and already-running
+processes were unchanged; queue events preserve actual admission order. Scheduling
+is operational, not randomized causal timing, and wall costs remain concurrent.
+
+Final inventory fingerprints all local prediction arrays and saved checkpoint
+files with SHA256 and byte counts in LOCAL_PREDICTION_INDEX.csv and
+LOCAL_CHECKPOINT_INDEX.csv. It checks actual Git tracking for arrays; historical
+engineering arrays already tracked are distinguished from ignored formal arrays.
+Large model/optimizer states remain outside Git. Raw numeric evidence and exact
+per-run source snapshots stay in the execution branch. Per-task/cell human-readable
+tables are generated alongside numeric aggregate tables after summary collection.
