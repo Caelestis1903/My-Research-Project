@@ -194,3 +194,16 @@ Outputs in `research_plans/2026-10-18/N19/`; large full states in independent
 `/home_new/xzf_n19_artifacts`. Preserve N18 and all negative attempts. Finish
 all queued/triggered work, code/results/reports push and main PR; do not mark
 COMPLETE at plan, proxy, partial-run or first-candidate stage.
+
+## Chronological design amendments
+
+Numbered addenda preserve reasons and timing:01 spectral canonicalization for
+paired rank controls;02 replicated finite-risk confidence;03 conventional audited
+fixed channel;04 rank selection after deployment-budget pruning;05 nested-axis
+composite likelihood isolation;06 axis-additive routing control;07 P1 MMoE
+architecture falsification after complete primary development results;08 frozen
+audit-profile calibration;09 residual-field coupling and fixed augmented control;
+10 non-additive channel assumption stress;11 active-capacity AdamW discrimination
+after numerical branch attenuation was measured. These
+amendments do not cancel any original run. Actual commands and tags in the
+reloadable queue manifest are the execution authority for this amended design.

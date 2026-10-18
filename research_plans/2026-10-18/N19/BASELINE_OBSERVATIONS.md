@@ -33,3 +33,21 @@ label distribution or user/item coverage. Only three domains/dataset, with task
 and cell dependence, cannot identify size as a primary cause. Candidate gains,
 small/large trade-offs, contradictions and training-stage effects remain pending.
 Raw source: development_readout/cells.csv and method_means.csv; no test read.
+
+## MovieLens size/difficulty context (complete4-seed development)
+
+|Domain|Main train N|Task0 AUC/loss|Task1 AUC/loss|Task0/1 loss-skill vs empirical constant|
+|---|---:|---|---|---|
+|0|32775|.727930/.617921|.735701/.461903|.105449/.105052|
+|1|2850|.714597/.649270|.722935/.503031|.038755/.087848|
+|2|142500|.743610/.585896|.740615/.484798|.134351/.114229|
+
+The smallest ML domain has lower AUC and lower loss skill in this fixed population.
+In KR, the smallest is not lowest AUC. These observations contradict a universal
+size=difficulty equivalence. They do not identify the causal effect of sample
+size: native domain identity, label prevalence, support/feature distribution, task
+relationship and historical sampling differ together. Raw LogLoss also depends
+on entropy, so KR domain2's higher absolute loss cannot alone mark it hardest.
+A crossed within-domain random size intervention with a fixed evaluation population
+would distinguish size from these explanations better than correlating three
+correlated domain points. This is a future falsifier, not an unrun declared arm.

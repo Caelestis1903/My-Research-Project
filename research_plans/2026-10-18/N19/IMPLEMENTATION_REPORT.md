@@ -38,3 +38,13 @@ controlled simulator, not real annotation savings with reusable label caches.
 GPU queue supports independent device admission, max5 processes/device and predicted
 memory<90%; task count and measurements determine actual concurrency. It reports
 only commands, exit codes and raw statuses, never changes research decisions.
+
+## Later chronological implementation records
+
+The numbered ADDENDUM_01 through ADDENDUM_11 preserve subsequent design,
+implementation and primary self-review judgments. They cover spectral selection,
+replicated interaction confidence, anchored/frozen channel controls and profiling,
+P1 MMoE replication, residual stochastic-field coupling, non-additive measurement
+stress, and matched AdamW capacity activity. These do not replace original
+negative runs. Actual per-run source_snapshot files are authoritative for the
+version executed. Supplementary rank/routing diagnostics contain no optimization.
