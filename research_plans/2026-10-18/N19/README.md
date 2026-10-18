@@ -15,12 +15,14 @@ not satisfy this stage. Do not cite partial development tables as final results.
 - [Completed-run development tables](development_readout/method_means.csv),[paired effects](development_readout/paired_comparisons.csv),[cell effects](development_readout/paired_cells.csv)
 - [Reproduction and local large states](REPRODUCE.md),[actual environment](ENVIRONMENT.json)
 
-Initial matrix:180 formal runs, plus8 necessary P2 controls/ablations, each with
-four seeds2022/2023/2024/2025. Both native datasets for P3/P4/P5; explicit ML
-controlled populations for P1/P2/P6. P3/P4/P5 preplanned alternatives add32 full
-runs after primary development readings. Engineering runs are separately tagged
-and excluded from scientific tables. Further discriminating extensions depend
-on actual development evidence and get their own design/review records.
+Declared full matrix currently totals300 formal runs:180 initial,8 P2 controls,
+8 P4 additive controls,12 P1 MMoE,16 P2 audit-profile,16 P2 non-additive stress,
+8 P6 residual/static-CV,32 preplanned P3/P4/P5 alternatives,20 P3 matched AdamW.
+Seeds2022/2023/2024/2025 throughout. Native datasets for P3/P4/P5; explicit ML
+controlled populations for P1/P2/P6. Some alternatives still await their primary
+development launch triggers; the declared matrix is NOT yet complete. Engineering
+runs are separately tagged/excluded. Every extension has a design/self-review
+record and scientific trigger; no open-ended optimizer/hyperparameter grid.
 
 All backbone/network parameters train from scratch. KR50epochs,ML100epochs,
 complete fixed cached populations minus common5% train-meta. No early stopping,
@@ -28,7 +30,7 @@ single-seed cancellation, frozen-head substitute or test-driven method changes.
 Only mechanical experiment execution is delegated; design, implementation,
 review and scientific interpretation are primary-only under revised entry11.
 
-Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,evaluate,figures}.py`.
+Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
 Large model/optimizer/random states are under `/home_new/xzf_n19_artifacts`;
 per-run configs identify exact directories. Logs and per-epoch/cell raw numbers
 remain in `logs/` and `runs/`. The final archive will retain key raw evidence,

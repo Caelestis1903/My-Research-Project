@@ -29,11 +29,13 @@ def main():
                 seed = config['seed']
                 tag = run.name.split('__seed')[1].split('__', 1)[1] if '__' in run.name.split('__seed')[1] else ''
                 model = Model(data.features, seed, method).eval()
-                for stage, name in [('selected', 'selected.pt'), ('final', 'last.pt')]:
+                for stage, name in [('epoch1', 'epoch001.pt'), ('epoch5', 'epoch005.pt'), ('epoch10', 'epoch010.pt'), ('selected', 'selected.pt'), ('final', 'last.pt')]:
                     state = torch.load(Path(config['state_directory'])/name, map_location='cpu', weights_only=False)
                     model.load_state_dict(state['model'])
                     p = model(x)
                     slots = model.slots()
+                    if isinstance(slots, (list, torch.nn.ParameterList)):
+                        slots = torch.stack(list(slots))
                     slot_norm = float(slots.double().norm())
                     shared_norm = float(model.base.shared_weight.double().norm())
                     original_slots = model.slots

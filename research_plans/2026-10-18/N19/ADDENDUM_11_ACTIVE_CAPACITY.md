@@ -40,3 +40,7 @@ the specification. AST parsing passes, AdamW class/default/parameter registratio
 checked without optimizer steps. Default is unchanged Adam. Full diagnostics
 record double-precision norms and finite slot removal for both tags. Primary
 self-review verdict: PASS. Raw basic check: active_capacity_basic_check.json.
+
+The same bounded finite-removal measurement also reads saved epochs1/5/10, to
+locate whether attenuation precedes the rank decision; these are diagnostic
+forwards only, with identical rows and no model selection or training.
