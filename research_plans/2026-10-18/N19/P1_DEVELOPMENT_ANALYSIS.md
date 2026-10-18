@@ -70,3 +70,11 @@ advantage or independent contribution. Known-rule masking captures most of the
 large robustness benefit; ordinary DRO's principle has prior coverage. No further
 penalty/shift grid is justified for the current novelty claim. The40 full P1
 trainings are complete; final scope and disposition wait for frozen test readout.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+完整测试支持任务兼容目标相对ERM的受控效果：DRO选中宏AUC差+.188437，4/4，区间[.135042,.241832]；LogLoss-.130544，4/4改善。相对已知规则掩蔽，AUC+.004101，4/4，但区间[-.000682,.008885]，加权仅+.000341、2/4。任务0+.008015（4/4），任务1+.000188（3/4）；因此不能沿用开发集任务1全负的说法。MMoE相对掩蔽AUC+.001656仅2/4，任务0+.007319（4/4），任务1-.004008（3/4下降），选中损失+.015694四种子均差。最终epoch两骨干损失相对掩蔽改善，但不等于选中策略的统一优势。
+
+任务0三个域相对掩蔽AUC+.008665/+.016761/-.001380；前两域4/4正，最大域2/4负，各区间仍含0。已知Z和任务规则、偏移验证集可用是关键条件。STRONG：受控兼容性相对ERM；MEDIUM：跨骨干任务/阶段权衡；WEAK：超越强掩蔽的独立算法价值。停止当前CF/DRO变体，真实未知干预规则仍开放。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。

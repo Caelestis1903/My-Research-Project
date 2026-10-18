@@ -74,13 +74,15 @@ selected/final once, records cell metrics/mechanism diagnostics and a freeze has
 Then n19_summarize.py --phase test aggregates and n19_figures.py --phase test
 exports PNG/PDF figures. PROTOCOL_LIMITS.md applies to all interpretation.
 
-This file documents execution; it does not assert that the still-active N19
-matrix or final analysis is complete. See EXECUTION_STATUS.json.
+Completion and delivery status are recorded in EXECUTION_STATUS.json and the
+final report; this protocol does not itself infer effectiveness or novelty.
 
-P3's single active-capacity optimizer extension uses --optimizer adamw on KR
-fixed/rank_uniform/rank_protected/domain_codebook/cell_codebook, all4seeds and
-full default budget; automatic suffix optimizer_adamw prevents mixing records.
-Default Adam is preserved. See ADDENDUM_11 for the actual diagnostic trigger.
+P3 uses one alternate optimizer condition, --optimizer adamw, on
+fixed/rank_uniform/rank_protected/domain_codebook/cell_codebook for both native
+datasets, all4seeds and full budgets (20 KR+20 ML networks). Automatic suffix
+optimizer_adamw prevents mixing records. Default Adam is preserved. ADDENDUM_11
+records the inactivity trigger; ADDENDA_13/14 record the bounded transfer triggers.
+This is not a learning-rate/decay/rank optimizer grid.
 
 n19_rank_diagnostics.py reads fixed train-meta rows and saved epochs1/5/10,
 selected/final to measure finite slot removal and parameter norms (no optimizer).
@@ -119,3 +121,20 @@ Do not call it while any scientific continuation decision remains unresolved.
 The manifest thereafter contains training and evaluation jobs; count formal
 networks from training entries, not total queue jobs. n19_inventory.py --final
 creates the final training/test ledger and SHA256 indices of local arrays/states.
+
+After the sealed queue completes, final reporting commands (same environment
+variables as above) are n19_summarize.py --phase test; n19_tables.py --phase test;
+n19_figures.py --phase test; and n19_inventory.py --final. Development equivalents
+use --phase development. n19_dynamics.py, n19_rank_diagnostics.py,
+n19_routing_diagnostics.py, n19_credit_diagnostics.py and n19_channels.py read
+completed training records/checkpoints and regenerate the supplementary CSVs.
+Do not rerun training into existing formal directories to regenerate a report.
+
+Raw validation metrics preserve both selection/development halves at every
+epoch. Test metrics contain6 cells x2 predeclared checkpoints per network. The
+sampling aggregate additionally reuses4 native Adam full-label runs (not extra
+training); do not count those duplicated reference rows as more networks.
+The original learned-fusion Sample and literal two-optimizer repository protocol
+are distinct controls, not a claim of exact published M3OE reproduction.
+
+The mechanical inventory intentionally does not infer scientific completion. After final analysis the primary integrates SCIENTIFIC_DISPOSITIONS.json and marks the delivered inventory/execution status complete; rerunning the collector alone resets that analysis field to pending.

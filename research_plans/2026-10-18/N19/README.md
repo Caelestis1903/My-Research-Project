@@ -1,39 +1,47 @@
-# N19 — full end-to-end MDMT study
+# N19 — complete end-to-end MDMT study
 
-Status: **RUNNING**, all final scientific judgments and test readout pending.
-This stage follows the revised user start.md; N18's screening completion does
-not satisfy this stage. Do not cite partial development tables as final results.
+Status: **RESEARCH COMPLETE; final PR publication in progress.** All328 formal
+networks finished their full budgets and frozen selected/final test evaluations.
+The six scoped scientific dispositions are complete; negative and contradictory
+results are retained. No post-test method/selection changes. Completion of this
+matrix does not establish six successful new algorithms or reject six broad
+scientific directions.
 
-- [Entry archived as UTF8](source_start_utf8.md)
-- [Design and mandatory full budgets](DESIGN_SPECIFICATION.md)
-- [Mathematical scope/counterclaims](MATHEMATICAL_SCOPE.md)
-- [Primary-source novelty audit](LITERATURE_UPDATE.md)
-- [Protocol limits](PROTOCOL_LIMITS.md)
-- [Development decisions and bounded extensions](DEVELOPMENT_DECISION_RULES.md)
+- [Final scientific report](FINAL_REPORT.md),[scoped dispositions](SCIENTIFIC_DISPOSITIONS.json)
+- [Actual execution/delivery status](EXECUTION_STATUS.json),[run ledger](RUN_LEDGER.csv),[inventory](INVENTORY_STATUS.json)
+- [Revised entry](source_start_utf8.md),[design](DESIGN_SPECIFICATION.md),[mathematical claims and counterclaims](MATHEMATICAL_SCOPE.md)
+- [Primary-source novelty audit](LITERATURE_UPDATE.md),[protocol limits](PROTOCOL_LIMITS.md)
+- [Pre-test final development decisions](DEVELOPMENT_DECISION_RECORD.md),[immutable test freeze](TEST_FREEZE.json),[readout/export verification](EXPORT_VERIFICATION.json)
 - [Implementation report](IMPLEMENTATION_REPORT.md),[primary self-review](REVIEW.md),[alternative review](ALTERNATIVE_REVIEW.md)
-- [Working scientific report](FINAL_REPORT.md), direction development records: [P1](P1_DEVELOPMENT_ANALYSIS.md), [P2](P2_DEVELOPMENT_ANALYSIS.md), [P3](P3_DEVELOPMENT_ANALYSIS.md), [P4](P4_DEVELOPMENT_ANALYSIS.md), [P5](P5_DEVELOPMENT_ANALYSIS.md), [P6](P6_DEVELOPMENT_ANALYSIS.md)
-- [Live execution snapshot](EXECUTION_STATUS.json),[queue manifest](queue_manifest.json),[mechanical status](queue_manifest.status.json)
-- [Completed-run development tables](development_readout/method_means.csv),[paired effects](development_readout/paired_comparisons.csv),[cell effects](development_readout/paired_cells.csv)
-- [Reproduction and local large states](REPRODUCE.md),[actual environment](ENVIRONMENT.json)
+- Direction records including frozen-test final judgments: [P1](P1_DEVELOPMENT_ANALYSIS.md),[P2](P2_DEVELOPMENT_ANALYSIS.md),[P3](P3_DEVELOPMENT_ANALYSIS.md),[P4](P4_DEVELOPMENT_ANALYSIS.md),[P5](P5_DEVELOPMENT_ANALYSIS.md),[P6](P6_DEVELOPMENT_ANALYSIS.md)
+- [Test means/costs and paired effects](test_readout/NUMERIC_TABLES.md),[tasks/cells](test_readout/PER_TASK_CELL_TABLES.md),[raw paired cell data](test_readout/paired_cells.csv),[decision contrasts](test_readout/DECISION_CONTRASTS.csv)
+- [Development evidence](development_readout/NUMERIC_TABLES.md),[new questions and future discriminators](OPEN_PROBLEMS.md)
+- [Reproduction](REPRODUCE.md),[environment](ENVIRONMENT.json),[local predictions](LOCAL_PREDICTION_INDEX.csv),[local checkpoints](LOCAL_CHECKPOINT_INDEX.csv)
 
-Declared full matrix currently totals328 formal runs:180 initial,8 P2 controls,
-8 P4 additive controls,12 P1 MMoE,16 P2 audit-profile,16 P2 non-additive stress,
-8 P6 residual/static-CV,32 preplanned P3/P4/P5 alternatives,20 P3 matched AdamW,8 P5 fixed-target distillation,12 P3 ML optimizer transfer,8 P3 ML dictionary transfer.
-Seeds2022/2023/2024/2025 throughout. Native datasets for P3/P4/P5; explicit ML
-controlled populations for P1/P2/P6. Some alternatives still await their primary
-development launch triggers; the declared matrix is NOT yet complete. Engineering
-runs are separately tagged/excluded. Every extension has a design/self-review
-record and scientific trigger; no open-ended optimizer/hyperparameter grid.
+328 formal networks=40 shared native baselines+40 P1+72 P2+72 P3+40 P4+32 P5+
+32 P6;82 four-seed groups. Full from-scratch training, all backbone parameters
+trainable, KR50epochs/ML100epochs, batch40960, common5% train-meta reservation.
+No early stopping or seed exclusion. P5 reuses8 full-router controls; P6 reuses4
+native full-label controls, not extra training. P2 privileged clean oracle was
+actually retrained. Nine engineering runs are excluded from research means.
 
-All backbone/network parameters train from scratch. KR50epochs,ML100epochs,
-complete fixed cached populations minus common5% train-meta. No early stopping,
-single-seed cancellation, frozen-head substitute or test-driven method changes.
-Only mechanical experiment execution is delegated; design, implementation,
-review and scientific interpretation are primary-only under revised entry11.
+14 numbered addenda record actual development triggers and bounded extensions,
+including audit profiling/misspecification, MMoE transfer, residual observations,
+uniform-KL control and both native datasets' matched AdamW capacity families.
+All declared alternatives ran; no open-ended hyperparameter grid. Only mechanical
+execution was delegated under revised start.md11; all reviews are explicitly
+primary self-reviews, not independent reviews.
 
-Code: `experiments/n19_{data,models,objectives,train,queue,summarize,dynamics,rank_diagnostics,routing_diagnostics,credit_diagnostics,channels,evaluate,figures,tables,inventory}.py`.
-Large model/optimizer/random states are under `/home_new/xzf_n19_artifacts`;
-per-run configs identify exact directories. Logs and per-epoch/cell raw numbers
-remain in `logs/` and `runs/`. The final archive will retain key raw evidence,
-including negative outcomes, and record any large local-only prediction/state
-artifacts explicitly. No overall COMPLETE until all triggered work finishes.
+The sealed queue completed658/658 jobs with zero failures. Each of328 test
+receipts records zero optimization steps and the immutable freeze hash. The64
+physically compact rank exports have maximum prediction discrepancy1.1921e-6.
+2400 capacity-cell,2592 routing-cell/source and480 finite-credit cell records
+are supplemental correlated mechanism observations, not replacement training.
+
+Source: experiments/n19_{data,models,objectives,train,queue,freeze,summarize,
+dynamics,rank_diagnostics,routing_diagnostics,credit_diagnostics,channels,evaluate,
+figures,tables,inventory}.py. Raw configs/source snapshots/epoch and cell metrics
+and receipts are in runs/, commands/logs in logs/ and queue events. Large arrays
+and full states remain local under paths recorded in the SHA256 indices;
+GitHub contains key raw numeric evidence, source, logs, tables, PNG/PDF and reports.
+Historical tests/populations were reused; the freeze is not fresh confirmation.

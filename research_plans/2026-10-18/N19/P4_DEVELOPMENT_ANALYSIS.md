@@ -147,3 +147,13 @@ KR records10 probes/seed, mean sign agreement .6167/.6556/.6333/.5778 and
 extra times82.6/77.9/79.2/53.1s (mean73.2s). Total operational training
 time1059.1s versus confidence-off771.1s,1516MiB both. Differing contention
 means the total wall-time difference is not attributable solely to probes.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+选中测试KR交互减固定宏AUC-.002399（3/4负），训练量加权-.003517四种子负、区间[-.005669,-.001364]；置信门控减固定宏AUC-.000091、2/4，加权-.000694、2/4。ML门控减固定AUC+.000458、3/4，区间[-.000873,.001789]。门控的独立选中收益仍为WEAK；两半集符号一致不构成校准置信度，正PCP保留同一可表达交互族。
+
+不能隐去正面反例：KR最终交互减固定测试AUC+.013137、4/4，区间[.008741,.017533]，加权+.003033、4/4，损失-.006218、4/4改善。相同对比在开发最终阶段均值方向不同，选中阶段也不受益。最终测试域0两任务+.017160/+.032611、最小域+.014696/+.013766（均4/4正），最大域+.000030/+.000556、3/4正。这是MEDIUM的条件性后期收益，不是小域增/大域降，也不能证明交互必要或独立创新。
+
+40专属训练全部完成，冻结前没有实质门控收益触发全局收缩控制。测试新现象不触发在同一测试上的修复/选点；保留更广交互研究及独立新总体、预定部署阶段的复现问题，停止当前门控机制。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。

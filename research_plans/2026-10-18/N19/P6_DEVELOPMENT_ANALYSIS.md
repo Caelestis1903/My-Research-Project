@@ -79,3 +79,11 @@ sampling/observation direction is not universally rejected.
 Raw evidence: all32run receipts, query counts, policy_counts on new arms, complete
 trajectories and development_readout/{paired_comparisons,paired_cells,resources}.
 All budgets complete; no proxy or single-seed cancellation. Test pending.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+选中测试残差自适应相对反相关CV宏AUC+.000896、3/4，区间[-.001859,.003652]；相对独立CV AUC-.000412、3/4负，损失+.002754四种子差。相对完整标签宏AUC仅+.000013、2/4，加权+.000186、2/4。开发阶段相对完整标签加权AUC四种子负的现象没有在测试保持，不能写成普遍人口风险退化。
+
+最终残差法相对完整标签损失-.136729四种子改善，区间[-.193791,-.079667]，加权AUC+.011911四种子正；但相对独立CV最终宏AUC-.003017、3/4负。普通缺标正则是必要竞争解释，自适应不具独立稳定收益。97.7%—99.8%访问选择静态反相关端点；实际约1.1标签/行/访问而非2，计算仍稠密且标签可缓存。MEDIUM：后期正则效应；WEAK：残差自适应独立价值。32预算完成，停止当前copula/CV变体；真实持久观测与全参数协方差问题留作不同条件的研究。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。

@@ -61,3 +61,15 @@ Both edited scripts pass syntax parsing; no additional training/test grid.
 ADDENDUM_14 now explicitly declares the ML AdamW dictionaries after the complete KR late-ranking result; the capacity figure includes all four dataset/optimizer regimes. Primary self-review: PASS; no training source change.
 
 Reporting-only scope adjustment before freeze: sampling full-label reference is explicitly limited to the declared native Adam fixed runs (empty tag). P3 AdamW dense runs stay in natural tables; they are not additional P6 controls. Existing P6 means/deltas are unchanged. Primary self-review: PASS.
+
+## Completed frozen readout verification
+
+All328 formal models completed their full budgets and both frozen test stages;
+all658 queue jobs exit0, including2 queue engineering jobs. Seven earlier
+engineering runs are separately inventoried. All328 test receipts have zero
+optimization steps and the same immutable freeze hash. The pre-test decision
+record and every source fingerprint in TEST_FREEZE remain unchanged. Each model
+has12 raw test cell records. All64 physical selected/final rank exports satisfy
+the declared2e-5 prediction tolerance; actual maximum1.1920928955078125e-6.
+This is primary verification/self-review, not an independent scientific review.
+No broad defensive test suite or post-test method/selection changes were made.

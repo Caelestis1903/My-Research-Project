@@ -200,3 +200,13 @@ MEDIUM for stage/optimizer/dataset dependence; WEAK for independent allocation
 or task-dictionary value. Practical storage compression remains measurable,
 with exact active-factor exports after freeze. No causal size conclusion or
 finite-risk protection, and no forced independent top-tier novelty claim.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+原Adam KR保护/均匀秩的选中和最终测试仍逐种子精确相同；数值失活解释不能丢弃。AdamW下选中保护减均匀AUC+.001630仅2/4，损失-.005745四种子改善，加权AUC-.001345四种子下降。任务1最小域+.005419四种子正、最大域-.002299四种子负，但两个区间均含0，且最终阶段不保持这一取舍。ML AdamW选中差仅+.000055，原Adam仅+.000016，无实际稳定分配收益。
+
+必须保留验证/测试反转：KR AdamW最终保护减均匀，开发AUC-.007372四种子负，而测试+.009646四种子正、区间[.000458,.018835]；测试加权+.002807四种子正。KR AdamW最终任务减域字典，开发+.020424四种子正，而测试-.002723四种子负；ML测试最终-.002376、3/4负。选中任务字典测试AUC KR+.003601、ML+.002174均3/4正，但损失/加权不统一。固定总体上的种子一致性不是跨总体泛化保证。
+
+2400条无训练敏感度记录证实AdamW下路径活跃；64紧凑导出最大误差1.1921e-6。KR参数1614254降至约829千，ML773470降至约630千，分别约48.6%/18.6%存储缩减；任务字典双STAR计算，不能声称相同比例加速。STRONG：指定KR原设置失活；MEDIUM：条件/阶段/评价总体依赖及局部取舍；WEAK：风险保护或独立分配创新。72专属预算及所有迁移完成，停止这些机制的调参扩展。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。

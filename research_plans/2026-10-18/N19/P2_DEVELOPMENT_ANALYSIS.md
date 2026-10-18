@@ -130,3 +130,11 @@ population and network fixed; naturally collected randomized reveal/audit data
 would be necessary for real observation-policy claims. These are future studies,
 not unrun parts of the present declared matrix. Frozen test readout will assess
 consistency without further method selection.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+选中测试joint_axis相对nested_axis宏AUC-.002586（2/4正），损失-.003804（4/4改善、区间含0）。profile_joint相对profile_nested AUC-.001176、损失+.001511，均种子混合；联合观测没有稳定独立收益。审核轴相对独立审核选中AUC+.000140、2/4，损失-.007483、3/4改善。通道RMSE由.035074降至.027248是同一次审核样本上的估计结果，不是四次独立审核。
+
+非加性真值下，轴复合相对独立审核选中AUC-.006832、4/4负，损失+.027084、4/4差但宽区间含0；联合轴相对独立联合AUC-.003919、4/4负，区间[-.007068,-.000769]，损失+.014394、4/4差，区间[.008670,.020118]。误设失效与开发结论相容（MEDIUM）。最终joint_axis相对nested_axis AUC反而+.028156四种子正，但损失+.266769四种子差；不能由后期排名替代校准收益。WEAK：独立联合/轴算法创新。72预算无遗漏；停止当前估计器，不否定一般MNAR识别问题。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。

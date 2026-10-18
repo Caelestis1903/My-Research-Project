@@ -5,9 +5,11 @@
 ## 文件
 
 - [N19/DESIGN_SPECIFICATION.md](./N19/DESIGN_SPECIFICATION.md)：按修订 start.md
-  执行的 **N19 完整端到端研究**；当前正在训练，尚未形成最终判定。
+  执行的 **N19 完整端到端研究**；328项正式训练及统一测试全部完成。
+  [N19最终报告](./N19/FINAL_REPORT.md)及[六方向范围判定](./N19/SCIENTIFIC_DISPOSITIONS.json)
+  保留条件性收益、阴性结果和开发/测试反转；GitHub交付状态见执行索引。
   [执行状态](./N19/EXECUTION_STATUS.json) 与
-  [开发集读数](./N19/development_readout/method_means.csv) 随实验更新。
+  [完整测试表](./N19/test_readout/NUMERIC_TABLES.md) 提供最终数值与成本。
   下方 execution/ 的 COMPLETE 是历史 N18 首轮范围，不能代表 N19 已完成。
 
 - [execution/FINAL_REPORT.md](./execution/FINAL_REPORT.md)：**已完成的六方向首轮实际研究**；包含四种子冻结头新拟合、固定 checkpoint 测量、全部正负证据与停止判定。[执行索引](./execution/README.md) / [复现](./execution/REPRODUCE.md)。

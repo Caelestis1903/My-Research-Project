@@ -196,3 +196,13 @@ as open. WEAK evidence of independent algorithm utility/originality. No ad-hoc
 meta-controller or new loss grid is scientifically required by late one-hot
 oracle gaps with contradictory selected/current-mixture evidence. Final test
 can update consistency/scope, never select a replacement or trigger retuning.
+
+## 冻结测试与最终范围判定（全部预算完成后）
+
+选中测试遗憾减均匀KL：KR AUC-.002480、2/4，ML-.000197、2/4；对应损失+.000418/+.001291，均混合。ML遗憾减普通完整路由选中AUC-.000908四种子负。留一源相对完整路由KR选中AUC+.001371、2/4、损失+.001037；ML AUC-.001015、3/4负、损失+.001374。均不支持稳定选中优势。
+
+最终遗憾减均匀KL测试AUC KR+.004386、4/4，ML+.007960、4/4（区间[.001677,.014243]）；但KR相对完整路由最终AUC仅+.000773、2/4，ML相对固定最终AUC+.007590四种子正却损失+.008073四种子差。不能把对弱后期参照的排名差等同统一校准/泛化收益。此类后期差异为MEDIUM条件性证据，独立算法价值WEAK。
+
+480条同tower、两半集信用记录已完整。单源有限选择优于局部坐标所偏好的另一单源，不代表优于实际非线性混合：最终遗憾样本有限选择相对当前混合风险ML-.126877四种子改善、KR+.027892四种子恶化。ML同类晚期缺口在普通full_mix已存在。有限动作确有决策差异（MEDIUM），但不是对完整utility更新或独立训练单专家的比较。32专属+8共享对照全完成；停止当前遗憾/留一源变体，广义混合函数信用仍开放。
+
+完整数值见 [测试表](test_readout/NUMERIC_TABLES.md)、[分任务/分cell表](test_readout/PER_TASK_CELL_TABLES.md) 和 [配对cell数据](test_readout/paired_cells.csv)。测试后没有修改方法或选模规则。
