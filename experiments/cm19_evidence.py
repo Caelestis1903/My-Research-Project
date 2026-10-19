@@ -1,6 +1,7 @@
 """Descriptive evidence tables from complete collected scopes, without new inference."""
 import argparse
 import json
+import math
 import numpy as np
 import pandas as pd
 from scipy.stats import t
@@ -55,6 +56,29 @@ def main():
     stage['delta_logloss'] = stage.macro_logloss_final - stage.macro_logloss_selected
     stage[FIELDS + ['seed', 'delta_auc', 'delta_logloss']].to_csv(target / 'stage_seed_deltas.csv', index=False)
     summarize(stage, FIELDS, ['delta_auc', 'delta_logloss']).to_csv(target / 'stage_summary.csv', index=False)
+    profiles = pd.read_csv(OUT / 'offline_readout/model_cost_profiles.csv')
+    costs = pd.read_csv(root / 'run_costs.csv').merge(
+        profiles[['dataset', 'model', 'variant', 'rows',
+                  'forward_dense_flops_per_example', 'forward_backward_dense_flops_per_example',
+                  'inference_seconds_median', 'inference_seconds_p95']],
+        on=['dataset', 'model', 'variant'], validate='many_to_one')
+    assert len(costs) == 856 and not costs.forward_backward_dense_flops_per_example.isna().any()
+    auxiliary = []
+    for row in costs.itertuples():
+        extra = 0
+        if row.model == 'original':
+            rr = OUT / 'runs' / row.run_id
+            config = json.loads((rr / 'config.json').read_text())
+            result = json.loads((rr / 'receipt.json').read_text())
+            n, batch = config['train_rows'], config['batch_size']
+            cycles, remainder = divmod(result['arch_steps'], math.ceil(n / batch))
+            extra = cycles * n + remainder * batch
+        auxiliary.append(extra)
+    costs['auxiliary_training_rows'] = auxiliary
+    costs['estimated_dense_primary_backward_flops'] = costs.examples * costs.forward_backward_dense_flops_per_example
+    costs['estimated_dense_auxiliary_backward_flops'] = costs.auxiliary_training_rows * costs.forward_backward_dense_flops_per_example
+    costs['estimate_scope'] = 'Small-batch supported dense forward/backward FLOPs scaled by exact row exposures; excludes optimizer, embedding, normalization, evaluation and diagnostics. CPU latency shared-host, not isolated/full-batch.'
+    costs.to_csv(target / 'costs_with_profile_estimates.csv', index=False)
     # These are full-test fixed-state interventions, not retraining contrasts.
     if args.split == 'test':
         neutral = cells[cells.intervention != 'none'].merge(
