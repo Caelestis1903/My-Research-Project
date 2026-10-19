@@ -1,0 +1,79 @@
+{
+  "run_id": "noise__movielens__audit_fixed__seed2024",
+  "seed": 2024,
+  "population_seed": 2022,
+  "dataset": "movielens",
+  "suite": "noise",
+  "method": "audit_fixed",
+  "backbone": "m3oe",
+  "epochs": 100,
+  "lr": 0.001,
+  "batch_size": 40960,
+  "train_rows": 178125,
+  "train_meta_rows": 9375,
+  "p": [
+    0.184,
+    0.016,
+    0.8
+  ],
+  "source_base_commit": "494081a3f71a3133f78d7f1e8671b3e1ce9777ea",
+  "optimizer": "Adam",
+  "optimizer_count": 1,
+  "weight_decay": 1e-05,
+  "original_protocol_overlap": false,
+  "objective": "Sample mean-row mean-task BCE or declared suite objective",
+  "learned_fusion": false,
+  "fusion_fixed_sigmoid1": true,
+  "parameters": 773470,
+  "noise_channel_parameters": 12,
+  "noise_rates": {
+    "a": [
+      [
+        0.07495775593510448,
+        0.13213923407935088
+      ],
+      [
+        0.16625728438237097,
+        0.23386572025885813
+      ],
+      [
+        0.2178607659206491,
+        0.27504224406489547
+      ]
+    ],
+    "b": [
+      [
+        0.24883232591875135,
+        0.18374271561762895
+      ],
+      [
+        0.16625728438237097,
+        0.10116767408124859
+      ],
+      [
+        0.22597970717902838,
+        0.15755810094063274
+      ]
+    ]
+  },
+  "selection": "earliest strict maximum six-cell macro AUC on selection half; rank arms eligible only after epoch10 pruning",
+  "engineering": false,
+  "test_read": false,
+  "from_scratch": true,
+  "backbone_frozen": false,
+  "review": "primary self-review under revised start.md",
+  "data_source": {
+    "fit_scope": "global_base_training_split",
+    "split_rule": "global_row_order_80_10_10",
+    "label_definitions": {
+      "task0": "1[rating>3]",
+      "task1": "1[rating>4]"
+    },
+    "oov_index": 0,
+    "selected_training_row_ids_hash": "3615d125910893af0412f01fb005b88eabc4b6512bd3491a1e191209b4f9ab35",
+    "base_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+    "raw_file": "/home/xzf/data/ml-1m/ml-1m.csv",
+    "raw_file_size": 75514352
+  },
+  "state_directory": "/home_new/xzf_n19_artifacts/noise__movielens__audit_fixed__seed2024"
+}
