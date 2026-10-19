@@ -56,6 +56,36 @@ def main():
     stage['delta_logloss'] = stage.macro_logloss_final - stage.macro_logloss_selected
     stage[FIELDS + ['seed', 'delta_auc', 'delta_logloss']].to_csv(target / 'stage_seed_deltas.csv', index=False)
     summarize(stage, FIELDS, ['delta_auc', 'delta_logloss']).to_csv(target / 'stage_summary.csv', index=False)
+    size = natural[natural.stage == 'G4'].merge(
+        natural[natural.stage == 'G0'],
+        on=['dataset', 'model', 'optimizer', 'seed', 'checkpoint', 'domain', 'task'],
+        suffixes=('', '_base'), validate='many_to_one')
+    size['delta_auc'] = size.auc - size.auc_base
+    size['delta_logloss'] = size.logloss - size.logloss_base
+    size['physical_group'] = np.where(
+        size.domain == size.dataset.map({'kuairand': 1, 'movielens': 2}),
+        'target_largest', 'other_domains')
+    kk = ['dataset', 'model', 'fraction', 'schedule', 'checkpoint', 'physical_group']
+    seed = size.groupby(kk + ['seed'], dropna=False)[['delta_auc', 'delta_logloss']].mean().reset_index()
+    seed.to_csv(target / 'size_target_and_other_seed_deltas.csv', index=False)
+    summarize(seed, kk, ['delta_auc', 'delta_logloss']).to_csv(target / 'size_target_and_other_summary.csv', index=False)
+    references = []
+    for reference_model in ['fixed', 'mmoe', 'ple']:
+        for reference_optimizer in ['adam', 'adamw']:
+            base = native[(native.model == reference_model) & (native.optimizer == reference_optimizer)]
+            joined = natural[natural.stage != 'G0'].merge(
+                base[['dataset', 'seed', 'checkpoint', 'domain', 'task', 'auc', 'logloss']],
+                on=['dataset', 'seed', 'checkpoint', 'domain', 'task'],
+                suffixes=('', '_reference'), validate='many_to_one')
+            joined['delta_auc'] = joined.auc - joined.auc_reference
+            joined['delta_logloss'] = joined.logloss - joined.logloss_reference
+            joined['reference_model'] = reference_model
+            joined['reference_optimizer'] = reference_optimizer
+            references.append(joined)
+    kk = FIELDS + ['checkpoint', 'reference_model', 'reference_optimizer']
+    seed = pd.concat(references).groupby(kk + ['seed'], dropna=False)[['delta_auc', 'delta_logloss']].mean().reset_index()
+    seed.to_csv(target / 'strong_reference_seed_deltas.csv', index=False)
+    summarize(seed, kk, ['delta_auc', 'delta_logloss']).to_csv(target / 'strong_reference_summary.csv', index=False)
     profiles = pd.read_csv(OUT / 'offline_readout/model_cost_profiles.csv')
     costs = pd.read_csv(root / 'run_costs.csv').merge(
         profiles[['dataset', 'model', 'variant', 'rows',
