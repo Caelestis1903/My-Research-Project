@@ -21,7 +21,9 @@ def evaluate(run_id,device):
         with (art/file).open('rb') as f:
             for b in iter(lambda:f.read(8*1024*1024),b''):h.update(b)
         hashes[label]=h.hexdigest();assert hashes[label]==expected['checkpoint_sha256'][label]
-        state=torch.load(art/file,map_location=dev,weights_only=False);model.load_state_dict(state['model'])
+        # Full research states include optimizer history; evaluation only copies
+        # model tensors to the GPU, keeping unused optimizer buffers on CPU.
+        state=torch.load(art/file,map_location='cpu',weights_only=False);model.load_state_dict(state['model'])
         allp=[];neutral={t:[] for t in model.interventions()};inference_seconds=0.
         with torch.no_grad():
             for o in range(0,len(data.test_x),config['batch_size']):
