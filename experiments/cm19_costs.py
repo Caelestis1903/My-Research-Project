@@ -1,4 +1,4 @@
-"""Raw measured operation counts and isolated latency on frozen checkpoints."""
+"""Raw operation counts and model-only latency on frozen checkpoints."""
 import argparse,json,time
 from pathlib import Path
 import numpy as np
@@ -34,7 +34,7 @@ def measure(run_id,device):
          forward_dense_flops=int(forward_flops),forward_backward_dense_flops=int(train_flops),forward_dense_flops_per_example=forward_flops/len(ix),forward_backward_dense_flops_per_example=train_flops/len(ix),
          inference_seconds_median=float(np.median(times)),inference_seconds_p95=float(np.quantile(times,.95)),repetitions=10,
          scope='PyTorch supported dense/matmul FLOPs, measured shapes; excludes embedding/normalization/optimizer kernels and data pipeline, hence lower bound. Small stratified train-meta batch, not full physical training batch. Selected checkpoint, temporary training gradients only; checkpoint unchanged; no test labels.',
-         source_state=str(Path(cfg['state_directory'])/'selected.pt'),test_read=False))
+         source_state=str(Path(cfg['state_directory'])/'selected.pt'),measurement_context='CPU measurements alongside active training/diagnostic processes, not an isolated hardware benchmark',test_read=False))
     print(json.dumps(dict(run_id=run_id,status='COMPLETE_COST_PROFILE')))
 
 if __name__=='__main__':
