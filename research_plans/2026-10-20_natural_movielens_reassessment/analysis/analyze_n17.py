@@ -85,7 +85,9 @@ def analyze():
             rows.append(item)
         for (label,task),gg in pd.DataFrame(rows)[lambda x:x.comparison==name].groupby(['readout','task']):
             for metric in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc','train_p_cell_logloss','eval_p_cell_logloss'):
-                summary.append(dict(comparison=name,estimand=estimand,readout=label,task=task,metric=metric,**stats(gg[metric])))
+                summary.append(dict(comparison=name,estimand=estimand,readout=label,task=task,metric=metric,
+                    reference_mean=float(b[(b.readout==label)&(b.task==task)][metric].mean()),
+                    candidate_mean=float(a[(a.readout==label)&(a.task==task)][metric].mean()),**stats(gg[metric])))
     for group in ('formal','matched_budget','matched_n','quota','H200'):
         g=read[read.group==group]
         for lr in sorted(g.lr.unique()):

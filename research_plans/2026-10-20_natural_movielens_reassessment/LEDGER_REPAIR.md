@@ -29,3 +29,11 @@
 ## H200启动显存profile的另一个计数边界
 
 H200复制H100目录，初始progress已有100轮/2000步；新的协调器把该复制值误当本阶段首个完整epoch，记录GPU baseline=peak 34/34与15/15 MiB、delta下限256 MiB。该值已标[INVALID_COPIED_H100_COUNTERS](analysis/ledger_repair/H200_profile_audit_20261020T1026Z.json)，不当作真实训练显存测量。当前8任务5/3槽位，采用同架构H100已测1318/1320 MiB的保守参照核算，等待真实≥101轮测量；后续N17_DIAGNOSTIC是独立profile组。没有因误记profile修改研究producer、停止child或把复制计数当新训练完成。启动I/O状态[快照](analysis/ledger_repair/H200_io_wait_snapshot_20261020T1028Z.json)单列，不当模型效果。
+
+## N17诊断共享split准备的机械互斥（11:12安全边界）
+
+N3_SN_seed2022_E040_bank0 attempt01在准备阶段因共享 `movielens_seed2022.json.tmp` 的并发replace失败，exit=1，失败attempt保留；attempt02已完整。这里的2022是固定人口split seed，不随优化seed改变。修复只在runner入口以fcntl独占锁包住原 `n17_bootstrap.prepare()`，函数返回即释放；未改变原采样、模型、优化器、draw、预算或研究producer文件。后续N17测试也使用相同入口。
+
+[wrapper原件](analysis/n17_runner_repair/n17_prepare_lock_runner.py)、[操作审计](analysis/n17_runner_repair/N17_prepare_lock_operational_audit_20261020.json)保留锁路径、SHA和四个producer源文件与冻结manifest的逐项一致性。主代理阅读wrapper后确认只增加准备互斥；机械worker做了语法、命令适配和help导入检查，没有因此新增研究实验。
+
+只暂停旧parent PID298126，不向健康child发信号；全部10个既有child完成后成为Z状态，再替换parent。10份原receipt全部有效、test_read=false；独立子进程退出码无法从新监控取得，台账写UNKNOWN_MONITOR_LOST、完成时间留空，不虚构0或把观察时间写成真实完成时间。[安全边界原件](analysis/n17_runner_repair/N17_diagnostic_race_drain_20261020.json)、[全部恢复记录与压缩前台账来源SHA](analysis/n17_runner_repair/source_index.json)。边界时48项基础诊断中12项完成、36未启动，1次失败后已成功重试；不是研究阴性或48项全部完成。
