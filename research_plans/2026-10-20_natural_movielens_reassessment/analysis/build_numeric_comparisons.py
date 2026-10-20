@@ -92,7 +92,7 @@ def build(final=False):
     table.to_csv(OUT/'completed_four_seed_macro_comparisons.csv',index=False)
     lines=['# 历史与自然人口数值比较（阶段性版本）','',
         '**整体实验仍在进行。** 本表只合并已完成主代理分析、具备完整四种子比较的阶段；待完成训练和未解锁test均不填零。当前源文件清单见[JSON](analysis/numeric_comparisons/source_files.json)。', '',
-        '差值均为候选−参照；AUC越大越好，LogLoss越小越好。宏值为六个domain×task cell的等权平均；不是pooled AUC。区间为四个优化seed的点态描述性t95，不是新总体或多重比较校正后的确认。旧V2/V9优化seed同时改变人工子集，新人口固定。', '',
+        '差值均为候选−参照；AUC越大越好，LogLoss越小越好。宏值为该模型实际输出任务的domain×task cell等权平均：联合双任务为六cell，单任务为三cell；单任务对照先匹配相同任务，不冒称联合模型。不是pooled AUC。区间为四个优化seed的点态描述性t95，不是新总体或多重比较校正后的确认。旧V2/V9优化seed同时改变人工子集，新人口固定。', '',
         '## 1. 自然完整人口的同配置比较', '',
         '|协议|预算|阶段|候选−参照|参照AUC|候选AUC|ΔAUC（正/负seed）|ΔLL（变差/改善seed）|',
         '|---|---|---|---|---:|---:|---:|---:|']
@@ -117,11 +117,17 @@ def build(final=False):
         '对应阶段的`paired_cell_deltas.csv`、`paired_domain_deltas.csv`、`paired_task_deltas.csv`与原基线绝对值共同用于科学判断。最大域不自动等于最容易，最小域不自动等于最困难。一个宏均值不能替代两任务/三域是否同时受益，也不能替代selected与final的风险变化。', '',
         '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
     text='\n'.join(lines)+'\n'
+    text+='\n跨family的LL精度口径保留原实现：core/N17/AO04按已复算的EPS1e−12协议，N19/CM19按原sklearn log_loss及保存预测dtype。不得将不同clipping/dtype、模型和任务的绝对LL合并成单因素排名；各family内候选/参照使用相同原口径。\n'
+    if (ANA/'ao04/analysis_status.json').exists() and json.loads((ANA/'ao04/analysis_status.json').read_text())['complete']:
+        text=text.replace('新自然transfer与AO04测试尚未闭合。','AO04全部12配置冻结测试已完成；新自然transfer尚未全闭合。')
+    if (ANA/'core_mechanism/analysis_status.json').exists() and json.loads((ANA/'core_mechanism/analysis_status.json').read_text())['complete']:
+        text=text.replace('固定点机制诊断尚待完成。','160项固定点机制诊断已完成，见CORE_MECHANISM_ANALYSIS.md。')
     if final:
         text=text.replace('历史与自然人口数值比较（阶段性版本）','历史与自然人口数值比较（完成版）')
         text=text.replace('**整体实验仍在进行。** 本表只合并已完成主代理分析、具备完整四种子比较的阶段；待完成训练和未解锁test均不填零。','**规定训练、诊断和冻结测试均已完成。** 本表合并完整四优化种子比较，名义配置数不等于独立统计重复。')
         text=text.replace('固定点机制诊断尚待完成。','160项固定点机制诊断已完成，见CORE_MECHANISM_ANALYSIS.md。')
         text=text.replace('新自然transfer与AO04测试尚未闭合。','新自然transfer全部824配置及AO04全部12配置的冻结测试已完成，详见各阶段报告。')
+        text=text.replace('AO04全部12配置冻结测试已完成；新自然transfer尚未全闭合。','新自然transfer全部824配置及AO04全部12配置的冻结测试已完成，详见各阶段报告。')
         text=text.replace('当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。','N17、AO04、N19/CM19全部新自然数值与历史比较现已加入；完整科学结论、阴性结果、矛盾及未识别项见各阶段报告和FINAL_REPORT.md。')
     (ROOT/'NUMERIC_COMPARISONS.md').write_text(text)
     (OUT/'source_files.json').write_text(json.dumps(dict(stage='FINAL' if final else 'INTERIM',sources=sources,comparisons=len(table)),indent=2)+'\n')
