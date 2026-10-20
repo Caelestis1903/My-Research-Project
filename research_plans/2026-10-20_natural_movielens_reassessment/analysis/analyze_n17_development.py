@@ -28,7 +28,7 @@ for key,g in planned.groupby(['group','lr']):
     if len(ready)==len(g):
         assert len(g)==8 and set(g.seed)=={2022,2023,2024,2025} and set(g.arm)=={'SN','SB'}
         admitted.extend(ready)
-rows=[];sources=[];traces=[]
+rows=[];sources=[];traces=[];cellrows=[]
 for c in admitted:
     run=Path(c['run_dir']);r=json.loads((run/'receipt.json').read_text())
     selection=json.loads((run/'selection_frozen.json').read_text())
@@ -49,6 +49,8 @@ for c in admitted:
     assert int(f.iloc[-1].steps)==r['steps'] and int(f.iloc[-1].examples)==r['examples']
     for label,epoch in [('selected',selected),('final',c['epochs'])]:
         t=f[f.epoch.eq(epoch)].iloc[0]
+        for cell in cells[cells.epoch.eq(epoch)].to_dict('records'):
+            cellrows.append(dict(cell,group=c['group'],lr=c['lr'],arm=c['arm'],seed=c['seed'],readout=label))
         rows.append(dict(group=c['group'],lr=c['lr'],arm=c['arm'],seed=c['seed'],readout=label,
             epoch=epoch,epochs_budget=c['epochs'],main_steps=r['steps'],actual_examples=r['examples'],
             selection_auc=macro.loc[epoch,'auc'],selection_logloss=macro.loc[epoch,'logloss'],
@@ -84,6 +86,17 @@ for c in admitted:
         evidence='producer model indexes and immutable parent binding; later test freeze independently verifies model bytes'))
 if prefix_rows:pd.DataFrame(prefix_rows).to_csv(OUT/'H200_prefix_identity.csv',index=False)
 raw=pd.DataFrame(rows);raw.to_csv(OUT/'seed_selection_readouts.csv',index=False)
+cell=pd.DataFrame(cellrows);cell.to_csv(OUT/'seed_selection_cell_readouts.csv',index=False)
+cellpairs=[]
+keys=['seed','readout','domain','task']
+for (group,lr),g in cell.groupby(['group','lr']):
+    a=g[g.arm.eq('SB')].set_index(keys);b=g[g.arm.eq('SN')].set_index(keys)
+    assert set(a.index)==set(b.index)
+    for ix in a.index:
+        cellpairs.append(dict(group=group,lr=lr,contrast='SB-SN',**dict(zip(keys,ix)),
+            auc=float(a.loc[ix,'auc']-b.loc[ix,'auc']),logloss=float(a.loc[ix,'logloss']-b.loc[ix,'logloss']),
+            baseline_auc=float(b.loc[ix,'auc']),baseline_logloss=float(b.loc[ix,'logloss'])))
+pd.DataFrame(cellpairs).to_csv(OUT/'paired_selection_cell_deltas.csv',index=False)
 pd.concat(traces).to_csv(OUT/'training_and_selection_trajectories.csv',index=False)
 summary=[];paired=[]
 for key,g in raw.groupby(['group','lr','arm','readout']):
@@ -109,6 +122,18 @@ if any(c['group']=='H200' for c in admitted):
         for metric in metrics:
             continuations.append(dict(lr=lr,arm=arm,metric=metric,contrast='E200-E100',**interval(g[metric])))
     pd.DataFrame(continuations).to_csv(OUT/'H200_minus_H100_summary.csv',index=False)
+    finalcell=cell[cell.readout.eq('final')]
+    a=finalcell[finalcell.group.eq('H200')].set_index(['lr','arm','seed','domain','task'])
+    b=finalcell[finalcell.group.eq('formal')].set_index(['lr','arm','seed','domain','task'])
+    z=(a[['auc','logloss']]-b.loc[a.index,['auc','logloss']]).reset_index()
+    z.to_csv(OUT/'H200_minus_H100_cell_deltas.csv',index=False)
+    marginal=[]
+    for axis in ['domain','task']:
+        byseed=z.groupby(['arm','seed',axis])[['auc','logloss']].mean().reset_index()
+        for (arm,index),gg in byseed.groupby(['arm',axis]):
+            for metric in ['auc','logloss']:
+                marginal.append(dict(arm=arm,axis=axis,index=index,metric=metric,**interval(gg[metric])))
+    pd.DataFrame(marginal).to_csv(OUT/'H200_minus_H100_marginal_summary.csv',index=False)
 pd.DataFrame(sources).to_csv(OUT/'source_index.csv',index=False)
 status=dict(status='DEVELOPMENT_ONLY',admitted_runs=len(admitted),planned_formal_now=len(configs),missing_run_ids=missing,
     test_read=False,recipes_changed=False,partial_seed_means_used=False,

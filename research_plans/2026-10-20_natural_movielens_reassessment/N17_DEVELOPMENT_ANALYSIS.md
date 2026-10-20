@@ -62,3 +62,18 @@ E200 SB−SN AUC+.001687（三正一负，t95[−.008524,.011898]），LL+.02337
 ![H200开发轨迹：细线为四seed、粗线为均值，100轮为共享前缀分界](analysis/n17_development/H200_development_trajectories.png)
 
 [可导出PDF](analysis/n17_development/H200_development_trajectories.pdf)；[绘图数据](analysis/n17_development/H200_plot_data.csv)。
+
+## H200续训的逐域、逐任务读数
+
+以下均为E200−E100的selection差，同一q/seed共享训练前缀，不与q差混淆。
+
+|q|d0 ΔAUC / ΔLL|d1 ΔAUC / ΔLL|d2 ΔAUC / ΔLL|
+|---|---:|---:|---:|
+|SN|−.008497 / +.115297|−.010411 / +.116387|−.009877 / +.113435|
+|SB|−.011447 / +.162178|−.009158 / +.117401|−.010380 / +.106158|
+
+每个域两任务均值的AUC各4/4下降、LL各4/4上升。task0/task1：SN ΔAUC−.010842/−.008348、ΔLL+.137491/+.092588；SB ΔAUC−.011209/−.009448、ΔLL+.139866/+.117291，全部各4/4同向。逐cell AUC为SN23/24负、SB24/24负，LL两q均24/24正；并非声称AUC的48个单cell全部下降。自然小域d0=155949、d1=318599、最大d2=325619；没有统一的随域N单调变化的恶化幅度。以H200为候选、同q H100为参照时，“两较小域改善、最大域下降”的严格域均值模式各0/4。
+
+**STRONG有限算术**：每个配置六cell LL差全正，因此任何非负、和为1的cell权重都会给出该配置E200风险更高。这比只检查宏和train-p两种权重更直接。它与formal .01 E100的**SB−SN**宏/加权LL反号不矛盾：比较对象不同，不能用前者的重加权解释后者的续训恶化。**MEDIUM**固定人口四seed的共同阶段现象，**WEAK**唯一规模或校准机制；没有新增校准拟合或测试读取。
+
+[全部正式配置的selected/final逐cell](analysis/n17_development/seed_selection_cell_readouts.csv)、[q配对逐cell](analysis/n17_development/paired_selection_cell_deltas.csv)、[H200续训逐cell](analysis/n17_development/H200_minus_H100_cell_deltas.csv)、[域/任务四seed区间](analysis/n17_development/H200_minus_H100_marginal_summary.csv)保留少数反向和跨零区间。
