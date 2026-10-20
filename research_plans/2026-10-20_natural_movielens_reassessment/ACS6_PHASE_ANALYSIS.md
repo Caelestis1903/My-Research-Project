@@ -108,3 +108,5 @@ full50的同一C窗口，DH/F位移范数比.964–1.057（两低两高），m�
 - **WEAK**：把跨人口方向变化唯一归因N、target份额、共享结构、m或v。重要性权重在Sample始终为1，仍不排除实际梯度几何、干预相对强度、独立支持和训练进度的改变。
 
 既定full50已实际区分出“匹配组所有后期点负差”与“完整预算后期救援”：S5与S6均保留selected较差、末轮较好的DH现象，旧人工S6也有selected近零/final正差，故阶段性不是自然数据独有。剩余规定机制/训练继续执行，不自动扩展本组矩阵。最有判别力的后续研究应先固定同theta/同m,v与当前batch，因子化TARGET当前分子与历史预条件，而非按test搜更有利LR。若要另检验Sample target强度，应在新结果前设计固定人口/显式目标系数控制；本次不事后改写target归一化。
+
+Equal/Sample共同F/DH的16个跨目标配对已核初始化与实际batch身份。full `(DH−F)_Equal−(DH−F)_Sample` selected/final AUC为+.000375/+.000401（各三正一负、t95均跨零）；matched final为−.001749四负但区间仍跨零。相似的预算/阶段方向模式有依据，明确目标差异或等效性证据仍WEAK。见[目标×控制](analysis/controlled_objectives/objective_by_control_interaction_summary.csv)。

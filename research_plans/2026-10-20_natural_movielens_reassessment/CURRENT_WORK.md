@@ -26,7 +26,7 @@ V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYS
 
 历史N19/CM19已实际重新聚合1184 run/29856 cell、747完整四seed比较、28104逐cell配对，并复核单任务baseline口径；见HISTORICAL_NUMERIC_RECONSTRUCTION.md、analysis/{transfer,transfer_cells,neutral_interventions}。CM19 856旧run的69448固定探针汇总、model SHA身份和梯度尺度上下文在analysis/cm19_paths，大表以确定性gzip提交，原heavy tensor没有重读。N19 328旧run的审核支持/known-channel RMSE、实际mask预算、rank记录在analysis/n19_records，四优化seed不是四审核draw。MECHANISM_ANALYSIS.md目前只包含已完成权重算术、解释边界和待完成项，不是机制终报。
 
-已补冻结人口的user/movie ID覆盖审计（FEATURE_SUPPORT_AUDIT.md），无训练/标签拟合；同N仍改变域1用户和同域电影支持，不能独立归因AUC。AO04旧两seedML/一seedKR数值已重新汇总并保留身份限制，analysis/ao04_history。NUMERIC_COMPARISONS.md目前合并已完成阶段210条四seed宏指标比较，明确阶段性、没有填补未运行值。
+已补冻结人口的user/movie ID覆盖审计（FEATURE_SUPPORT_AUDIT.md），无训练/标签拟合；同N仍改变域1用户和同域电影支持，不能独立归因AUC。AO04旧两seedML/一seedKR数值已重新汇总并保留身份限制，analysis/ao04_history。NUMERIC_COMPARISONS.md目前合并已完成阶段210条四seed宏指标比较，明确阶段性、没有填补未运行值。S5/S6共享F/DH的16跨目标配对初始化/实际batch身份和目标×控制交互见analysis/controlled_objectives。
 
 N17旧12,768条配对端点及371逐seed数组已重新汇总复算，含完整AUC/LL/阶段、quota×q及N2/N3原门控；见analysis/n17_history，未重载旧大工件，未与新优化seed跨人口配对。
 

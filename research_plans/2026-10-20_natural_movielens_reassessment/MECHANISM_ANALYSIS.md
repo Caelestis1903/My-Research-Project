@@ -92,3 +92,11 @@ C块E41–50，DH的实际位移范数小于F（.840–.970倍），持久m范�
 两预算16配置已完整完成，详见[ACS6_PHASE_ANALYSIS.md](ACS6_PHASE_ANALYSIS.md)。full selected DH−F宏AUC−.003445四负、LL+.014732四差；final AUC+.015659四正、LL−.079539四好，六cell末轮AUC/LL均各四seed改善。matched final AUC−.005342四负、LL+.003304四差。final预算交互AUC+.021000四正，t95[+.011969,+.030031]。相同Sample公式和自然人口仍不足以固定效果符号。
 
 full late C的DH/F m比1.190–1.587四高，v比.385–.545四低，实际delta比.964–1.057两高两低；matched m也四高但性能负差。跨路径状态差不是单一中介证明。S5/S6在full都出现selected较差/final较好，说明现象不限于Equal，但两预算main:arch比例也不同。**MEDIUM**阶段/预算交互，**WEAK**单一m、v、样本量或过拟合的唯一解释。剩余固定点诊断继续，不把此性能段落当作160机制任务完成。
+
+## Equal/Sample之间的受控轨迹比较
+
+已完成结果复用，没有新训练/评价。S5与S6共同F/DH在两个预算、四seed共16对的初始化SHA及实际batch row-ID/大小/逐域计数均一致（main+arch每对300或1050批）；见[配对身份](analysis/controlled_objectives/cross_objective_identity.csv)。不同目标使后续theta/state分化；不能把该表当作同状态因子化。
+
+目标×控制交互定义 `(DH−F)_Equal − (DH−F)_Sample`。full selected/final宏AUC交互+.000375（三正一负）/+.000401（三正一负），点态t95分别[−.004685,+.005436]/[−.005654,+.006456]；matched selected+.000388（二正二负），final−.001749（四负），后者区间[−.004323,+.000825]仍跨零。LL交互在两预算/两端点的区间均跨零。完整[逐seed/汇总](analysis/controlled_objectives/objective_by_control_interaction_summary.csv)。
+
+**MEDIUM**：两目标都具有完整预算selected负差/final正差、匹配末轮负差，方向模式不局限于Equal。**WEAK**：Equal与Sample的DH效果有明确差异或严格等效；当前均值接近及宽区间都不建立等效性。不能由自然权重更接近1推出目标作用消失，也不能将两目标同号解释为相同的m/v中介。

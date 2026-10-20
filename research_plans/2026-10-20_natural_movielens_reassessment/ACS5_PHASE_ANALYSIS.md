@@ -172,3 +172,5 @@ matched250的新full-coordinate遥测在HT的C块E41–50显示，四seed的平�
 - **WEAK**：由新旧方向变化唯一归因人口规模、比例、Adam一阶历史或某个共享子模块。自然目标梯度的信号与权重、支持/频率以及相对优化时钟均是竞争解释。
 
 本阶段已经用full50反证预算无关的解释，并发现末轮宏救援/target损害与selected负差共存。接下来完成既定Sample负边界S6及固定点诊断，判断Equal目标是否构成必要条件；不能在未完成前预写结论。后续若要区分m、v与瞬时步幅，需要预先设计同状态因子控制及冻结评价，不能由当前长期联合控制事后宣称已识别，也不在本次结果后自动增加训练。
+
+与已完成Sample S6的F/DH跨目标配对，两个预算/四seed初始参数及实际batch均一致。full DH−F在两目标都selected负、final正；目标×控制AUC交互selected+.000375、final+.000401（各三正一负、区间跨零）。这约束“仅Equal才有该阶段反转”的解释，不建立目标等效或唯一m/v机制；见[机制跨目标段落](MECHANISM_ANALYSIS.md)、[逐seed结果](analysis/controlled_objectives/objective_by_control_interaction_seed.csv)。
