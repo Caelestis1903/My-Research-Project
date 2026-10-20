@@ -49,6 +49,8 @@ P1的+.188不能解释为native双任务方法收益：task1是Bernoulli(.2+.6Z)
 - 人工ML fixed Adam selected的平均modulation概率差约.002303（四run均非零），名义AdamW约.010101。两者仍都没有证明“越活跃越准确”。
 - 旧KR与人工ML通常分别2350/500步，且特征、任务与人口不同。旧long ML和新自然匹配预算用于限制时钟解释；不能从native域数量独立推规模充分性。
 
+第一步参数空间L2向量/数据梯度范数比也不能单独解释跨模型失活。KR fixed的shared/slot四seed均值为7.424/12.864，而仍活跃的独立STAR task0为23.419/39.589、task1为12.744/21.527。每个STAR任务的两组比值在全部8个“seed×组”上均高于配对fixed。该跨结构反例不排除L2与尺度/归一化/旁路的交互；它反对仅凭第一步某个比值阈值判定必然失活。见 [逐seed上下文](analysis/cm19_paths/first_step_L2_gradient_context.csv)；真实group optimizer类保存在`group_optimizer_class`，与run名义optimizer分列。
+
 以上为旧L2表的 **MEDIUM** 条件经验支持；新自然路径尚待实测，不能预写其方向。
 
 ### 2. 名义AdamW不能充当已经测过的正解耦收缩

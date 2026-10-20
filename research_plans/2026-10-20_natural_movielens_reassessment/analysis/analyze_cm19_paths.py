@@ -64,6 +64,8 @@ def analyze():
                 ('offline_local_counterfactual.csv',local),('offline_moment_statistics.csv',moments)]:
             table=read(name)
             if table is None or not len(table):continue
+            if name=='gradient_updates.csv' and 'optimizer' in table:
+                table=table.rename(columns={'optimizer':'group_optimizer_class'})
             for key,value in base.items():table[key]=value
             target.append(table)
         cp=run/'cost_profile.json'
@@ -73,7 +75,14 @@ def analyze():
     f=pd.DataFrame(probes);f.to_csv(OUT/'probe_checkpoint_summary.csv',index=False)
     for name,frames in [('probe_endpoint_cells',endpoints),('path_strengths',strengths),('actual_gradient_updates',gradients),
             ('same_state_local_counterfactuals',local),('same_state_moments',moments)]:
-        (pd.concat(frames,ignore_index=True) if frames else pd.DataFrame()).to_csv(OUT/(name+'.csv'),index=False)
+        table=pd.concat(frames,ignore_index=True) if frames else pd.DataFrame()
+        table.to_csv(OUT/(name+'.csv'),index=False)
+        if name=='actual_gradient_updates' and len(table):
+            first=table[(table.stage=='G0')&(table.optimizer=='adam')&table.model.isin(['fixed','star0','star1'])&
+                (table.step==1)&table.group.isin(['shared','slot'])].copy()
+            first['L2_vector_over_data_gradient_norm']=first.wd_vector_norm/first.data_grad_norm
+            first['interpretation']='first observed step, parameter-space scale only; not a function learning rate or unique explanation'
+            first.to_csv(OUT/'first_step_L2_gradient_context.csv',index=False)
     pd.DataFrame(costs).to_csv(OUT/'cost_profiles.csv',index=False)
     runindex=pd.DataFrame(runs);runindex.to_csv(OUT/'run_budget_and_state_index.csv',index=False)
     pd.DataFrame(source).to_csv(OUT/'source_index.csv',index=False)
