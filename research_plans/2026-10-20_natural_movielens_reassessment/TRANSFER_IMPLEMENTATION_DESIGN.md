@@ -1,0 +1,13 @@
+# N19/CM19转接实现设计细化（主代理，start规范）
+
+状态：DESIGN COMPLETE FOR TRANSFER。补充已冻结N19_CM19_DESIGN_ADDENDUM，不增加方法或研究假设。
+
+原N19全部236与CM19全部436配置按原Git queue/manifest逐条保留。原数据/模型/损失/优化器/训练fit完整vendor，注入统一F0人口缓存及独立OUT/ART，flags原样映射。完整自然均原100epoch，G4LONG原2350steps。P1/P2/P6模拟器仍原代码，不改标签机制。
+
+等N控制从同一core生成的人口缓存派生，原5%meta和selection/development函数不变。匹配曝光控制保留full自然main支持，包装原numpy Generator.permutation：只对完整main数组的原permutation返回值截前178125行，其余RNG方法与bit_generator完全透传。已核N19该Generator只在原fit每epoch排列main调用一次；CM19匹配控制仅fixed/STAR，无arch optimizer、无G4采样，其Generator同样只用于该排列。因此完整原fit不用重写，原loss/step/剪枝/EMA/meta逻辑保持；100macroepoch恰500更新、17,812,500main曝光。原N19按epoch*full-N写的examples仅为日志派生值，外层用实际step rows计数修正，并单列支持N与实际曝光；不改训练。
+
+每个group有独立OUT/ART，原run_id保留另加global_run_id避免跨人口撞名。测试延期，先全规定训练/development处置关闭，再逐group冻结所有selected/final SHA后调用原零更新evaluate，原HAMUR eval batchsize不变。所有wrapper与vendor hash随config冻结。
+
+首次无formal状态时不实现额外中断恢复工程：中断attempt整体保留，同seed同配置全预算重跑；原resume支持不用于本轮新桥接。必要检查仅source/配置全覆盖、人口/划分身份、匹配permutation长度与RNG状态、语法/import。原模型/step逐字不变，不再为每个模型重造重复单元测试。
+
+N19容量控制80及CM19匹配72全部列入manifest。CM19人工24只有在历史数据/source/config/cell证据可核对时才标历史复用，否则仍实际从头运行；不因旧checkpoint缺失伪报可重验。每个谱/路由/有限信用/路径/共同state诊断沿原脚本注入相同group context，原始输出与科学分析分开。
