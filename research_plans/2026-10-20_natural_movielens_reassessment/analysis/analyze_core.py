@@ -77,7 +77,15 @@ def analyze(stage):
         provenance.append(dict(run_id=cfg['run_id'],config_sha256=sha(run/'config.json'),metrics_sha256=sha(run/'metrics_test.csv'),
             manifest_sha256=sha(run/'run_manifest.json'),path=str(run),init_sha256=config.get('init_sha',config.get('init_sha256'))))
     cell=pd.concat(frames,ignore_index=True);cell.to_csv(out/'seed_cell_metrics.csv',index=False)
-    pd.DataFrame(provenance).to_csv(out/'source_index.csv',index=False)
+    provenance_table=pd.DataFrame(provenance)
+    provenance_table.to_csv(out/'source_index.csv',index=False)
+    pairing=pd.DataFrame(complete)[['run_id','population','budget','seed','arm']].merge(
+        provenance_table[['run_id','init_sha256']],on='run_id',validate='one_to_one')
+    assert pairing.init_sha256.notna().all()
+    identity=pairing.groupby(['population','budget','seed']).agg(
+        initialization_hash_count=('init_sha256','nunique'),paired_arms=('arm',lambda a:','.join(sorted(a)))).reset_index()
+    assert identity.initialization_hash_count.eq(1).all()
+    identity.to_csv(out/'paired_initialization_identity.csv',index=False)
     pd.DataFrame(audits).to_csv(out/'prediction_metric_recalculation.csv',index=False)
     pd.concat(trajectories,ignore_index=True).to_csv(out/'validation_cell_trajectories.csv',index=False)
     keys=['stage','population','budget','arm','seed','checkpoint']

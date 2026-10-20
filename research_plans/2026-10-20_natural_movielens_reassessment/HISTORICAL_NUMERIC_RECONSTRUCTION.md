@@ -36,6 +36,10 @@ P1的+.188不能解释为native双任务方法收益：task1是Bernoulli(.2+.6Z)
 
 这里的稳定同号是配置内的 **MEDIUM** 经验支持；γ控制是对特定假设的受控反例，仍非真实噪声机制证明。新自然结果必须保持同样强控制和全部阴性，不只比较fixed。
 
+从328个旧run的非test机制记录再次核对（[原始记录分析](analysis/analyze_n19_records.py)、[逐cell审核支持](analysis/n19_records/audit_class_support.csv)、[rate RMSE](analysis/n19_records/audit_rate_RMSE.csv)）：人工ML γ=0 的实际审核行数按d0/d1/d2为670/61/2876，总3607行；两个任务都审核，不能把12个class计数总和7214误写成独立审核行数。最小域d1 task1的clean-positive仅13例。固定审核拟合的12个flip-rate宏RMSE，独立cell为.035074、additive axis为.027248；γ=1则为.034253/.074270，axis误设显著增大点估计误差。每个γ内四优化seed给出相同初始审核估计，不能当4次独立审核精度确认。审核类别支持和模型误设都是具体竞争解释，域总N并未被单独识别为主因。
+
+P6实际每row/visit平均使用约1.1个标签。residual-CV的静态lower endpoint比例在四seed为97.7210%–99.7786%，均值98.7588%，见 [完整计数](analysis/n19_records/realized_mask_budgets.csv)。相对static independent-CV，selected AUC反而−.000412、LL四seed更差；不能只用相对antithetic的微小正均值说明自适应策略有竞争收益。计数描述重复访问的模拟观测，原标签静态可缓存，不是实际节省这么多独立标注费用。
+
 ## CM19：原路径记录与数值精度
 
 实际重新收集856个run的69448个“run×检查点×探针×干预”汇总，另有逐cell端点、路径强度、真实gradient/update遥测、同状态局部干预与成本。见 [路径分析脚本](analysis/analyze_cm19_paths.py)、[状态](analysis/cm19_paths/analysis_status.json)、[原表SHA](analysis/cm19_paths/source_index.csv)。大的完整表以gzip保存，解压可恢复字节相同CSV，见 [压缩索引](analysis/cm19_paths/large_table_archives.csv)。

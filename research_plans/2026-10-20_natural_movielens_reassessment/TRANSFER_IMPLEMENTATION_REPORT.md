@@ -8,6 +8,8 @@ N19 原236完整 flags 映射，加入80容量匹配控制，共316；CM19 原43
 
 原Runner fit/update/optimizer/model/模拟器完整保留。普通100epoch；CM19 G4LONG按原2350steps。匹配曝光只截原完整main排列前178125，保留完整支持与RNG流，每100macroepoch恰500main更新、17812500行；匹配N独立支持main178126，明确近似N匹配。原N19 trajectory按fullN推导的examples外层纠正为实际观察行数；逐batch实际domain/rowID SHA、全行曝光计数、checkpoint SHA另存。N19秩剪枝额外只读保存前后state及有效谱，不改原SVD/重置/训练。
 
+谱的精确定义：`pruning_effective_spectra.json`记录`model.slots()`生成的实际slot矩阵奇异值（含因子/掩码的实现结果），不是再与`shared_weight`逐元素相乘后的完整STAR operator谱。分析必须按此定义标注，不把生成slot的秩直接当模型函数有效容量；前后完整state另已保存，训练算法没有变化。
+
 ## 测试与机制
 
 所有训练先标 COMPLETE_TRAINING_TEST_DEFERRED。每个study×scope全规定训练及development处置关闭后，由主代理签署closure，冻结配置/选轮/selected/final SHA，再调用原零优化测试。没有提前读test。N19原rank/dynamics/routing/credit与CM19 local/cost转接共143个机械任务；N19 rank/credit仅将原循环的dataset列表限定MovieLens，数值公式不变，不伪造KR人口。CM19成本为每(model,variant)一个代表，不当四seed性能实验。离线common-state局部counterfactual在临时模型上操作，不修改训练checkpoint。
