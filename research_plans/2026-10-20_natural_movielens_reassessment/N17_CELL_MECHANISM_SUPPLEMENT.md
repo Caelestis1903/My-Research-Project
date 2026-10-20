@@ -14,3 +14,5 @@ C_full−SB的24个锚组×cell AUC点态区间全部跨0。SN/E40六cell均值�
 对C_full−SB，严格“两较小物理域d0/d1 AUC都改善且最大d2下降”在SN/E10和SB/E10各1/4，在两个E40锚组各0/4；native SN−SB同样为1/4、1/4、0/4、0/4。没有稳定小域获益/大域下降模式。这里域大小是固定base训练人口155949/318599/325619，不是根据baseline重新给域排序。困难程度需由同模型/同阶段baseline测量，不能由大小命名。
 
 **WEAK**：这些微小一步逐域任务差及取舍；**MEDIUM**：它们界定了本轮局部干预的可观测范围。四seed/相关cell、多重比较及精度上限均沿用主报告限制。完整[域/任务汇总](analysis/n17_mechanisms/N3_four_seed_domain_task_summary.csv)与[逐seed取舍](analysis/n17_mechanisms/N3_seed_domain_tradeoffs.csv)保留阴性和反号结果。
+
+训练J在该局部诊断中是全训练人口的均值BCE，不含L2惩罚；原生Adam一步仍使用冻结的耦合WD。其梯度与重新连接routing后的风险Jacobian不是同一对象，不能以J下降推AUC或概率风险改善。

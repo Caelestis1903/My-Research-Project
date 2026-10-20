@@ -80,3 +80,7 @@ P4全部domain/axis/full/interaction/reliability，P5utility/regret/coalition/un
 依赖：数据冻结→各独立算法设计→coder实现报告→独立review→完整训练→配置/选点/development冻结→零更新test→主代理逐问题分析→最终中文报告/GitHub分支PR。E/F内部方法可平行，依赖父baseline和rank暖启动按原逻辑；不得为了早测有利test提前改方法。原始训练、冻结评价、离线诊断分别计数。失败保留attempt，repair后同seed继续，不能把missing当阴性或成功。
 
 最终覆盖H01–H31且A–F全部有证据对应。没有自然结果的行仍pending，不得在FINAL_REPORT中写“全部结论已复核”。理论/自然KR不受ML比例影响的项可以NOT_APPLICABLE_TO_ML_TRAINING；有真实信息阻塞的项可REDESIGN/DATA_BLOCKED并明确原因，但不能用其取消其它可运行组。
+
+### 13:25 UTC阶段补充
+
+N17全部88训练预算条目（16pilot、64正式H100、8条件H200）、48基础诊断和14精度追加均完整闭合，主代理开发及机制分析完成。72正式配置模型身份已冻结并发布零更新test任务；16pilot排除。H200包含与H100共享前缀，故名义预算条目不等于独立从头训练或独立统计重复。AO04仍在完整训练；core160机制、N19/CM19及对应评价继续，整体尚未完成。

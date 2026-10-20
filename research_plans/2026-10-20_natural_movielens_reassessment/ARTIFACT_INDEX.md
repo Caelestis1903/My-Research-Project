@@ -42,3 +42,7 @@
 ## N17离线诊断完整索引
 
 [N17诊断工件索引](analysis/n17_diagnostic_artifacts/artifact_index.jsonl.gz)实际读取62项完成目录的656个文件并记录绝对路径、bytes及SHA，包含完整坐标moments NPZ和原始N3逐cell/配对CSV；[小JSON原件快照](analysis/n17_diagnostic_artifacts/small_json_snapshots.jsonl.gz)保存原生配置/receipt，[索引状态](analysis/n17_diagnostic_artifacts/index_status.json)报告范围。大型原始表的仓库副本以确定性gzip保存，见analysis/n17_mechanisms/large_table_archives.json；服务器未压缩原件保留。
+
+## N17累计与实际新增预算
+
+[逐配置预算](analysis/n17_training_accounting/configuration_budget_accounting.csv)将receipt累计计数与本次实际新增计数分开：88名义配置含80从头训练、8延长，新增128000优化步、5,080,935,200行曝光（含16pilot，不含失败attempt未知工作）。H200的200轮/4000步是共享H100前缀后的累计值，本次新增各100轮/2000步；不能把续训前缀再计一次曝光。统计重复仍按每配方4优化seed界定。[汇总](analysis/n17_training_accounting/accounting_status.json)。

@@ -103,7 +103,7 @@ full late C的DH/F m比1.190–1.587四高，v比.385–.545四低，实际delta
 
 ## N17训练阶段与评价权重的已完成开发证据
 
-64个正式H100与8个条件H200已完整训练，后者共享前100轮轨迹/模型索引。开发阶段证据见[N17_DEVELOPMENT_ANALYSIS.md](N17_DEVELOPMENT_ANALYSIS.md)，不把它替代尚在执行的N2/N3或未读test。额外100轮两q各四seed训练J下降，但selection AUC全下降、宏及train-p LL全升高；选中模型仍为12–14轮。训练平台规则可继续触发训练，不保证泛化峰值晚移。
+64个正式H100与8个条件H200已完整训练，后者共享前100轮轨迹/模型索引。开发阶段证据见[N17_DEVELOPMENT_ANALYSIS.md](N17_DEVELOPMENT_ANALYSIS.md)，N2/N3已在独立机制报告闭环，开发证据不替代该诊断或尚未完成的test。额外100轮两q各四seed训练J下降，但selection AUC全下降、宏及train-p LL全升高；选中模型仍为12–14轮。训练平台规则可继续触发训练，不保证泛化峰值晚移。
 
 同一formal .01 final selection预测的SB−SN宏LL+.009838，train-p LL−.004005；域均值差d0+.076212、d1−.016541、d2−.030157，train-p将d0权重由1/3降至.194896。有限重加权算术为STRONG，而总体收益/唯一校准原因WEAK。H200末轮q差AUC+.001687（三正一负）、宏LL+.023377（三差一好），点态区间均跨零，没有把继续训练当作恢复旧正结论的手段。
 
