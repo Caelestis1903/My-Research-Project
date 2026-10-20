@@ -32,6 +32,7 @@
 |NAT-Q17|S5 HT的C块E41–50实际位移范数为F的matched250 2.512–2.778倍、full50 3.225–3.745倍，持久m/v范数却均更小，四seed一致。MEDIUM遥测；唯一机制WEAK。|较小v与FULL当前位移放大兼容，但参数路径、m、v、正则与architecture同时变；不同记录范数定义也不同。|未来结果前冻结同状态m/v/current因子和实际位移控制；本次先完成规定诊断，不把较大位移直接称为更有效更新。|
 |NAT-Q18|S5 matched250 DH−HT出现两较小域获益、最大域下降，selected3/4、final2/4；full50 HT−F final更为4/4，宏AUC+.005965但target−.006671四负。MEDIUM条件取舍。|不同参照会改变取舍结论；matched250两候选低于F，full50 HT末轮高于F又伤target；DH full末轮六cell AUC均四正，取舍不是所有控制的必要代价。目标LL与non-target LL还呈相反方向。|按固定基线/候选对、域任务效用和训练阶段分别评价；full50已检验，继续S6检验，不能挑一个参照形成统一“小域改善”叙事。|
 |NAT-Q19|S5 full50 DH−F final AUC+.016059四正、LL−.087078四改善，但DH自身full−matched final AUC仅+.000045（1正3负）、LL+.022672四差；F同期AUC−.023105四负。MEDIUM条件现象。|相对救援可能主要体现参照后期风险上升或拟合速度差异，不等于更高selected性能；主/arch相对时钟也变。|与相同验证选模/停止预算的强基线比较，区分最优风险与末轮耐受性；先完成S6与后续既定族，不能把full末轮优势直接包装成新算法收益。|
+|NAT-Q20|旧B1自然KR重建的主R0 non-target test AUC+.000579仅2/4正，R1则+.011584四正、LL−.003499四改善，但target LL+.006006三差；R1/R4是同8个选中模型。MEDIUM规则依赖。|选点、行序窗口支持、少数正例及初始化lineage均限制旧收益的推广；timing算术不能解释全部val/test反号，也不是同theta因果分离。|后续在未开发的后置总体预注册选择规则×policy，保持目标风险同时评价；本次新自然S6只按原冻结宏选模，不把未迁移R1–R4说成已否定。[旧证据重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)。|
 
 ## 3. 待完成的规定实验如何影响问题清单
 

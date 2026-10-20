@@ -76,6 +76,26 @@ P6实际每row/visit平均使用约1.1个标签。residual-CV的静态lower endp
 
 独立STAR task0/task1是单任务模型，必须比较fixed同一任务。汇总脚本已采用这一口径，禁止把STAR task1较低LL与fixed两任务宏LL作方法排名。joint与two-private还改变backbone数量；HAMUR的混合batch BN等实现边界保留。成本为共享主机上的有限shape dense profiler，不是生产加速证据。
 
+## B1重建：自然KR的主规则阴性与敏感度阳性均保留
+
+重新读取原重建的1,360条selected双锚点分解记录和13,600条同epoch记录，按四seed重新汇总340项选点指标、340项阶段指标，核对两种timing分解恒等式；原始表按SHA保存，大表以确定性gzip保留。见[来源](analysis/b1_history/source_index.csv)、[选点结果](analysis/b1_history/selected_rule_seed_summary.csv)、[分阶段结果](analysis/b1_history/four_seed_stage_summary.csv)。本次没有重载旧模型/预测，也没有新增训练。
+
+它是自然KR、Sample目标、F/DH×4seed的`RECONSTRUCTION_NOT_HISTORICAL_EXACT`，target物理域d1；旧完整lineage和初始化不匹配，不能与旧S6-R2当作同一执行身份。本次MovieLens人口审计不直接否定这些KR观测。
+
+|原冻结规则|test Δ宏AUC|test Δnon-target AUC|test Δtarget AUC|test Δ宏LL|test Δtarget LL|
+|---|---:|---:|---:|---:|---:|
+|R0 validation macro（主规则）|+.000363（2/4正）|+.000579（2/4正）|−.000069（1/4正）|+.001053（3/4差）|+.004007（3/4差）|
+|R1 target validation|+.007856（4/4正）|+.011584（4/4正）|+.000399（2/4正）|−.000331（3/4改善）|+.006006（3/4差）|
+|R2 non-target validation|+.000464（2/4正）|+.001086（2/4正）|−.000781（1/4正）|−.000867（3/4改善）|+.000933（3/4差）|
+|R3 worst-domain validation|+.002152（3/4正）|+.004030（3/4正）|−.001602（3/4正）|+.003045（3/4差）|+.007349（3/4差）|
+|R4 validation行频率cell AUC|与R1完全相同|与R1完全相同|与R1完全相同|与R1完全相同|与R1完全相同|
+
+R1与R4全部八个模型选中相同epoch，不能记作两次独立复现；R3 target均值为负但3/4为正，种子幅度不能由符号计数替代。R0没有复现旧S6-R2 non-target test+.006757、4/4正的组合，但历史初始化/lineage缺口阻止将差别唯一归因旧错误或dense saving。主阴性不抹去R1的非目标收益线索，敏感度阳性也不替换原主规则。**MEDIUM**：明确的选点/阶段依赖；泛化方法收益 **WEAK**。
+
+同epoch test non-target AUC差在完成E31–40/E41–50为+.008031/+.007009，均3/4正；末轮seed2024为−.015648，阻止稳定末轮收益解释。target test AUC阶段均值在E1–10四正、E11–20四负。2022的R0两臂同epoch仍有val/test反号，说明timing不是全部解释；轨迹分解是算术恒等式，未进行同theta因果分离。
+
+这些旧KR问题继续保留，包括选择规则、窗口支持、target LL代价和独立后置总体。新自然S6按本轮预定R0宏验证选模提供另一人口的负边界参照，不能声称它已复现或否定未迁移的所有R1–R4规则，也不依据旧回顾性test阳性扩大新训练矩阵。
+
 ## N17：八优化种子的历史边界与局部反例
 
 依据原`FINAL_performance/paired_seed_endpoints.csv`的12,768条记录重新计算全部指标、种子均值及点态t95，并由原三份最终表的371个逐seed数组复核均值、SE、区间与正负计数。保存[完整重新汇总](analysis/n17_history/all_endpoint_seed_summary.csv)、[数组复算](analysis/n17_history/recorded_seed_array_recalculation.csv)、[来源SHA](analysis/n17_history/source_index.csv)。这是对已记录指标的数值重建，没有声称重新加载旧预测/大checkpoint。旧正式seed为2032–2039，不能与新2022–2025跨人口配对。

@@ -56,7 +56,7 @@
 - [S5完整阶段报告](ACS5_PHASE_ANALYSIS.md)：32配置、两预算、历史/当前梯度、完整逐cell与预算交互，selected/末轮反转及域间取舍。
 - [V9阶段报告](ACV9_PERFORMANCE_ANALYSIS.md)：SGD .3公共点；完整50轮冻结读数只有全部8任务闭合才纳入新AULC。
 - [N18报告](N18_PHASE_ANALYSIS.md)：自然/人工人口的同信息LP、审核SE/RMSE，非训练AUC比较。
-- [历史N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。
+- [历史B1、N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。
 - [特征支持审计](FEATURE_SUPPORT_AUDIT.md)：匹配总N仍未控制ID支持，属于已量化的竞争解释，不是已识别的AUC中介效应。
 
 ## 3. 逐cell、任务和阶段的读取规则
