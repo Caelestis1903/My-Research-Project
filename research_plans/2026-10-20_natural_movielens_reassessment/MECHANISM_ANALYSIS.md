@@ -1,6 +1,6 @@
 # 机制分析（阶段性版本，规定诊断尚未全部完成）
 
-本文件先记录已完成的精确权重计算及可支持的解释边界。160个core固定点任务及N19/CM19诊断仍待完整闭环；AO04开发诊断已完成、test待执行。N17 N2/N3的62项诊断、quota及H100/H200训练和72正式冻结test均已完成并分析，见独立阶段报告；完成本身不代表机制因果成立。
+本文件先记录已完成的精确权重计算及可支持的解释边界。160个core固定点任务和AO04完整开发/冻结test均已闭环并分析；N19/CM19诊断仍待完整结果。N17 N2/N3的62项诊断、quota及H100/H200训练和72正式冻结test均已完成并分析，见独立阶段报告；完成本身不代表机制因果成立。
 
 ## 1. 目标、proposal和训练导数
 
@@ -121,7 +121,7 @@ IID计数项占ALL预测trace .0032%–.2217%，所有子块不足.7%；quota不
 
 quota final的SB−SN宏LL+.003246，train-p LL−.009701且四seed改善；formal .01 final宏LL与train-p LL都正，不能套用开发formal的翻转。固定预测重加权算术STRONG，优化机制及全局算法效用WEAK。完整支持/500步比N匹配/500步selected AUC高约.018–.020各四seed，但支持、重复频率和标签/ID条件耦合；域比例近乎相同不足以解释这组内部差异。
 
-## Core诊断的冻结读数口径（仍待160项闭合）
+## Core诊断的冻结读数口径（160项已闭合）
 
 完整人口MC在eval模式下以原routing detach训练导数抽512个B40960 IID batch；参数trace含全部原坐标及架构A，而实际main optimizer排除A。32真实行/域的96行oracle是另一个目标：保留人口alpha的分层有限pool，不是全人口解析协方差。其multinomial计数MC、完整人口MC与浮点身份误差分别保存，不能混称相互独立验证同一总体。
 
@@ -130,3 +130,11 @@ quota final的SB−SN宏LL+.003246，train-p LL−.009701且四seed改善；form
 ## CM19 G4预定控制的解释口径（训练待执行）
 
 原matched_updates协议在缩小后的支持内按原main各域行数重放，再打乱并截取预算；normal_epochs则遍历缩小支持。因此两者除更新/重复次数外，还可能改变实际域曝光比例，不能改称纯时钟干预。分析中的support-p来自缩小支持，exposure-p采用原main的规定域抽取权重；最终实际domain曝光计数另由reassessment receipt记录，部分末轮/有限抽样下不必与规定权重完全相同。G4的物理d2在自然.25/.5/full分别是最小/中间/最大，旧人工.25仍最大；逐域取舍应同时列候选与参照真实角色，不能沿用一个固定L标签。以上保留原算法，不事后改采样来制造单因素解释。
+
+## Core完整读数与AO04测试闭环
+
+[CORE_MECHANISM_ANALYSIS.md](CORE_MECHANISM_ANALYSIS.md)完成160项统计/实际checkpoint SHA和原JSON归档：人工SB/SN完整坐标梯度trace1.112995–2.434795，自然全支持两预算1.000672–1.089654；自然匹配N仅SB2025 E50的.987818低于1，其余39/40高于1。初始及selected存在重复锚，不能当160独立训练；无trace MCSE，不声称接近1的符号为总体定律。人工和自然匹配N总支持/250main/50arch一致，仍大幅减弱放大，削弱总N/更新数的单独解释，但支持与标签/特征及Sample目标p共同变化。
+
+有限96行oracle期望身份相对浮点误差约5.34e−8–9.84e−8；全部risk clone前向差0，而相对导数差.000200–.349066。STRONG有限身份，MEDIUM人口/状态现象，WEAK长期风险唯一归因。合成八格中，去INIT后128相关锚在固定full-m/full-v时full→target当前范数都下降，固定full-m/target-v时却都上升；这是公式映射交互，不测风险也不保证m/v混合源可达普通历史。
+
+[AO04_PHASE_ANALYSIS.md](AO04_PHASE_ANALYSIS.md)已完成12完整训练/12局部诊断/零更新test，504cell复算。B1−B0 selected宏AUC−.0000555二正二负，LL−.001328二好二差；final AUC−.0007756一正三负、LL+.005364三差一好。非零q/rho Jacobian仅排除有限探针完全不敏感，不建立全局参数识别或长期完整收益。B2 final最小d0 AUC−.002975四负，B1−B2 final严格两小域上升/最大域下降3/4，说明域/参照/阶段不可省略。

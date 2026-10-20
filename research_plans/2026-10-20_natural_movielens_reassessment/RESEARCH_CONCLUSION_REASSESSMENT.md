@@ -1,6 +1,6 @@
 # 历史研究结论重评（阶段性，整体实验尚未闭环）
 
-本版仅裁定已有完整结果支持的事项。N17规定训练、62项诊断与72正式冻结测试已完成并分析；AO04训练/开发诊断已完成，test待队列读取；core160机制及N19、CM19仍未闭环，相关行保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
+本版仅裁定已有完整结果支持的事项。N17规定训练、62项诊断与72正式冻结测试已完成并分析；AO04训练/12诊断/零更新test与504cell复算已完成，core160机制亦闭环；N19、CM19仍未闭环，相关行保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
 
 ## 证据尺度与裁定规则
 
@@ -19,14 +19,14 @@
 |H01 历史恢复|部分旧source/init/state缺失；新独立自然训练不能生成已遗失的历史bytes。|**保留历史可复查范围，STRONG元数据事实**；exact重放缺口继续公开，不据此否定旧CSV。|
 |H02 B1自然KR|R0 test宏AUC +.000363、仅2/4正；R1非target +.011584且4/4正，target LL +.006006且3/4差；R4与R1为同8个模型。|**修改为选择规则与指标依赖，MEDIUM**。R1/R4不算两次独立复现；自然ML S6不覆盖全部旧敏感度选点。|
 |H03 Equal S5|旧KR/人工ML selected HT−F宏AUC +.017127/+.020527均4/4正；新自然matched250/full1000分别−.009759/−.011038均4/4负。full final却+.005965且4/4正，并有target下降、非target上升。|**缩限旧selected救援的跨人口推广，MEDIUM；修改为阶段依赖**。保留自然full晚期阳性和受控trade-off。不能将整个历史归结为假象，也不能称m单独必要。详见ACS5。|
-|H04 固定theta oracle|相同目标的无偏身份仍成立；新人口权重与旧人口不同，完整坐标机制结果未出。|**保留数学身份STRONG；自然有限点定量待定**。无偏不推出Adam更新或性能相同。|
-|H05 Stage2B/2C|旧有限pool/坐标已显示实际Adam均值差及坐标依赖。新160固定点诊断尚待。|**保留原有限构造，MEDIUM；自然推广待定**。不能以理论IID协方差替代实际shuffle/BN/短尾。|
+|H04 固定theta oracle|core160完整：有限96行pool同原生训练场期望相对浮点残差约5.34e−8–9.84e−8；完整人口MC均值差/RMS和.186–.510，不是置信区间。|**保留条件数学/有限数值身份STRONG**；pool不是完整人口，routing detach训练场也不是重新连接函数风险导数。无偏不推出Adam更新或性能相同。|
+|H05 Stage2B/2C|core160全部完成：人工SB/SN梯度trace1.113–2.435，自然全支持1.001–1.090；自然匹配N39/40高于1，SB2025 E50为.987818。160 risk clone前向差0、相对导数差.000200–.349066。|**缩限trace放大强度的自然推广，MEDIUM；保留训练导数/函数风险Jacobian边界STRONG有限事实**。合成m/v/current网格有范数交互，不安装theta或测风险，m/v单独必要性仍WEAK。见CORE_MECHANISM_ANALYSIS。|
 |H06 Stage2D|旧KR selected SB−SN−.012674、EN−SN−.030428均4/4负。新自然full selected分别−.000047（2/2）/−.000613（1正3负）；自然full final EB−EN−.004663且4/4负、LL+.033817且4/4差。|**缩限selected强损害的跨人口外推，MEDIUM**；final下EB−EN不利有新重复证据。结构、目标、采样与阶段须分开。|
 |H07 V2|新自然Adam selected SB−SN+.000479（2/2），final−.004084（4/4负），LL末轮+.026449；SGD.1 selected/final−.004258（1正3负），LL反而−.006715。|**修改为优化器/阶段/指标依赖，MEDIUM**。SGD.1弱有限LR基线不能代表困难域或方法充分优化的上限。|
 |H08 V3其他KR组|无动量SGD仍有采样效应、beta2=0未修复、局部attenuation与风险可能相反，均是KR原条件证据。|**保留原条件，MEDIUM**。不受ML人口审计直接否定；新自然机制须独立完成，不把旧阴性删掉。|
 |H09 V9|旧人工early AULC1..16+.003015且4/4正、final−.000986且4/4负；新自然E10+.000761且4/4正，E40−.016065（1正3负），final−.000157（2/2）。新全轨迹完整：AULC1–16+.000473四正但LL+.000708三差；AULC1–50−.000504一正三负。|**保留短/长阶段可反向的命题，MEDIUM；早期AUC方向复现但幅度与联合风险收益证据较弱**。旧subset随seed变化、旧250/new1000updates，不能把差异唯一归因比例。|
 |H10 S6 Sample边界|旧人工selected接近零，旧KR selected宏+.004366且4/4正。新自然matched250 selected/final DH−F−.007716/−.005342均4/4负；full selected−.003445四负、final+.015659四正且LL四好。|**目前缩限旧selected正效应，MEDIUM**。Sample target目标系数由.8降至.406939是可核算事实，但梯度响应并未由该系数识别。**修改为预算×阶段依赖**；末轮救援不等于更高selected性能。|
-|H11 AO04|旧人工d0_large两seed B1−B0 test AUC+.00001559（1/1），LL+.00062045均差；KR仅一seed完整。新自然12训练/12诊断及开发分析已闭环，B1−B0 selected开发AUC−.000334（一正三负），test已冻结待执行。|**保留近零与证据不足，WEAK；自然推广待定**。局部rho不等于专家敏感度；不称B1已形成稳定算法增益。|
+|H11 AO04|旧人工d0_large两seed B1−B0 test AUC+.00001559（一正一负），LL+.00062045两差；KR一seed val正/test负。自然12完整run、36局部点及504test cell复算完成：B1−B0 selected AUC−.0000555二正二负、final−.0007756一正三负；B2 final d0 AUC四负。|**保留缺少稳定整体收益，MEDIUM；严格等效/唯一机制WEAK**。Jacobian非零不能证明增加自由度有完整收益；B1−B2 final严格大小取舍3/4，须保留参照/阶段边界。见AO04_PHASE_ANALYSIS。|
 |H12 N17 N0|旧KR宏与test-p加权AUC能反向是固定预测算术。自然所有已完成核心组同时给宏、加权、逐cell。|**保留数学与有限预测事实，STRONG**；评价权重不是优化机制的证据。新N17开发半集同预测重加权LL已复算（formal .01 final宏SB−SN+.009838，train-p−.004005），test已完成：formal .01 final宏AUC−.001187/train-p+.000181；quota final宏LL+.003246/train-p−.009701；未预注册新ML校准器，不虚称校准机制已闭环。|
 |H13 N17 KR N1|旧8seed Adam selected−.005203（1正7负），原校正检验未确认；SGD selected+.000837（5/3）且LL+.004028。|**保留原探索性结果，MEDIUM/WEAK依指标**；不受人工ML直接影响，不把同号频率替代原统计门槛。|
 |H14 N17 N2/N3/N4|旧计数项占trace仅.001297%–.105936%；局部确认full约3e−5，低于δ=.0001；N4 NOT_TRIGGERED。|**保留原有限点证据MEDIUM与门控事实STRONG**。未触发不是失败或欠账。自然N2 ALL IID计数项.0032%–.2217%，P更新trace排序可被固定previous-v线性映射反转；N3 C_full−SB开发AUC四组1.54e−6–1.56e−5且区间跨0，长期中介仍WEAK。62诊断完成，见N17_MECHANISM_ANALYSIS.md。|
@@ -60,7 +60,7 @@
 
 ### 哪些简单解释已经被反例约束
 
-1. **“所有效果都是域大小”**：自然最大域d2在AC2D SN中仍是基线较弱的域，而S5 target效应随阶段反向；大小不能替代难度。STRONG有限反例，主要解释变量仍待机制诊断。
+1. **“所有效果都是域大小”**：自然最大域d2在AC2D SN中仍是基线较弱的域，而S5 target效应随阶段反向；大小不能替代难度。STRONG有限反例，core160未识别主要解释变量；transfer仍待完整结果。
 2. **“降低共享实际更新范数就一定改善”**：自然S6 matched后期DH/F的C实际delta范数比均低于1，AUC却四seed下降；S5 HT/F实际delta比大于1也并不总带来selected改善。MEDIUM反例，不单独归因历史m或v。
 3. **“final相对改善代表更高可选性能”**：S5 full DH−F final+.016059、selected−.003070，改善部分来自F越过其最佳阶段后的下降。MEDIUM。
 4. **“所有采样方法效应只有Adam才有”**：保留旧KR无动量SGD反例，新自然V9公共点也有阶段变化。MEDIUM；完整新AULC1–16四正、1–50三负，限定了收益的训练阶段。

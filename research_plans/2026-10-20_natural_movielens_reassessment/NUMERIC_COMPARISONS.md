@@ -2,7 +2,7 @@
 
 **整体实验仍在进行。** 本表只合并已完成主代理分析、具备完整四种子比较的阶段；待完成训练和未解锁test均不填零。当前源文件清单见[JSON](analysis/numeric_comparisons/source_files.json)。
 
-差值均为候选−参照；AUC越大越好，LogLoss越小越好。宏值为六个domain×task cell的等权平均；不是pooled AUC。区间为四个优化seed的点态描述性t95，不是新总体或多重比较校正后的确认。旧V2/V9优化seed同时改变人工子集，新人口固定。
+差值均为候选−参照；AUC越大越好，LogLoss越小越好。宏值为该模型实际输出任务的domain×task cell等权平均：联合双任务为六cell，单任务为三cell；单任务对照先匹配相同任务，不冒称联合模型。不是pooled AUC。区间为四个优化seed的点态描述性t95，不是新总体或多重比较校正后的确认。旧V2/V9优化seed同时改变人工子集，新人口固定。
 
 ## 1. 自然完整人口的同配置比较
 
@@ -123,18 +123,24 @@
 |N17|H200/formal; LR0.01/0.01|AULC1_20|H200-minus-H100_SB|0.762287|0.762287|+0.000000（0/0）|+0.000000（0/0）|
 |N17|H200/formal; LR0.01/0.01|final|H200-minus-H100_SB|0.728723|0.719219|-0.009504（0/4）|+0.095068（4/0）|
 |N17|H200/formal; LR0.01/0.01|selected|H200-minus-H100_SB|0.767283|0.767283|+0.000000（0/0）|+0.000000（0/0）|
+|AO04|50epoch/1000main/50arch|final|B1-B0|0.744192|0.743416|-0.000776（1/3）|+0.005364（3/1）|
+|AO04|50epoch/1000main/50arch|final|B2-B0|0.744192|0.743780|-0.000412（2/2）|+0.002158（3/1）|
+|AO04|50epoch/1000main/50arch|final|B1-B2|0.743780|0.743416|-0.000364（1/3）|+0.003206（2/2）|
+|AO04|50epoch/1000main/50arch|selected|B1-B0|0.771979|0.771924|-0.000055（2/2）|-0.001328（2/2）|
+|AO04|50epoch/1000main/50arch|selected|B2-B0|0.771979|0.771840|-0.000139（2/2）|+0.001134（2/2）|
+|AO04|50epoch/1000main/50arch|selected|B1-B2|0.771840|0.771924|+0.000084（2/2）|-0.002462（1/3）|
 
 ## 2. 人口、预算及历史对照
 
 人工MovieLens、自然KuaiRand、新自然MovieLens、匹配总N与匹配曝光条件逐行保存在[完整宏比较CSV](analysis/numeric_comparisons/completed_four_seed_macro_comparisons.csv)。不同family有不同融合、优化器、选模和主/arch时钟，不能把它们当单因素消融合并排名。
 
 - [V2阶段报告](V2_PHASE_ANALYSIS.md)：完整固定模型Adam/SGD及旧两环境，selected/final、逐域任务、预测复算。
-- [AC-2D性能报告](AC2D_PERFORMANCE_ANALYSIS.md)：四臂×四人口/预算条件，含匹配总N与同250步全支持；固定点机制诊断尚待完成。
+- [AC-2D性能报告](AC2D_PERFORMANCE_ANALYSIS.md)：四臂×四人口/预算条件，含匹配总N与同250步全支持；160项固定点机制诊断已完成，见CORE_MECHANISM_ANALYSIS.md。
 - [S5完整阶段报告](ACS5_PHASE_ANALYSIS.md)：32配置、两预算、历史/当前梯度、完整逐cell与预算交互，selected/末轮反转及域间取舍。
 - [S6阶段报告](ACS6_PHASE_ANALYSIS.md)：Sample F/DH，两预算全部16配置已分析，保留预算×阶段反转。
 - [V9阶段报告](ACV9_PERFORMANCE_ANALYSIS.md)：SGD .3八训练及八只读任务闭合，400份全轨迹预测2400cell复算，保留四个预设窗口。
 - [N18报告](N18_PHASE_ANALYSIS.md)：自然/人工人口的同信息LP、审核SE/RMSE，非训练AUC比较。
-- [历史B1、N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然N17的72正式配置test已完成，见[N17完整报告](N17_PHASE_ANALYSIS.md)；新自然transfer与AO04测试尚未闭合。
+- [历史B1、N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然N17的72正式配置test已完成，见[N17完整报告](N17_PHASE_ANALYSIS.md)；AO04全部12配置冻结测试已完成；新自然transfer尚未全闭合。
 - [特征支持审计](FEATURE_SUPPORT_AUDIT.md)：匹配总N仍未控制ID支持，属于已量化的竞争解释，不是已识别的AUC中介效应。
 
 ## 3. 逐cell、任务和阶段的读取规则
@@ -142,3 +148,5 @@
 对应阶段的`paired_cell_deltas.csv`、`paired_domain_deltas.csv`、`paired_task_deltas.csv`与原基线绝对值共同用于科学判断。最大域不自动等于最容易，最小域不自动等于最困难。一个宏均值不能替代两任务/三域是否同时受益，也不能替代selected与final的风险变化。
 
 当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。
+
+跨family的LL精度口径保留原实现：core/N17/AO04按已复算的EPS1e−12协议，N19/CM19按原sklearn log_loss及保存预测dtype。不得将不同clipping/dtype、模型和任务的绝对LL合并成单因素排名；各family内候选/参照使用相同原口径。

@@ -1,13 +1,13 @@
-# 当前工作状态（2026-10-20 14:22 UTC）
+# 当前工作状态（2026-10-20 14:57 UTC）
 
-- 唯一机械协调器PID335152，worker `/root/luna_execution`；不要另启GPU队列或更改冻结producer。
-- 已完成236/1060名义训练配置：core120、V2 16、N17 88、AO04 12；N17包含16pilot与8共享前缀续训，不是1060独立统计重复。
-- N17：62诊断、72正式零更新test、8000预测/48000cell及864cell独立复算全部完成，N17_PHASE_ANALYSIS.md与53问题对应表已更新；不需再解锁/重复测试。
-- AO04：12训练+12诊断及开发分析完成，freeze/release已发布；原1个root任务覆盖全部12run，等待core闭合后同一协调器scan。
-- core离线机制：100/160完成、10 active、50 pending，未全闭合；主代理等待完整后运行analyze_core_mechanism.py并写CORE_MECHANISM_ANALYSIS.md。
-- 后续仍需N19 316、CM19 508、143 transfer诊断及各scope冻结test。训练/诊断/测试均由原队列执行，分析由主代理完成。
-- transfer scope完整时依次用prepare_transfer_scope_closure.py、原evaluate freeze CLI、release_transfer_test_queue.py，不能提前生成授权。AO04 test完成后analyze_ao04.py；全部结果完成后更新9项主报告、最终ledger/索引，推送独立分支并建对main PR，不合并。
-- NUMERIC_COMPARISONS当前408条四seed宏指标行；builder已准备自动加入完整AO04/transfer数据，`--final`要求1060训练、core160、N17 72、AO04和transfer824全闭合，尚未执行最终模式。
+- 唯一机械协调器PID335152，worker `/root/luna_execution`；不另启GPU队列或更改冻结producer。
+- core120、V2 16、N17 88、AO04 12名义训练条目完整；N19 316已进入正式队列并取得首个100epoch/1900step有效receipt，CM19 508仍后续。1060名义条目含16pilot与8共享前缀续训，不是独立统计重复。
+- N17：62诊断、72正式零更新test、8000预测/48000cell及864cell独立复算均完整，阶段报告与53问题对应表已更新。
+- core机制：160/160无失败，分析/四seed分组/原JSON快照/实际checkpoint SHA与图均完成，CORE_MECHANISM_ANALYSIS.md已生成。
+- AO04：12训练、12局部诊断及root零更新test全部完成，504cell复算；751实际文件SHA及113小JSON快照已归档。AO04_PHASE_ANALYSIS.md完成。
+- 主报告目前420条四seed宏指标比较；N19/CM19新结果未齐，整体仍IN_PROGRESS。OPEN现33项NAT问题，原53 N17+8 N19+11 CM19完整保留。
+- transfer每scope训练+规定诊断完整时依次prepare_transfer_scope_closure.py→原evaluate freeze CLI→release_transfer_test_queue.py，通知worker在同队列边界接入。之后collect/analyze，不能提前冻结或用缺失结果填0。
+- 最终仍须完成全部824条transfer配置的剩余训练与143诊断、全部scope冻结test和阶段分析，9项主交付（含尚未创建FINAL_REPORT）、最终ledger/索引、推送独立分支并建对main PR；不合并。不要在局部完成时结束任务。
 
 以下是保留的过程记录；较早的“待完成”描述以本节及后续receipt为准。
 
