@@ -22,7 +22,7 @@ def analyze():
     (OUT/'analysis_status.json').write_text(json.dumps(dict(planned_runs=48,admitted_runs=len(admitted),
         pending_complete_four_seed_cohorts=missing,partial_seed_means_used=False),indent=2)+'\n')
     if not admitted:print('No whole controlled-update cohort ready');return
-    windows=[];residuals=[];probes=[];indices=[];batchpairs=[];traces={}
+    windows=[];residuals=[];probes=[];indices=[];batchpairs=[];traces={};budgets=[];exposures=[]
     for cfg in admitted:
         run=Path(cfg['run_dir']);native=json.loads((run/'config.json').read_text())
         base={key:cfg[key] for key in ('run_id','stage','population','budget','seed','arm')}
@@ -58,7 +58,20 @@ def analyze():
         for key,value in base.items():p[key]=value
         probes.append(p)
         traces[cfg['run_id']]=pd.read_csv(run/'batch_trace.csv')
-        for filename in ['config.json','gradient_step.csv','probe.csv','optimizer_full_observations.csv','batch_trace.csv']:
+        epochs=pd.read_csv(run/'epoch_observations.csv');assert len(epochs)==50 and set(epochs.epoch)==set(range(50))
+        for kind,gg in traces[cfg['run_id']].groupby('kind'):
+            budgets.append(dict(base,kind=kind,steps=len(gg),actual_examples=int(gg.n.sum()),
+                **{'domain'+str(d)+'_examples':int(gg['d'+str(d)].sum()) for d in range(3)}))
+        for d in range(3):
+            last=epochs.iloc[-1];available=native['data']['train_domain_counts'][str(d)]
+            exposures.append(dict(base,domain=d,available_train_rows=available,
+                main_examples=int(epochs['exposure_d'+str(d)].sum()),
+                final_cumulative_unique=int(last['unique_cumulative_d'+str(d)]),
+                rows_never_seen_in_main=available-int(last['unique_cumulative_d'+str(d)]),
+                within_epoch_repeats=int(epochs['repeat_epoch_d'+str(d)].sum()),
+                meaning='unique support and exposure of main shuffle only; architecture exposures counted separately'))
+
+        for filename in ['config.json','gradient_step.csv','probe.csv','optimizer_full_observations.csv','batch_trace.csv','epoch_observations.csv']:
             indices.append(dict(run_id=cfg['run_id'],path=str(run/filename),sha256=sha(run/filename)))
     # Controls must receive the same actual batches within each seed/budget.
     frame=pd.DataFrame(admitted)
@@ -72,9 +85,24 @@ def analyze():
             batchpairs.append(dict(stage=key[0],population=key[1],budget=key[2],seed=key[3],arm=row.arm,
                 reference_arm='F',all_main_and_architecture_batches_identical=equal,observed_batches=len(a)))
     pd.DataFrame(windows).to_csv(OUT/'seed_window_gradient_state_summary.csv',index=False)
+    window_table=pd.DataFrame(windows)
+    positive=window_table[window_table.record=='new_full_coordinate_optimizer_observation']
+    contrasts=[]
+    for key,g in positive.groupby(['stage','population','budget','seed','kind','partition','window','metric']):
+        g=g.set_index('arm');reference=g.loc['F','mean']
+        for arm in sorted(set(g.index)-{'F'}):
+            candidate=g.loc[arm,'mean']
+            contrasts.append(dict(zip(['stage','population','budget','seed','kind','partition','window','metric'],key),
+                contrast=arm+'-F',reference_mean=reference,candidate_mean=candidate,
+                difference=candidate-reference,ratio=candidate/reference if reference else np.nan,
+                interpretation='same-seed trajectory comparison; actual states differ; norm ratios do not identify a unique mediator'))
+    pd.DataFrame(contrasts).to_csv(OUT/'paired_seed_window_state_norm_context.csv',index=False)
+
     pd.DataFrame(residuals).to_csv(OUT/'control_formula_and_none_context.csv',index=False)
     pd.concat(probes,ignore_index=True).to_csv(OUT/'original_sparse_probes.csv',index=False)
     pd.DataFrame(batchpairs).to_csv(OUT/'paired_batch_identity.csv',index=False)
+    pd.DataFrame(budgets).to_csv(OUT/'realized_main_arch_budgets.csv',index=False)
+    pd.DataFrame(exposures).to_csv(OUT/'realized_main_support_by_domain.csv',index=False)
     pd.DataFrame(indices).to_csv(OUT/'source_index.csv',index=False)
     print('Controlled-update analysis admitted',len(admitted),'complete-cohort runs')
 

@@ -30,6 +30,14 @@
 |AC-2D|matched250|selected|EB-SB|0.767270|0.768083|+0.000813（3/1）|+0.005510（3/1）|
 |AC-V9|full50|final|SB-SN|0.724842|0.724685|-0.000157（2/2）|-0.005543（1/3）|
 |AC-V9|full50|selected|SB-SN|0.727801|0.726186|-0.001615（1/3）|-0.014968（1/3）|
+|AC-S5|matched250|final|T-F|0.767067|0.735865|-0.031202（0/4）|+0.010652（4/0）|
+|AC-S5|matched250|final|HT-F|0.767067|0.757892|-0.009175（0/4）|-0.000480（2/2）|
+|AC-S5|matched250|final|DH-F|0.767067|0.759977|-0.007090（0/4）|-0.000207（2/2）|
+|AC-S5|matched250|final|DH-HT|0.757892|0.759977|+0.002085（3/1）|+0.000273（3/1）|
+|AC-S5|matched250|selected|T-F|0.767579|0.738540|-0.029039（0/4）|+0.004551（3/1）|
+|AC-S5|matched250|selected|HT-F|0.767579|0.757820|-0.009759（0/4）|-0.007626（0/4）|
+|AC-S5|matched250|selected|DH-F|0.767579|0.760251|-0.007328（0/4）|-0.004891（1/3）|
+|AC-S5|matched250|selected|DH-HT|0.757820|0.760251|+0.002430（4/0）|+0.002735（2/2）|
 
 ## 2. 人口、预算及历史对照
 
@@ -39,7 +47,7 @@
 - [AC-2D性能报告](AC2D_PERFORMANCE_ANALYSIS.md)：四臂×四人口/预算条件，含匹配总N与同250步全支持；固定点机制诊断尚待完成。
 - [V9阶段报告](ACV9_PERFORMANCE_ANALYSIS.md)：SGD .3公共点；完整50轮冻结读数只有全部8任务闭合才纳入新AULC。
 - [N18报告](N18_PHASE_ANALYSIS.md)：自然/人工人口的同信息LP、审核SE/RMSE，非训练AUC比较。
-- [历史N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。
+- [历史N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。
 - [特征支持审计](FEATURE_SUPPORT_AUDIT.md)：匹配总N仍未控制ID支持，属于已量化的竞争解释，不是已识别的AUC中介效应。
 
 ## 3. 逐cell、任务和阶段的读取规则
