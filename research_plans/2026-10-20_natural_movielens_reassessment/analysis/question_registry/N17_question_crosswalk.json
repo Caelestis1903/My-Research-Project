@@ -49,7 +49,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q1",
         "question": "Objective-equivalent sampling 是否真的改变 training trajectory？",
         "historical_status": "BOUNDARY",
         "current_status": "SCOPE_CONFIRMED",
@@ -57,7 +56,8 @@
         "current_evidence": "V2;AC-2D",
         "current_assessment": "自然 fixed Adam final SB−SN −.004084 四负；learned AC-2D selected −.000047 两正两负。存在性保留，非普遍性能损害。",
         "required_natural_work_remaining": "N17;core mechanisms",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q1"
       }
     },
     {
@@ -106,15 +106,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q2",
         "question": "是否只是 checkpoint-selection artifact？",
         "historical_status": "BOUNDARY",
         "current_status": "MODIFIER_NOT_SOLE_CAUSE",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "V2;AC-2D",
-        "current_assessment": "自然 V2 Adam selected +.000479 而 final −.004084；固定轮次也有 q 差异，不能一概归为选模假象。",
-        "required_natural_work_remaining": "N17;AC-V9 trajectory",
-        "overall_natural_study_complete": false
+        "current_evidence": "V2;AC-2D;S5;S6;V9 complete trajectory",
+        "current_assessment": "自然V2 Adam selected+.000479而final−.004084；S5/S6 full DH−F均selected负/final正，共同轮次也反向，选点是修饰项而非唯一原因。",
+        "required_natural_work_remaining": "N17",
+        "overall_natural_study_complete": false,
+        "id": "Q2"
       }
     },
     {
@@ -160,15 +160,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q3",
         "question": "是否依赖 Adam？",
         "historical_status": "HISTORICAL_FROZEN",
         "current_status": "HISTORICAL_FALSIFICATION_RETAINED",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "historical V2/V9;new V2",
-        "current_assessment": "Adam必要性的历史反例保留。自然 SGD .1 selected −.004258，但其有限LR低基线不等于所有SGD。",
-        "required_natural_work_remaining": "AC-V9 full trajectory",
-        "overall_natural_study_complete": false
+        "current_evidence": "historical V2/V9;new V2/V9 full trajectory",
+        "current_assessment": "Adam必要性的旧反例保留；新无动量SGD.3 AULC1–16+.000473四正、1–50−.000504三负，LL方向不一致。新四seed区间跨零，有限阶段证据不称联合风险优势。",
+        "required_natural_work_remaining": "none; no natural optimizer grid beyond frozen scope",
+        "overall_natural_study_complete": false,
+        "id": "Q3"
       }
     },
     {
@@ -221,15 +221,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q4",
         "question": "若 optimizer-specific，是否为 m/v/history？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical S5/V3",
-        "current_assessment": "m/v/history 联合状态与即时非线性不是 m 单独必要性。",
-        "required_natural_work_remaining": "AC-S5;core mechanisms;N17 N3",
-        "overall_natural_study_complete": false
+        "current_evidence": "S5/S6 true optimizer telemetry;historical V3",
+        "current_assessment": "自然S5/S6忠实控制均保留持久原生m/v，效果依预算/阶段；S6两预算late m均较大但final性能方向相反。不能识别m或v单独必要性。",
+        "required_natural_work_remaining": "core mechanisms;N17 N3",
+        "overall_natural_study_complete": false,
+        "id": "Q4"
       }
     },
     {
@@ -283,15 +283,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q5",
         "question": "非 Adam 机制是 exposure/repetition/coverage/order/geometry 中哪一个？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
         "evidence_strength": "WEAK",
-        "current_evidence": "AC-2D controls",
-        "current_assessment": "固定 N/step 的人口对照可排除部分单标量解释，但支持、标签特征、重放及几何仍成组变化。",
+        "current_evidence": "AC-2D controls;FEATURE_SUPPORT_AUDIT",
+        "current_assessment": "等N/step人口对照排除部分单标量解释；等N仍改变d1用户可见率（人工53.24%/自然81.32%），支持、标签、重放及几何仍共同变化。",
         "required_natural_work_remaining": "N17 matching",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q5"
       }
     },
     {
@@ -344,7 +344,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q6",
         "question": "shared/private parameter 是否必要？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
@@ -352,7 +351,8 @@
         "current_evidence": "historical V3/N17",
         "current_assessment": "命名为 shared 的块不等于必要中介；局部干预与长期拓扑需要分开。",
         "required_natural_work_remaining": "N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q6"
       }
     },
     {
@@ -424,7 +424,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q7",
         "question": "domain size 是否解释 effect？",
         "historical_status": "BOUNDARY",
         "current_status": "SIZE_ONLY_EXPLANATION_CHALLENGED",
@@ -432,7 +431,8 @@
         "current_evidence": "AC-2D",
         "current_assessment": "同187500行、250步时 Equal损害已显著减小；全支持匹配250明显强于匹配N。N相关但不单独解释全部。",
         "required_natural_work_remaining": "N17;N19;CM19",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q7"
       }
     },
     {
@@ -482,15 +482,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q8",
         "question": "domain difficulty 是否解释 effect？",
         "historical_status": "BOUNDARY",
-        "current_status": "SIZE_IS_NOT_DIFFICULTY",
+        "current_status": "SIZE_NOT_DIFFICULTY",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "V2;AC-2D",
-        "current_assessment": "自然最大 d2 的 SN baseline AUC 低于 d0/d1；不能以小域替代困难域。困难度由固定模型/任务/阶段定义。",
-        "required_natural_work_remaining": "all remaining baseline cells",
-        "overall_natural_study_complete": false
+        "current_evidence": "AC-2D;S5;S6;V9;label_context",
+        "current_assessment": "自然最大d2在上述固定baseline/选点的两任务AUC较弱；AC2D SN full final24/24 cell LL差于train常数，selected0/24，难度须限定模型/任务/阶段。",
+        "required_natural_work_remaining": "remaining N17/AO04/transfer baseline cells",
+        "overall_natural_study_complete": false,
+        "id": "Q8"
       }
     },
     {
@@ -545,7 +545,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q9",
         "question": "task/domain imbalance 是否解释 effect？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
@@ -553,7 +552,8 @@
         "current_evidence": "AC-2D controls",
         "current_assessment": "自然比例比人工接近均衡，但改变了实际支持/标签分布；不是失衡量的单因素实验。",
         "required_natural_work_remaining": "N17;transfer",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q9"
       }
     },
     {
@@ -604,15 +604,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q10",
         "question": "validation selection 是否改变结论？",
         "historical_status": "BOUNDARY",
-        "current_status": "STAGE_SELECTION_BOUNDARY",
+        "current_status": "SELECTION_IS_MATERIAL_MODIFIER",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "V2;AC-2D",
-        "current_assessment": "selected/final 以及宏、train-p、eval-p cell 加权指标分别保留，不按结果择优。",
-        "required_natural_work_remaining": "all remaining stages",
-        "overall_natural_study_complete": false
+        "current_evidence": "V2;AC-2D;S5;S6;V9",
+        "current_assessment": "S5 HT full selected−.011038/final+.005965，S6 DH selected−.003445/final+.015659，均保留原验证选点；宏/加权/逐cell与LL分列。",
+        "required_natural_work_remaining": "N17;AO04;transfer",
+        "overall_natural_study_complete": false,
+        "id": "Q10"
       }
     },
     {
@@ -659,7 +659,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q11",
         "question": "是否跨环境成立？",
         "historical_status": "BOUNDARY",
         "current_status": "CROSS_ENVIRONMENT_GENERALIZATION_RESTRICTED",
@@ -667,7 +666,8 @@
         "current_evidence": "V2;AC-2D;N18",
         "current_assessment": "历史人工ML不能当第二个自然总体；新自然部分配置不复现原强负均值。KR数值仍有效。",
         "required_natural_work_remaining": "N17;transfer;AO04",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q11"
       }
     },
     {
@@ -718,7 +718,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q12",
         "question": "SAF/D3/AdaTask 是否覆盖？",
         "historical_status": "BOUNDARY",
         "current_status": "HISTORICAL_LITERATURE_SCOPE",
@@ -726,7 +725,8 @@
         "current_evidence": "historical N17 N6",
         "current_assessment": "原文献比较只在其已读来源和当时形式化范围成立；本轮不凭自然性能宣称新颖性。",
         "required_natural_work_remaining": "none; no new exhaustive literature claim",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q12"
       }
     },
     {
@@ -774,7 +774,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q13",
         "question": "是否存在未被已有工作覆盖的 mechanism gap？",
         "historical_status": "BOUNDARY",
         "current_status": "NOVEL_MECHANISM_NOT_ESTABLISHED",
@@ -782,7 +781,8 @@
         "current_evidence": "historical N17/N18;new finite results",
         "current_assessment": "新自然现象未自动形成可识别的新机制或方法。先区分标准重要性采样、优化器条件效应和端点效用。",
         "required_natural_work_remaining": "mechanisms;transfer",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q13"
       }
     },
     {
@@ -832,7 +832,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q14",
         "question": "是否值得方法化？",
         "historical_status": "BOUNDARY",
         "current_status": "NO_METHOD_CLAIM",
@@ -840,7 +839,8 @@
         "current_evidence": "V2;AC-2D",
         "current_assessment": "自然结果存在阶段与损失冲突，未确立普遍占优候选；历史 NO_GO 不因单个正均值解除。",
         "required_natural_work_remaining": "all remaining stages",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q14"
       }
     },
     {
@@ -886,7 +886,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q15",
         "question": "SN/SB 的“same objective”在代码和 empirical gradient 上是否严格成立？",
         "historical_status": "RESOLVED",
         "current_status": "IDENTITY_RETAINED",
@@ -894,7 +893,8 @@
         "current_evidence": "data protocol;core fixed-point design",
         "current_assessment": "同一人口同alpha时重要性校正保持同经验目标；不同人口的经验目标本身不同。",
         "required_natural_work_remaining": "core finite/MC numerical checks",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q15"
       }
     },
     {
@@ -943,15 +943,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q16",
         "question": "现象是否主要发生在 overfitting 之后？",
         "historical_status": "BOUNDARY",
-        "current_status": "LATE_ONLY_EXPLANATION_UNSUPPORTED",
+        "current_status": "NOT_ONLY_POST_OVERFITTING",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "historical V2/V9;new core common points",
-        "current_assessment": "早期、后期与自选效应需分别描述；不能把所有 q 差异称过拟合之后才出现。",
-        "required_natural_work_remaining": "AC-V9 trajectory;N17",
-        "overall_natural_study_complete": false
+        "current_evidence": "V9 full trajectory;V2;S5/S6",
+        "current_assessment": "自然V9 AULC1–16四正但LL均值更差，后期/全窗口可反向；S5/S6完整预算晚期救援兼有F末轮风险升高。不能把所有q效应都归为过拟合之后。",
+        "required_natural_work_remaining": "N17",
+        "overall_natural_study_complete": false,
+        "id": "Q16"
       }
     },
     {
@@ -1000,15 +1000,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q17",
         "question": "effect 是否只是 learning-speed / finite-budget effect？",
         "historical_status": "BOUNDARY",
-        "current_status": "FINITE_BUDGET_BOUNDARY",
+        "current_status": "CLOCK_IS_MODIFIER_NOT_IDENTIFIED_SOLE_CAUSE",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "AC-2D",
-        "current_assessment": "自然1000步与250步的算法差异不一致；arch频率比也变，不能称纯时钟因果。",
+        "current_evidence": "AC-2D;S5/S6 matched/full",
+        "current_assessment": "自然S6 DH−F final在250步−.005342四负、1000步+.015659四正；交互+.021000四正，main:arch比例也变，尚非纯时钟因果。",
         "required_natural_work_remaining": "N17 H100/conditional H200",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q17"
       }
     },
     {
@@ -1057,7 +1057,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q18",
         "question": "在相同 sample multiset 下，仅改变 optimizer-step 顺序是否改变结果？",
         "historical_status": "BOUNDARY",
         "current_status": "HISTORICAL_CONDITIONAL_RESULT_RETAINED",
@@ -1065,7 +1064,8 @@
         "current_evidence": "historical V3 ORDER",
         "current_assessment": "同multiset置换顺序可改变有限训练结果的原观察保留，不推为课程学习必然有益。",
         "required_natural_work_remaining": "none; no natural ORDER grid prescribed",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q18"
       }
     },
     {
@@ -1119,7 +1119,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q19",
         "question": "repetition 是否是 exposure effect 的必要组成？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "STRUCTURAL_IDENTIFICATION_BOUNDARY",
@@ -1127,7 +1126,8 @@
         "current_evidence": "historical V3",
         "current_assessment": "固定曝光 E 和独立覆盖 U 时重复数 R=E−U，不能三者完全独立。",
         "required_natural_work_remaining": "N17 matching describes coupled changes",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q19"
       }
     },
     {
@@ -1182,7 +1182,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q20",
         "question": "coverage 是否独立于 exposure/repetition？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "STRUCTURAL_IDENTIFICATION_BOUNDARY",
@@ -1190,7 +1189,8 @@
         "current_evidence": "historical V3",
         "current_assessment": "coverage 与 exposure/repetition 的约束仍在；支持量对照不等于独立控制全部三者。",
         "required_natural_work_remaining": "N17 matching",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q20"
       }
     },
     {
@@ -1245,7 +1245,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q21",
         "question": "estimator covariance 的 anisotropy 是否比 scalar variance 更有解释力？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
@@ -1253,7 +1252,8 @@
         "current_evidence": "historical Stage2C/N17",
         "current_assessment": "标量trace不能保证解释方向风险；完整坐标协方差与性能中介仍须分开。",
         "required_natural_work_remaining": "core mechanisms;N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q21"
       }
     },
     {
@@ -1306,7 +1306,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q22",
         "question": "shared C/R 是否是必要 mediator 而非相关参数块？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
         "current_status": "NOT_IDENTIFIED",
@@ -1314,7 +1313,8 @@
         "current_evidence": "historical N17",
         "current_assessment": "C/R 局部敏感性不等于 q→长期风险的必要中介。",
         "required_natural_work_remaining": "N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q22"
       }
     },
     {
@@ -1361,15 +1361,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q23",
         "question": "optimizer effect 与 sampling effect 是否存在真实 interaction？",
         "historical_status": "BOUNDARY",
-        "current_status": "CONDITIONAL_INTERACTION_RETAINED",
+        "current_status": "CONFIGURATION_INTERACTION_RETAINED",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "V2;AC-V9",
-        "current_assessment": "Adam/SGD、LR与阶段之间结果不同；跨协议交互不能单归优化器类别。",
-        "required_natural_work_remaining": "AC-V9 trajectory;N17 LR grid",
-        "overall_natural_study_complete": false
+        "current_evidence": "V2;V9 full trajectory;N17 complete pilot",
+        "current_assessment": "Adam/SGD、LR和阶段表现不同；N17完整pilot新共同/own均.01，四格正式尚在跑。跨协议交互不能单归optimizer类别。",
+        "required_natural_work_remaining": "N17 formal LR grid",
+        "overall_natural_study_complete": false,
+        "id": "Q23"
       }
     },
     {
@@ -1417,7 +1417,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q24",
         "question": "第二环境失败时，boundary 究竟来自哪里？",
         "historical_status": "BOUNDARY",
         "current_status": "NO_UNIQUE_ENVIRONMENT_ATTRIBUTION",
@@ -1425,7 +1424,8 @@
         "current_evidence": "AC-2D controls",
         "current_assessment": "同N自然比例已改变差距，但特征/标签支持仍改变；不能唯一定位dataset identity。",
         "required_natural_work_remaining": "N17;transfer controls",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q24"
       }
     },
     {
@@ -1474,7 +1474,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q25",
         "question": "existing literature 是否已经覆盖“same objective + different q + MDMT trajectory”机制？",
         "historical_status": "BOUNDARY",
         "current_status": "HISTORICAL_LITERATURE_SCOPE",
@@ -1482,7 +1481,8 @@
         "current_evidence": "historical N17 N6",
         "current_assessment": "已有工作覆盖范围按原审查保留；实测端点与机制新颖性分开。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q25"
       }
     },
     {
@@ -1528,7 +1528,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q26",
         "question": "D3/SAF 的 objective change 是否使其不能作为 mechanism-equivalent prior work？",
         "historical_status": "RESOLVED",
         "current_status": "OBJECTIVE_DISTINCTION_RETAINED",
@@ -1536,7 +1535,8 @@
         "current_evidence": "historical V3/N17",
         "current_assessment": "改变目标的D3/SAF与保持alpha的q干预并非相同估计对象。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q26"
       }
     },
     {
@@ -1583,7 +1583,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q27",
         "question": "AdaTask 的 optimizer-state intervention 是否能消除 sampling effect？",
         "historical_status": "HISTORICAL_FROZEN",
         "current_status": "HISTORICAL_CONDITIONAL_RESULT_RETAINED",
@@ -1591,7 +1590,8 @@
         "current_evidence": "historical V3 AdaTask",
         "current_assessment": "固定分量optimizer状态不数学消除q依赖；不把未做自然AdaTask复制写成新阴性。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q27"
       }
     },
     {
@@ -1645,7 +1645,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q28",
         "question": "routing 的 stop-gradient 边界",
         "historical_status": "BOUNDARY",
         "current_status": "DETACH_BOUNDARY_RETAINED",
@@ -1653,7 +1652,8 @@
         "current_evidence": "historical Stage2C;core mechanism design",
         "current_assessment": "原stop-gradient路由贡献和重新连接的函数风险Jacobian是不同对象。",
         "required_natural_work_remaining": "core mechanisms",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q28"
       }
     },
     {
@@ -1711,7 +1711,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q29",
         "question": "参数块名称与实际共享支持",
         "historical_status": "RESOLVED",
         "current_status": "FUNCTIONAL_PARTITION_RETAINED",
@@ -1719,7 +1718,8 @@
         "current_evidence": "archived source;core partitions",
         "current_assessment": "参数名与真实前向支持分列，A_arch与main更新块分开。",
         "required_natural_work_remaining": "core mechanisms",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q29"
       }
     },
     {
@@ -1777,15 +1777,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q30",
         "question": "Adam 学习率赢家位于网格下边界",
         "historical_status": "BOUNDARY",
-        "current_status": "LR_GRID_BOUNDARY",
+        "current_status": "FINITE_GRID_BOUNDARY_RETAINED",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical N17;new N17 design",
-        "current_assessment": "有限网格边界赢家不能证明全局最优；禁止结果后无限扩网格。",
-        "required_natural_work_remaining": "N17 all pilots/formals",
-        "overall_natural_study_complete": false
+        "current_evidence": "N17_PILOT_ANALYSIS",
+        "current_assessment": "完整16pilot自然共同/双侧own均.01，在冻结网格上边界，与旧条件不同；有限网格赢家不能证明全局最优，不结果后追加搜索。",
+        "required_natural_work_remaining": "N17 formals",
+        "overall_natural_study_complete": false,
+        "id": "Q30"
       }
     },
     {
@@ -1843,15 +1843,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q31",
         "question": "pilot 与 finalist 种子重合",
         "historical_status": "RESOLVED",
-        "current_status": "OPTIMIZATION_SEED_SEPARATION",
+        "current_status": "PILOT_SEED_SEPARATION_VERIFIED",
         "evidence_strength": "STRONG",
-        "current_evidence": "new N17 manifest",
-        "current_assessment": "pilot2030/2031与formal2022–2025分离；同一数据总体与旧test仍复用，不是独立总体确认。",
-        "required_natural_work_remaining": "N17 actual receipts",
-        "overall_natural_study_complete": false
+        "current_evidence": "N17 pilot receipts;frozen formal configs",
+        "current_assessment": "16完整pilot为2030/31、后续正式2022–25；优化seed分离不产生独立数据总体，旧test仍复用。",
+        "required_natural_work_remaining": "N17 actual formal/test receipts",
+        "overall_natural_study_complete": false,
+        "id": "Q31"
       }
     },
     {
@@ -1910,7 +1910,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q32",
         "question": "历史固定 SGD 数字变化来自哪里",
         "historical_status": "RESOLVED",
         "current_status": "HISTORICAL_ARITHMETIC_RETAINED",
@@ -1918,7 +1917,8 @@
         "current_evidence": "historical V3 fixed SGD",
         "current_assessment": "旧数值变化的选择/评价口径解释保留，不重写旧数据；自然比较单独列。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q32"
       }
     },
     {
@@ -1977,15 +1977,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q33",
         "question": "只用 SN 调 LR 的估计对象",
         "historical_status": "RESOLVED",
-        "current_status": "TUNING_ESTIMAND_SEPARATED",
+        "current_status": "SYMMETRIC_PILOT_COMPLETED",
         "evidence_strength": "STRONG",
-        "current_evidence": "new N17 design",
-        "current_assessment": "common-LR、own-LR及完整q×LR四格分别报告；不由仅SN调参推q算法优劣。",
-        "required_natural_work_remaining": "N17 pilots/formals",
-        "overall_natural_study_complete": false
+        "current_evidence": "N17 complete response surface/winner freeze",
+        "current_assessment": "共同及两q各自LR都由完整对称pilot选择为.01；common/own将复用同一模型，不能当独立重复。基础.0003/.001四格不删除。",
+        "required_natural_work_remaining": "N17 formals",
+        "overall_natural_study_complete": false,
+        "id": "Q33"
       }
     },
     {
@@ -2041,15 +2041,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q34",
         "question": "一阶矩遥测混入二阶矩范数",
         "historical_status": "HISTORICAL_FROZEN",
-        "current_status": "HISTORICAL_TELEMETRY_FIX_RETAINED",
+        "current_status": "TELEMETRY_SEPARATED_NOT_CAUSAL",
         "evidence_strength": "STRONG",
-        "current_evidence": "historical V3",
-        "current_assessment": "旧一阶/二阶遥测修订保留，不把原混合范数继续当m单独因果。",
-        "required_natural_work_remaining": "new true optimizer telemetry",
-        "overall_natural_study_complete": false
+        "current_evidence": "S5/S6 optimizer_full_observations",
+        "current_assessment": "新遥测分别记录原生持久m/v、实际delta与raw/L2梯度，拼接全坐标L2；不与旧pre-step tensor范数求和混作m必要性。",
+        "required_natural_work_remaining": "core/N17 same-state mechanisms",
+        "overall_natural_study_complete": false,
+        "id": "Q34"
       }
     },
     {
@@ -2106,15 +2106,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q35",
         "question": "稀疏遥测 lag 与真实 step lag",
         "historical_status": "BOUNDARY",
-        "current_status": "OBSERVATION_CADENCE_BOUNDARY",
+        "current_status": "STEP_ALIGNED_CONTEXT_AVAILABLE",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "new complete-step core observations",
-        "current_assessment": "训练实际step与读取间隔分列，原稀疏lag不是逐步状态因果。",
+        "current_evidence": "S5/S6 batch/gradient/optimizer full observations",
+        "current_assessment": "新S5/S6保留实际main/arch step与逐step遥测、50轮窗口及原稀疏probe，读取lag不再冒充真实step lag；仍不识别历史状态因果中介。",
         "required_natural_work_remaining": "core mechanisms",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q35"
       }
     },
     {
@@ -2172,7 +2172,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q36",
         "question": "onset 程序不提供全族错误率保证",
         "historical_status": "BOUNDARY",
         "current_status": "MULTIPLICITY_BOUNDARY",
@@ -2180,7 +2179,8 @@
         "current_evidence": "analysis protocol",
         "current_assessment": "四seed点态t区间及众多cell比较未提供全族错误率/总体确认。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q36"
       }
     },
     {
@@ -2238,7 +2238,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q37",
         "question": "IID 批次置换与课程策略",
         "historical_status": "BOUNDARY",
         "current_status": "NO_CURRICULUM_CLAIM",
@@ -2246,7 +2245,8 @@
         "current_evidence": "historical ORDER design",
         "current_assessment": "IID批次排序实验不等价于已学到有效课程策略。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q37"
       }
     },
     {
@@ -2305,7 +2305,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q38",
         "question": "ORDER 也移动短尾批次",
         "historical_status": "BOUNDARY",
         "current_status": "ORDER_TAIL_CONFOUND_RETAINED",
@@ -2313,7 +2312,8 @@
         "current_evidence": "historical V3",
         "current_assessment": "ORDER移动短尾批次的混合干预保留，不能单归几何。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q38"
       }
     },
     {
@@ -2364,7 +2364,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q39",
         "question": "GPU 跨预算前缀数值复用",
         "historical_status": "RESOLVED",
         "current_status": "HISTORICAL_PREFIX_RESULT_RETAINED",
@@ -2372,7 +2371,8 @@
         "current_evidence": "historical V3",
         "current_assessment": "历史前缀数值复用的配置内事实保留；新运行不靠不同预算等价假设省略训练。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q39"
       }
     },
     {
@@ -2437,15 +2437,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q40",
         "question": "状态消融的健康、幅度和学习进度",
         "historical_status": "BOUNDARY",
-        "current_status": "JOINT_STATE_INTERVENTION_BOUNDARY",
+        "current_status": "STATE_HEALTH_STAGE_BOUNDARY_RETAINED",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical S5/V3",
-        "current_assessment": "状态消融会共同改变健康、幅度、有效进度；不能说分离了m必要性。",
-        "required_natural_work_remaining": "AC-S5;AC-S6;core diagnostics",
-        "overall_natural_study_complete": false
+        "current_evidence": "S5/S6 full two-budget analysis",
+        "current_assessment": "S5 HT full final target AUC−.006671、LL+.046714四差而非target改善；S6 full DH final六cell改善，matched DH final六cell均值AUC下降。健康、幅度与阶段不可合并。",
+        "required_natural_work_remaining": "core/N17 same-state diagnostics",
+        "overall_natural_study_complete": false,
+        "id": "Q40"
       }
     },
     {
@@ -2499,15 +2499,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q41",
         "question": "自身早期窗口造成的环境表观翻转",
         "historical_status": "BOUNDARY",
-        "current_status": "WINDOW_ALIGNMENT_REQUIRED",
+        "current_status": "PRESPECIFIED_FULL_READOUT_CLOSED",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "historical V9;new common points",
-        "current_assessment": "自然E10差+.000761四正、E40−.016065三负、selected−.001615三负，说明阶段必须对齐；完整窗口补读中。",
-        "required_natural_work_remaining": "AC-V9 trajectory",
-        "overall_natural_study_complete": false
+        "current_evidence": "V9 400 frozen models/2400 recalculated cells",
+        "current_assessment": "自然AULC1–16+.000473四正，LL+.000708三差；1–50 AUC−.000504三负，而旧人工1–50+.002291四正。阶段/窗口重要；人口与实际更新数未在本SGD协议中独立识别。",
+        "required_natural_work_remaining": "none; no post-result window or budget expansion",
+        "overall_natural_study_complete": false,
+        "id": "Q41"
       }
     },
     {
@@ -2571,7 +2571,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q42",
         "question": "全局等范数没有隔离角度与块尺度",
         "historical_status": "BOUNDARY",
         "current_status": "NORM_DIRECTION_NOT_SEPARATED_BY_GLOBAL_NORM",
@@ -2579,7 +2578,8 @@
         "current_evidence": "historical N17",
         "current_assessment": "全局等范数不能分离子块方向、相对尺度与交互。",
         "required_natural_work_remaining": "N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q42"
       }
     },
     {
@@ -2635,15 +2635,15 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q43",
         "question": "MovieLens 的 seed 同时改变训练子集",
         "historical_status": "RESOLVED",
-        "current_status": "NEW_POPULATION_FIXED",
+        "current_status": "POPULATION_RANDOMNESS_SEPARATED",
         "evidence_strength": "STRONG",
-        "current_evidence": "DATA_PROTOCOL_AUDIT;frozen population hashes",
-        "current_assessment": "新优化seed不改变人口；旧V2/V9随seed改变人工子集。新旧种子方差组成不同。",
+        "current_evidence": "frozen data;V9;N17 pilot/formal manifests",
+        "current_assessment": "新优化seed不改变base人口；旧V2/V9随seed改变人工子集。旧/新seed方差含义不同，N17 pilot与formal也共用固定人口。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q43"
       }
     },
     {
@@ -2695,7 +2695,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q44",
         "question": "破坏性控制改变共同早期窗口",
         "historical_status": "BOUNDARY",
         "current_status": "HISTORICAL_DESTRUCTIVE_BOUNDARY",
@@ -2703,7 +2702,8 @@
         "current_evidence": "historical V3",
         "current_assessment": "破坏性控制改变共同早期窗口的原边界保留；无自然对应运行不假报复制。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q44"
       }
     },
     {
@@ -2756,7 +2756,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q45",
         "question": "长时钟读数只有预算条件下的部分种子支持",
         "historical_status": "RESOLVED",
         "current_status": "COMPLETE_BUDGET_REQUIRED",
@@ -2764,7 +2763,8 @@
         "current_evidence": "new manifests;runner ledger",
         "current_assessment": "新所有四seed按完整预算，H200仅预定平台门控；未完成时不做正式结论。",
         "required_natural_work_remaining": "N17;transfer",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q45"
       }
     },
     {
@@ -2817,7 +2817,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q46",
         "question": "局部C的AUC阳性与loss/J冲突",
         "historical_status": "BOUNDARY",
         "current_status": "AUC_LOSS_CONFLICT_RETAINED",
@@ -2825,7 +2824,8 @@
         "current_evidence": "V2;AC-2D",
         "current_assessment": "自然AC-2D final EN−SN AUC+.000973但LL+.012372四差；排序改善不保证概率风险改善。",
         "required_natural_work_remaining": "N17 N3;transfer",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q46"
       }
     },
     {
@@ -2879,7 +2879,6 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q47",
         "question": "宏评价、train-p与test-p评价的反转由哪些cell贡献？评价权重变化与域内人口变化如何区分？",
         "historical_status": "BOUNDARY",
         "current_status": "METRIC_ARITHMETIC_AND_POPULATION_SEPARATED",
@@ -2887,7 +2886,8 @@
         "current_evidence": "core prediction recomputation",
         "current_assessment": "同预测的评价权重差可精确分解；跨人口模型差仍非权重单因素干预，加权cell AUC不是pooled。",
         "required_natural_work_remaining": "N17 metric tables",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q47"
       }
     },
     {
@@ -2936,15 +2936,15 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q48",
         "question": "短pilot选出的LR赢家是否只优化早期速度，且双方等预算调参后采样差距是否保留？",
         "historical_status": "BOUNDARY",
-        "current_status": "PENDING_NATURAL_SYMMETRIC_GRID",
+        "current_status": "PILOT_COMPLETED_FORMAL_PENDING",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical N17;new design",
-        "current_assessment": "旧ML own/common selected负而own E100正；完整自然q×LR与独立pilot尚须执行。",
-        "required_natural_work_remaining": "N17",
-        "overall_natural_study_complete": false
+        "current_evidence": "N17 full100 pilot response surface",
+        "current_assessment": "完整100epoch pilot仍按各自最优selection选择，赢家.01 selected高但final不占优；两pilot seed不足推正式效果，common/own为相同.01模型。",
+        "required_natural_work_remaining": "N17 formal LR grid/H200",
+        "overall_natural_study_complete": false,
+        "id": "Q48"
       }
     },
     {
@@ -3002,7 +3002,6 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q49",
         "question": "域计数波动相对于域内样本噪声贡献多少，固定域配额是否改变downstream采样效应？",
         "historical_status": "BOUNDARY",
         "current_status": "PENDING_NATURAL_COUNT_DECOMPOSITION",
@@ -3010,7 +3009,8 @@
         "current_evidence": "historical N17",
         "current_assessment": "KR count trace占比极小的局部结果保留；新ML须完整坐标及quota长期对照，不由trace预测AUC。",
         "required_natural_work_remaining": "N17 N2/quota",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q49"
       }
     },
     {
@@ -3068,7 +3068,6 @@
         }
       },
       "natural_reassessment": {
-        "id": "Q50",
         "question": "C局部作用来自哪些子模块、幅度/方向及其交互？共享拓扑的长期作用是否成立？",
         "historical_status": "BOUNDARY",
         "current_status": "PENDING_NATURAL_LOCAL_INTERVENTIONS",
@@ -3076,7 +3075,8 @@
         "current_evidence": "historical N17",
         "current_assessment": "旧局部C效果小且方向混合；双路径双bank、norm/direction交互及MC精度门控按新设计执行。",
         "required_natural_work_remaining": "N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q50"
       }
     },
     {
@@ -3131,7 +3131,6 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q51",
         "question": "在相同theta、m/v历史及step下，Adam瞬时非线性是否把不同梯度分布映射为不同平均更新？",
         "historical_status": "INCONCLUSIVE",
         "current_status": "INSTANTANEOUS_NOT_HISTORY_NECESSITY",
@@ -3139,7 +3138,8 @@
         "current_evidence": "historical N17;new diagnostic designs",
         "current_assessment": "同theta/m/v的非线性均值更新差与长期历史必要性是不同问题。",
         "required_natural_work_remaining": "core mechanisms;N17 N3",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q51"
       }
     },
     {
@@ -3184,7 +3184,6 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q52",
         "question": "EMS/variance-adapted LR与MIS/OMIS现有工作是否已覆盖最直接的候选解释和方法？",
         "historical_status": "BOUNDARY",
         "current_status": "HISTORICAL_LITERATURE_SCOPE",
@@ -3192,7 +3191,8 @@
         "current_evidence": "historical N17 N6",
         "current_assessment": "保留既有8篇来源限定结论，不冒称覆盖所有后续文献或建立新颖性。",
         "required_natural_work_remaining": "none",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q52"
       }
     },
     {
@@ -3228,7 +3228,6 @@
         ]
       },
       "natural_reassessment": {
-        "id": "Q53",
         "question": "KR无动量SGD共同eta的selected宏AUC q效应在±.003实际界内是否足够精确？",
         "historical_status": "INCONCLUSIVE",
         "current_status": "KR_PRECISION_STILL_INCONCLUSIVE",
@@ -3236,8 +3235,10 @@
         "current_evidence": "historical N17 N1",
         "current_assessment": "KR无动量SGD四/八种子原CI仍不足以证明±.003等价；新增ML不能解决KR精度，不按显著性无限补seed。",
         "required_natural_work_remaining": "none; KR not rerun",
-        "overall_natural_study_complete": false
+        "overall_natural_study_complete": false,
+        "id": "Q53"
       }
     }
-  ]
+  ],
+  "last_completed_evidence": "core120 + V2 16 + V9 8 zero-update full trajectories + N17 16 complete pilots + N18 offline"
 }
