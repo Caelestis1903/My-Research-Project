@@ -78,3 +78,7 @@ H200启动阶段进度100/2000为复制H100前缀，不能当新epoch；8任务5
 13:38 UTC AO04 12/12训练、12/12诊断闭合，主代理开发分析和72个selected验证cell复算完成；全三臂配对初始化一致。冻结SHA6ffd4465d0419df2e93c8307beed95982cdb892fa0f21a5dc5988d9247276e47，发布AO04_full_freeze_6ffd4465d041的1个原始root test任务（覆盖全部12run），release SHA c3ffa1a5e1cefe1ddeaef6f9d041d6209eb57af9b551915b25d2d946ffe2aef9；test仍待唯一队列后续边界读取。N17 test当前已在既有槽位运行。AO04开发选中B1−B0 AUC−.000334（一正三负），B2−B0−.000034（二正二负），均不更改冻结方案。
 
 13:49 UTC N17完整闭环：72test有效receipt无失败；8000epoch预测/48000cell已保存索引8288文件，主代理独立复算selected/final 864cell。N17_PHASE_ANALYSIS.md、全部LR/控制/quota/续训/两任务三域及53问题对应表完成；共同.01 test selected AUC−.000256（一正三负）、final−.001187（一正三负），所有九cohort端点18点态区间跨0。H200末轮两q宏AUC各四负、LL各四差，但test只有47/48 cell LL升高，SN2022 d0/task1为反例，开发48/48命题未搬到test。NUMERIC_COMPARISONS已加入N17，共408四seed宏指标行。core160仍运行，AO04test待后续boundary；全研究尚未闭环。
+
+15:25 UTC续记：core160与AO04完整分析/实际工件及420条宏比较已在1a574cdd提交，后续90e802af增加summarize_transfer_phase.py（尚未运行，必须对应study全部test完成，N19 316/CM19 508），022f77d5更新AC2D及主结论的完成链接，均已推送。唯一coordinator仍335152；N19目前33 COMPLETE、10 active、273 pending，无新增失败。worker只每约5分钟报资源/计数，scope闭合及时通知；不要因当前等待而新开队列或改冻结producer。
+
+transfer统计：collect_transfer.py→analyze_transfer.py→analyze_transfer_cells.py→analyze_neutral_interventions.py后，完整study可运行summarize_transfer_phase.py --study N19/CM19，新增域/任务四seed与加权LL（保留各条件support/exposure权重及common test权重，单任务对照仅同任务）。此新helper只完成主代理源码自审，未提前准入缺失的新数据；实际运行后需依据输出写P1–P6/CM19报告，不能将准备完成写成实验完成。不要重跑早期build_question_crosswalk.py覆盖后续已更新53项；后续编辑现有JSON的natural_reassessment并同步CSV，historical_record保持不变。
