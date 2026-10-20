@@ -38,3 +38,7 @@
 ## N17正式test身份冻结
 
 [冻结原件](analysis/n17_freeze/test_frozen.json)绑定72正式配置的8000模型引用（H200共享前缀并非独立训练重复），冻结命令实际核对所有模型bytes SHA。冻结SHA481fedc4636fef8e43ab0a92b6921aa0a7e9b56dad48c364f22b976d391c60d6；[closure](analysis/n17_freeze/closure.json)、[测试发布凭证](analysis/n17_freeze/release_receipt.json)分别绑定阶段闭合及唯一调度器读数请求。只读test尚待完成。
+
+## N17离线诊断完整索引
+
+[N17诊断工件索引](analysis/n17_diagnostic_artifacts/artifact_index.jsonl.gz)实际读取62项完成目录的656个文件并记录绝对路径、bytes及SHA，包含完整坐标moments NPZ和原始N3逐cell/配对CSV；[小JSON原件快照](analysis/n17_diagnostic_artifacts/small_json_snapshots.jsonl.gz)保存原生配置/receipt，[索引状态](analysis/n17_diagnostic_artifacts/index_status.json)报告范围。大型原始表的仓库副本以确定性gzip保存，见analysis/n17_mechanisms/large_table_archives.json；服务器未压缩原件保留。
