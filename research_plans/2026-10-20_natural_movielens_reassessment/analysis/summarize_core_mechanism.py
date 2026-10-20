@@ -101,7 +101,7 @@ def analyze():
         raw_diagnostic_archive_sha256=hashlib.sha256(archive.read_bytes()).hexdigest(),
         raw_diagnostic_count=len(snapshots),
         uncertainty='Four-seed descriptive ranges; no trace MCSE, population CI, or multiplicity correction inferred.',
-        grid_scope='Synthetic two-event C-only formula norm, without theta installation or risk evaluation.'), indent=2) + '\n')
+        grid_scope='Synthetic two-event C-only formula norm, without theta installation or risk evaluation; independently switched m/v sources need not correspond to one ordinary gradient history.'), indent=2) + '\n')
     print('Core summaries complete: 160 anchors; four optimizer seeds per group.')
 
 
