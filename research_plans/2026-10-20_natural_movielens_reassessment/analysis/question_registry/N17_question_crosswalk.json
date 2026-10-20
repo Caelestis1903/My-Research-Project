@@ -1004,9 +1004,9 @@
         "historical_status": "BOUNDARY",
         "current_status": "CLOCK_IS_MODIFIER_NOT_IDENTIFIED_SOLE_CAUSE",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "AC-2D;S5/S6 matched/full",
-        "current_assessment": "自然S6 DH−F final在250步−.005342四负、1000步+.015659四正；交互+.021000四正，main:arch比例也变，尚非纯时钟因果。",
-        "required_natural_work_remaining": "N17 H100/conditional H200",
+        "current_evidence": "AC-2D;S5/S6 matched/full;N17 H100/H200 development",
+        "current_assessment": "S6预算×阶段交互保留；N17共同.01续训八配置均200轮完整、前100轮轨迹相同，E200相对E100两q各4/4 selection AUC下降/LL上升，选点仍12–14轮。训练J平台不是泛化峰值。test未读，未唯一识别纯时钟机制。",
+        "required_natural_work_remaining": "N17 frozen test curves;mechanisms",
         "overall_natural_study_complete": false,
         "id": "Q17"
       }
@@ -1365,9 +1365,9 @@
         "historical_status": "BOUNDARY",
         "current_status": "CONFIGURATION_INTERACTION_RETAINED",
         "evidence_strength": "MEDIUM",
-        "current_evidence": "V2;V9 full trajectory;N17 complete pilot",
-        "current_assessment": "Adam/SGD、LR和阶段表现不同；N17完整pilot新共同/own均.01，四格正式尚在跑。跨协议交互不能单归optimizer类别。",
-        "required_natural_work_remaining": "N17 formal LR grid",
+        "current_evidence": "V2;V9 full trajectory;N17 complete pilot and H100/H200 development",
+        "current_assessment": "Adam/SGD、LR和阶段表现不同；N17完整pilot新共同/own均.01，64正式H100及8触发续训已完整，不能由跨协议差单归optimizer类别。test效应仍闭锁。",
+        "required_natural_work_remaining": "N17 frozen formal test",
         "overall_natural_study_complete": false,
         "id": "Q23"
       }
@@ -1783,7 +1783,7 @@
         "evidence_strength": "WEAK",
         "current_evidence": "N17_PILOT_ANALYSIS",
         "current_assessment": "完整16pilot自然共同/双侧own均.01，在冻结网格上边界，与旧条件不同；有限网格赢家不能证明全局最优，不结果后追加搜索。",
-        "required_natural_work_remaining": "N17 formals",
+        "required_natural_work_remaining": "N17 frozen formal test; no post-result LR expansion",
         "overall_natural_study_complete": false,
         "id": "Q30"
       }
@@ -1847,9 +1847,9 @@
         "historical_status": "RESOLVED",
         "current_status": "PILOT_SEED_SEPARATION_VERIFIED",
         "evidence_strength": "STRONG",
-        "current_evidence": "N17 pilot receipts;frozen formal configs",
-        "current_assessment": "16完整pilot为2030/31、后续正式2022–25；优化seed分离不产生独立数据总体，旧test仍复用。",
-        "required_natural_work_remaining": "N17 actual formal/test receipts",
+        "current_evidence": "16 pilot training receipts;64 formal H100 and8 H200 receipts",
+        "current_assessment": "pilot优化seed2030/31与正式2022–25分离，全部按预定训练完成；H200续训不是新的独立初始化。优化seed分离不产生独立数据总体，历史test仍复用。",
+        "required_natural_work_remaining": "N17 frozen test receipts",
         "overall_natural_study_complete": false,
         "id": "Q31"
       }
@@ -1983,7 +1983,7 @@
         "evidence_strength": "STRONG",
         "current_evidence": "N17 complete response surface/winner freeze",
         "current_assessment": "共同及两q各自LR都由完整对称pilot选择为.01；common/own将复用同一模型，不能当独立重复。基础.0003/.001四格不删除。",
-        "required_natural_work_remaining": "N17 formals",
+        "required_natural_work_remaining": "N17 frozen formal test; all frozen H100 grid cells complete",
         "overall_natural_study_complete": false,
         "id": "Q33"
       }
@@ -2366,11 +2366,11 @@
       "natural_reassessment": {
         "question": "GPU 跨预算前缀数值复用",
         "historical_status": "RESOLVED",
-        "current_status": "HISTORICAL_PREFIX_RESULT_RETAINED",
+        "current_status": "H200_PREFIX_BINDING_VERIFIED",
         "evidence_strength": "STRONG",
-        "current_evidence": "historical V3",
-        "current_assessment": "历史前缀数值复用的配置内事实保留；新运行不靠不同预算等价假设省略训练。",
-        "required_natural_work_remaining": "none",
+        "current_evidence": "historical V3;N17 H200_prefix_identity.csv",
+        "current_assessment": "八个H200前100轮六项轨迹残差0、100模型索引SHA逐项相同，父receipt/selection/gate SHA保持不变。模型字节还将在test freeze独立检查；共享前缀不算独立200轮证据。",
+        "required_natural_work_remaining": "N17 test freeze model-byte verification",
         "overall_natural_study_complete": false,
         "id": "Q39"
       }
@@ -2760,9 +2760,9 @@
         "historical_status": "RESOLVED",
         "current_status": "COMPLETE_BUDGET_REQUIRED",
         "evidence_strength": "STRONG",
-        "current_evidence": "new manifests;runner ledger",
-        "current_assessment": "新所有四seed按完整预算，H200仅预定平台门控；未完成时不做正式结论。",
-        "required_natural_work_remaining": "N17;transfer",
+        "current_evidence": "N17 full training receipts;runner ledger",
+        "current_assessment": "64正式H100与8条件H200均完整；后者每配置200轮/4000主步/160033400曝光。无部分seed均值或负结果早停。其他训练族仍未完成，不能据此称整项闭环。",
+        "required_natural_work_remaining": "N17 test;AO04;transfer",
         "overall_natural_study_complete": false,
         "id": "Q45"
       }
@@ -2883,8 +2883,8 @@
         "historical_status": "BOUNDARY",
         "current_status": "METRIC_ARITHMETIC_AND_POPULATION_SEPARATED",
         "evidence_strength": "STRONG",
-        "current_evidence": "N17 H100 development fixed-weight readouts;core tables",
-        "current_assessment": "固定预测的评价权重差可分解；N17 H100 .01 final selection宏LL SB−SN+.009838（三差）、train-p加权−.004005（三好），d0风险差+.076212被降权；各区间跨零且test未读。跨人口模型差不是评价权重单因素。",
+        "current_evidence": "N17 H100/H200 development cell readouts;core tables",
+        "current_assessment": "固定预测重加权与跨人口训练差分开：H100 .01 final的q差宏LL+.009838、train-p−.004005，d0+.076212被降权。另一比较H200−H100的48/48 seed×cell LL全升高，任何非负归一cell权重不能翻转该配置阶段恶化。均为开发证据，test未读。",
         "required_natural_work_remaining": "N17 frozen test metric tables",
         "overall_natural_study_complete": false,
         "id": "Q47"
@@ -2938,11 +2938,11 @@
       "natural_reassessment": {
         "question": "短pilot选出的LR赢家是否只优化早期速度，且双方等预算调参后采样差距是否保留？",
         "historical_status": "BOUNDARY",
-        "current_status": "PILOT_COMPLETED_FORMAL_PENDING",
+        "current_status": "FULL_TRAINING_CLOSED_TEST_PENDING",
         "evidence_strength": "WEAK",
-        "current_evidence": "N17 full100 pilot response surface",
-        "current_assessment": "完整100epoch pilot仍按各自最优selection选择，赢家.01 selected高但final不占优；两pilot seed不足推正式效果，common/own为相同.01模型。",
-        "required_natural_work_remaining": "N17 formal LR grid/H200",
+        "current_evidence": "N17 full100 pilot response;64 formal H100 and8 H200 development",
+        "current_assessment": "完整100轮pilot共同/own均.01，为同一组正式模型；64正式H100及8触发H200已完整。八续训J全下降而selection AUC全下降/LL全升高，选点仍12–14轮；调参优化的是固定selection峰值，不是末轮或全局最优。test未读，不下泛化结论。",
+        "required_natural_work_remaining": "N17 frozen formal test",
         "overall_natural_study_complete": false,
         "id": "Q48"
       }
@@ -3240,5 +3240,5 @@
       }
     }
   ],
-  "last_completed_evidence": "core120 + V2 16 + V9 8 zero-update full trajectories + N17 16 complete pilots + N18 offline"
+  "last_completed_evidence": "N17 64 formal H100+8 conditional H200 development complete; all base/triggered mechanisms and test still pending; historical fields unchanged"
 }
