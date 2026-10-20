@@ -43,7 +43,7 @@ AC-S5/S6必须保留自然全预算。比较机制的同step轨迹、250main步�
 
 ## 6. Exact affected modules/files
 
-新文件放 `experiments/natural_ml_reassessment/`，只增加数据/协议/封装/队列/评估，历史文件只读。必须从原分支提交获取代码，而非只从main拼凑：当前本地Stage2D/S5/S6；v3来源 `/home/xzf/Code/phase0-3-20261016-v3-git/experiments/`。重现依赖完整归档于本次source tree，避免运行时隐式读可变sibling工作树。基础loader复用当前 `experiments/stage_F0_data.py` 与其 `stage_S1_data.py`。输出本目录、独立 `/home_new/xzf_natural_ml_reassessment_artifacts/`。
+新文件放 `experiments/natural_ml_reassessment/`，只增加数据/协议/封装/队列/评估，历史文件只读。必须从原分支提交获取代码，而非只从main拼凑：当前本地Stage2D/S5/S6；v3来源 `/home/xzf/Code/phase0-3-20261016-v3-git/experiments/`。重现依赖完整归档于本次source tree，避免运行时隐式读可变sibling工作树。基础loader复用当前 `experiments/stage_F0_data.py` 与其 `stage_S1_data.py`。输出本目录、独立 `/home_new/xzf_natural_movielens_reassessment/`。
 
 ## 7. Implementation requirements
 
