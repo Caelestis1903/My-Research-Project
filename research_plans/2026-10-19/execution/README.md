@@ -1,5 +1,7 @@
 # Conditional/shared-path experiment execution
 
+**Complete:**856 full-budget training runs,856 audited frozen tests and126 offline diagnostics. Delivery: [PR #8](https://github.com/Caelestis1903/My-Research-Project/pull/8).
+
 Execution branch: `codex/conditional-paths-2026-10-19`, based on pinned main55afd053d7a65ea782487d703f189615e296fd3e. The matrix contains856 independent full-budget training runs plus72 exact-equivalence aliases (928 nominal configurations). Live and final completion are recorded in EXECUTION_STATUS.json and RUN_SUMMARY.json; scientific interpretation is separate from execution completion.
 
 ## Read the findings
