@@ -57,3 +57,5 @@ H200启动阶段进度100/2000为复制H100前缀，不能当新epoch；8任务5
 11:12 UTC N17 prepare冲突在安全边界完成调度层修复：48基础诊断12完成、36待启动，唯一失败N3_SN_seed2022_E040_bank0 attempt01已由attempt02完整替代但原记录保留。旧parent暂停期间10健康child全部自然完成；恢复依据receipt，不编造失去的OS退出码。wrapper与原冻结source SHA一致，原件和恢复台账gzip保留analysis/n17_runner_repair。机械agent将启用prepare互斥并继续队列，另准备同槽位冻结测试入口；N17测试仍未放行。
 
 11:20 UTC唯一协调器恢复，PID335152，日志ART/runner/logs/coordinator_restart_test_intake_20261020T112048Z.log。prepare锁只包原准备函数；同GPU槽位的测试release入口已完成，三族在N17/AO04/core及各transfer scope边界统一扫描，exact schema见analysis/n17_runner_repair/TEST_QUEUE_INTAKE.md。当前没有任何test release。AO04原test动作一次评价全部12run，后续按1只读任务/12配置记账；不能误当新增12训练。
+
+13:20 UTC主代理恢复后确认N17基础48/48与精度追加14/14闭合，完整机制分析62项完成；N3逐cell汇总2016行，未定义方向0；追加上限后8个case/bank仍超过门槛，最大MCSE3.0431e−5，如实保留。N17_MECHANISM_ANALYSIS.md为本阶段分析，72正式配置test冻结正在对实际8000模型引用校验，未完成前不发布test。AO04按唯一协调器继续，GPU0已由原profile规则补至5进程，不为非必要工程调整重启健康队列。

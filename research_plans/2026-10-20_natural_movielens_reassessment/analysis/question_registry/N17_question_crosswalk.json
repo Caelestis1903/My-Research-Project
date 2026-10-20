@@ -1247,11 +1247,11 @@
       "natural_reassessment": {
         "question": "estimator covariance 的 anisotropy 是否比 scalar variance 更有解释力？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
-        "current_status": "NOT_IDENTIFIED",
-        "evidence_strength": "WEAK",
-        "current_evidence": "historical Stage2C/N17",
-        "current_assessment": "标量trace不能保证解释方向风险；完整坐标协方差与性能中介仍须分开。",
-        "required_natural_work_remaining": "core mechanisms;N17 N3",
+        "current_status": "LOCAL_PRECONDITIONING_REVERSAL_NOT_RISK_MEDIATION",
+        "evidence_strength": "MEDIUM",
+        "current_evidence": "N17_MECHANISM_ANALYSIS.md;analysis/n17_mechanisms;analysis/n17_n2_geometry",
+        "current_assessment": "N17 N2/N3完成62项：P梯度SB/SN>1、Adam及固定previous-v trace<1各16/16；P仅占总更新trace约.11%–.20%。标量排序不保留，风险方向/长期中介未识别。",
+        "required_natural_work_remaining": "core mechanisms; N17 frozen test",
         "overall_natural_study_complete": false,
         "id": "Q21"
       }
@@ -1308,11 +1308,11 @@
       "natural_reassessment": {
         "question": "shared C/R 是否是必要 mediator 而非相关参数块？",
         "historical_status": "NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN",
-        "current_status": "NOT_IDENTIFIED",
+        "current_status": "LONG_TERM_MEDIATOR_NOT_IDENTIFIED",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical N17",
-        "current_assessment": "C/R 局部敏感性不等于 q→长期风险的必要中介。",
-        "required_natural_work_remaining": "N17 N3",
+        "current_evidence": "N17_MECHANISM_ANALYSIS.md;analysis/n17_mechanisms;analysis/n17_n2_geometry",
+        "current_assessment": "N3 C_full−SB开发AUC四组约1.54e−6–1.56e−5、区间全跨0；双路径/双bank局部替换不识别C/R长期必要性。",
+        "required_natural_work_remaining": "N17 frozen test; long-term topology outside frozen scope",
         "overall_natural_study_complete": false,
         "id": "Q22"
       }
@@ -3004,11 +3004,11 @@
       "natural_reassessment": {
         "question": "域计数波动相对于域内样本噪声贡献多少，固定域配额是否改变downstream采样效应？",
         "historical_status": "BOUNDARY",
-        "current_status": "PENDING_NATURAL_COUNT_DECOMPOSITION",
-        "evidence_strength": "WEAK",
-        "current_evidence": "historical N17",
-        "current_assessment": "KR count trace占比极小的局部结果保留；新ML须完整坐标及quota长期对照，不由trace预测AUC。",
-        "required_natural_work_remaining": "N17 N2/quota",
+        "current_status": "NATURAL_COUNT_TERM_SMALL_LOCALLY",
+        "evidence_strength": "MEDIUM",
+        "current_evidence": "N17_MECHANISM_ANALYSIS.md;analysis/n17_mechanisms;analysis/n17_n2_geometry",
+        "current_assessment": "自然N2 IID计数项占ALL预测trace .0032%–.2217%，所有子块不足.7%；quota同q ALL trace相对IID .968634–1.014185。完整quota训练已完成，开发q差小且区间跨0；不由trace预测性能。",
+        "required_natural_work_remaining": "N17 frozen test",
         "overall_natural_study_complete": false,
         "id": "Q49"
       }
@@ -3070,11 +3070,11 @@
       "natural_reassessment": {
         "question": "C局部作用来自哪些子模块、幅度/方向及其交互？共享拓扑的长期作用是否成立？",
         "historical_status": "BOUNDARY",
-        "current_status": "PENDING_NATURAL_LOCAL_INTERVENTIONS",
+        "current_status": "LOCAL_EFFECTS_SMALL_PRECISION_CAP_RETAINED",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical N17",
-        "current_assessment": "旧局部C效果小且方向混合；双路径双bank、norm/direction交互及MC精度门控按新设计执行。",
-        "required_natural_work_remaining": "N17 N3",
+        "current_evidence": "N17_MECHANISM_ANALYSIS.md;analysis/n17_mechanisms;analysis/n17_n2_geometry",
+        "current_assessment": "N3所有预定C子块/norm/direction/交互及P已执行，未定义0；C_full四组开发AUC区间跨0，7锚追加64/bank后8个case/bank MCSE仍>2.5e−5，按上限保留不确定性；不新增拓扑。",
+        "required_natural_work_remaining": "N17 frozen test",
         "overall_natural_study_complete": false,
         "id": "Q50"
       }
@@ -3133,11 +3133,11 @@
       "natural_reassessment": {
         "question": "在相同theta、m/v历史及step下，Adam瞬时非线性是否把不同梯度分布映射为不同平均更新？",
         "historical_status": "INCONCLUSIVE",
-        "current_status": "INSTANTANEOUS_NOT_HISTORY_NECESSITY",
+        "current_status": "FINITE_MC_MEAN_GAP_NOT_HISTORY_NECESSITY",
         "evidence_strength": "WEAK",
-        "current_evidence": "historical N17;new diagnostic designs",
-        "current_assessment": "同theta/m/v的非线性均值更新差与长期历史必要性是不同问题。",
-        "required_natural_work_remaining": "core mechanisms;N17 N3",
+        "current_evidence": "N17_MECHANISM_ANALYSIS.md;analysis/n17_mechanisms;analysis/n17_n2_geometry",
+        "current_assessment": "N2 ALL Adam均值差范数/RMS和IID .312472–.332502、quota .312647–.441752，含MC正基底，非CI。P固定previous-v已反转方差排序，不需当前分母非线性；长期m/v必要性仍未识别。",
+        "required_natural_work_remaining": "core mechanisms; N17 frozen test",
         "overall_natural_study_complete": false,
         "id": "Q51"
       }
