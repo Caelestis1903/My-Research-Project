@@ -23,3 +23,11 @@ N19/CM19还需按固定规则从base-train留5%meta；main与meta均保留row-ID
 历史记录存在两种row hash口径：部分后期报告对数组原始bytes求SHA，而stage_S1_data.row_ids_hash含其原函数编码口径。应比较同一算法的哈希或直接比较ID数组，不能仅因字符串不同断言人口不同。人工bundle某些legacy字段继承setting=natural；以独立dataset_config及明确selected/base ID身份为准，不能将其误报为完整自然人口。
 
 测试标签率/数量仅为数据审计，尚未用于选模型或方案。本次复用历史测试总体，后续结果均属探索性复现。
+
+## 标签分布、基线与“困难域”的解释范围
+
+现有冻结元数据的54个population×split×cell统计已另存 [analysis/label_context/frozen_label_support.csv](analysis/label_context/frozen_label_support.csv)，不重新拟合标签/模型；对应源文件SHA在同目录。自然train的task1阳性率d0/d1/d2为23.48%/22.02%/23.96%，test为17.93%/16.97%/20.47%。因此同域不同split已有标签率差异，三个物理域的样本量不能作为难度的定义。元数据entropy以bit记录，也不是条件Bayes难度。
+
+已完成AC2D SN的48个四seed baseline cell在 [analysis/label_context/stage2d_SN_baseline_cells.csv](analysis/label_context/stage2d_SN_baseline_cells.csv)。自然full selected六cell AUC依d0t0/d0t1/d1t0/d1t1/d2t0/d2t1为.763494/.777115/.770953/.790253/.744434/.759787：最大d2在该模型/选点上两任务均较弱。该排序不是跨模型的固有难度排名，也不由样本量独立解释。
+
+特别是自然full SN final的LL在24/24种子×cell中均高于用各自**train标签率**预测的常数基线，而selected为0/24高于。六cell final LL skill为−.0515/−.0446/−.0204/−.0265/−.0870/−.0909，selected为+.1185/+.1127/+.1494/+.1447/+.1128/+.1139。skill定义1−模型LL/该训练常数在test上的LL；常数未用test拟合。**STRONG有限预测事实、MEDIUM阶段解释**：末轮仍有排序能力不保证概率风险优于简单基线。尚无校准/表示/标签shift的独立归因，不能仅据LL称某个模块失效。
