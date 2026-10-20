@@ -4,7 +4,7 @@
 
 ## 当前交付范围
 
-**首批可独立审查：数据、完整 AC-2D 64 配置、AC-2D 离线机制诊断、队列和严格 review gate。** AC-V9 8、AC-S5 32、AC-S6 16 共 56 配置已全部列入 120-run manifest，后续实现独立审查前不可运行。首批审查不得被解释为这 56 配置的运行授权。
+**全部核心 120 配置现已实现，并完成对应同 batch 基本正确性检查。** 数据、完整 AC-2D 64 配置、离线机制诊断及队列为首批独立审查范围。新增 AC-V9 8、AC-S5 32、AC-S6 16 共 56 配置单独审查前不可运行。首批审查不得被解释为这 56 配置的运行授权。
 
 所有新代码位于 `experiments/natural_ml_reassessment/`；所有大工件位于 `/home_new/xzf_natural_movielens_reassessment/`。历史文件只读。本次归档包括 core 与 v3 的 Python dependency tree、历史 `history_exp/first` 的 p7_models 依赖；运行无 sibling sys.path 依赖。
 
@@ -65,7 +65,7 @@ PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m e
 
 ## 未解决 blocking issues
 
-首批 AC-2D 仍需独立 review verdict；coder 无权授予 PASS。AC-V9/S5/S6 生产封装与对应同 batch oracle 尚在实现，不能以首批通过替代其审查。未运行正式训练或正式 512-batch 机制诊断，本文不提供任何研究效果结论。
+各批均需独立 review verdict；coder 无权授予 PASS。AC-V9/S5/S6 不能以 AC-2D 首批通过替代其审查。实现阶段未运行正式训练或正式 512-batch 机制诊断，本文不提供任何研究效果结论。
 
 ## 独立审查修复记录
 
@@ -74,3 +74,37 @@ PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m e
 2026-10-20 R2：最后完整 resume state 现在只以包含 draw_counts/config 的完整 payload 一次写入 `resume.tmp.pt → last_resume.pt`，恢复原子的提交边界。若中断发生在 resume 提交后、selected 工件提交前，恢复时在该 saved model/zero optimizer update 下用原 preserve_rng evaluate 重建 selected validation predictions，并原子替换 prediction archive；不沿用上一 selected 的旧预测。此修复只处理工件一致性。
 
 2026-10-20 R3：run_manifest artifact_hashes 显式排除 `sha_index.json`，保证已完成目录再恢复时也不会把稍后重写的旧 SHA 索引纳入 manifest。
+
+## 后续 56 配置实现交付
+
+`controlled.py` 中 `S5Runner(ControlledMixin,S5MLRunner)` 和 `S6Runner(ControlledMixin,S6MLRunner)` 分别继承归档真实 producer，原 `_controlled_step`、`_train_epoch`、`_architecture_update` 方法未改写。Mix-in 在原 controlled step 前后增加 read-only 观测并记录完整 row IDs。初始化明确走 S3→S2→S1，保留自然训练期 schema、实际 learned M3OE 及 optimizer 构造；仅覆盖历史 dataset/hash guard，不调用 S4 对 Sample 的 Equal 覆盖。S5 Equal 系数由原 `compute_equal_coefficients` 按自然 p 计算，S6 原 Sample 表通过原 `_sample_objective_table` 派生；target 固定 physical d2。
+
+S5 F/T/HT/DH 与 S6 F/DH 在 full50 和 matched250 各四 seed，合计 32+16。FULL/TARGET history/current 映射沿用原 ARM_HISTORY/ARM_CURRENT 语义；仍单次 persistent optimizer.step、私有 FULL 更新、共享 current delta 覆盖、原 none-gradient 与残差断言。持久 m/v/step 与实际 applied delta 的源码公式完全由各自原 producer 执行。所有原 moment probes、moment_state_epoch0/1/9/19/29/39/49 写盘保留。
+
+匹配预算不改变自然 support。RecordedLoader 包装原 TorchDataset 与普通 shuffle DataLoader，main epoch 截取187500 draws，最后 batch 正确截至23660，arch iterator 使用未截短的原全人口 loader。每步真实索引可追溯；自定义 iterator 保存创建 RNG、首次 next RNG、消耗 batch 数和 cursor；恢复时在 preserve_rng 范围内重建同一原 DataLoader 顺序，检查下一 batch 完全一致。full50 每 epoch 800167 个不重复普通训练行，matched250 每宏 epoch 无放回187500，arch 仍按原迭代流每 epoch 一批。
+
+受控阶段生命周期顺序保留为：原 main epoch → 原 arch update/moment dump → validation → strict earliest selection → 完整原子 state 保存。完整 state 含 model/tau、两 optimizer、RNG、arch iterator、draw counts、选点/none-gradient counters。初始化即保存可恢复 last_resume；中断恢复不触发另一次 optimizer.step。selected/final/E10/20/30/40/50 六 cell test 与完整宏/train-p/eval-p/target/non-target/逐 task 聚合在选点冻结后计算。所有大文件留在独立 root。
+
+`v9.py` 直接继承真实 `v3_train_20261016.Runner`，保留其完整原 `fit` 和 `step`。数据入口改为同一 natural bundle；实际网络来自原 `v2_20261016.fixed_model`，四个 fusion 层替为原 ConstantFusion，全部 embedding/gate/expert/tower 原网络保留。唯一 optimizer 为 SGD lr=.3、momentum=0、WD1e-5，无 DARTS，原 WR sampler、B40960、50完整 epoch、每 epoch full empirical objective 和原曝光/重复观测全部保留。
+
+V9 保留原 validation 选点规则：原 `v3_audit.frozen_split` 以固定 `sha256(20261016:row_id)` 排序在 domain×joint-label 内划分一半 selection、一半 diagnostic；未将 test 用于 LR 或选点。每 epoch full-validation predictions 仍由原 producer 完整写盘；封装从这些预测额外记录全 validation 六 cell 与聚合，并在预设 .3 LR/规则冻结后评价原 selected/final/E10/20/30/40/50 六 cell test。V3 native checkpoint epoch 是1起始，额外自然表统一记 epoch-1；文件 E10=`epoch010.pt`，common09 表示完成10个epoch。初始完整 resume state 额外在 constructor 写盘，原 v3 完整 RNG/sampler/order/count 恢复机制保留。
+
+## 后续已执行的科学正确性检查
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m experiments.natural_ml_reassessment.controlledcheck
+PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m experiments.natural_ml_reassessment.v9check
+PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m experiments.natural_ml_reassessment.freeze_configs
+```
+
+`basicchecks/controlled_same_batch.json`：S5四臂和S6两臂全部 PASS。以实际21行、非零 persistent m/v 的同一个 baseline state 比较 mix-in 与对应未改原 producer：实际参数、persistent m/v/step、独立 arch 参数误差全部严格0。并验证 arch iterator 下一批和环境 RNG round-trip、matched batch sizes `[40960,40960,40960,40960,23660]`、187500条独立支持及初始化完整状态恢复。此为基本单 batch 科学检查，正式训练 epoch=0。
+
+`basicchecks/v9_same_batch.json`：SN/SB 均 PASS；实际同21行的显式逐域固定分母 BCE、raw gradient 和独立 SGD(.3,momentum0) 实际参数变化在阈值内对齐；确认没有 learned fusion 参数、没有 DARTS。正式训练 epoch=0。
+
+`frozen_core_configurations.json` 逐一冻结全部120配置的人口计数、p/alpha/q/importance weight、raw CSV/schema/每 split 数组 SHA、完整各 stage 实际依赖 SHA、optimizer/LR/WD/momentum/betas/eps、预算、验证规则和执行 argv。AC-2D 使用固定稳定文件集合；新增 controlled/v9 文件不会改变已经审核的 AC-2D source hashes。S5/S6 在同一稳定集合上额外冻结 `controlled.py`；V9 额外冻结 `v9.py`。可用同一 review gate JSON 的 source_hashes 并集分别覆盖已通过 stages，未通过 stage 继续被 run.py 拦截。
+
+review 通过后三阶段命令：
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m experiments.natural_ml_reassessment.queue --stage AC-V9 --stage AC-S5 --stage AC-S6 --devices 0 1 --review-report /home_new/xzf_natural_movielens_reassessment/review_gate.json
+```
