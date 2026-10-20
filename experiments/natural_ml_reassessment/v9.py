@@ -36,13 +36,20 @@ class Runner(original.Runner):
                 path=HERE/name;values[os.path.relpath(path,original.ROOT)]=sha(path)
             return values
         original.base.sources=frozen_sources
-        directory=Path(cfg['run_dir']);resume=(directory/'last_resume.pt').exists()
+        directory=Path(cfg['run_dir'])
+        # This reassessment runs V9 from scratch. Preserve interrupted attempts
+        # and rerun the same seed for the full budget rather than using the
+        # historical non-atomic selected/common checkpoint recovery window.
+        if (directory/'last_resume.pt').exists():
+            raise RuntimeError('V9 interrupted attempt must be archived before a full-budget same-seed restart')
+        resume=False
         args=SimpleNamespace(dataset='movielens',seed=cfg['seed'],arm=cfg['arm'],optimizer='sgd',lr=.3,batch_size=40960,
             epochs=50,replacement='WR',order='ORIGINAL',duplication=1,corruption=0.,device=device,run_dir=directory,smoke=False,resume=resume)
         super().__init__(args)
         self.group_of={n:g for g,names in self.full_partition['groups'].items() for n in names}
         self.config.update(stage='AC-V9',dataset_config=cfg['population'],setting='natural',budget=cfg['budget'],
-            natural_source_hashes=self.frozen_sources,independent_review=True,reviewer_verdict='REQUIRED_EXTERNAL_PASS',
+            natural_source_hashes=self.frozen_sources,independent_review=False,reviewer_verdict='PRIMARY_REVIEW_UNDER_USER_START_POLICY',
+            interruption_policy='preserve attempt; restart same configuration and seed from scratch for all 50 epochs',
             protocol_identity='natural transfer of original fixed-fusion v3 SGD .3 momentum0; no DARTS',
             validation_selection_rule='original v3 fixed SHA256 row_id order within domain x joint label; half validation; strict earliest maximum',
             optimizer_parameter_partition=self.full_partition)
