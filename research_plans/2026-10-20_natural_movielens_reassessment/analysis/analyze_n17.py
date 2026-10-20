@@ -27,6 +27,8 @@ def analyze():
     for path,entry in freeze['runs'].items():
         config=entry['config'];run=Path(path);assert config['group']!='pilot'
         receipt=json.loads((run/'test_receipt.json').read_text());assert receipt['status']=='COMPLETE' and receipt['zero_updates']
+        assert receipt['freeze_sha256']==sha(ROOT/'test_frozen.json')
+        assert receipt['metrics_sha256']==sha(run/'metrics_test.csv')
         assert sha(run/'config.json')==entry['config_sha256']
         f=pd.read_csv(run/'metrics_test.csv');assert len(f)==6*config['epochs'] and set(f.epoch)==set(range(1,config['epochs']+1))
         assert not f.duplicated(['epoch','domain','task']).any()
@@ -37,9 +39,13 @@ def analyze():
         f['train_p_weight']=f.domain.map({int(d):n/total/2 for d,n in counts.items()})
         f['selected']=f.epoch==entry['selected_epoch'];f['final']=f.epoch==config['epochs']
         with np.load(ART/'data'/(config['population']+'.npz')) as z:
-            y=z['test_y'];d=z['test_x'][:,-1].astype(int)
+            y=z['test_y'];d=z['test_x'][:,-1].astype(int);test_ids=z['test_row_ids']
+        prediction_index=json.loads((run/'test_prediction_index.json').read_text())
+        assert prediction_index['row_ids_sha256']==hashlib.sha256(test_ids.astype(np.int64).tobytes()).hexdigest()
+        saved_prediction_hashes={v['epoch']:v['sha256'] for v in prediction_index['predictions']}
         for epoch in sorted({entry['selected_epoch'],config['epochs']}):
             prediction=run/f'test_epoch{epoch:03d}.npz'
+            assert sha(prediction)==saved_prediction_hashes[epoch]
             with np.load(prediction) as z:p=z['predictions'].astype(float)
             for row in f[f.epoch==epoch].itertuples():
                 ix=d==row.domain;yy=y[ix,row.task].astype(float);pp=np.clip(p[ix,row.task],1e-12,1-1e-12)
@@ -52,7 +58,7 @@ def analyze():
             test_receipt_sha256=sha(run/'test_receipt.json'),freeze_sha256=sha(ROOT/'test_frozen.json')))
         for label,subset in [('selected',f[f.selected]),('final',f[f.final]),
                 *[(f'E{e}',f[f.epoch==e]) for e in (10,20,50,100,200) if e<=config['epochs']],
-                ('AULC1_20',f[f.epoch<=20]),('AULC1_100',f[f.epoch<=100])]:
+                *[(f'AULC1_{e}',f[f.epoch<=e]) for e in sorted({20,100,config['epochs']})]]:
             for task in (-1,0,1):
                 g=subset if task==-1 else subset[subset.task==task]
                 readouts.append(dict(run_dir=path,group=config['group'],population=config['population'],arm=config['arm'],
@@ -98,6 +104,12 @@ def analyze():
                     read[(read.group==candidate)&(read.arm==arm)&(read.lr==lr)],
                     read[(read.group==baseline)&(read.arm==arm)&(read.lr==lr)],
                     'support/exposure control; population and optimization effects stated separately')
+        h200=read[(read.group=='H200')&(read.arm==arm)&(read.lr==winners['common_lr'])]
+        if not h200.empty:
+            h100=read[(read.group=='formal')&(read.arm==arm)&(read.lr==winners['common_lr'])]
+            common=set(h200.readout)&set(h100.readout)
+            pair('H200-minus-H100_'+arm,h200[h200.readout.isin(common)],h100[h100.readout.isin(common)],
+                'same saved H100 prefix continued to H200; selected changes search horizon, final changes epoch; shared-prefix readouts are duplicate evidence')
     pairs=pd.DataFrame(rows);pairs.to_csv(OUT/'paired_seed_deltas.csv',index=False)
     byrun={str(f.run_dir.iloc[0]):f for f in records};cellpairs=[]
     def subset(f,label):

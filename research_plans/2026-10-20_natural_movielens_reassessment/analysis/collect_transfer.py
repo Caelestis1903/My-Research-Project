@@ -18,6 +18,10 @@ def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 def collect(historical_only=False):
     OUT.mkdir(exist_ok=True);cells=[];source=[];configs=[];audit=[];missing=[]
+    heldout=None
+    if not historical_only:
+        with np.load(ART/'data/movielens_natural.npz') as z:
+            heldout={k:z[k] for k in ('test_row_ids','test_y','test_x')}
     paths=[]
     for study,root in OLD.items():
         for run in sorted(root.iterdir()):
@@ -65,10 +69,20 @@ def collect(historical_only=False):
         f['support_p_cell_weight']=f.domain.map(dict(enumerate(support_p/n_tasks)))
         f['exposure_p_cell_weight']=f.domain.map(dict(enumerate(exposure_p/n_tasks)))
         if new:
+            test_receipt=json.loads((run/'reassessment_test_receipt.json').read_text())
+            assert test_receipt['status']=='COMPLETE_FROZEN_TEST' and test_receipt['optimization_steps']==0
+            assert test_receipt['freeze_sha256']==sha(ART/study/scope/'TEST_FREEZE.json')
             for checkpoint,g in f.groupby('checkpoint'):
                 prediction=Path(cfg['state_directory'])/f'test_{checkpoint}.npz' if study=='CM19' else run/f'test_{checkpoint}.npz'
                 with np.load(prediction) as z:
                     y=z['labels'];domains=z['domains'];mapping=cfg.get('task_ids',[0,1])
+                    assert np.array_equal(z['row_ids'],heldout['test_row_ids'])
+                    assert np.array_equal(domains,heldout['test_x'][:,-1])
+                    if cfg.get('suite')=='stability':
+                        assert np.array_equal(y[:,0],heldout['test_y'][:,0])
+                        # Task1 is the original controlled Bernoulli(.2+.6Z),
+                        # not native rating>4; do not falsely bind it to native labels.
+                    else:assert np.array_equal(y,heldout['test_y'])
                     for row in g.itertuples():
                         ix=domains==row.domain;key='predictions' if row.intervention=='none' else 'neutral_'+row.intervention
                         p=z[key][ix,mapping.index(row.task)];yy=y[ix,row.task]

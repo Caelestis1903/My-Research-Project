@@ -17,6 +17,14 @@ def analyze():
     recipe=['study','population','scope','dataset','optimizer','method','suite','variant','decay_mode','schedule','fraction','backbone','noise_interaction','stage_group','budget','lr']
     # Preserve historical identity even where pandas would interpret a string as missing.
     f[recipe]=f[recipe].fillna('UNSPECIFIED')
+    def same_tasks(reference,candidate):
+        taskset=set(candidate.task)
+        if len(taskset)==2 and -1 in taskset:
+            single=next(task for task in taskset if task!=-1)
+            reference=reference[reference.task==single].copy()
+            single_macro=reference.copy();single_macro['task']=-1
+            return pd.concat([reference,single_macro],ignore_index=True)
+        return reference
     def pair(candidate,reference,name,meaning):
         if candidate.empty or reference.empty:
             missing.append(dict(comparison=name,reason='candidate/reference absent'));return
@@ -45,11 +53,19 @@ def analyze():
         if c['study']=='N19':
             references=['fixed'] if c['suite']=='natural' else ['fixed'] if c['suite']=='stability' else ['audit_fixed'] if c['suite']=='noise' else ['mask_independent','fixed']
             if c['suite']=='natural' and c['method']=='rank_protected':references+=['rank_uniform']
+            if c['suite']=='natural' and c['method']=='cell_codebook':references+=['domain_codebook']
             if c['suite']=='natural' and c['method'] in ('domain_mix','axis_mix','full_mix','interaction','reliability_interaction'):
                 references+=['full_mix','interaction']
             if c['suite']=='natural' and c['method'] in ('utility_router','regret_router','coalition_router','entropy_router'):
                 references+=['entropy_router','full_mix']
             if c['suite']=='noise' and c['noise_interaction']==0:references+=['naive','clean_oracle']
+            if c['suite']=='stability' and c['method']=='task_dro':references+=['task_mask']
+            if c['suite']=='noise' and c['method']=='audit_joint' and c['noise_interaction']==0:references+=['nested_axis']
+            if c['suite']=='noise' and c['method']=='joint_axis':references+=['ind_channel','nested_axis']
+            if c['suite']=='noise' and c['method']=='nested_axis':references+=['nested_ind']
+            if c['suite']=='noise' and c['method']=='profile_joint':references+=['profile_axis','audit_joint']
+            if c['suite']=='sampling' and c['method']=='mask_residual_cv':references+=['mask_antithetic_cv','mask_independent_cv']
+            if c['suite']=='sampling' and c['method'] in ('mask_copula','mask_copula_cv'):references+=['mask_antithetic' if c['method']=='mask_copula' else 'mask_antithetic_cv']
             for ref in dict.fromkeys(references):
                 if ref==c['method']:continue
                 # Sampling all-label fixed reference is the native population suite.
@@ -71,18 +87,37 @@ def analyze():
                     'same model/task native reference; declared decay/structure/support/budget intervention')
             if c['stage_group']=='G0':
                 fixed=base[(base.stage_group=='G0')&(base.method=='fixed')&(base.variant=='native')&(base.decay_mode=='standard')]
-                taskset=set(candidate.task)
-                if len(taskset)==2 and -1 in taskset:
-                    single=next(task for task in taskset if task!=-1)
-                    fixed=fixed[fixed.task==single].copy()
-                    single_macro=fixed.copy();single_macro['task']=-1
-                    fixed=pd.concat([fixed,single_macro],ignore_index=True)
+                fixed=same_tasks(fixed,candidate)
                 if c['method']!='fixed':pair(candidate,fixed,prefix+' minus fixed same task',
                     'competitive architecture reference, target task(s) matched; parameter counts may differ')
             if c['stage_group']=='G0M':
                 private=base[(base.stage_group=='G0MC')&(base.method==c['method'].replace('_joint','_private_joint'))]
                 pair(candidate,private,prefix+' minus two-private joint',
                     'joint versus two-private backbone under common mean-task loss; capacity is recorded, not assumed equal')
+            if c['stage_group'] in ('G1','G2','G3'):
+                for control in ('fixed','ple'):
+                    reference=base[(base.stage_group=='G0')&(base.method==control)&(base.variant=='native')&
+                        (base.decay_mode=='standard')&(base.fraction==1.)]
+                    reference=same_tasks(reference,candidate)
+                    pair(candidate,reference,prefix+' minus '+control+' same task',
+                        'competitive remedy reference; same target task, no equal-capacity or equal-architecture causal claim')
+            if c['stage_group']=='G1' and c['decay_mode'] in ('both_wd0','local_adamw'):
+                wd0=base[(base.stage_group=='G1')&(base.method==c['method'])&(base.variant==c['variant'])&
+                    (base.decay_mode=='wd0')&(base.fraction==1.)]
+                pair(candidate,wd0,prefix+' minus global WD0',
+                    'local modulation-group recipe versus global zero decay, same model/task and optimizer family')
+                aw=f
+                for field in ('study','population','scope','dataset','suite','noise_interaction','lr'):
+                    aw=aw[aw[field]==c[field]]
+                aw=aw[(aw.stage_group=='G0')&(aw.method==c['method'])&(aw.variant=='native')&
+                    (aw.decay_mode=='standard')&(aw.optimizer=='adamw')&(aw.fraction==1.)]
+                pair(candidate,aw,prefix+' minus global AdamW',
+                    'local recipe versus declared global nominal AdamW; effective float32 shrinkage evaluated separately')
+            if c['stage_group']=='G4' and c['schedule']=='matched_updates':
+                normal=base[(base.stage_group=='G4')&(base.method==c['method'])&(base.variant==c['variant'])&
+                    (base.decay_mode==c['decay_mode'])&(base.fraction==c['fraction'])&(base.schedule=='normal_epochs')]
+                pair(candidate,normal,prefix+' minus same-support normal epochs',
+                    'same nested support and model, matched-update replay versus ordinary epochs; no pure unique-N effect')
         # Both optimizers, where actually run, retained as a separate comparison.
         if c['optimizer']=='adamw':
             ref=f
