@@ -46,3 +46,7 @@
 ## N17累计与实际新增预算
 
 [逐配置预算](analysis/n17_training_accounting/configuration_budget_accounting.csv)将receipt累计计数与本次实际新增计数分开：88名义配置含80从头训练、8延长，新增128000优化步、5,080,935,200行曝光（含16pilot，不含失败attempt未知工作）。H200的200轮/4000步是共享H100前缀后的累计值，本次新增各100轮/2000步；不能把续训前缀再计一次曝光。统计重复仍按每配方4优化seed界定。[汇总](analysis/n17_training_accounting/accounting_status.json)。
+
+## N17正式测试完整工件
+
+[8288文件索引](analysis/n17_test_artifacts/artifact_index.jsonl.gz)实际校验全部8000个epoch NPZ及72run的receipt、指标、prediction index、AULC记录，绝对路径/bytes/SHA完整；[小JSON快照](analysis/n17_test_artifacts/small_json_snapshots.jsonl.gz)。主代理另独立复算864个selected/final cell并保留residual，未声称独立复算全部8000预测。全部48000cell指标以[CSV gzip](analysis/n17/all_test_cell_metrics.csv.gz)归档；其他逐seed/域/任务/权重统计见analysis/n17。H200测试曲线PNG/PDF及作图CSV可直接复查，共享前100轮不当新重复。

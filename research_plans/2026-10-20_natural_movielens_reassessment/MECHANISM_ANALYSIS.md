@@ -114,3 +114,9 @@ H200−H100的开发LL进一步核对为48/48 seed×cell升高，故每配置任
 详见[N17_MECHANISM_ANALYSIS.md](N17_MECHANISM_ANALYSIS.md)：16个N2锚、32基础N3 bank、14精度追加均完成。ALL IID梯度trace的SB/SN比1.035823–1.087919，16/16大于1；P块梯度比1.042114–1.141143，但Adam更新比.863495–.990100、固定previous-v线性映射比.864575–.992635，均16/16小于1。因此固定坐标预条件已足以产生P的局部方差排序反转，当前分母非线性并非该排序的必要解释。P仅占总Adam更新trace约.11%–.20%，C占95.15%–99.24%，也不能由P推总风险。数学边界STRONG，有限状态MC现象MEDIUM，长期性能归因WEAK。
 
 IID计数项占ALL预测trace .0032%–.2217%，所有子块不足.7%；quota不会自动消除域内噪声。N3 C_full−SB开发宏AUC四组均值1.54e-6–1.56e-5、点态四seed区间均跨0，风险与AUC仍可异向。追加64draw/bank后8个bank×case读数仍超过MCSE门槛，最大3.0431e-5，按预定上限保留不确定性。已保存全部子块及逐域任务，不能将一步C近似恢复、范数排序或四seed同向扩张为长期中介必要性。
+
+## N17正式test完成后的边界
+
+[N17完整报告](N17_PHASE_ANALYSIS.md)72正式零更新test与全部机制完成。共同.01 selected/final q差宏AUC−.000256/−.001187，点态区间均跨0，不能由N2 trace或N3一步替换推出稳定完整性能胜负。H200两q宏AUC各四seed下降、宏LL各四升高；test逐cell仅47/48 LL升高（SN2022 d0/task1−.028988），所以开发逐配置任意cell权重恶化的身份没有逐seed运输到test；四seed均值12/12 q×cell LL仍正，固定平均层面的权重身份另成立。
+
+quota final的SB−SN宏LL+.003246，train-p LL−.009701且四seed改善；formal .01 final宏LL与train-p LL都正，不能套用开发formal的翻转。固定预测重加权算术STRONG，优化机制及全局算法效用WEAK。完整支持/500步比N匹配/500步selected AUC高约.018–.020各四seed，但支持、重复频率和标签/ID条件耦合；域比例近乎相同不足以解释这组内部差异。

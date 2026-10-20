@@ -46,6 +46,20 @@ def build():
                 reference_mean=r.reference_mean,candidate_mean=r.candidate_mean,n=r.n,delta=r.mean,
                 ci95_low=r.ci95_low,ci95_high=r.ci95_high,positive=r.positive,negative=r.negative,zero=r.zero)
     collect(ANA/'v9_history/paired_summary.csv',v9)
+    if (ANA/'n17/analysis_receipt.json').exists():
+        receipt=json.loads((ANA/'n17/analysis_receipt.json').read_text());assert receipt['status']=='COMPLETE' and receipt['formal_runs']==72
+        pairs=pd.read_csv(ANA/'n17/paired_seed_deltas.csv')
+        read=pd.read_csv(ANA/'n17/seed_readouts.csv').drop_duplicates('run_dir').set_index('run_dir')
+        def n17(f):
+            for r in f[(f.task==-1)&f.metric.isin(['auc','logloss'])&f.readout.isin(['selected','final','AULC1_20','AULC1_100','AULC1_200'])].itertuples():
+                pair=pairs[pairs.comparison==r.comparison].iloc[0]
+                a=read.loc[pair.candidate_run_dir];b=read.loc[pair.reference_run_dir]
+                yield dict(family='N17',population=a.population,budget=f'{a.group}/{b.group}; LR{a.lr:g}/{b.lr:g}',
+                    readout=r.readout,contrast=r.comparison,metric='macro_'+r.metric,
+                    reference_mean=r.reference_mean,candidate_mean=r.candidate_mean,n=r.n,delta=r.mean,
+                    ci95_low=r.ci95_low,ci95_high=r.ci95_high,positive=r.positive,negative=r.negative,zero=r.zero)
+        collect(ANA/'n17/paired_summary.csv',n17)
+        sources.extend(['analysis/n17/paired_seed_deltas.csv','analysis/n17/seed_readouts.csv'])
     table=pd.DataFrame(rows);assert table.n.eq(4).all()
     table.to_csv(OUT/'completed_four_seed_macro_comparisons.csv',index=False)
     lines=['# 历史与自然人口数值比较（阶段性版本）','',
@@ -68,11 +82,11 @@ def build():
         '- [S6阶段报告](ACS6_PHASE_ANALYSIS.md)：Sample F/DH，两预算全部16配置已分析，保留预算×阶段反转。',
         '- [V9阶段报告](ACV9_PERFORMANCE_ANALYSIS.md)：SGD .3八训练及八只读任务闭合，400份全轨迹预测2400cell复算，保留四个预设窗口。',
         '- [N18报告](N18_PHASE_ANALYSIS.md)：自然/人工人口的同信息LP、审核SE/RMSE，非训练AUC比较。',
-        '- [历史B1、N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。',
+        '- [历史B1、N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然N17的72正式配置test已完成，见[N17完整报告](N17_PHASE_ANALYSIS.md)；新自然transfer与AO04测试尚未闭合。',
         '- [特征支持审计](FEATURE_SUPPORT_AUDIT.md)：匹配总N仍未控制ID支持，属于已量化的竞争解释，不是已识别的AUC中介效应。', '',
         '## 3. 逐cell、任务和阶段的读取规则', '',
         '对应阶段的`paired_cell_deltas.csv`、`paired_domain_deltas.csv`、`paired_task_deltas.csv`与原基线绝对值共同用于科学判断。最大域不自动等于最容易，最小域不自动等于最困难。一个宏均值不能替代两任务/三域是否同时受益，也不能替代selected与final的风险变化。', '',
-        '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。最终版将补齐N17、AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
+        '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
     (ROOT/'NUMERIC_COMPARISONS.md').write_text('\n'.join(lines)+'\n')
     (OUT/'source_files.json').write_text(json.dumps(dict(stage='INTERIM',sources=sources,comparisons=len(table)),indent=2)+'\n')
     print('Completed four-seed metric rows',len(table))
