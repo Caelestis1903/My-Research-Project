@@ -27,6 +27,10 @@ E10四正并不延续到E30/E40；E40均值明显负，但四seed区间宽，E50
 
 SN selected轮次49/49/49/50；SB为50/49/49/49。两臂选中点靠近预算末端，E40→E50绝对AUC仍大幅提高，现有50轮不证明收敛。此事实不授权结果后延长V9预算，须保留原完整预算的有限阶段结论。
 
+![完整验证轨迹与离散冻结test读数](analysis/core/AC-V9/v9_stage_trajectory.png)
+
+[PDF](analysis/core/AC-V9/v9_stage_trajectory.pdf)。上排是每轮完整validation（选模仍用原半集）的四seed均值±SD；下排是离散test配对点与点态t95%，没有将五个公共点插值冒充全test曲线或AULC。
+
 ## 逐域任务、规模与困难度
 
 selected的SN基线和Δ如下：
