@@ -49,7 +49,7 @@ KR natural基础train2006132，域172782/1743898/89452；N19/CM19扣meta后16414
 |H09 v3 V9 ML|人工d2_large，subset随2022–25改变；fixed M3OE SGD.3，SN/SB，50epoch，5steps/epoch|test early AULC1..16+.003015四正；E50−.000986四负；selected+.000539仅1/4正|ART_ONLY+CONTROLLED；AC-V9自然8及N/step解耦；不以跨环境相反均值唯一归因N|
 |H10 S6-R2/ML与Sample负边界|ML/d2_large，F/DH，50epoch原预算；与AO04不同研究|selected test近0；KR旧test ΔN+.006757四正、val−.003851仅1正|ART_ONLY(ML)；AC-S6自然8、匹配8；历史state缺失不得伪复算|
 |H11 AO04 B0/B1/B2|ML/d0_large，learned/asymmetric融合，main.01/arch.001、50epoch，旧2seed；KR B1部分未完成|ML B1−B0 val约+.000005765、B1−B2−.000006842；KR2022 val+.001494/test−.008385，2023INCOMPLETE|ART_ONLY+CONTROLLED；D-AO04自然12；B3/B4未执行不当否证|
-|H12 N17 N0评价分解|旧v3预测、固定权重插值、校准；0新训练|KR calAdam E50宏−.009074而test-p加权+.003108，过零alpha约.7449|INDEPENDENT固定预测算术；自然新模型同权重/校准读数，不改主指标|
+|H12 N17 N0评价分解|旧v3预测、固定权重插值、校准；0新训练|KR calAdam E50宏−.009074而test-p加权+.003108，过零alpha约.7449|INDEPENDENT固定预测算术；自然新模型固定权重分解；原KR校准读数保留，不改主指标|
 |H13 N17 N1 KR|KR固定自然，100epoch、对称LR、8formal seed|selected Adam−.005203、7/8负但主t/符号Holm未确认；SGD+.000837、5/8正|INDEPENDENT；保持KR原范围，不能说人工ML使KR数值无效|
 |H14 N17 N2/N3/N4|KR，16双路径锚，quota完整训练；C局部/独立确认|计数项仅.001297%–.105936% trace；embedding局部约3e−5；N4未触发|INDEPENDENT；自然N17 quota/固定点用于推广；N4 NOT_TRIGGERED不是历史欠账|
 |H15 N17 N5-C ML|人工固定2022，Adam四LR双侧pilot16；common SN/SB.001、own SB.0003，8seed，100epoch|test selected common−.010392/own−.010875、全8负；own E100+.021145八正但含LR变化|ART_ONLY；D-N17自然q×LR完整四格+对称pilot/匹配N/曝光/quota；新四seed与旧八seed分开|
@@ -83,3 +83,7 @@ KR natural基础train2006132，域172782/1743898/89452；N19/CM19扣meta后16414
 本地历史source/config/ledger/聚合表可读，672个N19/CM19 ML原config均成功索引并SHA绑定。主代理发现旧 `/home_new/xzf_cm19_artifacts`当前不存在，历史重型checkpoint/预测的可加载性不能据旧索引存在而推定。历史S5/S6部分source/init/optimizer lineage早在10/15已列缺失。依赖这些bytes的exact diagnostics标INCOMPLETE；新自然独立初始化不冒充历史精确复现。
 
 最终主代理需对需要引用的旧数值从实际CSV逐seed/cell重算，记录有/无prediction层复核；对新自然结果完成test/哈希/预算验收后，逐H01–H31给出保留、缩限、修改、反证或未识别。不能把本设计审计表、原历史完成状态或数据loader检查替代最终科研报告。
+
+### N0迁移表述澄清（执行中主代理修订）
+
+H12原审计把“自然新模型同权重/校准读数”并列，超过后续冻结N17规范的实际范围。冻结设计要求新模型宏/指定权重与逐cell分解，未要求新ML拟合校准器；原N0校准是KR固定预测的独立历史分析。现纠正表述，保留原KR校准证据，完成新ML固定权重读数，不因这项文字澄清新增结果后校准实验。不能在后续报告声称新ML已作校准机制验证。

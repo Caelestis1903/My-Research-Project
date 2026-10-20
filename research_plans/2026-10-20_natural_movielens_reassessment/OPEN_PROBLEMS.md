@@ -43,7 +43,7 @@
 
 ### NAT-Q22：末轮排序尚存而概率风险劣于训练常数
 
-自然AC2D SN full final的24/24 seed×cell LL差于train标签率常数，selected则0/24；见DATA_PROTOCOL_AUDIT及analysis/label_context。有限预测事实STRONG。竞争解释包括置信度增长、训练/评价标签率及条件分布变化、表示过拟合，当前不能单独识别。已有N17 N0校准读数应区分排序/概率风险，不因此新增训练或拟合test校准器。最能反驳“仅全局置信度”的后续检验应固定checkpoint、在允许的development上冻结校准变换再评价，而不是按test选校准温度；此处只列问题，不自动扩展矩阵。
+自然AC2D SN full final的24/24 seed×cell LL差于train标签率常数，selected则0/24；见DATA_PROTOCOL_AUDIT及analysis/label_context。有限预测事实STRONG。竞争解释包括置信度增长、训练/评价标签率及条件分布变化、表示过拟合，当前不能单独识别。保留的旧KR N17 N0校准读数提示应区分排序/概率风险，新ML本轮只作冻结权重分解，不因此新增训练或拟合test校准器。最能反驳“仅全局置信度”的后续检验应固定checkpoint、在允许的development上冻结校准变换再评价，而不是按test选校准温度；此处只列问题，不自动扩展矩阵。
 
 ### NAT-Q23：Sample与Equal共享的完整预算晚期DH救援
 
