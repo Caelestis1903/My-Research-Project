@@ -126,3 +126,7 @@ quota final的SB−SN宏LL+.003246，train-p LL−.009701且四seed改善；form
 完整人口MC在eval模式下以原routing detach训练导数抽512个B40960 IID batch；参数trace含全部原坐标及架构A，而实际main optimizer排除A。32真实行/域的96行oracle是另一个目标：保留人口alpha的分层有限pool，不是全人口解析协方差。其multinomial计数MC、完整人口MC与浮点身份误差分别保存，不能混称相互独立验证同一总体。
 
 8格m/v/current网格只计算共享C的更新范数，梯度来自上述96行pool的域均值。它在同一个baseline theta/native optimizer状态上先注入一次full/target的合成历史事件，再注入full/target当前事件，theta在两事件间不移动，bias correction按t+2；不拼接不同训练轨迹状态。网格没有一步风险或长期训练结果，不等于分别识别真实长期m/v必要性。重新连接gate输入的risk Jacobian也只在96行pool上计算，前向预测必须保持完全相同；它与实际detach训练场单列。以上是原冻结实现的解释边界，没有据运行中结果改写算法或增加诊断。
+
+## CM19 G4预定控制的解释口径（训练待执行）
+
+原matched_updates协议在缩小后的支持内按原main各域行数重放，再打乱并截取预算；normal_epochs则遍历缩小支持。因此两者除更新/重复次数外，还可能改变实际域曝光比例，不能改称纯时钟干预。分析中的support-p来自缩小支持，exposure-p采用原main的规定域抽取权重；最终实际domain曝光计数另由reassessment receipt记录，部分末轮/有限抽样下不必与规定权重完全相同。G4的物理d2在自然.25/.5/full分别是最小/中间/最大，旧人工.25仍最大；逐域取舍应同时列候选与参照真实角色，不能沿用一个固定L标签。以上保留原算法，不事后改采样来制造单因素解释。

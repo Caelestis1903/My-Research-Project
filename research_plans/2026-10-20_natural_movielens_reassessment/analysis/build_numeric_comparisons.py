@@ -7,7 +7,14 @@ ROOT=Path(__file__).resolve().parent.parent
 ANA=ROOT/'analysis'
 OUT=ANA/'numeric_comparisons'
 
-def build():
+def build(final=False):
+    if final:
+        snapshot=json.loads((ROOT/'EXPERIMENT_EXECUTION_SNAPSHOT.json').read_text());assert snapshot['logical_completed']==1060
+        assert json.loads((ANA/'core_mechanism/analysis_status.json').read_text())['complete']
+        assert json.loads((ANA/'n17/analysis_receipt.json').read_text())['formal_runs']==72
+        assert json.loads((ANA/'ao04/analysis_status.json').read_text())['complete']
+        transfer_status=json.loads((ANA/'transfer/collection_status.json').read_text())
+        assert transfer_status['new_run_count']==824 and not transfer_status['missing']
     OUT.mkdir(exist_ok=True);rows=[];sources=[]
     def collect(path,transform):
         if path.is_file():
@@ -60,6 +67,27 @@ def build():
                     ci95_low=r.ci95_low,ci95_high=r.ci95_high,positive=r.positive,negative=r.negative,zero=r.zero)
         collect(ANA/'n17/paired_summary.csv',n17)
         sources.extend(['analysis/n17/paired_seed_deltas.csv','analysis/n17/seed_readouts.csv'])
+    if (ANA/'ao04/analysis_status.json').exists():
+        assert json.loads((ANA/'ao04/analysis_status.json').read_text())['complete']
+        def ao04(f):
+            for r in f[(f.task==-1)&f.metric.isin(['macro_auc','macro_logloss'])&f.checkpoint.isin(['selected','final'])].itertuples():
+                yield dict(family='AO04',population='movielens_natural',budget='50epoch/1000main/50arch',readout=r.checkpoint,
+                    contrast=r.contrast,metric=r.metric,reference_mean=r.reference_mean,candidate_mean=r.candidate_mean,n=r.n,
+                    delta=r.mean,ci95_low=r.ci95_low,ci95_high=r.ci95_high,positive=r.positive,negative=r.negative,zero=r.zero)
+        collect(ANA/'ao04/paired_summary.csv',ao04)
+    if (ANA/'transfer/collection_status.json').exists() and json.loads((ANA/'transfer/collection_status.json').read_text()).get('new_run_count',0)>0:
+        configs=pd.read_csv(ANA/'transfer/run_config_index.csv').set_index('run_id')
+        definitions={d['comparison']:d for d in json.loads((ANA/'transfer/comparison_definitions.json').read_text())}
+        def transfer(f):
+            for r in f[(f.task==-1)&f.metric.isin(['macro_auc','macro_logloss'])].itertuples():
+                d=definitions[r.comparison];c=configs.loc[d['candidate_run_ids'][0]];b=configs.loc[d['reference_run_ids'][0]]
+                metric='auc' if r.metric=='macro_auc' else 'logloss'
+                yield dict(family=c.study,population=c.population,budget=f'{c.scope}/{b.scope}; {c.budget}/{b.budget}',
+                    readout=r.checkpoint,contrast=r.comparison,metric=r.metric,
+                    reference_mean=getattr(r,'reference_'+metric),candidate_mean=getattr(r,'candidate_'+metric),n=r.n,
+                    delta=r.mean,ci95_low=r.ci95_low,ci95_high=r.ci95_high,positive=r.positive,negative=r.negative,zero=int(r.n-r.positive-r.negative))
+        collect(ANA/'transfer/paired_summary.csv',transfer)
+        sources.extend(['analysis/transfer/run_config_index.csv','analysis/transfer/comparison_definitions.json'])
     table=pd.DataFrame(rows);assert table.n.eq(4).all()
     table.to_csv(OUT/'completed_four_seed_macro_comparisons.csv',index=False)
     lines=['# 历史与自然人口数值比较（阶段性版本）','',
@@ -68,12 +96,13 @@ def build():
         '## 1. 自然完整人口的同配置比较', '',
         '|协议|预算|阶段|候选−参照|参照AUC|候选AUC|ΔAUC（正/负seed）|ΔLL（变差/改善seed）|',
         '|---|---|---|---|---:|---:|---:|---:|']
+    fmt=lambda v:str(v).replace('|',chr(92)+'|')
     n=table[(table.population=='movielens_natural')&table.metric.eq('macro_auc')]
     for r in n.itertuples():
         l=table[(table.family==r.family)&(table.population==r.population)&(table.budget==r.budget)&
                 (table.readout==r.readout)&(table.contrast==r.contrast)&table.metric.eq('macro_logloss')]
         assert len(l)==1;l=l.iloc[0]
-        lines.append(f'|{r.family}|{r.budget}|{r.readout}|{r.contrast}|{r.reference_mean:.6f}|{r.candidate_mean:.6f}|{r.delta:+.6f}（{r.positive}/{r.negative}）|{l.delta:+.6f}（{l.positive}/{l.negative}）|')
+        lines.append(f'|{fmt(r.family)}|{fmt(r.budget)}|{fmt(r.readout)}|{fmt(r.contrast)}|{r.reference_mean:.6f}|{r.candidate_mean:.6f}|{r.delta:+.6f}（{r.positive}/{r.negative}）|{l.delta:+.6f}（{l.positive}/{l.negative}）|')
     lines+=['', '## 2. 人口、预算及历史对照', '',
         '人工MovieLens、自然KuaiRand、新自然MovieLens、匹配总N与匹配曝光条件逐行保存在[完整宏比较CSV](analysis/numeric_comparisons/completed_four_seed_macro_comparisons.csv)。不同family有不同融合、优化器、选模和主/arch时钟，不能把它们当单因素消融合并排名。', '',
         '- [V2阶段报告](V2_PHASE_ANALYSIS.md)：完整固定模型Adam/SGD及旧两环境，selected/final、逐域任务、预测复算。',
@@ -87,8 +116,17 @@ def build():
         '## 3. 逐cell、任务和阶段的读取规则', '',
         '对应阶段的`paired_cell_deltas.csv`、`paired_domain_deltas.csv`、`paired_task_deltas.csv`与原基线绝对值共同用于科学判断。最大域不自动等于最容易，最小域不自动等于最困难。一个宏均值不能替代两任务/三域是否同时受益，也不能替代selected与final的风险变化。', '',
         '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
-    (ROOT/'NUMERIC_COMPARISONS.md').write_text('\n'.join(lines)+'\n')
-    (OUT/'source_files.json').write_text(json.dumps(dict(stage='INTERIM',sources=sources,comparisons=len(table)),indent=2)+'\n')
+    text='\n'.join(lines)+'\n'
+    if final:
+        text=text.replace('历史与自然人口数值比较（阶段性版本）','历史与自然人口数值比较（完成版）')
+        text=text.replace('**整体实验仍在进行。** 本表只合并已完成主代理分析、具备完整四种子比较的阶段；待完成训练和未解锁test均不填零。','**规定训练、诊断和冻结测试均已完成。** 本表合并完整四优化种子比较，名义配置数不等于独立统计重复。')
+        text=text.replace('固定点机制诊断尚待完成。','160项固定点机制诊断已完成，见CORE_MECHANISM_ANALYSIS.md。')
+        text=text.replace('新自然transfer与AO04测试尚未闭合。','新自然transfer全部824配置及AO04全部12配置的冻结测试已完成，详见各阶段报告。')
+        text=text.replace('当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。N17新自然数值现已加入；最终版将补齐AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。','N17、AO04、N19/CM19全部新自然数值与历史比较现已加入；完整科学结论、阴性结果、矛盾及未识别项见各阶段报告和FINAL_REPORT.md。')
+    (ROOT/'NUMERIC_COMPARISONS.md').write_text(text)
+    (OUT/'source_files.json').write_text(json.dumps(dict(stage='FINAL' if final else 'INTERIM',sources=sources,comparisons=len(table)),indent=2)+'\n')
     print('Completed four-seed metric rows',len(table))
 
-if __name__=='__main__':build()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--final',action='store_true');args=parser.parse_args();build(args.final)
