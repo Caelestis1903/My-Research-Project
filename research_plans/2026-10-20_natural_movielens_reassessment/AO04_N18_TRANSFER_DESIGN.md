@@ -1,0 +1,11 @@
+# AO04 / N18 转接设计细化（实现前，主代理）
+
+落实已冻结 N17_N18_DESIGN_ADDENDUM，不新增训练方法。AO04原train_val_loop外层仅允许2022/2023且固定cuda:0；本轮按预注册四seed/多GPU要求，由wrapper核对原locked config后直接调用其未改动的 _train_val_loop_impl，允许2022–25与指定设备。完整50epoch、原训练/验证/arch循环及双Adam参数组保持。仅替换loader、自然counts/fingerprints、derived参数总数和配置身份；不绕开数据身份检查。
+
+每run调用原paired_init_phase构造并保存同seed的B0初始化。为避免并发文件竞争，各arm独立保存一份相同B0 state并在收集时核对共同tensor hash；B1/B2由原_reconstruct_arm严格装载，新增q置0。自然数据schema决定实际embedding维度，不借用人工参数总数。state_writer仍原实现，补归档它只读取SHA的decision.py，不调用历史科学决策模块。中断保留attempt同seed完整重跑。
+
+12次完整训练后先关闭development判断、冻结selected/final/common checkpoint SHA，再原final_test_evaluator零更新。机制在初始化/selected/final固定theta：预定每域前8个validation行，完整保存domain experts差E_j−E_k及系数a_D(1−b_D)、tower原始logit关于q的逐行Jacobian（用tower hook，不用截断概率反推logit）；每个q按±.1扰动只读预测/逐cell AUC/LL，不做优化。B0的非对称rho探针使用同权重B1且q=0构造，明确仅为局部反事实，不称训练的B1。所有expert/gate entropy及rho完整epoch轨迹沿原日志保留。小probe局部诊断不当完整验证风险或训练收益。
+
+N18为0训练离线迁移。原 n18_theory_data 全计算函数保持，只将main中dataset列表限制为MovieLens并注入自然bundle与新输出路径；无需重新运行KR教师训练或伪造环境。原timestamp通过rowID核对rating标签，合法时按原四分位环境输出，仍不识别稳定机制/曝光政策；无timestamp则记录DATA-BLOCKED，不能用合成值填补。四seedMAR/MNAR、同信息LP与同预算audit按原随机流。原mask不落盘，wrapper额外记录同随机流重放的obs/audit rowID哈希及预算，先核对重放与原结果计数一致。测试标签不用于该诊断。数学构造可随原main轻量重算，但只标旧理论身份复核。
+
+按 start.md：最小必要语法/导入、真实人口身份及初始tensor配对检查；不扩展不相关测试。由主代理实现及自审，AO04机械训练交luna_worker；N18主代理运行离线数据诊断与科学分析。
