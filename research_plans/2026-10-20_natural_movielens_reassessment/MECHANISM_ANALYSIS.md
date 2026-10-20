@@ -120,3 +120,9 @@ IID计数项占ALL预测trace .0032%–.2217%，所有子块不足.7%；quota不
 [N17完整报告](N17_PHASE_ANALYSIS.md)72正式零更新test与全部机制完成。共同.01 selected/final q差宏AUC−.000256/−.001187，点态区间均跨0，不能由N2 trace或N3一步替换推出稳定完整性能胜负。H200两q宏AUC各四seed下降、宏LL各四升高；test逐cell仅47/48 LL升高（SN2022 d0/task1−.028988），所以开发逐配置任意cell权重恶化的身份没有逐seed运输到test；四seed均值12/12 q×cell LL仍正，固定平均层面的权重身份另成立。
 
 quota final的SB−SN宏LL+.003246，train-p LL−.009701且四seed改善；formal .01 final宏LL与train-p LL都正，不能套用开发formal的翻转。固定预测重加权算术STRONG，优化机制及全局算法效用WEAK。完整支持/500步比N匹配/500步selected AUC高约.018–.020各四seed，但支持、重复频率和标签/ID条件耦合；域比例近乎相同不足以解释这组内部差异。
+
+## Core诊断的冻结读数口径（仍待160项闭合）
+
+完整人口MC在eval模式下以原routing detach训练导数抽512个B40960 IID batch；参数trace含全部原坐标及架构A，而实际main optimizer排除A。32真实行/域的96行oracle是另一个目标：保留人口alpha的分层有限pool，不是全人口解析协方差。其multinomial计数MC、完整人口MC与浮点身份误差分别保存，不能混称相互独立验证同一总体。
+
+8格m/v/current网格只计算共享C的更新范数，梯度来自上述96行pool的域均值。它在同一个baseline theta/native optimizer状态上先注入一次full/target的合成历史事件，再注入full/target当前事件，theta在两事件间不移动，bias correction按t+2；不拼接不同训练轨迹状态。网格没有一步风险或长期训练结果，不等于分别识别真实长期m/v必要性。重新连接gate输入的risk Jacobian也只在96行pool上计算，前向预测必须保持完全相同；它与实际detach训练场单列。以上是原冻结实现的解释边界，没有据运行中结果改写算法或增加诊断。
