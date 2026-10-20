@@ -12,6 +12,16 @@
 
 同目标代数身份的证据为 **STRONG**。固定96行oracle仅证明该有限pool的数值身份；全人口MC512是另一个估计对象。两者均不是直接的AUC或长期更新结论。
 
+### 1.1 同目标trace差异仍取决于域内梯度几何
+
+对任意固定参数分区，记单行训练导数的域均值为$\mu_d$、域内协方差为$\Sigma_d$，$G=\sum_d\alpha_d\mu_d$。在IID有放回、固定B、无batch内额外耦合的定义下：
+
+$$\operatorname{tr}\operatorname{Cov}(\hat G_q)=\frac1B\left[\sum_d\frac{\alpha_d^2}{q_d}\left(\operatorname{tr}\Sigma_d+\|\mu_d\|^2\right)-\|G\|^2\right].$$
+
+可分为域内项$B^{-1}\sum_d\alpha_d^2\operatorname{tr}\Sigma_d/q_d$与域计数项$B^{-1}[\sum_d\alpha_d^2\|\mu_d\|^2/q_d-\|G\|^2]$。两项均依赖实际梯度几何，不能用标量ESS替换。相同theta、同alpha时，Sample目标的SB−SN trace差为$B^{-1}\sum_d(3p_d^2-p_d)E_d\|g\|^2$；Equal目标的EB−EN差为$B^{-1}\sum_d[1/3-1/(9p_d)]E_d\|g\|^2$。系数有不同符号，单凭p更均衡不能保证某个q总是减方差，更不能由trace直接推出AUC方向。
+
+上述是条件数学身份（**STRONG**），不是尚未完成的MC实测结果。含训练BN等batch耦合的其他模型、无放回shuffle、短尾batch以及原系统quota的整数余数，不能未经核对直接套该IID公式。N17的quota与计数分解需按实际实现和保存的计数评价；这里没有把理想整数固定计数当作其逐batch精确身份。
+
 ## 2. 人工人口确实放大了标量权重差异
 
 从实际冻结F0人口manifest精确计算。以下ESS/B=`(E_q w)^2/E_q(w²)`，是IID标量权重诊断，**不是实际梯度协方差、独立覆盖数或optimizer更新方差**。
