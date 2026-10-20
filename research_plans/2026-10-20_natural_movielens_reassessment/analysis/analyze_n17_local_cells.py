@@ -28,3 +28,20 @@ status=dict(cell_summaries=len(rows),undefined_directions=int(pd.read_csv(P/'N3_
  precision_rule='no extension beyond64/bank; remaining imprecision retained')
 (P/'cell_analysis_status.json').write_text(json.dumps(status,indent=2)+'\n')
 print(json.dumps(status,indent=2))
+
+# Preserve physical-domain and task marginals, with equal-cell aggregation.
+marginals=[];trades=[]
+for axis in ['domain','task']:
+ keys=['seed','anchor_arm','epoch','split','case',axis]
+ m=s.groupby(keys,as_index=False)[['delta_auc','delta_logloss']].mean()
+ for key,g in m.groupby(keys[1:]):
+  if set(g.seed)!={2022,2023,2024,2025}:continue
+  for metric in ['delta_auc','delta_logloss']:
+   marginals.append(dict(zip(keys[1:],key),axis=axis,metric=metric,**interval(g[metric])))
+ if axis=='domain':
+  for key,g in m.groupby(['seed','anchor_arm','epoch','split','case']):
+   v=g.set_index('domain').delta_auc
+   trades.append(dict(zip(['seed','anchor_arm','epoch','split','case'],key),
+    two_smaller_up_largest_down=bool(v.loc[0]>0 and v.loc[1]>0 and v.loc[2]<0)))
+pd.DataFrame(marginals).to_csv(P/'N3_four_seed_domain_task_summary.csv',index=False)
+pd.DataFrame(trades).to_csv(P/'N3_seed_domain_tradeoffs.csv',index=False)
