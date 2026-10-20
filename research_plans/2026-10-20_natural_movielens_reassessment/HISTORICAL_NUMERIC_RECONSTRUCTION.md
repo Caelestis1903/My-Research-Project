@@ -76,6 +76,20 @@ P6实际每row/visit平均使用约1.1个标签。residual-CV的静态lower endp
 
 独立STAR task0/task1是单任务模型，必须比较fixed同一任务。汇总脚本已采用这一口径，禁止把STAR task1较低LL与fixed两任务宏LL作方法排名。joint与two-private还改变backbone数量；HAMUR的混合batch BN等实现边界保留。成本为共享主机上的有限shape dense profiler，不是生产加速证据。
 
+## AO04：d0_large、两种子与不完整KR边界
+
+从10/15的原selected逐seed/cell差异表重新汇总，保留测试聚合表、rho日志与身份审计原文，见 [来源和SHA](analysis/ao04_history/source_index.json)、[完整差异汇总](analysis/ao04_history/historical_selected_summary.csv)。不重新运行旧bootstrap，也不声称重载旧模型。
+
+|人口/完整对照数|比较|selected验证Δ宏AUC / LL|selected测试Δ宏AUC / LL|
+|---|---|---:|---:|
+|人工ML **d0_large**，2 seed|B1−B0|+.000005765 / +.000101|+.000015592 / +.000620|
+|人工ML d0_large，2 seed|B1−B2|−.000006842 / +.000202|−.000012656 / +.000173|
+|自然KR，只有seed2022完整|B1−B0|+.001494 / −.005557|−.008385 / −.000543|
+
+人工ML B1−B0测试AUC一正一负、LL两seed均变差；B1−B2验证AUC两seed均略负，测试一正一负。旧证据不支持稳定有用的非对称融合改进，也不能由近零差认定rho不可识别。原日志没有expert difference或logit Jacobian；rho未饱和不等于预测对rho敏感。KR 2023缺少完整B1结果，不能补成零或四seed。
+
+历史验证NPZ缺少row-ID，旧审计标为`IDENTITY_INCOMPLETE_NO_ROW_IDS`；文件SHA相符不能独立证明与当前split同序。本次自然AO04采用明确row-ID、四完整seed、原B0/B1/B2配方及冻结模型的局部Jacobian/风险探针；这些新结果尚未完成，旧近零结果不能作为跳过训练的依据。旧人口和预算不与d2_large的V2/V9混写。跨环境推广的现有证据 **WEAK**，特定旧表的数值记录保留。
+
 ## 对下一阶段分析的约束
 
 所有自然候选按旧配方执行完整预算，先冻结后读test。科学判断须同时报告基线绝对表现、任务/域、目标与optimizer、实际step/曝光、selected/final、AUC/LL及seed差异。历史数学/数值身份保留为身份；有限探针机制不能替代端点竞争效果，端点效果也不能反向证明唯一机制。
