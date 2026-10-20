@@ -56,13 +56,14 @@ def build():
         '人工MovieLens、自然KuaiRand、新自然MovieLens、匹配总N与匹配曝光条件逐行保存在[完整宏比较CSV](analysis/numeric_comparisons/completed_four_seed_macro_comparisons.csv)。不同family有不同融合、优化器、选模和主/arch时钟，不能把它们当单因素消融合并排名。', '',
         '- [V2阶段报告](V2_PHASE_ANALYSIS.md)：完整固定模型Adam/SGD及旧两环境，selected/final、逐域任务、预测复算。',
         '- [AC-2D性能报告](AC2D_PERFORMANCE_ANALYSIS.md)：四臂×四人口/预算条件，含匹配总N与同250步全支持；固定点机制诊断尚待完成。',
+        '- [S5完整阶段报告](ACS5_PHASE_ANALYSIS.md)：32配置、两预算、历史/当前梯度、完整逐cell与预算交互，selected/末轮反转及域间取舍。',
         '- [V9阶段报告](ACV9_PERFORMANCE_ANALYSIS.md)：SGD .3公共点；完整50轮冻结读数只有全部8任务闭合才纳入新AULC。',
         '- [N18报告](N18_PHASE_ANALYSIS.md)：自然/人工人口的同信息LP、审核SE/RMSE，非训练AUC比较。',
         '- [历史N17、N19/CM19及AO04重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)：1184个旧run、747个完整四seed配方比较；AO04另列旧ML两seed、KR一seed，不混入四seed表。新自然transfer、N17与AO04测试尚未闭合。',
         '- [特征支持审计](FEATURE_SUPPORT_AUDIT.md)：匹配总N仍未控制ID支持，属于已量化的竞争解释，不是已识别的AUC中介效应。', '',
         '## 3. 逐cell、任务和阶段的读取规则', '',
         '对应阶段的`paired_cell_deltas.csv`、`paired_domain_deltas.csv`、`paired_task_deltas.csv`与原基线绝对值共同用于科学判断。最大域不自动等于最容易，最小域不自动等于最困难。一个宏均值不能替代两任务/三域是否同时受益，也不能替代selected与final的风险变化。', '',
-        '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。最终版将补齐S5/S6、N17、AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
+        '当前尚未完成阶段必须继续完整预算、机制诊断、冻结评价和阶段分析。最终版将补齐S6、N17、AO04、N19/CM19的新自然数值，并明确重新评定各历史主张；本表目前不宣称研究闭环。']
     (ROOT/'NUMERIC_COMPARISONS.md').write_text('\n'.join(lines)+'\n')
     (OUT/'source_files.json').write_text(json.dumps(dict(stage='INTERIM',sources=sources,comparisons=len(table)),indent=2)+'\n')
     print('Completed four-seed metric rows',len(table))
