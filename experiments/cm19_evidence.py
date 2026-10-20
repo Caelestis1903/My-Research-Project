@@ -125,6 +125,11 @@ def main():
         seed = neutral.groupby(kk + ['seed'], dropna=False)[['delta_auc', 'delta_logloss']].mean().reset_index()
         seed.to_csv(target / 'neutral_macro_seed_deltas.csv', index=False)
         summarize(seed, kk, ['delta_auc', 'delta_logloss']).to_csv(target / 'neutral_macro_summary.csv', index=False)
+        neutral.groupby(kk, dropna=False).agg(
+            mean_cell_delta_p=('delta_p', 'mean'), maximum_delta_p=('max_delta', 'max'),
+            zero_cells=('delta_p', lambda x: int((x == 0).sum())),
+            cell_rows=('delta_p', 'size'), changed_cell_example_predictions=('nonzero', 'sum'),
+        ).reset_index().to_csv(target / 'full_test_functional_summary.csv', index=False)
     dump(target / 'receipt.json', dict(
         source_split=args.split, independent_runs=856, complete=True,
         unit='Four optimization seeds on one fixed population; no multiplicity correction.',

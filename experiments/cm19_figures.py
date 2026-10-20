@@ -51,8 +51,8 @@ def main():
     for ax,ds,target in zip(axes,['kuairand','movielens'],[1,2]):
         for model,color in [('fixed','#1f77b4'),('star0','#d95f02'),('star1','#2ca02c')]:
             df=cc[(cc.dataset==ds)&(cc.model==model)&(cc.optimizer=='adam')&(cc.domain==target)&(cc.checkpoint=='selected')&(cc.intervention=='none')&(((cc.stage=='G4')&(cc.schedule=='matched_updates'))|(cc.stage=='G0'))]
-            points=df.groupby(['fraction','seed']).auc.mean().reset_index().groupby('fraction').auc.agg(['mean','std','count']);ax.errorbar(points.index,points['mean'],yerr=3.182446*points['std']/np.sqrt(points['count']),fmt='o-',label=model,color=color,capsize=2)
+            points=df.groupby(['fraction','seed']).auc.mean().reset_index().groupby('fraction').auc.agg(['mean','std','count']);ax.errorbar(points.index,points['mean'],yerr=3.182446*points['std']/np.sqrt(points['count']),fmt='o-',label={'fixed':'fixed (two-task mean)','star0':'STAR task 0','star1':'STAR task 1'}[model],color=color,capsize=2)
         ax.set_title(f'{ds}: original physical domain {target}');ax.set_xlabel('fraction of unique training rows in target domain');ax.set_ylabel('target-domain selected task-average AUC');ax.grid(alpha=.2);ax.legend()
-    fig.suptitle(args.split+': matched exposures; one nested subset/fraction; target remains largest',fontsize=10);fig.tight_layout();save(fig,'controlled_unique_domain_size',destination)
+    fig.suptitle(args.split+': within-model size response; task sets differ across curves\nMatched exposures; one nested subset/fraction; target remains largest',fontsize=10);fig.tight_layout();save(fig,'controlled_unique_domain_size',destination)
     print('Wrote standalone PNG/PDF scientific figures.')
 if __name__=='__main__':main()

@@ -1,6 +1,8 @@
 """Verify prescribed completion and frozen zero-update readout, without scoring."""
 import hashlib
 import json
+import zipfile
+from pathlib import Path
 import pandas as pd
 from cm19_train import ROOT, OUT, dump
 
@@ -14,6 +16,7 @@ def main():
     for name, digest in freeze['training_source_hashes'].items():
         assert hashlib.sha256((ROOT / 'experiments' / name).read_bytes()).hexdigest() == digest
     metric_rows = 0
+    prediction_archives = 0
     for c in manifest['runs']:
         rr = OUT / 'runs' / c['run_id']
         train = json.loads((rr / 'receipt.json').read_text())
@@ -30,6 +33,13 @@ def main():
         assert test['status'] == 'COMPLETE_FROZEN_TEST'
         assert test['optimizer_steps_during_evaluation'] == 0 and test['selected_and_final']
         assert test['checkpoints'] == expected['checkpoint_sha256']
+        for label in ['selected', 'final']:
+            file = Path(cfg['state_directory']) / f'test_{label}.npz'
+            assert file.stat().st_size > 0, file
+            with zipfile.ZipFile(file) as archive:
+                assert {'predictions.npy', 'labels.npy', 'domains.npy', 'row_ids.npy'}.issubset(archive.namelist()), file
+                assert archive.testzip() is None, file
+            prediction_archives += 1
         metrics = pd.read_csv(rr / 'metrics_test.csv')
         assert len(metrics) == test['records']
         keys = ['checkpoint', 'intervention', 'domain', 'task']
@@ -47,6 +57,8 @@ def main():
         aliases=72, nominal_configurations=928, unique_test_metric_rows=metric_rows,
         config_receipt_selection_hashes_match=True, frozen_core_and_disposition_match=True,
         no_duplicate_test_cells=True,
+        validated_test_prediction_archives=prediction_archives,
+        prediction_validation='Nonempty ZIP/NPZ, required array members and every-member CRC; no rescoring.',
         checkpoint_content_hashes='Independently checked by cm19_artifacts.py final pass against TEST_FREEZE.',
         scope='Completion/freeze/cell-key integrity only; no new metric scoring or training.',
     ))

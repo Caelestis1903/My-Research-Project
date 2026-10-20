@@ -10,7 +10,10 @@ def main():
     manifest=json.loads((OUT/'run_manifest.json').read_text());runs=manifest['runs']
     complete=[c for c in runs if (OUT/'runs'/c['run_id']/'receipt.json').exists()]
     tests=sum((OUT/'runs'/c['run_id']/'test_receipt.json').exists() for c in runs)
-    if not args.allow_partial:assert len(complete)==len(runs) and tests==len(runs),'Final index requires every training and frozen test receipt.'
+    if not args.allow_partial:
+        assert len(complete)==len(runs) and tests==len(runs),'Final index requires every training and frozen test receipt.'
+        audit=json.loads((OUT/'FINAL_AUDIT.json').read_text())
+        assert audit['status']=='PASS' and audit['validated_test_prediction_archives']==2*len(runs),'Run the strict frozen readout audit before finalizing the index.'
     target=OUT/'ARTIFACT_INDEX.csv';old={}
     if target.exists():old={r['path']:r for r in pd.read_csv(target,dtype=str).to_dict('records')}
     frozen=json.loads((OUT/'TEST_FREEZE.json').read_text()) if (OUT/'TEST_FREEZE.json').exists() else None
