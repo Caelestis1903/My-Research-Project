@@ -1,6 +1,6 @@
 # 历史研究结论重评（阶段性，整体实验尚未闭环）
 
-本版仅裁定已有完整结果支持的事项。N17训练已完成但机制/测试未闭锁，AO04、N19、CM19新训练及若干机制诊断未完成，相关行明确保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
+本版仅裁定已有完整结果支持的事项。N17规定训练、62项诊断与72正式冻结测试已完成并分析；AO04训练/开发诊断已完成，test待队列读取；core160机制及N19、CM19仍未闭环，相关行保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
 
 ## 证据尺度与裁定规则
 
