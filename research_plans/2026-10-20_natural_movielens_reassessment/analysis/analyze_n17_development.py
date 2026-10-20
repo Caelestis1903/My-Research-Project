@@ -87,6 +87,11 @@ for c in admitted:
 if prefix_rows:pd.DataFrame(prefix_rows).to_csv(OUT/'H200_prefix_identity.csv',index=False)
 raw=pd.DataFrame(rows);raw.to_csv(OUT/'seed_selection_readouts.csv',index=False)
 cell=pd.DataFrame(cellrows);cell.to_csv(OUT/'seed_selection_cell_readouts.csv',index=False)
+winner_path=ART/'winners_frozen.json';common_lr=json.loads(winner_path.read_text())['common_lr']
+sources.append(dict(group='selection_rule',lr=common_lr,arm='BOTH',seed=-1,path=str(winner_path),sha256=sha(winner_path)))
+common=cell[cell.lr.eq(common_lr)&cell.group.isin(['formal','H200'])]
+common=common[~(common.group.eq('H200')&common.readout.eq('selected'))]
+common.groupby(['group','arm','readout','domain','task'])[['auc','logloss']].mean().reset_index().to_csv(OUT/'commonLR_cell_baseline_summary.csv',index=False)
 cellpairs=[]
 keys=['seed','readout','domain','task']
 for (group,lr),g in cell.groupby(['group','lr']):
@@ -96,7 +101,15 @@ for (group,lr),g in cell.groupby(['group','lr']):
         cellpairs.append(dict(group=group,lr=lr,contrast='SB-SN',**dict(zip(keys,ix)),
             auc=float(a.loc[ix,'auc']-b.loc[ix,'auc']),logloss=float(a.loc[ix,'logloss']-b.loc[ix,'logloss']),
             baseline_auc=float(b.loc[ix,'auc']),baseline_logloss=float(b.loc[ix,'logloss'])))
-pd.DataFrame(cellpairs).to_csv(OUT/'paired_selection_cell_deltas.csv',index=False)
+pc=pd.DataFrame(cellpairs);pc.to_csv(OUT/'paired_selection_cell_deltas.csv',index=False)
+trades=[]
+for key,g in pc.groupby(['group','lr','readout','seed']):
+    d=g.groupby('domain').auc.mean()
+    trades.append(dict(zip(['group','lr','readout','seed'],key),
+        both_smaller_gain_largest_decline=bool(d[0]>0 and d[1]>0 and d[2]<0),
+        smallest_gain_largest_decline=bool(d[0]>0 and d[2]<0),
+        domain0_delta=d[0],domain1_delta=d[1],domain2_delta=d[2]))
+pd.DataFrame(trades).to_csv(OUT/'selection_q_domain_tradeoffs.csv',index=False)
 pd.concat(traces).to_csv(OUT/'training_and_selection_trajectories.csv',index=False)
 summary=[];paired=[]
 for key,g in raw.groupby(['group','lr','arm','readout']):

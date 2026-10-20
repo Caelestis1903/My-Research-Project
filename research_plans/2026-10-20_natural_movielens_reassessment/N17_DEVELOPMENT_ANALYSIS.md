@@ -77,3 +77,22 @@ E200 SB−SN AUC+.001687（三正一负，t95[−.008524,.011898]），LL+.02337
 **STRONG有限算术**：每个配置六cell LL差全正，因此任何非负、和为1的cell权重都会给出该配置E200风险更高。这比只检查宏和train-p两种权重更直接。它与formal .01 E100的**SB−SN**宏/加权LL反号不矛盾：比较对象不同，不能用前者的重加权解释后者的续训恶化。**MEDIUM**固定人口四seed的共同阶段现象，**WEAK**唯一规模或校准机制；没有新增校准拟合或测试读取。
 
 [全部正式配置的selected/final逐cell](analysis/n17_development/seed_selection_cell_readouts.csv)、[q配对逐cell](analysis/n17_development/paired_selection_cell_deltas.csv)、[H200续训逐cell](analysis/n17_development/H200_minus_H100_cell_deltas.csv)、[域/任务四seed区间](analysis/n17_development/H200_minus_H100_marginal_summary.csv)保留少数反向和跨零区间。
+
+## 共同LR的基线水平与q的域间取舍
+
+表中为固定selection半集、四优化seed的域平均AUC；LL与两任务cell绝对值保留在[基线表](analysis/n17_development/commonLR_cell_baseline_summary.csv)。不同阶段对应不同已冻结读数，不按test选择。
+
+|q/阶段|最小d0 AUC|d1 AUC|最大d2 AUC|
+|---|---:|---:|---:|
+|SN selected|.756648|.751937|.748721|
+|SB selected|.757985|.753139|.747626|
+|SN E100|.717463|.715982|.707178|
+|SB E100|.715630|.719523|.712730|
+|SN E200|.708966|.705571|.697301|
+|SB E200|.704183|.710365|.702350|
+
+该配置selected时最大域基线AUC较弱，不能把最小域自动称为最困难。难度仍是指定模型、任务、split及阶段的操作性读数，不是域的固有属性。
+
+**SB−SN** selected的d0/d1均值各4/4正，但d2为2正2负、均值−.001095，严格“两较小域改善、最大域下降”仅2/4。E100该严格模式0/4，d1/d2 AUC差却各4/4正；d0为2正2负且均值−.001833。E200严格模式仍0/4。H200 selected与H100 selected是同八模型，不算取舍现象第二次复现。所有自然开发组q比较的完整[逐seed域取舍表](analysis/n17_development/selection_q_domain_tradeoffs.csv)均保留，没有只挑共同LR。
+
+因此H200续训普遍恶化、共同LR的q对照局部获益及评价权重反号能够同时存在。**WEAK**普遍小域救援或大域必然受损；有限比较方向可复查，但validation选点、多重比较及四seed不能提供独立总体确认。对应测试及既定N2/N3继续执行。
