@@ -28,16 +28,16 @@
 |NAT-Q13|四优化seed在单一固定人口的点态区间与同号结果，不能确认跨总体机制。STRONG设计边界。|cell相关、test重复使用、多重比较和外层选择未被四seed覆盖。|只有出现明确有用且可识别的候选后，再在预注册新时间/用户总体确认；不为了显著而自动追加seed。|
 |NAT-Q14|N19原P1的Z/合成task1及P2的flip/audit随机流按人口数组位置消费，改变人口后没有保证共同row-ID获得相同模拟实现。STRONG代码事实，差异影响大小WEAK。|同一人口内各候选/优化seed的机制实现固定，原对照仍成立；跨人口变化同时包含支持/比例、进度及模拟实现，不能唯一归因规模。|若要估计人口的单独作用，预定按row-ID耦合的模拟实现或独立机制draw×人口交叉；这属于另一个实验协议，不在本轮忠实迁移中结果后改写模拟器。|
 |NAT-Q15|同总N下，域1用户训练ID覆盖人工53.2365%→自然匹配N81.3245%，同域电影71.0962%→99.0636%；全局电影均>99.6%。STRONG固定人口事实，AUC因果WEAK。|特征支持与域内样本数、频率、标签率共同变化；共享电影嵌入大多已在其他域出现，同域未见不等于全局未训练。|先完成预定对照；未来预先固定ID支持与标签条件，分别干预频率/独立支持。详见[特征支持审计](FEATURE_SUPPORT_AUDIT.md)，未新增训练。|
-|NAT-Q16|自然S5 HT−F selected AUC在matched250/full50为−.009759/−.011038，各四负、六cell均四负；matched LL−.007626四改善，full LL+.001562混合。旧KR/人工ML同类AUC正差均四正。MEDIUM固定协议反例。|人口支持/比例、梯度信号、历史m/v与位移尺度、arch曝光及旧初始化身份共同限制归因；同主步数不等于全部因素匹配。|full50已完成并保留末轮正差；继续既定Sample S6，不因selected负差停止；见[S5阶段报告](ACS5_PHASE_ANALYSIS.md)。|
+|NAT-Q16|自然S5 HT−F selected AUC在matched250/full50为−.009759/−.011038，各四负、六cell均四负；matched LL−.007626四改善，full LL+.001562混合。旧KR/人工ML同类AUC正差均四正。MEDIUM固定协议反例。|人口支持/比例、梯度信号、历史m/v与位移尺度、arch曝光及旧初始化身份共同限制归因；同主步数不等于全部因素匹配。|full50及既定Sample S6两预算已完成并保留阶段反转；继续规定诊断，不因selected负差停止；见[S5阶段报告](ACS5_PHASE_ANALYSIS.md)。|
 |NAT-Q17|S5 HT的C块E41–50实际位移范数为F的matched250 2.512–2.778倍、full50 3.225–3.745倍，持久m/v范数却均更小，四seed一致。MEDIUM遥测；唯一机制WEAK。|较小v与FULL当前位移放大兼容，但参数路径、m、v、正则与architecture同时变；不同记录范数定义也不同。|未来结果前冻结同状态m/v/current因子和实际位移控制；本次先完成规定诊断，不把较大位移直接称为更有效更新。|
-|NAT-Q18|S5 matched250 DH−HT出现两较小域获益、最大域下降，selected3/4、final2/4；full50 HT−F final更为4/4，宏AUC+.005965但target−.006671四负。MEDIUM条件取舍。|不同参照会改变取舍结论；matched250两候选低于F，full50 HT末轮高于F又伤target；DH full末轮六cell AUC均四正，取舍不是所有控制的必要代价。目标LL与non-target LL还呈相反方向。|按固定基线/候选对、域任务效用和训练阶段分别评价；full50已检验，继续S6检验，不能挑一个参照形成统一“小域改善”叙事。|
+|NAT-Q18|S5 matched250 DH−HT出现两较小域获益、最大域下降，selected3/4、final2/4；full50 HT−F final更为4/4，宏AUC+.005965但target−.006671四负。MEDIUM条件取舍。|不同参照会改变取舍结论；matched250两候选低于F，full50 HT末轮高于F又伤target；DH full末轮六cell AUC均四正，取舍不是所有控制的必要代价。目标LL与non-target LL还呈相反方向。|按固定基线/候选对、域任务效用和训练阶段分别评价；full50及S6已检验，不能挑一个参照形成统一“小域改善”叙事。|
 |NAT-Q19|S5 full50 DH−F final AUC+.016059四正、LL−.087078四改善，但DH自身full−matched final AUC仅+.000045（1正3负）、LL+.022672四差；F同期AUC−.023105四负。MEDIUM条件现象。|相对救援可能主要体现参照后期风险上升或拟合速度差异，不等于更高selected性能；主/arch相对时钟也变。|与相同验证选模/停止预算的强基线比较，区分最优风险与末轮耐受性；先完成S6与后续既定族，不能把full末轮优势直接包装成新算法收益。|
 |NAT-Q20|旧B1自然KR重建的主R0 non-target test AUC+.000579仅2/4正，R1则+.011584四正、LL−.003499四改善，但target LL+.006006三差；R1/R4是同8个选中模型。MEDIUM规则依赖。|选点、行序窗口支持、少数正例及初始化lineage均限制旧收益的推广；timing算术不能解释全部val/test反号，也不是同theta因果分离。|后续在未开发的后置总体预注册选择规则×policy，保持目标风险同时评价；本次新自然S6只按原冻结宏选模，不把未迁移R1–R4说成已否定。[旧证据重建](HISTORICAL_NUMERIC_RECONSTRUCTION.md)。|
-|NAT-Q21|S6 Sample matched250 DH−F selected/final AUC−.007716/−.005342，各四负；final LL+.003304四差。Sample target系数旧人工.8→自然.406939，Equal S5仍1/3。MEDIUM性能，STRONG系数。|DH排名损害不限于Equal；Sample跨人口还改变target当前干预强度，目标系数不是实际位移范数。支持/频率、梯度几何和进度仍未单独识别。|先完成S6 full50与规定诊断；未来按结果前协议固定人口并控制target系数/实际位移，不能在本轮事后改target归一化。[S6阶段分析](ACS6_PHASE_ANALYSIS.md)。|
+|NAT-Q21|S6 Sample matched250 DH−F selected/final AUC−.007716/−.005342，各四负；final LL+.003304四差。Sample target系数旧人工.8→自然.406939，Equal S5仍1/3。MEDIUM性能，STRONG系数。|DH排名损害不限于Equal；Sample跨人口还改变target当前干预强度，目标系数不是实际位移范数。支持/频率、梯度几何和进度仍未单独识别。|S6 full50已完成且末轮反向，继续规定诊断；未来按结果前协议固定人口并控制target系数/实际位移，不能在本轮事后改target归一化。[S6阶段分析](ACS6_PHASE_ANALYSIS.md)。|
 
 ## 3. 待完成的规定实验如何影响问题清单
 
-目前 AC-S6、N17、AO04、N19/CM19 及固定点/路径诊断仍有规定工作未完成。它们完成后，必须在本文件追加新问题、反例或可关闭问题的具体依据；不能让当前清单替代最终分析。N17的quota、平台H200和MC精度分支只按结果前冻结判据触发。
+目前N17机制/测试、AO04、N19/CM19及固定点/路径诊断仍有规定工作未完成；AC-S6两预算和N17规定H100/H200训练已完整。它们完成后，必须在本文件追加新问题、反例或可关闭问题的具体依据；不能让当前清单替代最终分析。N17的quota、平台H200和MC精度分支只按结果前冻结判据触发。
 
 就已完成证据而言，最有辨别力的是先利用现有预定对照，检查“总支持量/时钟足以解释采样效应”能否被反证，并将排序、概率风险和逐cell效用分开。CM19原提出的保持初始函数不变的尺度gauge干预仍是后续候选，待新自然路径证据完成后再评定优先级；它未在本次自动执行。
 
@@ -51,7 +51,7 @@
 
 ### NAT-Q24：自然N17的LR选择与末轮排序分离
 
-完整16pilot共同及双侧own LR均.01，原人工共同.001/own SB.0003；自然.01 pilot selected AUC较高，末轮AUC/LL不占优。只有两pilot seed，不能当四正式seed结果；.01在网格边界也不代表全局最优。竞争解释有自然支持与时钟变化、LR正则/过拟合、selection分布与有限seed误差。既定64formal及平台门控继续，禁止事后扩LR搜索。新common/own为同模型，不能重复计证据；matched N/曝光只有冻结.0003/.001四格，不能用未匹配LR作纯人口因果。有限选择事实STRONG，泛化/因果WEAK。
+完整16pilot共同及双侧own LR均.01，原人工共同.001/own SB.0003；自然.01 pilot selected AUC较高，末轮AUC/LL不占优。只有两pilot seed，不能当四正式seed结果；.01在网格边界也不代表全局最优。竞争解释有自然支持与时钟变化、LR正则/过拟合、selection分布与有限seed误差。既定64formal及触发的8个H200现已完整；H200两q各4/4训练J下降而selection AUC下降/LL升高、选点仍12–14轮，不能从训练平台外推泛化峰值。禁止事后扩LR搜索。新common/own为同模型，不能重复计证据；matched N/曝光只有冻结.0003/.001四格，不能用未匹配LR作纯人口因果。有限选择事实STRONG，泛化/因果WEAK。
 
 ### NAT-Q25：早期四seed同正AULC与完整窗口方向冲突
 

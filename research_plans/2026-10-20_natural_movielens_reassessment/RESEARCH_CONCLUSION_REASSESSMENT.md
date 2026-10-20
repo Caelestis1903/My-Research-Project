@@ -1,6 +1,6 @@
 # 历史研究结论重评（阶段性，整体实验尚未闭环）
 
-本版仅裁定已有完整结果支持的事项。N17、AO04、N19、CM19新训练及若干机制诊断未完成，相关行明确保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
+本版仅裁定已有完整结果支持的事项。N17训练已完成但机制/测试未闭锁，AO04、N19、CM19新训练及若干机制诊断未完成，相关行明确保留待定。此文件不是最终验收。历史来源与原始条件见 [HISTORICAL_EXPERIMENT_AUDIT.md](HISTORICAL_EXPERIMENT_AUDIT.md)，逐seed数值见 [NUMERIC_COMPARISONS.md](NUMERIC_COMPARISONS.md)。
 
 ## 证据尺度与裁定规则
 
@@ -17,20 +17,20 @@
 |ID|原发现与本次证据|目前裁定与证据强度|
 |---|---|---|
 |H01 历史恢复|部分旧source/init/state缺失；新独立自然训练不能生成已遗失的历史bytes。|**保留历史可复查范围，STRONG元数据事实**；exact重放缺口继续公开，不据此否定旧CSV。|
-|H02 B1自然KR|R0 test宏AUC +.000363、仅2/4正；R1非target +.011584且4/4正，target LL +.006006且4/4差；R4与R1为同8个模型。|**修改为选择规则与指标依赖，MEDIUM**。R1/R4不算两次独立复现；自然ML S6不覆盖全部旧敏感度选点。|
+|H02 B1自然KR|R0 test宏AUC +.000363、仅2/4正；R1非target +.011584且4/4正，target LL +.006006且3/4差；R4与R1为同8个模型。|**修改为选择规则与指标依赖，MEDIUM**。R1/R4不算两次独立复现；自然ML S6不覆盖全部旧敏感度选点。|
 |H03 Equal S5|旧KR/人工ML selected HT−F宏AUC +.017127/+.020527均4/4正；新自然matched250/full1000分别−.009759/−.011038均4/4负。full final却+.005965且4/4正，并有target下降、非target上升。|**缩限旧selected救援的跨人口推广，MEDIUM；修改为阶段依赖**。保留自然full晚期阳性和受控trade-off。不能将整个历史归结为假象，也不能称m单独必要。详见ACS5。|
 |H04 固定theta oracle|相同目标的无偏身份仍成立；新人口权重与旧人口不同，完整坐标机制结果未出。|**保留数学身份STRONG；自然有限点定量待定**。无偏不推出Adam更新或性能相同。|
 |H05 Stage2B/2C|旧有限pool/坐标已显示实际Adam均值差及坐标依赖。新160固定点诊断尚待。|**保留原有限构造，MEDIUM；自然推广待定**。不能以理论IID协方差替代实际shuffle/BN/短尾。|
 |H06 Stage2D|旧KR selected SB−SN−.012674、EN−SN−.030428均4/4负。新自然full selected分别−.000047（2/2）/−.000613（1正3负）；自然full final EB−EN−.004663且4/4负、LL+.033817且4/4差。|**缩限selected强损害的跨人口外推，MEDIUM**；final下EB−EN不利有新重复证据。结构、目标、采样与阶段须分开。|
-|H07 V2|新自然Adam selected SB−SN+.000479（2/2），final−.004084（1正3负），LL末轮+.026449；SGD.1 selected/final−.004258（1正3负），LL反而−.006715。|**修改为优化器/阶段/指标依赖，MEDIUM**。SGD.1弱有限LR基线不能代表困难域或方法充分优化的上限。|
+|H07 V2|新自然Adam selected SB−SN+.000479（2/2），final−.004084（4/4负），LL末轮+.026449；SGD.1 selected/final−.004258（1正3负），LL反而−.006715。|**修改为优化器/阶段/指标依赖，MEDIUM**。SGD.1弱有限LR基线不能代表困难域或方法充分优化的上限。|
 |H08 V3其他KR组|无动量SGD仍有采样效应、beta2=0未修复、局部attenuation与风险可能相反，均是KR原条件证据。|**保留原条件，MEDIUM**。不受ML人口审计直接否定；新自然机制须独立完成，不把旧阴性删掉。|
 |H09 V9|旧人工early AULC1..16+.003015且4/4正、final−.000986且4/4负；新自然E10+.000761且4/4正，E40−.016065（1正3负），final−.000157（2/2）。新全轨迹完整：AULC1–16+.000473四正但LL+.000708三差；AULC1–50−.000504一正三负。|**保留短/长阶段可反向的命题，MEDIUM；早期AUC方向复现但幅度与联合风险收益证据较弱**。旧subset随seed变化、旧250/new1000updates，不能把差异唯一归因比例。|
 |H10 S6 Sample边界|旧人工selected接近零，旧KR selected宏+.004366且4/4正。新自然matched250 selected/final DH−F−.007716/−.005342均4/4负；full selected−.003445四负、final+.015659四正且LL四好。|**目前缩限旧selected正效应，MEDIUM**。Sample target目标系数由.8降至.406939是可核算事实，但梯度响应并未由该系数识别。**修改为预算×阶段依赖**；末轮救援不等于更高selected性能。|
 |H11 AO04|旧人工d0_large两seed B1−B0 test AUC+.00001559（1/1），LL+.00062045均差；KR仅一seed完整。新自然12训练/诊断未闭环。|**保留近零与证据不足，WEAK；自然推广待定**。局部rho不等于专家敏感度；不称B1已形成稳定算法增益。|
-|H12 N17 N0|旧KR宏与test-p加权AUC能反向是固定预测算术。自然所有已完成核心组同时给宏、加权、逐cell。|**保留数学与有限预测事实，STRONG**；评价权重不是优化机制的证据。新N17固定权重读数待定；未预注册新ML校准器，不虚称校准机制已闭环。|
+|H12 N17 N0|旧KR宏与test-p加权AUC能反向是固定预测算术。自然所有已完成核心组同时给宏、加权、逐cell。|**保留数学与有限预测事实，STRONG**；评价权重不是优化机制的证据。新N17开发半集同预测重加权LL已复算（formal .01 final宏SB−SN+.009838，train-p−.004005），test固定权重读数待定；未预注册新ML校准器，不虚称校准机制已闭环。|
 |H13 N17 KR N1|旧8seed Adam selected−.005203（1正7负），原校正检验未确认；SGD selected+.000837（5/3）且LL+.004028。|**保留原探索性结果，MEDIUM/WEAK依指标**；不受人工ML直接影响，不把同号频率替代原统计门槛。|
 |H14 N17 N2/N3/N4|旧计数项占trace仅.001297%–.105936%；局部确认full约3e−5，低于δ=.0001；N4 NOT_TRIGGERED。|**保留原有限点证据MEDIUM与门控事实STRONG**。未触发不是失败或欠账；新自然诊断待定。|
-|H15 N17 ML N5-C|旧common/ownLR selected−.010392/−.010875均8/8负；ownLR final+.021145且8/8正，LL−.313662均改善；后者包含LR变化。|**修改为LR×选点交互，MEDIUM；自然新结果待定**。不得以旧final正值宣称相同LR采样机制已证实。|
+|H15 N17 ML N5-C|旧common/ownLR selected−.010392/−.010875均8/8负；ownLR final+.021145且8/8正，LL−.313662均改善；后者包含LR变化。|**修改为LR×选点交互，MEDIUM；自然test新结果待定**。自然开发H200额外100轮两q各4/4 AUC下降、LL升高，选点仍12–14轮；开发证据不当作test确认。不得以旧final正值宣称相同LR采样机制已证实。|
 |H16 N18信息与审核|新自然24构造全部同信息LP一致、oracle被包含；MAR宽度减42.46%、MNAR减49.61%；分层审核24/24的估计SE更低。|**保留数学/有限信息身份STRONG，控制人口复现MEDIUM**。真实噪声与合法环境解释仍WEAK；时间字段不产生环境因果识别。|
 |H17 N18 KR教师|原固定KR教师头拟合selected宏−.000559（2/2），全cell保护0/4，方向额外降方差不足1%。|**保留原阴性与普通头等价，MEDIUM**。与ML比例无关，无需以新ML训练冒充复现。|
 |H18 N18结构/动作|预测不变、动作风险可反号的构造仍成立；未测忠实D3端到端收益。|**保留构造STRONG；算法有效性未建立**。不是自然ML缺失训练所能补出的真实动作数据。|
