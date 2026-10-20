@@ -70,3 +70,7 @@ PYTHONDONTWRITEBYTECODE=1 /home/xzf/miniconda3/envs/phase0-3-env/bin/python -m e
 ## 独立审查修复记录
 
 2026-10-20 R1：reviewer 指出最终 run_manifest 对 progress.json 的 SHA 在其从 TRAINING 改为 COMPLETE 前计算，会使该索引失效。已把 COMPLETE progress 的原子写入移动到 artifact hash 收集之前。run_manifest 的 artifact_hashes 不包含其自身与 stdout.log；随后 sha_index 只索引写定文件、不包含自身，run_manifest 不反向索引 sha_index，因此无相互递归索引。此修复不改变任何训练算法、预算或选点。
+
+2026-10-20 R2：最后完整 resume state 现在只以包含 draw_counts/config 的完整 payload 一次写入 `resume.tmp.pt → last_resume.pt`，恢复原子的提交边界。若中断发生在 resume 提交后、selected 工件提交前，恢复时在该 saved model/zero optimizer update 下用原 preserve_rng evaluate 重建 selected validation predictions，并原子替换 prediction archive；不沿用上一 selected 的旧预测。此修复只处理工件一致性。
+
+2026-10-20 R3：run_manifest artifact_hashes 显式排除 `sha_index.json`，保证已完成目录再恢复时也不会把稍后重写的旧 SHA 索引纳入 manifest。

@@ -75,7 +75,15 @@ class Runner(original.Runner):
                     rows=[r for r in rows if int(r['epoch'])<=state['epoch']]
                     with path.open('w',newline='') as handle:
                         writer=csv.DictWriter(handle,fieldnames=fields);writer.writeheader();writer.writerows(rows)
-            if self.selected_epoch==state['epoch']:torch.save(state,self.dir/'selected_state.pt')
+            if self.selected_epoch==state['epoch']:
+                torch.save(state,self.dir/'selected_state.pt')
+                # A crash can occur after last_resume commits but before the
+                # selected prediction archive commits. Reconstruct at exactly
+                # this saved state with zero updates and preserved RNG.
+                records,ids,domains,labels,predictions=self.evaluate('val')
+                with (self.dir/'validation_selected.tmp.npz').open('wb') as handle:
+                    np.savez_compressed(handle,row_ids=ids,domains=domains,labels=labels,predictions=predictions)
+                (self.dir/'validation_selected.tmp.npz').replace(self.dir/'validation_selected.npz')
             if state['epoch'] in original.COMMON:torch.save(state,self.dir/f"epoch{state['epoch']:02d}.pt")
             shutil.rmtree(initialization_dir.parent)
 
@@ -93,10 +101,19 @@ class Runner(original.Runner):
         return result
 
     def save_state(self,epoch):
-        payload=super().save_state(epoch)
-        payload.update(draw_counts=self.draw_counts.copy(),population=self.cfg['population'],budget=self.cfg['budget'],
-                       config=self.config,model_class='archived StageS1M3OEAdapter')
-        torch.save(payload,self.dir/'last_resume.pt')
+        # The payload is the original producer's complete state plus study
+        # fields. Commit it once, atomically, including the added draw counts.
+        payload=dict(study_id=original.STUDY,epoch=epoch,arm=self.arm,seed=self.seed,model=original.cpu(self.model.state_dict()),
+            model_tau=self.attrs(),optimizer=original.cpu(self.main.state_dict()),arch_optimizer=original.cpu(self.arch.state_dict()),
+            optimizer_parameter_names=self.main_names,arch_optimizer_parameter_names=self.arch_names,
+            step_main=self.step_main,step_arch=self.step_arch,rng=original._raw_rng_state(),
+            main_sampler_rng=self.main_sampler.rng.bit_generator.state,arch_sampler_rng=self.arch_sampler.rng.bit_generator.state,
+            main_seen=self.seen,selected_epoch=self.selected_epoch,selected_val_auc=self.best,val_history=self.val_history,
+            main_batch_chain=self.batch_chains['main'].hexdigest(),arch_batch_chain=self.batch_chains['arch'].hexdigest(),
+            config_sha=sha(self.dir/'config.json'),batch_position='end of epoch; main next epoch offset0; arch next draw',state_complete=True,
+            draw_counts=self.draw_counts.copy(),population=self.cfg['population'],budget=self.cfg['budget'],
+            config=self.config,model_class='archived StageS1M3OEAdapter')
+        temporary=self.dir/'resume.tmp.pt';torch.save(payload,temporary);temporary.replace(self.dir/'last_resume.pt')
         return payload
 
     def metrics(self,records,split,epoch,checkpoint='trajectory',state=None):
@@ -166,5 +183,5 @@ class Runner(original.Runner):
         manifest=dict(self.config,status='COMPLETE',epochs_completed=epochs,step_main=self.step_main,step_arch=self.step_arch,
                       selected_epoch=self.selected_epoch,selected_validation_macro_auc=self.best,state_complete=True,
                       main_batch_chain=self.batch_chains['main'].hexdigest(),arch_batch_chain=self.batch_chains['arch'].hexdigest(),
-                      wall_seconds=time.time()-self.started,artifact_hashes={p.name:sha(p) for p in self.dir.iterdir() if p.is_file() and p.name not in ('run_manifest.json','stdout.log')})
+                      wall_seconds=time.time()-self.started,artifact_hashes={p.name:sha(p) for p in self.dir.iterdir() if p.is_file() and p.name not in ('run_manifest.json','stdout.log','sha_index.json')})
         dump(self.dir/'run_manifest.json',manifest)
