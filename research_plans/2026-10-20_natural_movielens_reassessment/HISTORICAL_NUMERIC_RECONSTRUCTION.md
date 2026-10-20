@@ -76,6 +76,36 @@ P6实际每row/visit平均使用约1.1个标签。residual-CV的静态lower endp
 
 独立STAR task0/task1是单任务模型，必须比较fixed同一任务。汇总脚本已采用这一口径，禁止把STAR task1较低LL与fixed两任务宏LL作方法排名。joint与two-private还改变backbone数量；HAMUR的混合batch BN等实现边界保留。成本为共享主机上的有限shape dense profiler，不是生产加速证据。
 
+## N17：八优化种子的历史边界与局部反例
+
+依据原`FINAL_performance/paired_seed_endpoints.csv`的12,768条记录重新计算全部指标、种子均值及点态t95，并由原三份最终表的371个逐seed数组复核均值、SE、区间与正负计数。保存[完整重新汇总](analysis/n17_history/all_endpoint_seed_summary.csv)、[数组复算](analysis/n17_history/recorded_seed_array_recalculation.csv)、[来源SHA](analysis/n17_history/source_index.csv)。这是对已记录指标的数值重建，没有声称重新加载旧预测/大checkpoint。旧正式seed为2032–2039，不能与新2022–2025跨人口配对。
+
+|旧人口/协议|读数|SN / SB宏AUC|ΔAUC（正/负seed）|Δ宏LL（变差/改善seed）|
+|---|---|---|---|---|
+|自然KR，common Adam|selected|.667714 / .662511|−.005203（1/7）|+.007457（8/0）|
+|自然KR，common Adam|E100|.663947 / .656525|−.007422（1/7）|+.008678（7/1）|
+|自然KR，common SGD|selected|.648212 / .649049|+.000837（5/3）|+.004028（5/3）|
+|自然KR，common SGD|E100|.649216 / .648339|−.000877（5/3）|+.008851（7/1）|
+|自然KR，quota Adam|selected|.667628 / .658437|−.009191（2/6）|+.006207（7/1）|
+|人工ML，common Adam .001|selected|.733318 / .722926|−.010392（0/8）|+.020309（7/1）|
+|人工ML，common Adam .001|E100|.683353 / .685467|+.002114（5/3）|+.045201（8/0）|
+|人工ML，own LR SN .001 / SB .0003|selected|.733318 / .722444|−.010875（0/8）|+.020539（6/2）|
+|人工ML，own LR SN .001 / SB .0003|E100|.683353 / .704498|+.021145（8/0）|−.313661（0/8）|
+
+人工ML common LR的AULC1..100差−.005166，8/8负；own LR变为+.000389，5正3负，而AULC1..20差−.040981，8/8负。末轮own LR优势不能改称单独的q收益：它包含学习率变化、学习速度及SN后期风险升高。KR common/own获胜配方相同，不能把重复数字当两次独立复现。**MEDIUM**：阶段、损失和学习率口径影响旧结论；跨自然ML推广仍需新完整结果。
+
+### 固定计数未消除KR原固定点trace差
+
+原N2四seed×双路径×E10/E40的16锚，在ALL块上IID SB/SN trace范围2.008914–2.584112；quota仍约1.994669–2.550850。重新计算IID域计数预测项只占0.001297%–0.105936%。完整quota训练selected的q差−.009191，也未表现为消除原差异；两臂quota−IID及配对交互逐seed保存在[控制表](analysis/n17_history/quota_by_q_paired_seed_controls.csv)。这限制这些大batch、固定状态/人口下“主要由域计数波动解释”的主张，不排除域内梯度异质性、高阶依赖或其他batch条件。
+
+ALL的同状态Adam均值差范数/边际MC RMS之和为.479189–.624439；该比值不是CI或显著性门槛。原测量未确认超出MC尺度的q平均更新漂移，更不能证明Adam历史必要性。E40部分共享块采样数据梯度为零但原生更新非零的记录完整保留；有限样本零值不等于全人口梯度为零或路径永久失活。
+
+### N3独立确认没有触发长期拓扑训练
+
+原开发冻结C_embedding/E10，独立2036–2039确认两路径完整替换均4/4 AUC为正，但SN/SB平均仅+.000032525/+.000028166；方向残差约+.000014797/+.000014084，SN方向只有2/4正。均小于原局部实际界.0001，四个相关MCSE达标，原门控`N4_trigger=false`。原[冻结门控](analysis/n17_history/N3_confirmation_summary/confirmation_gate.json)和完整条件表保留，没有把未触发的N4写成失败或缺失必跑训练。
+
+**MEDIUM**：旧局部确认未达到预定资源触发规则。**WEAK**：从这些小局部效应推断长期共享唯一中介或历史状态必要性。本次自然N17四训练seed和两个独立MC bank分别记录；两bank不冒称独立训练确认，也不因旧未触发结论省略新规定N2/N3/precision与完整训练。
+
 ## AO04：d0_large、两种子与不完整KR边界
 
 从10/15的原selected逐seed/cell差异表重新汇总，保留测试聚合表、rho日志与身份审计原文，见 [来源和SHA](analysis/ao04_history/source_index.json)、[完整差异汇总](analysis/ao04_history/historical_selected_summary.csv)。不重新运行旧bootstrap，也不声称重载旧模型。
