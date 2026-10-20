@@ -20,3 +20,7 @@
 历史672个ML配置：[HISTORICAL_ML_RUN_CONFIG_INDEX.csv](HISTORICAL_ML_RUN_CONFIG_INDEX.csv)，保留原配置SHA及新迁移配置字段，相关字段修正见HISTORICAL_INDEX_FIELD_CORRECTION.md。
 
 历史研究问题与逐文件SHA：analysis/question_registry；各历史数值汇总的来源清单保留于对应analysis子目录。旧重型checkpoint/预测当前缺失的情况始终公开，不因新索引而称已恢复。
+
+## 已完成V9全轨迹零更新评价
+
+[只读工件表](analysis/artifact_index/v9_full_readout_artifacts.csv.gz)与[8份原receipt快照/SHA](analysis/artifact_index/v9_full_readout_receipts.json)，单列8任务、408工件（400预测及8指标表），每任务50模型评价、optimizer_updates=0，不增加独立训练数。完整预测重算2400cell及公共点一致性见ACV9_PERFORMANCE_ANALYSIS。模型原hash已在core及专门freeze中绑定。

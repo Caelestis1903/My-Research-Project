@@ -8,7 +8,7 @@
 
 ## 设计与放行
 
-全部历史H01–H31审计、672原N19/CM19配置索引、完整数据及A–F设计完成。1044基础名义配置含16pilot、1028formal。现在全部训练族实现/审查放行：V2 16、core120、N17初始64及pilot后8quota模板、AO04 12、N19 316、CM19 508；初始1036可执行，另8required模板待共同LR。额外LR/H200及N3精度分支按结果前冻结判据执行，不按效果符号删项。没有应用历史alias减少实际训练。
+全部历史H01–H31审计、672原N19/CM19配置索引、完整数据及A–F设计完成。1044基础名义配置含16pilot、1028formal。现在全部训练族实现/审查放行：V2 16、core120、N17初始64及pilot后8quota模板、AO04 12、N19 316、CM19 508；初始1036可执行，另8required quota模板现按共同LR .01物化，赢家再触发8formal；当前1052名义配置，条件H200/precision另待门控。额外LR/H200及N3精度分支按结果前冻结判据执行，不按效果符号删项。没有应用历史alias减少实际训练。
 
 V2与AC2D/S5/S6有先前独立PASS；V9按start主代理修正中断重跑策略后PASS。N17/transfer/AO04/N18主代理自审PASS，gate及源码已提交冻结。运行期间不可修改冻结wrapper/vendor；科学分析新增文件不在训练source集合。N19/CM19保留原模型、更新和合成机制，仅注入新人口/路径/预注册预算。
 
@@ -20,13 +20,13 @@ V2与AC2D/S5/S6有先前独立PASS；V9按start主代理修正中断重跑策略
 
 ## 已完成科学分析
 
-V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYSIS.md与analysis/v2。AC-2D 64/64训练与测试完成、448份预测2688cell复算，性能分析见AC2D_PERFORMANCE_ANALYSIS.md；160固定点机制任务仍待执行，不能标机制完成。AC-V9 8/8完整训练，56份预测336cell复算，原定公共点/selected/final分析见ACV9_PERFORMANCE_ANALYSIS.md；按历史Q41固定窗口补读全部400个已训练冻结模型，0新增训练，尚待执行。AC-S5两预算32/32完整配置已分析、1344cell预测复算，ACS5_PHASE_ANALYSIS.md；两预算同seed初始化及每预算四臂实际批次一致，含预算×控制交互。批次/初始化身份、原公式、主/arch实际预算与累计支持及full-coordinate状态窗口已整理，analysis/controlled_updates。AC-S6两预算16/16完整已分析、672cell预测复算，ACS6_PHASE_ANALYSIS.md；selected两预算DH−F均四负，full final四正/LL四好，matched final四负/LL四差。core120与V2 16均已完成；后续队列已进入N17 pilots，两卡各5进程。N18自然数据离线诊断完成，0训练，见N18_PHASE_ANALYSIS.md与analysis/n18；实际mask/audit哈希与同信息LP身份有据。部分阶段完成不等于整项研究闭环。
+V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYSIS.md与analysis/v2。AC-2D 64/64训练与测试完成、448份预测2688cell复算，性能分析见AC2D_PERFORMANCE_ANALYSIS.md；160固定点机制任务仍待执行，不能标机制完成。AC-V9 8/8完整训练，56份预测336cell复算，原定公共点/selected/final分析见ACV9_PERFORMANCE_ANALYSIS.md；按历史Q41完成八只读任务、400个冻结模型/预测2400cell复算，0新增训练；预设AULC1–16自然+.000473四正，1–50−.000504一正三负。AC-S5两预算32/32完整配置已分析、1344cell预测复算，ACS5_PHASE_ANALYSIS.md；两预算同seed初始化及每预算四臂实际批次一致，含预算×控制交互。批次/初始化身份、原公式、主/arch实际预算与累计支持及full-coordinate状态窗口已整理，analysis/controlled_updates。AC-S6两预算16/16完整已分析、672cell预测复算，ACS6_PHASE_ANALYSIS.md；selected两预算DH−F均四负，full final四正/LL四好，matched final四负/LL四差。core120与V2 16均已完成；N17 16pilot完整闭环，共同/双侧ownLR均.01；条件追加8formal、8基础quota已物化，现进入64formal训练，两卡各5进程。N17_PILOT_ANALYSIS.md及analysis/n17_pilots保存selection-only核对，无test读数。N18自然数据离线诊断完成，0训练，见N18_PHASE_ANALYSIS.md与analysis/n18；实际mask/audit哈希与同信息LP身份有据。部分阶段完成不等于整项研究闭环。
 
-历史S5/S6全部64原CSV已索引/聚合，analysis/controlled_history；原模型/optimizer bytes缺失不伪称旧预测重算。N17全部53问题原记录和N19/CM19全部遗留问题已完整复制并SHA绑定，analysis/question_registry，另有53项阶段性对应表。OPEN_PROBLEMS.md含原问题来源与23项当前问题/矛盾，仍需后续结果追加，不是最终清单。
+历史S5/S6全部64原CSV已索引/聚合，analysis/controlled_history；原模型/optimizer bytes缺失不伪称旧预测重算。N17全部53问题原记录和N19/CM19全部遗留问题已完整复制并SHA绑定，analysis/question_registry，另有53项阶段性对应表。OPEN_PROBLEMS.md含原问题来源与25项当前问题/矛盾，仍需后续结果追加，不是最终清单。
 
 历史N19/CM19已实际重新聚合1184 run/29856 cell、747完整四seed比较、28104逐cell配对，并复核单任务baseline口径；见HISTORICAL_NUMERIC_RECONSTRUCTION.md、analysis/{transfer,transfer_cells,neutral_interventions}。CM19 856旧run的69448固定探针汇总、model SHA身份和梯度尺度上下文在analysis/cm19_paths，大表以确定性gzip提交，原heavy tensor没有重读。N19 328旧run的审核支持/known-channel RMSE、实际mask预算、rank记录在analysis/n19_records，四优化seed不是四审核draw。MECHANISM_ANALYSIS.md目前只包含已完成权重算术、解释边界和待完成项，不是机制终报。
 
-已补冻结人口的user/movie ID覆盖审计（FEATURE_SUPPORT_AUDIT.md），无训练/标签拟合；同N仍改变域1用户和同域电影支持，不能独立归因AUC。AO04旧两seedML/一seedKR数值已重新汇总并保留身份限制，analysis/ao04_history。NUMERIC_COMPARISONS.md目前合并已完成阶段210条四seed宏指标比较，明确阶段性、没有填补未运行值。S5/S6共享F/DH的16跨目标配对初始化/实际batch身份和目标×控制交互见analysis/controlled_objectives。
+已补冻结人口的user/movie ID覆盖审计（FEATURE_SUPPORT_AUDIT.md），无训练/标签拟合；同N仍改变域1用户和同域电影支持，不能独立归因AUC。AO04旧两seedML/一seedKR数值已重新汇总并保留身份限制，analysis/ao04_history。NUMERIC_COMPARISONS.md目前合并已完成阶段222条四seed宏指标比较，明确阶段性、没有填补未运行值。S5/S6共享F/DH的16跨目标配对初始化/实际batch身份和目标×控制交互见analysis/controlled_objectives。
 
 N17旧12,768条配对端点及371逐seed数组已重新汇总复算，含完整AUC/LL/阶段、quota×q及N2/N3原门控；见analysis/n17_history，未重载旧大工件，未与新优化seed跨人口配对。
 

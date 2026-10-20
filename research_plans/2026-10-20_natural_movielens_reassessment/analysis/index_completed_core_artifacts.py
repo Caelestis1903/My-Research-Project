@@ -38,3 +38,27 @@ status=dict(complete_runs=len(runs),core=120,v2=16,artifacts=len(rows),
     remaining_families_not_yet_indexed=['N17','AO04','N19','CM19','core offline mechanisms','V9 full trajectory readout'])
 (OUT/'index_status.json').write_text(json.dumps(status,indent=2)+'\n')
 print(json.dumps(status,indent=2))
+
+# Independent, zero-update trajectory readouts are indexed separately from training.
+readout=ART/'V9_trajectory_readout'
+receipts=sorted(readout.glob('*/receipt.json'))
+if len(receipts)==8:
+    entries=[];records=[]
+    for path in receipts:
+        raw=path.read_bytes();j=json.loads(raw);assert j['status']=='COMPLETE' and j['optimizer_updates']==0
+        assert j['epochs_evaluated']==50
+        digest=hashlib.sha256(raw).hexdigest()
+        records.append(dict(path=str(path),sha256=digest,receipt=j))
+        for name,value in sorted(j['artifacts'].items()):
+            artifact=path.parent/name
+            entries.append(dict(run_id=j['run_id'],path=str(artifact),producer_recorded_sha256=value,
+                exists_at_index=artifact.exists(),bytes_at_index=artifact.stat().st_size if artifact.exists() else None,
+                source_receipt=str(path),source_receipt_sha256=digest,optimizer_updates=0))
+    s=io.StringIO(newline='');w=csv.DictWriter(s,fieldnames=list(entries[0]));w.writeheader();w.writerows(entries)
+    (OUT/'v9_full_readout_artifacts.csv.gz').write_bytes(gzip.compress(s.getvalue().encode(),mtime=0))
+    (OUT/'v9_full_readout_receipts.json').write_text(json.dumps(records,indent=2)+'\n')
+    status['v9_zero_update_readout_tasks']=8;status['v9_readout_artifacts']=len(entries)
+    status['v9_missing_current_paths']=sum(not r['exists_at_index'] for r in entries)
+    status['remaining_families_not_yet_indexed'].remove('V9 full trajectory readout')
+    (OUT/'index_status.json').write_text(json.dumps(status,indent=2)+'\n')
+    print('V9 zero-update readout tasks',len(receipts),'artifacts',len(entries))
