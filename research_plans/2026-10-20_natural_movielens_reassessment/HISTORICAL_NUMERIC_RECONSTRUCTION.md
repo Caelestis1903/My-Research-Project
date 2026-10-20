@@ -40,6 +40,25 @@ P1的+.188不能解释为native双任务方法收益：task1是Bernoulli(.2+.6Z)
 
 P6实际每row/visit平均使用约1.1个标签。residual-CV的静态lower endpoint比例在四seed为97.7210%–99.7786%，均值98.7588%，见 [完整计数](analysis/n19_records/realized_mask_budgets.csv)。相对static independent-CV，selected AUC反而−.000412、LL四seed更差；不能只用相对antithetic的微小正均值说明自适应策略有竞争收益。计数描述重复访问的模拟观测，原标签静态可缓存，不是实际节省这么多独立标注费用。
 
+### P4交互测量：首轮NO-GO与后续训练不能混为同一结论
+
+P4在已有747个完整比较中以`domain_mix/axis_mix/full_mix/interaction/reliability_interaction`记录，不能因名字不含P4而漏掉。以下均为`candidate − full_mix`，原自然KR lr=.003、人工ML lr=.001，四个优化seed；完整来源和全部强控制在[原始重新汇总](analysis/transfer/paired_summary.csv)。
+
+|旧人口|候选|阶段|Δ宏AUC（正/负）|Δ宏LL（改善seed）|
+|---|---|---|---:|---:|
+|自然KR|interaction|selected|−.000869（2/2）|−.005208（4/4）|
+|自然KR|interaction|final|+.006651（3/1）|−.005703（3/4）|
+|自然KR|reliability_interaction|selected|+.001439（3/1）|−.001811（3/4）|
+|自然KR|reliability_interaction|final|−.002769（1/3）|−.000717（3/4）|
+|人工ML|interaction|selected|+.000429（3/1）|+.001342（1/4）|
+|人工ML|interaction|final|−.005615（1/3）|−.010553（3/4）|
+|人工ML|reliability_interaction|selected|+.000123（3/1）|+.002284（1/4）|
+|人工ML|reliability_interaction|final|−.003133（1/3）|−.025998（2/4）|
+
+KR interaction的末轮条件收益不能因selected略负而删去；置信门控selected略正也不能隐藏其末轮相对full_mix下降。人工ML两个候选的selected AUC小正均值伴随三seed LL变差，final的AUC/LL方向也不一致。domain_mix相对interaction在KR selected AUC+.002614四正但LL+.006264四差、final AUC−.013416四负，进一步说明结构/阶段/风险取舍，不是交互必需或无用的统一结论。条件现象 **MEDIUM**，稳定方法竞争收益 **WEAK**。
+
+更早的P4固定点测量是另一个问题：四seed全参数交互A/B cosine .0060/.2972/.5368/.0681，不可将“有非零交互能量”直接当成稳定决策信息。原直接边际测量调用8对12是 **STRONG** 操作计数，单次并发GPU时延比1.047/3.692/.176/2.953不支持可靠加速，target Jacobian额外成本仍存在。该首轮3×2规模NO-GO不能代替上述40个后续结构训练，也不意味新自然人口的全部问题已被否定。新自然P4及既定强控制仍完整执行，未知结果不预填方向。
+
 ## CM19：原路径记录与数值精度
 
 实际重新收集856个run的69448个“run×检查点×探针×干预”汇总，另有逐cell端点、路径强度、真实gradient/update遥测、同状态局部干预与成本。见 [路径分析脚本](analysis/analyze_cm19_paths.py)、[状态](analysis/cm19_paths/analysis_status.json)、[原表SHA](analysis/cm19_paths/source_index.csv)。大的完整表以gzip保存，解压可恢复字节相同CSV，见 [压缩索引](analysis/cm19_paths/large_table_archives.csv)。
