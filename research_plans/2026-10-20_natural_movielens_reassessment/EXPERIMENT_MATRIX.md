@@ -4,9 +4,9 @@
 
 定义：NAT=完整自然base-train800167；ART2=人工d2_large固定subset2022；N187=自然p最大余数等187500基础train。无meta组NAT每epoch20步；N19/CM19共同5%meta后NAT main760161、每epoch19步；历史ART2 main178125、5步/epoch。N187 meta后178126，保留实际取整差1，不伪称普通main N完全相等。
 
-## 最新阶段状态（2026-10-20 15:52 UTC）
+## 最新阶段状态（2026-10-20 17:00 UTC）
 
-293/1060名义训练预算条目已完成：core120、V2 16、N17 88、AO04 12、N19 57。N17的62诊断与72正式test完整，core160诊断无失败且分析/归档/图表完成，AO04 root零更新test完整、504cell独立复算及阶段报告完成。N19当前10 RUNNING、249 QUEUED，CM19 508仍QUEUED；143transfer诊断及各scope冻结test依赖原队列。完整状态见同时间EXPERIMENT_EXECUTION_SNAPSHOT及实时ledger；下列设计列和较早快照保留为过程记录，不能取代实际receipt。
+371/1060名义训练预算条目已完成：core120、V2 16、N17 88、AO04 12、N19 135。N17的62诊断与72正式test完整，core160诊断无失败且分析/归档/图表完成，AO04 root零更新test完整、504cell独立复算及阶段报告完成。N19当前10 RUNNING、171 QUEUED，CM19 508仍QUEUED；143transfer诊断及各scope冻结test依赖原队列。完整状态见同时间EXPERIMENT_EXECUTION_SNAPSHOT及实时ledger；下列设计列和较早快照保留为过程记录，不能取代实际receipt。
 
 ## 较早执行快照（2026-10-20 10:54 UTC）
 
