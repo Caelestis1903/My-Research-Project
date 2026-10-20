@@ -65,7 +65,9 @@ def analyze():
                     seed=config['seed'],lr=config['lr'],readout=label,task=task,
                     auc=g.auc.mean(),logloss=g.logloss.mean(),
                     train_p_cell_auc=np.average(g.auc,weights=g.train_p_weight),
-                    eval_p_cell_auc=np.average(g.auc,weights=g.n)))
+                    eval_p_cell_auc=np.average(g.auc,weights=g.n),
+                    train_p_cell_logloss=np.average(g.logloss,weights=g.train_p_weight),
+                    eval_p_cell_logloss=np.average(g.logloss,weights=g.n)))
     pd.concat(records).to_csv(OUT/'all_test_cell_metrics.csv',index=False)
     pd.DataFrame(audit).to_csv(OUT/'selected_final_prediction_recalculation.csv',index=False)
     pd.DataFrame(source).to_csv(OUT/'source_index.csv',index=False)
@@ -79,10 +81,10 @@ def analyze():
                 candidate_run_dir=aa.loc[ix,'run_dir'],reference_run_dir=bb.loc[ix,'run_dir'],
                 candidate_lr=float(aa.loc[ix,'lr']),reference_lr=float(bb.loc[ix,'lr']),
                 candidate_arm=aa.loc[ix,'arm'],reference_arm=bb.loc[ix,'arm'],
-                **{m:float(aa.loc[ix,m]-bb.loc[ix,m]) for m in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc')})
+                **{m:float(aa.loc[ix,m]-bb.loc[ix,m]) for m in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc','train_p_cell_logloss','eval_p_cell_logloss')})
             rows.append(item)
         for (label,task),gg in pd.DataFrame(rows)[lambda x:x.comparison==name].groupby(['readout','task']):
-            for metric in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc'):
+            for metric in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc','train_p_cell_logloss','eval_p_cell_logloss'):
                 summary.append(dict(comparison=name,estimand=estimand,readout=label,task=task,metric=metric,**stats(gg[metric])))
     for group in ('formal','matched_budget','matched_n','quota','H200'):
         g=read[read.group==group]
@@ -142,7 +144,7 @@ def analyze():
         else:
             for ix in z.index:
                 interaction.append(dict(seed=ix[0],readout=ix[1],task=ix[2],
-                    **{m:float(z.loc[ix,m]-sn.loc[ix,m]) for m in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc')}))
+                    **{m:float(z.loc[ix,m]-sn.loc[ix,m]) for m in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc','train_p_cell_logloss','eval_p_cell_logloss')}))
     pd.DataFrame(interaction).to_csv(OUT/'quota_by_q_interaction_seed.csv',index=False)
     old=Path('/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017')
     historical_sources=[]

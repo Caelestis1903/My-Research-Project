@@ -60,3 +60,7 @@
 ### N19/CM19原遗留问题的完整对应
 
 [19项对应CSV](analysis/question_registry/transfer_open_question_crosswalk.csv)与[保留原文/行号/SHA的JSON](analysis/question_registry/transfer_open_question_crosswalk.json)，逐项覆盖原N19八问题、CM19十一问题。当前新transfer结果均PENDING；固定人口确认、函数保持gauge、真实噪声/标注成本、等容量共享及生产成本等未识别项不因执行本轮自然迁移自动解决，也不自动触发额外训练。后续逐scope结果完成再更新这些问题的结论，不能只引用已保存原文而省略回答。
+
+### NAT-Q26：TARGET身份与大小角色是否被混为一谈
+
+自然d1/d2训练规模318599/325619，比例.97844，大小非常接近；S5 full HT−F final的域AUC差d0+.014861、d1+.009705、d2−.006671，均各四seed同号，LL差−.177535/−.068210/+.046714也各四seed同向。d2同时是物理TARGET、最大域且该baseline较弱；现设计没有单独识别哪个身份解释trade-off。有限重复现象MEDIUM，唯一规模因果WEAK。最有判别力的后续实验应在同一自然人口固定当前目标/批次/预算/选点规则，预先轮换TARGET历史域；若损害跟TARGET而不是大小排序移动，将削弱大小主解释。本轮不自动加轮换训练，也不能借CM19不同架构的G4结果冒充S5该因果检验。

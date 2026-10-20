@@ -45,7 +45,7 @@ Q43,MovieLens 的 seed 同时改变训练子集,RESOLVED,POPULATION_RANDOMNESS_S
 Q44,破坏性控制改变共同早期窗口,BOUNDARY,HISTORICAL_DESTRUCTIVE_BOUNDARY,MEDIUM,historical V3,破坏性控制改变共同早期窗口的原边界保留；无自然对应运行不假报复制。,none,False
 Q45,长时钟读数只有预算条件下的部分种子支持,RESOLVED,COMPLETE_BUDGET_REQUIRED,STRONG,new manifests;runner ledger,新所有四seed按完整预算，H200仅预定平台门控；未完成时不做正式结论。,N17;transfer,False
 Q46,局部C的AUC阳性与loss/J冲突,BOUNDARY,AUC_LOSS_CONFLICT_RETAINED,MEDIUM,V2;AC-2D,自然AC-2D final EN−SN AUC+.000973但LL+.012372四差；排序改善不保证概率风险改善。,N17 N3;transfer,False
-Q47,宏评价、train-p与test-p评价的反转由哪些cell贡献？评价权重变化与域内人口变化如何区分？,BOUNDARY,METRIC_ARITHMETIC_AND_POPULATION_SEPARATED,STRONG,core prediction recomputation,同预测的评价权重差可精确分解；跨人口模型差仍非权重单因素干预，加权cell AUC不是pooled。,N17 metric tables,False
+Q47,宏评价、train-p与test-p评价的反转由哪些cell贡献？评价权重变化与域内人口变化如何区分？,BOUNDARY,METRIC_ARITHMETIC_AND_POPULATION_SEPARATED,STRONG,N17 H100 development fixed-weight readouts;core tables,固定预测的评价权重差可分解；N17 H100 .01 final selection宏LL SB−SN+.009838（三差）、train-p加权−.004005（三好），d0风险差+.076212被降权；各区间跨零且test未读。跨人口模型差不是评价权重单因素。,N17 frozen test metric tables,False
 Q48,短pilot选出的LR赢家是否只优化早期速度，且双方等预算调参后采样差距是否保留？,BOUNDARY,PILOT_COMPLETED_FORMAL_PENDING,WEAK,N17 full100 pilot response surface,完整100epoch pilot仍按各自最优selection选择，赢家.01 selected高但final不占优；两pilot seed不足推正式效果，common/own为相同.01模型。,N17 formal LR grid/H200,False
 Q49,域计数波动相对于域内样本噪声贡献多少，固定域配额是否改变downstream采样效应？,BOUNDARY,PENDING_NATURAL_COUNT_DECOMPOSITION,WEAK,historical N17,KR count trace占比极小的局部结果保留；新ML须完整坐标及quota长期对照，不由trace预测AUC。,N17 N2/quota,False
 Q50,C局部作用来自哪些子模块、幅度/方向及其交互？共享拓扑的长期作用是否成立？,BOUNDARY,PENDING_NATURAL_LOCAL_INTERVENTIONS,WEAK,historical N17,旧局部C效果小且方向混合；双路径双bank、norm/direction交互及MC精度门控按新设计执行。,N17 N3,False
