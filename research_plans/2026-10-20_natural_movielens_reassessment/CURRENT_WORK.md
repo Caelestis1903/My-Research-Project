@@ -14,13 +14,13 @@ V2与AC2D/S5/S6有先前独立PASS；V9按start主代理修正中断重跑策略
 
 ## 运行状态
 
-机械agent `/root/luna_execution`（luna_worker）拥有统一RUN_LEDGER和ART/runner调度器；不要启动重复GPU队列。core协调器 `natural_core_adopt_coordinator.py` PID111227 接管现有children，保持每卡5进程，旧parent丢失的OS exitcode如实UNKNOWN_MONITOR_LOST，完整预算另核。新published_queue_plan包含N17/transfer/AO04后续配置，core继续不中断。实际最新计数见RUN_LEDGER；本文件不代替实时台账。
+机械agent `/root/luna_execution`（luna_worker）拥有统一RUN_LEDGER和ART/runner调度器；不要启动重复GPU队列。core协调器接管现有children，当前controller PID以ART/runner的state/事件记录为准（已发生只换父进程、不重训children的调度修复），保持每卡5进程，旧parent丢失的OS exitcode如实UNKNOWN_MONITOR_LOST，完整预算另核。新published_queue_plan包含N17/transfer/AO04后续配置，core继续不中断。实际最新计数见RUN_LEDGER；本文件不代替实时台账。
 
 失败attempt完整保留，不当科研阴性；同seed完整重跑。未读test的阶段必须等待主代理对应closure及SHA冻结，不能因训练exit0自动放行。N17 pilot冻结、plateau、precision gate按预注册机械规则执行并通知主代理；不得遗漏quota/触发追加。
 
 ## 已完成科学分析
 
-V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYSIS.md与analysis/v2。N18自然数据离线诊断完成，0训练，见N18_PHASE_ANALYSIS.md与analysis/n18；实际mask/audit哈希与同信息LP身份有据。两阶段完成不等于整项研究闭环。
+V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYSIS.md与analysis/v2。AC-2D 64/64训练与测试完成、448份预测2688cell复算，性能分析见AC2D_PERFORMANCE_ANALYSIS.md；160固定点机制任务仍待执行，不能标机制完成。N18自然数据离线诊断完成，0训练，见N18_PHASE_ANALYSIS.md与analysis/n18；实际mask/audit哈希与同信息LP身份有据。两阶段完成不等于整项研究闭环。
 
 ## 必须继续
 

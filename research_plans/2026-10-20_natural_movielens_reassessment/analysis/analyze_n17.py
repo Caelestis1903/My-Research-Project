@@ -133,8 +133,12 @@ def analyze():
                     **{m:float(z.loc[ix,m]-sn.loc[ix,m]) for m in ('auc','logloss','train_p_cell_auc','eval_p_cell_auc')}))
     pd.DataFrame(interaction).to_csv(OUT/'quota_by_q_interaction_seed.csv',index=False)
     old=Path('/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017')
+    historical_sources=[]
     for name in ('FINAL_STAGE_MACRO_AUC.csv','FINAL_SELECTED_CELL_METRICS.csv','N5_winners_frozen.json'):
-        (OUT/('historical_'+name)).write_bytes((old/name).read_bytes())
+        target=OUT/('historical_'+name);target.write_bytes((old/name).read_bytes())
+        historical_sources.append(dict(path=str(old/name),sha256=sha(old/name),copy=str(target),
+            evidence='historical recorded table; old large checkpoints not claimed available'))
+    (OUT/'historical_source_index.json').write_text(json.dumps(historical_sources,indent=2)+'\n')
     (OUT/'analysis_receipt.json').write_text(json.dumps(dict(status='COMPLETE',formal_runs=len(allconfigs),
         test_freeze_sha256=sha(ROOT/'test_frozen.json'),new_formal_seeds=sorted(SEEDS),
         historical_N5_seeds=list(range(2032,2040)),historical_and_new_population_deltas_not_seed_paired=True,

@@ -48,7 +48,7 @@
 
 最有辨别力的既定后续是同人口同模型下的q×LR完整四格，以及自然等N/自然完整支持匹配更新控制。如果同LR和匹配预算后自然selected差仍近零而人工负差保持，将限制单纯时钟解释；若差随匹配更新恢复，则支持进度/曝光解释。此处不会按已经观察到的test符号追加任意参数搜索。
 
-科学证据复核：32个selected/final预测NPZ的row IDs、标签及domain与冻结natural数据一致；192条cell重算最大AUC残差1.11e-16、LogLoss残差2.22e-16。指标差来自实际预测，而非只抄报告。历史条件仅为原CSV的L2重算，未冒称旧checkpoint仍可加载。四优化seed只描述固定总体优化随机性；cell/task/epoch和重复checkpoint不增加独立n，t区间未经多重比较校正。
+科学证据复核：32个selected/final预测NPZ的row IDs、标签及domain与冻结natural数据一致；192条cell重算最大AUC残差1.11e-16、LogLoss残差2.22e-16。指标差来自实际预测，而非只抄报告。历史条件仅为原CSV的L2重算，未冒称旧checkpoint仍可加载。本次自然四优化seed只描述固定总体优化随机性；旧人工V2的seed还改变训练子集；cell/task/epoch和重复checkpoint不增加独立n，t区间未经多重比较校正。
 
 全部新旧cell/宏/任务/域、每seed原值、配对差、checkpoint epoch、权重、源文件SHA及预测重算证据：[analysis/v2/](analysis/v2/)。主图为独立PNG/PDF，[PNG](analysis/v2/v2_population_stage_comparison.png)、[PDF](analysis/v2/v2_population_stage_comparison.pdf)。调度器0epoch失败attempt与UNKNOWN_MONITOR_LOST退出码在RUN_LEDGER保留，不当科研阴性，也不伪造退出0；有效完整工件独立核对通过。
 
