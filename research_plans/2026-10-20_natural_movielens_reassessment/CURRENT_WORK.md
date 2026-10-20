@@ -1,3 +1,16 @@
+# 当前工作状态（2026-10-20 14:22 UTC）
+
+- 唯一机械协调器PID335152，worker `/root/luna_execution`；不要另启GPU队列或更改冻结producer。
+- 已完成236/1060名义训练配置：core120、V2 16、N17 88、AO04 12；N17包含16pilot与8共享前缀续训，不是1060独立统计重复。
+- N17：62诊断、72正式零更新test、8000预测/48000cell及864cell独立复算全部完成，N17_PHASE_ANALYSIS.md与53问题对应表已更新；不需再解锁/重复测试。
+- AO04：12训练+12诊断及开发分析完成，freeze/release已发布；原1个root任务覆盖全部12run，等待core闭合后同一协调器scan。
+- core离线机制：100/160完成、10 active、50 pending，未全闭合；主代理等待完整后运行analyze_core_mechanism.py并写CORE_MECHANISM_ANALYSIS.md。
+- 后续仍需N19 316、CM19 508、143 transfer诊断及各scope冻结test。训练/诊断/测试均由原队列执行，分析由主代理完成。
+- transfer scope完整时依次用prepare_transfer_scope_closure.py、原evaluate freeze CLI、release_transfer_test_queue.py，不能提前生成授权。AO04 test完成后analyze_ao04.py；全部结果完成后更新9项主报告、最终ledger/索引，推送独立分支并建对main PR，不合并。
+- NUMERIC_COMPARISONS当前408条四seed宏指标行；builder已准备自动加入完整AO04/transfer数据，`--final`要求1060训练、core160、N17 72、AO04和transfer824全闭合，尚未执行最终模式。
+
+以下是保留的过程记录；较早的“待完成”描述以本节及后续receipt为准。
+
 # 当前执行状态（整体任务尚未完成）
 
 实际worktree `/home/xzf/Code/phase0-3-natural-git`，分支 `codex/natural-movielens-reassessment-2026-10-20`；原用户目录报告中的 execution symlink 指向此报告目录。ART=`/home_new/xzf_natural_movielens_reassessment`。
