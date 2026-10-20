@@ -8,7 +8,7 @@
 
 ## 设计与放行
 
-全部历史H01–H31审计、672原N19/CM19配置索引、完整数据及A–F设计完成。1044基础名义配置含16pilot、1028formal。现在全部训练族实现/审查放行：V2 16、core120、N17初始64及pilot后8quota模板、AO04 12、N19 316、CM19 508；初始1036可执行，另8required quota模板现按共同LR .01物化，赢家再触发8formal；当前1052名义配置，条件H200/precision另待门控。额外LR/H200及N3精度分支按结果前冻结判据执行，不按效果符号删项。没有应用历史alias减少实际训练。
+全部历史H01–H31审计、672原N19/CM19配置索引、完整数据及A–F设计完成。1044基础名义配置含16pilot、1028formal。现在全部训练族实现/审查放行：V2 16、core120、N17初始64及pilot后8quota模板、AO04 12、N19 316、CM19 508；初始1036可执行，另8required quota模板现按共同LR .01物化，赢家再触发8formal；H200现已触发8条延长、当前1060名义配置；precision仍待诊断门控。额外LR/H200及N3精度分支按结果前冻结判据执行，不按效果符号删项。没有应用历史alias减少实际训练。
 
 V2与AC2D/S5/S6有先前独立PASS；V9按start主代理修正中断重跑策略后PASS。N17/transfer/AO04/N18主代理自审PASS，gate及源码已提交冻结。运行期间不可修改冻结wrapper/vendor；科学分析新增文件不在训练source集合。N19/CM19保留原模型、更新和合成机制，仅注入新人口/路径/预注册预算。
 
@@ -41,3 +41,9 @@ N17旧12,768条配对端点及371逐seed数组已重新汇总复算，含完整A
 ## 必须继续
 
 完成所有core/N17/AO04/N19/CM19及160core/143transfer/N17/AO04机制任务、对应test冻结/评价；主代理逐阶段科学分析，形成NUMERIC_COMPARISONS/MECHANISM_ANALYSIS/RESEARCH_CONCLUSION_REASSESSMENT/OPEN_PROBLEMS/FINAL_REPORT与完整原始索引。必须完整报告逐域任务、AUC/LL、选中/末轮、四seed、域规模/难度/基线和竞争解释，证据STRONG/MEDIUM/WEAK。最后提交推送独立分支并建对main的PR，不合并。当前尚无最终PR，不能冒报交付完成。
+
+09:53 UTC主代理快照检查发现V9只读任务attempt_id与原training碰撞，旧台账save_row仅按attempt_id替换，导致6条完成训练和2条失败attempt原记录被覆盖（模型/receipt/原START/EXIT事件仍完整）。机械agent将在安全阶段barrier恢复原attempt、改为(execution_kind,attempt_id)及只读namespace，不中断健康训练。9:52错误快照未准入/未提交，服务器primary_analysis_ledger_audit留证；本地snapshot恢复最后有效提交。待修复后重建，不能把旧台账114/120误当真实训练缺失或用只读评价替代训练记录。
+
+10:20 UTC台账修复闭环，见LEDGER_REPAIR.md：恢复8条V9原attempt，保留2成功重跑和8只读任务；原未知退出码/完成时间如实保留。新唯一parent PID298126按receipt跳过完整配置，重导快照core120+V2 16+N17 80=216完整。实际8个零epoch启动失败分别3V2/2V9/3N17均有成功完整重跑。H200门控触发8条延长（SN平均rho .030705、SB .020324，均4正），H100开发记录64配置已核对、test未读，见N17_DEVELOPMENT_ANALYSIS.md。
+
+H200启动阶段进度100/2000为复制H100前缀，不能当新epoch；8任务5/3槽位启动。首次新协调器profile捕获34/34与15/15MiB属于INVALID_COPIED_H100_COUNTERS，audit原件归档analysis/ledger_repair，按原H100实际1318/1320MiB保守参照；后续N17_DIAGNOSTIC独立profile。

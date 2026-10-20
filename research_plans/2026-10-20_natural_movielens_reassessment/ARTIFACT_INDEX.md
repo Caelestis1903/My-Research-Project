@@ -24,3 +24,7 @@
 ## 已完成V9全轨迹零更新评价
 
 [只读工件表](analysis/artifact_index/v9_full_readout_artifacts.csv.gz)与[8份原receipt快照/SHA](analysis/artifact_index/v9_full_readout_receipts.json)，单列8任务、408工件（400预测及8指标表），每任务50模型评价、optimizer_updates=0，不增加独立训练数。完整预测重算2400cell及公共点一致性见ACV9_PERFORMANCE_ANALYSIS。模型原hash已在core及专门freeze中绑定。
+
+## 台账恢复与机械调度证据
+
+[LEDGER_REPAIR.md](LEDGER_REPAIR.md)及analysis/ledger_repair保存原V9事件行、修复前台账gzip、恢复映射/源码/SHA、两条旧监控曝光量修正，以及H200复制计数导致无效profile的审计。未知退出码不写成0；训练、只读和失败attempt分开。当前RUN_LEDGER仍由机械agent维护，最终完整交付前持续更新。

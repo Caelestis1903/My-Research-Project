@@ -1,0 +1,274 @@
+{
+  "record_type": "mechanical_gpu_profile_audit",
+  "created_utc": "2026-10-20T10:27:29.960830+00:00",
+  "coordinator_pid": 298126,
+  "current_state_snapshot": {
+    "status": "RUNNING",
+    "phase": "N17_H200_CONDITIONAL",
+    "utc": "2026-10-20T10:27:29.414+00:00",
+    "pending": 0,
+    "active": [
+      {
+        "run_id": "H200_SN_lr0.01_seed2022",
+        "attempt_id": "H200_SN_lr0.01_seed2022_attempt01",
+        "pid": 300655,
+        "gpu": 0,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SN_lr0.01_seed2023",
+        "attempt_id": "H200_SN_lr0.01_seed2023_attempt01",
+        "pid": 300656,
+        "gpu": 1,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SN_lr0.01_seed2024",
+        "attempt_id": "H200_SN_lr0.01_seed2024_attempt01",
+        "pid": 300737,
+        "gpu": 0,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SN_lr0.01_seed2025",
+        "attempt_id": "H200_SN_lr0.01_seed2025_attempt01",
+        "pid": 300747,
+        "gpu": 0,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SB_lr0.01_seed2022",
+        "attempt_id": "H200_SB_lr0.01_seed2022_attempt01",
+        "pid": 300751,
+        "gpu": 0,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SB_lr0.01_seed2023",
+        "attempt_id": "H200_SB_lr0.01_seed2023_attempt01",
+        "pid": 300755,
+        "gpu": 0,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SB_lr0.01_seed2024",
+        "attempt_id": "H200_SB_lr0.01_seed2024_attempt01",
+        "pid": 300759,
+        "gpu": 1,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      },
+      {
+        "run_id": "H200_SB_lr0.01_seed2025",
+        "attempt_id": "H200_SB_lr0.01_seed2025_attempt01",
+        "pid": 300763,
+        "gpu": 1,
+        "profile_group": "N17",
+        "progress": {
+          "epochs": 100,
+          "steps": 2000,
+          "examples": 0,
+          "arch_steps": 0
+        }
+      }
+    ],
+    "profiles": {
+      "N17": {
+        "0": {
+          "baseline_mib": 34,
+          "peak_single_mib": 34,
+          "delta_mib": 256,
+          "safe_slots": 5,
+          "ceiling_mib": 22118,
+          "safety_factor": 1.2,
+          "margin_mib": 512,
+          "profile_source": "first complete epoch of this profile group on this GPU"
+        },
+        "1": {
+          "baseline_mib": 15,
+          "peak_single_mib": 15,
+          "delta_mib": 256,
+          "safe_slots": 5,
+          "ceiling_mib": 22118,
+          "safety_factor": 1.2,
+          "margin_mib": 512,
+          "profile_source": "first complete epoch of this profile group on this GPU"
+        }
+      }
+    },
+    "terminal_failures": []
+  },
+  "assessment": "INVALID_COPIED_H100_COUNTERS",
+  "reason": "H200 output directories inherit progress.json from H100 parent at epoch_completed=100, steps=2000; the scheduler used these copied values as if H200 had completed a new epoch and recorded baseline_mib==peak_single_mib, delta_mib=256. At capture, H200 receipts absent and PIDs blocked before GPU allocation, so no H200 GPU peak was measured.",
+  "state_profile_invalid": {
+    "0": {
+      "baseline_mib": 34,
+      "peak_single_mib": 34,
+      "delta_mib": 256,
+      "safe_slots": 5,
+      "ceiling_mib": 22118,
+      "safety_factor": 1.2,
+      "margin_mib": 512,
+      "profile_source": "first complete epoch of this profile group on this GPU"
+    },
+    "1": {
+      "baseline_mib": 15,
+      "peak_single_mib": 15,
+      "delta_mib": 256,
+      "safe_slots": 5,
+      "ceiling_mib": 22118,
+      "safety_factor": 1.2,
+      "margin_mib": 512,
+      "profile_source": "first complete epoch of this profile group on this GPU"
+    }
+  },
+  "h100_profile_reference": {
+    "source_state": "/home_new/xzf_natural_movielens_reassessment/runner/published_coordinator_state_pre_v9_ledger_repair.json",
+    "source_state_sha256": "ff2223c80147ba2a1e47cdfb1951103577a6653342e98ff7efb07680b9394251",
+    "source_timestamp_utc": "2026-10-20T10:14:54.731+00:00",
+    "gpu_profiles": {
+      "0": {
+        "baseline_mib": 4546,
+        "peak_single_mib": 5864,
+        "delta_mib": 1318,
+        "safe_slots_by_reference": 5
+      },
+      "1": {
+        "baseline_mib": 15,
+        "peak_single_mib": 1335,
+        "delta_mib": 1320,
+        "safe_slots_by_reference": 5
+      }
+    },
+    "profile_use": "conservative memory reference for H200 admission pending at least one actual new epoch (epoch>=101 or steps>2000); no claim that H200 itself has been profiled"
+  },
+  "gpu_memory_at_capture": {
+    "gpu0_used_mib": 34,
+    "gpu1_used_mib": 15,
+    "gpu_total_mib": 24576,
+    "ceiling_mib": 22118,
+    "margin_mib": 512,
+    "safety_factor": 1.2
+  },
+  "h200_attempts": [
+    {
+      "run_id": "H200_SN_lr0.01_seed2022",
+      "attempt_id": "H200_SN_lr0.01_seed2022_attempt01",
+      "PID": "300655",
+      "gpu": "0",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2022/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2022"
+    },
+    {
+      "run_id": "H200_SN_lr0.01_seed2023",
+      "attempt_id": "H200_SN_lr0.01_seed2023_attempt01",
+      "PID": "300656",
+      "gpu": "1",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2023/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2023"
+    },
+    {
+      "run_id": "H200_SN_lr0.01_seed2024",
+      "attempt_id": "H200_SN_lr0.01_seed2024_attempt01",
+      "PID": "300737",
+      "gpu": "0",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2024/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2024"
+    },
+    {
+      "run_id": "H200_SN_lr0.01_seed2025",
+      "attempt_id": "H200_SN_lr0.01_seed2025_attempt01",
+      "PID": "300747",
+      "gpu": "0",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2025/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SN/seed2025"
+    },
+    {
+      "run_id": "H200_SB_lr0.01_seed2022",
+      "attempt_id": "H200_SB_lr0.01_seed2022_attempt01",
+      "PID": "300751",
+      "gpu": "0",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2022/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2022"
+    },
+    {
+      "run_id": "H200_SB_lr0.01_seed2023",
+      "attempt_id": "H200_SB_lr0.01_seed2023_attempt01",
+      "PID": "300755",
+      "gpu": "0",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2023/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2023"
+    },
+    {
+      "run_id": "H200_SB_lr0.01_seed2024",
+      "attempt_id": "H200_SB_lr0.01_seed2024_attempt01",
+      "PID": "300759",
+      "gpu": "1",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2024/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2024"
+    },
+    {
+      "run_id": "H200_SB_lr0.01_seed2025",
+      "attempt_id": "H200_SB_lr0.01_seed2025_attempt01",
+      "PID": "300763",
+      "gpu": "1",
+      "status": "RUNNING",
+      "progress_json": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2025/progress.json",
+      "output_dir": "/home_new/xzf_natural_movielens_reassessment/N17/H200/lr0.01/SB/seed2025"
+    }
+  ],
+  "independent_following_profile_groups": {
+    "N17 diagnostics": "N17_DIAGNOSTIC",
+    "AO04 diagnostics": "AO04_DIAGNOSTIC",
+    "V9 trajectory readout": "V9_TRAJECTORY_READOUT"
+  },
+  "terminal_status": "Pending H200 epoch >=101/steps>2000 and receipt; preserve all current attempts."
+}

@@ -5,6 +5,7 @@ import csv
 import datetime
 import hashlib
 import json
+import io
 import math
 
 REPORT=Path(__file__).resolve().parents[1]
@@ -14,8 +15,9 @@ def build():
     rows=[];input_index=[]
     def read(name):
         p=ART/name
-        input_index.append(dict(path=str(p),sha256=hashlib.sha256(p.read_bytes()).hexdigest()))
-        return json.loads(p.read_text())
+        raw=p.read_bytes()
+        input_index.append(dict(path=str(p),sha256=hashlib.sha256(raw).hexdigest()))
+        return json.loads(raw)
     def add(study,cfg,requirement='BASE_REQUIRED'):
         population=cfg.get('population','movielens_natural')
         row=dict(study=study,stage=cfg.get('stage',cfg.get('group',study)),scope=cfg.get('scope',cfg.get('group','')),
@@ -40,8 +42,9 @@ def build():
                 old=next(r for r in rows if r['study']=='N17' and r['stage']=='quota' and r['arm']==cfg['arm'] and r['seed']==cfg['seed'])
                 rows.remove(old);add('N17',cfg)
             elif not any(r['run_dir']==cfg['run_dir'] for r in rows):add('N17',cfg,'CONDITIONAL_TRIGGERED')
-    ledger=REPORT/'RUN_LEDGER.csv';attempts=list(csv.DictReader(ledger.open()))
-    input_index.append(dict(path=str(ledger),sha256=hashlib.sha256(ledger.read_bytes()).hexdigest()))
+    ledger=REPORT/'RUN_LEDGER.csv';ledger_bytes=ledger.read_bytes()
+    attempts=list(csv.DictReader(io.StringIO(ledger_bytes.decode())))
+    input_index.append(dict(path=str(ledger),sha256=hashlib.sha256(ledger_bytes).hexdigest()))
     for row in rows:
         if not row['run_dir']:continue
         found=[a for a in attempts if a.get('output_dir')==row['run_dir'] and a.get('execution_kind') in ('','training')]
@@ -58,7 +61,7 @@ def build():
         counts_by_study_and_state={str(k):n for k,n in collections.Counter((r['study'],r['state']) for r in rows).items()},
         logical_completed=sum(r['state']=='COMPLETE' for r in rows),
         attempt_failures_retained=sum(a['status']=='FAILED' for a in attempts),
-        note='Snapshot, not replacement for live RUN_LEDGER; quota templates are required, pilots are not formal seeds; conditional H200 retains H100.',inputs=input_index)
+        note='Snapshot, not replacement for live RUN_LEDGER; quota templates are required, pilots are not formal seeds; conditional H200 retains H100; RUNNING counters may be copied prefixes or unknown monitor zeros and are never counted as completed.',inputs=input_index)
     (REPORT/'EXPERIMENT_EXECUTION_SNAPSHOT.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
     print({k:v for k,v in summary.items() if k!='inputs'})
 
