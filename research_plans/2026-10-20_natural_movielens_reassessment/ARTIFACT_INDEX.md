@@ -28,3 +28,9 @@
 ## 台账恢复与机械调度证据
 
 [LEDGER_REPAIR.md](LEDGER_REPAIR.md)及analysis/ledger_repair保存原V9事件行、修复前台账gzip、恢复映射/源码/SHA、两条旧监控曝光量修正，以及H200复制计数导致无效profile的审计。未知退出码不写成0；训练、只读和失败attempt分开。当前RUN_LEDGER仍由机械agent维护，最终完整交付前持续更新。
+
+## N17训练工件（测试仍闭锁）
+
+88配置=16pilot+64正式H100+8条件H200续训；[逐配置预算/选点/父路径绑定](analysis/artifact_index/n17_training_run_bindings.csv.gz)、[9600个逐轮模型引用](analysis/artifact_index/n17_training_model_index.csv.gz)、[352份小型原始JSON快照](analysis/artifact_index/n17_training_small_records.jsonl.gz)、[索引范围与状态](analysis/artifact_index/n17_training_index_status.json)。0模型路径缺失，H200的800个共享H100前缀引用已单列，不能重复作为独立训练证据。
+
+模型哈希取自producer all_model_index，其文件SHA与完整训练receipt绑定；本次索引没有再次读取大型模型bytes，正式test freeze将独立逐模型核对。pilot不进入正式测试/四seed统计。该索引仅覆盖训练模型及小型配置/receipt/selection，尚不包括N17测试或机制诊断工件。
