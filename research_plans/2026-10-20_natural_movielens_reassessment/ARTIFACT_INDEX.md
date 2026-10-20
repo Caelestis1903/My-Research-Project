@@ -34,3 +34,7 @@
 88配置=16pilot+64正式H100+8条件H200续训；[逐配置预算/选点/父路径绑定](analysis/artifact_index/n17_training_run_bindings.csv.gz)、[9600个逐轮模型引用](analysis/artifact_index/n17_training_model_index.csv.gz)、[352份小型原始JSON快照](analysis/artifact_index/n17_training_small_records.jsonl.gz)、[索引范围与状态](analysis/artifact_index/n17_training_index_status.json)。0模型路径缺失，H200的800个共享H100前缀引用已单列，不能重复作为独立训练证据。
 
 模型哈希取自producer all_model_index，其文件SHA与完整训练receipt绑定；本次索引没有再次读取大型模型bytes，正式test freeze将独立逐模型核对。pilot不进入正式测试/四seed统计。该索引仅覆盖训练模型及小型配置/receipt/selection，尚不包括N17测试或机制诊断工件。
+
+## N17正式test身份冻结
+
+[冻结原件](analysis/n17_freeze/test_frozen.json)绑定72正式配置的8000模型引用（H200共享前缀并非独立训练重复），冻结命令实际核对所有模型bytes SHA。冻结SHA481fedc4636fef8e43ab0a92b6921aa0a7e9b56dad48c364f22b976d391c60d6；[closure](analysis/n17_freeze/closure.json)、[测试发布凭证](analysis/n17_freeze/release_receipt.json)分别绑定阶段闭合及唯一调度器读数请求。只读test尚待完成。
