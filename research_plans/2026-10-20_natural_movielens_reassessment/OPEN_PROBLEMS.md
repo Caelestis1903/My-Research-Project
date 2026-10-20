@@ -56,3 +56,7 @@
 ### NAT-Q25：早期四seed同正AULC与完整窗口方向冲突
 
 自然V9 AULC1–16+.000473四正但LL+.000708三差，AULC1–50−.000504一正三负、LL−.003140三好；旧人工AULC1–50+.002291四正。零更新全曲线已复算全部2400cell，不是公共点插值。固定有限阶段模式MEDIUM，联合收益与跨人口单因果WEAK。后续若研究进度，应先在SGD.3同模型内部固定选择规则并匹配支持/实际更新；本次不结果后挑窗口、加预算或借用Adam控制冒充该SGD的匹配实验。
+
+### N19/CM19原遗留问题的完整对应
+
+[19项对应CSV](analysis/question_registry/transfer_open_question_crosswalk.csv)与[保留原文/行号/SHA的JSON](analysis/question_registry/transfer_open_question_crosswalk.json)，逐项覆盖原N19八问题、CM19十一问题。当前新transfer结果均PENDING；固定人口确认、函数保持gauge、真实噪声/标注成本、等容量共享及生产成本等未识别项不因执行本轮自然迁移自动解决，也不自动触发额外训练。后续逐scope结果完成再更新这些问题的结论，不能只引用已保存原文而省略回答。

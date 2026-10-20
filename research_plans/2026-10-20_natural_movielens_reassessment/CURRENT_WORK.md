@@ -22,7 +22,7 @@ V2与AC2D/S5/S6有先前独立PASS；V9按start主代理修正中断重跑策略
 
 V2 16完整50epoch，selected/final32份预测逐cell复算，见V2_PHASE_ANALYSIS.md与analysis/v2。AC-2D 64/64训练与测试完成、448份预测2688cell复算，性能分析见AC2D_PERFORMANCE_ANALYSIS.md；160固定点机制任务仍待执行，不能标机制完成。AC-V9 8/8完整训练，56份预测336cell复算，原定公共点/selected/final分析见ACV9_PERFORMANCE_ANALYSIS.md；按历史Q41完成八只读任务、400个冻结模型/预测2400cell复算，0新增训练；预设AULC1–16自然+.000473四正，1–50−.000504一正三负。AC-S5两预算32/32完整配置已分析、1344cell预测复算，ACS5_PHASE_ANALYSIS.md；两预算同seed初始化及每预算四臂实际批次一致，含预算×控制交互。批次/初始化身份、原公式、主/arch实际预算与累计支持及full-coordinate状态窗口已整理，analysis/controlled_updates。AC-S6两预算16/16完整已分析、672cell预测复算，ACS6_PHASE_ANALYSIS.md；selected两预算DH−F均四负，full final四正/LL四好，matched final四负/LL四差。core120与V2 16均已完成；N17 16pilot完整闭环，共同/双侧ownLR均.01；条件追加8formal、8基础quota已物化，现进入64formal训练，两卡各5进程。N17_PILOT_ANALYSIS.md及analysis/n17_pilots保存selection-only核对，无test读数。N18自然数据离线诊断完成，0训练，见N18_PHASE_ANALYSIS.md与analysis/n18；实际mask/audit哈希与同信息LP身份有据。部分阶段完成不等于整项研究闭环。
 
-历史S5/S6全部64原CSV已索引/聚合，analysis/controlled_history；原模型/optimizer bytes缺失不伪称旧预测重算。N17全部53问题原记录和N19/CM19全部遗留问题已完整复制并SHA绑定，analysis/question_registry，另有53项阶段性对应表。OPEN_PROBLEMS.md含原问题来源与25项当前问题/矛盾，仍需后续结果追加，不是最终清单。
+历史S5/S6全部64原CSV已索引/聚合，analysis/controlled_history；原模型/optimizer bytes缺失不伪称旧预测重算。N17全部53问题原记录和N19/CM19全部遗留问题已完整复制并SHA绑定，analysis/question_registry，另有53项阶段性对应表；N19八/CM19十一遗留问题也已逐项映射到冻结范围及未识别项（transfer_open_question_crosswalk），新transfer结果仍PENDING。OPEN_PROBLEMS.md含原问题来源与25项当前问题/矛盾，仍需后续结果追加，不是最终清单。
 
 历史N19/CM19已实际重新聚合1184 run/29856 cell、747完整四seed比较、28104逐cell配对，并复核单任务baseline口径；见HISTORICAL_NUMERIC_RECONSTRUCTION.md、analysis/{transfer,transfer_cells,neutral_interventions}。CM19 856旧run的69448固定探针汇总、model SHA身份和梯度尺度上下文在analysis/cm19_paths，大表以确定性gzip提交，原heavy tensor没有重读。N19 328旧run的审核支持/known-channel RMSE、实际mask预算、rank记录在analysis/n19_records，四优化seed不是四审核draw。MECHANISM_ANALYSIS.md目前只包含已完成权重算术、解释边界和待完成项，不是机制终报。
 
@@ -47,3 +47,7 @@ N17旧12,768条配对端点及371逐seed数组已重新汇总复算，含完整A
 10:20 UTC台账修复闭环，见LEDGER_REPAIR.md：恢复8条V9原attempt，保留2成功重跑和8只读任务；原未知退出码/完成时间如实保留。新唯一parent PID298126按receipt跳过完整配置，重导快照core120+V2 16+N17 80=216完整。实际8个零epoch启动失败分别3V2/2V9/3N17均有成功完整重跑。H200门控触发8条延长（SN平均rho .030705、SB .020324，均4正），H100开发记录64配置已核对、test未读，见N17_DEVELOPMENT_ANALYSIS.md。
 
 H200启动阶段进度100/2000为复制H100前缀，不能当新epoch；8任务5/3槽位启动。首次新协调器profile捕获34/34与15/15MiB属于INVALID_COPIED_H100_COUNTERS，audit原件归档analysis/ledger_repair，按原H100实际1318/1320MiB保守参照；后续N17_DIAGNOSTIC独立profile。
+
+10:32 UTC机械两时点测量证实H200仍在复制而非零进展阻塞：53.34秒8目录共新增114文件/1,596,043,961字节，各PID读写计数均增长；保留全部attempt等待真实新epoch。副本比较原件归档analysis/ledger_repair/H200_copy_progress_comparison_20261020T1032Z.json。
+
+10:37一次stat-only核对：H200的8个H100父目录合计33.576GB/4136文件，目标29.573GB/2559文件，按bytes约88.08%；这是进行中快照，不是H200训练进度。audit已归档analysis/ledger_repair/H200_parent_copy_size_audit_20261020T1037Z.json。
