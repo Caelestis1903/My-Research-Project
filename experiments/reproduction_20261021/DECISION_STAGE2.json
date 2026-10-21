@@ -1,0 +1,279 @@
+{
+  "decision": "DESIGN_COMPLETE",
+  "stage": "stage2",
+  "created_at_utc": "2026-10-21T04:01:47.408473+00:00",
+  "based_on_test_results": false,
+  "test_results_inspected_by_designer": false,
+  "selection_basis": "validation-only and training-mechanism probes; test files/columns/plots excluded",
+  "input_receipts": [
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/DESIGN.md",
+      "sha256": "3a1270cc7b434802c2a68f6d0dbcf281470cf63195f266f070fde816341ae65f",
+      "size_bytes": 25078
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/analysis/validation_screen.csv",
+      "sha256": "69140c7510ea23c8a1f27b2191aa29d934c8d03b751e253f5a3dfeceb797383b",
+      "size_bytes": 2276
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/analysis/paired_validation_deltas.csv",
+      "sha256": "92ae60a79c2cb02a3efcca6a7816049bbd13a6e7348683819a043dba3b4ae77d",
+      "size_bytes": 8323
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/analysis/all_mechanism_metrics.csv",
+      "sha256": "831c62625c7df4bed62d7bf169a3699a6a32a4ee767b40bbd444e454a0ef1131",
+      "size_bytes": 2115358
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/protocol.py",
+      "sha256": "56484050942fdd0878d03bcefcbd6c037f97f37e7411c979496d8177f7f35cb8",
+      "size_bytes": 9398
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/run.py",
+      "sha256": "183daea60f852cae570c90d94aeb1b7ad882f84faf9b9107fe36e661b88399ab",
+      "size_bytes": 9770
+    }
+  ],
+  "stage1_design_sha256": "3a1270cc7b434802c2a68f6d0dbcf281470cf63195f266f070fde816341ae65f",
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "controls": [
+    {
+      "id": "Gtau0",
+      "parent": "G",
+      "effective_tau": 0,
+      "gradient_path": "G per-cell autograd, norm/scale calculation, accumulation, zero-filled Adam gradients",
+      "weight_mode": "learned_specificity",
+      "copy": true,
+      "noise_std": 0.1,
+      "purpose": "isolate amplitude contrast G-Gtau0 from path contrast Gtau0-D"
+    },
+    {
+      "id": "Dconst01",
+      "parent": "D",
+      "gradient_path": "D ordinary summed backward",
+      "weight_mode": "fixed_constant_no_gradient",
+      "constant_weight": 0.1,
+      "copy": true,
+      "noise_std": 0.1,
+      "purpose": "falsify necessity of dynamic specificity weights against observed weight collapse"
+    }
+  ],
+  "additional_formal_runs": 16,
+  "max_controls_per_dataset": 2,
+  "trigger_validation_rows": [
+    {
+      "dataset": "kuairand",
+      "contrast": "D-B",
+      "metric": "val_macro_auc",
+      "n": "4",
+      "mean": "0.009545570148739746",
+      "sd": "0.004603456917040974",
+      "ci95_low": "0.0022204429201535805",
+      "ci95_high": "0.01687069737732591",
+      "positive": "4",
+      "negative": "0",
+      "minimum": "0.003109867289383006",
+      "maximum": "0.01384951314125038",
+      "seed2022": "0.003109867289383006",
+      "seed2023": "0.009786510654236302",
+      "seed2024": "0.011436389510089295",
+      "seed2025": "0.01384951314125038"
+    },
+    {
+      "dataset": "kuairand",
+      "contrast": "D-B",
+      "metric": "val_macro_logloss",
+      "n": "4",
+      "mean": "-0.007176306006143135",
+      "sd": "0.007153622588298785",
+      "ci95_low": "-0.018559315893907892",
+      "ci95_high": "0.004206703881621622",
+      "positive": "0",
+      "negative": "4",
+      "minimum": "-0.016042332111629032",
+      "maximum": "-0.00015146224226531002",
+      "seed2022": "-0.002800781884478798",
+      "seed2023": "-0.00015146224226531002",
+      "seed2024": "-0.016042332111629032",
+      "seed2025": "-0.0097106477861994"
+    },
+    {
+      "dataset": "kuairand",
+      "contrast": "D-B",
+      "metric": "val_pooled_task_mean_auc",
+      "n": "4",
+      "mean": "-0.0016029336152035834",
+      "sd": "0.0031038455030008663",
+      "ci95_low": "-0.006541844441802724",
+      "ci95_high": "0.0033359772113955577",
+      "positive": "1",
+      "negative": "3",
+      "minimum": "-0.004078374445939836",
+      "maximum": "0.002860913569652901",
+      "seed2022": "0.002860913569652901",
+      "seed2023": "-0.004078374445939836",
+      "seed2024": "-0.0019372308108103198",
+      "seed2025": "-0.003257042773717078"
+    },
+    {
+      "dataset": "kuairand",
+      "contrast": "G-D",
+      "metric": "val_macro_auc",
+      "n": "4",
+      "mean": "-0.004017177122367377",
+      "sd": "0.00724961353153751",
+      "ci95_low": "-0.01555293002145755",
+      "ci95_high": "0.007518575776722797",
+      "positive": "1",
+      "negative": "3",
+      "minimum": "-0.012148445509380212",
+      "maximum": "0.005281656052459227",
+      "seed2022": "-0.006084748805256002",
+      "seed2023": "0.005281656052459227",
+      "seed2024": "-0.012148445509380212",
+      "seed2025": "-0.0031171702272925206"
+    },
+    {
+      "dataset": "kuairand",
+      "contrast": "G-D",
+      "metric": "val_macro_logloss",
+      "n": "4",
+      "mean": "3.529066840818329e-05",
+      "sd": "0.0029621083823957797",
+      "ci95_low": "-0.0046780847702953135",
+      "ci95_high": "0.00474866610711168",
+      "positive": "2",
+      "negative": "2",
+      "minimum": "-0.003092742470492571",
+      "maximum": "0.003708741408400884",
+      "seed2022": "0.003708741408400884",
+      "seed2023": "-0.003092742470492571",
+      "seed2024": "0.0009656376375947184",
+      "seed2025": "-0.0014404739018702983"
+    },
+    {
+      "dataset": "movielens",
+      "contrast": "D-B",
+      "metric": "val_macro_auc",
+      "n": "4",
+      "mean": "0.003463763690257554",
+      "sd": "0.0008927918964732884",
+      "ci95_low": "0.0020431325540979806",
+      "ci95_high": "0.004884394826417128",
+      "positive": "4",
+      "negative": "0",
+      "minimum": "0.0025456467736121313",
+      "maximum": "0.004652746656067852",
+      "seed2022": "0.0025456467736121313",
+      "seed2023": "0.0035496096042486602",
+      "seed2024": "0.004652746656067852",
+      "seed2025": "0.003107051727101573"
+    },
+    {
+      "dataset": "movielens",
+      "contrast": "D-B",
+      "metric": "val_macro_logloss",
+      "n": "4",
+      "mean": "-0.007979660104765585",
+      "sd": "0.0057968852617503175",
+      "ci95_low": "-0.017203798146472632",
+      "ci95_high": "0.0012444779369414627",
+      "positive": "0",
+      "negative": "4",
+      "minimum": "-0.015784089298163217",
+      "maximum": "-0.0025663708567412735",
+      "seed2022": "-0.004816852782776437",
+      "seed2023": "-0.00875132748138141",
+      "seed2024": "-0.0025663708567412735",
+      "seed2025": "-0.015784089298163217"
+    },
+    {
+      "dataset": "movielens",
+      "contrast": "D-B",
+      "metric": "val_pooled_task_mean_auc",
+      "n": "4",
+      "mean": "0.00277644754794959",
+      "sd": "0.0007099030705127562",
+      "ci95_low": "0.0016468333460179525",
+      "ci95_high": "0.003906061749881227",
+      "positive": "4",
+      "negative": "0",
+      "minimum": "0.0022410090183203613",
+      "maximum": "0.003787738409632535",
+      "seed2022": "0.0023272564278071783",
+      "seed2023": "0.0027497863360382846",
+      "seed2024": "0.003787738409632535",
+      "seed2025": "0.0022410090183203613"
+    },
+    {
+      "dataset": "movielens",
+      "contrast": "G-D",
+      "metric": "val_macro_auc",
+      "n": "4",
+      "mean": "-0.0010437799705124151",
+      "sd": "0.0014106574321517047",
+      "ci95_low": "-0.0032884507369989042",
+      "ci95_high": "0.001200890795974074",
+      "positive": "1",
+      "negative": "3",
+      "minimum": "-0.002394378149655929",
+      "maximum": "0.0005581691493131702",
+      "seed2022": "-0.0002897060160318432",
+      "seed2023": "-0.002394378149655929",
+      "seed2024": "-0.0020492048656750583",
+      "seed2025": "0.0005581691493131702"
+    },
+    {
+      "dataset": "movielens",
+      "contrast": "G-D",
+      "metric": "val_macro_logloss",
+      "n": "4",
+      "mean": "0.005769011759389264",
+      "sd": "0.002809307143242595",
+      "ci95_low": "0.0012987771901787227",
+      "ci95_high": "0.010239246328599806",
+      "positive": "4",
+      "negative": "0",
+      "minimum": "0.0038592296617006028",
+      "maximum": "0.009910806060296151",
+      "seed2022": "0.0050911568565045195",
+      "seed2023": "0.009910806060296151",
+      "seed2024": "0.0042148544590557835",
+      "seed2025": "0.0038592296617006028"
+    }
+  ],
+  "training_mechanism_evidence": {
+    "probe_epoch": 5,
+    "runs_D_G_both_datasets_all_seeds": 16,
+    "all_weight_mean": 0.10000001639127731,
+    "maximum_weight_sd": 6.376330019541854e-11,
+    "maximum_specificity_mean": 2.205500539143035e-11
+  },
+  "practical_auc_band": 0.001,
+  "constant_control_noninferiority_descriptive_tolerances": {
+    "macro_auc_ci95_lower_greater_than": -0.001,
+    "macro_logloss_ci95_upper_less_than": 0.002
+  },
+  "stage3_decision": "not automatically required; stop after 16 controls and analysis; any future objective/independent-combination design needs a finite explicit amendment and review",
+  "design_stage2_sha256": "97087224b3ca9983c75de45aa38a0d874f86b462ea7e33dd8aed0669405aae09",
+  "prohibited_selection_sources": [
+    "test_metrics.csv",
+    "test columns",
+    "paired_test",
+    "test plots",
+    "all_seed_results"
+  ],
+  "frozen_stage1_files_modified": false
+}

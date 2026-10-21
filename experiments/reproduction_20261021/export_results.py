@@ -22,7 +22,7 @@ def main():
     p.add_argument("--destination", type=Path, default=Path(__file__).parent / "raw_results")
     args = p.parse_args()
     receipt, checkpoints = [], []
-    for subtree in ["formal", "pipeline"]:
+    for subtree in ["formal", "pipeline", "stage2", "stage2_pipeline"]:
         base = args.input_root / subtree
         for source in sorted(base.rglob("*")):
             if not source.is_file() or source.suffix not in {".csv", ".json", ".log", ".txt"}:

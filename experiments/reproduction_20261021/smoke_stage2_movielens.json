@@ -1,0 +1,188 @@
+{
+  "dataset": "movielens",
+  "seed": 2022,
+  "status": "PASS",
+  "real_count": 510,
+  "copy_count": 170,
+  "controls": {
+    "Gtau0": {
+      "metadata": {
+        "stage": "stage2",
+        "control_id": "Gtau0",
+        "parent_arm": "G",
+        "gradient_path": "per_cell_autograd_norm_scale_sum_zero_fill",
+        "effective_tau": 0.0,
+        "weight_mode": "learned_specificity",
+        "constant_weight": null
+      },
+      "initialization": {
+        "canonical_backbone_sha256": "17cb34b972c6f5f921c49c9521af0e62808a69da49510e951140a9f82bd2e69b",
+        "copied_backbone_sha256": "17cb34b972c6f5f921c49c9521af0e62808a69da49510e951140a9f82bd2e69b",
+        "complete_initial_sha256": "1181ad42a7ff74374f1b057f25a98002baf6b9e220c9455adf52bb7a7e367aca",
+        "model_module": "experiments.grad.MDMTRec.models.multi_domain.model"
+      },
+      "parent_references": [
+        {
+          "config": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/G/seed2022/attempt_20261021_091447/config.json",
+          "config_sha256": "a499fd83c0aeb9e8056974120d2a8b931d735180097a5e10ceb52e7b9a4028dd",
+          "data_manifest": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/G/seed2022/attempt_20261021_091447/data_manifest.json",
+          "data_manifest_sha256": "6e2545301eecf41cf332d497de0565e4c686e2f587d024ce04a1c43108af7975",
+          "initialization_matches": true,
+          "data_matches": true
+        }
+      ],
+      "predictions_match_parent": true,
+      "augmented_labels_bce_match": true,
+      "noise_flat_embeddings_match": true,
+      "tau0_vs_ordinary_gradient_difference": {
+        "backbone": {
+          "max_abs": 2.9802322387695312e-08,
+          "parameters_differing": 59,
+          "none_differences": []
+        },
+        "specificity": {
+          "max_abs": 7.450580596923828e-09,
+          "parameters_differing": 3,
+          "none_differences": []
+        },
+        "complexity": {
+          "max_abs": 0.0,
+          "parameters_differing": 0,
+          "none_differences": [
+            "dbo_complexity.W_Q.weight",
+            "dbo_complexity.W_K.weight"
+          ]
+        }
+      },
+      "tau0_vs_ordinary_update_difference": {
+        "backbone": {
+          "max_abs": 3.192201256752014e-05,
+          "parameters_differing": 50,
+          "none_differences": []
+        },
+        "specificity": {
+          "max_abs": 1.7881393432617188e-07,
+          "parameters_differing": 3,
+          "none_differences": []
+        },
+        "complexity": {
+          "max_abs": 0.009960159659385681,
+          "parameters_differing": 2,
+          "none_differences": []
+        }
+      },
+      "tau0_vs_ordinary_prediction_max_abs": 1.7881393432617188e-07,
+      "scales": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "manual_per_cell_zero_filled_sum_bitwise_matches": true,
+      "weights_and_six_cells_match_parent": true,
+      "auxiliary_parameters": {
+        "dbo_complexity.W_Q.weight": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        },
+        "dbo_complexity.W_K.weight": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        },
+        "dbo_specificity.mlp.0.weight": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        },
+        "dbo_specificity.mlp.0.bias": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        },
+        "dbo_specificity.mlp.2.weight": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        },
+        "dbo_specificity.mlp.2.bias": {
+          "has_gradient": true,
+          "has_optimizer_state": true
+        }
+      }
+    },
+    "Dconst01": {
+      "metadata": {
+        "stage": "stage2",
+        "control_id": "Dconst01",
+        "parent_arm": "D",
+        "gradient_path": "ordinary_summed_backward_grad_none",
+        "effective_tau": null,
+        "weight_mode": "fixed_constant_no_gradient",
+        "constant_weight": 0.1
+      },
+      "initialization": {
+        "canonical_backbone_sha256": "17cb34b972c6f5f921c49c9521af0e62808a69da49510e951140a9f82bd2e69b",
+        "copied_backbone_sha256": "17cb34b972c6f5f921c49c9521af0e62808a69da49510e951140a9f82bd2e69b",
+        "complete_initial_sha256": "1181ad42a7ff74374f1b057f25a98002baf6b9e220c9455adf52bb7a7e367aca",
+        "model_module": "experiments.data_generate.MDMTRec.models.multi_domain.model"
+      },
+      "parent_references": [
+        {
+          "config": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/D/seed2022/attempt_20261021_091447/config.json",
+          "config_sha256": "c708d28df6e0e06e4cbe9f826576c10b1fcf17fd7b1197f102079b512bf823b6",
+          "data_manifest": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/D/seed2022/attempt_20261021_091447/data_manifest.json",
+          "data_manifest_sha256": "6e2545301eecf41cf332d497de0565e4c686e2f587d024ce04a1c43108af7975",
+          "initialization_matches": true,
+          "data_matches": true
+        }
+      ],
+      "predictions_match_parent": true,
+      "augmented_labels_bce_match": true,
+      "noise_flat_embeddings_match": true,
+      "all_weights_equal_float32_constant": true,
+      "constant_dtype": "torch.float32",
+      "constant_value": 0.10000000149011612,
+      "six_cell_formula_matches": true,
+      "auxiliary_gradient_norm": 0.0,
+      "auxiliary_parameters_unchanged": true,
+      "backbone_updated": true,
+      "weight_probe": {
+        "mean": 0.10000000894069672,
+        "std": 0.0,
+        "min": 0.10000000149011612,
+        "max": 0.10000000149011612
+      },
+      "auxiliary_parameters": {
+        "dbo_complexity.W_Q.weight": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        },
+        "dbo_complexity.W_K.weight": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        },
+        "dbo_specificity.mlp.0.weight": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        },
+        "dbo_specificity.mlp.0.bias": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        },
+        "dbo_specificity.mlp.2.weight": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        },
+        "dbo_specificity.mlp.2.bias": {
+          "has_gradient": false,
+          "has_optimizer_state": false
+        }
+      }
+    }
+  },
+  "formal_control_routing": "PASS",
+  "stage1_sources_unchanged": {
+    "protocol.py": "56484050942fdd0878d03bcefcbd6c037f97f37e7411c979496d8177f7f35cb8",
+    "run.py": "183daea60f852cae570c90d94aeb1b7ad882f84faf9b9107fe36e661b88399ab",
+    "schedule_runs.py": "39863d1fca36091f58aa9e2a42a768c7deabcb532a9d6cb81175c929059a4ff3"
+  }
+}

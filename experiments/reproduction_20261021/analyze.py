@@ -10,7 +10,9 @@ from scipy.stats import t as student_t
 
 SEEDS = [2022, 2023, 2024, 2025]
 DATASETS = ["movielens", "kuairand"]
-CONTRASTS = [("B", "O"), ("D", "B"), ("G", "B"), ("G", "D")]
+CONTRASTS = [("B", "O"), ("D", "B"), ("G", "B"), ("G", "D"),
+             ("D", "O"), ("G", "O"), ("G", "Gtau0"),
+             ("Gtau0", "D"), ("Dconst01", "D"), ("Dconst01", "B")]
 
 
 def describe(values):
@@ -26,9 +28,12 @@ def describe(values):
                 maximum=float(a.max()) if n else np.nan)
 
 
-def collect(root):
+def collect(root, include_stage2=False):
     records, epochs, mechanisms = [], [], []
-    for p in sorted((root / "formal").rglob("completion.json")):
+    paths = list((root / "formal").rglob("completion.json"))
+    if include_stage2:
+        paths += list((root / "stage2").rglob("completion.json"))
+    for p in sorted(paths):
         c = json.loads(p.read_text())
         if not (c.get("valid") and c.get("formal")):
             continue
@@ -63,7 +68,7 @@ def collect(root):
     if runs.duplicated(["dataset", "arm", "seed"]).any():
         raise RuntimeError("Multiple valid attempts for one run; disposition must be explicit")
     for dataset in DATASETS:
-        for arm in ["O", "B", "D", "G"]:
+        for arm in ["O", "B", "D", "G"] + (["Gtau0", "Dconst01"] if include_stage2 else []):
             actual = sorted(runs.loc[(runs.dataset == dataset) & (runs.arm == arm), "seed"])
             if actual != SEEDS:
                 raise RuntimeError(f"Incomplete required matrix: {dataset}/{arm}: {actual}")
@@ -98,7 +103,7 @@ def figures(runs, epochs, paired, out):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     plt.rcParams.update({"font.size": 9, "svg.fonttype": "none"})
-    arms = ["O", "B", "D", "G"]
+    arms = [a for a in ["O", "B", "D", "G", "Gtau0", "Dconst01"] if a in set(runs.arm)]
     fig, axes = plt.subplots(2, 2, figsize=(9, 6), constrained_layout=True)
     for i, dataset in enumerate(DATASETS):
         for j, metric in enumerate(["macro_auc", "macro_logloss"]):
@@ -106,11 +111,11 @@ def figures(runs, epochs, paired, out):
             g = runs[runs.dataset == dataset]
             means = [g.loc[g.arm == arm, metric].mean() for arm in arms]
             stds = [g.loc[g.arm == arm, metric].std(ddof=1) for arm in arms]
-            ax.errorbar(range(4), means, yerr=stds, fmt="o", capsize=4, color="black")
+            ax.errorbar(range(len(arms)), means, yerr=stds, fmt="o", capsize=4, color="black")
             for seed in SEEDS:
                 vals = g[g.seed == seed].set_index("arm").reindex(arms)[metric]
-                ax.plot(range(4), vals, alpha=.4, linewidth=.8, label=str(seed))
-            ax.set_xticks(range(4), arms)
+                ax.plot(range(len(arms)), vals, alpha=.4, linewidth=.8, label=str(seed))
+            ax.set_xticks(range(len(arms)), arms, rotation=25 if len(arms)>4 else 0)
             ax.set_title(f"{dataset}: {metric} (mean ± seed SD)")
             ax.grid(axis="y", alpha=.2)
     axes[0, 0].legend(fontsize=8)
@@ -165,13 +170,13 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--input-root", type=Path, default=Path("/home_new/xzf_m3oe_reproduction_20261021"))
     p.add_argument("--output", type=Path, default=Path(__file__).parent / "analysis")
+    p.add_argument("--include-stage2", action="store_true")
     args = p.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
-    runs, epochs, mechanisms = collect(args.input_root)
+    runs, epochs, mechanisms = collect(args.input_root, args.include_stage2)
     arms = sorted(set(runs.arm))
-    contrasts = CONTRASTS + [(arm, ref) for arm in arms if arm not in {"O", "B", "D", "G"}
-                            for ref in ["B", "D", "G"]]
-    metric_cols = [k for k in runs if not k.startswith("val_") and
+    contrasts = [(a,b) for a,b in CONTRASTS if a in arms and b in arms]
+    metric_cols = [k for k in runs if not k.startswith("val_") and k != "best_validation_macro_auc" and
                    (k.endswith("_auc") or k.endswith("_logloss"))]
     aggregate, paired = summarize(runs, metric_cols, contrasts)
     runs.to_csv(args.output / "all_seed_results.csv", index=False)
