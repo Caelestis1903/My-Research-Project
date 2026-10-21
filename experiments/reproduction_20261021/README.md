@@ -1,7 +1,7 @@
 # M3oE supplied-method reproduction
 
-This directory implements the frozen `DESIGN.md`. Formal results are not yet
-produced by the implementation stage. All four arms use the actual original
+This directory implements the frozen `DESIGN.md`. The experiment report and
+complete statistics are linked below. All four first-round arms use the actual original
 M3oE STAR/shared/domain/task expert model and a common train-only encoding port.
 `O` retains learned sigmoid fusion and both historical Adam optimizers;
 `B` fixes the four fusion values to 1; `D` adds the supplied specificity/copy/noise
@@ -23,6 +23,8 @@ archive search. The archive's 252 Python files contain none of the explicit
 VUG/soft-label tokens searched; old Git `*mask*.py` path hits are later N19 run
 snapshot directories, not a recovered supplied companion.
 
+**Current GPU policy:** subsequent training must use physical GPU0 only; GPU1 is excluded by the latest user instruction. Commands below follow this policy. Earlier raw logs retain the actual historical two-GPU execution. See [GPU_POLICY.md](GPU_POLICY.md).
+
 Use the existing environment:
 
 ```bash
@@ -37,12 +39,12 @@ After independent review, the runner first executes actual one-epoch pipelines
 with full batch size 40960 to validate end-to-end behavior and profile memory:
 
 ```bash
-$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset movielens --gpus 0,1
-$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage seed2022 --gpus 0,1
-$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage remaining --gpus 0,1
-$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset kuairand --gpus 0,1
-$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage seed2022 --gpus 0,1
-$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage remaining --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset movielens --gpus 0
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage seed2022 --gpus 0
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage remaining --gpus 0
+$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset kuairand --gpus 0
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage seed2022 --gpus 0
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage remaining --gpus 0
 ```
 
 Execute stages in this order to preserve first MovieLens seed2022, then remaining
@@ -61,7 +63,7 @@ Individual executable package entrypoints (default D/G respectively):
 
 ```bash
 $PY experiments/data_generate/run.py --dataset movielens --seed 2022 --device cuda:0
-$PY experiments/grad/run.py --dataset kuairand --seed 2022 --device cuda:1
+$PY experiments/grad/run.py --dataset kuairand --seed 2022 --device cuda:0
 $PY experiments/reproduction_20261021/run.py --dataset movielens --arm O --seed 2022 --device cuda:0
 ```
 
@@ -97,3 +99,37 @@ delta is the actual first minibatch update after observation. Shared-subset
 membership follows DESIGN exactly. The tau0 audit is not assumed numerically
 identical to balancing off: `smoke_*.json` records all parameter-level gradient
 and update differences, including historical zero-vs-None complexity behavior.
+
+## Results and additional frozen controls
+
+Read [the Chinese report](REPORT.md), [scientific interpretation](INTERPRETATION.md),
+and [all seed/cell/domain/task tables](analysis/RESULT_TABLES.md).
+The Stage2 controls are specified in [DESIGN_STAGE2.md](DESIGN_STAGE2.md):
+`Gtau0` retains the complete G accumulation/zero-gradient path at tau=0;
+`Dconst01` retains D augmentation with constant non-differentiable weight0.1.
+They use distinct `stage2` run identities, with exactly16 formal runs added to
+Stage1's32. Stage1 training source files remain unchanged.
+
+```bash
+$PY experiments/reproduction_20261021/stage2_schedule.py --profile --dataset both --gpus 0 --output-root "$OUT"
+$PY experiments/reproduction_20261021/stage2_schedule.py --dataset both --gpus 0 --output-root "$OUT"
+$PY experiments/reproduction_20261021/analyze.py --include-stage2 --input-root "$OUT"
+$PY experiments/reproduction_20261021/build_tables.py
+$PY experiments/reproduction_20261021/export_results.py --input-root "$OUT"
+```
+
+Stage2's scheduler additionally reserves at least3GiB/MovieLens and6GiB/KuaiRand,
+based on actual retained CUDA/process memory after a resource interruption.
+See `scheduler_operational_amendment.json`; batch size and algorithms did not
+change. Invalid/interrupted attempts remain in `raw_results`, excluded from
+formal summaries and followed by a complete restart of the same seed.
+
+`validation_decision_inputs/` preserves the original three hashed evidence files
+used before the Stage2 decision; the current `analysis/` is the final combined
+matrix. `ENVIRONMENT.json` and `requirements.txt` record the actual environment.
+Compact raw logs/configuration/metrics are included under `raw_results/`;
+checkpoints and row-ID arrays stay under the external runtime root, with
+checkpoint paths and SHA256 in `raw_results/checkpoint_index.csv` and per-run
+receipts. Dataset source files are not bundled. Re-running the trained models
+requires those data/checkpoint files; the tracked code, raw metric tables and
+plots are sufficient to audit the reported comparisons without them.

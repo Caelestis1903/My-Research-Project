@@ -3,6 +3,13 @@
 import argparse,json,os,subprocess,sys,time
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
+# One-epoch torch allocated peaks omit retained allocator/CUDA process memory.
+# Conservative physical-memory floors from the observed formal-run footprint.
+RESERVATION_FLOOR={'movielens':3*1024**3,'kuairand':6*1024**3}
+
+def memory_estimate(dataset,profile):
+    return max(int(profile['peak_memory_bytes']*1.15+384*1024**2),
+               RESERVATION_FLOOR[dataset])
 
 def gpu_stats(gpus):
     rows=subprocess.check_output(['nvidia-smi','--query-gpu=index,memory.total,memory.used','--format=csv,noheader,nounits'],text=True)
@@ -95,7 +102,7 @@ def main():
         observed=process_memory(gpus)
         stats=gpu_stats(gpus)
         for key in todo[:]:
-            ds,arm,seed=key; estimate=int(profiles[ds+'/'+arm]['peak_memory_bytes']*1.15+384*1024**2)
+            ds,arm,seed=key; estimate=memory_estimate(ds,profiles[ds+'/'+arm])
             choices=[]
             for g,(total,used) in stats.items():
                 jobs=[j for j in running if j['gpu']==g]
@@ -106,7 +113,7 @@ def main():
             _,_,g=min(choices);command=[sys.executable,str(HERE/'stage2_run.py'),'--dataset',ds,'--arm',arm,'--seed',str(seed),'--device',f'cuda:{g}','--output-root',str(root)]
             lp=root/f'stage2_launch_{ds}_{arm}_{seed}_{int(time.time())}.log';log=lp.open('w');proc=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
             running.append(dict(proc=proc,log=log,gpu=g,key=key,estimate=estimate)); todo.remove(key)
-            record({'event':'launch','key':key,'gpu':g,'pid':proc.pid,'command':command,'log':str(lp),'estimated_memory_bytes':estimate,'gpu_used_bytes':stats[g][1],'projected_memory_bytes':projected_memory(stats[g][1],[j for j in running if j['gpu']==g],observed,0)})
+            record({'event':'launch','key':key,'gpu':g,'pid':proc.pid,'command':command,'log':str(lp),'estimated_memory_bytes':estimate,'reservation_floor_bytes':RESERVATION_FLOOR[ds],'gpu_used_bytes':stats[g][1],'projected_memory_bytes':projected_memory(stats[g][1],[j for j in running if j['gpu']==g],observed,0)})
         if todo or running: time.sleep(args.poll_seconds)
     done=valid_completions(root)
     missing=[key for key in [(ds,a,s) for ds in datasets for s in seeds for a in ['Gtau0','Dconst01']] if key not in done]

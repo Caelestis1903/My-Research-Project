@@ -164,6 +164,87 @@ def figures(runs, epochs, paired, out):
     for ext in ["png", "svg"]:
         fig.savefig(out / f"validation_trajectories.{ext}", dpi=180)
     plt.close(fig)
+    controls = ["G-Gtau0", "Gtau0-D", "Dconst01-D", "Dconst01-B"]
+    if all(c in set(paired.contrast) for c in controls):
+        fig, axes = plt.subplots(2, 2, figsize=(10, 6), constrained_layout=True)
+        for i, dataset in enumerate(DATASETS):
+            for j, metric in enumerate(["macro_auc", "macro_logloss"]):
+                ax = axes[i,j]
+                q = paired[(paired.dataset == dataset) & (paired.metric == metric)].set_index("contrast")
+                for y, c in enumerate(controls):
+                    r = q.loc[c]
+                    ax.plot([r.ci95_low,r.ci95_high],[y,y],color="black",linewidth=1.4)
+                    ax.scatter([r['mean']],[y],marker="D",s=28,color="black",zorder=3)
+                    ax.scatter([r[f"seed{s}"] for s in SEEDS],[y+.12]*4,s=15,alpha=.65,color="tab:blue")
+                ax.axvline(0,color="grey",linewidth=.8)
+                if j == 0:
+                    ax.axvspan(-.001,.001,color="grey",alpha=.12)
+                ax.set_yticks(range(4),controls)
+                ax.invert_yaxis()
+                ax.set_title(f"{dataset}: Δ {metric}")
+                ax.set_xlabel("Paired seed differences; diamond mean, line 95% t interval")
+                ax.grid(axis="x",alpha=.2)
+        for ext in ["png", "svg"]:
+            fig.savefig(out / f"paired_control_contrasts.{ext}",dpi=180)
+        plt.close(fig)
+
+
+def supplemental(runs, epochs, mechanisms, paired, out):
+    """Prespecified control checks and descriptive training/mechanism views."""
+    rows = []
+    for dataset in DATASETS:
+        a = paired[(paired.dataset == dataset) & (paired.contrast == "Dconst01-D")]
+        if not a.empty:
+            auc = a[a.metric == "macro_auc"].iloc[0]
+            loss = a[a.metric == "macro_logloss"].iloc[0]
+            rows.append(dict(dataset=dataset, contrast="Dconst01-D",
+                auc_ci95_low=auc.ci95_low, auc_margin=-.001,
+                loss_ci95_high=loss.ci95_high, loss_margin=.002,
+                descriptive_noninferiority=bool(auc.ci95_low > -.001 and loss.ci95_high < .002)))
+    pd.DataFrame(rows).to_csv(out / "constant_weight_noninferiority.csv", index=False)
+    # Performance-contrast identity; not additive causal effects on trajectories.
+    decomposition = []
+    for dataset in DATASETS:
+        for metric in ["macro_auc", "macro_logloss", "pooled_task_mean_auc", "worst_cell_auc"]:
+            q = paired[(paired.dataset == dataset) & (paired.metric == metric)].set_index("contrast")
+            if all(k in q.index for k in ["G-D", "G-Gtau0", "Gtau0-D"]):
+                for seed in SEEDS:
+                    k = f"seed{seed}"
+                    total, amplitude, path = (float(q.loc[c,k]) for c in ["G-D", "G-Gtau0", "Gtau0-D"])
+                    assert abs(total-amplitude-path) < 1e-12
+                    decomposition.append(dict(dataset=dataset, metric=metric, seed=seed,
+                        G_minus_D=total, G_minus_Gtau0=amplitude, Gtau0_minus_D=path))
+    pd.DataFrame(decomposition).to_csv(out / "gradient_contrast_decomposition.csv", index=False)
+    real_columns = [f"train_real_d{d}t{t}_bce" for d in range(3) for t in range(2)]
+    ep = epochs.copy()
+    ep["train_real_macro_bce"] = ep[real_columns].mean(axis=1)
+    stages = []
+    contrasts = [(a,b) for a,b in CONTRASTS if a in set(runs.arm) and b in set(runs.arm)]
+    for epoch in [1,5,10]:
+        q = ep[ep.epoch == epoch]
+        _, delta = summarize(q, ["val_macro_auc", "val_macro_logloss", "train_real_macro_bce"], contrasts)
+        delta["epoch"] = epoch
+        stages.append(delta)
+    pd.concat(stages, ignore_index=True).to_csv(out / "paired_training_stage.csv", index=False)
+    selected = ep.merge(runs[["dataset","arm","seed","selected_epoch"]], on=["dataset","arm","seed"])
+    selected[selected.epoch == selected.selected_epoch].to_csv(out / "selected_epoch_details.csv", index=False)
+    probes = []
+    if not mechanisms.empty:
+        for _, r in mechanisms.iterrows():
+            w = json.loads(r.w)
+            specificity = json.loads(r.specificity) if isinstance(r.specificity, str) else {"mean": np.nan}
+            scales = np.asarray(json.loads(r.scales))
+            norms = np.asarray(json.loads(r.norm_all))
+            probes.append(dict(dataset=r.dataset, arm=r.arm, seed=r.seed, epoch=r.epoch, step=r.step,
+                weight_mean=w["mean"], weight_sd=w["std"], weight_min=w["min"], weight_max=w["max"],
+                specificity_mean=specificity["mean"], scale_min=float(scales.min()), scale_max=float(scales.max()),
+                raw_norm_min=float(norms.min()), raw_norm_max=float(norms.max()),
+                raw_norm_ratio=float(norms.max()/norms.min()) if norms.min()>0 else np.nan,
+                auxiliary_gradient_norm=r.auxiliary_gradient_norm,
+                adam_delta_norm=r.adam_delta_norm, adam_delta_raw_cosine=r.adam_delta_raw_cosine,
+                conflict_rate=r.conflict_rate, real_generated_cosine_all=r.real_generated_cosine_all,
+                real_generated_cosine_shared=r.real_generated_cosine_shared))
+    pd.DataFrame(probes).to_csv(out / "mechanism_probe_summary.csv", index=False)
 
 
 def main():
@@ -216,7 +297,8 @@ def main():
                     if f"{treatment}_{metric}" in row and f"{reference}_{metric}" in row:
                         row[f"{treatment}-{reference}_{metric}"] = row[f"{treatment}_{metric}"]-row[f"{reference}_{metric}"]
             domains.append(row)
-    pd.DataFrame(domains).to_csv(args.output / "domain_size_difficulty.csv", index=False)
+    pd.DataFrame(domains).to_csv(args.output / "domain_size_performance.csv", index=False)
+    supplemental(runs, epochs, mechanisms, paired, args.output)
     figures(runs, epochs, paired, args.output)
     receipt = dict(completed_formal_runs=len(runs), seeds=SEEDS, datasets=DATASETS,
                    arms=arms, input_root=str(args.input_root),

@@ -11,3 +11,7 @@ Inspected DESIGN_STAGE2.md, DECISION_STAGE2.json, CODER_REPORT_STAGE2.md, all th
 - Independently compared protocol.py/run.py/schedule_runs.py against reviewed implementation commit 2f1dc436: all byte-identical. New source hashes match stage2_source_manifest.json. The scheduler retains the corrected external-plus-pending memory budget and five-process limit.
 
 No additional training was performed for this review. Coder smoke tests were inspected rather than unnecessarily repeated. Proceed with four full-batch one-epoch profiles, then exactly16 formal controls; scientific settings and both datasets/four seeds remain frozen. New pipeline failures must be handled before corresponding formal runs. No further controls or parameter search are authorized by this amendment.
+
+## Operational scheduler amendment
+
+After an external GPU allocation and a measured 5376 MiB formal KuaiRand process footprint, the scheduler now reserves at least 3 GiB per MovieLens run and 6 GiB per KuaiRand run. Only scheduling changed; frozen training/control code hashes are identical. The interrupted attempt is invalid and retained; the same seed must restart from its frozen initialization. Arithmetic checks passed.

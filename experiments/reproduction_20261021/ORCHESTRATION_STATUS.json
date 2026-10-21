@@ -1,6 +1,6 @@
 {
   "task": "Supplied M3oE method reproduction and original baseline",
-  "status": "RUN_STAGE2",
+  "status": "ANALYSIS_COMPLETE_READY_TO_PUSH",
   "design_sha256": "3a1270cc7b434802c2a68f6d0dbcf281470cf63195f266f070fde816341ae65f",
   "datasets": [
     "movielens",
@@ -38,17 +38,17 @@
     },
     {
       "stage": "ANALYZE",
-      "status": "in_progress"
+      "status": "complete"
     },
     {
       "stage": "PUSH",
       "status": "pending"
     }
   ],
-  "updated_utc": "2026-10-21T04:34:22.663555+00:00",
+  "updated_utc": "2026-10-21T06:24:13.359647+00:00",
   "review_verdict": "PASS WITH FIXES; no remaining blocking code issues",
   "reviewed_implementation_commit": "2f1dc436",
-  "run_state": "32/32 complete; integrity audit and validation-only continuation decision in progress",
+  "run_state": "48/48 valid formal runs complete; first-round and Stage2 mechanical audits pass; 1 invalid resource attempt retained and fully rerun",
   "publication_route": "Authenticated SSH Git push verified by dry run; GitHub app repository permissions verified",
   "completed_formal_first_round": 32,
   "continuation": {
@@ -58,7 +58,19 @@
     ],
     "formal_runs": 16,
     "basis": "validation-only frozen DESIGN_STAGE2.md",
-    "status": "profile_then_formal",
-    "workflow": "Multi-agent workflow optional per latest user instruction; primary direct Stage2 review PASS"
-  }
+    "status": "complete",
+    "workflow": "Multi-agent workflow optional per latest user instruction; primary direct Stage2 review PASS",
+    "completed_formal": 16,
+    "invalid_resource_attempts": 1
+  },
+  "future_training_gpu_policy": {
+    "allowed_physical_gpus": [
+      0
+    ],
+    "excluded_physical_gpus": [
+      1
+    ],
+    "basis": "latest explicit user instruction after all48 runs completed"
+  },
+  "completed_formal_total": 48
 }
