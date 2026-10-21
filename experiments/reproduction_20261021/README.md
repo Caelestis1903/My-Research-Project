@@ -1,0 +1,99 @@
+# M3oE supplied-method reproduction
+
+This directory implements the frozen `DESIGN.md`. Formal results are not yet
+produced by the implementation stage. All four arms use the actual original
+M3oE STAR/shared/domain/task expert model and a common train-only encoding port.
+`O` retains learned sigmoid fusion and both historical Adam optimizers;
+`B` fixes the four fusion values to 1; `D` adds the supplied specificity/copy/noise
+bundle; `G` adds the supplied all-parameter amplitude balancing (tau=0.5).
+
+`O` is a controlled original-model port, not a claim of a bitwise historical
+training trajectory: train-only encoding, independent loader generators,
+canonical paired initialization, and always restoring the validation best are
+explicit protocol changes. Its main Adam still includes learned fusion tensors
+because the historical `~bool` predicate includes all parameters; its second
+Adam updates those same four tensors using a persistent **training** iterator.
+
+The two requested directories have independent complete `MDMTRec` packages and
+entrypoints. Root uploaded files remain byte-identical references and are also
+archived in `sources/` with SHA256 in `source_manifest.json`. The grad model is
+`paired-from-supplied-model / ported`. No original VUG/adaptive-mask source is
+claimed or invented. `historical_search.json` records a bounded local history and
+archive search. The archive's 252 Python files contain none of the explicit
+VUG/soft-label tokens searched; old Git `*mask*.py` path hits are later N19 run
+snapshot directories, not a recovered supplied companion.
+
+Use the existing environment:
+
+```bash
+PY=/home/xzf/miniconda3/envs/phase0-3-env/bin/python
+OUT=/home_new/xzf_m3oe_reproduction_20261021
+$PY experiments/reproduction_20261021/smoke.py --dataset movielens --device cuda:0
+$PY experiments/reproduction_20261021/smoke.py --dataset kuairand --device cuda:0
+$PY experiments/reproduction_20261021/run.py --dataset kuairand --prepare-data
+```
+
+After independent review, the runner first executes actual one-epoch pipelines
+with full batch size 40960 to validate end-to-end behavior and profile memory:
+
+```bash
+$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset movielens --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage seed2022 --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset movielens --stage remaining --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --profile --dataset kuairand --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage seed2022 --gpus 0,1
+$PY experiments/reproduction_20261021/schedule_runs.py --dataset kuairand --stage remaining --gpus 0,1
+```
+
+Execute stages in this order to preserve first MovieLens seed2022, then remaining
+MovieLens, then frozen transfer to KuaiRand. The scheduler refuses missing memory
+profiles, allows at most five concurrent processes per GPU, reserves a 15% +
+384MiB margin beyond measured peak, and requires projected GPU memory below 90%.
+It budgets current GPU use plus each queued PID's outstanding reservation
+(estimate minus its observed GPU memory), including pre-initialization jobs.
+Unavailable or inconsistent PID accounting falls back conservatively. Unknown
+first-profile footprints are measured one process at a time only when at least
+2GiB headroom remains below the 90% limit; each preflight is recorded. That
+minimum is a precheck, not a claim that the unknown profile must fit. A failed run
+halts new launches; existing jobs finish and their artifacts remain intact.
+
+Individual executable package entrypoints (default D/G respectively):
+
+```bash
+$PY experiments/data_generate/run.py --dataset movielens --seed 2022 --device cuda:0
+$PY experiments/grad/run.py --dataset kuairand --seed 2022 --device cuda:1
+$PY experiments/reproduction_20261021/run.py --dataset movielens --arm O --seed 2022 --device cuda:0
+```
+
+Shared training code is `run.py` / `protocol.py`; the complete packages' trainer
+classes are documented configuration adapters to that same code, not their
+historical positional APIs. Dataset construction is a frozen audited S1 source
+copy, with only MovieLens role downsampling and associated size assertions
+removed. Encoders/scaler fit on the real global training prefix, OOV=0; data split
+preserves original CSV order. KuaiRand has no interaction timestamp and its
+chronological provenance is not independently reverified. `data.py` verifies
+both raw file SHA256 values and current training counts, and writes immutable
+cached data under external `OUT/cache` using an exclusive lock.
+
+Each new run gets `OUT/formal|pipeline/DATASET/ARM/seedSEED/attempt_TIMESTAMP`.
+`--epochs 1 --smoke` and `--max-steps` always identify pipeline checks, never
+formal outcomes. Formal runs use epoch limit50, strict validation six-cell
+macro AUC, patience10, earliest tie and best checkpoint restoration at every
+exit. A test evaluation occurs once on that selected checkpoint. Normal training
+has no AMP/TF32, clipping, scheduler or batch reduction.
+
+Artifacts: `config.json`, `data_manifest.json`, compressed ordered split row IDs,
+`epoch_metrics.csv`, `mechanism_metrics.csv`, `test_metrics.csv`, raw last-epoch
+metrics, `stdout.log`, `stderr.log`, `completion.json`, and best model + matching
+Adam/RNG/loader-generator states in `best.pt`. Source receipts use absolute
+source paths and SHA256 rather than an invented Git HEAD. Bulky data and
+checkpoints stay external. Macro/per-cell and independent Bernoulli BCE metrics
+are explicit; no multiclass normalization is applied to two-task predictions.
+
+Mechanism observation uses the first ordinary batch each epoch, extra
+`autograd.grad` calls on its existing forward graph, no optimizer step, no extra
+noise draw, no RNG consumption and no parameter/grad mutation. The logged Adam
+delta is the actual first minibatch update after observation. Shared-subset
+membership follows DESIGN exactly. The tau0 audit is not assumed numerically
+identical to balancing off: `smoke_*.json` records all parameter-level gradient
+and update differences, including historical zero-vs-None complexity behavior.

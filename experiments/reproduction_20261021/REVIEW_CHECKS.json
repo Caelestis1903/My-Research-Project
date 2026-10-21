@@ -1,0 +1,141 @@
+{
+  "sources_verified": 21,
+  "datasets": {
+    "movielens": {
+      "training_counts": {
+        "0": 155949,
+        "1": 318599,
+        "2": 325619
+      },
+      "split_lengths": [
+        800167,
+        100021,
+        100021
+      ],
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "array_hash_verification": "PASS",
+      "ordered_splits": "PASS",
+      "paired_initialization": "PASS",
+      "arms": {
+        "O": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.original",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 3.968818426132202,
+          "probe_nonmutation": "PASS"
+        },
+        "B": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.fixed",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 4.037424206733704,
+          "probe_nonmutation": "PASS"
+        },
+        "D": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.model",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 1.3736478984355927,
+          "probe_nonmutation": "PASS"
+        },
+        "G": {
+          "module": "experiments.grad.MDMTRec.models.multi_domain.model",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 1.3736478984355927,
+          "probe_nonmutation": "PASS"
+        }
+      },
+      "D_equals_Goff_one_step": "PASS bitwise all state tensors",
+      "tau0_unused_none_vs_zero_parameters": [
+        "dbo_complexity.W_Q.weight",
+        "dbo_complexity.W_K.weight"
+      ],
+      "empty_domain_backward": "PASS"
+    },
+    "kuairand": {
+      "training_counts": {
+        "0": 172782,
+        "1": 1743898,
+        "2": 89452
+      },
+      "split_lengths": [
+        2006132,
+        250767,
+        250767
+      ],
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "array_hash_verification": "PASS",
+      "ordered_splits": "PASS",
+      "paired_initialization": "PASS",
+      "arms": {
+        "O": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.original",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 4.163801372051239,
+          "probe_nonmutation": "PASS"
+        },
+        "B": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.fixed",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 4.218228399753571,
+          "probe_nonmutation": "PASS"
+        },
+        "D": {
+          "module": "experiments.data_generate.MDMTRec.models.multi_domain.model",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 1.4721968472003937,
+          "probe_nonmutation": "PASS"
+        },
+        "G": {
+          "module": "experiments.grad.MDMTRec.models.multi_domain.model",
+          "forward_backward_optimizer": "PASS",
+          "group_objective": 1.4721968472003937,
+          "probe_nonmutation": "PASS"
+        }
+      },
+      "D_equals_Goff_one_step": "PASS bitwise all state tensors",
+      "tau0_unused_none_vs_zero_parameters": [
+        "dbo_complexity.W_Q.weight",
+        "dbo_complexity.W_K.weight"
+      ],
+      "empty_domain_backward": "PASS"
+    }
+  },
+  "independent_bernoulli_metric_fixture": "PASS",
+  "scheduler_external_plus_pending_reservation": "PASS independent cases",
+  "reviewed_source_sha256": {
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/activation.py": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/callback.py": "67ad8222b3c5d9ac720524d15276dcfbef400c7f2817d60b4ef2edc73bec3181",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/features.py": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/initializers.py": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/basic/layers.py": "f1f20ef6f8d5cb39e125b74b25ea4cf27c964ca00c7f529587b0900d18934599",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/models/multi_domain/__init__.py": "e11c58c743dd3125f0a85eeb89c0266706b4716b10700eb99ed1f18d19cb23e8",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/models/multi_domain/fixed.py": "43d7591f28081d8e3ea6c247a877695f92232be87354d95deecbed9fe3e754be",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/models/multi_domain/model.py": "d98760a5f50961d52a710a858a5b225cbc5ab6d5c8c0a167eefe0de1252c81cc",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/models/multi_domain/original.py": "9a231d46120dade9cb91ea068399aa31b3a6b686fa363809fbbaa9a978f4338c",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/trainers/__init__.py": "520c32a8fde31dc670d469ea0bc1fd1c222d4c32478e4e93221737305ed4056b",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/trainers/ctr_trainer.py": "91d46de90164ef4f8f7181dc3c2190990211945947aa0a84d42545fd1da4f993",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/utils/__init__.py": "13c62ae9d561769c4597c2f279bf03ab25363ad64ada1e77af58c4f7979cc7a3",
+    "/home/xzf/Code/phase0-3/experiments/data_generate/MDMTRec/utils/data.py": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/activation.py": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/callback.py": "67ad8222b3c5d9ac720524d15276dcfbef400c7f2817d60b4ef2edc73bec3181",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/features.py": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/initializers.py": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/basic/layers.py": "f1f20ef6f8d5cb39e125b74b25ea4cf27c964ca00c7f529587b0900d18934599",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/models/multi_domain/__init__.py": "e11c58c743dd3125f0a85eeb89c0266706b4716b10700eb99ed1f18d19cb23e8",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/models/multi_domain/fixed.py": "43d7591f28081d8e3ea6c247a877695f92232be87354d95deecbed9fe3e754be",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/models/multi_domain/model.py": "d98760a5f50961d52a710a858a5b225cbc5ab6d5c8c0a167eefe0de1252c81cc",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/models/multi_domain/original.py": "9a231d46120dade9cb91ea068399aa31b3a6b686fa363809fbbaa9a978f4338c",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/trainers/__init__.py": "520c32a8fde31dc670d469ea0bc1fd1c222d4c32478e4e93221737305ed4056b",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/trainers/ctr_trainer.py": "91d46de90164ef4f8f7181dc3c2190990211945947aa0a84d42545fd1da4f993",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/utils/__init__.py": "13c62ae9d561769c4597c2f279bf03ab25363ad64ada1e77af58c4f7979cc7a3",
+    "/home/xzf/Code/phase0-3/experiments/grad/MDMTRec/utils/data.py": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/analyze.py": "c7a45d804a78ad8582691da02475ffa2c85522eeff82381235c1a0ce8a93e57c",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/audited_data.py": "c22aa305a42b7f153a846448f5e58c6582719a19b9499fb7b2ee8b8082d8b83f",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/data.py": "72b358bd8b93ebc8700b0503a8599b16432e9e41a5853283d9b20d337a87adf7",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/protocol.py": "56484050942fdd0878d03bcefcbd6c037f97f37e7411c979496d8177f7f35cb8",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/run.py": "183daea60f852cae570c90d94aeb1b7ad882f84faf9b9107fe36e661b88399ab",
+    "/home/xzf/Code/phase0-3/experiments/reproduction_20261021/schedule_runs.py": "39863d1fca36091f58aa9e2a42a768c7deabcb532a9d6cb81175c929059a4ff3"
+  }
+}
