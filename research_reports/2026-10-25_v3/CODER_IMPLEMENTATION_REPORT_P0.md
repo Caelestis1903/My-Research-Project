@@ -1,0 +1,25 @@
+# CODER IMPLEMENTATION REPORT — bounded P0 cache diagnostics
+
+Stage: IMPLEMENT. Owned files only `experiments/mdmt_next_v3_20261025/p0_cached.py` and this report. DESIGN§9 and authority03§3 were read before implementation. No diagnostic execution, model training, empirical interpretation or new trajectory has occurred. Existing audit artifacts and other agents' files remain unchanged.
+
+Entry: `run_p0(campaign, device='cuda:0')`. Outputs go to `<campaign>/p0/`; all old sources and snapshots are read-only. The module can run independently of evolving v3 core APIs. It deliberately imports verified old helpers because P0 concerns old models, not the v3 training graph.
+
+## Implemented finite operations
+
+- **R1:** four BASE traces, joined with their sealed S1 warmup prefix where forked; 40 H1 events required per trace. Extract HIST/ridge/NN pre-reveal raw/shrunk scores, history margin/radius/rejection, gamma, forced-gamma1 proposal, state acceptance/actual action. Reconstruct unshrunk valid-action EMA from prior events only; first event is explicitly without a history proposal. Preserve missing forecast fields rather than inventing values. Save raw source utility paths/hashes.
+- **R2:** strict-prefix STATIC/FREEZE/CUM/EMA plus fixed window32 sensitivity. FREEZE is scored only after12 selection events; no current outcome is used to select actions. Record six-cell and macro P_cal improvement over STATIC, P_update utility, paired macro SE, current panel winner agreement and prefix count. Two actual H5 snapshots are separately named/scored using the preceding11 H1 events, never presented as four complete H5 histories or H5-trained rules.
+- **L1:** inspect S1 K4 frozen policy and all four S2 LPS selected/epoch24 saved trees. Retain node support/action/coarse/margin/SE and P_cal depth scores. Candidate-gain and raw value-risk tables are marked missing; no depth0 causal decomposition is fabricated, no replacement tree grid is run.
+- **L2:** four S1 seed3101 epoch10 K1/K4 frozen snapshots. Freeze all native/bank/reader parameters. Actual forwards on original Q_explore compute owner and foreign-target source residuals with unchanged reader and input. Save native/z0/rho/source residuals and per-cell LL/AUC for OFF, actual-rho, each single, half-weighted pair, full unweighted sum. Owner baseline is native; foreign-target baseline is actual own-z0. Preserve coefficients explicitly. Compare reconstructed z0/rows with original cache; mismatch above1e-6 blocks output.
+- **L3:** same four snapshots and original roles. Reuse exact saved original CAL42 and original A51/A7 probability selector. Fit only two new frozen-meta predictor families on the entire original P_label: positive affine MONO and original linear CAL residual with foreign geometry removed (first34 demand columns). Use the original eta grid0/.5/1 and whole-policy P_cal actual risk, separately for direct correction and probability action selection. Evaluate Q_explore only after fitting/selection. Save row predictions/actions, fitted coefficients, selection losses, failure receipts, role accesses and six-cell/macro/pooled metrics. No native/bank/reader gradient is enabled.
+
+MONO is `softplus(a)*z0+b`, initialized slope1/b0, with ridge `.5*(slope-1)^2`; no-key34 has35 coefficients including unpenalized intercept and the original `.5*sum(nonintercept^2)` penalty. Both use FP64 LBFGS max100, original tolerance1e-6/1e-9 and strong-Wolfe, with no hyperparameter search. A one-class/failing cell retains its identity model and records the failure. Fitting is one fixed cached diagnostic, not a new algorithmic training arm. Calibration selection uses real deployed logits; probability selectors score actual selected action BCE.
+
+## Artifacts and costs
+
+Named JSON tables, raw compressed NPZ responses/predictions/actions, snapshot/source hashes, per-pair completion markers, `cost_components.jsonl`, original-role access logs and information-use receipts are retained under p0. Main operations include timing cache reconstruction, frozen snapshot loading, actual forwards and head fitting. Package STATUS records elapsed wall, module SHA, artifact hashes and failure details. A COMPLETE result is reused only for the same module SHA; historical inputs are assumed immutable as audited. On interrupted partial runs completed snapshot pairs are reused, incomplete work is charged rather than erased.
+
+No low-rank receiver extension is run automatically: it requires the orchestrator's evidence-based owner-useful/target-unreadable trigger after these outputs are analyzed. No tree single-factor replacements are required when the missing candidate/value tables prevent identifying that cause; the saved node/calibration evidence remains available for analysis.
+
+## Validation and required next stage
+
+Only `python -m py_compile experiments/mdmt_next_v3_20261025/p0_cached.py` was run with the verified phase0-3 environment: PASS. No training or diagnostic result was inspected by the coder. Independent reviewer must inspect the design, source and this report before runner invokes `run_p0`.
