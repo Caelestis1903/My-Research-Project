@@ -1,0 +1,155 @@
+{
+  "overall_status": "PARTIAL_WITH_EXPLICIT_UNMET_FORMAL_PREREQUISITES",
+  "date": "2026-10-16",
+  "source_commit": "b17cb2707fc2448f09f21fd12279b2b3856c7756",
+  "new_formal_training_runs": 0,
+  "new_numeric_cases_completed": 8,
+  "reused_b1_formal_runs": 8,
+  "old_new_runs_counted_separately": true,
+  "subagents_spawned": 0,
+  "independent_review": false,
+  "reviewer_verdict": "NOT_INDEPENDENT_SELF_REVIEW_ONLY",
+  "workflow_basis": "Latest user strictly requires start.md; its rule11 overrides prior agent delegation",
+  "stages": [
+    {
+      "id": "WP1_A0",
+      "status": "PARTIAL_HISTORICAL_LINEAGE_INCOMPLETE",
+      "dependencies": [],
+      "evidence": [
+        "audit_receipt.json",
+        "artifact_inventory.csv",
+        "historical_missing_recheck.json",
+        "ao04_recovery_attempt3/state_recovery_inventory.json"
+      ]
+    },
+    {
+      "id": "WP2_A1_A2",
+      "status": "PARTIAL_PREDICTION_FORENSIC",
+      "dependencies": [
+        "WP1_A0"
+      ],
+      "evidence": [
+        "ao04_validation_bootstrap.csv",
+        "selection_receipt.json"
+      ]
+    },
+    {
+      "id": "WP3_2A",
+      "status": "COMPLETE_TARGETED_REVIEW_NOT_GLOBAL_NOVELTY_CERTIFICATION",
+      "dependencies": [],
+      "evidence": [
+        "novelty_matrix.json",
+        "literature_and_theory.md"
+      ]
+    },
+    {
+      "id": "2B",
+      "status": "COMPLETE_FINITE_POOL_NUMERIC_ONLY",
+      "dependencies": [
+        "WP3_2A"
+      ],
+      "evidence": [
+        "numeric_analysis_receipt.json",
+        "estimator_statistics.csv"
+      ]
+    },
+    {
+      "id": "2C",
+      "status": "COMPLETE_FIXED_THETA_PROJECTED_NUMERIC_ONLY",
+      "dependencies": [
+        "2B"
+      ],
+      "evidence": [
+        "state_contrasts.csv",
+        "numeric_analysis_receipt.json"
+      ]
+    },
+    {
+      "id": "2D",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "WP1_A0",
+        "WP2_A1_A2",
+        "2A_2B_2C_SCIENTIFIC_GO",
+        "INDEPENDENT_REVIEW"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "3",
+      "status": "COMPLETE_B1_RECONSTRUCTION_REUSE_FORENSIC",
+      "dependencies": [
+        "WP2_A1_A2"
+      ],
+      "evidence": [
+        "val_test_epoch_rank_agreement.csv",
+        "r0_timing_decomposition.csv"
+      ]
+    },
+    {
+      "id": "3B",
+      "status": "INCOMPLETE_HISTORICAL_S6_PREDICTIONS",
+      "dependencies": [
+        "WP1_A0",
+        "WP2_A1_A2"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "4",
+      "status": "NOT_RUN_S5_A0_A1_UNMET",
+      "dependencies": [
+        "VALID_S5_ORIGINAL_ARTIFACTS",
+        "A0_A1_PASS"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "4B",
+      "status": "NOT_RUN_COMMON_THETA_SHADOW_HISTORY_UNAVAILABLE",
+      "dependencies": [
+        "4"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "5",
+      "status": "PARTIAL_ONE_COMPLETE_B1_SEED_TWO_STATES",
+      "dependencies": [
+        "WP1_A0"
+      ],
+      "evidence": [
+        "ao04_recovery_attempt3/fusion_sensitivity.csv"
+      ]
+    },
+    {
+      "id": "6",
+      "status": "NOT_TRIGGERED",
+      "dependencies": [
+        "RELIABLE_NORMAL_TRAINING_MECHANISM"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "7_E1",
+      "status": "NOT_ALLOWED_YET",
+      "dependencies": [
+        "STRONG_SAMPLE",
+        "FOUR_SEEDS",
+        "INDEPENDENT_SETTING",
+        "CAUSAL_INTERVENTION",
+        "NEW_HOLDOUT",
+        "NOVELTY"
+      ],
+      "evidence": []
+    }
+  ],
+  "active_own_processes": 0,
+  "scientific_gap": "No new selected AUC/LL efficacy or independent mechanism replication",
+  "resume_document": "reproduce.md",
+  "gate_decisions": "gate_decisions.md",
+  "updated_unix": 1792133569.538975,
+  "scientific_analysis_status": "PRIMARY_AGENT_COMPLETE_FOR_AVAILABLE_EVIDENCE",
+  "publication_status": "RESULTS_PUSHED_VERIFIED",
+  "verified_payload_commit": "5a0dc6f61ce9a32abd1dd1ca5463b60acfc64acd"
+}

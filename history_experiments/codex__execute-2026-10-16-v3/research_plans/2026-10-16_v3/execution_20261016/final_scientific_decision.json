@@ -1,0 +1,14 @@
+{
+  "status": "FINAL_APPROVED_AFTER_ALL_REQUIRED_RESULTS",
+  "time": 1792214222.921281,
+  "independent_review": false,
+  "classification": "BOUNDARY-CONFIRMED",
+  "method_decision": "NO_GO",
+  "test_interpretation": "冻结test确认的是有条件效应：固定SGD.1共同早期50轮AUC差SB−SN=−.001430（四负，95%seed CI[−.002317,−.000862]），校准Adam.003共同22轮−.009821（四负），校准SGD.3共同37轮则+.001614（四正）；AUC自选test分别−.002518、−.008698、−.000972。固定SGD早期LL差−.000411与AUC方向相反，不能称全面退化。固定SGD/校准Adam的common-SN/common-SB选择读数也保留负向，故selection不是普遍唯一解释。\n\n测试同时限制机制外推：ORDER固定50轮交互−.000123、CI跨零，而AUC自选交互+.003419四正伴SN绝对下降；V8强mask最终d2交互+.003823四正，与诊断−.013904四负相反，两臂绝对test AUC下降；AdaTask早期交互+.003887四正却自选交互−.010219四负。ML共同16轮+.003015四正，固定50轮−.000986四负、自选+.000539为1正3负。阶段、评价人口、选择与绝对健康不能混成一个统一优势。",
+  "method_reason": "十项GO要求未同时满足：明确配置有共同早期和非普遍selection-only证据（MEDIUM），并得到测试确认；跨环境存在可描述边界，局部C和整体状态映射有条件反事实作用。但唯一长期必要中介、对速度/coverage/repetition/short-tail clock等替代的独立排除、独特现有工作缺口均未成立，也没有本轮新方法在真实primary endpoint、四seed稳定且所有域任务/原目标无损的完整证据。C局部AUC阳性和loss/J冲突如实保留，未触发原完整联合训练门槛；不以宽CI证明零效应，不从test生成候选或调参。NO_GO只关闭本轮方法化，不宣称所有未来方法失败。",
+  "final_statement": "本研究确认：同一Sample经验目标及既有stop-gradient图导数字段期望下，q改变有限batch估计器协方差并可改变训练路径和性能；性能效应只在明确的优化器/LR、阶段、选择规则、评价人口和域任务条件下成立（MEDIUM），同图/同均值与采样身份为STRONG。普遍Adam必要、全部selection-only、全部late-only及“小域等于困难域”的解释被反例限制；课程或动量的普遍收益、N主因和统一小域改善/大域损害取舍没有证据。C局部AUC路径为阳性，但联合loss/J不一致，重复/coverage、形状/trace、内容/尾批时钟和状态/进度未独立分离，唯一长期必要中介仍未识别。既有importance sampling、order和optimizer-memory工作部分覆盖一般主题，D3/SAF完整目标不同，固定AdaTask组件残差不代表原论文方法普遍失败。唯一终局分类为BOUNDARY-CONFIRMED，方法决定NO_GO；所有本轮规定且触发的实验、最小控制和冻结测试均已完成，未触发分支与更强未识别主张逐项保留。",
+  "selection_answer": "RESOLVED/MEDIUM：selection会改变符号、大小及两臂健康解释，但不是所有q效应的唯一来源。冻结test固定SGD早期−.001430及共同E50−.001405四负，common-SN/common-SB AUC选轮分别−.002747/−.001380四负；校准Adam早期−.009821及共同选择−.011520/−.010323四负。calSGD早期+.001614四正却AUC自选−.000972四负，ML早期+.003015四正、E50−.000986四负、自选均值+.000539仅1正3负，显示规则/阶段/人口边界。全部四规则、1000重选区间与共同轮次分别归档，不把条件选择区间当外层调参或pristine holdout不确定性。",
+  "numeric_verification_sha": "60a99e77ecc8e017ef82873b720353df6f0016907a32974e1cf1f9ac85472fa5",
+  "primary_review_scope": "Actual all14 frozen summaries, full macro/LL/domain/task/six-cell tables and seed/support contrasts; both final test PNGs visually inspected. Frozen test definitions, source and selection unchanged.",
+  "cross_environment_test": "冻结test共同16轮：KR +.001185（3正1负）、ML +.003015（四正）；E50分别+.001075（2正2负）/−.000986（四负）；AUC自选分别−.000972（四负）/+.000539（1正3负）。ML E50出现负向但early为正，不能遗漏也不能反向改动冻结前基于diagnostic early判据而未触发的深层复制分支。49/5步、数据/标签/子集配置束和总体评价人口依然限制归因。"
+}

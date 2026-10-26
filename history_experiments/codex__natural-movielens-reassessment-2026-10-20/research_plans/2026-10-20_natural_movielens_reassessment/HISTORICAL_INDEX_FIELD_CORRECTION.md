@@ -1,0 +1,7 @@
+# 历史配置索引字段澄清
+
+原索引672条中的 dataset_config/population/budget 列记录的是计划中的新迁移条件，列名未明确方向，可能让读者将旧人工人口误认为自然。原source_config、config SHA与完整historical_config_json始终是真实旧配置，没有更改。
+
+当前三列明确改名 new_dataset_config/new_population_plan/new_budget_plan，新增 historical_dataset_config、historical_base_selected_rows、historical_original_main_rows、historical_effective_main_support_rows、historical_effective_main_domain_counts_json及证据说明。N19 236条原config p均为[.184,.016,.8]、main178125；CM19 436条original_main178125，388条实际main178125，G4各24条main71250/106875，原domaincounts逐条保留。基底都是人工d2固定2022选中187500行，不能由metadata中的global_base_train hash认作自然。
+
+这修正本轮审计索引的列语义，不改历史文件、历史数字、任何训练算法或已冻结新配置。transfer读取的stage/runID/历史JSON完全相同，已生成824配置和source gate不变。HISTORICAL_EXPERIMENT_AUDIT中的人工人口结论不变。

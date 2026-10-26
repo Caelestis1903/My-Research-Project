@@ -1,0 +1,231 @@
+{
+  "goal_status": "DELIVERABLES_COMPLETE_WITH_RECORDED_HISTORICAL_LIMITATIONS",
+  "updated_local_date": "2026-10-16",
+  "no_subagents": true,
+  "dataset_root": "/home/xzf/data",
+  "new_training_runs": 8,
+  "gpu_policy": {
+    "max_concurrent_per_gpu": 5,
+    "prelaunch_memory_at_most_fraction": 0.9,
+    "check_each_gpu_independently": true
+  },
+  "tasks": [
+    {
+      "id": "A0",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Scope-specific independent authorization is explicit for all future actions",
+        "Artifact hashes, dataset split hashes, and reference source IDs are consistent"
+      ],
+      "deliverables": [
+        "artifact_inventory.json",
+        "missing_artifacts.json",
+        "runner_objective_optimizer_callgraph.md"
+      ]
+    },
+    {
+      "id": "A1",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [
+        "A0"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "All accessible predictions are joined to row IDs and metrics re-computed",
+        "Source run configs and code/dataset SHA are bound"
+      ],
+      "deliverables": [
+        "r2_prediction_metric_recalc.md",
+        "r2_rho_identifiability.md"
+      ]
+    },
+    {
+      "id": "A2",
+      "status": "PARTIAL_INCOMPLETE",
+      "dependencies": [
+        "A0"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Exact vs grid-selected checkpoints are clearly labelled",
+        "Domain/task and class counts and test-look limitation recorded"
+      ],
+      "deliverables": [
+        "s6r2_forensic_review.md",
+        "domain_task_bootstrap_evidence.md"
+      ]
+    },
+    {
+      "id": "B1",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "A2"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Strict 8/8 runs paired and full-state valid",
+        "Exact selected epoch and original setting are recreated"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "B2",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "A1",
+        "S5_ARTIFACT_VERIFICATION"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Arms satisfy independent source and optimizer partition assertions",
+        "CF_AF and CT_AT reproduce same-protocol F/T anchor"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "C1",
+      "status": "NOT_RUN_UNMET_PREREQUISITES",
+      "dependencies": [
+        "A0",
+        "B2_OR_RECONSTRUCTED_S5_STATES"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "All source and state invariants pass",
+        "Effects repeat across seeds and relevant partitions"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "C2",
+      "status": "NUMERIC_ORACLE_COMPLETE_TRAINING_NOT_RUN",
+      "dependencies": [
+        "A0",
+        "A1"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Full-training protocol, full-data/exposure pairing and source prerequisites remain unverified",
+        "Current finite-pool initialization oracle does not establish selected AUC/LL benefit",
+        "Same-target contrasts must have reproducible practical selected improvement before method claims"
+      ],
+      "deliverables": [
+        "C2_numeric_oracle_20261016/run_receipt.json",
+        "C2_numeric_oracle_20261016/estimator_moments.csv",
+        "C2_numeric_oracle_20261016/partition_moments.csv",
+        "C2_numeric_oracle_20261016/numeric_analysis.md"
+      ]
+    },
+    {
+      "id": "D1",
+      "status": "NOT_TRIGGERED",
+      "dependencies": [
+        "A0",
+        "POSITIVE_REPLICATED_MECHANISM"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Multiple independent configuration tests support preregistered mechanism",
+        "Non-target costs disclosed"
+      ],
+      "deliverables": []
+    },
+    {
+      "id": "E1",
+      "status": "NOT_TRIGGERED",
+      "dependencies": [
+        "A0",
+        "NEW_SCIENTIFIC_GAP_CONFIRMED",
+        "LITERATURE_NOVELTY_REVIEW"
+      ],
+      "new_training_runs_completed": 0,
+      "remaining_requirements": [
+        "Consistent selected benefit vs strong Sample",
+        "Guard satisfied",
+        "Clear non-duplicate contribution"
+      ],
+      "deliverables": []
+    }
+  ],
+  "next_action": "No active experiment remains. See final_delivery_audit.json and publication_status.json; future studies require their own preregistered scope and original-plan conditions.",
+  "workflow_update_20261016": {
+    "latest_user_instruction": "严禁派发子agent，全程由主agent进行",
+    "prior_delegations": "designer and reviewer interrupted upon latest user instruction; no completed independent verdict",
+    "subsequent_workflow": "primary-agent sequential design/implementation/self-review/run/analysis",
+    "independent_review": false
+  },
+  "reconstruction_study": {
+    "study_id": "B1_reconstruction_20261016",
+    "status": "COMPLETE_NUMERIC_AND_PRIMARY_SCIENTIFIC_ANALYSIS",
+    "planned_runs": 8,
+    "completed_formal_runs": 8,
+    "identity": "RECONSTRUCTION_NOT_HISTORICAL_EXACT",
+    "design": "continuation_design_spec.md",
+    "review": "continuation_implementation_review.md",
+    "worker": "experiments/b1_reconstruction_20261016.py",
+    "scheduler": "experiments/b1_reconstruction_scheduler_20261016.py",
+    "verification": "B1_reconstruction_20261016/engineering_verification.json",
+    "scheduler_pid": 983855,
+    "code_commit": "fa8e8e62789fa972121e3a551a91987cb13cc3d2",
+    "scheduler_status": "B1_reconstruction_20261016/scheduler_status.json",
+    "formal_runs_started": 8,
+    "full_pipeline_verification": "B1_reconstruction_20261016/full_pipeline_verification.json",
+    "analysis_preflight": {
+      "status": "PASS_ENGINEERING_ONLY",
+      "state_files_audited": 100,
+      "prediction_files_audited": 200,
+      "formal_runs_completed": 0,
+      "receipt": "B1_reconstruction_20261016/engineering_analysis/1792082987636882999/analysis_receipt.json",
+      "analysis_spec": "b1_analysis_spec.md",
+      "program": "experiments/b1_analyze_20261016.py"
+    },
+    "previous_scheduler_pid": 953415,
+    "formal_attempts_started": 9,
+    "failed_preflight_attempts": 1,
+    "native_abort_root_cause": "UNRESOLVED_NOT_REPRODUCED",
+    "native_recovery_review": "b1_native_recovery_review.md",
+    "calibrated_reservation_mib": 3325.5,
+    "frozen_algorithm_sha256": "1552aa5aec80c4b1118ee45928ac9a566de50878c1a5f84b2b4199878353fb7f",
+    "active_formal_processes": 0,
+    "formal_runs_entered_fit": 8,
+    "formal_tasks_pending": 0,
+    "first_epoch_state_audit": "B1_reconstruction_20261016/live_epoch0_audit.json",
+    "observation_time_utc": "2026-10-15T18:24:22.175501+00:00",
+    "observation_note": "Final producer states and numerical audit inspected; original intermediate observation timestamp retained only as history.",
+    "postrun_analysis_supervision": {
+      "pid": 1006639,
+      "observed_phase": "NUMERICAL_AUDIT_COMPLETE_PRIMARY_INTERPRETATION_REQUIRED (numerical producer; primary interpretation subsequently completed separately)",
+      "program": "experiments/b1_postrun_analysis_20261016.py",
+      "analysis_source_sha256": "45831f1c5da67254d107072eaab129b604652a1a9d8a2b19bade12a08a77dcc1",
+      "primary_scientific_interpretation_required": true
+    },
+    "state_count_audited": 400,
+    "prediction_files_audited": 800,
+    "analysis_receipt": "B1_reconstruction_20261016/analysis/analysis_receipt.json",
+    "scientific_analysis": "B1_reconstruction_20261016/scientific_analysis.md",
+    "scheduler_terminal_status": "COMPLETE_PENDING_ANALYSIS (scheduler terminal; numerical analysis subsequently completed)"
+  },
+  "c2_numeric_oracle": {
+    "status": "COMPLETE_NUMERIC_ONLY",
+    "cases_completed": 8,
+    "training_runs": 0,
+    "scope": "finite empirical training pools; initialization theta; CPU",
+    "code_commit": "e2bd63b",
+    "run_receipt": "C2_numeric_oracle_20261016/run_receipt.json",
+    "analysis": "C2_numeric_oracle_20261016/numeric_analysis.md",
+    "formal_c2_training_go": false,
+    "independent_review": false
+  },
+  "training_count_note": "Eight completed reconstructed formal runs; historical exact B1 and untriggered conditional matrices remain separately labelled.",
+  "final_scope_decisions": "final_scope_decisions.md",
+  "unresolved_limitations": [
+    "Original S5/S6 source/config/checkpoint/prediction/optimizer lineage missing in bounded recovery search; historical exact requirements remain incomplete.",
+    "No independent agent review: latest user explicitly required all work by primary agent; self-review is labelled.",
+    "All four reconstructed initialization hashes differ from historical pins; reconstruction results cannot close historical exact identity gaps."
+  ],
+  "final_delivery_audit": "final_delivery_audit.json"
+}

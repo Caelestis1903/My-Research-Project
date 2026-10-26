@@ -1,0 +1,11 @@
+# V5 已完成34条最终轨迹的批次权重与时钟审计
+
+这是已完成输入的描述性分析，不是V5最终40条或四种子SGD结论。原始输入为Adam WR/PERM四种子16条与SGD WR/PERM/ORDER前三种子18条；种子预算均取当前producer的实际轮次，初始config轮次不代替actualT。剩余SGD seed2025六条必须在最终共同预算后另行完成相同审计。
+
+34条共2100个arm-epoch、102900个实际生产batch。每个batch的三域计数相加等于n，各轮曝光和trajectory一致。由域计数与p/q独立重建ESS、权重方差和最大权重，误差在1e-10相对容差内；实际最大误差保留在 `V5_completed34_batch_weight_tail_primary_verification.json`。三种条件的原始trace/trajectory/config均物理哈希核对当前producer。两个任务在原训练中每行均参与BCE，各任务曝光等于行曝光是实现蕴含，不声称新测量了缺失标签机制。
+
+SN权重均为1，ESS/n为1、权重方差为0。SB的mean ESS/n在Adam四种子约.435698，SGD前三种子约.435720，最大权重2.607851；实际每个batch而非总体q的标量均已保留在原trace。WR与PERM的实际batch域计数、ESS/variance/maxweight逐位置相同；ORDER保持这些量的多重集，损失和参数路径不要求相同。这是 **STRONG的操纵身份**，不能据此推断权重ESS是下游AUC的必要中介，也不能用生产batch数量充当独立seed数量。
+
+SGD ORDER前三种子共300个arm-epoch中286次短尾位置离开末尾（SN/SB各143/150）。原始WR/PERM的短尾均在末尾。日志batch字段是训练循环的实际enumeration位置；此处直接由actual trace的n重建，不把NPZ中原始batch编号误当执行位置。与原Q38较早500 arm-epoch审计范围不同；此处不含seed25，最终必须用其实际预算更新全部ORDER时钟计数。即使batch multiset固定，短尾在optimizer时钟中的位置仍共同变化，所以这组对照不能唯一识别“纯内容顺序”。
+
+源表在 `analysis/V5_completed34_actual_final_batch_weight_tail/`，含每轮ESS/variance/maxweight/曝光/短尾位置、每条源producer/trace哈希及20个操纵比较。全物理batch NPZ身份沿用既有sampler receipts，不为此描述性审计重复读取全部大文件。性能机制强度仍待完整V5、V7和状态干预合成；当前身份审计不取消它们。

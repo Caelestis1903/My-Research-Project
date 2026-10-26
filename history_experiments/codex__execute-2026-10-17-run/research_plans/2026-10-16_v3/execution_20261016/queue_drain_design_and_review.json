@@ -1,0 +1,12 @@
+{
+  "stage": "DESIGN_IMPLEMENT_SELF_REVIEW",
+  "status": "PASS",
+  "independent_review": false,
+  "source_sha": "5b42100b36fc70cbdd9e3e84b38ea0718996a8326aa73404ce36eef76ce92418",
+  "purpose": "Keep GPU slots occupied when already authorized predecessor is draining, without ever exceeding5total authorized processes perGPU",
+  "design": "New queue admits no task while any predecessor has PENDING tasks. Once predecessors only drain, sum live predecessor RUNNING processes byGPU with own active children for capacity and reservations. Multiple predecessor statuses accepted; deduplicate PID. Predecessor no longer admits any task, preventing competing admissions. Mutable statuses may overcount recently completed children until /proc removal, which is conservative. Each queue retains flock and durable launch/status.",
+  "review": "Verified control flow: status read before every admission sweep, old pending must be zero; GPUcount external+own; onlynewqueue spawns in shared-drain interval. Training math/dependencies untouched.",
+  "check": "py_compile only; runner must also observe combined actual process count afterlaunch",
+  "authorization": "V4_training_manifest24 runs, calibration_frozen selection-only choices. May start persistent queue now guarded by trajectory_manifest.status.json, actual launches wait until no original pending.",
+  "time": 1792167748.5845118
+}

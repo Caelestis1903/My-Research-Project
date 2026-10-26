@@ -1,0 +1,11 @@
+# 当前实际分支的全局冻结与test清单入口
+
+DESIGN COMPLETE，元数据执行支持，不新增算法/实验。N4已按独立N3门槛未触发、H200未触发；此入口只处理当前真实N1+quota+固定ML分支，遇相反门槛拒绝，不假装支持未实施拓扑。
+
+完成N5全部pilot和正式8seed矩阵的完整性核验后，主agent调用一次，生成最终comparison、GLOBAL_MODEL_AND_PROTOCOL_FREEZE和唯一formal run test manifest。入口不会训练、读取test或选择LR；只读既有冻结赢家。common/own估计对象分别列组、完全相同run复用，test每个真实目录只执行一次。组内8seed、H100、方向SN baseline/SB candidate在test前固定；quota组保留同8seed四臂交互所需标签。
+
+要求N1、quota、N5pilot、N5formal全部正式核验无失败；N3 gate terminal且无64补充、N4 false；预先条件闭合记录存在。读completed_artifact_index中既有逐epoch puremodel SHA，检查100model存在/尺寸；不为造freeze再次全量rehash，实际test入口逐个模型SHA再核验。每run config/trajectory/selection/receipt SHA和实际最早selection选轮被冻结，源SHA、完整artifact index SHA与所有门槛/赢家/闭合SHA留链。排除pilot，不覆盖已有freeze或产物。
+
+所有必做训练与选择真的完成才设两项全局闭合bool；builder输出后仍须主agent对照实际matrix审查、commit/push并授权机械test读取。原test入口全局freeze硬门继续保留。AST与字段公式自审是必要检查，不制造合成科研结果或额外测试矩阵。
+
+实际全训练终态后，主agent另签PRETEST_TRAINING_STAGE_CLOSURE（源于所有正式audit及原conditional决策），入口要求其训练/选择闭合bool且纳入证据SHA。此bool不声称test、最终统计和报告已完成；这些依然必须在解封后做。

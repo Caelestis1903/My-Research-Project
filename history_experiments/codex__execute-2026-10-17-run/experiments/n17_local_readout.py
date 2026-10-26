@@ -1,0 +1,177 @@
+"""Primary-orchestrator numerical summaries for the frozen N3 estimands."""
+import argparse
+import json
+from pathlib import Path
+import numpy as np
+import pandas as pd
+from scipy.stats import t
+import n17_common as c
+
+def update_context(directories,out):
+    """Actual update sizes and coordinate counts required by N3.3."""
+    sizes=[];norms=[];seen=set()
+    for directory in map(Path,directories):
+        conf=json.loads((directory/'config.json').read_text())
+        counts={key:0 for key in ['C','P','R','E','C_embedding','C_shared_STAR','C_skip','C_star_mlp','C_experts','ALL']}
+        for item in conf['parameter_order']:
+            size=item['end']-item['start'];counts['ALL']+=size;counts[item['block']]+=size
+            if item['block']=='C':
+                name=item['name']
+                block='C_embedding' if name.startswith('embedding.') else 'C_shared_STAR' if name in ('shared_weight','shared_bias') else 'C_skip' if name.startswith('skip_conn.') else 'C_star_mlp' if name.startswith('star_mlp.') else 'C_experts' if name.startswith('expert.') else None
+                assert block is not None
+                counts[block]+=size
+        assert counts['C']==sum(counts[k] for k in ['C_embedding','C_shared_STAR','C_skip','C_star_mlp','C_experts'])
+        assert counts['ALL']==sum(counts[k] for k in ['C','P','R','E'])
+        for block,size in counts.items():sizes.append(dict(directory=str(directory),optimizer=conf['optimizer'],seed=conf['seed'],anchor_arm=conf['anchor_arm'],epoch=conf['epoch'],block=block,coordinates=size))
+        frame=pd.read_csv(directory/'macro_readouts.csv');frame=frame[(frame.split=='diagnostic')&(frame.draw>=0)]
+        for (draw,case),row in frame.set_index(['draw','case']).iterrows():
+            key=(conf['optimizer'],conf['seed'],conf['anchor_arm'],conf['epoch'],int(draw),case)
+            assert key not in seen,'overlapping supplementary draw in update context';seen.add(key)
+            baseline=frame[(frame.draw==draw)&(frame.case=='native_SB')].iloc[0]
+            norms.append(dict(optimizer=conf['optimizer'],seed=conf['seed'],anchor_arm=conf['anchor_arm'],epoch=conf['epoch'],draw=int(draw),case=case,block=row.block,
+                coordinates=counts[row.block],applied_block_update_norm=float(row.applied_block_update_norm),target_block_update_norm=row.target_block_update_norm,
+                direction_undefined=bool(row.direction_undefined),same_predictions_as_native_SB=row.predictions_sha==baseline.predictions_sha))
+    pd.DataFrame(sizes).to_csv(out/'parameter_counts.csv',index=False)
+    norms=pd.DataFrame(norms)
+    norms['applied_minus_target_norm']=norms.applied_block_update_norm-norms.target_block_update_norm
+    norms['relative_norm_error']=norms.applied_minus_target_norm/norms.target_block_update_norm.where(norms.target_block_update_norm>0)
+    norms.to_csv(out/'actual_block_update_norms.csv',index=False)
+    keys=['optimizer','seed','anchor_arm','epoch','case','block','coordinates'];rows=[]
+    for key,part in norms.groupby(keys):
+        rows.append(dict(zip(keys,key),draws=len(part),applied_norm_mean=float(part.applied_block_update_norm.mean()),applied_norm_min=float(part.applied_block_update_norm.min()),applied_norm_max=float(part.applied_block_update_norm.max()),
+            max_absolute_relative_target_error=float(part.relative_norm_error.abs().max()) if part.relative_norm_error.notna().any() else None,
+            direction_undefined_draws=int(part.direction_undefined.sum()),identical_prediction_draws=int(part.same_predictions_as_native_SB.sum())))
+    pd.DataFrame(rows).to_csv(out/'actual_block_update_norm_seed_summary.csv',index=False)
+
+def cell_readouts(directories,out):
+    """Keep per-cell counterexamples without inflating the training-seed unit."""
+    records=[]
+    for directory in map(Path,directories):
+        conf=json.loads((directory/'config.json').read_text());frame=pd.read_csv(directory/'cell_readouts.csv')
+        for (split,domain,task),part in frame.groupby(['split','domain','task']):
+            baseline=part[part.case=='unupdated_anchor'].iloc[0];sample=part[part.draw>=0]
+            assert not sample.duplicated(['draw','case']).any()
+            for metric in ('auc','logloss'):
+                pivot=sample.pivot(index='draw',columns='case',values=metric)
+                cases=sample[['case','block']].drop_duplicates().set_index('case').block.to_dict()
+                effects=[]
+                for case in pivot.columns:
+                    for label,values in [('absolute',pivot[case]),('vs_SB',pivot[case]-pivot.native_SB),('vs_SN',pivot[case]-pivot.native_SN),('vs_anchor',pivot[case]-baseline[metric])]:
+                        effects.append((case,cases[case],label,values))
+                for block in sample.block.unique():
+                    names=[block+'_full',block+'_norm',block+'_direction']
+                    if all(name in pivot.columns for name in names):
+                        full,norm,direction=[pivot[name] for name in names]
+                        effects.extend([(block+'_factorial',block,'direction_residual',full-norm),(block+'_factorial',block,'norm_direction_interaction',full-norm-direction+pivot.native_SB)])
+                for case,block,label,values in effects:
+                    for draw,value in values.items():
+                        if pd.notna(value):records.append(dict(optimizer=conf['optimizer'],seed=conf['seed'],epoch=conf['epoch'],anchor_arm=conf['anchor_arm'],split=split,domain=int(domain),task=int(task),metric=metric,case=case,block=block,estimand=label,draw=int(draw),value=float(value)))
+    frame=pd.DataFrame(records);keys=['optimizer','epoch','anchor_arm','split','domain','task','metric','case','block','estimand','seed'];rows=[]
+    for key,part in frame.groupby(keys):
+        assert not part.draw.duplicated().any(),'duplicate cell draw prefix'
+        rows.append(dict(zip(keys,key),draws=len(part),mean=float(part.value.mean()),mc_se=float(part.value.std(ddof=1)/np.sqrt(len(part))) if len(part)>1 else None))
+    seeds=pd.DataFrame(rows);seeds.to_csv(out/'cell_seed_estimands.csv',index=False);rows=[]
+    for key,part in seeds.groupby(keys[:-1]):
+        n=len(part);mean=float(part['mean'].mean());se=float(part['mean'].std(ddof=1)/np.sqrt(n)) if n>1 else None
+        rows.append(dict(zip(keys[:-1],key),n=n,mean=mean,positive=int(sum(part['mean']>0)),negative=int(sum(part['mean']<0)),
+            seed_t95_low=float(mean-t.ppf(.975,n-1)*se) if n>1 else None,seed_t95_high=float(mean+t.ppf(.975,n-1)*se) if n>1 else None,
+            mc_se=float(np.sqrt(np.square(part.mc_se).sum())/n),minimum_draws=int(part.draws.min()),maximum_draws=int(part.draws.max())))
+    pd.DataFrame(rows).to_csv(out/'cell_conditional_summary.csv',index=False)
+
+def collect(directories,out):
+    records=[];seen=set();identities={}
+    for directory in map(Path,directories):
+        receipt=json.loads((directory/'receipt.json').read_text());assert receipt['status']=='COMPLETE'
+        conf=json.loads((directory/'config.json').read_text());frame=pd.read_csv(directory/'macro_readouts.csv')
+        identity_key=(conf['optimizer'],conf['seed'],conf['epoch'],conf['anchor_arm'])
+        identity={key:conf[key] for key in ('checkpoint_sha','source_sha','geometry_source_sha','base_sources','draw_stream','batch_size','lr')}
+        if identity_key in identities:assert identities[identity_key]==identity,'incompatible anchor or supplementary draw bank'
+        identities[identity_key]=identity
+        for split,part in frame.groupby('split'):
+            baseline=part[part.case=='unupdated_anchor'].iloc[0];part=part[part.draw>=0]
+            for draw,drawpart in part.groupby('draw'):
+                pivot=drawpart.set_index('case');sb=pivot.loc['native_SB'];sn=pivot.loc['native_SN']
+                for case,row in pivot.iterrows():
+                    for metric in ('auc','logloss','train_J'):
+                        # J is common to both validation subsets: retain just one copy.
+                        if metric=='train_J' and split=='selection':continue
+                        common=dict(seed=int(conf['seed']),epoch=int(conf['epoch']),anchor_arm=conf['anchor_arm'],optimizer=conf['optimizer'],draw=int(draw),split='train' if metric=='train_J' else split,metric=metric)
+                        block=str(row.block)
+                        for label,value in [('vs_SB',row[metric]-sb[metric]),('vs_SN',row[metric]-sn[metric]),('vs_anchor',row[metric]-baseline[metric]),('absolute',row[metric])]:
+                            key=tuple(common.values())+(case,label)
+                            if key in seen:raise AssertionError('duplicate draw/estimand; prefix is not new data')
+                            seen.add(key);records.append(dict(**common,block=block,case=case,estimand=label,value=float(value),direction_undefined=bool(row.direction_undefined)))
+                for block in drawpart.block.unique():
+                    if block=='ALL' or block=='P':continue
+                    names=[block+'_full',block+'_norm',block+'_direction']
+                    if not all(name in pivot.index for name in names):continue
+                    full,norm,direction=[pivot.loc[name] for name in names]
+                    for metric in ('auc','logloss','train_J'):
+                        if metric=='train_J' and split=='selection':continue
+                        common=dict(seed=int(conf['seed']),epoch=int(conf['epoch']),anchor_arm=conf['anchor_arm'],optimizer=conf['optimizer'],draw=int(draw),split='train' if metric=='train_J' else split,metric=metric,block=block,case=block+'_factorial')
+                        for label,value in [('direction_residual',full[metric]-norm[metric]),('norm_direction_interaction',full[metric]-norm[metric]-direction[metric]+sb[metric])]:records.append(dict(**common,estimand=label,value=float(value),direction_undefined=False))
+    out.mkdir(parents=True,exist_ok=False);frame=pd.DataFrame(records);frame.to_csv(out/'draw_estimands.csv',index=False)
+    keys=['optimizer','epoch','anchor_arm','block','case','estimand','split','metric','seed'];seedrows=[]
+    for key,part in frame.groupby(keys):
+        assert not part.draw.duplicated().any();n=len(part);seedrows.append(dict(zip(keys,key),draws=n,mean=float(part.value.mean()),mc_se=float(part.value.std(ddof=1)/np.sqrt(n)) if n>1 else None,direction_undefined=int(part.direction_undefined.sum())))
+    seeds=pd.DataFrame(seedrows);seeds.to_csv(out/'seed_estimands.csv',index=False);summaries=[]
+    for key,part in seeds.groupby(keys[:-1]):
+        n=len(part);x=part['mean'].to_numpy();mu=float(x.mean());se=float(x.std(ddof=1)/np.sqrt(n)) if n>1 else None
+        summaries.append(dict(zip(keys[:-1],key),n=n,seeds=part.seed.to_list(),mean=mu,positive=int(sum(x>0)),negative=int(sum(x<0)),seed_t95_low=float(mu-t.ppf(.975,n-1)*se) if n>1 else None,seed_t95_high=float(mu+t.ppf(.975,n-1)*se) if n>1 else None,mc_se=float(np.sqrt(np.square(part.mc_se).sum())/n),minimum_draws=int(part.draws.min()),maximum_draws=int(part.draws.max()),undefined_draws=int(part.direction_undefined.sum())))
+    pd.DataFrame(summaries).to_csv(out/'conditional_summary.csv',index=False)
+    cell_readouts(directories,out)
+    update_context(directories,out)
+    c.dump(out/'receipt.json',dict(status='COMPLETE',source_sha=c.sha(__file__),sources=list(map(str,directories)),training_seed_unit=True,draws_are_not_training_seeds=True,test_read=False,cell_summaries='descriptive secondary counterexamples; candidate nomination uses only preregistered diagnostic macro AUC'))
+    return pd.DataFrame(summaries)
+
+def nominate(summary,out):
+    blocks=['C_embedding','C_shared_STAR','C_skip','C_star_mlp','C_experts'];candidates=[]
+    for epoch in (10,40):
+        for index,block in enumerate(blocks):
+            entries={};eligible=True
+            for anchor in ('SN','SB'):
+                for effect in ('full','direction'):
+                    cond=(summary.epoch==epoch)&(summary.anchor_arm==anchor)&(summary.block==block)&(summary.split=='diagnostic')&(summary.metric=='auc')
+                    cond&=((summary.case==block+'_full')&(summary.estimand=='vs_SB')) if effect=='full' else ((summary.case==block+'_factorial')&(summary.estimand=='direction_residual'))
+                    part=summary[cond]
+                    if len(part)!=1:eligible=False;continue
+                    row=part.iloc[0].to_dict();entries[anchor+'_'+effect]=row
+                    if row['n']!=4 or row['undefined_draws']>0 or row['minimum_draws']<32:eligible=False
+            if eligible:
+                full_mean=np.mean([entries[anchor+'_full']['mean'] for anchor in ('SN','SB')]);direction_mean=np.mean([entries[anchor+'_direction']['mean'] for anchor in ('SN','SB')]);score=abs(full_mean);need64=any(v['mc_se']>.0001/4 for v in entries.values())
+                candidates.append(dict(epoch=epoch,block=block,block_order=index,score=score,need64=need64,expected_full_sign=int(np.sign(full_mean)),expected_direction_sign=int(np.sign(direction_mean)),entries=entries))
+    candidates.sort(key=lambda x:(-x['score'],x['epoch'],x['block_order']))
+    choice=candidates[0] if candidates else None
+    c.dump(out/'candidate_frozen.json',dict(status='FROZEN',candidate=choice,all_development_candidates=candidates,delta_local=.0001,test_read=False,selection_rule='N3_DESIGN_ADDENDUM; no reselection after precision supplement'))
+    print('N3 candidate',None if choice is None else {k:choice[k] for k in ('block','epoch','need64','expected_full_sign','expected_direction_sign')})
+
+def confirm(summary,candidate_file,out):
+    frozen=json.loads(candidate_file.read_text());assert frozen['status']=='FROZEN';candidate=frozen['candidate']
+    if candidate is None:
+        c.dump(out/'confirmation_gate.json',dict(status='NO_DEFINED_CANDIDATE',N4_trigger=False));return
+    block=candidate['block'];epoch=candidate['epoch'];entries={};passed=True;need64=False;precision_failed=False
+    for anchor in ('SN','SB'):
+        for effect in ('full','direction'):
+            cond=(summary.epoch==epoch)&(summary.anchor_arm==anchor)&(summary.block==block)&(summary.split=='diagnostic')&(summary.metric=='auc')
+            cond&=((summary.case==block+'_full')&(summary.estimand=='vs_SB')) if effect=='full' else ((summary.case==block+'_factorial')&(summary.estimand=='direction_residual'))
+            part=summary[cond];assert len(part)==1;row=part.iloc[0].to_dict();assert row['n']==4 and sorted(row['seeds'])==list(range(2036,2040))
+            assert row['minimum_draws']>=32 and row['maximum_draws']<=64
+            precision=row['mc_se']<=.0001/4;expected=candidate['expected_'+effect+'_sign'];same_sign=row['positive'] if expected>0 else row['negative'] if expected<0 else 0
+            effect_pass=abs(row['mean'])>=.0001 and int(np.sign(row['mean']))==expected and same_sign>=3 and row['undefined_draws']==0
+            passed&=bool(effect_pass and precision);need64|=bool(not precision and row['maximum_draws']<=32);precision_failed|=bool(not precision and row['maximum_draws']>=64)
+            entries[anchor+'_'+effect]=dict(**row,expected_sign=expected,effect_rule_pass=bool(effect_pass),precision_pass=bool(precision))
+    resource=json.loads((c.OUT/'N1_diagnostic_gates.json').read_text());important=resource['optimizers'][resource['N2_optimizer']]['important_residual']
+    c.dump(out/'confirmation_gate.json',dict(status='NEED_PRECISION_SUPPLEMENT' if need64 else 'INCONCLUSIVE_PRECISION' if precision_failed else 'FROZEN',
+        candidate_sha=c.sha(candidate_file),candidate=candidate,entries=entries,delta_local=.0001,need64=need64,
+        independent_local_rule_pass=bool(passed),N1_important_residual=important,N4_trigger=bool(passed and important),test_read=False,
+        scope='resource trigger; independent training seeds, conditional Monte Carlo precision; not a method-benefit claim'))
+    print('N3 independent local gate',bool(passed),'need64',need64,'N4 trigger',bool(passed and important))
+
+def main():
+    p=argparse.ArgumentParser();p.add_argument('--directories',type=Path,nargs='+',required=True);p.add_argument('--out',type=Path,required=True);p.add_argument('--nominate',action='store_true');p.add_argument('--confirm',type=Path);a=p.parse_args()
+    assert not (a.nominate and a.confirm)
+    summary=collect(a.directories,a.out)
+    if a.nominate:nominate(summary,a.out)
+    if a.confirm:confirm(summary,a.confirm,a.out)
+
+if __name__=='__main__':main()

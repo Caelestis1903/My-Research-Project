@@ -1,0 +1,3 @@
+# Q29 gradient support audit — DESIGN / IMPLEMENT / SELF-REVIEW PASS
+
+Before raw support execution. Four seeds, common fixed-fusion M3OE initialization,16rows/domain; six masked task/domain BCE derivatives, exact named-parameter norm and coordinate support counts. Gate/tower nonzero gradients must belong to owncell; STAR slot to owndomain, shared across tasks. Exhaustive CPRE reports tensor support separately from coordinate sparsity. Does not measure performance necessity and does not replace V7 local/full-training intervention. Source masking provides structural all-theta reason; empirical support validates graph usage. CPU at most2processes, no GPU allocation. No algorithm or training semantics changed. Primary self-review per start11, independent_review=false.

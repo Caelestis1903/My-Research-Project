@@ -1,0 +1,15 @@
+{
+  "status": "PASS_SELF_REVIEW_VALIDATION_ONLY",
+  "original_source": "/home/xzf/Code/phase0-3-20261017-git/experiments/n17_geometry.py",
+  "corrected_source": "/home/xzf/Code/phase0-3-20261017-git/experiments/n17_geometry_identity.py",
+  "original_source_sha256": "ea6a8af4b6d52a66c947cfb193bb655796273e411caabafdf5251a8c5616d168",
+  "corrected_source_sha256": "81f174362462148394501f91b331708369cb06dd34d2d161127b97ac0f609a8c",
+  "original_after_reversal_sha256": "ea6a8af4b6d52a66c947cfb193bb655796273e411caabafdf5251a8c5616d168",
+  "estimator_unchanged_after_validation_reversal": true,
+  "helper_source_sha256": "7fd2958d9941a8f709fb7823326a1399fb51760189ce0ba71156b9b0af4a555c",
+  "old_identity_block": "                    direct=flat_grad(model,b,rows,device,actual_weights);res=float((direct.double()-gradient).norm());tol=1e-6+1e-4*float(gradient.norm());assert res<=tol\n                    identity=dict(residual=res,tolerance=tol,status='PASS')",
+  "new_identity_block": "                    identity=same_graph_identity(model,b,rows,device,actual_weights,coeff,gradient,groups)",
+  "metadata_line": "    config['identity_validation_version']='same_graph_v1';config['original_geometry_source_sha']=c.sha(Path(__file__).with_name('n17_geometry.py'))\n",
+  "scope": "only same-graph validation helper, validation call, and provenance metadata added; every original estimator character recovered exactly",
+  "independent_review": false
+}

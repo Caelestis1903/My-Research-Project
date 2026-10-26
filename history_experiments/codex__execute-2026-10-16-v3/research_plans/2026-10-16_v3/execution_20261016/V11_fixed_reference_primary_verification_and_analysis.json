@@ -1,0 +1,47 @@
+{
+  "status": "PASS_NOT_TRIGGERED_SCOPED",
+  "independent_review": false,
+  "time": 1792184150.9200795,
+  "gate": {
+    "status": "NOT_TRIGGERED",
+    "primary_interaction": {
+      "split": "diagnostic",
+      "readout": "PRIMARY_common_pre_AULC",
+      "metric": "auc",
+      "n": 4,
+      "mean": -0.005149058920896309,
+      "sd": 0.006799478563701393,
+      "median": -0.0055280170275544575,
+      "positive": 1,
+      "negative": 3,
+      "seed_values": [
+        -0.012197467097407487,
+        -0.0018002328720825055,
+        0.002657265468931167,
+        -0.00925580118302641
+      ],
+      "ci_low": -0.010726634140216948,
+      "ci_high": 0.0004285162984243308,
+      "paired_sign_randomization_p": 0.375
+    },
+    "common_window": 27,
+    "criteria": ">=75% seeds same sign AND paired seed95%CI excludes0 AND absmean>=.003",
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "required_same_sign": 3,
+    "scope": "optimizer configurations, LR-specific; state causality not established",
+    "source_sha": "21349b0f7180b0ea866999ca5097c089004f10797f3f920fe27acff9900008af",
+    "manifest_sha": "b30d6bf7f697b7160823aba85cfeaab745dad4828b7ebb75b488eff2e984c3b1"
+  },
+  "independent_values": [
+    -0.012197467097407487,
+    -0.0018002328720825055,
+    0.002657265468931167,
+    -0.00925580118302641
+  ],
+  "interpretation": "Contradictory sensitivity: calibratedAdam.003/SGD.3 gateTRIGGERED, fixedAdam.01/SGD.1 gateNOTTRIGGERED. RefCIincludes0butnot+.003, no blockingCIspanningboth practicaldirections. Supports LR/configuration/stage dependence; cannotgeneralizepureAdamstatecause. Calibratedlegitimatebranchremainsrequired; no gateaveragingorretuning."
+}

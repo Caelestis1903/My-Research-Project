@@ -1,0 +1,98 @@
+{
+  "status": "SOURCE_AUDIT_COMPLETE_EXPERIMENTAL_EQUIVALENCE_PENDING",
+  "cutoff": "2026-10-16",
+  "accessed_unix": 1792164954.2092297,
+  "primary_sources": [
+    {
+      "work": "D3",
+      "year": 2024,
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/download/28699/29354",
+      "location": "p4 Eq15–19",
+      "same_objective": "NO in full DBO; constant-weight degeneration only",
+      "intervention": "complexity/specificity product loss weighting plus architecture",
+      "scope": "Does not impose inverse sampling probability identity; cannot treat reweighting as same-objective q control",
+      "decision": "NO full reproduction required by objective gate; no fake D3-inspired substitute"
+    },
+    {
+      "work": "SAF",
+      "year": 2026,
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/download/38491/42453",
+      "location": "p6 Eq11–14, §3.6",
+      "same_objective": "NO for learned sample-weight product",
+      "intervention": "alternating HSIC learned bottom/expert weights; gates; AdaTask adaptation",
+      "scope": "weights change empirical target measure, not constrained to p/q; claims about sparse domains are dataset-specific evidence, not universal premise",
+      "decision": "Audit full method rather than equating vocabulary; objective-preserving optimizer component tested with AdaTask"
+    },
+    {
+      "work": "AdaTask",
+      "year": 2023,
+      "url": "https://arxiv.org/abs/2211.15055",
+      "location": "task-wise accumulated gradients and adaptive learning rates; official84853de15",
+      "same_objective": "YES under frozen two-task sum in imported implementation",
+      "intervention": "task-wise optimizer history states for task-shared parameters",
+      "scope": "Can change optimizer map without changing raw gradient sum; does not itself prove removal of domain sampling gap",
+      "decision": "v3 formal paired comparison still required"
+    },
+    {
+      "work": "Importance Sampling for Minibatches",
+      "year": 2018,
+      "url": "https://www.jmlr.org/papers/v19/16-241.html",
+      "location": "minibatch importance sampling complexity",
+      "same_objective": "YES importance-corrected",
+      "intervention": "sampling distribution/minibatch construction",
+      "scope": "Same target with different sampling/convergence is established, not a novelty claim",
+      "decision": "Partial coverage; MDMT necessity still empirical"
+    },
+    {
+      "work": "Not All Samples Are Created Equal",
+      "year": 2018,
+      "url": "https://proceedings.mlr.press/v80/katharopoulos18a.html",
+      "location": "§3.1 Eq1–7",
+      "same_objective": "YES corrected per-sample gradients",
+      "intervention": "gradient-norm importance sampling/variance reduction",
+      "scope": "Scalar covariance trace and finite-budget speed effects already known; MDMT-specific causal claim requires more",
+      "decision": "Partial coverage"
+    },
+    {
+      "work": "Optimizer Memory Makes Shuffle Order a First-Order Source of Fine-Tuning Noise",
+      "year": 2026,
+      "url": "https://arxiv.org/html/2606.29554v1",
+      "location": "2026-06-28, lifted-state local-window theorem, exact same multiset order contrasts",
+      "same_objective": "local equal-multiset update comparison",
+      "intervention": "domain/batch order; optimizer fixed clocks and memory",
+      "scope": "Already covers order-memory dependence generically; local expansion and warmed-state fine-tuning do not alone identify full-training MDMT mediator",
+      "decision": "Strong partial coverage, compare actual v3 counterfactual before novelty decision"
+    },
+    {
+      "work": "Adam Optimization with Adaptive Batch Selection (AdamCB)",
+      "year": 2025,
+      "url": "https://arxiv.org/html/2512.06795v1",
+      "location": "§2.3 / §3.3 unbiased estimates, submitted2025-12-07",
+      "same_objective": "YES unbiased estimate construction; exact convention must compare",
+      "intervention": "adaptive combinatorial sample selection and Adam",
+      "scope": "Sampling–Adam convergence interaction is prior art, does not require MDMT framing to matter",
+      "decision": "Partial coverage; no positive novelty from joint vocabulary"
+    },
+    {
+      "work": "Random Reshuffling Dominates Stochastic Gradient Descent",
+      "year": 2026,
+      "url": "https://arxiv.org/abs/2606.32005",
+      "location": "2026-06-30; smooth convex setting",
+      "same_objective": "same finite sum",
+      "intervention": "random reshuffling vs stochastic sampling",
+      "scope": "Repetition/order advantages established in a stated smooth convex setting; nonconvex MDMT performance not automatic corollary",
+      "decision": "Partial coverage"
+    },
+    {
+      "work": "DIDS",
+      "year": 2025,
+      "url": "https://arxiv.org/html/2504.13227v1",
+      "location": "domain sampling via gradient groups and Fisher-guided impact",
+      "same_objective": "Not presumed: no inverse-q identity established from inspected sections",
+      "intervention": "adaptive domain ratios and within-domain sampling",
+      "scope": "Data mixing differs from preserving expected sample objective; scenario difference alone not novelty",
+      "decision": "Compare objective identities, partial coverage"
+    }
+  ],
+  "download_issue": "direct requests to AAAI through current proxy failed; primary PDFs and exact equation sections successfully read via web tool; not evidence of source absence"
+}

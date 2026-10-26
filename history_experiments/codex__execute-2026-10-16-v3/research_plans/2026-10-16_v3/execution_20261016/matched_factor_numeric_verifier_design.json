@@ -1,0 +1,29 @@
+{
+  "status": "DESIGN_SPECIFICATION",
+  "time": 1792208268.0582137,
+  "independent_review": false,
+  "purpose": "Engineering generalization of completed V5Adam primary verifier for forthcoming V5SGD/V8 matched4seed threegroup statistics. No new scientific estimand/training/selection rule.",
+  "inputs": [
+    "Exactanalysismanifest, primaryactivationPASS file with manifest_sha andrecords pair/receipt_sha, aggregate/marginal/contrast dirs, baseline label, expected budgetbyseedJSON, newoutputdir"
+  ],
+  "frozen_dependencies": [
+    "v3_primary_fullstate_reconstruction_20261016.cell_curves/chosen_rows for independent direct sixrawcellreduction and receipt-selected/fixed/AULC indices; original90075SHA pinned",
+    "Rawcell files are truth, not aggregatedtables; reproduce summaryCI/sign manually with frozen 20000 draws/RNG20261016 and16signs"
+  ],
+  "checks": [
+    "Allsourcesmanifestseedsexact2022..2025; everygroupactualsamebudgetbyseed inbotharms; allparentoutputhashes/currentproducer/config/trajectorySHA verified",
+    "Aggregatecelltableequalsrawparentcells; domain/task/macrotrajectory directreductions consistent",
+    "Allmarginalrows=rawsixcellreductionsusingfrozenwindows; SN/SB/difference andactualepochhorizons",
+    "Allcontrasts=directrawmarginals minusbaseline, supportsets/absolutechanges; conservative frozen matchedflag convention retained (selected_fixed_budgetlabelstillfalse even actualcohortbudgetsmatch)",
+    "Allmarginal/contrastsummary seeds,mean,median,SD,counts,CI,signp manuallyrecomputed; n4 only, finiteness+tolerance2e-12",
+    "OutputcompactPASSreceiptwithphysicalsourcehashes/checkcounts/maxerror, no testmetrics"
+  ],
+  "verification_before_run": [
+    "Syntax compile in memory",
+    "Sixcell2task toy reductions/weighted/domain/task and knownconstant AULC/selection checks",
+    "Manual fourseed bootstrap andsign toy includes allpositive/mixed/zero; identity with approved r.paired_summary",
+    "Missingparent/activation/source/hash mismatches failclosed before output"
+  ],
+  "activation": "Onlyafterpreparedsource reviewed, ownactualaggregate/marginal/contrastsCOMPLETE/rootinputsreview andresourceavailable. Primary may mechanicallyrunverifiedutility, no scientificresultsbeforecomplete.",
+  "test_access": false
+}

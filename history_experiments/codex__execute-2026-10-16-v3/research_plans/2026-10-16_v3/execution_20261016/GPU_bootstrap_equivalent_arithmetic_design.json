@@ -1,0 +1,21 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "status": "PRE_IMPLEMENTATION",
+  "independent_review": false,
+  "time": 1792182645.5040379,
+  "problem": "Future12statepairs plus stress150 extensions add many hours of repeated CPU row-bootstrap arithmetic while GPU capacity becomes available. Accelerate computation without changing any resampling/metric/selection/onset rule. Existing live CPU readouts remain untouched.",
+  "algorithm": [
+    "New standalone GPU readout wrapper source-pins frozen v3_readout SHA655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c and calls its exact pair function after process-local replacement of only bootstrap_curves. Receipt identifies wrapper plus originalserializer SHA; no frozen source edits.",
+    "Use same NumPy default_rng seed, domains0..2 and multinomial(n,1/n,size<=16) chunks; identical paired row multiplicities across arms/epochs/tasks. Stable ranks and clipped NumPy float64 per-row logloss computed exactly as original CPU.",
+    "On CUDA float64 use gathered multiplicities with stable-order binary labels. Cumulative positive/negative counts, differences at identical tie-group endpoints produce exact tie totals; weighted AUC numerator counts are half-integers bounded by n^2 <2^52, so arithmetic exact before division. Weighted logloss uses CUDA float64 matrix/vector summation; expected only summation-rounding differences. Add each six-cell contribution in same domain/task/key order.",
+    "Keep predictions/ranks/losses CPU; transfer one key at a time or cache <=selected memory budget; at most one16*n float64 weight/index/gather workspace group per process. Max2 numerical GPU bootstrap jobs globally, counted within total5/GPU and90percentmem. No new CPU numerical workers.",
+    "New wrapper returns arrays same shapes and serialized by exact original pair implementation; point metrics remain original CPU train.metrics. No model training, new randomness, new replicates, altered uncertainty or test."
+  ],
+  "acceptance": [
+    "Numerical weighted tie-AUC repeated-row tiny oracle exact for allreplicates; GPU logloss vsCPU <=1e-12 absolute.",
+    "Actual completed V2Adam22 same50 full1000/200 CUDA readout; compare ALL cachedarrays (auc bitexact if hardware permits, otherwise <=1e-12), ALL bootstrap-selected epochindices, onset/selectiononset/budgets, standard pairedreadouts/reselectionCSV within1e-12; any differing categorical decision FAIL and blocksdispatch.",
+    "Measure walltime and peakmemory; do not deploy if no material speed benefit or unsafeGPUmemory. Pure computation acceptance, no scientific interpretation by runner."
+  ],
+  "dispatch": "Only after primaryPASS may future nonstarted pairedreadouts switch to GPU jobs with audited source/provenance and cooperative totalGPU5count. No cancellation of live numericaljobs. PrefixhelpercurrentlyCPU-parent-only remainsunchanged until separately reviewed ifneeded.",
+  "test_access": false
+}

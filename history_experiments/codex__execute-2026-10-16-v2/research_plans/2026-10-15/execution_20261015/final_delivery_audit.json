@@ -1,0 +1,80 @@
+{
+  "status": "DELIVERY_VERIFIED_WITH_EXPLICIT_HISTORICAL_AND_CONDITIONAL_LIMITATIONS",
+  "verification_time_unix": 1792095699.8883653,
+  "completion_basis": "start.md section IX.1: execute and verify planned work, or explicitly record uncompleted reasons; conditional gates are not replaced by unconditional full grids.",
+  "no_subagents_after_user_prohibition": true,
+  "payload_commit": "441b5b4a18ba4ab5e014f2b40a9ef93fc7d22f99",
+  "remote_payload_head_verified": true,
+  "requirements": [
+    {
+      "requirement": "Original plan, dependencies and full task scope retained",
+      "evidence": [
+        "final_scope_decisions.md",
+        "execution_status.json"
+      ],
+      "verdict": "All A0/A1/A2/B1/B2/C1/C2/D1/E1 explicitly accounted; missing historical evidence is not marked successful."
+    },
+    {
+      "requirement": "Environment/data and implementation checks",
+      "evidence": [
+        "environment.json",
+        "B1_reconstruction_20261016/engineering_verification.json",
+        "B1_reconstruction_20261016/full_pipeline_verification.json",
+        "continuation_design_spec.md",
+        "continuation_implementation_review.md",
+        "b1_native_recovery_review.md"
+      ],
+      "verdict": "Existing environment reused; necessary checks recorded; user-required primary-only workflow labelled self-review."
+    },
+    {
+      "requirement": "Actual paired experiments and resource policy",
+      "evidence": [
+        "B1_reconstruction_20261016/run_metadata/archive_index.json",
+        "B1_reconstruction_20261016/analysis/analysis_receipt.json"
+      ],
+      "verdict": "8 reconstructed runs exit0, seeds2022-2025 F/DH,50epochs; per-GPU independent admission with max5. Historical exact identity remains incomplete."
+    },
+    {
+      "requirement": "Full numerical and scientific analysis",
+      "evidence": [
+        "B1_reconstruction_20261016/scientific_analysis.md",
+        "B1_reconstruction_20261016/analysis/analysis_receipt.json",
+        "B1_reconstruction_20261016/interpretation/readout_receipt.json"
+      ],
+      "verdict": "400state/800prediction audit; AUC/LL,domain/task,seeds,baseline,size/difficulty,stage,selection/timing,bootstrap,calibration/windows,contradictions,strength and falsification assessed."
+    },
+    {
+      "requirement": "C2 oracle and every conditional downstream node",
+      "evidence": [
+        "C2_numeric_oracle_20261016/run_receipt.json",
+        "C2_numeric_oracle_20261016/numeric_analysis.md",
+        "final_scope_decisions.md"
+      ],
+      "verdict": "Oracle8cases complete; B2/C1 unmet source prerequisites, C2 training noGO, D1/E1 untriggered; explicit reasons and boundaries."
+    },
+    {
+      "requirement": "Three reports and machine-readable archive",
+      "evidence": [
+        "execution_report.md",
+        "experiment_results.md",
+        "mechanism_analysis.md",
+        "output_checksums.json",
+        "source_dependency_archive.json"
+      ],
+      "verdict": "Reports and figures inspected;292 static checksums match source/publication,56 dependency sources match Git index;120 producer metadata/metric files archived. Weights/datasets/full prediction arrays retained locally."
+    },
+    {
+      "requirement": "Protected Git state, dedicated branch and successful push",
+      "evidence": [
+        "publication_status.json"
+      ],
+      "verdict": "Payload pushed to origin codex/execute-2026-10-15;ls-remote matches payload commit;clean worktree before this final bookkeeping. No force push."
+    }
+  ],
+  "limitations": [
+    "Historical original lineage and exact replication requirements remain incomplete; full reasons in final_scope_decisions.md.",
+    "No independent agent review under latest user prohibition.",
+    "Test is retrospective; R1/R4 are sensitivity analyses, no novel method or broad causal efficacy claim."
+  ],
+  "remaining_required_work": []
+}

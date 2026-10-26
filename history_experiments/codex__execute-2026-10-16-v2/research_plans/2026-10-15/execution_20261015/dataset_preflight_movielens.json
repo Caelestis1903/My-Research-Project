@@ -1,0 +1,187 @@
+{
+  "dataset": "movielens",
+  "resolved_path": "/home/xzf/data/ml-1m/ml-1m.csv",
+  "size": 75514352,
+  "sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+  "seed": 2022,
+  "setting": "d0_large",
+  "split_row_id_hashes": {
+    "train": "84090be0a873530c5815fb8c94ac64a723236f2ad138933eede525d2115ece98",
+    "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+    "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+  },
+  "base_split_fingerprints": {
+    "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+    "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+    "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+  },
+  "preprocessing": {
+    "fit_scope": "global_base_training_split",
+    "split_rule": "global_row_order_80_10_10",
+    "label_definitions": {
+      "task0": "1[rating>3]",
+      "task1": "1[rating>4]"
+    },
+    "oov_index": 0,
+    "selected_training_row_ids_hash": "84090be0a873530c5815fb8c94ac64a723236f2ad138933eede525d2115ece98",
+    "base_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+    "raw_file": "/home/xzf/data/ml-1m/ml-1m.csv",
+    "raw_file_size": 75514352
+  },
+  "features": {
+    "dataset": "movielens",
+    "columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "age",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "dense_columns": [
+      "age"
+    ],
+    "sparse_columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "vocab_sizes": {
+      "user_id": 5401,
+      "movie_id": 3663,
+      "gender": 3,
+      "occupation": 22,
+      "zip": 3201,
+      "cate_id": 19,
+      "domain_indicator": 3
+    },
+    "embedding_dim": 16,
+    "domain_column": "domain_indicator",
+    "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+    "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+    "oov_index": 0
+  },
+  "counts": {
+    "train": [
+      {
+        "domain": 0,
+        "task": 0,
+        "n": 150000,
+        "n_pos": 84135
+      },
+      {
+        "domain": 0,
+        "task": 1,
+        "n": 150000,
+        "n_pos": 35201
+      },
+      {
+        "domain": 1,
+        "task": 0,
+        "n": 34500,
+        "n_pos": 19445
+      },
+      {
+        "domain": 1,
+        "task": 1,
+        "n": 34500,
+        "n_pos": 7721
+      },
+      {
+        "domain": 2,
+        "task": 0,
+        "n": 3000,
+        "n_pos": 1765
+      },
+      {
+        "domain": 2,
+        "task": 1,
+        "n": 3000,
+        "n_pos": 682
+      }
+    ],
+    "validation": [
+      {
+        "domain": 0,
+        "task": 0,
+        "n": 27111,
+        "n_pos": 14634
+      },
+      {
+        "domain": 0,
+        "task": 1,
+        "n": 27111,
+        "n_pos": 5781
+      },
+      {
+        "domain": 1,
+        "task": 0,
+        "n": 35523,
+        "n_pos": 21027
+      },
+      {
+        "domain": 1,
+        "task": 1,
+        "n": 35523,
+        "n_pos": 8541
+      },
+      {
+        "domain": 2,
+        "task": 0,
+        "n": 37387,
+        "n_pos": 22148
+      },
+      {
+        "domain": 2,
+        "task": 1,
+        "n": 37387,
+        "n_pos": 8889
+      }
+    ],
+    "test": [
+      {
+        "domain": 0,
+        "task": 0,
+        "n": 27687,
+        "n_pos": 14281
+      },
+      {
+        "domain": 0,
+        "task": 1,
+        "n": 27687,
+        "n_pos": 4964
+      },
+      {
+        "domain": 1,
+        "task": 0,
+        "n": 41434,
+        "n_pos": 22072
+      },
+      {
+        "domain": 1,
+        "task": 1,
+        "n": 41434,
+        "n_pos": 7031
+      },
+      {
+        "domain": 2,
+        "task": 0,
+        "n": 30900,
+        "n_pos": 18099
+      },
+      {
+        "domain": 2,
+        "task": 1,
+        "n": 30900,
+        "n_pos": 6324
+      }
+    ]
+  },
+  "status": "PASS_DATA_PATH_AND_LOADER_ONLY"
+}

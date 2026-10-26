@@ -1,0 +1,59 @@
+{
+  "features": [
+    "user_id",
+    "movie_id",
+    "gender",
+    "age",
+    "occupation",
+    "zip",
+    "cate_id",
+    "domain_indicator"
+  ],
+  "metadata": {
+    "fit_scope": "global_base_training_prefix_only",
+    "split_rule": "global_row_order_80_10_10",
+    "training_pool": "complete_base_train_prefix_natural",
+    "label_definitions": {
+      "task0": "1[rating>3]",
+      "task1": "1[rating>4]"
+    },
+    "physical_domains": [
+      "ages_1_18",
+      "age_25",
+      "ages_35_45_50_56"
+    ],
+    "age_groups": [
+      [
+        1,
+        18
+      ],
+      [
+        25
+      ],
+      [
+        35,
+        45,
+        50,
+        56
+      ]
+    ],
+    "raw_file": "/home/xzf/data/ml-1m/ml-1m.csv",
+    "raw_file_size": 75514352,
+    "raw_file_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+    "base_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+    "global_base_train_size": 800167,
+    "user_ids_present": true,
+    "dataset_config": "movielens_natural",
+    "population_seed": 2022,
+    "optimizer_seed_changes_population": false,
+    "selected_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+    "selected_train_size": 800167,
+    "base_train_size": 800167,
+    "manifest_legacy_field_note": "base_split_row_id_hashes in historical DataBundle.manifest_fields is selected split IDs; use explicit preprocessing_metadata.base_train_row_ids_hash for natural base population"
+  },
+  "has_missing_indicator": false,
+  "has_random_audit": false,
+  "has_exposure_time": false,
+  "raw_rating_timestamp_present": true,
+  "upload_dt_interpretation": null
+}

@@ -1,0 +1,9 @@
+# N2/N3 实现报告（正式机制实验尚未运行）
+
+N2：n17_quota.py复用冻结N1训练底座，替换sampler与每batch实际Bp/n；额外源SHA写配置和receipt。n17_geometry.py完整坐标在线Welford均值/M2、逐块trace、各域梯度均值及域内/计数组分解，不使用随机投影替代。每锚一例同图直接聚合身份检查；有限MC差别作为估计误差记录。必要时输出同原生Adam状态的瞬时数学映射与固定滞后分母映射，单独明确参数存储舍入范围。
+
+N3：n17_local.py在同原生theta/optimizer state下用torch optimizer产生两q一步实际参数，完整替换直接复制指定坐标，norm/direction四格其余坐标精确保留SB。所有候选实际评价完整train J和固定validation两半，保存宏/六cell指标、预测SHA、draw行ID SHA及应用范数；不保存海量临时模型。
+
+必要工程检查：quota含完整40960与实际尾批40052；系统舍入期望计数解析积分、目标/梯度身份和RNG恢复。CPU小人口四臂矩流水线及一draw全部局部counterfactual均已运行，明确标ENGINEERING，不作科研结果。局部首次smoke在参数配置序列化处发现重复关键字TypeError，正式运行前已改为字典literal合并；未影响任何N1训练。
+
+N1训练源文件自pilot启动以来保持冻结。后续代码不改变正在运行的训练。N2/N3正式运行仍须N1产物及相应触发记录。

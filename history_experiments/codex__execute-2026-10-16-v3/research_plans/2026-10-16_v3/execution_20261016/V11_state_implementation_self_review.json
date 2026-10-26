@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "stage": "CODER_IMPLEMENTATION_REPORT_AND_PRIMARY_SELF_REVIEW",
+  "independent_review": false,
+  "time": 1792182436.4258554,
+  "design": "V11_state_decomposition_design.json",
+  "sources": {
+    "experiments/v3_state_train_20261016.py": "1b30c54e430d429ed1bdab5c87a3b451994916f1760101e9142cb39364e2470f",
+    "experiments/v3_state_shadow_20261016.py": "9127a433f34e1143d5280112c7f54f08f592fb82f1ac429d5bcbdb22922aa9d5",
+    "experiments/v3_state_checks_20261016.py": "2214cabab15cfd2d82eff66d68078e7abe1834ff77459234a1bb24184eb95998",
+    "experiments/v3_state_smoke_20261016.py": "1255497fd101332bf51e561430d1838077e8118fbe085517bf836f1ad00209ab"
+  },
+  "checks": [
+    "AST all3 PASS",
+    "Frozen trainer/readout unchanged; process-local optimizer constructor and source factory injection restored before fit; full native RNG/sampler/resume path reused",
+    "m-only exact bias-corrected first moment, coupled L2 once; beta1zero v-only alias; beta2zero instantaneous denominator",
+    "Shadow gradients both reevaluated at SAME SN theta, H_SB never drives theta; native checkpoints and moments checked at1/10/40",
+    "Raw and global norm-matched local deltas; independent held-out draws fixed before runs; full empirical J and all six selection/diagnostic cells; no test",
+    "Smoke harness syntax PASS; each GPU task has one numerical child at a time; source-identical fresh versus resume comparison actual model/optimizer/sampler chain."
+  ],
+  "blocking_issues": [],
+  "formal_run_authorized": true,
+  "acceptance_evidence": [
+    "V11_state_formula_numerical_oracle.json PASS allerrors0",
+    "runs/V11_acceptance_smoke/receipt.json PASS all3fresh/resumeexact",
+    "runs/V11_native_replay_epoch1_oracle/receipt.json PASS theta/m/v exact0"
+  ]
+}

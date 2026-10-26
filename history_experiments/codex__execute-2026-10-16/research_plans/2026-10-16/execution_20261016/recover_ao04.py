@@ -1,0 +1,203 @@
+"""Recover embedded historical states and measure local fusion sensitivity, CPU only."""
+from pathlib import Path
+import hashlib
+import json
+import sys
+import time
+import argparse
+
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.metrics import roc_auc_score
+
+OUT=Path(__file__).resolve().parent
+ROOT=OUT.parents[2]
+sys.path[:0]=[str(ROOT/'experiments'),str(ROOT/'research_R2/src')]
+from stage_S1_data import load_stage_s1_bundle
+from stage_S1_models import features_from_schema,initial_state_hash
+from ao04_v12_model import build_ao04_model
+
+
+def sha(path):
+    h=hashlib.sha256()
+    with Path(path).open('rb') as f:
+        for b in iter(lambda:f.read(1048576),b''):h.update(b)
+    return h.hexdigest()
+
+
+def dump(p,value):p.write_text(json.dumps(value,indent=2,allow_nan=False)+'\n')
+
+
+def probe(model,bundle,case,checkpoint,epoch):
+    positions=np.concatenate([np.flatnonzero(bundle.val_x[:,-1]==d)[:16] for d in range(3)])
+    x=torch.tensor(bundle.val_x[positions],dtype=torch.float32).T
+    cache={}; handles=[]
+    for name,modules in [('expert',model.domain_expert),('gate',model.gate),('logit',model.tower)]:
+        for i,m in enumerate(modules):
+            def hook(module,inputs,output,key=(name,i)):
+                cache[key]=output
+                if key[0]=='logit':cache[('fused',key[1])]=inputs[0]
+            handles.append(m.register_forward_hook(hook))
+    attrs=[(m,m.tau) for m in model.modules() if hasattr(m,'softmax_type')]
+    original=initial_state_hash(model)
+    prediction=model(x)
+    for m,tau in attrs:m.tau=tau
+    for h in handles:h.remove()
+    a=float(torch.sigmoid(model._weight_exp_d.deep_weights).detach())
+    b=float(torch.sigmoid(model._weight_bal_d.deep_weights).detach())
+    rho=torch.sigmoid(model.q_rho).detach().numpy()
+    rows=[]; analytic_residual=0.
+    for i,pos in enumerate(positions):
+        d=int(bundle.val_x[pos,-1]); j,k=[z for z in range(3) if z!=d]
+        difference=(cache[('expert',j)][i]-cache[('expert',k)][i]).detach()
+        for t in range(2):
+            c=t*3+d
+            logit=cache[('logit',c)][i,0]
+            derivative,dfused=torch.autograd.grad(logit,[model.q_rho,cache[('fused',c)]],retain_graph=True)
+            dq=float(derivative[c])
+            coefficient=a*(1-b)*float(rho[c]*(1-rho[c]))
+            predicted=float((dfused[i].detach()*difference).sum())*coefficient
+            analytic_residual=max(analytic_residual,abs(dq-predicted))
+            assert abs(dq-predicted)<1e-6+abs(dq)*1e-4
+            pp=float(prediction[i,t].detach()); gate=cache[('gate',c)][i].detach().numpy()
+            rows.append(dict(case=case,checkpoint=checkpoint,epoch=epoch,row_id=int(bundle.val_row_ids[pos]),
+                domain=d,task=t,rho=float(rho[c]),aD_one_minus_bD=a*(1-b),
+                expert_difference_norm=float(difference.norm()),
+                dF_drho_norm=a*(1-b)*float(difference.norm()),
+                dF_dq_norm=coefficient*float(difference.norm()),
+                logit_dq=dq,probability_dq=pp*(1-pp)*dq,
+                gate_entropy=float(-(gate*np.log(gate+1e-30)).sum()),
+                own_branch_norm=float(cache[('expert',d)][i].detach().norm()),
+                other_j_norm=float(cache[('expert',j)][i].detach().norm()),
+                other_k_norm=float(cache[('expert',k)][i].detach().norm())))
+    del prediction,cache
+    finite_residual=0.
+    for c in range(6):
+        old=float(model.q_rho[c].detach()); t=c//3; d=c%3
+        finite_differences={}
+        for step in [.01,.003,.001]:
+            with torch.no_grad():
+                model.q_rho[c]=old+step; plus=model(x).detach().numpy()
+                model.q_rho[c]=old-step; minus=model(x).detach().numpy()
+                model.q_rho[c]=old
+            for m,tau in attrs:m.tau=tau
+            finite_differences[step]=(plus-minus)/(2*step)
+        for row in rows:
+            if row['domain']==d and row['task']==t:
+                i=int(np.flatnonzero(bundle.val_row_ids[positions]==row['row_id'])[0])
+                errors=[]
+                for step,fd in finite_differences.items():
+                    value=float(fd[i,t]); row[f'probability_dq_fd_h{step}']=value
+                    errors.append(abs(value-row['probability_dq']))
+                row['minimum_fd_absolute_residual']=min(errors)
+                finite_residual=max(finite_residual,min(errors))
+    if finite_residual>=2e-5:
+        pd.DataFrame(rows).to_csv(OUT/f'failed_probe_{case}_{checkpoint}.csv',index=False)
+        raise AssertionError(f'{case}/{checkpoint} finite difference residual {finite_residual}')
+    assert initial_state_hash(model)==original
+    return rows,analytic_residual,finite_residual
+
+
+def main():
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--output-name',default='ao04_recovery_attempt3')
+    parser.add_argument('--reuse-matches',type=Path)
+    args=parser.parse_args()
+    torch.set_num_threads(2)
+    dest=OUT/args.output_name;dest.mkdir(exist_ok=False)
+    inventory=[]; all_probes=[]; metrics=[]
+    reused={r['source']:r for r in json.loads(args.reuse_matches.read_text())} if args.reuse_matches else {}
+    for statepath in sorted((ROOT/'research_R2/formal_runs_20261012').rglob('last_resume.pt')):
+        run=statepath.parent
+        manifest=json.loads((run/'run_manifest.json').read_text())
+        if not (run/'config.json').exists():
+            state=torch.load(statepath,map_location='cpu',weights_only=False)
+            inventory.append(dict(case=f"{manifest['dataset']}_{manifest['arm']}_{manifest['seed']}",
+                source=str(statepath.relative_to(ROOT)),sha256=sha(statepath),
+                historical_status=manifest['status'],epoch=state['epoch'],selected_epoch=state['selected_epoch'],
+                fields=list(state),selected_weights_recovered='selected_cpu_state' in state,
+                validation_binding='INCOMPLETE_CONFIG_UNAVAILABLE_NO_NUMERICAL_IDENTITY_CLAIM',
+                main_optimizer_state_count=len(state['main_optimizer_state_dict']['state']),
+                arch_optimizer_state_count=len(state['arch_optimizer_state_dict']['state'])))
+            dump(dest/'state_recovery_inventory.json',inventory)
+            del state
+            continue
+        config=json.loads((run/'config.json').read_text())
+        for n,expected in config['code'].items():assert sha(ROOT/'research_R2/src'/n)==expected
+        dataset=manifest['dataset'];seed=manifest['seed'];arm=manifest['arm']
+        directory='/home/xzf/data/kuairand/processed' if dataset=='kuairand' else '/home/xzf/data/ml-1m'
+        filename='kuai_rand.csv' if dataset=='kuairand' else 'ml-1m.csv'
+        assert sha(Path(directory)/filename)==config['dataset_sha256']
+        bundle=load_stage_s1_bundle(dataset,directory,config['setting'],seed)
+        state=torch.load(statepath,map_location='cpu',weights_only=False)
+        case=f'{dataset}_{arm}_{seed}'
+        rec=dict(case=case,source=str(statepath.relative_to(ROOT)),sha256=sha(statepath),
+                 historical_status=manifest['status'],epoch=state['epoch'],selected_epoch=state['selected_epoch'],
+                 fields=list(state),selected_weights_recovered=True,
+                 main_optimizer_state_count=len(state['main_optimizer_state_dict']['state']),
+                 arch_optimizer_state_count=len(state['arch_optimizer_state_dict']['state']),
+                 main_steps=state['main_steps'],arch_steps=state['arch_steps'],
+                 validation_original_row_ids_present=False,validation_binding='NO_OLD_PREDICTION_AVAILABLE')
+        model=build_ao04_model(features_from_schema(bundle.features),arm,seed=seed).cpu().eval()
+        model.load_state_dict(state['selected_cpu_state'],strict=True)
+        prediction_path=run/'validation_predictions_selected.npz'
+        if prediction_path.exists():
+            with np.load(prediction_path,allow_pickle=False) as z:
+                expected=z['predictions'];labels=z['labels']
+            assert np.array_equal(bundle.val_y,labels)
+            prior=reused.get(str(statepath.relative_to(ROOT)))
+            if prior and prior.get('validation_binding')=='RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH':
+                assert prior['sha256']==sha(statepath) and prior['validation_npz_sha256']==sha(prediction_path)
+                prediction=expected
+                residual=prior['validation_prediction_max_absolute_residual']
+                rec['full_prediction_check_reused_from']=str(args.reuse_matches.relative_to(OUT))
+            else:
+                result=[]
+                attrs=[(m,m.tau) for m in model.modules() if hasattr(m,'softmax_type')]
+                with torch.no_grad():
+                    for i in range(0,len(bundle.val_x),2048):
+                        result.append(model(torch.tensor(bundle.val_x[i:i+2048],dtype=torch.float32).T).numpy())
+                for m,tau in attrs:m.tau=tau
+                prediction=np.concatenate(result)
+                residual=float(np.max(np.abs(prediction-expected)))
+            assert residual<=3e-6,(case,residual)
+            rec.update(validation_binding='RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH',
+                       validation_prediction_max_absolute_residual=residual,
+                       validation_npz_sha256=sha(prediction_path),validation_rows=len(labels))
+            np.savez_compressed(dest/f'{case}_validation_row_ids.npz',row_ids=bundle.val_row_ids,
+                                domains=bundle.val_x[:,-1].astype(int))
+            for d in range(3):
+                mask=bundle.val_x[:,-1]==d
+                for t in range(2):
+                    y=labels[mask,t].astype(float);p=prediction[mask,t].astype(float);p=np.clip(p,1e-12,1-1e-12)
+                    metrics.append(dict(case=case,domain=d,task=t,auc=float(roc_auc_score(y,p)),
+                                        logloss=float(-(y*np.log(p)+(1-y)*np.log1p(-p)).mean()),
+                                        n=len(y),n_pos=int(y.sum())))
+        if arm=='B1':
+            for name,key,epoch in [('selected','selected_cpu_state',state['selected_epoch']),
+                                   ('last_observed','model_state_dict',state['epoch'])]:
+                model.load_state_dict(state[key],strict=True)
+                probes,a,f=probe(model,bundle,case,name,epoch)
+                all_probes.extend(probes)
+                rec[f'{name}_analytic_max_residual']=a;rec[f'{name}_finite_difference_max_residual']=f
+        rec['data_manifest']=bundle.manifest_fields()
+        inventory.append(rec)
+        dump(dest/'state_recovery_inventory.json',inventory)
+        pd.DataFrame(all_probes).to_csv(dest/'fusion_sensitivity.csv',index=False)
+        pd.DataFrame(metrics).to_csv(dest/'recomputed_validation_metrics.csv',index=False)
+        print(json.dumps({'case':case,'binding':rec['validation_binding']}),flush=True)
+        del model,state,bundle
+    pd.DataFrame(all_probes).to_csv(dest/'fusion_sensitivity.csv',index=False)
+    pd.DataFrame(metrics).to_csv(dest/'recomputed_validation_metrics.csv',index=False)
+    dump(dest/'receipt.json',{'status':'PARTIAL_RECOVERY_COMPLETE_WITH_SCOPE_LIMITS',
+         'training_runs':0,'recovered_states':len(inventory),'full_validation_matches':sum(
+             x['validation_binding']=='RECONSTRUCTED_LOADER_AND_FULL_PREDICTIONS_MATCH' for x in inventory),
+         'sensitivity_rows':len(all_probes),'source_sha256':sha(__file__),'independent_review':False,
+         'limitations':['not all seeds/epochs recovered','incomplete B1 seed2023 is not complete efficacy evidence',
+                        'row IDs reconstructed through deterministic loader and full predictions; not saved originally',
+                        'sensitivity probes use first16 validation rows/domain, not random population estimates'],
+         'artifact_hashes':{p.name:sha(p) for p in dest.iterdir() if p.is_file()}})
+
+
+if __name__=='__main__':main()

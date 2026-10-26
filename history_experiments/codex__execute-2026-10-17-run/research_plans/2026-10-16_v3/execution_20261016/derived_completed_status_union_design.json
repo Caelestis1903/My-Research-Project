@@ -1,0 +1,17 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "time": 1792200167.7823129,
+  "independent_review": false,
+  "scope": "Engineering provenance aggregation only; no training, metric, stopping-rule or sampling changes.",
+  "requirements": [
+    "Accept whole template stem and explicit actual child manifest names; require template status absent.",
+    "Every child actual queue must have COMPLETE global status, all tasks COMPLETE exit0, matching fixed-launch real PID and status path, and current manifest/status/launch byte hashes.",
+    "Require exact nonoverlapping coverage of every whole-template task name and command, allowing only device placeholder replacement by actual cuda device.",
+    "Copy each actual task record losslessly. Never invent a queue PID or task PID. Mark whole file DERIVED_STATUS_UNION_NOT_AN_ACTUAL_QUEUE, queue_pid null, and retain all actual sources and their hashes.",
+    "Do not register or launch whole template. Use derived status only for immutable input budget/archive verification."
+  ],
+  "acceptance": [
+    "Duplicate/missing task rejected before write; normalized actual command equals whole template; task records preserved exactly; derived-source SHA inventory complete."
+  ],
+  "test_access": false
+}

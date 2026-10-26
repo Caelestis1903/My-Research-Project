@@ -1,0 +1,35 @@
+{
+  "status": "BOUNDARY",
+  "evidence_strength": "STRONG",
+  "independent_review": false,
+  "claim": "Under fixed p,q,N example budget and WR sampling, uniform exact aliases change nominal pool size but not empirical input/label distribution, gradients, optimizer updates or trajectory law. Nominal alias count is not a sufficient explanation of SB-SN.",
+  "observed_minimum": {
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "arms": [
+      "SN",
+      "SB"
+    ],
+    "alias_factors": [
+      2,
+      4
+    ],
+    "records": 16,
+    "production_epochs_mapped_per_record": 50,
+    "full_examples_checked_per_record": 100306600,
+    "fixed_epoch10_actual_gradient_update_oracles": 16,
+    "all_oracle_differences": 0,
+    "baseline_optimizer": "SGD",
+    "baseline_lr": 0.1
+  },
+  "proof": "For each original row j among N rows and independent alias a uniform on 0..k-1, virtual index j+a*N is uniform on k*N aliases and maps to exactly j. The mapped row sequence equals the baseline. With common initialization and state, identical batch inputs imply identical loss, gradient, update and next state by induction, for any deterministic optimizer using those inputs. Counts p,q and training example budget are held fixed.",
+  "not_identified": "Increasing genuinely independent support or changing underlying distribution is not the same intervention. Existing three physical domains confound independent support, distribution, labels, difficulty and architecture interactions. No claim that true statistical sample size cannot matter. No PERM invariance claim.",
+  "minimal_identifying_design": "To identify independent support, obtain additional independent rows from the same domain population, prespecify disjoint sampling/subsampling sets with matched difficulty, p,q and exposure, and repeat matched SN/SB training across independent dataset draws. Exact aliases do not supply such rows.",
+  "source_receipt": "research_plans/2026-10-16_v3/execution_20261016/runs/V8duplication__coupled_refSGD__all4seeds/receipt.json",
+  "primary_verification": "V8_duplication_primary_verification.json",
+  "full_training_reuse": "Exact coupling and optimizer-state induction, not 16 separate retrainings and not extra independent seeds. Numeric oracle used fixed-reference SGD .1; extension of identity to calibrated .3 is algebraic, not a falsely claimed rerun."
+}

@@ -1,0 +1,63 @@
+{
+  "cwd": "/home/xzf/Code/phase0-3-20261017-git",
+  "reservation_mib": 1900,
+  "tasks": [
+    {
+      "name": "N2geometry_adam_SN_seed2033_E40_identityfix",
+      "command": [
+        "/home/xzf/miniconda3/envs/phase0-3-env/bin/python",
+        "-u",
+        "experiments/n17_geometry_identity.py",
+        "--checkpoint",
+        "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/runs/N1confirm_adam_lr0.01_SN_seed2033/epoch040.pt",
+        "--seed",
+        "2033",
+        "--optimizer",
+        "adam",
+        "--lr",
+        "0.01",
+        "--anchor-arm",
+        "SN",
+        "--out",
+        "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/N2_fixedpoints/N2geometry_adam_SN_seed2033_E40_identityfix",
+        "--k",
+        "512",
+        "--adam-map",
+        "--device",
+        "{device}"
+      ],
+      "log": "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/logs/N2geometry_adam_SN_seed2033_E40_identityfix.log",
+      "supersedes_validation_failed_task": "N2geometry_adam_SN_seed2033_E40"
+    },
+    {
+      "name": "N2geometry_adam_SN_seed2034_E40_identityfix",
+      "command": [
+        "/home/xzf/miniconda3/envs/phase0-3-env/bin/python",
+        "-u",
+        "experiments/n17_geometry_identity.py",
+        "--checkpoint",
+        "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/runs/N1confirm_adam_lr0.01_SN_seed2034/epoch040.pt",
+        "--seed",
+        "2034",
+        "--optimizer",
+        "adam",
+        "--lr",
+        "0.01",
+        "--anchor-arm",
+        "SN",
+        "--out",
+        "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/N2_fixedpoints/N2geometry_adam_SN_seed2034_E40_identityfix",
+        "--k",
+        "512",
+        "--adam-map",
+        "--device",
+        "{device}"
+      ],
+      "log": "/home/xzf/Code/phase0-3-20261017-git/research_plans/2026-10-17/execution_20261017/logs/N2geometry_adam_SN_seed2034_E40_identityfix.log",
+      "supersedes_validation_failed_task": "N2geometry_adam_SN_seed2034_E40"
+    }
+  ],
+  "original_manifest_sha256": "ad4ed1f326fa5c146da4633a592d7029d562efd853a586c1f9c49471d99d8395",
+  "validation_equivalence_sha256": "69715ae41843527787b73f2ae5d7edf69ee699a9d5c7a94bbe33ca67cecf10da",
+  "scope": "same failed anchor/seed/k/stream; isolated same-graph validation only; original failures retained"
+}

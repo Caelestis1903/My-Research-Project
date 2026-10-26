@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "time": 1792205241.2590225,
+  "independent_review": false,
+  "results": [
+    {
+      "pair": "V11_beta1_zero_v_only_seed2025_until050",
+      "status": "PASS",
+      "receipt_sha": "9f0fbdf3b449b34e43a3ee325f880a09f7a82935c6d360058f270b9013d25d80",
+      "actual_epochs": 50,
+      "max_point_error": 2.220446049250313e-16,
+      "selection_bootstrap_choices_checked": 4000,
+      "budgets": [
+        {
+          "arm": "SN",
+          "prior5_objective": 0.4969869220812738,
+          "last5_objective": 0.4837335836723044,
+          "relative_improvement": 0.02666737859714155,
+          "practical_plateau": false,
+          "selection_confirmed_overfitting": false,
+          "extension_required": true
+        },
+        {
+          "arm": "SB",
+          "prior5_objective": 0.4875825958821191,
+          "last5_objective": 0.4858443139311433,
+          "relative_improvement": 0.003565102539870114,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": true,
+          "extension_required": false
+        }
+      ]
+    },
+    {
+      "pair": "V11_beta2_zero_seed2025_until050",
+      "status": "PASS",
+      "receipt_sha": "7032574afc07d9782d1b53aac4d5fd1cebc2f3caeede91fd45696403f9284254",
+      "actual_epochs": 50,
+      "max_point_error": 1.7763568394002505e-15,
+      "selection_bootstrap_choices_checked": 4000,
+      "budgets": [
+        {
+          "arm": "SN",
+          "prior5_objective": 41.265230802359966,
+          "last5_objective": 41.265230802359966,
+          "relative_improvement": 0.0,
+          "practical_plateau": true,
+          "selection_confirmed_overfitting": false,
+          "extension_required": false
+        },
+        {
+          "arm": "SB",
+          "prior5_objective": 28.23936776717584,
+          "last5_objective": 25.445668224972234,
+          "relative_improvement": 0.0989292524264964,
+          "practical_plateau": false,
+          "selection_confirmed_overfitting": false,
+          "extension_required": true
+        }
+      ]
+    }
+  ],
+  "test_access": false,
+  "scope": "Immutable paired and exact prefix validation: all cache arrays bitexact parent prefix, all producer model/prediction digest entries match, physical first/last files and all configs/trajectories/current receipts checked; all sixcell points,4000reselection choices,onsets,budget independently reproduced. No new independent draws or stopping assertion."
+}

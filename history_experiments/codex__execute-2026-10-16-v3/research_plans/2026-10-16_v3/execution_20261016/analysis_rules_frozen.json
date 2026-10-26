@@ -1,0 +1,42 @@
+{
+  "status": "FROZEN",
+  "frozen_unix": 1792167863.5881407,
+  "test_used_to_choose_conditions": false,
+  "diagnostic_previously_used_to_choose_conditions": false,
+  "test_historical_exposure": true,
+  "diagnostic_independence_scope": "Independent of new v3 LR/checkpoint/predictive-condition tuning; validation historically exposed",
+  "calibrated_lr": {
+    "adam": 0.003,
+    "sgd": 0.3
+  },
+  "source_rules": {
+    "design_specification.md": "804c00b51baf608ace7790c1acc9ee48e8ac741d0ea2c1c8955c94a4ae849727",
+    "analysis_budget_addendum.md": "a57a0e1af4bc70ee997d801772d7eea38151b26af7603bc960553c3fa7a059aa",
+    "interaction_readout_addendum.md": "6cb8300f6313785718240905dc67b16c217555a7287d25c05d4ddcafc9463a52",
+    "local_diagnostic_design_addendum.md": "55385db94795f0f228dbb29d4add7739c7cc66a4c47e2f92df38c5732bb58f1a",
+    "calibration_frozen.json": "99b0c1b59f448652f2b3daea5103ed01a99405db0972e73f7b67df9a86c33174"
+  },
+  "readout_source_sha": "655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c",
+  "selection_bootstrap_replicates": 1000,
+  "diagnostic_onset_bootstrap_replicates": 200,
+  "seed_bootstrap_replicates": 20000,
+  "bootstrap_unit": "domain-stratified ordinary row multinomial; identical row weights across both arms/all epochs/tasks",
+  "rules": [
+    "selection macroAUC max earliesttie over all observed epochs",
+    "selection macroLogLoss min earliesttie",
+    "early macroAUCmax1..10 earliesttie",
+    "fixed final budget; separately common5/10/15/20/30/40/50",
+    "independently selected vs common SN-selected and SB-selected epochs retained",
+    "AULC arithmetic mean of complete-epoch endpoint metrics, horizons1..10/20 and common pre-degradation",
+    "Pre-degradation window before first3consecutive paired97.5%upper AUCdifference<0",
+    "Confirmedoverfit searched separately over alleligible3epochwindows, with LogLoss worse each and empiricaltrainobjective lower bythird; firstAUCdegrade need notalreadyconfirmoverfit",
+    "Train budget extension uses only TRAIN+SELECTION and relative last5vsprior5 gain>.005 until plateau or confirmedselectionoverfit; botharms extended together",
+    "Optimizer interaction primary singleprewindow acrossalloptimizers/arms/seeds; >=3/4sign CIexcludes0 absmean>=.003",
+    "Blockingkeynull CIincludes both-.003,+.003 ->matched4additional seeds2026..29",
+    "V7 conditiontrigger selection-only4/4>=50% at>=2stages, diagnosticposthoc",
+    "No test before separate immutable test_readout_frozen.json with allconditions/questions frozen"
+  ],
+  "test_readout_authorization": "NOT_GRANTED: requires separate test_readout_frozen.json; never mutate these analysis rules to authorize test",
+  "conditional_protocol": "Original V3 plan and design addenda govern adaptive branches; alltests after conditional investigations frozen",
+  "independent_review": false
+}

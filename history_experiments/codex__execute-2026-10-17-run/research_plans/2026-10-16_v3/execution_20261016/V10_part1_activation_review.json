@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_SELF_REVIEW_BEFORE_RUN",
+  "independent_review": false,
+  "time": 1792172107.6652637,
+  "design": "design_specification.md V10; objective_literature_audit.md; faithful published TaskAdam mechanism",
+  "source_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
+  "optimizer_source_sha": "588b8f67a589f8d715d1c42aee17a8f142f97c622728512f9a1e2307181a90ba",
+  "master_manifest_sha": "66c49b85c24b01d2fbc01ea64b9859bb16160b9814c743932f6f36188adac5a5",
+  "part1_manifest_sha": "4e3d8d2039f92c5238fbe36d27a9cdc077c4f59fc89816dfe41ed24aabe37815",
+  "objective": "Same p/q weighted two-task BCE average. Per-task raw gradients sum to same objective gradient; wd/2 for each shared-task state; private gate/tower vanilla Adam. Changes optimizer map, not expected sample objective. Import captures optimizer source in config source_hashes.",
+  "numerical_validation": "Reuse identical optimizer source official8step oracle <1e-12 plus private vanillaAdam and restore/raw-gradient identity; no redundant rerun.",
+  "scheduling": "Frozen initial50epoch tasks, first2seeds only to limit interference with coreV4 extensions. Bothfull4seed master and remaining2seeds are required. Queue counts BOTH initialV4 andV9 predecessors, total<=5/GPU andmemory<90%.",
+  "budget_boundary": "Initial50 fixedbudget is retained regardless laterextension. No elimination/state-necessity conclusion until full calibratedAdam andAdaTask matchedbudget readouts. If Adam duration increases, AdaTask must also supply that commonbudget (resume unchanged) before such comparison; adaptive durations reported separately. TaskAdam stepnorm change is a competing explanation, not automatically state mediation.",
+  "test": "No test performance; conditional state-vs-stepscale discriminator only if complete paired comparison triggers.",
+  "analysis": "Mechanical runner records raw results only; primary reviews fourseed evidence."
+}

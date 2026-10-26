@@ -1,0 +1,13 @@
+{
+  "status": "DESIGN_SPECIFICATION_COMPLETE_BEFORE_IMPLEMENTATION",
+  "time": 1792204396.185053,
+  "independent_review": false,
+  "purpose": "Providefixedbyte-derivedmechanicallauncherforfuture frozen native test inference, matching existingcopy/train/readout realPID provenance. No model/inference/statistics change; no testaccess now.",
+  "interface": "v3_launch_frozen_native_tests_20261016.py STEM reads STEM_manifest.json, STEM_activation_review.json, STEM_predecessors.json. Refuse preexistinglaunch/status or anytargetmetrics_test/test_readout_receipt/test_epoch*.npz.",
+  "authorization": "Requireglobal test_readout_frozen.json FROZEN,all_condition_definitions_frozen=true, matchinganalysis_rules_sha; manifestSHA in globalfreeze test_native_manifest_hashes; globalfreeze test_native_parent_inputs_file+sha lists records run,producer_receipt_sha,config_sha,epochs. ReviewstatusPASS/native_tests_authorizedtrue with matchingmanifest/globalfreeze/readoutsourceSHA.",
+  "task_contract": "Onlyexactcanonicalcommand [PY,experiments/v3_readout_20261016.py,--mode,test,--natural,RUN,--device,{device}]. Source655e... immutable. Everyrun exactfrozeninput record,currentCOMPLETEproducer/configbyteSHA,budget/modelvariant authorized. Original frozen testchecks everyphysicalmodelSHA beforeinference. Newprivatearchitectureiftriggered needsseparatedesign andcompatiblebuilder BEFOREfreeze; thisnative-onlylauncher refuses unreviewedsource.",
+  "queue": "Reuse unchangedv3_queue5b421...; registerALLcurrentGPUstatuses and verify predecessorposition/currentexistence, max5/device/memory<90percent. No actualtestqueue launcheduntilALLscientificconditiondefinitions andpretestcoreclosurefrozen.",
+  "provenance": "RealPopen PID,actualargv/cwd/HEAD/times/logs,currentmanifest/review/globalfreeze/nativeinputs/predecessor/readout/queue/launcherSHAs; returncode null untilactualcompletion, not invented. Launchmetadataexclusive x. Stdlib-onlycode no dataset/modelimport.",
+  "acceptance": "Syntax/AST and selfreview of source/schema/absenceguards/provenance. No actualinference or syntheticnewresearchtest. Preparedhelper mustrefuse beforefreeze exists; alltask/source/inputs checks completedBEFOREPopen.",
+  "test_access": false
+}

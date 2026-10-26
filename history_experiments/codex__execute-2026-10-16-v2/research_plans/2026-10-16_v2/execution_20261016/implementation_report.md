@@ -1,0 +1,5 @@
+# CODER IMPLEMENTATION REPORT
+
+Primary implementation under start.md §11. Implemented isolated v2 worker and mechanical manifest queue; historical code/results unchanged. Fixed fusion modules contain buffers only, effective coefficient sigmoid(1); single Adam or momentum-free SGD. Objective alpha/q is explicit, sampler uses independent coupled uniforms. No architecture update, DBO, gradient balancing or augmentation. Required snapshot/prediction schedule includes initialization. Validation argmax freezes before test; calibration never accesses test. Complete epoch-boundary model/optimizer/RNG/sampling/exposure state and artifact hashes saved. Parameters split C/P/R/E without assuming domain experts are private.
+
+CPU engineering pipeline completed: loss formula, no learned fusion, single optimizer, deterministic same-q rows, save/load, selection, predictions; three small updates. No research result analysis performed during implementation. CUDA profile and full-epoch verification follow mechanical RUN. No experiment result or CI is implemented in this worker.

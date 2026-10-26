@@ -1,0 +1,25 @@
+# 固定参考 SGD 与 optimizer 交互敏感性
+
+状态：V2全部8个配对读数实际完成，SGD四组1000/200重采样与宏平均已核验；主agent分析，independent_review=false。固定SGD LR=.1，Adam=.01，预算50是参考条件，不冒充充分收敛终局。数据位于 analysis/V2_fixedSGD_aggregate_until050/、analysis/V2_fixedSGD_marginals_until050/，正式交互位于 analysis/V11_fixed_reference_interaction/。
+
+| diagnostic读数 | ΔAUC均值 | 同号 | 种子95%CI |
+|---|---:|---|---|
+| AULC1–10 | −.00109782 | 2负2正 | [−.00222258,+.00002694] |
+| AULC1–20 | −.00129149 | 4负 | [−.00269969,−.00047332] |
+| 操作性共同pre1–50 | −.00304265 | 4负 | [−.00515485,−.00177798] |
+| 共同epoch50 | −.00435195 | 4负 | [−.00739267,−.00223943] |
+| selection-selected macroAUC | −.00484873 | 4负 | [−.00612191,−.00284533] |
+
+四个SGD种子均未被冻结classifier检测到诊断AUC onset，故该程序给出共同窗口50；这不证明不存在任何潜在过拟合。固定AULC1–20也四负、幅度更小。配合固定与校准Adam结果，足以反驳“任何负q效应都必须有Adam”的普遍必要性命题，证据STRONG、范围限定原实验配置和读数；不等于所有optimizer/LR效应相等或充分训练后的最终差距已定。
+
+预先规定的同窗口宏LogLoss在pre50反而平均−.00041346，3改善1变差，CI[−.00073669,−.00004527]；固定50与selected LogLoss区间均跨零。AUC的排序性能和BCE校准/目标不同，宏均匀域权重也不同于train-p加权目标，不能把AUC下降说成所有指标都退化。
+
+域/任务：pre50 d0/d1/d2 ΔAUC分别−.00872622、−.00039494、−.00000680。d0四负、d1三负一微正，d2两正两负。SN绝对域AUC分别.522787/.624561/.594520；d0比最小域d2更困难。两个任务分别−.00074294（3负1正）/−.00534237（4负），表明退化主要集中任务1与d0。train-p加权cell AUC也四负但平均仅−.00109518，不是pooled AUC。不存在稳定小域受益/大域损失交换；单凭三个域不足以识别样本量或难度的独立因果作用。
+
+正式固定参考交互采用两optimizer/双q/全四seed同一窗口1–27：均值−.00514906，3负1正，CI[−.01072663,+.00042852]，signrandomization p=.375。实际门槛NOT_TRIGGERED。与校准组1–22交互−.01391006、4负且CI不含0形成必须保留的反例。它不撤销已经由校准组合法触发的状态实验，但把解释限制在optimizer/LR配置与阶段，反对普遍Adam历史根因叙事。该参考CI未同时覆盖±.003，不触发预定阻塞性null追加4seed规则；也不证明interaction严格为零。
+
+所有种子CI仅描述固定验证人口和已冻结LR下训练种子差异，未计入外层LR选择不确定性；四seed exactsign最小双侧p=.125，不能写成常规严格显著。最终全预算校准、V5/V7/V8/V10/V11状态读数、test及闭环报告继续执行。
+
+## 与Q32历史核对的评价人群区别
+
+上表的selected −.00484873是 selection半区选epoch、diagnostic半区评价。Q32历史核对的new_half_selected −.00021110则是 selection半区选epoch、同一selection半区评价；旧版−.00210445是完整validation选epoch并在完整validation评价。它们不是同一estimand，不能互相替代。Q32的8条训练轨迹、19600个batch损失、16个模型快照和同epoch预测均数值相同，评价人群切换贡献+.00192320、epoch重选贡献−.00002984、训练数值贡献0。该核对解释历史数字变化；独立diagnostic半区的四seed负差距仍按上表保留，不能把selection半区的小均值写成全局null。原始分解见historical_SGD_reconciliation_decision.json及analysis/historical_SGD_reconciliation/。

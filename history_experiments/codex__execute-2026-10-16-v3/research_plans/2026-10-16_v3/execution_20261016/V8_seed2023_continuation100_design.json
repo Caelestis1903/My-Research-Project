@@ -1,0 +1,43 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792178437.8579543,
+  "trigger": {
+    "run": "V8corruption0.1__kuairand__sgd__SB__seed2023",
+    "train_gain": 0.005810236405838125,
+    "point_windows": [
+      {
+        "first_epoch": 41,
+        "peak_epoch": 40,
+        "min_ll_delta": -0.014607142844287768,
+        "train_loss_decreased": true
+      },
+      {
+        "first_epoch": 45,
+        "peak_epoch": 44,
+        "min_ll_delta": -0.019724853758784577,
+        "train_loss_decreased": true
+      },
+      {
+        "first_epoch": 46,
+        "peak_epoch": 44,
+        "min_ll_delta": -0.019724853758784577,
+        "train_loss_decreased": true
+      },
+      {
+        "first_epoch": 47,
+        "peak_epoch": 44,
+        "min_ll_delta": -0.019724853758784577,
+        "train_loss_decreased": true
+      }
+    ],
+    "eligible_confirmation_windows": [],
+    "confirmed_selection_overfit_impossible": true
+  },
+  "scope": "Requiredminimum100 all6clean/mild/strong x SN/SB seed23, sameexamples; no diagnostic readout decision. Apply unchanged train/selection criterionat100, nohardcap.",
+  "proof": "MildSBtrain>.005, andall4candidatepointAUCdegradationwindowsfailnecessaryselectionLogLossworsening. Confirmedselectionoverfitimpossibleforanybootstrap, so frozenrule requiresminimum100. 1000/200originalreadoutsstillrequired.",
+  "implementation": "Verifiedexistingprefixcopy to distinctnewcontinuationdirs; exactexistingtrainingcommands only--epochs100,--run-dirnew,--resume. Sources frozen. Original50dirs/readoutinputs immutable.",
+  "baseline_scope": "V4calSGDseed23 finalizedownadequacy50 remainsrecorded. Newclean23copy100 isV8matched-stress-budget condition, not a change to V4own stoppingdecision; V5existingmatched50 causalcontrols remainvalidandreported as such. Do not mixV8clean100 withV5variants50.",
+  "resource": "Serialcopy/hash then GPUglobal<=5/device/mem<90% withall17predecessors. Laterfull100pairedreadoutsreuse existingCPUslotsafterdependencycompletion.",
+  "acceptance": "CopyallproducerSHAs/inodes/originalreceiptPASS; primarycriticalverificationthenactivationreview beforeGPUlaunch. Alloriginal50archived; copiedprefix notnewindependentreplicate."
+}

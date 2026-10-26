@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_SELF_REVIEW",
+  "independent_review": false,
+  "design": [
+    "design_specification.md",
+    "analysis_budget_addendum.md",
+    "local_diagnostic_design_addendum.md",
+    "interaction_readout_addendum.md"
+  ],
+  "sources": {
+    "experiments/v3_readout_20261016.py": "655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c",
+    "experiments/v3_aggregate_20261016.py": "6e09e94f8858d00e7f548576be85ca36ddd79b9ba165a22c8df0662329e3a362",
+    "experiments/v3_make_matrix_20261016.py": "bbf0146750d0b2505b230b0255120667997f7443178c0665c814240b8726cbe3",
+    "experiments/v3_sampler_readout_20261016.py": "4acc6dd5d70235b59046293c4957b02da3724d5cdc64c108f95250b8b160fe9c",
+    "experiments/v3_cell_audit_20261016.py": "7d97cea88c1ebe23e2c0a7b00223eb7093d725a033757a81c760fafd8f2e866d",
+    "experiments/v3_interaction_20261016.py": "6bee38d3f111d651a153ca17180d5491f83698180b3e27dc265c9f6609142e77",
+    "experiments/v3_duplication_20261016.py": "6f370e62b13065490392f9075722819f7d6982f6ff896045d214a4bb9ff9c4cb",
+    "experiments/v3_archive_20261016.py": "c3cfd8bdd0974acd50244469cdc19babda7b2d4fe3dcd9bbfdf3f8265e124f09",
+    "experiments/v3_test_summary_20261016.py": "86c770af30d913acc9fde323fae3a897da594aa0a07ff3b32b1079c149ea76f8",
+    "experiments/v3_plot_geometry_20261016.py": "51dae52c0fdd40e65a95f978e905478b9233229d5ff936644dd2a08e3fdaf0d1"
+  },
+  "basic_checks": "syntax PASS; cached bootstrap expanded-row numerical oracle PASS; prior WR/PERM domain-sequence and same-batch replay identity PASS",
+  "review_findings": [
+    "No new training algorithm or frozen dependency changed",
+    "Common-selected epochs and absolute arm endpoints retained",
+    "Repeated AULC horizons deduplicated before paired merge",
+    "Interaction uses same pre-degradation interval across all16trajectories, no different-window interaction",
+    "Cell objective contribution recomputed using same BCE operator as training",
+    "Finalist fourseed runs separate from calibration; exactly matching existing formal V2 runs reusable",
+    "PERM quotas verified at every row position; ORDER requires identical exact stored batches",
+    "Domain-weighted cell AUC explicitly distinct from pooled AUC"
+  ],
+  "formal_numerical_execution": "PENDING, not represented as complete",
+  "source_hash_refresh_required_before_readout": false,
+  "final_numerical_checks": [
+    "bootstrap_cache_oracle.json",
+    "onset_semantics_check.json"
+  ],
+  "analysis_rules_sha": "8c91f64f2b55a06221f9900bbd00b2b8d8c2fd3b993c3855eb00b57a5e5ce91a",
+  "reviewed_additions": [
+    "Evaluation mixture weights: macro, actual evaluation-count weighting, originaltrain-p weighting explicitly distinct",
+    "Rawbatch replay checks bind original producer hashes before identities",
+    "Compact archive snapshots refuse overwrite and verify source-producer hashes",
+    "Test numerical summary requires separate globaltestfreeze and maps only already frozen selections; no new choices",
+    "Prepared V5/V8/V9/V10 manifests not yet authorized RUN; inherit finalized matched baseline durations per matched_budget_control_addendum.md",
+    "V1 figures separate seed2022crossstage from fourseedepoch10; empiricalK512rank<=511, no scalar-vs-shape causal inference"
+  ]
+}

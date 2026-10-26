@@ -1,0 +1,17 @@
+{
+  "status": "BOUNDARY_SOURCE_AUDIT_COMPLETE",
+  "independent_review": false,
+  "time": 1792179879.828861,
+  "source": "experiments/v3_readout_20261016.py",
+  "source_sha": "655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c",
+  "facts": [
+    "Pointprefixpeak=np.argmax(point[:start,0]) iscomputedonobservedtrajectory, not reselectedperbootstrap.",
+    "Withinwindow, bootstrapupper.975 forpairedAUCdifferencesmustbelowzero inall3epochs; code scansmanypossiblewindows.",
+    "Thereisnosimultaneousband/multiplicityadjustment or explicitfamilywisecalibrationintheprespecifiedclassifier.",
+    "Classificationisalreadyfixedbeforev3outputsandexecutesunchanged. Trainbudgetusesselectionclassificationonly; diagnosticclassificationposthoc."
+  ],
+  "conclusion": "OperationalfirstAUCdegradation/confirmedoverfitlabels, notguaranteedfamilywiseleveltestofallpossibleepochsorproofthatlatentoverfittingabsent. NoactualFWERvalueidentifiedbythisaudit.",
+  "completed_discriminator": "Exactexistingimplementationinspection; fixedepoch/AULC10/20readoutsalreadyretainonset-independentcontrasts, avoidingonlyadaptivewindowevidence. No protocolchange/retraining.",
+  "minimum_design_for_stronger_claim": "Preregisterandcalibratesimultaneouspeak/windowuncertainty (anditsbudgetdecisionfunction) onindependentreplicates beforetraining; thatwouldbeanewestimand/stoppingprotocolanddoesnotreplacefrozenv3.",
+  "scientific_effect": "Restrictswording/strength. Do notsilentlyredefineonset/budgetorclaimformalno-overfitguarantees. Existingactualfixedhorizonandselectedcontrastsremainreported."
+}

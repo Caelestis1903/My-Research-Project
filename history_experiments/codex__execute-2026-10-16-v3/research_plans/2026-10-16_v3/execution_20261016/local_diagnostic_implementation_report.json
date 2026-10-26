@@ -1,0 +1,40 @@
+{
+  "stage": "IMPLEMENT",
+  "status": "COMPLETE_BASIC_CHECKS",
+  "independent_review": false,
+  "scope": [
+    "cached row bootstrap",
+    "absolute paired readouts",
+    "V6 full task gradients",
+    "V7 one-step delta replacement",
+    "V8 alias coupling"
+  ],
+  "sources": {
+    "experiments/v3_readout_20261016.py": "655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c",
+    "experiments/v3_local_20261016.py": "0e90d738016037ca67d9cf733803977f6a641b1aec654f1c8149b3ceceea313b",
+    "experiments/v3_duplication_20261016.py": "0b55c6875ea0b1333b75a698c9fa459a8294a234f0006808bbfb441fb226ca40",
+    "experiments/v3_aggregate_20261016.py": "8817b6fc3a3015b4472b479bc0c593a8d8f6f39035bbaacd861e634165c99352"
+  },
+  "frozen_training_sources_untouched": true,
+  "training_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
+  "numerical_checks": [
+    "readout_optimized_check.json",
+    "bootstrap_cache_oracle.json"
+  ],
+  "limitations": [
+    "V6/V7/V8 source interfaces reviewed; formal raw execution still pending respective gates",
+    "no independent review under start.md \u00a711"
+  ],
+  "last_reviewed_corrections": [
+    "Resumed pilot config retains original20epoch declaration, so pair validation compares actual contiguous saved epochs and matched budgets rather than original config epochs",
+    "Budget extension uses train objectives and selection overfit only; diagnostics never alter budget",
+    "V7 trigger uses selection metrics; diagnostics posthoc only",
+    "Training source freeze remains unchanged"
+  ],
+  "source_hash_refresh_required_before_readout": false,
+  "final_numerical_checks": [
+    "bootstrap_cache_oracle.json",
+    "onset_semantics_check.json"
+  ],
+  "analysis_rules_sha": "8c91f64f2b55a06221f9900bbd00b2b8d8c2fd3b993c3855eb00b57a5e5ce91a"
+}

@@ -1,0 +1,18 @@
+{
+  "formal_runs_completed": 0,
+  "events": [
+    {
+      "artifact": "engineering_full_pipeline/1792082899445410549/F",
+      "status": "ENGINEERING_FIXTURE_FAILED_AT_CPU_SERIALIZER_GUARD",
+      "diagnostic": "Original S6 writer requires cuda:0; CPU fixture reached all 50 training epochs and deferred evaluation, then the writer rejected observed cpu. This does not identify a production CUDA worker defect.",
+      "fix": "Fixture-only serializer adapter and explicit formal_valid=false/device=cpu metadata; frozen production worker unchanged.",
+      "superseded_by": "engineering_full_pipeline/1792082987636882999"
+    },
+    {
+      "artifact": "engineering_analysis/1792082987636882999",
+      "status": "FIRST_ANALYSIS_ATTEMPT_FAILED_AT_RECEIPT_PATH",
+      "diagnostic": "Relative fixture path was not normalized before relative_to(ROOT). Numerical audit and bootstrap had completed, but no PASS receipt was produced.",
+      "fix": "Resolve fixture root to an absolute path; rerun entire analysis and inspect actual receipt."
+    }
+  ]
+}

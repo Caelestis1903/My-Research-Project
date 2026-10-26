@@ -1,0 +1,465 @@
+{
+  "status": "COMPLETE",
+  "epochs_completed": 50,
+  "selected_epoch": 8,
+  "best_validation_macro_auc": 0.7198505400549711,
+  "initial_validation_macro_auc": 0.4931248864617508,
+  "wall_seconds": 130.40816473960876,
+  "peak_reserved_mib": 948.0,
+  "config": {
+    "study_id": "MDMT_V2_FIXED_SINGLE_20261016",
+    "arm": "SB",
+    "seed": 2023,
+    "dataset": "movielens",
+    "optimizer": "adam",
+    "lr": 0.01,
+    "momentum": null,
+    "weight_decay": 1e-05,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "optimizer_count": 1,
+    "learned_fusion": false,
+    "darts": false,
+    "fusion_effective": 0.7310585975646973,
+    "gradient_balancing": false,
+    "dbo": false,
+    "augmentation": false,
+    "alpha": [
+      0.184,
+      0.016,
+      0.8
+    ],
+    "q": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "importance_weight": [
+      0.552,
+      0.048,
+      2.4000000000000004
+    ],
+    "sampler": "iid",
+    "batch_size": 40960,
+    "epochs": 50,
+    "data": {
+      "dataset": "MovieLens-1M",
+      "dataset_key": "movielens",
+      "setting": "d2_large",
+      "seed": 2023,
+      "domain_num": 3,
+      "task_num": 2,
+      "local_to_physical": [
+        0,
+        1,
+        2
+      ],
+      "physical_domain": null,
+      "physical_domain_identity": [
+        "ages_1_18",
+        "age_25",
+        "ages_35_45_50_56"
+      ],
+      "role_by_domain": {
+        "0": "M",
+        "1": "S",
+        "2": "L"
+      },
+      "features": {
+        "dataset": "movielens",
+        "columns": [
+          "user_id",
+          "movie_id",
+          "gender",
+          "age",
+          "occupation",
+          "zip",
+          "cate_id",
+          "domain_indicator"
+        ],
+        "dense_columns": [
+          "age"
+        ],
+        "sparse_columns": [
+          "user_id",
+          "movie_id",
+          "gender",
+          "occupation",
+          "zip",
+          "cate_id",
+          "domain_indicator"
+        ],
+        "vocab_sizes": {
+          "user_id": 5401,
+          "movie_id": 3663,
+          "gender": 3,
+          "occupation": 22,
+          "zip": 3201,
+          "cate_id": 19,
+          "domain_indicator": 3
+        },
+        "embedding_dim": 16,
+        "domain_column": "domain_indicator",
+        "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+        "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+        "oov_index": 0
+      },
+      "split_row_fingerprints": {
+        "train": "ff454fba7c989d1d9fbda4474cb7712171de5582fd8559f348c0779f6ef2f61d",
+        "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+        "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+      },
+      "split_row_id_hashes": {
+        "train": "8955b970bd873280e9d80178f82bde50c305846ed5b342f6e030937045b56b1a",
+        "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+        "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+      },
+      "base_split_fingerprints": {
+        "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+        "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+        "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+      },
+      "base_split_row_id_hashes": {
+        "train": "8955b970bd873280e9d80178f82bde50c305846ed5b342f6e030937045b56b1a",
+        "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+        "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+      },
+      "train_domain_counts": {
+        "0": 34500,
+        "1": 3000,
+        "2": 150000
+      },
+      "domain_shares": {
+        "0": 0.184,
+        "1": 0.016,
+        "2": 0.8
+      },
+      "cell_stats": {
+        "train": {
+          "d0t0": {
+            "count": 34500,
+            "positive_count": 19213,
+            "positive_rate": 0.5568985507246377,
+            "entropy": 0.9906384416478562
+          },
+          "d1t0": {
+            "count": 3000,
+            "positive_count": 1680,
+            "positive_rate": 0.56,
+            "entropy": 0.9895875212220556
+          },
+          "d2t0": {
+            "count": 150000,
+            "positive_count": 90498,
+            "positive_rate": 0.60332,
+            "entropy": 0.9689753590160037
+          },
+          "d0t1": {
+            "count": 34500,
+            "positive_count": 7933,
+            "positive_rate": 0.22994202898550725,
+            "entropy": 0.7779102333598253
+          },
+          "d1t1": {
+            "count": 3000,
+            "positive_count": 669,
+            "positive_rate": 0.223,
+            "entropy": 0.7656077043870684
+          },
+          "d2t1": {
+            "count": 150000,
+            "positive_count": 35911,
+            "positive_rate": 0.23940666666666666,
+            "entropy": 0.794052193774258
+          }
+        },
+        "validation": {
+          "d0t0": {
+            "count": 27111,
+            "positive_count": 14634,
+            "positive_rate": 0.5397809007413965,
+            "entropy": 0.9954289826752982
+          },
+          "d1t0": {
+            "count": 35523,
+            "positive_count": 21027,
+            "positive_rate": 0.5919263575711511,
+            "entropy": 0.975477884537289
+          },
+          "d2t0": {
+            "count": 37387,
+            "positive_count": 22148,
+            "positive_rate": 0.5923984272608126,
+            "entropy": 0.9752239119429416
+          },
+          "d0t1": {
+            "count": 27111,
+            "positive_count": 5781,
+            "positive_rate": 0.21323448046918225,
+            "entropy": 0.7476200116665495
+          },
+          "d1t1": {
+            "count": 35523,
+            "positive_count": 8541,
+            "positive_rate": 0.24043577400557387,
+            "entropy": 0.7957642056157495
+          },
+          "d2t1": {
+            "count": 37387,
+            "positive_count": 8889,
+            "positive_rate": 0.23775643940407093,
+            "entropy": 0.7912893674208514
+          }
+        },
+        "test": {
+          "d0t0": {
+            "count": 27687,
+            "positive_count": 14281,
+            "positive_rate": 0.5158016397587315,
+            "entropy": 0.9992794217254697
+          },
+          "d1t0": {
+            "count": 41434,
+            "positive_count": 22072,
+            "positive_rate": 0.5327026113819568,
+            "entropy": 0.996911984563913
+          },
+          "d2t0": {
+            "count": 30900,
+            "positive_count": 18099,
+            "positive_rate": 0.5857281553398058,
+            "entropy": 0.9786892153954124
+          },
+          "d0t1": {
+            "count": 27687,
+            "positive_count": 4964,
+            "positive_rate": 0.17928991945678477,
+            "entropy": 0.6785211876375997
+          },
+          "d1t1": {
+            "count": 41434,
+            "positive_count": 7031,
+            "positive_rate": 0.16969155765796207,
+            "entropy": 0.6569987066604698
+          },
+          "d2t1": {
+            "count": 30900,
+            "positive_count": 6324,
+            "positive_rate": 0.20466019417475728,
+            "entropy": 0.7311511352442296
+          }
+        }
+      },
+      "preprocessing_metadata": {
+        "fit_scope": "global_base_training_split",
+        "split_rule": "global_row_order_80_10_10",
+        "label_definitions": {
+          "task0": "1[rating>3]",
+          "task1": "1[rating>4]"
+        },
+        "oov_index": 0,
+        "selected_training_row_ids_hash": "8955b970bd873280e9d80178f82bde50c305846ed5b342f6e030937045b56b1a",
+        "base_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+        "raw_file": "/home/xzf/data/ml-1m/ml-1m.csv",
+        "raw_file_size": 75514352
+      },
+      "physical_view_fingerprints": {
+        "0": {
+          "train": "86026d4955b7cef7e21c3ebda05b09685a0f68a054258d63b8287110e2a2694b",
+          "validation": "68b6486753a9ceb888706c4969310a591d9b76e4c1489de4b7b7a0e5fdc7e225",
+          "test": "106e29c1096a9830190f78f18d9c5eb2a8673cd2bb57b0b94222bec75bbf6924"
+        },
+        "1": {
+          "train": "a03269282249b0c8af46d20c37dad4f0083e933d021f6f73c22761b53e2c733c",
+          "validation": "db43bdb3adc9d3921d47d8b8412714c89e4e0a40f87707e5eb756a8e4d17e7ea",
+          "test": "34860095a6c81ecdd9b9e4cb1e11f5976b465683f34f1da01992b836fceec310"
+        },
+        "2": {
+          "train": "a1db1a69688c81987e104f48682cd09b653a07fe702d306edcbd74e0bc2ad4d2",
+          "validation": "3f3b1dc676bf577e1dee7a5f73eb8d655893be99c3fa04e03e47d9e5962bf465",
+          "test": "6b1c932d0a787f00bd25fe6592b4ff94b8dcbdd8ef8ea5799fa600fb95017a60"
+        }
+      }
+    },
+    "init_sha": "1ca7a2516de7a9e6b4d0a334ff364486ce206354fb191d243e9ef270031804d9",
+    "source_hashes": {
+      "experiments/stage2d_20261016.py": "115c37e1e865a8e2da7802bcf7a90c1edecc3eec5dabfe783e165457b7706b91",
+      "experiments/stage_S1_data.py": "8a0045bf3f1868b94ea1a223a817104b4985ed39449006a2d031f978065b81ee",
+      "experiments/stage_S1_models.py": "1f6fa05358b047b048b115681cd62ac2f833ffd1d0892ad68b64b91216caf691",
+      "experiments/stage_S1_run.py": "7ad50d6a19f4b5a84939aa5f01977c8d703817ff560c2f5d181e7541aeda3210",
+      "experiments/stage_S1_metrics.py": "15187827f1e57e57e287ffd49f820d2879bb320f1ba650afd686aede9e37fc89",
+      "experiments/stage_E1_instrumentation.py": "5231635b70f6eb51e18234a14bea351ec521ec651423ab3ce194e81ae426c872",
+      "experiments/stage_S3_gradient_access.py": "b4902b3f022a11537d6a22c708b37b3e78cde43e9cfd2daf9223b648101a1c21",
+      "m3oe/MDMTRec/models/multi_domain/model.py": "a7702a64f8b5471f46209c9bfa1d9cb3108f11a89122933d7ae19942e9a12ce1",
+      "m3oe/MDMTRec/basic/layers.py": "e3eb8db91ff0aaf79c8e389107df5f64841992fab02a18b29c37bb446b22763a",
+      "m3oe/MDMTRec/basic/features.py": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0",
+      "experiments/v2_20261016.py": "ebb88d73c05c28788b89574cdcf2f337082bb14e8d154dc29f98d811c1b773ce"
+    },
+    "code_commit": "978592f1f089285888aa1da97be3972a6c82a18f",
+    "independent_review": false,
+    "review": "PRIMARY_SELF_REVIEW_per_start_section11",
+    "calibration": false,
+    "engineering": false,
+    "epoch_index": "completed epochs; 0 is initialization",
+    "selection": "validation macro six-cell AUC; strict >; earliest tie; epochs>=1",
+    "loss": "mean_i(alpha[d_i]/q[d_i] * mean_t(BCE))",
+    "partitions": {
+      "C": [
+        "shared_weight",
+        "shared_bias",
+        "embedding.embed_dict.0.weight",
+        "embedding.embed_dict.1.weight",
+        "embedding.embed_dict.2.weight",
+        "embedding.embed_dict.4.weight",
+        "embedding.embed_dict.5.weight",
+        "embedding.embed_dict.6.weight",
+        "embedding.embed_dict.7.weight",
+        "skip_conn.domain_specific.0.weight",
+        "skip_conn.domain_specific.0.bias",
+        "skip_conn.domain_specific.1.weight",
+        "skip_conn.domain_specific.1.bias",
+        "star_mlp.domain_specific.0.weight",
+        "star_mlp.domain_specific.0.bias",
+        "star_mlp.domain_specific.1.weight",
+        "star_mlp.domain_specific.1.bias",
+        "expert.0.domain_specific.0.weight",
+        "expert.0.domain_specific.0.bias",
+        "expert.0.domain_specific.1.weight",
+        "expert.0.domain_specific.1.bias",
+        "expert.1.domain_specific.0.weight",
+        "expert.1.domain_specific.0.bias",
+        "expert.1.domain_specific.1.weight",
+        "expert.1.domain_specific.1.bias",
+        "expert.2.domain_specific.0.weight",
+        "expert.2.domain_specific.0.bias",
+        "expert.2.domain_specific.1.weight",
+        "expert.2.domain_specific.1.bias",
+        "expert.3.domain_specific.0.weight",
+        "expert.3.domain_specific.0.bias",
+        "expert.3.domain_specific.1.weight",
+        "expert.3.domain_specific.1.bias"
+      ],
+      "P": [
+        "slot_weight.0",
+        "slot_weight.1",
+        "slot_weight.2",
+        "slot_bias.0",
+        "slot_bias.1",
+        "slot_bias.2",
+        "tower.0.0.weight",
+        "tower.0.0.bias",
+        "tower.0.1.weight",
+        "tower.0.1.bias",
+        "tower.0.3.weight",
+        "tower.0.3.bias",
+        "tower.1.0.weight",
+        "tower.1.0.bias",
+        "tower.1.1.weight",
+        "tower.1.1.bias",
+        "tower.1.3.weight",
+        "tower.1.3.bias",
+        "tower.2.0.weight",
+        "tower.2.0.bias",
+        "tower.2.1.weight",
+        "tower.2.1.bias",
+        "tower.2.3.weight",
+        "tower.2.3.bias",
+        "tower.3.0.weight",
+        "tower.3.0.bias",
+        "tower.3.1.weight",
+        "tower.3.1.bias",
+        "tower.3.3.weight",
+        "tower.3.3.bias",
+        "tower.4.0.weight",
+        "tower.4.0.bias",
+        "tower.4.1.weight",
+        "tower.4.1.bias",
+        "tower.4.3.weight",
+        "tower.4.3.bias",
+        "tower.5.0.weight",
+        "tower.5.0.bias",
+        "tower.5.1.weight",
+        "tower.5.1.bias",
+        "tower.5.3.weight",
+        "tower.5.3.bias"
+      ],
+      "R": [
+        "gate.0.0.weight",
+        "gate.0.0.bias",
+        "gate.1.0.weight",
+        "gate.1.0.bias",
+        "gate.2.0.weight",
+        "gate.2.0.bias",
+        "gate.3.0.weight",
+        "gate.3.0.bias",
+        "gate.4.0.weight",
+        "gate.4.0.bias",
+        "gate.5.0.weight",
+        "gate.5.0.bias"
+      ],
+      "E": [
+        "domain_expert.0.domain_specific.0.weight",
+        "domain_expert.0.domain_specific.0.bias",
+        "domain_expert.0.domain_specific.1.weight",
+        "domain_expert.0.domain_specific.1.bias",
+        "domain_expert.1.domain_specific.0.weight",
+        "domain_expert.1.domain_specific.0.bias",
+        "domain_expert.1.domain_specific.1.weight",
+        "domain_expert.1.domain_specific.1.bias",
+        "domain_expert.2.domain_specific.0.weight",
+        "domain_expert.2.domain_specific.0.bias",
+        "domain_expert.2.domain_specific.1.weight",
+        "domain_expert.2.domain_specific.1.bias",
+        "task_expert.0.domain_specific.0.weight",
+        "task_expert.0.domain_specific.0.bias",
+        "task_expert.0.domain_specific.1.weight",
+        "task_expert.0.domain_specific.1.bias",
+        "task_expert.1.domain_specific.0.weight",
+        "task_expert.1.domain_specific.0.bias",
+        "task_expert.1.domain_specific.1.weight",
+        "task_expert.1.domain_specific.1.bias"
+      ]
+    }
+  },
+  "artifact_hashes": {
+    "validation_epoch01.npz": "e386cd2aaa4f44cd9019a70e98ea6ee9fe598a5bde2ecc2973d6c107f12c665b",
+    "validation_epoch05.npz": "0fffae1ab9c1dfe11fd07a1bbe4d031fb88c460a93151822b29ba6e8265fde2f",
+    "selection_frozen.json": "9f6cf80686ce9d60f59419d2b82069a59df91a99306339377be0a9850134259f",
+    "epoch30.pt": "6c8978f70e243d93406ccc9cccfac97b69d31d5cf0b8e6ccf37f58b4379cb558",
+    "epoch10.pt": "4a0a964156f8f9032f09a267115d8f5632adb851379774e1cae8141a625386d0",
+    "exposure.csv": "e41e0878c94d7570261451984ce4153ce41bda760f1ce0b13f4fbc0f4e3c35c4",
+    "validation_epoch50.npz": "fc1230852aed319d1ca975bc0cf5ef72d59d3baa7c38996e16c1b2ada755e634",
+    "validation_epoch00.npz": "a64a0f5d14dadab87ef7036487a1c23b29f33393b0539541d651c2c9a0e37bd4",
+    "test_epoch30.npz": "5a56f81c4e7e6c1927f680bf54da6f906eee3a56197a2459528b77a92b8cf683",
+    "test_epoch40.npz": "95c2e5d2efc4a722cdb4b9ca15483e7c4a5eec948eed5a2ab95a18ff4316d879",
+    "validation_epoch40.npz": "b19fa393ceac316902e67ec7411db7d6a9512efaa7e426b2dc17edee5ceb8292",
+    "validation_epoch30.npz": "d0b9235e1d8f61248f49bc04d66cef23d5d943528fdded0c504bcc5e8efabaa8",
+    "selected_state.pt": "3c430f9fad278bd3e47864ef6c9768f0b19396f0e6153918bac0f082f6a5e6de",
+    "metrics_test.csv": "c2c7fc7bbff284c7778480c202da359ad8b357ab30e6d5346fde6b4de499c93a",
+    "epoch01.pt": "1d09875dfda3fb985131fe755d2e5682a4d4282cc80036a8c93e142d3deafa4a",
+    "epoch40.pt": "7b7e77f48d0202f127f6accd0792982cae8bacf91320d234dd9cb327f377a2c4",
+    "validation_selected.npz": "ad89050814cbdb6cefb4bfbcccbe5d90676301aeab6aa78b8d6dd91f0ccd358d",
+    "test_epoch00.npz": "00ce336256f9a838d733a807a114b6707e7abe4f140fbd7abcdbcf6732785687",
+    "progress.json": "f882d330713cd885b5466b357504cf07de5675eaab0283349f328f971d562d9c",
+    "last_resume.pt": "bddd11e27c8b548fe71e57281f43e803fed0077a98498d82cb7007d363de069c",
+    "test_epoch50.npz": "4980b0e6f6080d743cb6fef02a9b1756a6871bc31792482b485290bec05bc7ea",
+    "validation_epoch10.npz": "630798470704b039d5befa9d1f469314c8480428e5b46cd12a76e106a3bfa1c9",
+    "epoch05.pt": "cc25048e5662c94fe1b3c0f680597fc27621aadd38189719a4a93e61a5a6f465",
+    "test_epoch10.npz": "ca384b418847e929020b57d8a678f19556b9b011fcdad9925014a885853685c3",
+    "test_selected.npz": "e4c9a4f19d4b5d5fcf0fdeb8108fb0291b3eb2dc93c37eea38f29a68dea8d11e",
+    "validation_epoch20.npz": "6cfd9acbb40e761b3767572fa3e08bc77c654df9720908ea9c570ef868d6e0cc",
+    "epoch20.pt": "f3dd2fb71ea20f55d7d00231d511ce7e1442f33bfcdd63d589f42eb7b8f2a5c2",
+    "epoch00.pt": "5a9f290feba8b3f74fe5695ebd56a810ab0094331f69cbf2b725853cd0828cea",
+    "test_epoch05.npz": "f4b6768de87ebfe5180eed80c85dc1a647879541bd86b7bdb313e6b29679993d",
+    "config.json": "21ee50eb2a6088af461daab28e849434e56d13ed450725e2f0271e8c83194488",
+    "epoch50.pt": "bddd11e27c8b548fe71e57281f43e803fed0077a98498d82cb7007d363de069c",
+    "metrics_epoch.csv": "94800c331c7d785c45d8a4d2b733414409965c5ec96a345bd7222b989543f1d1",
+    "optimizer_observations.csv": "fbb0a3b4ddc16e7e25d423e8f9676c6b503e58240bbace741d5694d945cc0597",
+    "batch_trace.csv": "5ac2dabd7bd800d64f06c9c288086fce75f0070ee6d29bf051a780ada663b391",
+    "test_epoch01.npz": "9660222247f51e338950faa1927d2cdc66dab878e50e8a26bc52557701d96929",
+    "test_epoch20.npz": "ef1fcf43fee3db415f4e6f0ff8c17823d78898e5fe65091737bafbe566f534d8"
+  }
+}

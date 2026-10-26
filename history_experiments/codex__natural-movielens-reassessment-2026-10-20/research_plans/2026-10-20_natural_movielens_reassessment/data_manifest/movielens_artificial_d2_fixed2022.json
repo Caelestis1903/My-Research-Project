@@ -1,0 +1,320 @@
+{
+  "dataset_config": "movielens_artificial_d2_fixed2022",
+  "data": {
+    "dataset": "MovieLens-1M",
+    "dataset_key": "movielens",
+    "setting": "natural",
+    "seed": 2022,
+    "domain_num": 3,
+    "task_num": 2,
+    "local_to_physical": [
+      0,
+      1,
+      2
+    ],
+    "physical_domain": null,
+    "physical_domain_identity": [
+      "ages_1_18",
+      "age_25",
+      "ages_35_45_50_56"
+    ],
+    "role_by_domain": {},
+    "features": {
+      "dataset": "movielens",
+      "columns": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "age",
+        "occupation",
+        "zip",
+        "cate_id",
+        "domain_indicator"
+      ],
+      "dense_columns": [
+        "age"
+      ],
+      "sparse_columns": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "occupation",
+        "zip",
+        "cate_id",
+        "domain_indicator"
+      ],
+      "vocab_sizes": {
+        "user_id": 5401,
+        "movie_id": 3663,
+        "gender": 3,
+        "occupation": 22,
+        "zip": 3201,
+        "cate_id": 19,
+        "domain_indicator": 3
+      },
+      "embedding_dim": 16,
+      "domain_column": "domain_indicator",
+      "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+      "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+      "oov_index": 0
+    },
+    "split_row_fingerprints": {
+      "train": "318208ec97ac48bd9f1b357ead171da3a1853e5b102eb343c400522826bd8a50",
+      "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+    },
+    "split_row_id_hashes": {
+      "train": "3615d125910893af0412f01fb005b88eabc4b6512bd3491a1e191209b4f9ab35",
+      "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+      "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+    },
+    "base_split_fingerprints": {
+      "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+      "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+    },
+    "base_split_row_id_hashes": {
+      "train": "3615d125910893af0412f01fb005b88eabc4b6512bd3491a1e191209b4f9ab35",
+      "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+      "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+    },
+    "train_domain_counts": {
+      "0": 34500,
+      "1": 3000,
+      "2": 150000
+    },
+    "domain_shares": {
+      "0": 0.184,
+      "1": 0.016,
+      "2": 0.8
+    },
+    "cell_stats": {
+      "train": {
+        "d0t0": {
+          "count": 34500,
+          "positive_count": 19308,
+          "positive_rate": 0.5596521739130434,
+          "entropy": 0.9897081838598634
+        },
+        "d1t0": {
+          "count": 3000,
+          "positive_count": 1712,
+          "positive_rate": 0.5706666666666667,
+          "entropy": 0.9855426454731132
+        },
+        "d2t0": {
+          "count": 150000,
+          "positive_count": 90310,
+          "positive_rate": 0.6020666666666666,
+          "entropy": 0.9697288272248947
+        },
+        "d0t1": {
+          "count": 34500,
+          "positive_count": 8161,
+          "positive_rate": 0.23655072463768115,
+          "entropy": 0.789257047916984
+        },
+        "d1t1": {
+          "count": 3000,
+          "positive_count": 648,
+          "positive_rate": 0.216,
+          "entropy": 0.7527960664084545
+        },
+        "d2t1": {
+          "count": 150000,
+          "positive_count": 35889,
+          "positive_rate": 0.23926,
+          "entropy": 0.7938075181250465
+        }
+      },
+      "validation": {
+        "d0t0": {
+          "count": 27111,
+          "positive_count": 14634,
+          "positive_rate": 0.5397809007413965,
+          "entropy": 0.9954289826752982
+        },
+        "d1t0": {
+          "count": 35523,
+          "positive_count": 21027,
+          "positive_rate": 0.5919263575711511,
+          "entropy": 0.975477884537289
+        },
+        "d2t0": {
+          "count": 37387,
+          "positive_count": 22148,
+          "positive_rate": 0.5923984272608126,
+          "entropy": 0.9752239119429416
+        },
+        "d0t1": {
+          "count": 27111,
+          "positive_count": 5781,
+          "positive_rate": 0.21323448046918225,
+          "entropy": 0.7476200116665495
+        },
+        "d1t1": {
+          "count": 35523,
+          "positive_count": 8541,
+          "positive_rate": 0.24043577400557387,
+          "entropy": 0.7957642056157495
+        },
+        "d2t1": {
+          "count": 37387,
+          "positive_count": 8889,
+          "positive_rate": 0.23775643940407093,
+          "entropy": 0.7912893674208514
+        }
+      },
+      "test": {
+        "d0t0": {
+          "count": 27687,
+          "positive_count": 14281,
+          "positive_rate": 0.5158016397587315,
+          "entropy": 0.9992794217254697
+        },
+        "d1t0": {
+          "count": 41434,
+          "positive_count": 22072,
+          "positive_rate": 0.5327026113819568,
+          "entropy": 0.996911984563913
+        },
+        "d2t0": {
+          "count": 30900,
+          "positive_count": 18099,
+          "positive_rate": 0.5857281553398058,
+          "entropy": 0.9786892153954124
+        },
+        "d0t1": {
+          "count": 27687,
+          "positive_count": 4964,
+          "positive_rate": 0.17928991945678477,
+          "entropy": 0.6785211876375997
+        },
+        "d1t1": {
+          "count": 41434,
+          "positive_count": 7031,
+          "positive_rate": 0.16969155765796207,
+          "entropy": 0.6569987066604698
+        },
+        "d2t1": {
+          "count": 30900,
+          "positive_count": 6324,
+          "positive_rate": 0.20466019417475728,
+          "entropy": 0.7311511352442296
+        }
+      }
+    },
+    "preprocessing_metadata": {
+      "fit_scope": "global_base_training_prefix_only",
+      "split_rule": "global_row_order_80_10_10",
+      "training_pool": "fixed_d2_large_subsample",
+      "label_definitions": {
+        "task0": "1[rating>3]",
+        "task1": "1[rating>4]"
+      },
+      "physical_domains": [
+        "ages_1_18",
+        "age_25",
+        "ages_35_45_50_56"
+      ],
+      "age_groups": [
+        [
+          1,
+          18
+        ],
+        [
+          25
+        ],
+        [
+          35,
+          45,
+          50,
+          56
+        ]
+      ],
+      "raw_file": "/home/xzf/data/ml-1m/ml-1m.csv",
+      "raw_file_size": 75514352,
+      "raw_file_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "base_train_row_ids_hash": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+      "global_base_train_size": 800167,
+      "user_ids_present": true,
+      "dataset_config": "movielens_artificial_d2_fixed2022",
+      "population_seed": 2022,
+      "optimizer_seed_changes_population": false,
+      "selection": "original role_reversal_sample d2_large seed=2022",
+      "selected_train_row_ids_hash": "3615d125910893af0412f01fb005b88eabc4b6512bd3491a1e191209b4f9ab35",
+      "selected_train_size": 187500,
+      "base_train_size": 800167,
+      "manifest_legacy_field_note": "base_split_row_id_hashes in historical DataBundle.manifest_fields is selected split IDs; use explicit preprocessing_metadata.base_train_row_ids_hash for natural base population"
+    },
+    "physical_view_fingerprints": {
+      "0": {
+        "train": "702e1bf3742f5e53357f63ab2cc777c715886deef436617f25aeb39d194a1df3",
+        "validation": "68b6486753a9ceb888706c4969310a591d9b76e4c1489de4b7b7a0e5fdc7e225",
+        "test": "106e29c1096a9830190f78f18d9c5eb2a8673cd2bb57b0b94222bec75bbf6924"
+      },
+      "1": {
+        "train": "0b98a5d7ef91a4b7877b489ca47ce1d203424dc81511970286b434f10ff29d44",
+        "validation": "db43bdb3adc9d3921d47d8b8412714c89e4e0a40f87707e5eb756a8e4d17e7ea",
+        "test": "34860095a6c81ecdd9b9e4cb1e11f5976b465683f34f1da01992b836fceec310"
+      },
+      "2": {
+        "train": "2ab53d2102591d6ccf0ff0a88c2e66f9efaecb4217e85c77f5f51c6905d18b58",
+        "validation": "3f3b1dc676bf577e1dee7a5f73eb8d655893be99c3fa04e03e47d9e5962bf465",
+        "test": "6b1c932d0a787f00bd25fe6592b4ff94b8dcbdd8ef8ea5799fa600fb95017a60"
+      }
+    }
+  },
+  "schema": {
+    "dataset": "movielens",
+    "columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "age",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "dense_columns": [
+      "age"
+    ],
+    "sparse_columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "vocab_sizes": {
+      "user_id": 5401,
+      "movie_id": 3663,
+      "gender": 3,
+      "occupation": 22,
+      "zip": 3201,
+      "cate_id": 19,
+      "domain_indicator": 3
+    },
+    "embedding_dim": 16,
+    "domain_column": "domain_indicator",
+    "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+    "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+    "oov_index": 0
+  },
+  "array_hashes": {
+    "train_x": "7c17d17a65a8ae31ab9e9f5faf3716f9731c8cf73ab5c7c5deb083d8c6f11941",
+    "train_y": "b6b3b1da6beca173d64075c92a1c70bb5571d32d51ef9b182da463112bf23d3c",
+    "train_row_ids": "3615d125910893af0412f01fb005b88eabc4b6512bd3491a1e191209b4f9ab35",
+    "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+    "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1",
+    "val_row_ids": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+    "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+    "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+    "test_row_ids": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+  },
+  "archive": "/home_new/xzf_natural_movielens_reassessment/data/movielens_artificial_d2_fixed2022.npz",
+  "archive_sha256": "1d34d15fc5b770bb702dbf053a637c22c86020f4cade00b49a7208de884ce5c7"
+}

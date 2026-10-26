@@ -1,0 +1,34 @@
+# CODER IMPLEMENTATION REPORT — core / RHD / lifecycle bridge
+
+Stage IMPLEMENT, before formal v3 training. This report contains implementation facts and syntax checks; it does not analyze experimental outcomes. Authority is the completed DESIGN_SPECIFICATION plus all four v3 files. No original algorithm, raw dataset, prepared array, checkpoint, or old report was overwritten.
+
+## Owned changes
+
+- `experiments/mdmt_next_v3_20261025/common.py`: dependency-inclusive source receipts, no-TF32 FP32 runtime, logit AUC/six-cell LL, additive component ledger, atomic full-state saves and checkpoint identities, hardlink/cross-filesystem checkpoint transport, explicit status and long per-cell metrics.
+- `data.py`: original raw/preprocessed/fit-only encoder checks, exact P_form/P_read alias equality, role membership and exposed-benchmark authorization, recorded label accesses; independent deterministic main, support, paired-panel, meta and whole-logical-batch coverage plans.
+- `rhd.py`: seven frozen P1 arms, module-reference shared/private C8 gradients, common native warmup with twelve explicit4.5–10.0 H1 events, immediate-observe CUM/EMA, warmup FREEZE, STATIC lock, finite PB candidates, H1/Hhold probes, single first C8 initialization, paired two-task-before-variance FPC/one-SE acceptance, and native main updates only after complete branch rollback. Unselected P_cal candidates are never scored by policy: branch model states are cached, then only the selected candidate and STATIC receive cal scoring. H>1 branches perform fresh forward/backward/Adam each step; their models never replace main state. All support/panel rows, raw losses, static-relative six-cell utilities, forecasts, decisions, acceptance and component costs are saved.
+- `plan.py`: immutable protocol/config/run manifests for52 logical core trajectories and8 physical shared warmups; whole fixed core metadata; refreshable raw status registry, frozen support-function arithmetic, component observations without invented timing rates/deadlines. Conditional queues/locks remain an explicit orchestrator scientific decision rather than automatic broad candidate expansion.
+- `cli.py`: source-matched independent-review admission, exact frozen-manifest config matching, dependency checks, retained measurement/resume, GPU0 scheduler maximum two processes, stage-specific complete-package budget guard, raw arithmetic/status commands and explicit final-frozen exposed benchmark scoring. GPU1 is not scheduled while the external vLLM occupies it.
+- `baseline_bridge.py`: four old aux0 and six external adaptation resumes, existing equations retained, obsolete time limits removed, exact original model/optimizer/controller/AutoIFS workflow state restored, historical selected aliases and validation prefix imported, complete new outputs separated from originals. True aux epoch10 continuation skips the previously committed initial refresh once; later refresh schedule is unchanged. Original model-method/source identities and prefix costs remain in receipts.
+- `semantics.py`: native/roles and RHD transaction acceptance definitions, precise recorded tolerances, full40960-row private-gradient reference, initialized real-Adam None/zero difference, exact rollback digest, H2 fresh-state recomputation and untouched main plans, STATIC-relative timing/missing-history/FPC arithmetic, coverage schedule. It delegates the two LPS acceptance classes to `semantics_lps.py`, owned by the LPS coder. The core coder has **not** executed these research admission checks or formal training.
+- `__init__.py` and `SPEC_RESOLUTION.md`: package boundary and pre-result implementation clarifications. PB_HISTORY support is dormant and only admits the prescribed shared first10.0→10.5 block if triggered; no STATE/C14 or new LPS extension is silently enabled.
+
+## Shared interface
+
+`RHDTrainer(cfg,campaign,out=None,device='cuda:0').train(resume=None,until=None)` matches `LpsTrainer`. Data exposes features, x/y/domain/roles/pools/hash/manifest and typed batches. Plans expose `main`, `at`, `coverage`, `meta_rows`. ExperimentIO stores FullState(model,optimizers,registered objects), source/data/config identity and all optimizer/controller/RNG state. A true RHD resume checks source/kind/data/dataset/seed; a warmup fork additionally checks its permitted parent kind. The old bridge deliberately preserves historical source identity in its audited transport receipts.
+
+## Gate and timing commands
+
+After the independent reviewer has passed current source, the orchestrator writes `review_approval.json` with verdict, empty blocking_issues and reviewed source_hash. `build-plan` and `build-bridge-plan` freeze the concrete manifests. No run command bypasses the source/review gate.
+
+Bulk `run-stage` and full `run-one` require `BUDGET_FREEZE.json` packages[p1/aux-baselines/p2/formal] with status FROZEN, positive finite reserved_seconds and explicit assumptions. Warmups and retained `--until` fragments are permitted for actual component measurement before the bulk budget. If the first retained measurement must finish an old near-complete run, an explicit source-matched `COMPONENT_MEASUREMENT_MANIFEST.json` run_id/until entry admits that first scheduled work without permitting arbitrary full-matrix bypass. No old native-equivalent timeout is used. `budget-components` reports observed max and median; P90 is omitted for fewer than ten observations. The orchestrator must freeze full counts and transfer assumptions with the1.35 margin before bulk launch.
+
+Direct `run-one` commands should have stdout redirected to that run's stdout.log by the runner; the built-in stage scheduler does this itself. Resumes use atomic retained last state and never reinitialize a seed for better quality.
+
+## Checks actually performed by this coder
+
+`/home/xzf/miniconda3/envs/phase0-3-env/bin/python -m py_compile experiments/mdmt_next_v3_20261025/*.py` completed with exit0. No research-result interpretation, v3 quality comparison, hyperparameter search, or formal training was performed by this coder. Semantic execution and final independent admission belong to reviewer/runner.
+
+## Material clarifications / remaining review scope
+
+All pre-result clarifications are in SPEC_RESOLUTION.md. Primary algorithm constants, labels, STATIC locks, selected metrics,24/50 endpoints and prescribed comparators are unchanged. Review should verify the actual semantic receipts and full-state boundary, source-matched restart, whole-batch coverage and imported historical workflow. Conditional P2 methods not yet triggered require their own reviewed implementation before any such runs; no default placeholder command trains them. The orchestrator owns scientific decisions, exact package budget totals, aggregation/report interpretation, immutable formal lock and report publication.

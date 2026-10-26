@@ -1,0 +1,15 @@
+# 机械准入方案记录（暂停方案未实施，采用等待准入闭合）
+
+**SUPERSEDED_UNEXECUTED**：主agent在实施前按start.md最小必要原则复核，选择 N3_CONFIRMATION_CONTROL_ADDENDUM 已允许的更简单方式：原主队列真实status存在、任务集合与原manifest全部64项相同、PENDING=0；所有RUNNING PID已被GPU计数（或实际已退出，等待原scheduler终态更新），再启动已有n17_queue的新确认清单。新清单必须非空、名称唯一、尚未存在原生status，以免重复。旧队列的清单一次加载且没有自动重试，此后不会再准入新任务；新队列计数原活动GPU进程，继续遵守每卡含外部项目≤5及显存限制。
+
+因此**不实施 n17_priority_admit.py，不为本方案追加smoke或修改原队列，不执行下述SIGSTOP方案**。下面只保留曾考虑的机械设计记录，不是未完成的科研实验或待执行要求。未来实际启动由机械runner使用已冻结清单，主agent先检查上述真实状态；缺失/空status绝不能当PENDING0。此取舍不更改科研实验、候选、预算或选择定义。
+
+DESIGN COMPLETE。依据 N3_CONFIRMATION_CONTROL_ADDENDUM，修复此前实际发生的“status尚不存在却当作PENDING0”协调问题。此入口只处理进程准入，不选择候选、数据、种子、优化器或实验条件，不修改原生训练/队列代码与结果。
+
+新清单由主agent科学冻结并明确授权后，机械runner可执行 `n17_priority_admit.py`：核对旧PID的/proc命令确为该旧manifest的n17_queue，旧status队列PID及任务集合匹配；新manifest非空且name唯一，尚无原生status。仅SIGSTOP旧scheduler，健康子进程继续。新scheduler独立session启动并记录命令/commit/manifest SHA；逐步等待其真实status存在、queue PID正确、任务集合完整。
+
+成功准入须所有预期任务都为RUNNING或COMPLETE，零PENDING、零FAILED；RUNNING PID必须已出现在实际nvidia compute-apps，所有卡含外部项目compute PID数≤5。已COMPLETE者必须有成功exit记录，不要求退出进程仍在GPU。条件成立才SIGCONT旧scheduler。两个scheduler此后只有旧队列可能有待准入任务，新队列仅收集已准入子进程终态。
+
+任何异常/新失败：先停止新scheduler的继续准入（健康新子进程也继续），再finally恢复旧scheduler，记录异常与两个scheduler状态，交主agent诊断；不终止健康实验，不改任何原生status。原始native status的finished是scheduler观察到退出的时刻，暂停期间可能晚于实际退出，不能伪称精确物理结束时刻。性能耗时仍使用子产物自身计时并注明共享GPU。
+
+仅记录初始、任务状态变化和最终GPU/PID样本，避免大量重复GPU全量日志。实现后主agent审查条件、进程身份和finally恢复，AST核对；没有科学新实验，也不为机械入口额外造GPUsmoke。真正运行只在新确认manifest冻结且授权后进行；目前未暂停任何调度器。

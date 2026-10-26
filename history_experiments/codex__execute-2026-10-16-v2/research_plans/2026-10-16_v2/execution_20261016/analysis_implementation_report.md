@@ -1,0 +1,11 @@
+# ANALYSIS IMPLEMENTATION REPORT AND PRIMARY REVIEW
+
+Implements specified paired seed bootstrap/metric aggregation, raw CSV row/label/domain/split binding, exact checkpoint timing algebra, block-normalized parameter/state distances, fixed-theta coordinate covariance spectra/cell reachability, conditional validation-grid selection bootstrap, exploratory rank/condition-reported domain regression, and finite-pool static weighting equivalence. Counterfactual shadow code is gated on the later P1 branch and does not change live theta or import foreign-trajectory states.
+
+Self-review checks producer manifests without rewriting them; source hashes refer to actual training version; earliest argmax omits initial state. Four-seed bootstrap intervals are explicitly conditional/low precision. Weighted AUC with score ties agrees with sklearn oracle. Nonzero-state one-step shadow Adam agrees with torch; full-seed snapshots/real probes run after completed training only. Projection covariance has finite microbatch/coordinate scope; full block gradients are used for reachability and gradient norms, not mislabeled full covariance. Size/difficulty regression is exploratory, physical domains3, no causal coefficient claim. Weight audit documents initial-entropy degeneracy and deterministic common10 fallback before readout; no full D3/SAF reproduction claimed.
+
+All script SHAs in analysis_review_verdict.json. This is primary self-review under latest start§11, not independent reviewer approval. No new training performance mechanism conclusion is inferred by these scripts; scientific analysis remains primary responsibility.
+
+Mechanical CPU queue reviewed: exactly16Adam-grid validation bootstraps,8SN finite-pool probes (Adam/SGD,4seeds),4dependent weighting audits; at most2CPU processes, immutable completed producer manifests required, no scientific branching. Existing successful receipts skip duplicate execution. Failures retain outputs and need primary diagnosis. This queue only automates the already reviewed deterministic readouts.
+
+Selection timing audit: restricted the decomposition argmax to completed epochs1..50, matching the producer selection rule; epoch0 remains a baseline only. This changes no producer state, training metric, or selected checkpoint. Numeric analyzer hash updated before its next execution.

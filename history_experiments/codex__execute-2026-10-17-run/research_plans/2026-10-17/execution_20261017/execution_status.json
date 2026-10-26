@@ -1,0 +1,192 @@
+{
+  "status": "COMPLETE_VALIDATED",
+  "plan_sha256": "d14573cc75aeda9f727f1d9a048032fd80a4ae2371fd166fdc9280f17e51caa4",
+  "stages": [
+    {
+      "stage": "READ",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "DESIGN",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "IMPLEMENT",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "REVIEW",
+      "status": "PASS_SELF_REVIEW"
+    },
+    {
+      "stage": "N0",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "N6_pretraining",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "SMOKE",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "N1_pilot",
+      "status": "COMPLETE_VALIDATED"
+    },
+    {
+      "stage": "N1_confirmation",
+      "status": "COMPLETE_VALIDATED"
+    },
+    {
+      "stage": "N2_fixedpoint",
+      "status": "COMPLETE_VALIDATED_16_RESOLVED_ANCHORS"
+    },
+    {
+      "stage": "N2_training",
+      "status": "COMPLETE_VALIDATED_16"
+    },
+    {
+      "stage": "N3",
+      "status": "COMPLETE_VALIDATED_16_DEVELOPMENT_16_SGD_8_INDEPENDENT"
+    },
+    {
+      "stage": "N4",
+      "status": "NOT_TRIGGERED_INDEPENDENT_LOCAL_GATE"
+    },
+    {
+      "stage": "N5",
+      "status": "C_COMPLETE_VALIDATED_PILOT16_FORMAL24_OTHERS_NOT_TRIGGERED"
+    },
+    {
+      "stage": "TEST",
+      "status": "COMPLETE_VALIDATED_72_RUNS_7200_PREDICTIONS"
+    },
+    {
+      "stage": "FINAL_ANALYSIS",
+      "status": "COMPLETE"
+    },
+    {
+      "stage": "PUBLICATION",
+      "status": "COMPLETE_IN_DELIVERY_COMMIT",
+      "branch": "codex/execute-2026-10-17-run",
+      "remote": "origin",
+      "commit_resolution": "Git HEAD containing this file; remote ref verified after push"
+    }
+  ],
+  "tuning_runs": 32,
+  "latest_pilot_snapshot": {
+    "counts": {
+      "COMPLETE": 32,
+      "FAILED": 0
+    },
+    "validated_complete_runs": 32,
+    "validation": "N1_pilot_validation.json"
+  },
+  "confirmation_runs": 32,
+  "latest_confirmation_snapshot": {
+    "time_utc": "2026-10-17T13:09:23.704628+00:00",
+    "counts": {
+      "COMPLETE": 32,
+      "FAILED": 0
+    },
+    "validated_complete_runs": 32,
+    "validation": "N1_confirmation_validation.json"
+  },
+  "conditional_branches": {
+    "N1_H200_adam": "NOT_TRIGGERED_RHO",
+    "N1_H200_sgd": "NOT_TRIGGERED_RHO",
+    "N2_quota": "TRIGGERED_ADAM",
+    "N3_SGD_control": "TRIGGERED",
+    "N4": "NOT_TRIGGERED_INDEPENDENT_LOCAL_GATE",
+    "N5_C": "TRIGGERED_PILOT_AUTHORIZED"
+  },
+  "N1_metadata_archive": "COMPLETE_64_RUNS",
+  "followup_queue": {
+    "pid": 815642,
+    "manifest": "N2_N3_ready_manifest.json",
+    "launch": "N2_N3_launch.json",
+    "known_failed": [
+      "N2geometry_adam_SN_seed2033_E40",
+      "N2geometry_adam_SN_seed2034_E40"
+    ],
+    "diagnosis": "N2_IDENTITY_FAILURE_DIAGNOSIS.md",
+    "retry_manifest": "N2_identity_retry_manifest.json",
+    "retry_status": "COMPLETE_2_VALIDATED",
+    "retry_pid": 830855,
+    "N2_original_successful_anchors": 14,
+    "retry_launch": "N2_identity_retry_launch.json",
+    "N2_resolved_validated_anchors": 16,
+    "readout": "N2_fixedpoint_summary/receipt.json",
+    "analysis": "N2_FIXEDPOINT_ANALYSIS.md"
+  },
+  "updated_utc": "2026-10-18T06:59:57.185394+00:00",
+  "N3_development": {
+    "anchors": 16,
+    "validation": "N3_development_validation.json",
+    "candidate": "N3_development_summary/candidate_frozen.json",
+    "candidate_sha": "713c82008518d85936ca8df007047aff92209dc8a3e7352637c7fc44ab0e508c",
+    "development_supplement": false,
+    "analysis": "N3_DEVELOPMENT_ANALYSIS.md",
+    "confirmation_manifest": "N3_confirmation_manifest.json",
+    "authorization": "N3_CONFIRMATION_RUN_AUTHORIZATION.json",
+    "independent_confirmation": "COMPLETE_VALIDATED_8_NO_SUPPLEMENT"
+  },
+  "N3_SGD_control": {
+    "status": "COMPLETE_VALIDATED_16",
+    "validation": "N3_SGD_control_validation.json",
+    "analysis": "N3_SGD_CONTROL_ANALYSIS.md",
+    "readout": "N3_SGD_control_summary/receipt.json"
+  },
+  "N2_quota": {
+    "status": "COMPLETE_VALIDATED_16",
+    "validation": "N2_quota_validation.json",
+    "parent_pair_identity": "N2_QUOTA_IID_PAIR_IDENTITY.json",
+    "test_read": true
+  },
+  "N3_confirmation": {
+    "status": "COMPLETE_VALIDATED_8",
+    "validation": "N3_confirmation_validation.json",
+    "gate": "N3_confirmation_summary/confirmation_gate.json",
+    "need64": false,
+    "N4_trigger": false
+  },
+  "N5_C": {
+    "pilot": "COMPLETE_VALIDATED_16",
+    "winners": "N5_winners_frozen.json",
+    "common_lr": 0.001,
+    "own_lr": {
+      "SN": 0.001,
+      "SB": 0.0003
+    },
+    "formal_tasks": 24,
+    "formal_status": "COMPLETE_VALIDATED_24",
+    "validation": "N5_confirmation_validation.json"
+  },
+  "global_freeze": {
+    "path": "GLOBAL_MODEL_AND_PROTOCOL_FREEZE.json",
+    "comparisons": "FINAL_COMPARISONS.json",
+    "test_manifest": "TEST_manifest.json",
+    "authorization": "TEST_READOUT_RUN_AUTHORIZATION.json",
+    "unique_formal_runs": 72,
+    "models": 7200
+  },
+  "total_new_training_runs": 120,
+  "training_failures": 0,
+  "test_readout": {
+    "status": "COMPLETE_VALIDATED",
+    "unique_runs": 72,
+    "models_and_prediction_sets": 7200,
+    "cell_rows": 43200,
+    "validation": "TEST_READOUT_VALIDATION.json"
+  },
+  "final_analysis": {
+    "report": "FINAL_ANALYSIS.md",
+    "report_index": "REPORT_INDEX.md",
+    "registry": "QUESTION_REGISTRY_FINAL.json",
+    "questions": 53,
+    "artifact_manifest": "FINAL_DELIVERY_MANIFEST.json",
+    "independent_review": false,
+    "untriggered_branches_are_not_negative_results": true
+  }
+}

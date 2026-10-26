@@ -1,0 +1,11 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "time": 1792197762.8034613,
+  "independent_review": false,
+  "problem": "Frozen pretest summary has fixedepochs5..100 and selected rules, but no explicit actual final-budget test endpoint when finalT>100. Final stopping-budget performance is a required separate estimand from selected/bounded fixedepoch.",
+  "specification": "Before testfreeze only, add readout final_epoch with both arms evaluated at actual paired readout budget T. Existing source trajectories filter<=analysis_budget; macro/marginal/sixcell AUC/LL use same existing serializer path. Store per-seed T and SN/SB_epoch explicitly. Acrossgroup budgets may differ and must not be called commonfixedhorizon. Preserve all existing labels/values andAULC/selectionuncertainty; no extra testmodels required.",
+  "before_source_sha": "adf3e50d8be0838f35aa31aa8e8f3886de2e009646b7b95482a3a2393f11f6ea",
+  "validation": "AST and synthetic readout-label budget cases50/100/150/300, same existing loops for cells/marginals. Actual numeric validation only postfreeze; no test dataread now.",
+  "scope": "Readout completeness only. All hypotheses/conditions/source manifests and final summary source SHA must freeze before any newtestperformance.",
+  "test_performance_access": false
+}

@@ -1,0 +1,14 @@
+{
+  "stage": "DESIGN_AND_SELF_REVIEW",
+  "independent_review": false,
+  "time": 1792185757.8071167,
+  "status": "PREPARED_WAIT_ACTUAL_PARENT100",
+  "purpose": "One actual cross-horizon GPU100->CPU50 prefix oracle before stress200->100/150 reuse, beyond already passed same50GPUparent oracle.",
+  "reason": "RNG counts independent of T and metrics epoch-separable, but CUDAfloat64 matrix reduction kernel can depend on output width. Require actual all1000/200 cache prefix tolerance<=1e-12 and every categorical epoch/onset/budget exactly equal; do not infer cross-T bit-exact from same-T.",
+  "parent": "analysis/V10_adatask_seed2023_until100",
+  "prefix_reference": "analysis/V10_adatask_seed2023_until050",
+  "projected_oracle": "engineering/prefix_GPU100_to_CPU50_actual_oracle",
+  "inputs": "Bothoriginal50source runs immutable andcopied100actualsources; projectutility validatesALL100model+predictionfilesperarm,matchingconfig/trajectoryprefix/sourceproducerhashes.",
+  "acceptance": "Arrays<=1e-12 and all4000selectionbootstrap epoch choices exactlysame, selected_epochs/onsets/selection_onsets/optimization_budget/common_pre_degradation_epochs exact, CSVnumeric<=1e-12 andsamemetadata/rows. IfFAIL investigate actualcategoryimpact beforeany stressprefixreuse, preserve standalone fullreadout option.",
+  "test_access": false
+}

@@ -1,0 +1,105 @@
+{
+  "status": "COMPLETE",
+  "seed": 2025,
+  "dataset": "kuairand",
+  "optimizer": "sgd",
+  "source_sha": "0dc81c105f6ed5627c4749501d01838ca558e4534fafdda2ccbca8f01c48c087",
+  "freeze_sha": "8c91f64f2b55a06221f9900bbd00b2b8d8c2fd3b993c3855eb00b57a5e5ce91a",
+  "source_run_receipt_sha": [
+    "951a1bd04a700ec35501673b43354f8959a856cfe371adc44642165d390f0b61",
+    "147a7f3a5a208b04666db8b7adfa7d1e5b288fd42dfaeee490492bdd5db6537a"
+  ],
+  "source_runs": [
+    "/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/runs/V8corruption0.1__kuairand__sgd__SN__seed2025__continuation200",
+    "/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/runs/V8corruption0.1__kuairand__sgd__SB__seed2025__continuation200"
+  ],
+  "selected_epochs": {
+    "macro_auc": {
+      "SN": 186,
+      "SB": 186
+    },
+    "macro_logloss": {
+      "SN": 191,
+      "SB": 189
+    },
+    "early_auc_1_10": {
+      "SN": 9,
+      "SB": 8
+    },
+    "fixed_budget": {
+      "SN": 200,
+      "SB": 200
+    }
+  },
+  "onsets": [
+    {
+      "auc_degradation_onset": 136,
+      "peak_epoch": 134,
+      "logloss_worse_at_first_degradation": true,
+      "train_objective_decreased_at_first_degradation": true,
+      "confirmed_overfitting": true,
+      "confirmed_overfitting_onset": 136,
+      "confirmation_peak_epoch": 134
+    },
+    {
+      "auc_degradation_onset": null,
+      "peak_epoch": null,
+      "logloss_worse_at_first_degradation": false,
+      "train_objective_decreased_at_first_degradation": false,
+      "confirmed_overfitting": false,
+      "confirmed_overfitting_onset": null,
+      "confirmation_peak_epoch": null
+    }
+  ],
+  "selection_onsets": [
+    {
+      "auc_degradation_onset": null,
+      "peak_epoch": null,
+      "logloss_worse_at_first_degradation": false,
+      "train_objective_decreased_at_first_degradation": false,
+      "confirmed_overfitting": false,
+      "confirmed_overfitting_onset": null,
+      "confirmation_peak_epoch": null
+    },
+    {
+      "auc_degradation_onset": 61,
+      "peak_epoch": 59,
+      "logloss_worse_at_first_degradation": false,
+      "train_objective_decreased_at_first_degradation": true,
+      "confirmed_overfitting": true,
+      "confirmed_overfitting_onset": 167,
+      "confirmation_peak_epoch": 164
+    }
+  ],
+  "optimization_budget": [
+    {
+      "arm": "SN",
+      "prior5_objective": 0.5173299195915324,
+      "last5_objective": 0.5146070335850282,
+      "relative_improvement": 0.005263345310965335,
+      "practical_plateau": false,
+      "selection_confirmed_overfitting": false,
+      "extension_required": true
+    },
+    {
+      "arm": "SB",
+      "prior5_objective": 0.5128779724840202,
+      "last5_objective": 0.5204204654622676,
+      "relative_improvement": -0.014706213530124626,
+      "practical_plateau": true,
+      "selection_confirmed_overfitting": true,
+      "extension_required": false
+    }
+  ],
+  "common_pre_degradation_epochs": 135,
+  "bootstrap_count": 1000,
+  "bootstrap_unit": "domain-stratified validation rows, paired across arms epochs tasks",
+  "seed_uncertainty_separate": true,
+  "hashes": {
+    "bootstrap_curves.npz": "32cf0236b9b731c56422c49da912b303187364744eeaa0d0a58dfaabfa21a7df",
+    "paired_readouts.csv": "72b715a6feb11b7095f392cdb19e057dd0e3a63ccf138e972a6fe30553327052",
+    "prefix_provenance.json": "a2fd88bfde5c4d3b40351b74d2dc8cbb23e863e01af73ea819762b0d4af2c513",
+    "selection_bootstrap.csv": "fc67a56be0a492d858c91e7a830f7c22bac87ac178ef0cab61aab4d9d8acc4bc",
+    "cell_trajectory.csv": "773c97b479a1fddc74bf9401029442e0998b9d8d24e7d8a6420faca4e293b636"
+  }
+}

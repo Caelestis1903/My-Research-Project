@@ -1,0 +1,106 @@
+{
+  "status": "epoch_limit",
+  "valid": true,
+  "formal": false,
+  "dataset": "movielens",
+  "arm": "Gtau0",
+  "seed": 2022,
+  "selected_epoch": 1,
+  "stopped_epoch": 1,
+  "steps": 20,
+  "wall_seconds": 8.191633127004025,
+  "best_validation_macro_auc": 0.6565491576815616,
+  "peak_memory_bytes": 1601100800,
+  "checkpoint": "/home_new/xzf_m3oe_reproduction_20261021/stage2_pipeline/movielens/Gtau0/seed2022/attempt_20261021_123530/best.pt",
+  "checkpoint_sha256": "8b56047776f9efd33fcea1bdd65643697cbfba74e08e7b8f8a124fa81255f5b0",
+  "attempt": "/home_new/xzf_m3oe_reproduction_20261021/stage2_pipeline/movielens/Gtau0/seed2022/attempt_20261021_123530",
+  "test_metrics": {
+    "d0t0_auc": 0.5658807388535785,
+    "d0t0_logloss": 0.6951556577879688,
+    "d0t0_count": 27687,
+    "d0t0_positive": 14281,
+    "d1t0_auc": 0.6641737126551566,
+    "d1t0_logloss": 0.6924256297406943,
+    "d1t0_count": 41434,
+    "d1t0_positive": 22072,
+    "d2t0_auc": 0.6742579640324957,
+    "d2t0_logloss": 0.6781165704453795,
+    "d2t0_count": 30900,
+    "d2t0_positive": 18099,
+    "d0t1_auc": 0.6798632236333436,
+    "d0t1_logloss": 0.47872783010954967,
+    "d0t1_count": 27687,
+    "d0t1_positive": 4964,
+    "d1t1_auc": 0.713650792188747,
+    "d1t1_logloss": 0.46403715360986153,
+    "d1t1_count": 41434,
+    "d1t1_positive": 7031,
+    "d2t1_auc": 0.6863693954721926,
+    "d2t1_logloss": 0.5097190677633162,
+    "d2t1_count": 30900,
+    "d2t1_positive": 6324,
+    "macro_auc": 0.6640326378059189,
+    "macro_logloss": 0.5863636515761284,
+    "pooled_logloss": 0.5854886089691876,
+    "sample_weighted_cell_auc": 0.6679751203835824,
+    "worst_cell_auc": 0.5658807388535785,
+    "task0_macro_auc": 0.6347708051804103,
+    "task0_macro_logloss": 0.6885659526580142,
+    "task0_pooled_auc": 0.5792713351292794,
+    "task0_pooled_logloss": 0.6887607629059262,
+    "task1_macro_auc": 0.6932944704314278,
+    "task1_macro_logloss": 0.4841613504942425,
+    "task1_pooled_auc": 0.5933228082506997,
+    "task1_pooled_logloss": 0.4822164550324489,
+    "domain0_macro_auc": 0.6228719812434611,
+    "domain0_macro_logloss": 0.5869417439487592,
+    "domain1_macro_auc": 0.6889122524219518,
+    "domain1_macro_logloss": 0.5782313916752779,
+    "domain2_macro_auc": 0.6803136797523441,
+    "domain2_macro_logloss": 0.5939178191043479,
+    "pooled_task_mean_auc": 0.5862970716899896
+  },
+  "stage": "stage2",
+  "control_id": "Gtau0",
+  "parent_arm": "G",
+  "gradient_path": "per_cell_autograd_norm_scale_sum_zero_fill",
+  "effective_tau": 0.0,
+  "weight_mode": "learned_specificity",
+  "constant_weight": null,
+  "auxiliary_parameters_selected": {
+    "dbo_complexity.W_Q.weight": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    },
+    "dbo_complexity.W_K.weight": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    },
+    "dbo_specificity.mlp.0.weight": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    },
+    "dbo_specificity.mlp.0.bias": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    },
+    "dbo_specificity.mlp.2.weight": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    },
+    "dbo_specificity.mlp.2.bias": {
+      "has_gradient": true,
+      "has_optimizer_state": true
+    }
+  },
+  "parent_references": [
+    {
+      "config": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/G/seed2022/attempt_20261021_091447/config.json",
+      "config_sha256": "a499fd83c0aeb9e8056974120d2a8b931d735180097a5e10ceb52e7b9a4028dd",
+      "data_manifest": "/home_new/xzf_m3oe_reproduction_20261021/formal/movielens/G/seed2022/attempt_20261021_091447/data_manifest.json",
+      "data_manifest_sha256": "6e2545301eecf41cf332d497de0565e4c686e2f587d024ce04a1c43108af7975",
+      "initialization_matches": true,
+      "data_matches": true
+    }
+  ]
+}

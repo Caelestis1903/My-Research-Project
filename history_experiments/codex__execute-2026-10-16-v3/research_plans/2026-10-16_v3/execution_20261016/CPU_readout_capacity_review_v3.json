@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_RESOURCE_SELF_REVIEW_BEFORE_RUN",
+  "independent_review": false,
+  "time": 1792175286.47328,
+  "basis": "CPU_resource_sample_before_extension_readout.json",
+  "observed": {
+    "time": 1792175240.3105073,
+    "affinity_cpus": 32,
+    "sample_seconds": 10,
+    "busy_cpu_fraction": 0.6507046664578766,
+    "equivalent_busy_cores": 20.82254932665205,
+    "MemAvailable_GiB": 32.26024627685547,
+    "MemTotal_GiB": 62.56769943237305,
+    "cgroup_cpu_max": null
+  },
+  "change": "Increase computational readout ceiling8->10 total acrossqueues, retaining atmost1 cell/samplerworker. Existingreadouts8; addoneV5queueworker andoneextensionqueueworker. Extensionworker stdlibwaiting consumes negligibleuntiltrainready.",
+  "projection": "Two additional2threadreadouts atmost4configuredcores; observed20.82/32 +4=24.82/32 (<.80). MemAvailable32.26GiB; even4GiBadditionalRSS retains28GiB. GPUadmissionunchanged5/deviceand<90%.",
+  "scope": "Runtime scheduling only, no scientific/bootstrap/source/selection change. Existing frozen readout1000/200 unchanged. No increase beyond10withoutnewresourceevidence.",
+  "activation": [
+    "V5_partial_readout_manifest.json max_cpu_processes1",
+    "V4_Adam_seed2023_extension100_readout_manifest.json max_cpu_processes1"
+  ],
+  "note": "Original fixedV2 max2+V4 max4+AdaTaskmax2=8. These2newqueues bringcomputemax10. Cellqueue max1 separately; no otherreadoutqueue remainsactive."
+}

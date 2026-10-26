@@ -1,0 +1,12 @@
+from pathlib import Path
+import json,time,hashlib
+import pandas as pd,numpy as np
+O=Path('/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016');D=O/'analysis/Q34_final_all_training_moment_refresh';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest();r=json.loads((D/'receipt.json').read_text());f=D/'corrected_moment_observations.csv';assert sha(f)==r['output_sha'];d=pd.read_csv(f);assert len(d)==r['rows'];expected=np.sqrt(np.maximum(d.raw_exp_avg_mixed_norm**2-d.v_norm**2,0));err=float(np.max(abs(expected-d.corrected_m_norm)/np.maximum(1,abs(expected))));assert err<1e-9
+keys=['run','budget','dataset','optimizer','seed','arm','block'];s=d.groupby(keys).agg(rows=('corrected_m_norm','size'),corrected_m_norm_mean=('corrected_m_norm','mean'),corrected_m_norm_max=('corrected_m_norm','max'),v_norm_mean=('v_norm','mean'),v_norm_max=('v_norm','max'),legacy_mixed_norm_mean=('raw_exp_avg_mixed_norm','mean')).reset_index();s.to_csv(D/'compact_moment_summary.csv',index=False)
+q=dict(status='PASS_FINAL_ALL254_ARCHIVED_BUDGET_SNAPSHOTS',time=time.time(),independent_review=False,source_receipt_sha=sha(D/'receipt.json'),actual_rows=len(d),archive_snapshots=len(r['inputs']),compact_rows=len(s),raw_local_only_file=str(f),raw_sha=sha(f),raw_bytes=f.stat().st_size,compact_sha=sha(D/'compact_moment_summary.csv'),max_serialized_formula_relative_error=err,scope='All254availableimmutableformalsnapshots includingactualfinal350/state250; oldprefixbudgetsandcopiedsame-trajectories areNOTindependentreplicates. Raw155.7MiB remainslocalindexed; compact432-ishblockrows+inputSHAs uploaded. Correctedmfromstorednorms, originalmixedcolumnpreserved; nooptimizer/training/performance change.',test_access=False)
+(O/'Q34_final_all_training_moment_refresh_primary_verification.json').write_text(json.dumps(q,indent=2)+'\n');print(json.dumps({k:v for k,v in q.items() if k not in ['scope']}))
+f=O/'question_registry.json';r=json.loads(f.read_text())
+for x in r['questions']:
+ if x['id']=='Q34':x['evidence']+='; Q34_final_all_training_moment_refresh_primary_verification.json';x['next_action']='Finalall254archive snapshots refreshed756800rows withrawSHA/compactsummary; no pendingtelemetryobligation. Keepoldmixedcolumn/Q35sparseclockscope; proceedtest.'
+ if x['id']=='Q5':x['evidence']=x['evidence'].replace('V6_full_geometry_and_task_analysis.md','V6_geometry_observational_analysis.md')
+f.write_text(json.dumps(r,indent=2)+'\n')

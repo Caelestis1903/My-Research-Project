@@ -1,0 +1,35 @@
+{
+  "status": "EXTENSION_REQUIRED_TO100_BY_FROZEN_RULE",
+  "independent_review": false,
+  "time": 1792177435.5390432,
+  "seed": 2025,
+  "optimizer": "SGD",
+  "trigger_arm": "B0_SN",
+  "relative_train_gain": 0.007081788678221908,
+  "auc_point_degradation_windows": [
+    {
+      "first_epoch": 34,
+      "peak_epoch": 33,
+      "minimum_LL_minus_peak": -0.011940032082064955
+    },
+    {
+      "first_epoch": 43,
+      "peak_epoch": 42,
+      "minimum_LL_minus_peak": -0.01990184871353634
+    },
+    {
+      "first_epoch": 44,
+      "peak_epoch": 42,
+      "minimum_LL_minus_peak": -0.01990184871353634
+    }
+  ],
+  "deterministically_eligible_confirmed_overfit_windows": [],
+  "proof": "ConfirmedoverfitrequiresallthreepointLLvaluesworseinadditiontobootstrapAUC. Everypossiblepoint-AUCwindowfailsLLby>.01; henceconfirmedselectionoverfitislogicallyimpossibleforANYbootstrapreplicatevalues. No needwaitnumericalbootstraptoestablishfalseconjunction. Existing1000selection/200diagnosticreadoutstillrunsfullyforreport. Thisisexactexistingrule, notnewstatisticalthreshold.",
+  "source_hashes": {
+    "config.json": "d4713a4046efffb5fd94b8314705c1393de6c0233ba2739072589c6e59edee7d",
+    "receipt.json": "e5242f1e8dc9070fca584c50ce0a12d425227082808e9c611400e09cf4218fb0",
+    "trajectory.csv": "5a2a37ac30f86433871436e4d18ea2a358406ac878dc2f34cd714236a7694299",
+    "metrics_selection.csv": "12d131905d37eaad541d6294fca3b16baa4e97a18d60701189f5e9bf5fdecbeb"
+  },
+  "matched_extension": "BothB0and2B0SN/SB (4runs) minimum100; repeattrain/selectioncriterionat100. No diagnostic input."
+}

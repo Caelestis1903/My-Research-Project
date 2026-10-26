@@ -1,0 +1,14 @@
+{
+  "status": "DESIGN_COMPLETE_BEFORE_IMPLEMENTATION",
+  "time": 1792193036.5919106,
+  "independent_review": false,
+  "problem": "Actualseed25T200mildSN gain.005263345>.005, exactly3point-eligiblewindows147/148/154. Other9plateau. Needexact1000selectionconfirmationbeforefinal200or250; avoidunnecessaryfullintermediate2005pairbootstrapwhilefinalTunknown.",
+  "estimand": "ONLYfrozenconfirmedselectionoverfittingboolean/firstconfirmationstartandpeak, notfirstAUCdegradation/notdiagnosticonset/notfullpairreadout.",
+  "equivalence": "Frozen655onsetconfirmsIFFsomewindowhaspointAUCbelowprefixpeakall3,pointLLworseall3,trainJlowerbythird,andall3pairedbootstrapAUCupper.975<0. Firstthreecriteria shortlistnecessarywindows; onlyunionofthose3epochsandtheirfixedprefixpeaks needed. Compute frozenr.bootstrap_curves atALL1000same-domainrowmultinomialdraws,same seed,one requiredarmandselectedepochs. RNGdraws dependonlydomainrows,k,seed,notarm/epochcount. FullmissingepochcacheNOTfabricated.",
+  "inputs": "OneactualCOMPLETEproducer, config/trajectory/metrics_selection/split hashes. FIRSTsequentiallyhashALLsavedvalidationpredictionsandcomputeALLepochselectionpointmetricsusingexactfrozen train.metrics+np.mean (notroundedCSVmean/near-tieargmax). Thenuseexactpointprefixpeaksandeligibility; reloadonlyunionepochpredsfor1000bootstrap. Recomputedpointcellscompareproducerwithin1e-12. No models/data/pred modification, no diagnostic/testperformance.",
+  "outputs": "Exactneededepoch1000bootstrapcachewithhonestsubsetepochindex; candidatewindowquantiles/pointmetadata; receiptONLYselectionbudgetconfirmation. Finalfullpaired1000/200andallpromised100/150prefixreadoutsremainmandatoryafteractualfinalT.",
+  "acceptance": "AST; actualsynthetictwoarmfullhorizon-vsonearmfiltered1000bootstrapcachebitexact; independentfrozenonsetconfirmedbool/start/peakcomparisonwithprefilterlogicacrosshandconstructedandrandomcases. Primaryactualsource/point/quantileoraclebeforedecision.",
+  "execution": "OneadditionalCPU NUMERICALworker, existing2CPUreadouts+1sampler stayactive (3numerical+1sampler withinapproved12+1). Onlymechanicalrunnerafterprimaryselfreview. NoGPUqueuechange.",
+  "failure": "Anyoraclefailureblocksoptimization; frozenfullr.pair remainsfallback, no approximation/bootstrapreduction/thresholdchange.",
+  "engineering_note": "FullpointpassretainedtoexcludeCSVrounding/near-tieeligibilityerrors; onlyexpensive1000bootstrapissparse. No fakevaluesforuncomputedepochs."
+}

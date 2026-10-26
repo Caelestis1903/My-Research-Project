@@ -1,0 +1,11 @@
+# V5 first mechanical intervention audit: SGD seed2022
+
+Primary analysis; evidence strength **STRONG** for the exact schedule identity in these recorded two runs, **WEAK** for general research/performance conclusions from one seed. Producer receipt PASS, 100 arm-epochs checked against source batch hashes. Primary independently reduces the 600 domain-epoch rows: all 300 WR/PERM paired quotas agree exactly. Initialization, split, p/q, physical batch sizes, learning rate and objective are matched.
+
+At epoch1 under SB, smallest domain d2 has89,452 rows and668,649 draws. WR sees89,405 unique rows; PERM sees89,452. Repeats are579,244 and579,197 respectively. Most of the repetition in this arm is mathematically unavoidable at the fixed domain quota; PERM does not eliminate it. In contrast SB largest d1 gets668,604 draws: unique rows rise555,036→668,604, per-epoch coverage .31827→.38340, and repeats113,568→0 at epoch1.
+
+Under SN epoch1, d1 unique coverage rises1,102,242→1,743,774 (.63206→.99993), while d2 rises56,443→89,123 (.63099→.99632). At later epochs continuous permutation cycles can cross an epoch boundary and repeat rows across the boundary; even quota<=support does not guarantee no within-epoch repetitions. This is the frozen continuous PERM design, not a posthoc schedule repair.
+
+First90%-coverage step for WR→PERM: SN d0 114→44, d1 113→45, d2 114→45; SB d0 30→12,d1 295→115,d2 16→6. All rows are eventually seen in all four runs by50, so final binary coverage alone misses large early timing differences. Use first_seen_summary.csv for exact values.
+
+Coverage, repeats and first-seen timing change jointly. With fixed E, R=E-U; no unique repetition-only attribution follows. PERM preserves each frozen physical-domain draw sequence, but changes empirical dependence, coverage and order inside domains. The observed optimizer telemetry occurs along different moving theta trajectories; lag cosine is descriptive and does not independently identify stationary noise geometry or causal mediation. No performance result or four-seed conclusion is asserted here. Full V5 comparisons must retain WR/PERM/ORDER, all four seeds, both arms and the common pre-window defined before these readouts.

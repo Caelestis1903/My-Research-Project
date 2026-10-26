@@ -1,0 +1,19 @@
+{
+  "status": "PASS_THEOREM_WITH_PRODUCTION_TAIL_CAVEAT",
+  "independent_review": false,
+  "time": 1792184452.1930099,
+  "source_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
+  "observed": "Trainingpre-generatesallWRproductionbatches beforeupdates; PERMUTEDchangesonly a seed/epoch-determined permutation ofbatchindices, notgradients/labels/features-dependentcurriculum. Exactsamebatchmultisetsverifiedall4SGDseeds at50/100.",
+  "law": "For intendedIIDbatchvariablesB1..BT, anyfixedpermutationpi satisfiesL(Bpi(1),...,Bpi(T))=product_t Pq=L(B1,...,BT). Withdeterministicinitialtheta, inducedmarginaltrajectorylaw isalsoinvariant undernondatadependentpermutation inidealIIDsampling. This isnotabitidentityofrealizedpaths; SGDupdatesneednotcommute.",
+  "finite_seed_scope": "ImplementationusesfinitePRNGstreams derivedfromsameexperimentseed forinitialization/sampling/permutation. Existing4seeds estimatecoupledpathwisecontrasts, notamathematicalproof ofindependentidealstreams orunconditionaldistributionequivalence. No datadependentorderingpolicytested.",
+  "implication": "ORDERmeasuresconditionalfull-batch-set path sensitivity, including shorttailposition. No unconditionalpolicy/ curriculumclaim andno exactwholeproductiontrajectorylawinvariance. Actualperformanceunchanged.",
+  "evidence": [
+    "local_diagnostic_design_addendum.md",
+    "analysis/V5_sampler_identity_seed2025_until100/receipt.json",
+    "V5_sampler_identity_seed2025_until100_primary_verification.json",
+    "prior600armepochsampleridentity"
+  ],
+  "remaining": "Finishactualall4performance andallstages; do notclaimordernecessarysolelyfromonefavorablepermutation. No extrapolationtoarbitrarydata-dependentdomaincurriculum.",
+  "test_access": false,
+  "production_tail_correction": "ActualB0batchsizes40960andone40052taileach49steps. FullORDERpermutationmoves tail, sofullbatchvectorsarenotidenticallydistributedconditionalonstepcardinality. Equal-sizeIIDtheorem appliesonlytoequal-cardinalitysubset, notfullproductionlaw. SeeQ38actual500armepochaudit."
+}

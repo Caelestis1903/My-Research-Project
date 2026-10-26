@@ -1,0 +1,9 @@
+{
+  "status": "DESIGNED",
+  "scope": "serialization-only engineering correction after all14 frozen summary outputs failed before completion",
+  "hypothesis_changes": false,
+  "design": "Run the unchanged frozen summary module through a separate wrapper. Recursively convert numpy scalar leaves with .item() only at base.dump. No changed values, metrics, selection, statistical function, manifests or frozen sources. Move partial output directories intact to an explicit failed-attempt subdirectory, rerun same14 manifests and original output paths. Compare all preexisting CSV and JSON file bytes after rerun; then independently reconstruct all results using frozen v2 verifier.",
+  "acceptance": "all14 real child exit0; old partial CSV/JSON files byte-identical; original source/freeze SHA unchanged; frozen numeric reconstruction PASS",
+  "independent_review": false,
+  "time": 1792213611.4406326
+}

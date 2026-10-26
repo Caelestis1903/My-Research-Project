@@ -1,0 +1,25 @@
+{
+  "stage": "DESIGN_SPECIFICATION",
+  "independent_review": false,
+  "time": 1792181624.5754976,
+  "problem": "V8seed23sameprefixrequires100then150. Threefull100andthreefull150pairedreadoutswouldrecomputeidentical1000/200bootstrapweightsandprefixmetricvalues, delayingdownstreamtestwithoutaddingevidence. Currentlybothdeferredqueuesonlystdlibwaiters, no numericaloutputs.",
+  "scientific_invariance": "Frozenbootstrap RNGdrawsdependonlyseed/k/domainrows, NOTnumberofepochs. Full150cache[:, :, :100] isbit-identicalbootstrapvalues thatfrozen100readoutwouldcompute. Original100predictions/models/labels/splits preservedandhash-verified. Exactprefixreuseis1000actualselection+200actualdiagnosticreplicates, notestimation/skipping/newindependentreps.",
+  "implementation_spec": [
+    "Newstandaloneprefixutilityrequiresfull-readoutCOMPLETE, prefixepochs>=50, originalprefixSN/SBproducerreceiptsatthatbudget, freshout. Readonlyallinputs.",
+    "ValidatefrozenreadoutSHA655e284c7c32052c2aea951ccf6005befc2dc8561c302736e775a9007c0dfe7c; parentreadoutproducerreceiptSHAandfullcachehash, seed/data/configidentity, originalprefixmodel/predictionhashesequalparentproducerprefix. No missing/growinginputs.",
+    "Sliceselection/diagnostic/point/epochs torequestedprefix. FiltercelltrajectoryrawCSVrowsandmaprunpathstopreservedprefixsources. Writebootstrap_curves.npzandderived-provenanceJSON.",
+    "Reuseexactfrozenpairserializationstatements fromfirst indices=selection_indices(selection) tofunctionend viaAST/exactsourcehashpin, withverifiednamespaceforprefixconfigs/directories/trainingrows/arrays. Newreceipt source_sha isprefixutility; storepinnedserializerSHAandparentcache/producers. Thisavoidsduplicatingstatisticaldecisioncode.",
+    "Produceallstandardpairedoutputs: 1000reselectionCSV, onset/selection_onset, budget, readouts, receipt,hases; downstreamaggregate/testcanusethesamepromised100pathsandoriginal100source_runs."
+  ],
+  "acceptance": [
+    "Mechanicaloracle: projectalreadycompleteV2Adamseed22full50->same50, comparearraysBITEXACT, allselectedepochs/onsets/budgets/readoutvalues/reselectionrowsagainstoriginalcompletefrozenreadout; onlyprovenance/sourcehashmaydiffer.",
+    "StaticinspectASTtailseam, explicitparent/frozenSHAchecks; model/predictionprefixproduceridentity asserts. No training/rebootstrap/newmetricthreshold.",
+    "No schedulingmutationbeforecode/oracle/primaryreviewPASS."
+  ],
+  "dispatch_spec_after_PASS": [
+    "ConfirmoldV8_full100_deferred(max2,5tasks) AND oldV8_seed2023_until150_deferred(max2,3tasks) areonlystdlibpredecessorwaiters andnooutdirs. Stoponlytheirschedulers/waiters, preservealloriginallaunch/status/logsunderarchive/dispatch_corrections. No scientificworklost.",
+    "Replacewithone2slotcombinedheavyqueue AFTERoriginalV8initialsixpairreadoutsALLCOMPLETE: seed25mild/strong actual100(2unchangedcommands), seed23clean/mild/strongactual150(3samefrozenreadoutcommandswithappropriateguard).",
+    "AftercombinedheavyALL5COMPLETE, run3prefix100projectionstoEXACToriginalpromisedseed23clean/mild/strong100outputpaths, original100sourcepaths. Use1ofthe2freedderivedslots; other1becomesunallocated, no capincrease. Alloriginal50/100/150resultsretained."
+  ],
+  "non_authorization": "DESIGNonlynow; existingqueuescontinueuntilimplementationandactualnumericaloraclePASS. No testread allowed, no gate/stateconditionfromthisengineeringchange."
+}

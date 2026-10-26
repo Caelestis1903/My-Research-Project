@@ -1,0 +1,154 @@
+{
+  "status": "ARCHIVED_COMPLETED_ONLY",
+  "manifest": "research_plans/2026-10-16_v3/execution_20261016/V5_ORDER_SGD_seed2022_manifest.json",
+  "runs": [
+    {
+      "run": "V5ORDER__kuairand__sgd__SN__seed2022",
+      "budget": 50,
+      "local_artifacts": "/home_new/xzf_phase0_3_v3_artifacts_20261016/V5ORDER__kuairand__sgd__SN__seed2022",
+      "archive": "research_plans/2026-10-16_v3/execution_20261016/archive/formal/V5ORDER__kuairand__sgd__SN__seed2022/budget050",
+      "files": [
+        {
+          "name": "config.json",
+          "sha256": "47ef3b6f25c3ebd6e97abf9c556b978e878e692a1da7d25b9e8bafd8b54674f3",
+          "bytes": 12365
+        },
+        {
+          "name": "receipt.json",
+          "sha256": "4e81f4942032138e2b3e21ef5e8d8015d3e04fdd4a632aa49544d0a6b28d105f",
+          "bytes": 16383
+        },
+        {
+          "name": "trajectory.csv",
+          "sha256": "6b14a13cb93f2d27252c33f75756bede14117a16f35181c457044a531050c4ab",
+          "bytes": 18996
+        },
+        {
+          "name": "metrics_selection.csv",
+          "sha256": "fee2040ed00a5a4781f91d4676cf8ae605453dd9ff0bbfb32cd05335f1ac77ed",
+          "bytes": 21874
+        },
+        {
+          "name": "selection_frozen.json",
+          "sha256": "6b369d365d638b9f169c7d933c589eb4618833d0ef3fd589d42d2a5faf729aad",
+          "bytes": 1648
+        },
+        {
+          "name": "batch_trace.csv",
+          "sha256": "c0bbcfaeb3da7d02289f6d623edc1508a68f4263809ca7f4b3ff3c514a1a058c",
+          "bytes": 358700
+        },
+        {
+          "name": "optimizer_observations.csv",
+          "sha256": "d91aac057ce42e34a9d71c4280e631e7c318135f4ed716a9d7056414b950b2c4",
+          "bytes": 112869
+        }
+      ],
+      "actual_launch": {
+        "status": "COMPLETE",
+        "exit_code": 0,
+        "gpu": 1,
+        "command": [
+          "/home/xzf/miniconda3/envs/phase0-3-env/bin/python",
+          "experiments/v3_train_20261016.py",
+          "--dataset",
+          "kuairand",
+          "--seed",
+          "2022",
+          "--optimizer",
+          "sgd",
+          "--lr",
+          "0.3",
+          "--arm",
+          "SN",
+          "--epochs",
+          "50",
+          "--device",
+          "cuda:1",
+          "--run-dir",
+          "/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/runs/V5ORDER__kuairand__sgd__SN__seed2022",
+          "--order",
+          "PERMUTED"
+        ],
+        "pid": 150019,
+        "started": 1792173947.2800765,
+        "finished": 1792174984.0155404
+      },
+      "manifest_sha": "5b8775837d74a296f4a878daa942433e1b4ad101a51bb84063d59f8900c9acc9"
+    },
+    {
+      "run": "V5ORDER__kuairand__sgd__SB__seed2022",
+      "budget": 50,
+      "local_artifacts": "/home_new/xzf_phase0_3_v3_artifacts_20261016/V5ORDER__kuairand__sgd__SB__seed2022",
+      "archive": "research_plans/2026-10-16_v3/execution_20261016/archive/formal/V5ORDER__kuairand__sgd__SB__seed2022/budget050",
+      "files": [
+        {
+          "name": "config.json",
+          "sha256": "c1aa9db0030db021e3d11bcd81d532bad72b29a0f50efd91df0feb03beef1257",
+          "bytes": 12408
+        },
+        {
+          "name": "receipt.json",
+          "sha256": "14349cc550ee8e2604aa80626f8f56769f6b65da1dcdb0a2388d9d2224a33d83",
+          "bytes": 16383
+        },
+        {
+          "name": "trajectory.csv",
+          "sha256": "1b4b653e0b8d0a07af832ee781041375f7f3c9e7c1378dd67aea295c822d79d5",
+          "bytes": 25817
+        },
+        {
+          "name": "metrics_selection.csv",
+          "sha256": "d95f3e1689cdf1fd1181051867b1c51a647190d0f5f5ba574f8a310d82a8c52a",
+          "bytes": 21869
+        },
+        {
+          "name": "selection_frozen.json",
+          "sha256": "4ea10ba649a26a703414b2eef843a62e8a2a72cec2881c7b2068138b3bacf708",
+          "bytes": 1646
+        },
+        {
+          "name": "batch_trace.csv",
+          "sha256": "5c2665abaf9d32d94013304f4161678f0e010c5f9ebb58f127a537b9bf1ea987",
+          "bytes": 460937
+        },
+        {
+          "name": "optimizer_observations.csv",
+          "sha256": "89f4d4ecdf9594dfec9978e37685ef8baed3b01edcc3d245693feefbcbea130a",
+          "bytes": 113191
+        }
+      ],
+      "actual_launch": {
+        "status": "COMPLETE",
+        "exit_code": 0,
+        "gpu": 0,
+        "command": [
+          "/home/xzf/miniconda3/envs/phase0-3-env/bin/python",
+          "experiments/v3_train_20261016.py",
+          "--dataset",
+          "kuairand",
+          "--seed",
+          "2022",
+          "--optimizer",
+          "sgd",
+          "--lr",
+          "0.3",
+          "--arm",
+          "SB",
+          "--epochs",
+          "50",
+          "--device",
+          "cuda:0",
+          "--run-dir",
+          "/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/runs/V5ORDER__kuairand__sgd__SB__seed2022",
+          "--order",
+          "PERMUTED"
+        ],
+        "pid": 151162,
+        "started": 1792174067.966452,
+        "finished": 1792174853.053484
+      },
+      "manifest_sha": "5b8775837d74a296f4a878daa942433e1b4ad101a51bb84063d59f8900c9acc9"
+    }
+  ]
+}

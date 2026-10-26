@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "stage": "PRIMARY_SELF_REVIEW_BEFORE_RUN",
+  "independent_review": false,
+  "time": 1792171658.0247488,
+  "design": "design_specification.md V9; RUN_MANIFEST TierA A7; frozen existing MovieLens d2_large configuration",
+  "scientific_commands_unchanged": true,
+  "manifest_sha": "47c1202baad1a6095f36deeb6596e36dfaac64419a9912c6f6d9739e6ccd11e4",
+  "training_source_sha": "af6ca583e8224063472c635a5b2d3c53809dbc99864f82319418d687ed006c7b",
+  "fixed_factors": {
+    "model": "existing fixed-fusion M3OE",
+    "objective": "sample",
+    "optimizer": "vanillaSGD momentum0",
+    "lr": 0.3,
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "q": [
+      "SN",
+      "SB"
+    ],
+    "initial_epochs": 50,
+    "batch_size": 40960
+  },
+  "duration": "MovieLens has its own paired train+selection plateau criterion and50epoch increment rule. Its5steps/epoch differ from KuaiRand49; report examples/updates and do not equate epochs across datasets. No dependency on unfinished KuaiRand Adam budget.",
+  "scheduling": "Run only as V4 initial queue drains: preceding-status V4_training_manifest_attempt2.status.json enforces no pending predecessor launch conflict and total live children<=5/GPU, memory<90%. V1 gate passed; LR and second-environment definition/splits already frozen. This read-only scheduling overlap does not skip V5 or any scientific readout. Conditional mediator replication still waits on primary-environment evidence.",
+  "safety": "All8fresh run dirs absent, logs outside run dirs; same frozen implementation/data; test not read. No change to active sources or previous results.",
+  "analysis": "Primary scientist analyzes after fourseed complete readout; mechanical runner records raw results only."
+}

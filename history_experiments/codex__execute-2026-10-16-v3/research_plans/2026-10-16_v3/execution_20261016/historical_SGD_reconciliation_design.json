@@ -1,0 +1,33 @@
+{
+  "status": "DESIGN_COMPLETE",
+  "question": "Q32",
+  "time": 1792170156.5853643,
+  "scope": "analysis of already saved original v2 and current v3 artifacts, no newtraining algorithm",
+  "dataset": "kuairand",
+  "optimizer": "sgd",
+  "lr": 0.1,
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "arms": [
+    "SN",
+    "SB"
+  ],
+  "identity_checks": [
+    "initparameterhash",
+    "datafingerprints",
+    "all50epoch2450exactbatchrowIDhashes",
+    "parameter snapshots10/50"
+  ],
+  "readouts": [
+    "v2 oldfullselected fullval",
+    "sameoldcheckpoint newselectionhalf",
+    "v3 sameoldselectedepoch fullval/selectionhalf",
+    "v3 newhalfselectedepoch fullval/selectionhalf"
+  ],
+  "no_test": true,
+  "independent_review": false
+}

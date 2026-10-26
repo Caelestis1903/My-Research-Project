@@ -1,0 +1,329 @@
+--- run.py
++++ stage2_run.py
+@@ -9,10 +9,10 @@
+ import torch
+ from torch.utils.data import DataLoader,TensorDataset
+ from data import load_data,sha_file
+-from protocol import *
++from stage2_protocol import *
+ 
+ def parser():
+-    p=argparse.ArgumentParser(); p.add_argument('--dataset',choices=['movielens','kuairand'],default='movielens'); p.add_argument('--arm',choices=['O','B','D','G'],default='B'); p.add_argument('--seed',type=int,default=2022); p.add_argument('--device',default='cuda:0'); p.add_argument('--output-root',default='/home_new/xzf_m3oe_reproduction_20261021'); p.add_argument('--epochs',type=int,default=50); p.add_argument('--prepare-data',action='store_true'); p.add_argument('--smoke',action='store_true'); p.add_argument('--max-steps',type=int,default=0); p.add_argument('--threads',type=int,default=4); p.add_argument('--tau',type=float,default=.5); return p
++    p=argparse.ArgumentParser(); p.add_argument('--dataset',choices=['movielens','kuairand'],default='movielens'); p.add_argument('--arm',choices=['Gtau0','Dconst01'],default='Gtau0'); p.add_argument('--seed',type=int,default=2022); p.add_argument('--device',default='cuda:0'); p.add_argument('--output-root',default='/home_new/xzf_m3oe_reproduction_20261021'); p.add_argument('--epochs',type=int,default=50); p.add_argument('--prepare-data',action='store_true'); p.add_argument('--smoke',action='store_true'); p.add_argument('--max-steps',type=int,default=0); p.add_argument('--threads',type=int,default=4); p.add_argument('--tau',type=float,default=None); return p
+ 
+ def csv_append(p,row):
+     exists=p.exists()
+@@ -30,14 +30,21 @@
+         return DataLoader(TensorDataset(torch.from_numpy(x),torch.from_numpy(y)),batch_size=40960,shuffle=shuffle,drop_last=False,num_workers=0,generator=gens[g])
+     return make('train',True,'main'),make('train',True,'aux'),make('val',False,'val'),make('test',False,'test'),gens
+ 
++def is_formal(args):
++    return not args.smoke and args.epochs==50 and args.max_steps==0 and args.seed in (2022,2023,2024,2025)
++
+ def run(args):
++    metadata=control_metadata(args.arm)
++    fixed_tau=metadata['effective_tau'] if metadata['effective_tau'] is not None else .5
++    if args.tau is not None and args.tau!=fixed_tau: raise ValueError('Stage2 tau is fixed by the reviewed control')
++    args.tau=fixed_tau
+     torch.set_num_threads(args.threads)
+     torch.backends.cuda.matmul.allow_tf32=False; torch.backends.cudnn.allow_tf32=False
+     b,manifest=load_data(args.dataset,Path(args.output_root)/'cache')
+     if args.prepare_data:
+         print(json.dumps({'dataset':args.dataset,'counts':b.train_counts,'raw_sha256':manifest['raw_sha256']}),flush=True); return
+-    formal=not args.smoke and args.epochs==50 and args.max_steps==0 and args.tau==.5
+-    parent=Path(args.output_root)/('formal' if formal else 'pipeline')/args.dataset/args.arm/f'seed{args.seed}'
++    formal=is_formal(args)
++    parent=Path(args.output_root)/('stage2' if formal else 'stage2_pipeline')/args.dataset/args.arm/f'seed{args.seed}'
+     parent.mkdir(parents=True,exist_ok=True)
+     attempt=parent/time.strftime('attempt_%Y%m%d_%H%M%S')
+     attempt.mkdir(exist_ok=False)
+@@ -50,9 +57,11 @@
+     json_write(attempt/'data_manifest.json',manifest)
+     np.savez_compressed(attempt/'split_row_ids.npz',train=b.train_row_ids,validation=b.val_row_ids,test=b.test_row_ids)
+     model,init=make_model(b,args.arm,args.seed,args.device); optimizer,auxopt=optimizers(model,args.arm)
++    references=parent_reference(args.output_root,args.dataset,args.arm,args.seed,init,manifest)
+     train,aux_loader,val,test,gens=loaders(b,args.seed); aux_iter=iter(aux_loader)
+     scarce=min(b.train_counts,key=lambda d:(b.train_counts[d],d))
+     config=vars(args).copy(); config.update(formal=formal,protocol='ported-train-only',batch_size=40960,lr=.01,auxiliary_lr=.001 if auxopt else None,weight_decay=1e-5,adam_betas=[.9,.999],adam_eps=1e-8,objective='sum_t,d mean_i BCE; D/G mean_i(weight_i*BCE); no six-cell division',fusion='learned-sigmoid-double-Adam' if args.arm=='O' else 'fixed1',scarce_domain=scarce,noise_std=.1,noise_target='all flattened embeddings of copied samples including domain embedding',selection='strict validation macro AUC; earliest tie; patience10; always restore best',initialization=init,sources=source_receipt(),torch_version=torch.__version__,python_version=platform.python_version(),cuda_version=torch.version.cuda,gpu=torch.cuda.get_device_name(args.device) if str(args.device).startswith('cuda') else None,tf32=False,amp=False,optimizer_parameter_names=[n for n,p in model.named_parameters()],aux_optimizer_parameter_names=[n for n,p in model.named_parameters() if n.startswith('_weight_')] if auxopt else [],aux_loader='persistent shuffled training iterator with isolated generator',source_pairing='grad model paired-from-supplied-model / ported')
++    config.update(metadata); config.update(tau=metadata['effective_tau'],parent_references=references,stage2_design_sha256=sha_file(HERE/'DESIGN_STAGE2.md'),objective='sum_t,d mean_i(0.1*BCE_i), no six-cell division' if args.arm=='Dconst01' else 'sum_t,d mean_i((0.1+0.5*q_i)*BCE_i), detached mean real weight on copies; G gradient path tau0')
+     json_write(attempt/'config.json',config)
+     if str(args.device).startswith('cuda'): torch.cuda.reset_peak_memory_stats(args.device)
+     best=-float('inf'); best_epoch=0; bad=0; step=0; started=time.monotonic(); status='epoch_limit'
+@@ -64,7 +73,7 @@
+                 cells,info=batch_loss(model,x,y,args.arm,scarce,args.seed*1000000+step)
+                 mechanism=None; gs=None
+                 if batch_index==0:
+-                    mechanism,gs=probe(model,cells,info,args.tau if args.arm=='G' else 0.)
++                    mechanism,gs=probe(model,cells,info,args.tau if args.arm=='Gtau0' else 0.)
+                     before=[p.detach().clone() for p in model.parameters()]
+                 apply_backward(cells,model,args.arm,args.tau,gs)
+                 if mechanism is not None: raw=[p.grad.detach().clone() if p.grad is not None else None for p in model.parameters()]
+@@ -76,6 +85,7 @@
+                 if mechanism is not None:
+                     delta=[p.detach()-old for p,old in zip(model.parameters(),before)]
+                     mechanism.update(epoch=epoch,step=step,adam_delta_norm=float(norm(delta)),adam_delta_raw_cosine=cosine(delta,raw),adam_m_norm=float(torch.stack([s['exp_avg'].square().sum() for s in optimizer.state.values()]).sum().sqrt()),adam_v_norm=float(torch.stack([s['exp_avg_sq'].square().sum() for s in optimizer.state.values()]).sum().sqrt()))
++                    mechanism.update(auxiliary_parameters=auxiliary_receipt(model,optimizer))
+                     csv_append(attempt/'mechanism_metrics.csv',{k:json.dumps(v) if isinstance(v,(dict,list)) else v for k,v in mechanism.items()})
+                     del gs,before,raw,delta
+                 del cells,info,x,y
+@@ -95,14 +105,15 @@
+             print(json.dumps({'epoch':epoch,'steps':step,'validation_macro_auc':vm['macro_auc'],'validation_macro_logloss':vm['macro_logloss'],'seconds':row['epoch_seconds']}),flush=True)
+             if vm['macro_auc']>best:
+                 best=vm['macro_auc']; best_epoch=epoch; bad=0
+-                state=dict(model=model.state_dict(),optimizer=optimizer.state_dict(),aux_optimizer=auxopt.state_dict() if auxopt else None,rng=rng_state(),loader_generators={k:g.get_state() for k,g in gens.items()},epoch=epoch,step=step,validation=vm)
++                state=dict(model=model.state_dict(),optimizer=optimizer.state_dict(),aux_optimizer=auxopt.state_dict() if auxopt else None,rng=rng_state(),loader_generators={k:g.get_state() for k,g in gens.items()},epoch=epoch,step=step,validation=vm,stage2=metadata,auxiliary_parameters=auxiliary_receipt(model,optimizer))
+                 torch.save(state,attempt/'best.pt'); del state
+             else: bad+=1
+             if bad>=10: status='earlystop'; break
+-        checkpoint=torch.load(attempt/'best.pt',map_location=args.device,weights_only=False); model.load_state_dict(checkpoint['model']); del checkpoint
++        checkpoint=torch.load(attempt/'best.pt',map_location=args.device,weights_only=False); model.load_state_dict(checkpoint['model']); selected_auxiliary=checkpoint['auxiliary_parameters']; del checkpoint
+         tm=evaluate(model,test,args.device); csv_append(attempt/'test_metrics.csv',{'selected_epoch':best_epoch,**tm})
+         completion=dict(status=status,valid=True,formal=formal,dataset=args.dataset,arm=args.arm,seed=args.seed,selected_epoch=best_epoch,stopped_epoch=epoch,steps=step,wall_seconds=time.monotonic()-started,best_validation_macro_auc=best,peak_memory_bytes=torch.cuda.max_memory_allocated(args.device) if str(args.device).startswith('cuda') else None,checkpoint=str(attempt/'best.pt'),checkpoint_sha256=sha_file(attempt/'best.pt'),attempt=str(attempt),test_metrics=tm)
++        completion.update(metadata); completion.update(auxiliary_parameters_selected=selected_auxiliary,parent_references=references)
+         json_write(attempt/'completion.json',completion); print('COMPLETED',json.dumps(completion),flush=True)
+     except BaseException as error:
+-        json_write(attempt/'completion.json',dict(valid=False,status='failed',error=repr(error),steps=step,wall_seconds=time.monotonic()-started,attempt=str(attempt))); traceback.print_exc(); raise
++        json_write(attempt/'completion.json',dict(valid=False,status='failed',stage='stage2',control_id=args.arm,parent_arm=metadata['parent_arm'],error=repr(error),steps=step,wall_seconds=time.monotonic()-started,attempt=str(attempt))); traceback.print_exc(); raise
+ if __name__=='__main__': run(parser().parse_args())
+--- schedule_runs.py
++++ stage2_schedule.py
+@@ -35,24 +35,24 @@
+ 
+ def valid_completions(root):
+     out={}
+-    for p in (root/'formal').glob('*/*/seed*/attempt_*/completion.json'):
++    for p in (root/'stage2').glob('*/*/seed*/attempt_*/completion.json'):
+         j=json.loads(p.read_text())
+-        if j.get('valid') and j.get('formal'):
++        if j.get('valid') and j.get('formal') and j.get('stage')=='stage2':
+             key=(j['dataset'],j['arm'],j['seed'])
+             if key in out: raise RuntimeError('Multiple valid formal attempts: '+str(key))
+             out[key]=j
+     return out
+ 
+ def main():
+-    p=argparse.ArgumentParser(); p.add_argument('--output-root',default='/home_new/xzf_m3oe_reproduction_20261021');p.add_argument('--gpus',default='0,1');p.add_argument('--stage',choices=['seed2022','remaining','all'],default='seed2022');p.add_argument('--profile',action='store_true');p.add_argument('--dataset',choices=['movielens','kuairand','both'],default='both');p.add_argument('--poll-seconds',type=int,default=20);p.add_argument('--max-per-gpu',type=int,default=5); args=p.parse_args()
++    p=argparse.ArgumentParser(); p.add_argument('--output-root',default='/home_new/xzf_m3oe_reproduction_20261021');p.add_argument('--gpus',default='0,1');p.add_argument('--stage',choices=['all'],default='all');p.add_argument('--profile',action='store_true');p.add_argument('--dataset',choices=['movielens','kuairand','both'],default='both');p.add_argument('--poll-seconds',type=int,default=20);p.add_argument('--max-per-gpu',type=int,default=5); args=p.parse_args()
+     if not 1<=args.max_per_gpu<=5: raise ValueError('max-per-gpu must be 1..5')
+     root=Path(args.output_root); root.mkdir(parents=True,exist_ok=True);gpus=[int(x) for x in args.gpus.split(',')]
+     datasets=['movielens','kuairand'] if args.dataset=='both' else [args.dataset]
+-    profiles_path=root/'profiles.json'; profiles=json.loads(profiles_path.read_text()) if profiles_path.exists() else {}
++    profiles_path=root/'stage2_profiles.json'; profiles=json.loads(profiles_path.read_text()) if profiles_path.exists() else {}
+     if args.profile:
+         # Full actual one-epoch pipelines; formal batch size stays unchanged.
+         for dataset in datasets:
+-            for arm in ['O','B','D','G']:
++            for arm in ['Gtau0','Dconst01']:
+                 key=dataset+'/'+arm
+                 if key in profiles: continue
+                 snapshot=gpu_stats(gpus)
+@@ -61,30 +61,25 @@
+                 minimum_headroom=2*1024**3
+                 eligible=[g for g,(total,used) in snapshot.items() if used<total*.90 and total*.90-used>=minimum_headroom]
+                 preflight={'time':time.time(),'dataset':dataset,'arm':arm,'gpu_memory_bytes':snapshot,'eligible_gpus':eligible,'required_headroom_bytes':minimum_headroom,'estimate':'unknown until this one-process profile completes'}
+-                with (root/'profile_preflight.jsonl').open('a') as receipt: receipt.write(json.dumps(preflight)+'\n')
+-                if not eligible: raise RuntimeError('No GPU has 2GiB headroom below 90% for the unknown first-profile footprint; see profile_preflight.jsonl')
++                with (root/'stage2_profile_preflight.jsonl').open('a') as receipt: receipt.write(json.dumps(preflight)+'\n')
++                if not eligible: raise RuntimeError('No GPU has 2GiB headroom below 90% for the unknown first-profile footprint; see stage2_profile_preflight.jsonl')
+                 g=max(eligible,key=lambda g:snapshot[g][0]*.90-snapshot[g][1])
+-                log=root/f'profile_{dataset}_{arm}.log' 
+-                command=[sys.executable,str(HERE/'run.py'),'--dataset',dataset,'--arm',arm,'--seed','2022','--device',f'cuda:{g}','--epochs','1','--smoke','--output-root',str(root)]
++                log=root/f'stage2_profile_{dataset}_{arm}.log' 
++                command=[sys.executable,str(HERE/'stage2_run.py'),'--dataset',dataset,'--arm',arm,'--seed','2022','--device',f'cuda:{g}','--epochs','1','--smoke','--output-root',str(root)]
+                 print('PROFILE',command,flush=True)
+                 with log.open('w') as f: result=subprocess.run(command,stdout=f,stderr=subprocess.STDOUT)
+                 if result.returncode: raise RuntimeError('Profile failed: '+str(log))
+-                matches=sorted((root/'pipeline'/dataset/arm/'seed2022').glob('attempt_*/completion.json'))
++                matches=sorted((root/'stage2_pipeline'/dataset/arm/'seed2022').glob('attempt_*/completion.json'))
+                 comp=json.loads(matches[-1].read_text()); assert comp['valid']
+                 profiles[key]={'peak_memory_bytes':comp['peak_memory_bytes'],'wall_seconds':comp['wall_seconds'],'completion':str(matches[-1])}
+                 profiles_path.write_text(json.dumps(profiles,indent=2))
+         return
+-    seeds=[2022] if args.stage=='seed2022' else [2023,2024,2025] if args.stage=='remaining' else [2022,2023,2024,2025]
+-    todo=[(ds,arm,seed) for ds in datasets for seed in seeds for arm in ['O','B','D','G']]
+-    if args.stage=='remaining':
+-        prior=valid_completions(root)
+-        for ds in datasets:
+-            for arm in ['O','B','D','G']:
+-                if (ds,arm,2022) not in prior: raise RuntimeError('Stage seed2022 must complete first')
++    seeds=[2022,2023,2024,2025]
++    todo=[(ds,arm,seed) for ds in datasets for seed in seeds for arm in ['Gtau0','Dconst01']]
+     done=valid_completions(root);todo=[key for key in todo if key not in done]
+     for ds,arm,seed in todo:
+         if ds+'/'+arm not in profiles: raise RuntimeError('Missing one-epoch profile '+ds+'/'+arm+'; run --profile first')
+-    running=[]; queue_log=root/f'queue_{args.stage}_{int(time.time())}.jsonl'
++    running=[]; queue_log=root/f'stage2_queue_{args.stage}_{int(time.time())}.jsonl'
+     def record(event):
+         with queue_log.open('a') as f: f.write(json.dumps({'time':time.time(),**event})+'\n')
+         print(json.dumps(event),flush=True)
+@@ -108,13 +103,13 @@
+                 projected=projected_memory(used,jobs,observed,estimate)
+                 if len(jobs)<args.max_per_gpu and projected<total*.90: choices.append((projected/total,len(jobs),g))
+             if not choices: continue
+-            _,_,g=min(choices);command=[sys.executable,str(HERE/'run.py'),'--dataset',ds,'--arm',arm,'--seed',str(seed),'--device',f'cuda:{g}','--output-root',str(root)]
+-            lp=root/f'launch_{ds}_{arm}_{seed}_{int(time.time())}.log';log=lp.open('w');proc=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
++            _,_,g=min(choices);command=[sys.executable,str(HERE/'stage2_run.py'),'--dataset',ds,'--arm',arm,'--seed',str(seed),'--device',f'cuda:{g}','--output-root',str(root)]
++            lp=root/f'stage2_launch_{ds}_{arm}_{seed}_{int(time.time())}.log';log=lp.open('w');proc=subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
+             running.append(dict(proc=proc,log=log,gpu=g,key=key,estimate=estimate)); todo.remove(key)
+             record({'event':'launch','key':key,'gpu':g,'pid':proc.pid,'command':command,'log':str(lp),'estimated_memory_bytes':estimate,'gpu_used_bytes':stats[g][1],'projected_memory_bytes':projected_memory(stats[g][1],[j for j in running if j['gpu']==g],observed,0)})
+         if todo or running: time.sleep(args.poll_seconds)
+     done=valid_completions(root)
+-    missing=[key for key in [(ds,a,s) for ds in datasets for s in seeds for a in ['O','B','D','G']] if key not in done]
++    missing=[key for key in [(ds,a,s) for ds in datasets for s in seeds for a in ['Gtau0','Dconst01']] if key not in done]
+     if missing: raise RuntimeError('Missing valid completions '+str(missing))
+-    record({'event':'stage_complete','stage':args.stage,'count':len(done)})
++    record({'event':'stage_complete','stage':'stage2','count':len(done)})
+ if __name__=='__main__': main()
+--- /dev/null
++++ stage2_protocol.py
+@@ -0,0 +1,50 @@
++"""Stage2 controls reuse the frozen Stage1 model and optimizer paths."""
++from pathlib import Path
++import json
++import torch
++import protocol as parent
++from protocol import *
++
++CONTROLS={
++    'Gtau0':dict(stage='stage2',control_id='Gtau0',parent_arm='G',gradient_path='per_cell_autograd_norm_scale_sum_zero_fill',effective_tau=0.0,weight_mode='learned_specificity',constant_weight=None),
++    'Dconst01':dict(stage='stage2',control_id='Dconst01',parent_arm='D',gradient_path='ordinary_summed_backward_grad_none',effective_tau=None,weight_mode='fixed_constant_no_gradient',constant_weight=0.1),
++}
++
++def control_metadata(control): return dict(CONTROLS[control])
++def make_model(bundle,arm,seed,device):
++    return parent.make_model(bundle,CONTROLS[arm]['parent_arm'],seed,device)
++def optimizers(model,arm): return parent.optimizers(model,CONTROLS[arm]['parent_arm'])
++def batch_loss(model,x,y,arm,scarce,noise_seed,noise_std=.1):
++    cells,info=parent.batch_loss(model,x,y,CONTROLS[arm]['parent_arm'],scarce,noise_seed,noise_std)
++    if arm=='Dconst01':
++        # Retain exactly the parent augmented forward, but disconnect the weights.
++        info['w']=torch.full_like(info['w'],0.1,requires_grad=False)
++        cells=[]
++        for t in range(2):
++            for d in range(3):
++                mask=info['domain']==d
++                cells.append((info['bce'][mask,t]*info['w'][mask]).mean() if mask.any() else info['pred'].sum()*0)
++    return cells,info
++
++def apply_backward(cells,model,arm,tau=None,gs=None):
++    meta=CONTROLS[arm]
++    # Gtau0 MUST retain the full G gradient/norm/scale/zero-fill path.
++    return parent.apply_backward(cells,model,meta['parent_arm'],meta['effective_tau'] if meta['effective_tau'] is not None else .5,gs)
++
++def auxiliary_receipt(model,optimizer):
++    return {n:dict(has_gradient=p.grad is not None,has_optimizer_state=p in optimizer.state) for n,p in model.named_parameters() if n.startswith('dbo_')}
++
++def parent_reference(root,dataset,control,seed,initialization,manifest):
++    """Read only parent configuration/data receipts; never test or completion files."""
++    from data import sha_file
++    parent_arm=CONTROLS[control]['parent_arm']
++    configs=sorted((Path(root)/'formal'/dataset/parent_arm/f'seed{seed}').glob('attempt_*/config.json'))
++    if not configs: raise RuntimeError('Missing frozen Stage1 parent configuration: '+str((dataset,parent_arm,seed)))
++    receipts=[]
++    for path in configs:
++        config=json.loads(path.read_text()); data_path=path.with_name('data_manifest.json'); data=json.loads(data_path.read_text())
++        assert config['initialization']==initialization,('Parent initialization mismatch',str(path))
++        for key in ['raw_sha256','array_hashes','split_row_fingerprints','split_row_id_hashes','features']:
++            assert data[key]==manifest[key],('Parent data mismatch',key,str(path))
++        receipts.append(dict(config=str(path),config_sha256=sha_file(path),data_manifest=str(data_path),data_manifest_sha256=sha_file(data_path),initialization_matches=True,data_matches=True))
++    return receipts
+--- /dev/null
++++ smoke_stage2.py
+@@ -0,0 +1,97 @@
++#!/usr/bin/env python
++"""Stage2 minimal real-data one-batch checks; never evaluates held-out data."""
++import argparse,sys
++from pathlib import Path
++HERE=Path(__file__).resolve().parent;sys.path[:0]=[str(HERE.parents[1]),str(HERE)]
++import numpy as np
++import torch
++import protocol as base
++import stage2_protocol as controls
++from data import load_data,sha_file
++
++def capture_batch(model,x,y,arm,scarce,noise_seed,control=False):
++    captured=[]
++    hook=model.skip_conn.register_forward_pre_hook(lambda module,inputs:captured.append(inputs[0].detach().clone()))
++    try:
++        cells,info=(controls.batch_loss if control else base.batch_loss)(model,x,y,arm,scarce,noise_seed)
++    finally:hook.remove()
++    return cells,info,captured[0]
++def group_name(name):
++    return 'complexity' if name.startswith('dbo_complexity.') else 'specificity' if name.startswith('dbo_specificity.') else 'backbone'
++def difference(left,right):
++    result={group:dict(max_abs=0.,parameters_differing=0,none_differences=[]) for group in ['backbone','specificity','complexity']}
++    for name,a in left.items():
++        b=right[name]; group=result[group_name(name)]
++        if (a is None)!=(b is None):group['none_differences'].append(name)
++        if a is not None and b is not None:
++            val=float((a-b).abs().max());group['max_abs']=max(group['max_abs'],val);group['parameters_differing']+=int(val>0)
++    return result
++
++def main():
++    p=argparse.ArgumentParser();p.add_argument('--dataset',choices=['movielens','kuairand'],default='movielens');p.add_argument('--device',default='cuda:0');p.add_argument('--output-root',default='/home_new/xzf_m3oe_reproduction_20261021');args=p.parse_args()
++    torch.set_num_threads(4);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
++    bundle,manifest=load_data(args.dataset,Path(args.output_root)/'cache')
++    index=np.concatenate([np.flatnonzero(bundle.train_x[:,-1]==d)[:170] for d in range(3)])
++    x=torch.from_numpy(bundle.train_x[index]).T.to(args.device);y=torch.from_numpy(bundle.train_y[index]).to(args.device)
++    scarce=min(bundle.train_counts,key=lambda d:(bundle.train_counts[d],d));noise_seed=2022000000
++    report=dict(dataset=args.dataset,seed=2022,status='PASS',real_count=len(index),copy_count=int((x[-1]==scarce).sum()),controls={})
++    for arm in ['Gtau0','Dconst01']:
++        meta=controls.control_metadata(arm);parent=meta['parent_arm']
++        m,receipt=controls.make_model(bundle,arm,2022,args.device);pm,pr=base.make_model(bundle,parent,2022,args.device)
++        assert receipt==pr
++        references=controls.parent_reference(args.output_root,args.dataset,arm,2022,receipt,manifest)
++        cells,info,flat=capture_batch(m,x,y,arm,scarce,noise_seed,True)
++        pc,pi,pflat=capture_batch(pm,x,y,parent,scarce,noise_seed)
++        assert torch.equal(flat,pflat) and torch.equal(info['pred'],pi['pred'])
++        assert torch.equal(info['bce'],pi['bce']) and torch.equal(info['domain'],pi['domain']) and torch.equal(info['aug'],pi['aug'])
++        assert info['pred'].shape==(len(index)+report['copy_count'],2)
++        assert torch.equal(flat[:len(index)],m.embedding(x,m.features,squeeze_dim=True))
++        expected_unnoised=m.embedding(torch.cat([x,x[:,x[-1]==scarce]],dim=1),m.features,squeeze_dim=True)
++        assert float((flat[len(index):]-expected_unnoised[len(index):]).abs().max())>0
++        opt,_=controls.optimizers(m,arm);po,_=base.optimizers(pm,parent)
++        initial={n:v.detach().clone() for n,v in m.state_dict().items()}
++        result=dict(metadata=meta,initialization=receipt,parent_references=references,predictions_match_parent=True,augmented_labels_bce_match=True,noise_flat_embeddings_match=True)
++        if arm=='Gtau0':
++            assert torch.equal(info['w'],pi['w']) and all(torch.equal(a,b) for a,b in zip(cells,pc))
++            grads=base.gradients(cells,list(m.parameters()))
++            manual=[sum((g[j] for g in grads if g[j] is not None),torch.zeros_like(parameter)) for j,parameter in enumerate(m.parameters())]
++            norms,scales=controls.apply_backward(cells,m,arm,gs=grads)
++            assert scales==[1.]*6
++            assert all(torch.equal(parameter.grad,expected) for parameter,expected in zip(m.parameters(),manual))
++            # A matched D ordinary backward audits the known path distinction.
++            base.apply_backward(pc,pm,'D')
++            result['tau0_vs_ordinary_gradient_difference']=difference({n:p.grad for n,p in m.named_parameters()},{n:p.grad for n,p in pm.named_parameters()})
++            opt.step();po.step()
++            result['tau0_vs_ordinary_update_difference']=difference({n:p.detach()-initial[n] for n,p in m.named_parameters()},{n:p.detach()-initial[n] for n,p in pm.named_parameters()})
++            m.eval();pm.eval()
++            with torch.no_grad():result['tau0_vs_ordinary_prediction_max_abs']=float((m(x)-pm(x)).abs().max())
++            result.update(scales=scales,manual_per_cell_zero_filled_sum_bitwise_matches=True,weights_and_six_cells_match_parent=True)
++        else:
++            constant=torch.full_like(info['w'],.1)
++            assert torch.equal(info['w'],constant) and not info['w'].requires_grad
++            for k,loss in enumerate(cells):
++                t,d=divmod(k,3);mask=info['domain']==d
++                expected=info['bce'][mask,t].mean()*torch.tensor(.1,dtype=torch.float32,device=x.device)
++                assert torch.allclose(loss,expected,atol=3e-8,rtol=3e-7)
++            observed,gs=base.probe(m,cells,info,0.)
++            assert observed['auxiliary_gradient_norm']==0
++            controls.apply_backward(cells,m,arm)
++            assert all(p.grad is None for n,p in m.named_parameters() if n.startswith('dbo_'))
++            opt.step()
++            assert any(not torch.equal(p,initial[n]) for n,p in m.named_parameters() if group_name(n)=='backbone')
++            assert all(torch.equal(p,initial[n]) for n,p in m.named_parameters() if n.startswith('dbo_'))
++            result.update(all_weights_equal_float32_constant=True,constant_dtype=str(info['w'].dtype),constant_value=float(info['w'][0]),six_cell_formula_matches=True,auxiliary_gradient_norm=0.,auxiliary_parameters_unchanged=True,backbone_updated=True,weight_probe=observed['w'])
++        result['auxiliary_parameters']=controls.auxiliary_receipt(m,opt)
++        report['controls'][arm]=result
++    # Formal routing is explicit even for effective tau0; no training is invoked.
++    import stage2_run
++    for arm in controls.CONTROLS:
++        a=stage2_run.parser().parse_args(['--arm',arm]);assert stage2_run.is_formal(a)
++        a.smoke=True;assert not stage2_run.is_formal(a)
++    report['formal_control_routing']='PASS'
++    frozen={name:sha_file(HERE/name) for name in ['protocol.py','run.py','schedule_runs.py']}
++    assert frozen==__import__('json').loads((HERE/'stage2_base_hashes.json').read_text())
++    report['stage1_sources_unchanged']=frozen
++    base.json_write(HERE/f'smoke_stage2_{args.dataset}.json',report)
++    print(__import__('json').dumps(report,indent=2))
++if __name__=='__main__':main()
