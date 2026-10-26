@@ -1,6 +1,10 @@
 # Experimental Evidence Ledger
 
 
+> **2026-10-26 总证据增量：** 历史 E001–E043 保持原编号与观测；后文新增 E044–E057（N18/N19/CM19、自然比例审计、重加权/调幅、10-24/25/26方法）。10-09的STRONG/MEDIUM/WEAK计数表仅是旧快照，**不得把新增证据默认加为“更多独立seed”**。总研究结论、后期修订和原始阶段路径以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；RCF-v1仍为设计，非实验效果证据。
+
+
+
 > **2026-10-18 增量:** 以下 E001–E032 是截至 2026-10-09 的历史证据，不被覆盖；本文件末尾新增 **E033–E043**。后续阶段主证据以[跨分支整合](Experimental_Branch_Synthesis_20261018.md)限定的数据集、样本、目标、训练协议、选择函数和统计检验为准。以下新编号代表**研究证据组**，不是每个原始训练的独立重复。
 
 
@@ -545,3 +549,92 @@
 - **Source:** [v3 existing-work coverage](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)；[N17 LITERATURE_COVERAGE](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/LITERATURE_COVERAGE.md)。
 - **Scope:** 有限针对性查新（非全面检索）、已测协议与候选；未运行完整D3/SAF性能基线，不宣称这些论文方法失败。
 - **Evidence Strength:** STRONG（已核对的公式边界），MEDIUM（本轮 NO_GO 决策），WEAK（主张全球独有创新）。
+
+
+## 2026-10-18—2026-10-26 跨轮证据E044–E057（日期和模型身份不可混用）
+
+### E044 — N18完成有界六方向探索，不等于六个方法都具独立贡献
+- **Observation:** P1–P6进行数学/数据检查、冻结教师的四seed头拟合与实测诊断；当前候选没有同时取得预设强对照优势与实质独立方法贡献。某些方向标DATA-BLOCKED，按门未做长期训练。
+- **Interpretation:** 相关科学问题和理论/局部反例仍可推进，不能把DATA-BLOCKED当作被负性能推翻。
+- **Strength / Scope:** STRONG执行与受控构造，WEAK方法推广；N18固定人口、冻结头范围。
+- **Source:** [N18 FINAL_REPORT](../history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md)。
+
+### E045 — N19完整328次训练未确立普适新算法，保留容量与阶段机制事实
+- **Observation:** 328正式训练、对应冻结测试完成；容量数值失活、通道误设、选点/末态、不同指标与总体方向反转有具体受控读数；没有稳定足够强的独立算法贡献证据。
+- **Interpretation:** 当前候选NO_GO不等于所有域间收益/知识通道原理被否定。
+- **Strength / Scope:** STRONG执行身份，MEDIUM受控现象，WEAK泛化；人工ML训练人口与固定设置不能代替自然完整ML。
+- **Source:** [N19 FINAL_REPORT](../history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md)。
+
+### E046 — CM19中KR fixed M3oE的输入乘性调制路径存在限定数值失活
+- **Observation:** 856次全预算网络训练及冻结测试完成；KR fixed/Adam selected 24/24 cell中和输入乘性调制不改变预测（固定数值判据），final多数cell仍中性或极小响应。
+- **Interpretation:** 不能推广为STAR/全部共享参数失活，也不能将中和预测不变等同于参数完全无梯度。
+- **Strength / Scope:** STRONG（同实现/固定干预/人口），不支持跨模型普遍机制。
+- **Source:** [CM19 FINAL_REPORT](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)。
+
+### E047 — 双factor正则/局部AdamW恢复路径响应但不保证selected性能
+- **Observation:** CM19中同步去两组factor的耦合L2或局部替换AdamW可显著改变该路径的数值贡献；只改一组与两组不等价。STAR/PEPNet/HAMUR/MMoE/PLE存在活跃路径反例；若干结构移除从头重训与即时中和效果反号。
+- **Interpretation:** 路径活性、训练必要性、相对强基线的最佳泛化是三个不同命题。AdamW是实现/状态特定干预，非所有共享问题的通用修复。
+- **Strength / Scope:** MEDIUM–STRONG特定干预，WEAK通用性能因果。
+- **Source:** [CM19 FINAL_REPORT](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)。
+
+### E048 — 历史ML训练人口与自然比例存在被审计确认的系统差异
+- **Observation:** 10-15以来多轮固定ML人口187500（d0/d1/d2=34500/3000/150000），完整自然基础train 800167（155949/318599/325619），自然同N替代36543/74656/76301；自然支持量为人工4.2676倍。N19/CM19人工ML还以固定subset_seed2022保持优化seed独立。
+- **Interpretation:** 不能把historical suite=natural字段视为完整自然训练人口；新旧比较同时改变数量、角色、特征支持和更新步数。研究者原本也未主张小域必然更难。
+- **Strength / Scope:** STRONG人口/编码/身份；仅靠人口审计不确定任何性能机制。
+- **Source:** [自然人口审计](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)。
+
+### E049 — 自然ML局部重评削弱旧selected强效应的外推，完整transfer仍未完成
+- **Observation:** 自然matchedN/full下部分S5/S6 selected改善变负或很弱，同时full末态又出现有益响应；自然V2、N17及AO04有已完成可读结果。归档的CURRENT_WORK仍记录N19/CM19自然矩阵不完整。
+- **Interpretation:** 不将差值唯一归于“比例”，不按末态替换selected；部分阴性不使原人工结果无效，也不能将设计+放行算为全矩阵完成。
+- **Strength / Scope:** MEDIUM已完固定人口子项，STRONG执行状态，WEAK跨人口因果。
+- **Source:** [阶段性重评](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/RESEARCH_CONCLUSION_REASSESSMENT.md)、[当前状态](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md)。
+
+### E050 — D套件在自然MovieLens有重复收益，但独立因子尚未辨别
+- **Observation:** 10-21在ML/KR共48有效正式训练；ML D−B test macro AUC +0.006303（4/4）、macro LL −0.015962（4/4）；对原生移植O也有有限收益。D包括specificity权重、最小域复制、embedding噪声及尺度改变。
+- **Interpretation:** 可以保留“上传D套件在此协议有效”，不能说完整历史VUG/mask已复现、独立动态权重或增强必定是收益来源；O采用learned fusion双Adam而B固定fusion。
+- **Strength / Scope:** STRONG（ML四seed特定协议），WEAK单因素归因；使用legacy_group_sum非标准Sample/Equal。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E051 — 常数权重套件阳性与D权重接近下界削弱动态样本区分的必要性
+- **Observation:** ML Dconst01−B AUC +0.005676（4/4）且LL −0.018445；D/G在epoch5观测批样本权重接近下界0.1。Dconst01−D的预设非劣条件**未通过**，不能当成“等效”。
+- **Interpretation:** D的动态specificity不是获取ML套件收益的必要条件，但是否额外增益未完全判别；常数控制仍有复制/噪声/整体损失尺度，且D初期权重轨迹不同。
+- **Strength / Scope:** STRONG受控套件存在性、MEDIUM机制限制。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E052 — 匹配G梯度计算路径后τ=0.5未带来最终宏AUC优势
+- **Observation:** G−Gtau0 test宏AUC，ML −0.003466（4/4下降，t描述区间负），KR −0.006484（4/4下降但区间跨0）；Gtau0−D在KR test方向相反。KR早期G反而有优化速度改善。
+- **Interpretation:** G−D不是“只改变调幅”，还混入grad=None与零Tensor及逐格求导路径；G−Gtau0才是匹配对照。本协议终点不利不否定所有调幅理论，也不能忽略验证/test或pooled反向。
+- **Strength / Scope:** STRONG ML对比方向、MEDIUM KR趋势（区间宽）、WEAK通用论断。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E053 — 10-24 I1权限策略未获得selected主优势
+- **Observation:** 44主pilot、4基线适配pilot、40正式训练均按记录完成；I1_PERM相对固定RW的ML/KR selected test macro AUC为−0.000334/−0.000513，描述性区间跨零；KR final LL有限正向。
+- **Interpretation:** 未确认权限动态控制的独立selected改进；不能把final LL取代ranking主目标。
+- **Strength / Scope:** MEDIUM本轮阴性门控，条件性次级改善保留。
+- **Source:** [10-24 README](../history_experiments/10-24/research_reports/2026-10-24/README.md)。
+
+### E054 — NEXT-v2核心pilot完成而正式NO_START是正确停止，不是阴性正式训练
+- **Observation:** 48核心24epoch轨迹完成，全部晋级门失败；四seed/50epoch正式矩阵0条，部分aux/外部基线因预算停止。
+- **Interpretation:** 当前版本STOP_NO_PROMOTION；不能虚构0条正式的AUC效应。
+- **Strength / Scope:** STRONG执行状态，方法价值按已完成核心比较限定。
+- **Source:** [v2 README](../history_experiments/26-10-25/research_reports/2026-10-25/README.md)。
+
+### E055 — NEXT-v3 RHD的晚期风险减损不等于合法selected最优改善
+- **Observation:** 69条24epoch与20条KR正式50epoch轨迹完成。KR正式HB−BASE test LL在selected +0.00074075、epoch50 −0.00875428（负才有利）；所有方法50epoch自身LL仍高于合法selected。
+- **Interpretation:** 相对末态减损有条件中等证据，主要selected收益未建立；历史响应控制的某些候选动作未执行，不能用非零超参掩饰。
+- **Strength / Scope:** MEDIUM KR正式四seed阶段比较，WEAK独立方法价值。
+- **Source:** [v3 FINAL_REPORT](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)。
+
+### E056 — LPS来源内容可读不等于特定风险形成器必要
+- **Observation:** v3 LPS部分foreign读取在开发存在有限信号，但L4未稳定胜FEATURE/简单标量，正式延伸未过gate；CAL/OWNER/GEOM及原型输出提供简单竞争解释。
+- **Interpretation:** 不能因为关掉foreign后部分快照下降就证明meta形成/多函数必要；同时不能由形成器失败推出来源知识毫无价值。
+- **Strength / Scope:** MEDIUM来源读取有限性；WEAK形成独有性。
+- **Source:** [v3 FINAL_REPORT](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)。
+
+### E057 — DFD-v4：目标需求有限可预测，完整来源函数形成未晋级且有机制记录缺项
+- **Observation:** ML P1 CONST−DEMAND LL +0.00108935，KR P1 CONST−DEMAND −0.000400568未过；ML P2 DFD−H_DIRECT/ETA_DIRECT LL +0.001639660/+0.001814021（正值较差），对UNIFORM增量很小，GEOM/SHUFFLE不能稳胜；已完成184导出/12计时。KR P2和P3/P4按gate NO_START。Q/outer原refitη固定μ分组导出缺失且原权重已清理。
+- **Interpretation:** 当前版本VERSION_NOT_SUPPORTED；需求选择信号、责任非恒定、形成独有性和可用主方法是四个不同层级。原缺项降低外层机制解释完整度，但不改变已保存P1/P2门控或主要负结论。
+- **Strength / Scope:** MEDIUM当前固定自然ML/KR开发、WEAK功能必要性；机制信息MISSING/MAJOR。
+- **Source:** [v4 FINAL_REPORT](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md)、[PROCESS_REVISIONS](../history_experiments/26-10-26/research_reports/2026-10-26_v4/PROCESS_REVISIONS.md)。
+
+**新方案不等于新证据：** [2026-10-26-v2 RCF-v1](../research_plans/2026-10-26-v2/00_README.md)是针对E055–E057提出的可证伪后继函数设计，状态DESIGN_ONLY。未实现、未训练、未评价；不能在Evidence Ledger登记正向效应量。

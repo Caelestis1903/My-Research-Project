@@ -1,6 +1,10 @@
 # Experimental Dead Ends / Closed Threads
 
 
+> **2026-10-26更新：** 早期D001–D018保留为**具体过强主张或当时版本**的停止记录，非对动量、梯度、增强或差异化共享学科方向的永久否决。追加D019–D024；其对应的新可区分问题见 [Open Questions](Experimental_Open_Questions.md)、[2026-10-26总报告](Experimental_Branch_Synthesis_20261026.md)。
+
+
+
 > **2026-10-18 补充：** “closed/dead end”在此只否定**特定过强命题或当前可用方法候选**，不自动否定整个MDMT采样、共享、梯度与优化研究方向。D001/D012 是历史待检验解释，**不代表用户曾认定“小域=困难域”或“小域天然低SNR”**。保留 D001–D012 的原历史证据，续增D013–D018；参见[多分支终局](Experimental_Branch_Synthesis_20261018.md)。
 
 
@@ -136,3 +140,38 @@
 - **Narrower Version Remaining Open:** 原selected validation/test反转的具体机制、可用历史状态恢复及独立协议下的多seed适用范围（OQ009/OQ010）仍保留。
 
 **不能新增虚假死路：** “小域=困难域”不是起始结论，不需要按轮次反复验证“推翻”；“momentum/课程/gradient天然无价值”并未得到普遍证明；旧 S5 Equal history 不是被新 SGD 反例整体推翻。所有**未运行、未触发、检验功效不足、缺模型状态或暂时NO_GO**必须归入其对应的开放/条件状态，而非偷换成科学失败。
+
+
+## 2026-10-26 后续方法停线/主张收缩（D019–D024）
+
+### D019 — “D相对原始基线增益＝动态specificity重权必要”
+- **Evidence Against:** ML D−B有稳定增益，但Dconst01−B仍4/4有利，D观测样本权重快速到0.1附近；Dconst01与D尚无非劣结论。E050–E051。
+- **Current Status:** **CLOSED AS A CLAIM OF PROVEN DYNAMIC NECESSITY**。
+- **Narrower Opportunity:** 有正收益的整体套件仍成立；同尺度无增强控制可判别全局loss scale与复制/噪声，然后再讨论额外动态区分。
+
+### D020 — “调幅增加小域梯度范数就普遍提高最终宏AUC”
+- **Evidence Against:** 10-21同逐格G计算路径下τ0.5对τ0的ML/KR macro AUC四seed方向均负；KR区间跨0，早期速度和若干域/pooled仍不同向。E052。
+- **Current Status:** **CLOSED FOR THIS TAU/PROTOCOL AS SAFE GENERAL METHOD**。
+- **Narrower Opportunity:** 真正的实际共享更新与样本重加权如何影响局部目标的净风险，仍可在不同问题上研究；不能用通用否定覆盖GradCraft等不同机制。
+
+### D021 — “KR M3oE一个输入调制路径中性＝全部MDMT条件共享参数失效”
+- **Evidence Against:** CM19仅在特定fixed/Adam/人口/选点对输入乘性路径给出中性；STAR等独立结构反例仍活跃。E046–E047。
+- **Current Status:** **CLOSED AS A UNIVERSAL ARCHITECTURE CLAIM**。
+- **Narrower Opportunity:** M3oE耦合正则、路径激活、梯度/Adam位移和最优性能间的条件关系尚有可解释价值。
+
+### D022 — “恢复共享调制路径就能稳定得到更好的最佳泛化模型”
+- **Evidence Against:** CM19去双factor耦合正则或局部AdamW可以修复响应，但selected AUC/LL与强对照无通用稳定增益；即时中和与无模块重训可反号。E047。
+- **Current Status:** **NOT SUPPORTED AS DEPLOYABLE METHOD; STOP UNQUALIFIED PROMOTION**。
+- **Narrower Opportunity:** 保留结构特有的数值机制与可判别成本/模型选择反事实，不把活性当目标本身。
+
+### D023 — “RHD/LPS/DFD当前动态形成方法已验证优于强简单方案”
+- **Evidence Against:** 10-24 I1 selected未胜RW；v3 RHD只有late减损而selected HB−BASE LL更差，LPS形成器无稳定额外优势；DFD ML P2输H_DIRECT/ETA_DIRECT并被预设保护门关闭。E053–E057。
+- **Current Status:** **CLOSED FOR TESTED VERSIONS/CLAIMS OF ALREADY-VALIDATED FULL BENEFIT**。
+- **Narrower Opportunity:** 来源可读内容和需求异质性有局部信号；RCF可通过目标群体剩余风险、源保留约束和普通reader重建差异，但当前**DESIGN_ONLY**，不能提前登记成功。
+
+### D024 — “补充自然MovieLens只需重标现有人工结果即可完成”
+- **Evidence Against:** 人工187500/自然800167的人口/支持/时钟不同；自然补充旧分支最终状态仍IN_PROGRESS，N19/CM19大矩阵未得到完整自然终报。E048–E049。
+- **Current Status:** **CLOSED AS A RESEARCH ACCOUNTING SHORTCUT**。
+- **Narrower Opportunity:** 已完成自然子项可限定使用；如后续要确认跨人口方法收益，先取得真实完整冻结记录或新人口，而不是按目录名替代实证。
+
+**不能错误关闭的事项：** 已有方法在相关方向尝试过，不等于目标群体内收益/来源可用函数已无研究价值；同样，NO_START、历史原工件缺失、n较小的区间跨0和新RCF未执行都不等于反证了对应科学问题。尤其“小域=困难域”不是研究者曾经认可的起点。

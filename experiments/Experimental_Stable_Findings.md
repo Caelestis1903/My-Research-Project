@@ -1,6 +1,10 @@
 # Experimental Stable Findings
 
 
+> **2026-10-26增量：** 原SF001–SF020保留在各自历史估计对象和数据人口内。新增SF021–SF028，区分事实、局部反例和方法独有性；[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前统一结论。此处“稳定”表示可在限定协议内复述，不暗示新用户/时间窗口的普适性。
+
+
+
 > **2026-10-18 补充：** SF001–SF012 是 10-09 历史协议内的稳定事实，后续不同 lineage 的阴性不能直接将其全局抹除。新证据与适用边界见 SF013–SF020；当前总体解释以[多分支综合报告](Experimental_Branch_Synthesis_20261018.md)为准。
 
 
@@ -163,4 +167,49 @@
 - **Scope:** 同θ/局部干预；既不是“C全无效”，也不是“共享C必要中介已证实”。
 - **Evidence Strength:** MEDIUM（局部及门槛），WEAK（唯一长期中介）。
 
-**总体阶段决定：** 条件效应存在，部分历史统一解释被反例削弱；当前没有已测候选同时达到预定收益与非劣保护，方法决定为**本轮 NO_GO**。这不是未来所有MDMT方法的否定，尤其不能把“小域=困难域”当作曾经成立的前提去反复证伪（E043）。 
+**截至2026-10-18的历史总体阶段决定：** 条件效应存在，部分历史统一解释被反例削弱；当前没有已测候选同时达到预定收益与非劣保护，方法决定为**本轮 NO_GO**。这不是未来所有MDMT方法的否定，尤其不能把“小域=困难域”当作曾经成立的前提去反复证伪（E043）。 
+
+
+## SF021–SF028：2026-10-26更新后的限定稳定事实
+
+### SF021 — 人工与自然MovieLens是两种不同训练人口
+- **Finding:** 多项历史ML使用人工187500行/域34500:3000:150000；自然基础训练800167行/155949:318599:325619。比较还改变N、支持和训练时钟；自然补充整体尚处IN_PROGRESS。
+- **Evidence IDs:** E048–E049；[自然人口审计](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)。
+- **Strength:** STRONG人口事实，WEAK比例单因果。原人工实验保留条件效度。
+
+### SF022 — N18/N19实质完成，方法增量仍需强对照
+- **Finding:** N18完成六方向有界诊断/冻结头；N19完成328正式网络训练与冻结测试，未建立稳定足够强的独立新方法贡献。DATA-BLOCKED/NO_GO仅限各自候选。
+- **Evidence IDs:** E044–E045；[N18](../history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md)、[N19](../history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md)。
+- **Strength:** STRONG执行，MEDIUM条件反例，WEAK通用方法化。
+
+### SF023 — 共享乘性路径数值中性不等于所有模型共享无效
+- **Finding:** CM19 KR fixed M3oE某输入乘性路径selected 24/24 cell中和预测不变；双factor正则/局部AdamW干预恢复响应，STAR等独立架构仍活跃，但selected整体泛化收益不稳定。
+- **Evidence IDs:** E046–E047；[CM19](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)。
+- **Strength:** STRONG特定路径数值事实，WEAK普遍性能解释。
+
+### SF024 — D套件有效但动态样本区分的独立增量未证明
+- **Finding:** 10-21 ML D−B test宏AUC +0.006303/LL −0.015962、Dconst01−B AUC +0.005676，均4/4有利。D权重趋向0.1下界；Dconst01对D没有通过正式非劣判定，仍保留复制/噪声与总尺度。
+- **Evidence IDs:** E050–E051；[D/G报告](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+- **Strength:** STRONG ML套件效果，WEAK动态权重单独因果；legacy_group_sum不可混作Sample/Equal。
+
+### SF025 — 当前匹配梯度计算路径的τ调幅没有终点宏AUC优势
+- **Finding:** G−Gtau0的ML/KR test宏AUC分别−0.003466/−0.006484，均4/4负，但KR置信区间跨0；KR早期validation更快、部分域或pooled方向可不同。
+- **Evidence IDs:** E052；[梯度对照](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+- **Strength:** STRONG ML匹配终点，MEDIUM KR方向，WEAK跨模型推论；G−D非纯τ对照。
+
+### SF026 — 历史收益控制的末轮减损不同于最佳selected改善
+- **Finding:** 10-25 v3 KR RHD HB−BASE正式test LL在selected +0.00074075而e50 −0.00875428；各方法自身e50仍差于合法selected。10-24 I1和10-25 v2没有通过各自selected主优势/晋级门。
+- **Evidence IDs:** E053–E055；[v3](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)。
+- **Strength:** MEDIUM阶段性实证，不是可部署最佳性能证明。
+
+### SF027 — 来源可读、需求可预测与特定来源函数值得形成是不同命题
+- **Finding:** v3 LPS有部分foreign读益但L4形成未稳定超过简单对照；DFD ML P1需求选择优于常量，KR P1失败，ML完整方法弱于H_DIRECT/ETA_DIRECT。
+- **Evidence IDs:** E056–E057；[v3](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)、[v4](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md)。
+- **Strength:** MEDIUM限定观察，WEAK独有形成机制。非零责任不足以证明原型分工。
+
+### SF028 — 版本性停止、漏导出与尚未训练不能被误记为阴性实验
+- **Finding:** NEXT-v2四seed正式50epoch NO_START；DFD P3/P4 NO_START、184预测/12计时完成但外层refitη/μ分组MISSING/MAJOR；最新RCF-v1仅为研究设计。
+- **Evidence IDs:** E054、E057；[DFD-v4](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md)、[RCF方案](../research_plans/2026-10-26-v2/00_README.md)。
+- **Strength:** STRONG执行/资料状态；不能据此否定全部局部/多原型共享思路。
+
+**最新总体判断：** 优化响应、样本重加权和来源内容的条件收益值得研究，已测动态方案暂未建立普适强增量。研究者从未将“小域=困难域”作为成立先验；后期研究应先区分具体机制和强简单基线，而非反复防御性否定同一命题。

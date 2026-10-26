@@ -1,6 +1,25 @@
 # EXP_AI_CONTEXT.md
 # 面向后续 AI 实验的最小充分科研上下文
 
+
+> **重要状态更正（2026-10-26）：** 下文原先写作“当前”的S3/S4机制、S5未识别性、下一步实验建议，均属于**当时的历史handoff快照**。后续已出现多轮独立执行、新人口复核及算法决策。新AI会话的当前研究事实入口应为 [跨阶段总报告](experiments/Experimental_Branch_Synthesis_20261026.md)、[Global Summary](experiments/Experimental_Global_Summary.md)、[历史实验原件索引](history_experiments/README.md)。不得只读下方旧RQ而忽略后续实验。
+
+## 2026-10-26 AI Handoff：当前最小充分研究状态
+
+**研究主线：样本重加权 → 优化/梯度实际响应 → MDMT差异化共享与目标局部需求。** Equal与Sample是某些训练口径，不替代长线主题。“小域=困难域”从来不是研究者承认的前提。
+
+1. **数据与人口先行。** 10-15以来多轮MovieLens用了187500行人工固定采样（34500/3000/150000），全自然base-train是800167行（155949/318599/325619）；两者同时改变比例、有效支持和优化时钟。10-20新自然补充有S5/S6、V2、AO04、N17等阶段性核验，但 [CURRENT_WORK](history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md)仍IN_PROGRESS，N19/CM19完整自然矩阵未完成。10-25/26自然fit是base-train的内部子角色，不能与人工187500或base-train总量混同。
+2. **优化与共享历史并存。** Sample同经验目标不同q可改变训练；无动量SGD亦出现q效应，故Adam不是**通用必要条件**。旧S5 Equal下特定persistent-history承载仍有效，不能被SGD反例删除。S4 raw/applied norm匹配不足以解释target rescue。N17正式KR selected两主比较未过预设Holm；不同训练预算、宏/加权AUC与LL可反号。
+3. **共享路径机理的边界。** [CM19](history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)完成856正式训练，在KR fixed M3oE的**输入乘性调制路径**观察selected数值中性；局部AdamW/双factor耦合L2可使路径恢复响应，STAR等独立结构路径仍活跃。**路径恢复≠泛化收益已建立，不能称所有共享参数失活。**
+4. **重加权与生成的已验证部分。** [10-21报告](history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)完成48正式训练：MovieLens D−B test宏AUC +0.006303/LL −0.015962，而Dconst01−B仍有+AUC0.005676，不能将整体收益归因动态specificity。D的权重迅速接近下界。G−Gtau0匹配路径宏AUC差ML −0.003466、KR −0.006484（KR区间跨0）；其训练目标是legacy_group_sum，不能冒充其他轮的Sample或Equal。
+5. **共享收益算法的实际成绩。** N18有六方向研究，N19完成328正式训练，但完整强对照下新算法贡献尚不成立。10-24 I1未胜固定RW；10-25 v2 48核心完成而正式门未触发；v3 RHD相对BASE selected test LL +0.00074075、e50 −0.00875428，LPS部分source可读但特定形成器不稳；10-26 DFD-v4 ML P1有有限选读信号、KR P1失败，ML P2弱于H_DIRECT/ETA_DIRECT且P3/P4未触发，另缺Q/outer固定μ分组。**版本NO_GO不是来源知识或“收益驱动多原型”整个科学问题失效。**
+6. **研究决策与未执行边界。** [RCF-v1设计](research_plans/2026-10-26-v2/00_README.md)已经制定，但**尚未实现或训练**。拟用真实目标群体剩余风险组织有约束的来源后继函数形成，需对照强目标直接头、固定来源读取、target-only、统一微调和容量/预算匹配。样本权重次线优先最小同loss尺度且无复制/噪声的匹配控制，不预设动态权重有益。
+
+**执行/证据原则：** 每次比较先核查人口、优化目标、采样q、model/fusion/optimizer、更新步数、seed、合法选点、six-cell和LL、Q/validation/test与历史外露性。NO_START不是阴性训练、训练seed不是独立新数据、非零路由不是因果增量。查不到原checkpoint不捏造前向复核。讨论创新应明确强简单近邻与具体增量，不因存在先例就提前放弃方向。
+
+---
+
+
 ## 0. 文档用途、权威级别与读取规则
 
 本文件是 M3oE / 多域多任务学习项目供后续 main agent、designer、coder、reviewer、runner 和 analyst 常驻使用的精简研究状态与 handoff；不是完整实验记录，也不替代 **experiments/reports/exp.md**。完整数字、逐 seed 结果、审计过程和运行日志以归档、已签署阶段报告及对应原始 CSV 为准。
@@ -11,7 +30,7 @@
 
 ---
 
-## 1. 当前研究状态
+## 1. 历史研究状态（截至早期S4；非2026-10-26当前裁定）
 
 ### 1.1 当前研究问题
 
@@ -255,7 +274,7 @@ E1 支持但不确证 shared contribution distortion；E2 未执行，故 E3 响
 
 ---
 
-## 8. 当前实验入口 / AI Handoff
+## 8. 历史实验入口 / AI Handoff（旧阶段快照）
 
 ### 8.1 当前停止在哪里？
 

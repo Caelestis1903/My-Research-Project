@@ -1,6 +1,10 @@
 # Experimental Contradiction Register
 
 
+> **2026-10-26 增量入口：** C001–C034是截至10-18的历史矛盾；新补C035–C042。各组须区分**同一估计对象真正矛盾**与**不同数据人口、训练目标、测试角色、比较臂或时钟的表面冲突**，并以 [当前跨轮综合](Experimental_Branch_Synthesis_20261026.md) 核对。不能为追求一致而覆盖原始负结果。
+
+
+
 > **2026-10-18：** C001–C023 保留 10-09 历史冲突/反例；本文件新加 C024–C034。区分 **真正相同实验定义的数值冲突** 与 **协议/人口/时钟/选点/统计门不同产生的表面冲突**；同分支后续最终状态覆盖早期进度快照。入口：[跨分支整合](Experimental_Branch_Synthesis_20261018.md)。
 
 
@@ -258,3 +262,40 @@
 - **Classification:** **INFERENCE PROCEDURE DIFFERENCE, NOT DATA CONTRADICTION**。两种区间如实记录，不能事后择一有利方法将主终点改写成“确认”；E039。
 
 **整体说明：** 分支结束时“完成全部触发训练”和“独立因果机制已识别”是两个不同命题；53问题中大量 BOUNDARY / NOT_IDENTIFIABLE / INCONCLUSIVE 正是研究剩余空间，不能用发布完成状态自动关闭。完整对照请转[问题去向](Experimental_Question_Disposition_20261018.json)。
+
+
+## 2026-10-20—2026-10-26 新增跨轮冲突与解释（C035–C042）
+
+### C035 — “旧MovieLens即自然人口” vs 全自然/人工比例审计
+- **A/B:** 早期多个suite=natural或固定ML结果实际使用人工187500行（34500/3000/150000）；新自然800167行（155949/318599/325619）；N19/CM19的人工子集并未因文件名natural变成自然完整训练。
+- **Classification:** **DATA POPULATION IDENTITY CORRECTION**；结果仍有效于旧设置，新自然selected/late部分反向，但改变了N、支持和时钟，不能仅归于比例。E048–E049。
+
+### C036 — 自然S5/S6 selected不复制旧救援 vs 自然final仍有改善
+- **A/B:** 旧人工配置中的Equal/Sample target rescue在选点下曾有正结果；自然matchedN/full有选点反向或缩弱，又在部分full末态改善。
+- **Classification:** **POPULATION + TIME + METRIC SCOPE**。同名HT/DH不代表同初始化/更新数；晚期少恶化不推出最佳模型较优。自然扩展仍PARTIAL。E049。
+
+### C037 — CM19路径中和预测完全不变 vs 局部AdamW/正则修复后有响应
+- **A/B:** KR fixed选点输入乘性调制24/24数值中性；同步消除两个factor的耦合L2或局部AdamW使响应恢复，独立STAR等并未同样中性。
+- **Classification:** **SPECIFIC PATH/OPTIMIZER CONDITION, NOT UNIVERSAL DEATH**。即时数值贡献、重训必要性、最终性能不同。E046–E047。
+
+### C038 — 数据生成D获正收益 vs 固定权重Dconst01同样正收益
+- **A/B:** ML D−B test AUC +0.006303（4/4）而Dconst01−B +0.005676（4/4）；D的observed权重接近0.1。Dconst01对D尚未证实非劣。
+- **Classification:** **SUITE EFFECT VS DYNAMIC SAMPLE WEIGHT NECESSITY**。可认D套件正结果，不能归功动态样本区分或单独噪声；还需固定0.1无增强对照。E050–E051。
+
+### C039 — 首轮G−D含多种变化 vs 匹配计算路径G−Gtau0负向
+- **A/B:** KR G−D macro AUC −0.003302（2正2负、区间跨0），G−Gtau0 −0.006484（4/4负，区间仍跨0），Gtau0−D +0.003182（4/4正）；G早期validation加速而selected test较弱。
+- **Classification:** **DIFFERENT GRADIENT IMPLEMENTATION + EPOCH/ROLE/AGGREGATION**，不是“梯度调幅有时万能有时必坏”的同条件冲突。E052。
+
+### C040 — 10-24权限策略/10-25 RHD晚期改善 vs 合法selected未领先
+- **A/B:** I1_PERM selected test宏AUC不胜RW；RHD正式HB−BASE selected LL +0.00074075、e50 −0.00875428，且所有方法e50比自己的合法selected差。
+- **Classification:** **SELECTED PRIMARY VS LATE RELATIVE RISK**。不能用晚期风险减损宣称最佳已选模型提升。E053–E055。
+
+### C041 — LPS有foreign可读性 vs DFD形成收益弱于简单读法
+- **A/B:** LPS部分来源内容关闭后变差；DFD ML P1对CONST有利，但完整P2输H_DIRECT/ETA_DIRECT和GEOM等；KR P1没有进入形成。
+- **Classification:** **ACCESSIBLE SOURCE CONTENT VS NECESSARY SOURCE FUNCTION FORMATION**。普通读取有用不证明原型、meta权重、跨域μ外推有效；局部失败不否定来源可读性。E056–E057。
+
+### C042 — “实验方案/发布完成” vs 实际NO_START与机制工件缺项
+- **A/B:** NEXT-v2核心48完成但正式0 NO_START；v3有实际50epoch；DFD P3/P4因门未触发、184导出和12推理已完成但外层η/μ分组漏导出；RCF只有实施设计、无新训练。
+- **Classification:** **EXECUTION STATUS / ARTIFACT AVAILABILITY**。不能一概写成“全部方法完整阴性”或“所有机制信息已齐”，更不能把RCF方案的理论价值记为测得AUC。E054–E057。
+
+**修订原则：** “小域=困难域”始终不是研究者认可的先验；共享数值失活、来源可读、形成器有用和共享可提升泛化分别是不同问题。若没有同人口/同参数/同指标的直接对照，保留竞争解释而不强行判某一机制为根因。

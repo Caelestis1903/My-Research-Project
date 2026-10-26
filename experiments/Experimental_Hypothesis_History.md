@@ -1,6 +1,10 @@
 # Experimental Hypothesis History
 
 
+> **2026-10-26 假设更新：** H001–H032是截至10-18的研究假说/竞争解释清单，**不是用户曾经持有的信念清单**。新增H033–H040承接后期自然人口、梯度/共享、RHD/LPS/DFD和RCF设计。旧状态计数是历史截面，不重新汇总为“目前否定了多少科研方向”；以[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前裁定。
+
+
+
 > **2026-10-18 补充与归因纠正：** H001–H023 是 10-09 的历史研究假设/竞争解释索引，**不是用户曾认可这些假设的清单**。尤其用户从研究早期便不把“小域=困难域”当作自己的结论；H002/H003 中域大小、低SNR等是**供数据挑战的候选解释**，不得反过来当成研究起点或把反复证伪它们冒充新创新。下方新增H024–H032，以及[跨分支综合结论](Experimental_Branch_Synthesis_20261018.md)和[53问题去向](Experimental_Question_Disposition_20261018.json)为当前覆盖口径。历史快照计数不自动代表更新后的条目数。
 
 
@@ -351,3 +355,48 @@
 - **Allowed Claim:** 必须冻结主评价函数；cell加权AUC≠pooled AUC，两个任务和六cell不应视独立seed。E040。
 
 **当前研究立场：** 不预设momentum、课程学习、domain size困难性，也不把新出现的若干识别缺口机械转化为无限追加的防御性实验。新假设要以既有MDMT方法的具体前提/迁移边界/未解决问题为对象，并提前规定可否定它的最小观测。
+
+
+## 2026-10-26 假设演化续记 H033–H040
+
+### H033 — 10-15之后MovieLens的“natural”就是未做人为域角色抽样
+- **Tests:** 自然ML数据谱系、固定subset_seed2022、原始配置与base-train ID/行数审计。
+- **Current Status:** **FALSIFIED（强人口等同命题）**。
+- **Allowed Claim:** 旧187500人工subset与新800167自然训练都合法，但协议不同；真实比例、N和样本覆盖混杂。E048–E049。
+
+### H034 — D收益必须由持续区分样本的dynamic specificity引起
+- **Tests:** 10-21 D权重下界探针，Dconst01固定0.1并保留复制/噪声的多seed对照。
+- **Current Status:** **FALSIFIED AS NECESSARY FOR SUITE VERSUS B; OPEN FOR D'S INDEPENDENT MARGINAL GAIN**。
+- **Allowed Claim:** ML D和Dconst01均胜B，但不能证明固定权重与D性能等效；权重/噪声/复制/总尺度仍需严格匹配。E050–E051。
+
+### H035 — 当前τ=0.5梯度范数调幅可稳定提高最佳宏AUC
+- **Tests:** G与相同逐格求导、累加、zero tensor赋值的Gtau0。
+- **Current Status:** **FALSIFIED IN TESTED CONFIGURATION**（ML差−0.003466，KR−0.006484，四seed方向均负，KR区间跨0）。
+- **Allowed Claim:** KR早期训练可加速，且部分域或pooled指标方向不同；不否定所有梯度调幅机制。E052。
+
+### H036 — 所有MDMT共享/条件调制参数最终都会像KR fixed输入乘性路径一样失活
+- **Tests:** CM19固定路径中和对照、STAR/PEPNet/HAMUR及MMoE/PLE跨架构实际干预。
+- **Current Status:** **FALSIFIED（跨结构普遍性）**。
+- **Allowed Claim:** KR fixed的输入乘性路径确有数值弱化/失活；只有特定路径、任务和实现范围内可主张。E046。
+
+### H037 — 修复数值调制失活本身足以稳定改善selected模型性能
+- **Tests:** CM19双factor耦合正则/局部AdamW/旁路与从头重训，相对强对照检查selected AUC/LL。
+- **Current Status:** **WEAKENED / NOT ESTABLISHED AS A METHOD**。
+- **Allowed Claim:** 有效更新和路径响应能被改动，但selected收益不普遍；读取、训练后贡献、从头训练必要性需分别判断。E047。
+
+### H038 — RHD末轮少恶化/来源可读就证明当前动态控制或来源形成器优于简单方法
+- **Tests:** 10-24 I1 selected、10-25 v2门控与v3 RHD/LPS、10-26 DFD强直接对照。
+- **Current Status:** **FALSIFIED AS A GENERAL CLAIM ABOUT ALREADY-DEMONSTRATED FULL METHODS**。
+- **Allowed Claim:** 特定RHD late-risk减损、foreign read和ML需求读益仍保留；各版本主指标及方法独有形成尚未成立。E053–E057。
+
+### H039 — 能预测群体共享需求，就已经证明需要训练多个来源函数
+- **Tests:** DFD-v4 ML P1/完整ML P2的UNIFORM/GEOM/SHUFFLE及H_DIRECT/ETA_DIRECT对照，KR P1未过。
+- **Current Status:** **WEAKENED; SOURCE FUNCTION FORMATION NECESSITY NOT ESTABLISHED**。
+- **Allowed Claim:** 需求条件预测可与常量区别，函数形成增量必须在固定可达读取范围与强目标拟合下另证。E056–E057。
+
+### H040 — 目标群体剩余风险指导受约束来源后继函数可以增加独立可读知识
+- **Origin:** 10-26 RCF-v1研究修订；保留多原型收益驱动局部共享问题并纠正DFD固定μ外推与同标签正权BCE形成的不足。
+- **Current Status:** **OPEN / DESIGN_ONLY**（未训练）。
+- **Allowed Claim:** 是有明确对照和预算的待验新假设；只有超过固定来源读、直接目标头、目标专有/统一微调、单宽后继等控制，才能谈新方法贡献。[RCF-v1](../research_plans/2026-10-26-v2/00_README.md)。
+
+**历史记述与研究立场：** 研究者一直区分“小域”和“困难域”，并非提出后才被迫否定。既有方法相近不导致方向被机械丢弃；如果真实新增收益在强参照下仍不能建立，则明确版本NO_GO和能重新建立差异的最小设计更改。

@@ -1,6 +1,10 @@
 # Experimental Open Questions
 
 
+> **2026-10-26问题更新：** OQ001–OQ020继续保留为各自提出日期的问句，不以“没有触发实验”自动关闭。新增OQ021–OQ028重点从“反复做一个老解释的防御性否定”转向**辨别真实样本收益、来源可用增量、读写不同利益与局部功能必要性**；当前研究决策见[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)。最新RCF仍为设计，所有问题没有预设阳性结论。
+
+
+
 > **更新于 2026-10-18：** OQ001–OQ010 保留 10-09 原始提问，不因新实验“未触发”而直接关闭。下表是最新去向；新增 OQ011–OQ020 仅登记真正需要新的可区分反事实/证据的研究问题。详细保留 Q1–Q53 的**历史状态与最终限度**：[跨分支问题JSON](Experimental_Question_Disposition_20261018.json)。多轮证据与反例：[综合报告](Experimental_Branch_Synthesis_20261018.md)。
 
 | 旧问题 | 10-18 状态 | 已缩窄/仍缺的证据 |
@@ -175,3 +179,48 @@
 - **Links:** OQ005、OQ009、Q16–Q17、Q36、Q45、Q48；E027、E037、E040。
 
 **执行/证据状态规则：** 原始历史原件找不到写 NOT_IDENTIFIABLE / INCOMPLETE；实验触发条件未满足写 NOT_TRIGGERED；方法性表现未达冻结阈值写 NO_GO（仅对该候选）；置信区间太宽写 INCONCLUSIVE；不能将这些状态统一改成“实验否定”。以上问题和Q1–Q53不以数量配额封顶。
+
+
+## 2026-10-26 更新的可区分问题 OQ021–OQ028
+
+### OQ021 — D套件的增益到底来自样本区分、总loss尺度还是复制/噪声？
+- **Existing evidence:** ML D−B AUC +0.006303，Dconst01−B +0.005676，各4/4正；D权重快速靠近0.1，Dconst01并未对D通过非劣门。KR方向与区间更复杂。E050–E051。
+- **Still unidentified:** 常数0.1和Adam耦合衰减/eps/步长交互、真实样本权重初值、噪声与复制、持续样本差异各自增量。
+- **Discriminating test:** 优先做**同0.1损失尺度且无复制/噪声**的最小匹配控制，两个数据×四seed，不新搜超参；若这一臂能解释Dconst01相对B收益，先收紧增强主张，再决定是否需要分拆动态权重。[源报告](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### OQ022 — 自然ML下N19/CM19那些人工子集结论能保留到什么程度？
+- **Existing evidence:** 人工187500与自然800167差异被审计；10-20部分子阶段完成，但当时N19/CM19完整transfer仍进行中，不能将旧N19/CM19结果冒称自然复现。E048–E049。
+- **Still unidentified:** 人口比例、支持覆盖、有效训练曝光和真实域任务分布对条件路径/容量作用的分离因果。
+- **Discriminating evidence:** 若后续要升级外部效度，先取原规划的**完整且冻结的自然scope终报**或新的独立支持窗口，再做同身份对照；不要把源目录存在视为完整实验。[原状态](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md)。
+
+### OQ023 — 强目标直接预测之后，foreign来源内容还有什么独立可读增量？
+- **Existing evidence:** LPS有部分foreign读取信号；DFD ML需求读优于常量，但完整形成器输H_DIRECT/ETA_DIRECT；不同可达读取范围的对照尚缺足够支持。E056–E057。
+- **Still unidentified:** 收益来自来源监督、可读隐藏特征、额外目标拟合、容量或单纯概率校准？
+- **Discriminating test:** 固定目标/来源/标签预算，分别比较H_DIRECT、ETA_DIRECT、target-only、普通source logit/hidden读取、相同容量读取器，再谈重新形成。该判别被列为[RCF-v1 S1](../research_plans/2026-10-26-v2/00_README.md)，**尚未运行**。
+
+### OQ024 — 域内部群体需求能否指导真正不同的来源后继函数？
+- **Existing evidence:** DFD的非恒定责任与梯度存在，但GEOM/SHUFFLE及UNIFORM强对照削弱“形成特定需求功能”解释；KR当前高维需求选读入口失败。E057。
+- **Still unidentified:** 在相同总参数/目标数据和source-retention预算下，两个来源函数是否有交叉群体优势？是否只由更强的单函数、统一锚定微调或残差校准复制？
+- **Discriminating test:** 用目标群体OOF剩余风险形成函数后冻结，检测交换群体/置乱配对、单宽函数、固定来源读和统一微调的**同reader**风险差；先满足来源保持及逐格保护再宣称功能分工。[RCF设计](../research_plans/2026-10-26-v2/00_README.md)。
+
+### OQ025 — 读取来源与反向更新来源的利益是否可能不同甚至相反？
+- **Existing evidence:** S3/S4共享access、CM19路径数值活性与v3 LPS来源读取不一致；固定路径失活不能反证读取的价值。E046–E047、E056。
+- **Still unidentified:** 只读的有用内容、允许目标标签重写来源函数、对来源owner造成的损害及目标短期收益之间的非对称关系。
+- **Discriminating test:** 固定函数内容及目标读法，分开readonly、target-to-source受约束后继更新及source owner retention；报告所有受影响任务的LL/AUC和成本。不将来源损伤隐藏在宏平均中。
+
+### OQ026 — selected优先的真实泛化增量与晚期减损如何分开？
+- **Existing evidence:** S8/N17、10-24和v3 RHD多次出现selected与final反号；v3 RHD e50有减损但selected未胜强参照。E053–E055。
+- **Still unidentified:** 动态策略改变的是最佳可用前沿，还是只是减轻某个固定过训状态的下降？
+- **Discriminating test:** 预注册合法主selected与共同阶段readout，至少包括每seed/六格/AUC+LL，不用历史暴露test调整选点；有新时间/人口时再做正式确认。
+
+### OQ027 — 新RCF的来源行为保留约束能在目标有益时真正成立吗？
+- **Existing evidence:** v4没有完整来源外层refitη/μ分组导出；旧方案没有来源目标风险与source owner风险共同满足的已验收多函数实例。E057。
+- **Still unidentified:** 目标剩余风险获得的增量是否只是透支来源质量、容量或额外监督？后继函数身份与强直接拟合能否区分？
+- **Discriminating test:** RCF方案的源保留LL、KL和修正幅度约束须在冻结后逐项按实际预测核验，并与统一微调、固定读取、target-only保持匹配；**当前仅设计**。
+
+### OQ028 — 如何获得真正可升级的独立人口确认，而不是重复使用历史test？
+- **Existing evidence:** 10-25/26 v3/DFD的旧test、旧Q曾暴露；四seed重复主要是训练随机性，非新的用户/物品/时间支持；KuaiRand缺可信原始用户ID用于用户cluster统计。
+- **Still unidentified:** 对新人口与真实场景的跨域可迁移收益、漂移与特征支持如何影响方法净效益。
+- **Discriminating evidence:** 先明确尚未用于开发的新自然时间窗口、可归属用户/任务及主要统计单位；无这些材料时保留探索性标签，不为多seed或更多Q-readout强行制造独立确认。
+
+**优先级：** OQ023–OQ025/OQ027组成一个具有独立主张与强简单对照的共享研究问题；OQ021是有限预算的样本重加权归因支线；OQ022/OQ028是能否升级外推结论的条件，**不是要求所有新研究开始前把旧问题全补完**。

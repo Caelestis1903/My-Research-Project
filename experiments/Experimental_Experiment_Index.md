@@ -1,6 +1,10 @@
 # Experimental Experiment Index
 
 
+> **2026-10-26 当前索引入口：** 历史 EXP001–EXP042 原编号保留，下面10-18“合计42条”的数字是当时截面。现追加 EXP043–EXP051 **9个不同研究阶段/审计索引**，当前合计 **51条索引**（含历史未运行/评价only），**不是51组独立训练或51项算法创新**。最新时间线/归因以[2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为准；所有原始文件来自 [history_experiments](../history_experiments/README.md)；最新RCF-v1仅为设计，**不登记为已执行EXP**。
+
+
+
 > **2026-10-18 增量：** 原 EXP001–EXP032 和底部“32条”仅代表 10-09 **历史快照**。本次**追加 EXP033–EXP042 十个阶段性研究/诊断索引**，并明确继承、派生或复用关系；它们不是10个互相独立的新训练数据集，不能与内部run个数混计。详细解释及最新条件状态：[跨分支综合报告](Experimental_Branch_Synthesis_20261018.md)。
 
 
@@ -78,3 +82,22 @@
 **新旧计数核对：** 新增阶段索引 EXP033–EXP042 共10条；历史32条仍原编号，现总**42条阶段性实验/审计/门控条目**。N17 独立新增 H100 轨迹数只计 EXP039(64)+EXP040(16)+EXP042(40)=**120**，其中48 tuning、72 formal；EXP038为旧数据重分析、EXP041为局部干预不属于H100，不能算作新增训练轨迹。N17 72 formal的7200逐epoch模型test读数、Stage2D 16run与EXP033的8run各有自己的训练身份，不把派生readout、选点别名当新seed。
 
 **未触发分支：** N17 H200（冻结rho条件不触发）、N4共享拓扑（独立局部门不触发），以及 v3某些受门控全训练；登记条件状态不增加“阴性实验”数量。v2 P2/P8等中期任务未见最后完成判定，不在本索引虚构成功。三个仅方案的Git分支正文已在main的research_plans，**本次不重复按新正式实验计数**。
+
+
+## 2026-10-18—2026-10-26 新补入主索引：EXP043–EXP051
+
+| ID | 阶段 | 状态与确切工作范围 | 关键观察及与旧实验的边界 | 归档入口 |
+|---|---|---|---|---|
+| EXP043 | N18 P1–P6六方向首轮 | **COMPLETED（已触发的有界诊断/冻结头）**；六方向受控构造与四seed头拟合，长期训练按各gate决定 | 存在理论与局部反例，但各当前方案没有稳定的强对照完整算法价值；DATA-BLOCKED不写作训练失败 | [N18 FINAL_REPORT](../history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md) |
+| EXP044 | N19六方向完整端到端 | **COMPLETED：328次正式网络训练＋冻结测试**，四seed，依正式ledger去重 | 容量/通道失活及模型选择、阶段、指标反转，尚不支持通用独立新算法；ML训练人口多为人工固定subset，不是自然全量 | [N19 FINAL_REPORT](../history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md) |
+| EXP045 | CM19共享调制路径 | **COMPLETED：856次全预算训练＋856组冻结测试**；独立STAR/PEPNet/HAMUR等强对照 | KR fixed M3oE选点输入乘性调制数值中性与局部优化修复得到限定机制支持；恢复路径不等于改善合法selected性能 | [CM19 FINAL_REPORT](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md) |
+| EXP046 | 10-20自然ML追溯/匹配N/阶段复核 | **PARTIAL / IN_PROGRESS**：自然base-train人口审计与V2/S5/S6/AO04/N17等已完成子项；N19/CM19自然transfer截至已存状态未全闭环 | 人工187500对自然800167同时改变比例、真实支持与训练预算；若只看人工旧N19/CM19不得声称全自然复现 | [人口审计](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)、[当前工作](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md) |
+| EXP047 | 10-21原生M3oE+D/G套件 | **COMPLETED：48条有效正式训练**（2数据×6臂×4seed）及12单epoch检查 | ML D与Dconst01均优于B，动态specificity非该套件收益必要条件；G−Gtau0终点宏AUC负。其目标legacy_group_sum，非其他Sample/Equal实验的对照复现 | [10-21 REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md) |
+| EXP048 | 10-24 I1权限/来源使用 | **COMPLETED：44主pilot＋4基线pilot＋40正式训练** | I1_PERM在ML/KR selected test AUC未胜固定RW；KR final LL的有限改善仅为次级 | [10-24 README](../history_experiments/10-24/research_reports/2026-10-24/README.md) |
+| EXP049 | 10-25 MDMT-NEXT-v2 | **COMPLETED核心48条24epoch；正式四seed50epoch为NO_START；部分aux和基线预算停止** | 晋级门未过，版本STOP_NO_PROMOTION，未启动正式不是实际负性能样本 | [v2 README](../history_experiments/26-10-25/research_reports/2026-10-25/README.md) |
+| EXP050 | 10-25 MDMT-NEXT-v3（RHD/LPS） | **COMPLETED：69条24epoch逻辑轨迹＋20条KR四seed50epoch轨迹**；部分条件NO_START | RHD相对BASE selected test LL较差但e50较好；LPS来源可读与特定形成器有用不等价；测试/旧Q已历史暴露 | [v3 FINAL_REPORT](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md) |
+| EXP051 | 10-26 DFD-v4（需求条件来源函数形成） | **COMPLETED已触发P1及ML P2；KR P2与两数据P3/P4 NO_START**；184冻结预测、12结构计时 | ML P1需求读法有限优于常量；形成器与整体方法输强直接对照，版本不支持；outer refitη固定μ分组未导出（MAJOR） | [v4 FINAL_REPORT](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md) |
+
+**现阶段总数＝历史EXP001–EXP042 42项＋新增研究阶段索引9项＝51项。** EXP043与EXP044共享N18基础背景，EXP049/050/051有方法继承但不是相同网络轨迹；旧10-24/25/26的源Git分支存在祖先关系，不能把每条后继目录中继承的报告再当独立实验加总。
+
+**设计与证据分层：** [研究方案2026-10-26-v2：RCF-v1](../research_plans/2026-10-26-v2/00_README.md)为DESIGN_ONLY，尚无RCF训练、选点或AUC/LL；不纳入EXP计数。未来新增实验需核对相同模型/人口/seed是否只导出新读法，避免抬高独立试验数。

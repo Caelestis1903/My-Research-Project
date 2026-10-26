@@ -1,9 +1,28 @@
 # Experimental Global Summary
 
 
+> **2026-10-26 总结更新：** 本文件的当前科研裁定以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；后文标为10-18/10-09的Q1–Q7、训练计数及“当前”陈述均保留为当时的历史快照，不能覆盖晚于它的证据。原研究阶段报告未修改，原始文件与固定SHA见 [history_experiments](../history_experiments/README.md)。
+
+## 2026-10-26 当前研究结论（优先于下方历史快照）
+
+1. **长期研究轴是样本重加权与差异化共享。** Equal/Sample是训练目标的局部口径；S5 Equal的特定Adam-history作用、v2/N17无动量SGD的采样效应并存：Adam不是全体效应的必要条件，也没有被Sample“完全消除”。研究仍要分开样本曝光、目标加权、动量状态和共享读写权限。
+2. **先修正数据人口，再谈相互印证。** 10-15之后多轮MovieLens在人为固定子集187500行（34500/3000/150000）上训练；自然base-train为800167行（155949/318599/325619）。[自然人口审计](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)显示比例、真实支持与训练时钟一起变化。自然复核已经有部分可靠结果，但扩展分支整体仍为IN_PROGRESS，不能把N19/CM19人工结果宣称为全自然重复。
+3. **N18/N19已经实质完成，不是只有“方案”或都没有尝试。** [N18](../history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md)进行了六方向有界诊断；[N19](../history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md)完成328次全预算训练。方法独有性和稳定强对照收益未获支持，但局部反例、容量/通道边界和方向机会保留，不把NO_GO扩展为领域失败。
+4. **共享路径的数值功能与实际泛化收益不同。** [CM19](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)完成856次训练：KR fixed M3oE选点的输入乘性调制路径有明确数值中性，局部AdamW/耦合L2干预可以恢复响应；STAR等独立路径保持活跃，且恢复响应并未产生通用selected收益。
+5. **10-21的D套件在自然MovieLens确有收益，但“动态样本区分导致收益”尚未成立。** [复现报告](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)中D−B test宏AUC +0.006303、LL −0.015962（4/4），Dconst01−B AUC +0.005676（4/4）；常数权重仍带复制/噪声/总尺度，不能从这组对照确定哪个模块有效。匹配G−Gtau0调幅的宏AUC：ML −0.003466、KR −0.006484（均4/4负，但KR区间跨零）。其目标为legacy_group_sum，非其他阶段的Sample/Equal。
+6. **动态权限/收益/形成新方法须通过强简单对照。** 10-24 I1_PERM在ML/KR selected未胜固定RW；10-25 v2核心48条完成但正式门未触发；10-25 v3 RHD相对BASE selected test LL +0.00074075、e50 −0.00875428，LPS特定形成未稳定优于简单读法；10-26 DFD-v4的ML需求预测有限有利，但完整DFD相对H_DIRECT/ETA_DIRECT LL更差、KR P1失败，P3/P4未触发，另缺原refitη外层μ分组。各轮**版本性结论**不等于来源知识价值或多原型研究全盘不成立。
+7. **最新研究决策是RCF设计而非新实验阳性。** [2026-10-26-v2方案](../research_plans/2026-10-26-v2/00_README.md)保留目标剩余风险指导来源后继函数形成的科学问题，以来源保持、有限容量、固定读出及强目标直接头作判别；目前**DESIGN_ONLY，无新增RCF训练/评价结果**。
+8. **评价主张必须绑定协议。** 宏cell AUC、人口加权cell AUC、pooled AUC、LL，selected、末轮、长期AULC、Q/validation/test与真正新封存数据互不等价。早期“小域=困难域”从来不是用户认同的前提，不再把重复推翻它算作研究成果。
+
+**合并结论：** 现有证据支持目标/域/群体条件性收益与共享损害的研究价值，支持一些真实局部机制与反例；没有建立一个在当前完整强对照和不同自然支持下通用、安全、独有的新算法。更值得检验的是**强目标预测之外的来源功能增量、群体需求驱动形成，以及样本权重收益的真实贡献结构**。完整时间线、已完成/未触发/部分完成和历史结论更正见[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)。
+
+---
+
+
+
 > **2026-10-18 跨分支更新。** 下方原“整理截止 2026-10-09”以及 Q1–Q7/历史计数保持**历史快照**身份，不再代表最新所有实验的最终统计或执行状态。当前权威入口：[多分支综合报告](Experimental_Branch_Synthesis_20261018.md)；[53条问题逐项去向](Experimental_Question_Disposition_20261018.json)。证据编号 E033–E041、SF013–SF020 和新增 EXP 索引补录见相应文件。**未把代码/权重/原始数据从执行分支全量合并。**
 
-## 2026-10-18 当前最终科研摘要（优先于以下旧快照）
+## 2026-10-18 历史科研摘要（优先于当时10-09快照；已由10-26总报告更新）
 
 1. **同 Sample 目标不等于同训练路径。** KR Stage2D（learned fusion、双 Adam、四seed）validation-selected SB−SN macro AUC = −0.010406、4/4负；v2（fixed fusion、单优化器）无动量SGD仍为 −0.002104、4/4负。两组不构成协议同构的直接复现，却共同说明 Adam **不是所有 q 相关效应的通用必要条件**；不能从此反驳旧 S5 Equal 下持久 history carrier 的窄结论。
 2. **最新 N17 的统计强度低于简单符号多数投票。** 120条新H100轨迹全部完成；正式 KR selected test：Adam SB−SN = −0.005203，8seed t95[−0.012006,+0.001600]、Holm p=.171875；SGD = +0.000837，t95[−0.004309,+0.005984]、Holm p=.6953125。两项**预定主比较均未确认**，不能称普遍损伤或等效。KR Adam AULC1..20 −0.007480、8/8负是**阶段性次级证据**，不是取代主门。
