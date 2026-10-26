@@ -1,0 +1,617 @@
+{
+  "spec": "DFD-v4.0",
+  "dataset": "movielens",
+  "parent_data_hash": "01d840f45b891c51f7ba33c087a51ee25d19cd6eeb11fcdf93dee1b13163e7ba",
+  "schema": {
+    "dataset": "movielens",
+    "columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "age",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "dense_columns": [
+      "age"
+    ],
+    "sparse_columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "vocab_sizes": {
+      "user_id": 5401,
+      "movie_id": 3632,
+      "gender": 3,
+      "occupation": 22,
+      "zip": 3201,
+      "cate_id": 19,
+      "domain_indicator": 3
+    },
+    "embedding_dim": 16,
+    "domain_column": "domain_indicator",
+    "encoder_hash": "cab74dbb13090a9339ae74310e24310d0145512d000ffc31f917965dfd7176d3",
+    "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+    "oov_index": 0
+  },
+  "roles": {
+    "fit": {
+      "n": 640133,
+      "row_id_hash": "d5823cb852e44ac098c296e2c91f324d2c7141d5094a78f3943bd2ee25289f4c"
+    },
+    "P_cal": {
+      "n": 16003,
+      "row_id_hash": "b4156cd40c4afbfdff06afc431f85eeb77fa8f2cb3cbbf4f0ac4fa08d24d88ce"
+    },
+    "P_update": {
+      "n": 16004,
+      "row_id_hash": "dc21ab5390072a97e06c4f9a9314ced72e4e5bd04d801e42c2480887923c305b"
+    },
+    "Q_explore": {
+      "n": 40008,
+      "row_id_hash": "545c60a22ecf4e54613472180edc1c0853537f5f9d6f94d0b7cf4ac58ac5c19f"
+    },
+    "validation": {
+      "n": 100021,
+      "row_id_hash": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+    },
+    "test_exposed": {
+      "n": 100021,
+      "row_id_hash": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+    },
+    "Q_legacy_confirm_exposed": {
+      "n": 40009,
+      "row_id_hash": "fca485d1fea52f4031548126d0099a131d2b44fcd505c1444b166c0bc5ab4294"
+    },
+    "P_form": {
+      "n": 24004,
+      "row_id_hash": "a04fa99676ed28f48066c4c0cdf4cb6773c266ebe0eff542e6e7bae3ca640e5c"
+    },
+    "P_read": {
+      "n": 24006,
+      "row_id_hash": "47395d052f4f872e2028552a384a5cd5672739b35ccbefdedec8ba9cda61d4a6"
+    }
+  },
+  "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+  "array_hashes": {
+    "x": "cb9518c9ed67378f9f503e489c7c1910cac465a6279a1f4282023f0b69c0161e",
+    "y": "86a23b5684381e656e43390515ad9a2fed43577c0c78f412ca3c96ed1f15fb8a"
+  },
+  "data_hash": "fde41e1bb0e92eec66073e8e63162296f2a02a6c059d425eb5a59c3b9730237c",
+  "verified_raw": true,
+  "verified_array_hashes": true,
+  "verified_roles": true,
+  "verified_full_fit_only_encoding": true,
+  "user_item_support": "raw identity available",
+  "role_details": {
+    "fit": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 124759,
+          "positive": 69963,
+          "negative": 54796
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 254879,
+          "positive": 143910,
+          "negative": 110969
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 260495,
+          "positive": 156789,
+          "negative": 103706
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 124759,
+          "positive": 29257,
+          "negative": 95502
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 254879,
+          "positive": 56318,
+          "negative": 198561
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 260495,
+          "positive": 62389,
+          "negative": 198106
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 0,
+        "True_True": 640133
+      }
+    },
+    "P_cal": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 3119,
+          "positive": 1761,
+          "negative": 1358
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 6372,
+          "positive": 3488,
+          "negative": 2884
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 6512,
+          "positive": 3951,
+          "negative": 2561
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 3119,
+          "positive": 763,
+          "negative": 2356
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 6372,
+          "positive": 1374,
+          "negative": 4998
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 6512,
+          "positive": 1533,
+          "negative": 4979
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 3,
+        "True_True": 16000
+      }
+    },
+    "P_update": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 3119,
+          "positive": 1753,
+          "negative": 1366
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 6372,
+          "positive": 3510,
+          "negative": 2862
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 6513,
+          "positive": 3890,
+          "negative": 2623
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 3119,
+          "positive": 732,
+          "negative": 2387
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 6372,
+          "positive": 1341,
+          "negative": 5031
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 6513,
+          "positive": 1587,
+          "negative": 4926
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 1,
+        "True_True": 16003
+      }
+    },
+    "Q_explore": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 7797,
+          "positive": 4434,
+          "negative": 3363
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 15930,
+          "positive": 8981,
+          "negative": 6949
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 16281,
+          "positive": 9868,
+          "negative": 6413
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 7797,
+          "positive": 1864,
+          "negative": 5933
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 15930,
+          "positive": 3565,
+          "negative": 12365
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 16281,
+          "positive": 3897,
+          "negative": 12384
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 11,
+        "True_True": 39997
+      }
+    },
+    "validation": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 27111,
+          "positive": 14634,
+          "negative": 12477
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 35523,
+          "positive": 21027,
+          "negative": 14496
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 37387,
+          "positive": 22148,
+          "negative": 15239
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 27111,
+          "positive": 5781,
+          "negative": 21330
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 35523,
+          "positive": 8541,
+          "negative": 26982
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 37387,
+          "positive": 8889,
+          "negative": 28498
+        }
+      ],
+      "support_counts": {
+        "False_False": 20,
+        "False_True": 76156,
+        "True_False": 9,
+        "True_True": 23836
+      }
+    },
+    "test_exposed": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 27687,
+          "positive": 14281,
+          "negative": 13406
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 41434,
+          "positive": 22072,
+          "negative": 19362
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 30900,
+          "positive": 18099,
+          "negative": 12801
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 27687,
+          "positive": 4964,
+          "negative": 22723
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 41434,
+          "positive": 7031,
+          "negative": 34403
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 30900,
+          "positive": 6324,
+          "negative": 24576
+        }
+      ],
+      "support_counts": {
+        "False_False": 13,
+        "False_True": 19313,
+        "True_False": 104,
+        "True_True": 80591
+      }
+    },
+    "Q_legacy_confirm_exposed": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 7798,
+          "positive": 4360,
+          "negative": 3438
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 15930,
+          "positive": 8900,
+          "negative": 7030
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 16281,
+          "positive": 9839,
+          "negative": 6442
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 7798,
+          "positive": 1845,
+          "negative": 5953
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 15930,
+          "positive": 3444,
+          "negative": 12486
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 16281,
+          "positive": 3927,
+          "negative": 12354
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 6,
+        "True_True": 40003
+      }
+    },
+    "P_form": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 4678,
+          "positive": 2641,
+          "negative": 2037
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 9558,
+          "positive": 5299,
+          "negative": 4259
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 9768,
+          "positive": 5865,
+          "negative": 3903
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 4678,
+          "positive": 1078,
+          "negative": 3600
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 9558,
+          "positive": 2016,
+          "negative": 7542
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 9768,
+          "positive": 2373,
+          "negative": 7395
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 6,
+        "True_True": 23998
+      }
+    },
+    "P_read": {
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 4679,
+          "positive": 2582,
+          "negative": 2097
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 9558,
+          "positive": 5367,
+          "negative": 4191
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 9769,
+          "positive": 5869,
+          "negative": 3900
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 4679,
+          "positive": 1076,
+          "negative": 3603
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 9558,
+          "positive": 2100,
+          "negative": 7458
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 9769,
+          "positive": 2301,
+          "negative": 7468
+        }
+      ],
+      "support_counts": {
+        "False_False": 0,
+        "False_True": 0,
+        "True_False": 5,
+        "True_True": 24001
+      }
+    }
+  }
+}
