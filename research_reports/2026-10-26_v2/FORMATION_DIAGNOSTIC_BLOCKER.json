@@ -1,0 +1,23 @@
+{
+  "status": "BLOCKING_DIAGNOSTIC_FIX_REQUIRED",
+  "finding": "B1_SATURATED_PROBABILITY_LOGIT_RECONSTRUCTION",
+  "research_training": false,
+  "synthetic_math_only": true,
+  "rows_per_foreign_target": 4000,
+  "one_row_delta": 40.0,
+  "source_S": 0.0,
+  "foreign_R": 0.2,
+  "foreign_R_budget": 0.25,
+  "reader_weight": 1.0,
+  "full_probability": 1.0,
+  "expected_frozen_delete_probability": 0.5,
+  "actual_frozen_delete_probability": 0.0042337517220676114,
+  "absolute_probability_error": 0.49576624827793236,
+  "affected_paths": [
+    "mechanisms.py::_frozen_delete_predictions",
+    "mechanisms.py::diagnose_functions fixed GROUP_CAL plus/minus actions"
+  ],
+  "minimum_fix": "Use actual frozen logits from B_refit, alpha/beta and the full coefficient-weighted feature matrix; never invert clipped probabilities for an intervention.",
+  "s0_training_affected": false,
+  "new_training_matrix_required": false
+}

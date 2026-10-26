@@ -1,0 +1,107 @@
+{
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "scope": "Technical waiver of superseded two-seed metric-dictionary bitwise diagnostic only; no scientific effectiveness analysis",
+  "created_unix": 1793019263.2098222,
+  "audit_file": "research_reports/2026-10-26_v2/LEGACY_REPLAY_NUMERIC_INDEPENDENT_AUDIT.json",
+  "audit_sha256": "378a0883a34c4f140fce0e06b5d62dde0c7667916292ca14154932b71c5be626",
+  "old_contexts_audited": 4,
+  "S1_methods_per_context": 13,
+  "scientific_prefix_fields_exact": [
+    "native_hash",
+    "native_epoch24_hash",
+    "pilot_hash",
+    "selected_epoch",
+    "data_hash"
+  ],
+  "ETA_numeric_differences": [
+    {
+      "dataset": "movielens",
+      "seed": 5201,
+      "abs_macro_logloss_difference": 4.240002793309827e-11,
+      "abs_macro_auc_difference": 7.333706308898513e-09,
+      "max_cell_abs_logloss_difference": 2.933609466460041e-10,
+      "max_cell_abs_auc_difference": 3.3531072807235773e-08,
+      "new_policy_is_Pcal_minimum": true,
+      "new_Pcal_best_to_runner_up_margin": 0.0002600322104934216
+    },
+    {
+      "dataset": "movielens",
+      "seed": 5202,
+      "abs_macro_logloss_difference": 8.31251013611034e-06,
+      "abs_macro_auc_difference": 7.3353099160344826e-06,
+      "max_cell_abs_logloss_difference": 6.178224593900161e-05,
+      "max_cell_abs_auc_difference": 4.025536899976423e-05,
+      "new_policy_is_Pcal_minimum": true,
+      "new_Pcal_best_to_runner_up_margin": 0.00042759113457258024
+    },
+    {
+      "dataset": "kuairand",
+      "seed": 5201,
+      "abs_macro_logloss_difference": 3.777822998651814e-06,
+      "abs_macro_auc_difference": 1.1818780970007658e-05,
+      "max_cell_abs_logloss_difference": 2.2666134188997766e-05,
+      "max_cell_abs_auc_difference": 7.09138050748459e-05,
+      "new_policy_is_Pcal_minimum": true,
+      "new_Pcal_best_to_runner_up_margin": 0.0011969872133512638
+    },
+    {
+      "dataset": "kuairand",
+      "seed": 5202,
+      "abs_macro_logloss_difference": 1.9298968346737055e-06,
+      "abs_macro_auc_difference": 1.1067235367034911e-06,
+      "max_cell_abs_logloss_difference": 1.1608884004088438e-05,
+      "max_cell_abs_auc_difference": 3.377350297872894e-06,
+      "new_policy_is_Pcal_minimum": true,
+      "new_Pcal_best_to_runner_up_margin": 0.0029472496808462534
+    }
+  ],
+  "old_ETA_policy": "NOT_RECORDED; equality cannot be verified or asserted",
+  "ETA_directly_used_by_stage_trigger_conditions": false,
+  "cause_assessment": "Documented old launch requested OMP/OPENBLAS/MKL=1; new initial environment lacks these variables and all eight workers have69 threads. Different BLAS reductions/buffer layout are concrete plausible numerical sources. The former live BLAS configuration is unavailable and a unique cause is NOT established.",
+  "decision_reason": "The reviewed scientific equations, data roles, seed registry, initialization and frozen native/pilot states are unchanged. The failed check compares every legacy metric scalar bit-for-bit and is an additional diagnostic, not a registered scientific gate. All final comparisons will use the new uniform four-seed v2 results; no legacy metric is substituted. Non-bitwise ETA head replay is explicitly retained as a limitation.",
+  "permitted_archive_operation": {
+    "source": "artifacts/mdmt_rcf_20261026/v1/summaries",
+    "destination": "artifacts/mdmt_rcf_20261026/v1/summaries_historical_two_seed",
+    "operation": "Atomic directory rename only; preserve every original byte, relative filename and SHA256; record migration receipt; do not overwrite an existing destination",
+    "expected_original_files": [
+      {
+        "path": "artifacts/mdmt_rcf_20261026/v1/summaries/kuairand_5201.json",
+        "relative_path": "kuairand_5201.json",
+        "sha256": "8003273b29ee6ebb583a49aad174abc7466126c7ffd492a77335d1eb70cb57a1",
+        "bytes": 4500821
+      },
+      {
+        "path": "artifacts/mdmt_rcf_20261026/v1/summaries/kuairand_5202.json",
+        "relative_path": "kuairand_5202.json",
+        "sha256": "b7e56eead9b37538e9301062f1a486df90318340704f389287889108d0251d1c",
+        "bytes": 2628368
+      },
+      {
+        "path": "artifacts/mdmt_rcf_20261026/v1/summaries/movielens_5201.json",
+        "relative_path": "movielens_5201.json",
+        "sha256": "c33a547b9764d0efd280540abb220ac5edf309c658901f715f6560370de2b21c",
+        "bytes": 2641489
+      },
+      {
+        "path": "artifacts/mdmt_rcf_20261026/v1/summaries/movielens_5202.json",
+        "relative_path": "movielens_5202.json",
+        "sha256": "89b0455e0293f2fc182f8dc9f801dd4507e8b164379249ad9df89f32adae0e7f",
+        "bytes": 2634217
+      }
+    ]
+  },
+  "execution_conditions": [
+    "All previously dispatched S1 work drained; actual status FAILED_DRAINED and104 training completion receipts verified",
+    "Preserve all eight resident models and current results/configuration/source",
+    "After atomic archive, verify all archived file SHA256 values against this manifest",
+    "Retry S1 idempotently to collect completed in-memory objects and summaries; no retraining; compare104 completion receipt SHA256 values before/after",
+    "Do not claim bitwise replay of all heads or equality of unrecorded old selected policies",
+    "Keep four-seed scientific gates, Pcal selection, gradients and raw-X tolerance1e-6 unchanged",
+    "Continue all registered triggered stages and use only v2 actual four-seed results for formal scientific analysis"
+  ],
+  "model_or_training_state_modified": false,
+  "code_or_configuration_modified": false,
+  "formal_training_by_reviewer": false,
+  "scientific_conclusions_generated": false
+}

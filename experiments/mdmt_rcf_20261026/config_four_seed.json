@@ -1,0 +1,314 @@
+{
+  "spec_id": "RCF-v1",
+  "plan_date": "2026-10-26",
+  "status": "FOUR_SEED_RECOVERY_REGISTERED_NOT_RUN",
+  "repository": "Caelestis1903/My-Research-Project",
+  "authoritative_spec": "research_plans/2026-10-26-v2/05_核心算法与完整实验规范.md",
+  "decision_spec": "research_plans/2026-10-26-v2/04_判别实验与研究决策.md",
+  "paths": {
+    "code": "experiments/mdmt_rcf_20261026",
+    "reports": "research_reports/2026-10-26_v2",
+    "artifact": "artifacts/mdmt_rcf_20261026/v2_four_seed",
+    "forbidden_external_mutation_root": "/home_new"
+  },
+  "datasets": {
+    "movielens": {
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "fit_domain_counts": [
+        124759,
+        254879,
+        260495
+      ],
+      "tasks": [
+        "rating_gt_3",
+        "rating_gt_4"
+      ]
+    },
+    "kuairand": {
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "fit_domain_counts": [
+        138225,
+        1395118,
+        71561
+      ],
+      "tasks": [
+        "is_click",
+        "long_view"
+      ]
+    }
+  },
+  "seeds": {
+    "development": [
+      5201,
+      5202,
+      5203,
+      5204
+    ],
+    "locked": [
+      6201,
+      6202,
+      6203,
+      6204
+    ],
+    "scale_first": [
+      2022,
+      2023
+    ],
+    "scale_conditional_locked": [
+      2024,
+      2025
+    ]
+  },
+  "native": {
+    "model_id": "fixed_fusion_m3oe",
+    "domains": 3,
+    "tasks": 2,
+    "shared_experts": 4,
+    "h_dim": 256,
+    "fcn_dims": [
+      512,
+      256,
+      256,
+      64
+    ],
+    "fusion": {
+      "exp_d": 1,
+      "exp_t": 1,
+      "bal_d": 1,
+      "bal_t": 1
+    },
+    "objective": "sample_mean_two_tasks",
+    "epochs": 24,
+    "selection_epochs": [
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24
+    ],
+    "selection_role": "validation",
+    "selection_metric": "macro_ll",
+    "batch_size": 40960,
+    "drop_last": false,
+    "optimizer": "coupled_adam",
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 1e-05,
+    "amp": false,
+    "tf32": false
+  },
+  "pilot": {
+    "hidden": 32,
+    "passes": 12,
+    "source_owned": true,
+    "freeze_after_fit": true
+  },
+  "base": {
+    "input_dim": 258,
+    "hidden": 32,
+    "folds": 2,
+    "fold_passes": 20,
+    "refit_passes": 20,
+    "batch_size": 512,
+    "lr": 0.001,
+    "weight_decay": 0,
+    "direct_read_passes": 10,
+    "direct_selection_passes": [
+      0,
+      5,
+      10
+    ],
+    "effort_form_passes": 60,
+    "eta_input_dim": 261
+  },
+  "groups": {
+    "definition": "native_logit_gt_target_fit_median",
+    "count": 2,
+    "equality_group": 0,
+    "freeze": true,
+    "min_rows": 256,
+    "min_positive": 20,
+    "min_negative": 20
+  },
+  "demand": {
+    "profile_calibration": true,
+    "phi_dim": 32,
+    "source_covariance_weight": 0.1,
+    "metric_ridge_relative": 0.001,
+    "metric_ridge_floor": 1e-06,
+    "nuisance_ridge_relative": 0.0001,
+    "nuisance_ridge_floor": 1e-08,
+    "max_condition_number": 10000000000,
+    "assignment": "weighted_exhaustive_bipartition_of_target_response_vectors",
+    "zero_request_norm": 1e-10
+  },
+  "formation": {
+    "k_max": 2,
+    "delta_dims": [
+      256,
+      32,
+      1
+    ],
+    "hidden_init": "copy_source_pilot_plus_paired_noise",
+    "hidden_noise_std": 0.001,
+    "output_init": "exact_zero",
+    "passes": 12,
+    "query_plan": "per_slot_assigned_rows",
+    "query_batch": 512,
+    "kl_source_fit_batch": 4096,
+    "source_constraint_form_batch": 256,
+    "foreign_rms_batch_per_target": 256,
+    "lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0,
+    "kl_weight": 0.1,
+    "source_ll_budget": 0.001,
+    "foreign_delta_mean_square_budget": 0.25,
+    "dual_init": 1,
+    "dual_lr": 10,
+    "dual_bounds": [
+      0,
+      100
+    ],
+    "projection_bisection_steps": 40,
+    "zero_scale_below": 1e-06,
+    "gradient_owner": "delta_only"
+  },
+  "reader": {
+    "training_role": "P_read",
+    "reads": "delta_only",
+    "calibration_by_group": true,
+    "alpha_bounds": [
+      0.25,
+      4
+    ],
+    "beta_bounds": [
+      -4,
+      4
+    ],
+    "coefficient_bounds": [
+      -1,
+      1
+    ],
+    "k1_coefficient_bound": "per_source_frozen_effective_K_sq",
+    "lambda_grid": [
+      0.001,
+      0.1
+    ],
+    "coefficient_ridge": 1e-06,
+    "solver": "lbfgsb_float64_method_specific_bound_mask",
+    "max_iter": 300,
+    "numerical_retry_max_iter": 600,
+    "gtol": 1e-08,
+    "selection_role": "P_cal",
+    "selection_unit": "complete_six_head_policy",
+    "off": "exact_B_refit",
+    "full_feature_coefficients": "unbounded_with_composite_rms_and_coefficient_ridge",
+    "full_feature_method_ids": [
+      "FULL_SOURCE",
+      "FULL_SOURCE_ALL",
+      "FULL_TARGET",
+      "RANDOM_FEATURE"
+    ]
+  },
+  "stages": {
+    "s0": "eight_shared_prefixes",
+    "s1": "fixed_content_reader_controls",
+    "s2": [
+      "RCF",
+      "POOLED_TARGET",
+      "LOCAL_ACTIVE"
+    ],
+    "s3": "only_registered_subsets_if_triggered_by_s2",
+    "s4": "locked_only_after_s3_support",
+    "scale": "independent_capped_legacy_configuration_probe"
+  },
+  "promotion": {
+    "primary_metric": "macro_ll",
+    "mean_dll_max": -0.0005,
+    "mean_dauc_min": -0.0005,
+    "max_cell_mean_dll": 0.003,
+    "interpretation": "practical_resource_rule_not_statistical_significance",
+    "all_dev_seeds_negative_dll": true
+  },
+  "storage": {
+    "models": "memory_only",
+    "large_feature_cache": "numpy_row_data_mmap_only",
+    "cleanup_requires_outer_mechanisms": true,
+    "final_paired_predictions": true,
+    "delete_only_owned_manifest_files": true,
+    "optimizer": "memory_only"
+  },
+  "new_performance": "NOT_MEASURED",
+  "source_snapshot": {
+    "v4_commit": "dc32f60a6aafce98a25838a485e02cead5425fc6",
+    "source_package": "experiments/mdmt_dfd_20261026",
+    "selective_restore_destination": "experiments/mdmt_rcf_20261026/vendor_snapshot/mdmt_dfd_20261026",
+    "do_not_merge_historical_branch": true
+  },
+  "controls": {
+    "pooled_target": {
+      "nominal_k": 2,
+      "independent_of_rcf_request": true,
+      "coverage": "all_eligible_foreign_target_domains",
+      "source_and_rms_constraints": true,
+      "report_extra_capacity_and_label_passes": true
+    },
+    "k1_wide": {
+      "replace_only_rcf_effective_k2": true,
+      "replacement_hidden": 64,
+      "keep_effective_k1_and_k0": true
+    },
+    "local_active": {
+      "functions_per_target_task": 4,
+      "hidden": 32,
+      "source_constraint": false,
+      "kl_weight": 0,
+      "rms_budget": 0.25
+    }
+  },
+  "recovery": {
+    "parent_config_hash": "c3ba96191f76e638c734c91ddd6b28f723a5a2bdc4412ea4fd08185024270b43",
+    "parent_artifact": "artifacts/mdmt_rcf_20261026/v1",
+    "design_addendum": "research_reports/2026-10-26_v2/DESIGN_FOUR_SEED_RECOVERY_ADDENDUM.md",
+    "design_sha256": "1dabef3c9a25ce33a8f8739e3b558e0348491bee32ecd15d9427b07720c8b139",
+    "minimum_training_seeds": 4,
+    "mandatory_s3": {
+      "kuairand": [
+        "K1_WIDE",
+        "SOURCE_INIT_RANDOM"
+      ]
+    },
+    "old_two_seed_gates": "SUPERSEDED_TWO_SEED_PROVISIONAL",
+    "scale_reuse": "artifacts/mdmt_rcf_20261026/v1/scale/ALL_EIGHT_FROZEN_MANIFEST.json",
+    "host_reserve_gib": 8,
+    "prefix_working_set_gib": {
+      "movielens": 4,
+      "kuairand": 6
+    },
+    "changes": [
+      "development_seed_count_2_to_4",
+      "all_seed_direction_gate",
+      "four_seed_evidence_completion_for_started_KR_controls",
+      "data_only_mmap_storage",
+      "new_artifact_root",
+      "no_algorithm_hyperparameter_changes"
+    ]
+  }
+}

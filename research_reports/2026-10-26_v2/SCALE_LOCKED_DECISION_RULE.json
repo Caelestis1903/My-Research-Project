@@ -1,0 +1,82 @@
+{
+  "rule_id": "SCALE_AUGMENTATION_EXTENSION_V1",
+  "status": "DESIGN_FROZEN_BEFORE_PERFORMANCE_INSPECTION",
+  "created_utc": "2026-10-26 10:23:16 UTC",
+  "authoritative_sources": [
+    "research_plans/2026-10-26-v2/04_判别实验与研究决策.md#独立SCALE最小分支",
+    "research_plans/2026-10-26-v2/05_核心算法与完整实验规范.md#独立SCALE分支"
+  ],
+  "designer_observed_performance_values": false,
+  "decision_unit": "dataset",
+  "datasets": ["movielens", "kuairand"],
+  "development_seeds": [2022, 2023],
+  "comparison": {
+    "augmentation": "historical Dconst01 with its registered augmentation enabled",
+    "no_augmentation": "current Dconst01_NO_AUG",
+    "constant_weight_both_arms": 0.1,
+    "pairing": "same dataset and training seed; aggregate metrics at each arm's legally validation-selected checkpoint",
+    "selection_protocol": "historical validation Macro AUC, strict improvement with earliest tie, patience10, max50epochs",
+    "historical_raw_p_status": "MISSING; no row-paired confidence interval may be claimed"
+  },
+  "eligible_evidence": {
+    "role": "validation",
+    "metrics": ["macro_auc", "macro_logloss"],
+    "checkpoint": "selected by the frozen historical validation Macro AUC rule",
+    "required_complete_seed_count": 2,
+    "require_finite_metrics": true,
+    "require_same_metric_aggregation_and_logloss_definition": true,
+    "require_comparability_identity_receipt": true,
+    "identity_checks": [
+      "same natural historical data, outer split and evaluation row identity",
+      "same source-fixed model initialization and intended training protocol, except the registered augmentation toggle",
+      "same constant loss weight, Equal-style aggregation, batch40960, optimizer and stopping/selection rule",
+      "software, PyTorch, CUDA, dtype, AMP and TF32 identities are recorded for both arms",
+      "a known environmental difference is not silently treated as matched; only an already reviewed compatibility resolution may qualify it, otherwise attribution is unresolved"
+    ]
+  },
+  "delta_definition": {
+    "d_auc_seed": "validation_selected_macro_auc_augmented - validation_selected_macro_auc_no_aug",
+    "d_ll_seed": "validation_selected_macro_logloss_augmented - validation_selected_macro_logloss_no_aug",
+    "mean_d_ll": "(d_ll_2022 + d_ll_2023) / 2"
+  },
+  "extension_rule": {
+    "expression": "identity_comparable AND all_required_metrics_finite AND d_auc_2022 > 0 AND d_auc_2023 > 0 AND mean_d_ll <= 0",
+    "auc_requirement": "strictly positive augmentation increment in both registered development seeds",
+    "logloss_safeguard": "augmentation does not worsen validation Macro LogLoss averaged equally over the two seeds",
+    "auc_tie": "does not satisfy repeated positive direction",
+    "logloss_exact_tie": "passes mean-risk safeguard",
+    "arithmetic": "use stored full-precision finite scalars, without displayed-value rounding or result-dependent tolerance",
+    "practical_effect_size_threshold": null,
+    "interpretation": "conservative resource rule for the already registered extension; not significance, equivalence, efficacy or an independent-data confirmation"
+  },
+  "if_rule_passes": {
+    "status": "EXTEND_REGISTERED_SCALE_LOCKED",
+    "datasets": "only the passing dataset",
+    "new_training_arms": ["Dconst01_NO_AUG"],
+    "seeds": [2024, 2025],
+    "required_execution": "complete both registered locked seeds using the same frozen historical protocol; compare with already identified matching historical augmented metrics",
+    "no_adaptive_stopping_on_negative_seed": true
+  },
+  "if_rule_fails": {
+    "identity_or_missing_metrics": "NO_START_IDENTITY_OR_EVIDENCE_UNRESOLVED",
+    "auc_direction_or_ll_safeguard": "NO_START_REGISTERED_RESOURCE_RULE_NOT_MET",
+    "interpretation": "does not prove augmentation ineffective, equivalent or harmful in general; no additional seed, arm, baseline or numeric threshold is introduced"
+  },
+  "prohibited_decision_inputs": [
+    "test_exposed metrics",
+    "legacy/Q metrics",
+    "terminal-checkpoint metrics",
+    "training loss or stopping epoch as a substitute for selected validation performance",
+    "a better result from another historical arm or selected subset of seeds"
+  ],
+  "required_reporting": [
+    "both seed-level validation Macro AUC and Macro LogLoss values and augmentation-minus-no-augmentation differences",
+    "equal-seed mean differences, individual LogLoss signs and checkpoint epochs",
+    "identity/comparability receipt and explicit environmental limitations",
+    "all test/terminal contrasts reported only after the decision is frozen, as separate exposed-benchmark observations",
+    "a passing mean LogLoss safeguard may coexist with one seed's LogLoss harm; report that harm and do not claim repeated LogLoss improvement",
+    "validation is already used for checkpoint selection, so this extension is exploratory resource allocation rather than independent confirmation",
+    "no original-row paired interval without actual historical paired predictions"
+  ],
+  "no_new_algorithm_or_matrix": true
+}

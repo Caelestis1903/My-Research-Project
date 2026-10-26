@@ -1,0 +1,17 @@
+# 独立审查：推理测量保留与缺项补测
+
+Verdict：**PASS**。Blocking issues：无。仅授权同一冻结模型的测量数据保留、验证复用及缺失REQUIRED方法补测；不授权训练、重启、重新export/bootstrap或修改预测。
+
+已独立阅读 DESIGN_DELIVERY_OBSERVATION_PRESERVATION_ADDENDUM.md、CODER_IMPLEMENTATION_REPORT_DELIVERY_PRESERVATION.md、实际最终 delivery.py/helper/readers hook、原源码快照及安装字段清单。Coder/reviewer不同；当前busy evaluate未被联系或中断。
+
+原 delivery 定义中仅 collect_delivery 改变；FrozenDeployment、benchmark_predictor、成本与参数定义及所有原reader数值定义AST相同。原自然4096行、3warmups+10实际时间、同步/传输范围和1e-6 parity保持。未修编译器以追求非必需控制的latency。
+
+新的method级版本记录先于汇总写入，content-addressed文件名及既有内容核对禁止覆盖，canonical JSON使用完整临时纯数据文件及原子replace。恢复glob也校验文件名内容hash。identity绑定config/prefix、预测identity/selection、适用的formation、自然行序/schema、数值执行AST、设备/环境与recipe。MEASURED必须有十次真实正有限时间及两项parity≤1e-6。False调用不计时且不覆盖有效MEASURED；True/专用fill复用有效条目，仅对授权缺项调用原benchmark。原始失败同样保留，RANDOM_FEATURE明确parity拒绝不伪造MEASURED。required覆盖与全方法覆盖分别报告。
+
+旧True快照复用必须核SHA、dataset/seed、完整prefix、实际TRAINING_COMPLETE method identity/selection/prefix、时间顺序、4096行/recipe/schema/env/precision和原immutability证明；formed方法还必须核实际formation.json身份。未直接保存在旧JSON的timestamp/formation字段标NOT_RECORDED并记录交叉核验来源，不能倒填。不能确认的数据不导入。当前已独立预审的三份真实快照为KR5201、ML5202、KR5202；各自精确SHA/原mtime及基础身份、3+10/parity证据在DELIVERY_SNAPSHOT_INDEPENDENT_PREFLIGHT.json。当前evaluate后续新增快照需在最终RPC前按完整manifest补核SHA及身份后追加授权，不把未核快照自动列为已验证。
+
+正常hook只接受精确 _worker reload-readers frame、typed PrefixBundle及各dict、frozen=True、指定八worker/父PID2088990、固定config/root和原FROZEN SHA。没有专用token不测量；token必须独立PASS并明确fill_missing_required、设计/三源码SHA、每worker REQUIRED九方法子集和快照来源。parent/client/非正常frame NO_OP。只调用collector，不调用training/export/bootstrap/decide/freeze/finalize。补测前后完整冻结指纹覆盖全部模型/terminal/optimizer/mode/grad/RNG、reader/selection/normalizer及p/p_terminal。现有benchmark不变指纹仍保留。
+
+独立最小mock检查使用明确synthetic时间，无实际benchmark：True→False十次值及来源完全保留；False不计时；重复fill不计时；只有缺失授权REQUIRED调用一次；RANDOM失败与required/global状态分开；版本文件原字节/mtime不变，错误content filename及覆盖拒绝；快照SHA、policy、行序、环境、formation不符拒绝；typed PID/PPID/config/root/frozen及专用operation/source/方法白名单均拒绝错误值。普通reviewer进程hook NO_OP。证据：DELIVERY_PRESERVATION_INDEPENDENT_CHECKS.json。
+
+授权只允许当前evaluate自然结束后的一次正常reload-readers。FROZEN和136条训练完成证据不改，丢失旧时间不冒称恢复；缺失条目真实补测需标新时间/原因。两数据×四seed×既有九REQUIRED的72项实际3+10及parity、完整冻结指纹和来源收据仍待RUN，不从本PASS推定。若其他控制仍NOT_MEASURED，在COST_REPORT限制对应latency比较，不能用九方法齐备写成全部方法测得。

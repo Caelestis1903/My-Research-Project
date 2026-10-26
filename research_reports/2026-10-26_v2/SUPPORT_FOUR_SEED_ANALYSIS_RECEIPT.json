@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "minimum_training_seeds": 4,
+  "methods": [
+    "NATIVE",
+    "LOCAL",
+    "H_DIRECT",
+    "H_DIRECT_EFFORT",
+    "PILOT_PROB",
+    "FULL_SOURCE_ALL",
+    "RCF",
+    "POOLED_TARGET",
+    "LOCAL_ACTIVE"
+  ],
+  "roles": [
+    "Q_explore",
+    "test_exposed",
+    "Q_legacy_confirm_exposed"
+  ],
+  "stratum_selection": "fit-only original-ID membership and frozen categorical OOV index0; no outcome-driven threshold",
+  "source_support": "ML source-domain fit user+item overlap; source-indexed full-predictor diagnostics do not identify one source causal contribution",
+  "missing": [
+    {
+      "dataset": "kuairand",
+      "diagnostic": "original user/item source-domain support",
+      "status": "MISSING",
+      "reason": "Processed raw CSV has no trustworthy original user/item IDs; feature OOV is available and is not a substitute"
+    }
+  ],
+  "metrics_rows": 7776,
+  "frozen_manifest_sha256": "09def5e2f43786f9c2875e5ae466845a10ec7db47a3c6edd28379827b72e927a"
+}
