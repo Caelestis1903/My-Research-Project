@@ -1,0 +1,18 @@
+{
+  "large_native24_trajectories": 4,
+  "P1_neural_fold_heads": 144,
+  "P1_const_target_task_fold_fits": 48,
+  "P2_logical_outputs": 20,
+  "P3": "NO_START",
+  "P4": "NO_START",
+  "P_form_training_label_passes_per_target_task": {
+    "DFD": 60,
+    "SHUFFLE": 60,
+    "UNIFORM": 20,
+    "GEOM": 20,
+    "LOCAL_CAP": 20,
+    "H_DIRECT": 20,
+    "ETA_DIRECT": 20
+  },
+  "note": "DFD60=fold training20 + full refit20 + reader20. Fold20 is per-row, not40. Every soft/read direct additionally uses P_read10. Constant uses unique P_form union P_read with actual convex solver evaluations, not a fabricated SGD-pass count. Native/LOCAL no added target-pool fitting. These supervision counts are not all physical memory reads or independent labels."
+}
