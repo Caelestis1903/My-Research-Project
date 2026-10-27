@@ -1,0 +1,226 @@
+schema_version: basp-design-1.0
+status: DESIGN_ONLY
+run_gpu_experiments_now: false
+modify_historical_code: false
+repository:
+  name: Caelestis1903/My-Research-Project
+  main_sha: 8eb461f5e0abc9c06385a4e8239e9621cae87ef8
+  implementation_reference_sha: 03c338092008a71b2d360a61b06d985eac551ec7
+  new_package: experiments/mdmt_basp_v1
+  evidence_cutoff: '2026-10-27'
+data:
+  datasets: [movielens, kuairand]
+  domains: 3
+  tasks: 2
+  role_map:
+    T0: [fit]
+    F: [P_label]
+    S: [P_cal, P_update]
+    Q: [Q_explore]
+    V: [validation]
+    E: [test]
+    legacy: [Q_confirm]
+  exposed_roles: [E, legacy]
+  natural_sampling: true
+  main_loss: mean_valid_logit_bce
+  all_current_task_labels_observed: true
+  probe_rows_per_domain: 1024
+  probe_batch: 256
+  owner_batch_per_source: 256
+  s_windows: 3
+  grouping: reliable_user_id_else_row
+seeds:
+  development: [7101, 7102]
+  locked_reevaluation: [8101, 8102, 8103, 8104]
+prefix:
+  native_epochs: 24
+  native_batch: 40960
+  native_selection_epochs: [12, 24]
+  native_fusion: fixed1
+  native_optimizer: Adam
+  native_lr: 0.001
+  native_weight_decay: 0.00001
+  pilot_passes: 12
+  pilot_hidden: 32
+  source_feature_dim: 64
+  source_std_floor: 0.001
+model:
+  candidate: BASP_A
+  train_scope: ADAPTER_JOINT
+  native_dim: 256
+  need_hidden: 32
+  base_head_width: 32
+  target_match_width: 41
+  source_rank: 4
+  need_prototypes_initial: 2
+  source_prototypes_initial: 2
+  need_leaves_max_per_domain: 4
+  source_leaves_max_per_domain: 4
+  u_init: zeros
+  v_init_std: 0.02
+  head_output_init: zeros
+  center_temperature: 1.0
+  w_l2_radius: 2.0
+  source_own_domain_mask: true
+  null_enabled: true
+  full_initial_trainable_parameters_expected: 63680
+  target_match_trainable_parameters_expected: 63966
+switches:
+  GAIN_CLUSTER: true
+  GAIN_RELATION: true
+  DYNAMIC_SPLIT: true
+  CONTRASTIVE: true
+  SOURCE_WRITE: true
+  LOW_RANK: false
+  relation_fallback: NONE
+  aux_matched: false
+training:
+  epochs: 20
+  batch: 2048
+  keep_last_batch: true
+  optimizer: Adam
+  lr: 0.001
+  center_lr: 0.0003
+  full_native_lr: 0.0001
+  betas: [0.9, 0.999]
+  eps: 0.00000001
+  weight_decay: 0.0
+  amp: false
+  tf32: false
+  precision: float32
+  uniform_reader_epochs: [1, 2]
+  gain_warmup_epoch: 2
+  gain_warmup_weight: 1.0
+  joint_start_epoch: 3
+  contrast_start_epoch: 5
+  selection_start_epoch: 5
+  selection_metric: macro_logloss
+  selection_tie_tolerance: 0.000000000001
+  selection_tie_rule: earliest
+  keep_matched_extra_steps_at_windows: true
+benefit:
+  kind: exact_logit_bce_difference
+  reference: current_teacher_foreign_off
+  teacher_refresh_epochs: 1
+  teacher_targets_detached: true
+  full_pipeline_oof: false
+  scale: fixed_global_rms_after_epoch1
+  scale_floor: 0.001
+  task_axis_retained: true
+  sample_unit_normalization: false
+  source_action_prior: mass_conserving
+  statistical_se_multiplier: 0.0
+  minimum_observed_ess: 64
+  child_prior_refreshes: 1
+  shadow_action_cycle: target_source_root
+  shadow_updates: reader_only
+loss:
+  rec: 1.0
+  gain: 0.1
+  cluster: 0.05
+  contrast: 0.01
+  owner: 0.1
+  anchor: 0.1
+  shadow: 0.05
+  size: 0.0
+  shared_trunk_aux_ratio_cap: 0.25
+  shared_trunk_main_norm_floor: 0.001
+contrast:
+  max_positive_pairs: 64
+  max_negative_pairs: 64
+  positive_teacher_distance_max: 0.2
+  negative_group_distance_min: 0.2
+  requires_different_best_actions: true
+  half_panel_min_support: 64
+  negative_margin_fraction: 0.5
+  negative_margin_max: 1.0
+  empty_eligible_pairs_loss: 0.0
+  use_for_split_detection: false
+source_protection:
+  owner_task_ll_tolerance: 0.001
+  residual_rms_limit: 0.5
+  full_support_check_each_epoch: true
+  bisection_steps: 20
+  feasibility_tolerance: 0.00000001
+  scale_adam_moments_on_projection: false
+  growth_pause_gamma_below: 0.1
+  growth_pause_consecutive_checks: 2
+split:
+  diagnostic_epochs: [4, 6, 10, 14]
+  transaction_epochs: [6, 10, 14]
+  max_global_proposals_per_window: 1
+  max_transactions_per_run: 3
+  cooldown_windows: 1
+  continuation_steps: 8
+  arms: [KEEP, READER, WIDE, SPLIT]
+  sketch_dim: 16
+  ridge: 0.01
+  prediction_folds: 2
+  minimum_prediction_skill: 0.0
+  min_child_hard_support: 100
+  min_child_ess: 64
+  min_child_parent_mass: 0.05
+  min_deployment_balanced_agreement: 0.75
+  min_temporal_balanced_agreement: 0.70
+  risk_reversal_alternative_to_temporal_agreement: true
+  local_ll_gain_vs_keep: 0.001
+  local_ll_gain_vs_wide: 0.001
+  min_natural_weighted_local_gain: 0.00005
+  max_macro_ll_harm: 0.0002
+  max_cell_ll_harm: 0.003
+  max_loss_to_cheaper_reader: 0.0002
+  max_added_parameter_mismatch_fraction: 0.05
+  max_added_mac_mismatch_fraction: 0.20
+  wide_source_rank_range: [4, 16]
+  automatic_merge: false
+low_rank_relation:
+  rank: 2
+  als_iterations: 5
+  ridge: 0.001
+  preserve_observed_gain_ledger: true
+  skip_source_function_calls: false
+candidate_b:
+  virtual_horizon: 1
+  virtual_every_real_steps: 20
+  action_cycle_crosses_epochs: true
+  max_virtual_parameter_count: 10000
+  meta_weight: 0.1
+  max_training_cost_ratio_to_a_without_extra_benefit: 2.0
+candidate_c:
+  curvature_ridge: 0.001
+  qp_steps: 8
+  qp_solution_detached: true
+  group_lasso: 0.0001
+  active_residual_rms_min: 0.0001
+  active_training_group_ll_gain: 0.001
+  active_required_windows: 2
+  min_exact_approx_spearman: 0.7
+  max_relative_approx_error: 0.2
+  preallocated_capacity_is_counted: true
+decision:
+  global_mean_macro_ll_delta_max: -0.0005
+  global_each_seed_macro_ll_delta_negative: true
+  global_mean_macro_auc_delta_min: -0.0005
+  max_mean_cell_ll_harm: 0.003
+  local_each_seed_ll_gain: 0.001
+  local_each_seed_weighted_contribution: 0.00005
+  local_max_macro_ll_harm: 0.0002
+  final_seed_statistical_unit: seed
+  historical_e_used_for_selection: false
+budgets:
+  p1_max_adaptation_trajectories: 24
+  p2_max_adaptation_trajectories: 24
+  p3_max_adaptation_trajectories: 8
+  p4_max_adaptation_trajectories: 8
+  p5_max_adaptation_trajectories: 32
+  development_total_max: 64
+  locked_total_max: 32
+  prefix_dataset_seed_max: 12
+  p2_max_variants_per_dataset: 6
+  p3_max_variants_per_dataset: 2
+numeric:
+  same_shape_split_atol_fp32: 0.000001
+  split_atol_fp64: 0.000000000001
+  cross_shape_atol_fp32: 0.00001
+  cross_shape_rtol_fp32: 0.0000013
+  metric_accumulation: float64

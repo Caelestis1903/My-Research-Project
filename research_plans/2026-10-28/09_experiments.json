@@ -1,0 +1,507 @@
+{
+  "schema_version": "basp-experiments-1.0",
+  "status": "PLANNED_NOT_EXECUTED",
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "development_seeds": [
+    7101,
+    7102
+  ],
+  "formal_seeds": [
+    8101,
+    8102,
+    8103,
+    8104
+  ],
+  "arms": [
+    {
+      "id": "NATIVE_RAW",
+      "stage": "P1",
+      "kind": "NATIVE_RAW",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "new_adaptation_trajectory": false
+    },
+    {
+      "id": "TARGET_MATCH",
+      "stage": "P1a",
+      "kind": "TARGET_MATCH",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "STATIC_LOCAL",
+      "stage": "P1a",
+      "kind": "BASP_A",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "CLUSTER_ONLY",
+      "stage": "P1a",
+      "kind": "BASP_A",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "FIXED_READ",
+      "stage": "P1b",
+      "kind": "BASP_A",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "FIXED",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "RELATION_ONLY",
+      "stage": "P1b",
+      "kind": "BASP_A",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "CLUSTER_RELATION",
+      "stage": "P1b",
+      "kind": "BASP_A",
+      "trigger": "fixed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "C_SPLIT",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "deployable_supported_need_heterogeneity",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 1,
+      "split_kinds": [
+        "NEED_SPLIT"
+      ]
+    },
+    {
+      "id": "C_CONTRAST",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "predictable_gain_profiles_and_declining_differentiation",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 2
+    },
+    {
+      "id": "CG_WRITE",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "local_read_value_or_unserved_target_formation_need",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 3
+    },
+    {
+      "id": "CG_SPLIT",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "stable_local_gain_heterogeneity",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 4
+    },
+    {
+      "id": "FULL_DENSE",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "two_component_support_or_single_preregistered_interaction_trial",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 5
+    },
+    {
+      "id": "FULL_MINUS_CONTRAST",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "full_executed_and_contrast_pairs_nonempty",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 6
+    },
+    {
+      "id": "FULL_MINUS_WRITE",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "full_executed_and_foreign_write_active",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 7
+    },
+    {
+      "id": "FULL_LOW_RANK",
+      "stage": "P2",
+      "kind": "BASP_A",
+      "trigger": "meaningful_relation_compression_opportunity",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": true
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "priority": 8
+    },
+    {
+      "id": "BASP_B",
+      "stage": "P3",
+      "kind": "BASP_B",
+      "trigger": "predictable_write_need_and_formation_bottleneck",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "BASP_C",
+      "stage": "P3",
+      "kind": "BASP_C",
+      "trigger": "quadratic_approximation_gate_passed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": true,
+        "CONTRASTIVE": true,
+        "SOURCE_WRITE": true,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "CONTINUOUS_GAIN",
+      "stage": "P3",
+      "kind": "CONTINUOUS",
+      "trigger": "predictable_continuous_gain_without_partition_value",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "GAIN_SHUFFLE",
+      "stage": "P3",
+      "kind": "BASP_A",
+      "trigger": "semantic_attribution_needed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "gain_label_permutation": "fixed_within_domain_task"
+    },
+    {
+      "id": "TARGET_SUPERVISED_LIBRARY",
+      "stage": "P3",
+      "kind": "BASP_A",
+      "trigger": "foreign_source_attribution_needed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "match_label_budget": true
+    },
+    {
+      "id": "UNIFORM_OPPORTUNITY",
+      "stage": "P3",
+      "kind": "BASP_A",
+      "trigger": "cold_path_training_opportunity_bottleneck",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "A_FULL_MODEL_JOINT",
+      "stage": "P4",
+      "kind": "BASP_A",
+      "trigger": "retained_A_configuration",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": true,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "FULL_MODEL_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps",
+      "inherit_switches_from_locked_retained_A": true
+    },
+    {
+      "id": "TARGET_FULL_MODEL_JOINT",
+      "stage": "P4",
+      "kind": "TARGET_MATCH",
+      "trigger": "paired_with_A_FULL_MODEL_JOINT",
+      "switches": {
+        "GAIN_CLUSTER": false,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "NONE",
+      "train_scope": "FULL_MODEL_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    },
+    {
+      "id": "C_FIXED_READ",
+      "stage": "P3",
+      "kind": "BASP_A",
+      "trigger": "CG_positive_and_pure_cluster_relation_interaction_attribution_needed",
+      "switches": {
+        "GAIN_CLUSTER": true,
+        "GAIN_RELATION": false,
+        "DYNAMIC_SPLIT": false,
+        "CONTRASTIVE": false,
+        "SOURCE_WRITE": false,
+        "LOW_RANK": false
+      },
+      "relation_fallback": "FIXED",
+      "train_scope": "ADAPTER_JOINT",
+      "main_clock": "20_epochs_plus_3x8_matched_steps"
+    }
+  ],
+  "budgets": {
+    "P1": 24,
+    "P2": 24,
+    "P3": 8,
+    "P4": 8,
+    "P5": 32
+  },
+  "stage_limits": {
+    "P2_variants_per_dataset": 6,
+    "P3_variants_per_dataset": 2,
+    "P5_arms_per_dataset": 4
+  },
+  "required_comparison_types": {
+    "only_gain_cluster": [
+      "CLUSTER_ONLY",
+      "STATIC_LOCAL"
+    ],
+    "only_gain_relation": [
+      "RELATION_ONLY",
+      "FIXED_READ"
+    ],
+    "cluster_and_relation": [
+      "CLUSTER_RELATION",
+      "CLUSTER_ONLY",
+      "RELATION_ONLY",
+      "STATIC_LOCAL"
+    ],
+    "cluster_and_split": [
+      "C_SPLIT",
+      "CLUSTER_ONLY"
+    ],
+    "cluster_and_contrast": [
+      "C_CONTRAST",
+      "CLUSTER_ONLY"
+    ],
+    "full_six_ideas": [
+      "FULL_DENSE"
+    ],
+    "non_gain_prototypes": [
+      "STATIC_LOCAL"
+    ],
+    "strong_nonprototype_target": [
+      "TARGET_MATCH",
+      "NATIVE_RAW"
+    ],
+    "low_rank_optional": [
+      "FULL_LOW_RANK",
+      "FULL_DENSE"
+    ],
+    "pure_cluster_relation_interaction": [
+      "FIXED_READ",
+      "C_FIXED_READ",
+      "RELATION_ONLY",
+      "CLUSTER_RELATION"
+    ]
+  },
+  "formal_arms_roles": [
+    "retained_A",
+    "strongest_simple_Cstar",
+    "strongest_capacity_or_structure_competitor",
+    "one_necessary_mechanism_ablation"
+  ],
+  "budget_unit": "complete_adaptation_trajectory_excluding_shared_prefix_and_shadow_transactions",
+  "untriggered": "NOT_TRIGGERED_not_negative_result"
+}

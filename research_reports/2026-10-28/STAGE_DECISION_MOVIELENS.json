@@ -1,0 +1,236 @@
+{
+  "dataset": "movielens",
+  "role": "Q",
+  "state": "V_selected",
+  "development_seeds": [
+    2022,
+    2023
+  ],
+  "Cstar": "TARGET_MATCH",
+  "comparisons": {
+    "STATIC_LOCAL": {
+      "seed_order": [
+        2022,
+        2023
+      ],
+      "macro_ll_delta": [
+        -3.1917691894645106e-05,
+        0.00015968594891346832
+      ],
+      "mean_macro_ll_delta": 6.388412850941161e-05,
+      "macro_auc_delta": [
+        -0.00011129557275990631,
+        -0.0002677674443531952
+      ],
+      "mean_macro_auc_delta": -0.00018953150855655077,
+      "maximum_mean_cell_ll_harm": 0.0007199893910177502,
+      "global_gate": false
+    },
+    "CLUSTER_ONLY": {
+      "seed_order": [
+        2022,
+        2023
+      ],
+      "macro_ll_delta": [
+        -0.00018437590629122314,
+        0.00019573828447622121
+      ],
+      "mean_macro_ll_delta": 5.681189092499039e-06,
+      "macro_auc_delta": [
+        6.210048751453812e-06,
+        -9.829616083822934e-05
+      ],
+      "mean_macro_auc_delta": -4.6043056043387764e-05,
+      "maximum_mean_cell_ll_harm": 0.0004576085186701606,
+      "global_gate": false
+    },
+    "FIXED_READ": {
+      "seed_order": [
+        2022,
+        2023
+      ],
+      "macro_ll_delta": [
+        9.901608683654528e-05,
+        0.00010519032727307476
+      ],
+      "mean_macro_ll_delta": 0.00010210320705481002,
+      "macro_auc_delta": [
+        -0.00019998779568541902,
+        -0.00011989097470022081
+      ],
+      "mean_macro_auc_delta": -0.00015993938519281992,
+      "maximum_mean_cell_ll_harm": 0.0006239494854493044,
+      "global_gate": false
+    },
+    "RELATION_ONLY": {
+      "seed_order": [
+        2022,
+        2023
+      ],
+      "macro_ll_delta": [
+        -1.4558245604034958e-06,
+        0.0001922741470350986
+      ],
+      "mean_macro_ll_delta": 9.540916123734755e-05,
+      "macro_auc_delta": [
+        -0.00010052100400270714,
+        -0.00025070157259055037
+      ],
+      "mean_macro_auc_delta": -0.00017561128829662875,
+      "maximum_mean_cell_ll_harm": 0.0006913766358507822,
+      "global_gate": false
+    },
+    "CLUSTER_RELATION": {
+      "seed_order": [
+        2022,
+        2023
+      ],
+      "macro_ll_delta": [
+        -0.0001222258340751181,
+        0.0001256133443581775
+      ],
+      "mean_macro_ll_delta": 1.6937551415296959e-06,
+      "macro_auc_delta": [
+        -1.103880191544171e-05,
+        -9.880343741697217e-05
+      ],
+      "mean_macro_auc_delta": -5.492111966620694e-05,
+      "maximum_mean_cell_ll_harm": 0.0007031350221797239,
+      "global_gate": false
+    }
+  },
+  "local_gate_passes": [],
+  "gain_calibration": {
+    "CLUSTER_ONLY": {
+      "2022": {
+        "F_predictor_fold": {
+          "mse": 0.0009825217517322137,
+          "constant_mse": 0.0006820879560394971,
+          "skill": -0.44046195660332055,
+          "sign_balanced_accuracy": 0.5177629509680088,
+          "near_zero_fraction": 0.011637369791666666,
+          "best_action_regret": 0.012007229618180792,
+          "calibration_slope": 0.004283375755397469,
+          "target_rms": 0.026110928518722192,
+          "prediction_rms": 0.01742372653426861,
+          "predictor": "two_fold_ridge",
+          "full_pipeline_oof": false
+        },
+        "Q_student": {
+          "mse": 0.0006491423943895106,
+          "constant_mse": 0.0006470528686893694,
+          "skill": -0.003229296710133722,
+          "sign_balanced_accuracy": 0.5251339618036128,
+          "near_zero_fraction": 0.01149770045990802,
+          "best_action_regret": 0.011294733959299261,
+          "calibration_slope": -0.25733124028918797,
+          "target_rms": 0.02544262179284559,
+          "prediction_rms": 0.0010543596596242568
+        }
+      },
+      "2023": {
+        "F_predictor_fold": {
+          "mse": 0.0014473076772984058,
+          "constant_mse": 0.0008847009308857356,
+          "skill": -0.6359287379175758,
+          "sign_balanced_accuracy": 0.5035070118408331,
+          "near_zero_fraction": 0.010823567708333334,
+          "best_action_regret": 0.014989784377930257,
+          "calibration_slope": 0.016111645580049933,
+          "target_rms": 0.029745348078526117,
+          "prediction_rms": 0.0241112226260554,
+          "predictor": "two_fold_ridge",
+          "full_pipeline_oof": false
+        },
+        "Q_student": {
+          "mse": 0.0009196620964588758,
+          "constant_mse": 0.0009181635703727402,
+          "skill": -0.0016320905495381677,
+          "sign_balanced_accuracy": 0.5320120062849665,
+          "near_zero_fraction": 0.011438337332533494,
+          "best_action_regret": 0.015561964900788344,
+          "calibration_slope": 0.1859395877245415,
+          "target_rms": 0.030305359614798435,
+          "prediction_rms": 0.0013887084637242426
+        }
+      }
+    },
+    "CLUSTER_RELATION": {
+      "2022": {
+        "F_predictor_fold": {
+          "mse": 0.0024471995697162674,
+          "constant_mse": 0.0016459701895160505,
+          "skill": -0.4867824370718372,
+          "sign_balanced_accuracy": 0.5175066227955483,
+          "near_zero_fraction": 0.008544921875,
+          "best_action_regret": 0.01853353046220092,
+          "calibration_slope": 0.013494364257736027,
+          "target_rms": 0.040558153694185965,
+          "prediction_rms": 0.02871584910038528,
+          "predictor": "two_fold_ridge",
+          "full_pipeline_oof": false
+        },
+        "Q_student": {
+          "mse": 0.0015882989708627315,
+          "constant_mse": 0.0015829093031194403,
+          "skill": -0.0034049125446857786,
+          "sign_balanced_accuracy": 0.5164987958301429,
+          "near_zero_fraction": 0.006836132773445311,
+          "best_action_regret": 0.01817672489341629,
+          "calibration_slope": -0.15659116529104766,
+          "target_rms": 0.03979800180592329,
+          "prediction_rms": 0.0018379491214939236
+        }
+      },
+      "2023": {
+        "F_predictor_fold": {
+          "mse": 0.002001773197687207,
+          "constant_mse": 0.0013135127020464151,
+          "skill": -0.5239846516661024,
+          "sign_balanced_accuracy": 0.49925748918678625,
+          "near_zero_fraction": 0.009969075520833334,
+          "best_action_regret": 0.018289200599230393,
+          "calibration_slope": -0.0010746867575162937,
+          "target_rms": 0.03623372345389538,
+          "prediction_rms": 0.026220781288501353,
+          "predictor": "two_fold_ridge",
+          "full_pipeline_oof": false
+        },
+        "Q_student": {
+          "mse": 0.0012560240985772426,
+          "constant_mse": 0.0012528994833460355,
+          "skill": -0.002493907350701763,
+          "sign_balanced_accuracy": 0.5074742895088264,
+          "near_zero_fraction": 0.009054439112177565,
+          "best_action_regret": 0.018624608803703164,
+          "calibration_slope": 0.005090672088145212,
+          "target_rms": 0.035402604772378096,
+          "prediction_rms": 0.0017607284752114137
+        }
+      }
+    }
+  },
+  "F_split_windows": 16,
+  "F_qualified_proposals": 0,
+  "decision": "STOP_CURRENT_BASP_A_VERSION",
+  "evidence_strength": "MEDIUM",
+  "reasons": [
+    "No candidate satisfies the preregistered global or local practical gate against the specified simple controls.",
+    "Strong target adaptation matches candidate mean risk; CG improvement direction differs across the two training seeds.",
+    "Gain student Q skill and F predictor-fold skill fail to exceed the constant baseline in C and CG; demand soft routes remain close to uniform.",
+    "Fixed source reading has measurable current dependence, but prototype residual/root-replacement effects and matched incremental performance do not establish stable practical source-function value."
+  ],
+  "stages": {
+    "P1": "COMPLETE_12_TRAJECTORIES",
+    "P2": "NOT_TRIGGERED: no qualified F proposal or predictable gain/local practical entry; no supported write need",
+    "P3": "NOT_TRIGGERED: no retained gain contribution, predictive continuous signal, large action-cost bottleneck or demonstrated cold-path opportunity gap",
+    "P4": "NOT_TRIGGERED: no retained A configuration",
+    "P5": "NOT_TRIGGERED: global and local entry gates failed"
+  },
+  "retained": "TARGET_MATCH",
+  "limitations": [
+    "Two development training seeds; historical E remains locked.",
+    "No activated structural transactions or contrastive/write treatment effects are estimated.",
+    "Auxiliary-cap binding and gain-label noise remain competing explanations of estimator failure; no claim that conditional sharing signal is intrinsically absent."
+  ]
+}

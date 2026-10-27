@@ -1,0 +1,268 @@
+{
+  "status": "PASS_STATIC_AND_ANALYTICAL_ONLY",
+  "timestamp_utc": "2026-10-27T15:20:14.885131+00:00",
+  "gpu_experiments_executed": false,
+  "model_implementation_executed": false,
+  "historical_repository_modified": false,
+  "scope": "CPU metadata consistency and small analytical examples; not model tests, not paper replication, not recommendation results",
+  "passed": 21,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "scope_and_permission_flags",
+      "status": "PASS",
+      "details": "Design-only flags and data-use assertions are consistent."
+    },
+    {
+      "name": "module_schema_and_pool_identity",
+      "status": "PASS",
+      "details": {
+        "planned_arms_in_pools": 24,
+        "all_switch_variant": "FULL_LOW_RANK"
+      }
+    },
+    {
+      "name": "required_comparison_types",
+      "status": "PASS",
+      "details": {
+        "only_gain_cluster": [
+          "CLUSTER_ONLY",
+          "STATIC_LOCAL"
+        ],
+        "only_gain_relation": [
+          "RELATION_ONLY",
+          "FIXED_READ"
+        ],
+        "cluster_and_relation": [
+          "CLUSTER_RELATION",
+          "CLUSTER_ONLY",
+          "RELATION_ONLY",
+          "STATIC_LOCAL"
+        ],
+        "cluster_and_split": [
+          "C_SPLIT",
+          "CLUSTER_ONLY"
+        ],
+        "cluster_and_contrast": [
+          "C_CONTRAST",
+          "CLUSTER_ONLY"
+        ],
+        "full_six_ideas": [
+          "FULL_DENSE"
+        ],
+        "non_gain_prototypes": [
+          "STATIC_LOCAL"
+        ],
+        "strong_nonprototype_target": [
+          "TARGET_MATCH",
+          "NATIVE_RAW"
+        ],
+        "low_rank_optional": [
+          "FULL_LOW_RANK",
+          "FULL_DENSE"
+        ],
+        "pure_cluster_relation_interaction": [
+          "FIXED_READ",
+          "C_FIXED_READ",
+          "RELATION_ONLY",
+          "CLUSTER_RELATION"
+        ]
+      }
+    },
+    {
+      "name": "budget_arithmetic",
+      "status": "PASS",
+      "details": {
+        "development_max": 64,
+        "locked_max": 32,
+        "shared_prefix_dataset_seed_max": 12,
+        "matched_extra_main_steps": 24,
+        "extra_shadow_steps_per_full_transaction": 24
+      }
+    },
+    {
+      "name": "analytical_parameter_counts_not_runtime_measurements",
+      "status": "PASS",
+      "details": {
+        "pieces": {
+          "base_heads": 49926,
+          "need_trunk": 8288,
+          "gain_heads": 792,
+          "centers": 48,
+          "local_heads": 396,
+          "readers": 768,
+          "source_U_V": 3072,
+          "owner_router": 390
+        },
+        "total": 63680,
+        "target": 63966,
+        "mismatch_fraction": 0.004491206030150754
+      }
+    },
+    {
+      "name": "small_relation_low_rank_cost",
+      "status": "PASS",
+      "details": {
+        "valid_dense_entries": 48,
+        "rank2_factors": 48,
+        "speedup_claim": false
+      }
+    },
+    {
+      "name": "same_gradient_opposite_read_gain",
+      "status": "PASS",
+      "details": [
+        -0.6201145069582775,
+        0.3798854930417224
+      ]
+    },
+    {
+      "name": "opposite_task_gradient_both_read_beneficial",
+      "status": "PASS",
+      "details": [
+        0.3798854930417225,
+        0.3798854930417224
+      ]
+    },
+    {
+      "name": "read_and_write_not_equivalent",
+      "status": "PASS",
+      "details": {
+        "read_gain": 0.3798854930417225,
+        "write_gradients": [
+          -0.2689414213699951,
+          0.2689414213699951
+        ]
+      }
+    },
+    {
+      "name": "hidden_pairwise_conflict_with_common_descent",
+      "status": "PASS",
+      "details": {
+        "pair_dot": -3.0,
+        "both_align_with_average": true,
+        "common_descent_exists": true
+      }
+    },
+    {
+      "name": "minority_conflict_masked_by_mean",
+      "status": "PASS",
+      "details": {
+        "mean": [
+          0.7,
+          0.0
+        ],
+        "minority_directional_loss_increase": 1.4
+      }
+    },
+    {
+      "name": "source_interaction_counterexamples",
+      "status": "PASS",
+      "details": {
+        "single": 0.48,
+        "combined": 0.31999999999999995,
+        "marginal": -0.16000000000000006,
+        "negative_singles": [
+          -1.5,
+          -4.0
+        ],
+        "complementary_total": 0.5
+      }
+    },
+    {
+      "name": "bce_convex_combination_property",
+      "status": "PASS",
+      "details": {
+        "largest_left_minus_right": -0.0021791655901295393,
+        "not_an_empirical_harmlessness_guarantee": true
+      }
+    },
+    {
+      "name": "source_split_and_null_mass_conservation",
+      "status": "PASS",
+      "details": {
+        "max_logit_difference": 1.1102230246251565e-16,
+        "tested_nonhalf_routes": true
+      }
+    },
+    {
+      "name": "need_split_function_continuity",
+      "status": "PASS",
+      "details": {
+        "max_error": 2.7755575615628914e-17
+      }
+    },
+    {
+      "name": "duplicate_action_metric_weight_conservation",
+      "status": "PASS",
+      "details": {
+        "old": 3.8549999999999995,
+        "new": 3.8549999999999995
+      }
+    },
+    {
+      "name": "finite_action_risk_profile_regret_bound",
+      "status": "PASS",
+      "details": {
+        "max_observed_regret": 0.17351273499475917,
+        "bound": 0.26
+      }
+    },
+    {
+      "name": "risk_response_derivatives",
+      "status": "PASS",
+      "details": {
+        "first_error": 7.899392251431436e-11,
+        "second_error": 9.993493116366992e-09
+      }
+    },
+    {
+      "name": "candidate_C_signed_reference_correction",
+      "status": "PASS",
+      "details": {
+        "incorrect_reference": [
+          -0.020000000000000018,
+          -1.2200000000000002
+        ],
+        "off_reference": [
+          0.30000000000000004,
+          -0.9
+        ]
+      }
+    },
+    {
+      "name": "source_ledger_schema",
+      "status": "PASS",
+      "details": {
+        "repository_records": 17,
+        "literature_records": 18,
+        "link_network_availability_checked_by_this_script": false
+      }
+    },
+    {
+      "name": "deliverable_files_present",
+      "status": "PASS",
+      "details": {
+        "required_files": 13,
+        "present": true
+      }
+    }
+  ],
+  "future_model_tests_status": "NOT_IMPLEMENTED_NOT_EXECUTED",
+  "file_sha256": {
+    "00_README.md": "7026bb662763ab64bdcfc6716c710f37f9b7b064641170413e87d2d34d5a302d",
+    "01_历史证据与文献审查.md": "fa0f7d9183f726a260e929b856343f57ecd1e032f7b4df2bd7919d89c6537e6f",
+    "02_收益相似性专项.md": "bf1d3884c645b714a4f50de8b5e503b6d9da6d679d1ee6da6fca4b4edfddf8a0",
+    "03_内部冲突与动态分裂.md": "261b6c6dddc54b66a321a5c00c064034e4e1351213265ae6e66af4e9573d3659",
+    "04_三套候选算法.md": "611d71bfa793defa41e021918adc0dff12f9950d874c07b69240dcfcbcf20b66",
+    "05_CODEX技术合同.md": "8bd1b6092d73aae158cc869ff1711a7ed7b57816cc11f78d2d9a7923f158d93d",
+    "06_实验矩阵与研究决策.md": "6d363b35e8112f1355b0c5d712f7325288cc2ec98e1a78dcb3d6a11cf55998e4",
+    "07_独立批判与实质修订.md": "fca2bdcbd3df114a3a0827d30d5cad81a7687ffff5fab8f816eb47620377b56a",
+    "08_config.yaml": "faa446535a0fa97fe5586bc719fa9a2075b31be4bbe10ac9a94754c6fe6be3a2",
+    "09_experiments.json": "54e8d88780dec79951921227aca526a4bfba02777c6586e22c524e7ee0b82e6b",
+    "10_sources.json": "81b1613009e86745b2dbbb161e86c4286c27d191b86f6fe35fbeb9576e808d7d",
+    "11_validate_contract.py": "295a4d4221508e5602d07a93e002c1e4f764958835d6c59e35b4db7e9ba9de68",
+    "13_来源索引.md": "f9fa64d3090ca0cb0f7ee15ed9c0067d4b571105f94030e5e6466927d7841339",
+    "14_要求覆盖与实施边界.md": "21b21e543cb7fb83a523065135b30adab7626c290c55fb66a10ed9c2ee7f3cbb"
+  }
+}
