@@ -1,0 +1,423 @@
+protocol: MDMT-AP-v1
+status: DESIGN_ONLY
+plan_date: '2026-10-27'
+repository: Caelestis1903/My-Research-Project
+source_main: cc954f86410e887105fe39c6425c3fe93ab60c7a
+source_tree: 0af16a06e49994d580f1271badea4bada7a0b817
+implementation_package: experiments.mdmt_adaptive_prototypes
+archive_package: history_experiments/26-10-26/experiments/mdmt_dfd_20261026
+artifact_root: artifacts/mdmt_ap_v1
+report_root: research_reports/2026-10-27_mdmt_ap_v1
+seeds:
+  development: [3101, 3102]
+  uncertainty_only: [3103]
+  formal: [6101, 6102, 6103, 6104]
+data:
+  domains: 3
+  tasks: 2
+  mask: all_observed
+  objective: natural_valid_request_mean_bce
+  task_weights: [1.0, 1.0]
+  domain_resampling: false
+  roles:
+    T0: [fit]
+    F: [P_form, P_read]
+    S: [P_cal, P_update]
+    Q: [Q_explore]
+    V: [validation]
+    E: [test_exposed]
+    legacy: [Q_confirm_exposed]
+  outer_csv_fraction: [0.8, 0.9, 1.0]
+  original_role_seed: 20261024
+  p_label_split_seed: 20261025
+  structure_slice_seed: 20261027
+  structure_slice_offset: 80000
+  domain_seed_stride: 1009
+  structure_slices: 5
+  exposed_roles: [E, legacy]
+  prepared_hint: /home/xzf/data/mdmt_next_20261024_strict_v1
+  movielens:
+    id: 0
+    raw_hint: /home/xzf/data/ml-1m/ml-1m.csv
+    raw_sha256: f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4
+    raw_rows: 1000209
+    labels: [rating_gt_3, rating_gt_4]
+    features: [user_id, movie_id, gender, age, occupation, zip, cate_id, domain_indicator]
+    dense: [age]
+    embedding_width: 113
+    counts:
+      T0: [124759, 254879, 260495]
+      F: [9357, 19116, 19537]
+      S: [6238, 12744, 13025]
+      Q: [7797, 15930, 16281]
+      V: [27111, 35523, 37387]
+      E: [27687, 41434, 30900]
+      legacy: [7798, 15930, 16281]
+  kuairand:
+    id: 1
+    raw_hint: /home/xzf/data/kuairand/processed/kuai_rand.csv
+    raw_sha256: a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f
+    raw_rows: 2507666
+    labels: [is_click, long_view]
+    feature_schema: pinned_strict_data_34_sparse
+    dense: []
+    embedding_width: 544
+    user_identity_available: false
+    counts:
+      T0: [138225, 1395118, 71561]
+      F: [10366, 104634, 5367]
+      S: [6912, 69756, 3578]
+      Q: [8639, 87195, 4473]
+      V: [2692, 246232, 1843]
+      E: [2613, 246284, 1870]
+      legacy: [8640, 87195, 4473]
+numerics:
+  training_dtype: float32
+  audit_dtype: float64
+  amp: false
+  tf32: false
+  dropout: 0.0
+  scheduler: null
+  adam_betas: [0.9, 0.999]
+  adam_eps: 1.0e-8
+  source_std_floor: 0.001
+  source_clip: null
+  hz_std_floor: 0.001
+  hz_clip: 10.0
+  layer_norm_eps: 1.0e-5
+  ll: float64_logit_softplus_minus_yz
+  auc_score: float64_logits
+  checkpoint_tie_tolerance: 1.0e-12
+prefix:
+  native:
+    identity: fixed1_m3oe
+    fusion: [1.0, 1.0, 1.0, 1.0]
+    learned_fusion: false
+    automl: false
+    fcn_dims: [512, 256, 256, 64]
+    shared_experts: 4
+    epochs: 24
+    batch: 40960
+    physical_batch: 40960
+    lr: 0.001
+    weight_decay: 0.00001
+    weight_decay_kind: coupled_adam
+    selection_passes: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+    gate_input_detach: true
+    initialization: original_then_copy_non_weight_parameters
+  pilot:
+    heads: 6
+    dims: [256, 32, 1]
+    activation: relu
+    passes: 12
+    batch: 40960
+    lr: 0.001
+    weight_decay: 0.00001
+    selected_pass: 12
+    source_owner_only: true
+    output_zero: true
+  reference:
+    identity: B_REFERENCE
+    dims: [258, 32, 1]
+    activation: relu
+    heads: 6
+    residual_on_native_logit: true
+    passes: 20
+    batch: 40960
+    lr: 0.001
+    weight_decay: 0.0
+    output_zero: true
+    selection_passes: [0, 5, 10, 20]
+  frozen_during_adaptation: [native, reference, source_root, source_teacher]
+model:
+  h_dim: 256
+  z_dim: 2
+  phi_dim: 64
+  xi_dim: 263
+  router_width: 32
+  router_activation: gelu
+  source_gate_classes: 4
+  source_gate_independent_rows: true
+  source_gate_weight_init: zero
+  source_bias_init: 0.0
+  null_bias_init: log_2
+  self_source_masked: true
+  tree: binary_sigmoid
+  node_init: zero
+  leaf_rank: 4
+  U_init: zero
+  V_init_std: 0.02
+  leaf_bias: false
+  read_vector_dim: 64
+  read_vector_count: 12
+  read_vector_init: zero
+  read_vector_max_norm: 2.0
+  target_intercepts: 6
+  intercept_init: zero
+  F0_K: [2, 2, 2]
+  F1_initial_K: [1, 1, 1]
+  max_K_per_source: 4
+  max_total_leaves: 8
+  physical_growth: true
+  preallocated_Kmax: false
+  merge: false
+  prune: false
+  epoch_rollback: false
+  explicit_gain_network: false
+  forced_diversity: false
+  expected_trainable_parameters:
+    F0: 12525
+    F1_initial: 10890
+    F1_max: 13615
+    WIDE: 12426
+    READ: 12302
+    TARGET_ONLY: 12456
+    DIRECT: 62406
+  source_hidden_deployment_parameters: 49344
+  source_original_output_audit_parameters: 198
+  reference_parameters: 49926
+training:
+  batch: 2048
+  keep_last_batch: true
+  warmup_passes: 1
+  formation_passes: 20
+  lr: 0.001
+  weight_decay: 0.0
+  reset_after_warmup: true
+  anchor_per_source: 256
+  anchor_cycle: no_replacement_cyclic_fill_tail
+  source_kl_coefficient: 0.1
+  source_kl_normalization: sources_times_teacher_tasks
+  lineage_alpha: conserved_on_split
+  source_training_ll_excess: 0.001
+  source_S_ll_excess_multiplier: 2.0
+  correction_rms_max: 0.5
+  correction_rms_support: [T0_source, each_foreign_F_domain]
+  projection: scale_U_keep_V_and_Adam_moments
+  projection_when: [each_formation_pass, each_local_trial_end]
+  gamma_LL_interval: [0.0, 1.0]
+  gamma_tolerance: 1.0e-6
+  risk_numerical_tolerance: 1.0e-8
+  gamma_max_bisections: 20
+  fixed_panel_log_every_pass: true
+selection:
+  primary: V_macro_LL_min
+  tie: earliest
+  stage1_special_states: [BASE_OFF, WARMUP_END]
+  stage1_passes: [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  stage2_passes: [15, 16, 17, 18, 19, 20]
+  fixed_terminal_pass: 20
+structure:
+  diagnostic_passes: [4, 6, 8, 10, 12, 14]
+  event_passes: [6, 8, 10, 12, 14]
+  maximum_alt_per_event: 1
+  refresh_max_steps: 32
+  local_max_steps: 128
+  steps_formula: min_cap_ceil_F_over_batch
+  whole_lightweight_fresh_adam: true
+  train_scope: whole_bank_and_whole_reader
+  freeze_trunk_first_fraction: 0.5
+  freeze_new_node_first_fraction: 0.5
+  commit_rejected: trained_KEEP
+  slice_consumed_on_no_candidate: true
+  acceptance:
+    natural_LL_gain_min: 0.0001
+    macro_LL_harm_max: 0.0002
+    cell_LL_harm_max: 0.001
+    min_requests_per_cell: 100
+    min_source_requests: 100
+    evaluate_normal_gate_only: true
+  demand:
+    monitor_rows: 4096
+    folds: 2
+    folds_group: interaction_row
+    sketch_dim: 16
+    sketch_matrix: fixed_rademacher_plus_minus_0.25
+    parameter_coordinate: row_major_U_64_by_4
+    ridge_input: current_router_32
+    ridge_target: raw_sketch
+    target_scaling: after_OOF_only_for_clustering
+    ridge_lambda: 0.01
+    ridge_intercept_penalized: false
+    ridge_dtype: float64
+    ridge_std_floor: 0.001
+    scale_floor: 1.0e-8
+    baseline_sse_floor: 1.0e-12
+    skill_must_exceed: 0.0
+    clusters: 2
+    kmeans_init: k-means++
+    kmeans_n_init: 8
+    kmeans_max_iter: 100
+    kmeans_tol: 0.0001
+    center_distance_sq_floor: 1.0e-12
+    temperature: max_center_distance_sq_over_log9_or_1e_minus6
+    compile_exact_affine_node: true
+    compiled_balanced_agreement_min: 0.75
+    min_foreign_requests: 256
+    min_fold_requests: 64
+    min_cluster_requests: 100
+    parent_mass_min: 0.001
+    child_mass_fraction_min: 0.05
+    child_effective_n_min: 64
+    consecutive_valid_windows: 2
+    partition_ARI_min: 0.5
+    score: Ns_over_Nall_times_c2_over_2_times_p0p1_times_center_distance_sq
+    tie: source_id_then_leaf_id
+  geometry:
+    representation: current_router_32
+    parent_mass_weighted: true
+    kmeans_n_init: 10
+    kmeans_max_iter: 300
+    kmeans_tol: 0.0001
+    score: BSS_over_TSS_times_parent_mass_over_Nall
+    same_support_and_ARI: true
+  reactivate:
+    priority_before_split: true
+    maximum_per_source: 1
+    mean_foreign_rho_below: 0.001
+    teacher_direction_norm_min: 1.0e-8
+    minimum_local_steps: 4
+    forced_source_mass: 0.1
+    forced_read_norm: 0.1
+    forced_first_fraction: 0.25
+    bias_shift_bounds: [-80.0, 80.0]
+    calibration_target_mean: 0.1
+    calibration_max_bisections: 60
+    calibration_probability_tolerance: 1.0e-6
+    attempted_is_permanent: true
+    increments_K: false
+baselines:
+  DIRECT: {hidden: 40, heads: 6, input: 258, activation: relu, output_zero: true}
+  READ: {router_width: 43, frozen_roots: true}
+  TARGET_ONLY: {hidden: 47, heads: 1, input: 263, activation: relu, output_zero: true}
+  WIDE: {rank_per_source: [8, 8, 8], V_init: stack_F0_primitives}
+  SOURCE_K2:
+    bank_target_gradient: false
+    source_bce_coefficient: 1.0
+    source_bce_weight: natural_T0_source_mass
+    cluster_fit_rows_max: 4096
+    kmeans_n_init: 10
+    kmeans_max_iter: 300
+    kmeans_tol: 0.0001
+    source_labels: true
+  TASK_BANK_MATCHED:
+    ownership: source_targettask
+    rank: 2
+    profile: own_seed_F1_post_pass14
+    teachers_per_private_leaf: 2
+    extra_KL_divisor: 2
+functional_analysis:
+  states: [FULL, ALL_ROOT, CUT_0, CUT_1]
+  max_refits_per_candidate: 4
+  refit_max_steps: 32
+  refit_new_adam: true
+  refit_checkpoint_selection: false
+  replace_with_root_keep_mass: true
+  skip_content_claim: [BASE_OFF, WARMUP_END, all_U_norm_le_1e_minus10]
+  positive_macro_LL_gain_min: 0.0001
+  positive_natural_LL_gain_min: -0.0002
+  F0_source_choice: two_seed_mean_foreign_F_rho_max
+  F1_node_choice: earliest_accepted_split
+  group_rule: q_ge_0.5
+  stability: selected_p_vs_p_minus_2_same_node
+  stability_ARI_min: 0.5
+  group_min_requests: 200
+  group_min_positive: 30
+  group_min_negative: 30
+  group_min_distinct_cells: 2
+  group_min_per_supported_cell: 50
+  complementarity_positive_delta_min: 0.0001
+  complementarity_cross_difference_min: 0.0001
+  reuse_task_group_min_requests: 100
+  reuse_task_group_min_positive: 30
+  reuse_task_group_min_negative: 30
+  reuse_delta_min: 0.0001
+experiments:
+  stage1: [DIRECT, READ, SOURCE_K2, F0, WIDE, TARGET_ONLY]
+  stage2: [F1, FIXED_PROFILE, WIDE_PROFILE, NO_GROW, GEOMETRIC, TASK_BANK_MATCHED]
+  formal_core: [DIRECT, TARGET_ONLY, READ, SOURCE_K2, F0, WIDE, PILOT_PERM]
+  formal_dynamic: [F1_OR_LOCKED_TRIGGER, FIXED_PROFILE, WIDE_PROFILE, NO_GROW, C0, READ, PILOT_PERM]
+  external_SOTA_baselines_in_campaign: false
+  max_development_main_traces: 56
+  max_formal_main_traces: 56
+  max_attribution_development_traces: 4
+  Cstar_candidates: [DIRECT, READ, WIDE, TARGET_ONLY]
+  C0_candidates: [DIRECT, TARGET_ONLY]
+  Cdyn_candidates: [FIXED_PROFILE, WIDE_PROFILE, NO_GROW]
+  comparison_selector: mean_Q_macro_LL_min
+  comparison_tolerance: 0.000001
+  comparison_tie: actual_training_time_then_method_id
+  guard:
+    mean_natural_LL_harm_max: 0.001
+    mean_macro_AUC_delta_min: -0.0005
+    max_cell_mean_LL_harm: 0.003
+  practical:
+    mean_macro_LL_delta_max: -0.0005
+    alternative_macro_AUC_delta_min: 0.0005
+    alternative_macro_LL_delta_max: 0.0002
+  green_requires_positive_formation_seeds: 1
+  local_requires_complementarity_seeds: 2
+  dynamic_requires_accepted_split_seeds: 1
+  efficiency:
+    macro_LL_harm_max: 0.0002
+    macro_AUC_harm_max: 0.0002
+    complete_training_time_ratio_max: 0.9
+    inference_p95_ratio_max: 1.1
+attribution:
+  pilot_joint_label_permutation_within_source: true
+  T0_source_bce_and_risk_labels: joint_permuted
+  KL_teacher: own_permuted_teacher
+  S_source_audit_labels: original_real
+  F_target_labels: unchanged_real
+  native_and_B: unchanged_true_prefix
+  macro_LL_delta_true_minus_perm_max: -0.0005
+  additional_guard_required: true
+bridge:
+  campaign_limit: 1
+  max_datasets: 1
+  max_main_traces: 4
+  stage1_priority: [SOURCE_LL_RELAX, RMS_RELAX, LOWER_LR, SEED_UNCERTAINTY]
+  stage2_reserved_type: MASS_TRIGGER
+  constraint_passes: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  binding_gamma_below: 0.95
+  gamma_matches_min_tolerance: 1.0e-6
+  binding_fraction_min: 0.5
+  compressed_gamma_below: 0.5
+  compression_fraction_min: 0.25
+  projection_LL_damage_min: 0.0001
+  relaxed_source_LL_excess: 0.003
+  relaxed_rms: 1.0
+  lowered_lr: 0.0003
+  oscillation_passes: [14, 15, 16, 17, 18, 19, 20]
+  oscillation_min_positive_differences: 2
+  oscillation_min_negative_differences: 2
+  oscillation_median_abs_difference_min: 0.002
+  uncertainty_seed: 3103
+  mass_trigger:
+    norm_ratio_min: 1.5
+    absolute_cosine_max: 0.2
+    norm_floor: 1.0e-8
+    partition: GEOMETRIC
+    full_MASS_reproduction: false
+cost:
+  timing: synchronized_process_wall_seconds
+  development_per_dataset_native24_equivalents_max: 20.0
+  F1_diagnostics_plus_ALT_pass_equivalents_max: 10.0
+  F1_pass_reference: median_formation_1_2_3
+  charge_rejected_and_failed: true
+  complete_run_not_selected_prefix_only: true
+  equal_time_continuation_max_pass: 60
+  equal_time_methods: [FIXED_PROFILE, WIDE_PROFILE, NO_GROW, C0, READ]
+  include_in_algorithm_time: [warmup, formation, refresh, KEEP, ALT, demand, projection, S_scoring, source_audit]
+  exclude_from_adaptation_match: [common_prefix, generic_V_Q_E_legacy_scoring, export, report]
+  raw_X_inference_batches: [1, 256]
+  inference_warmup: 50
+  inference_measurements: 200
+  report_percentiles: [50, 95]
+report:
+  bootstrap_replicates: 1000
+  bootstrap_ml: raw_user_cluster
+  bootstrap_kr: row_with_dependence_caveat
+  upload_raw_rows: false
+  upload_models: false
+  retain_until_verified: [selected_complete_model, prefix_dependencies, fixed_terminal, event_records, functional_refits]
