@@ -1,0 +1,170 @@
+{
+  "mode": "READ_ONLY",
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+  "torch": "2.9.0+cu126",
+  "cuda_available": true,
+  "gpu": "index, name, memory.total [MiB], memory.used [MiB], power.draw [W], power.limit [W]\n0, NVIDIA GeForce RTX 3090, 24576 MiB, 17652 MiB, 220.20 W, 350.00 W\n1, NVIDIA GeForce RTX 3090, 24576 MiB, 893 MiB, 184.33 W, 350.00 W\n",
+  "data": {
+    "movielens": {
+      "raw_path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "exists": true,
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "expected_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "prepared": true
+    },
+    "kuairand": {
+      "raw_path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+      "exists": true,
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "expected_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "prepared": false
+    }
+  },
+  "plan": {
+    "protocol": "MDMT-RELATION-BASIS-v2",
+    "config_hash": "c08a1ffded211086145c300cffe1807ec014246ef443ce399fd59e11177d0b73",
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "prefix_count": 8,
+    "adaptation_count": 48,
+    "prefix": {
+      "epochs": 24,
+      "batch_size": 40960,
+      "lr": 0.001,
+      "weight_decay": 1e-05,
+      "eligible_epochs": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    "pilot": {
+      "passes": 12,
+      "batch_size": 40960,
+      "lr": 0.001,
+      "weight_decay": 1e-05
+    },
+    "methods": [
+      "B_REFERENCE",
+      "DIRECT",
+      "READ",
+      "TARGET_ONLY",
+      "LOWRANK_RELATION",
+      "FULL_RELATION"
+    ],
+    "model_storage": "RAM_ONLY",
+    "stage2": "CONDITIONAL_NOT_IMPLEMENTED",
+    "runs": [
+      {
+        "dataset": "movielens",
+        "seed": 2022,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "movielens",
+        "seed": 2023,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "movielens",
+        "seed": 2024,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "movielens",
+        "seed": 2025,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "kuairand",
+        "seed": 2023,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      },
+      {
+        "dataset": "kuairand",
+        "seed": 2025,
+        "methods": [
+          "B_REFERENCE",
+          "DIRECT",
+          "READ",
+          "TARGET_ONLY",
+          "LOWRANK_RELATION",
+          "FULL_RELATION"
+        ]
+      }
+    ]
+  }
+}

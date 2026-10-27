@@ -1,0 +1,993 @@
+{
+  "audit_time_utc": "2026-10-27T08:34:53.399482+00:00",
+  "datasets": {
+    "movielens": {
+      "path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "bytes": 75514352,
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "expected_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "raw_sha_matches": true,
+      "rows": 1000209,
+      "raw_columns": [
+        "user_id",
+        "movie_id",
+        "rating",
+        "timestamp",
+        "gender",
+        "age",
+        "occupation",
+        "zip",
+        "title",
+        "genres"
+      ],
+      "features": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "age",
+        "occupation",
+        "zip",
+        "cate_id",
+        "domain_indicator"
+      ],
+      "dense_features": [
+        "age"
+      ],
+      "labels": [
+        "rating>3",
+        "rating>4"
+      ],
+      "mask": "all_observed",
+      "domain_counts": [
+        210747,
+        395556,
+        393906
+      ],
+      "label_unique": [
+        false,
+        true
+      ],
+      "roles": {
+        "T0": {
+          "maps_to": [
+            "fit"
+          ],
+          "n": 640133,
+          "domain_counts": [
+            124759,
+            254879,
+            260495
+          ],
+          "row_id_bytes_sha256": "ad6cd28741fa6b55dd36296a495cf928cd1972c1c3691afb3508426d82383bbb",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 124759,
+              "positive": 69963,
+              "negative": 54796
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 124759,
+              "positive": 29257,
+              "negative": 95502
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 254879,
+              "positive": 143910,
+              "negative": 110969
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 254879,
+              "positive": 56318,
+              "negative": 198561
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 260495,
+              "positive": 156789,
+              "negative": 103706
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 260495,
+              "positive": 62389,
+              "negative": 198106
+            }
+          ]
+        },
+        "F": {
+          "maps_to": [
+            "P_form",
+            "P_read"
+          ],
+          "n": 48010,
+          "domain_counts": [
+            9357,
+            19116,
+            19537
+          ],
+          "row_id_bytes_sha256": "ea73556c15035785e880a6dd17e02ef4760c64fac8c29519cc61a4f8940f847d",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 9357,
+              "positive": 5223,
+              "negative": 4134
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 9357,
+              "positive": 2154,
+              "negative": 7203
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 19116,
+              "positive": 10666,
+              "negative": 8450
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 19116,
+              "positive": 4116,
+              "negative": 15000
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 19537,
+              "positive": 11734,
+              "negative": 7803
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 19537,
+              "positive": 4674,
+              "negative": 14863
+            }
+          ]
+        },
+        "S": {
+          "maps_to": [
+            "P_cal",
+            "P_update"
+          ],
+          "n": 32007,
+          "domain_counts": [
+            6238,
+            12744,
+            13025
+          ],
+          "row_id_bytes_sha256": "b6aee73d2804d69e3ab144f4aa1537abab0bb20a38af9ef8686a0e5f24be82c4",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 6238,
+              "positive": 3514,
+              "negative": 2724
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 6238,
+              "positive": 1495,
+              "negative": 4743
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 12744,
+              "positive": 6998,
+              "negative": 5746
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 12744,
+              "positive": 2715,
+              "negative": 10029
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 13025,
+              "positive": 7841,
+              "negative": 5184
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 13025,
+              "positive": 3120,
+              "negative": 9905
+            }
+          ]
+        },
+        "Q": {
+          "maps_to": [
+            "Q_explore"
+          ],
+          "n": 40008,
+          "domain_counts": [
+            7797,
+            15930,
+            16281
+          ],
+          "row_id_bytes_sha256": "c6a80a88ceddc8c2c2e90ed6c32e873e00c89fe58f599f335b4796e26239dbd7",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 7797,
+              "positive": 4434,
+              "negative": 3363
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 7797,
+              "positive": 1864,
+              "negative": 5933
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 15930,
+              "positive": 8981,
+              "negative": 6949
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 15930,
+              "positive": 3565,
+              "negative": 12365
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 16281,
+              "positive": 9868,
+              "negative": 6413
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 16281,
+              "positive": 3897,
+              "negative": 12384
+            }
+          ]
+        },
+        "V": {
+          "maps_to": [
+            "validation"
+          ],
+          "n": 100021,
+          "domain_counts": [
+            27111,
+            35523,
+            37387
+          ],
+          "row_id_bytes_sha256": "451cf3a418d9a1f7a4311d6017ebf9352d47501dcad2dbc4fab7fa4849f9d093",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 27111,
+              "positive": 14634,
+              "negative": 12477
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 27111,
+              "positive": 5781,
+              "negative": 21330
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 35523,
+              "positive": 21027,
+              "negative": 14496
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 35523,
+              "positive": 8541,
+              "negative": 26982
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 37387,
+              "positive": 22148,
+              "negative": 15239
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 37387,
+              "positive": 8889,
+              "negative": 28498
+            }
+          ]
+        },
+        "E": {
+          "maps_to": [
+            "test"
+          ],
+          "n": 100021,
+          "domain_counts": [
+            27687,
+            41434,
+            30900
+          ],
+          "row_id_bytes_sha256": "5322548edb223266861b83854847f32d6956f7e5a0306878e5b96130f3beba34",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 27687,
+              "positive": 14281,
+              "negative": 13406
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 27687,
+              "positive": 4964,
+              "negative": 22723
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 41434,
+              "positive": 22072,
+              "negative": 19362
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 41434,
+              "positive": 7031,
+              "negative": 34403
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 30900,
+              "positive": 18099,
+              "negative": 12801
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 30900,
+              "positive": 6324,
+              "negative": 24576
+            }
+          ]
+        },
+        "legacy": {
+          "maps_to": [
+            "Q_confirm"
+          ],
+          "n": 40009,
+          "domain_counts": [
+            7798,
+            15930,
+            16281
+          ],
+          "row_id_bytes_sha256": "fc64c5fb24692668fbb75408d77eea6adc6b6b39ee2c5829cdf2e6b4dc79465c",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 7798,
+              "positive": 4360,
+              "negative": 3438
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 7798,
+              "positive": 1845,
+              "negative": 5953
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 15930,
+              "positive": 8900,
+              "negative": 7030
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 15930,
+              "positive": 3444,
+              "negative": 12486
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 16281,
+              "positive": 9839,
+              "negative": 6442
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 16281,
+              "positive": 3927,
+              "negative": 12354
+            }
+          ]
+        }
+      }
+    },
+    "kuairand": {
+      "path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+      "bytes": 416370411,
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "expected_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "raw_sha_matches": true,
+      "rows": 2507666,
+      "raw_columns": [
+        "tab",
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "is_click",
+        "long_view"
+      ],
+      "features": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "domain_indicator"
+      ],
+      "dense_features": [],
+      "labels": [
+        "stored_is_click",
+        "stored_long_view"
+      ],
+      "mask": "all_observed",
+      "domain_counts": [
+        178087,
+        2236414,
+        93165
+      ],
+      "label_unique": [
+        0,
+        1
+      ],
+      "roles": {
+        "T0": {
+          "maps_to": [
+            "fit"
+          ],
+          "n": 1604904,
+          "domain_counts": [
+            138225,
+            1395118,
+            71561
+          ],
+          "row_id_bytes_sha256": "13af4e32ce402da19969ce8ef113cf2f0ae9112010901e00d2a9482a296b590c",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 138225,
+              "positive": 12544,
+              "negative": 125681
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 138225,
+              "positive": 5687,
+              "negative": 132538
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 1395118,
+              "positive": 527229,
+              "negative": 867889
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 1395118,
+              "positive": 357295,
+              "negative": 1037823
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 71561,
+              "positive": 44177,
+              "negative": 27384
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 71561,
+              "positive": 34681,
+              "negative": 36880
+            }
+          ]
+        },
+        "F": {
+          "maps_to": [
+            "P_form",
+            "P_read"
+          ],
+          "n": 120367,
+          "domain_counts": [
+            10366,
+            104634,
+            5367
+          ],
+          "row_id_bytes_sha256": "b22d862561681ef16c7d3a7be1460a6a41e8a94f9805a61fa413b1f965067921",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 10366,
+              "positive": 912,
+              "negative": 9454
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 10366,
+              "positive": 402,
+              "negative": 9964
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 104634,
+              "positive": 39679,
+              "negative": 64955
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 104634,
+              "positive": 26913,
+              "negative": 77721
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 5367,
+              "positive": 3316,
+              "negative": 2051
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 5367,
+              "positive": 2613,
+              "negative": 2754
+            }
+          ]
+        },
+        "S": {
+          "maps_to": [
+            "P_cal",
+            "P_update"
+          ],
+          "n": 80246,
+          "domain_counts": [
+            6912,
+            69756,
+            3578
+          ],
+          "row_id_bytes_sha256": "74bfd7579240c5788808300b10bc78c5fadc7779ecdd9c4c2f19ad84dff3b3b8",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 6912,
+              "positive": 629,
+              "negative": 6283
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 6912,
+              "positive": 274,
+              "negative": 6638
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 69756,
+              "positive": 26253,
+              "negative": 43503
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 69756,
+              "positive": 17804,
+              "negative": 51952
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 3578,
+              "positive": 2198,
+              "negative": 1380
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 3578,
+              "positive": 1746,
+              "negative": 1832
+            }
+          ]
+        },
+        "Q": {
+          "maps_to": [
+            "Q_explore"
+          ],
+          "n": 100307,
+          "domain_counts": [
+            8639,
+            87195,
+            4473
+          ],
+          "row_id_bytes_sha256": "fa83cc3cd166a326c6ae7f8e99ffa8fb8bdeabe69732c807452d28cff0ae2489",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 8639,
+              "positive": 817,
+              "negative": 7822
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 8639,
+              "positive": 385,
+              "negative": 8254
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 87195,
+              "positive": 32928,
+              "negative": 54267
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 87195,
+              "positive": 22257,
+              "negative": 64938
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 4473,
+              "positive": 2758,
+              "negative": 1715
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 4473,
+              "positive": 2149,
+              "negative": 2324
+            }
+          ]
+        },
+        "V": {
+          "maps_to": [
+            "validation"
+          ],
+          "n": 250767,
+          "domain_counts": [
+            2692,
+            246232,
+            1843
+          ],
+          "row_id_bytes_sha256": "e3a80db826f4467e657c37fa80511988264a348ee90af73f4a23367821fcef62",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 2692,
+              "positive": 245,
+              "negative": 2447
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 2692,
+              "positive": 101,
+              "negative": 2591
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 246232,
+              "positive": 51644,
+              "negative": 194588
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 246232,
+              "positive": 27460,
+              "negative": 218772
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 1843,
+              "positive": 1063,
+              "negative": 780
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 1843,
+              "positive": 829,
+              "negative": 1014
+            }
+          ]
+        },
+        "E": {
+          "maps_to": [
+            "test"
+          ],
+          "n": 250767,
+          "domain_counts": [
+            2613,
+            246284,
+            1870
+          ],
+          "row_id_bytes_sha256": "e7f7dbe6ef36e6e51846c89c4b2c8daf863d517bed2fff32aea5dd2e8a57f14f",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 2613,
+              "positive": 228,
+              "negative": 2385
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 2613,
+              "positive": 120,
+              "negative": 2493
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 246284,
+              "positive": 51847,
+              "negative": 194437
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 246284,
+              "positive": 27415,
+              "negative": 218869
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 1870,
+              "positive": 1100,
+              "negative": 770
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 1870,
+              "positive": 827,
+              "negative": 1043
+            }
+          ]
+        },
+        "legacy": {
+          "maps_to": [
+            "Q_confirm"
+          ],
+          "n": 100308,
+          "domain_counts": [
+            8640,
+            87195,
+            4473
+          ],
+          "row_id_bytes_sha256": "96a10ebe4b5b47502887f5a784ef5803e3df8e3a0e5d79e32c08b1f6c6700140",
+          "cells": [
+            {
+              "domain": 0,
+              "task": 0,
+              "n": 8640,
+              "positive": 802,
+              "negative": 7838
+            },
+            {
+              "domain": 0,
+              "task": 1,
+              "n": 8640,
+              "positive": 373,
+              "negative": 8267
+            },
+            {
+              "domain": 1,
+              "task": 0,
+              "n": 87195,
+              "positive": 32812,
+              "negative": 54383
+            },
+            {
+              "domain": 1,
+              "task": 1,
+              "n": 87195,
+              "positive": 22314,
+              "negative": 64881
+            },
+            {
+              "domain": 2,
+              "task": 0,
+              "n": 4473,
+              "positive": 2731,
+              "negative": 1742
+            },
+            {
+              "domain": 2,
+              "task": 1,
+              "n": 4473,
+              "positive": 2178,
+              "negative": 2295
+            }
+          ]
+        }
+      }
+    }
+  },
+  "training_run": false,
+  "model_evaluation_run": false,
+  "prepared_root": {
+    "path": "/home_new/xzf/datasets/mdmt_next_20261024_strict_v1",
+    "exists": false
+  },
+  "training_seed_override": {
+    "source": "user instruction relayed by orchestrator",
+    "development": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "formal": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "data_role_seed_unchanged": 20261024,
+    "p_label_split_seed_unchanged": 20261025
+  },
+  "budget": {
+    "development_adaptation_trajectories": 48,
+    "common_prefix_identities": 8,
+    "adaptation_epochs_per_trajectory_including_warmup": 20,
+    "adaptation_batch": 2048,
+    "native_epochs_per_prefix": 24,
+    "native_physical_batch": 40960,
+    "pilot_passes_per_prefix": 12,
+    "formal": "conditional on stage promotion; no unconditional extra runs"
+  },
+  "environment": {
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+    "executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "platform": "Linux-5.15.0-136-generic-x86_64-with-glibc2.31",
+    "torch": "2.9.0+cu126",
+    "cuda_runtime": "12.6",
+    "cuda_available": true,
+    "cuda_devices": 2,
+    "libraries": {
+      "numpy": "2.1.3",
+      "pandas": "2.2.3",
+      "scikit-learn": "1.6.1",
+      "scipy": "1.15.3",
+      "pytest": "8.3.5",
+      "PyYAML": "6.0.2",
+      "torch": "2.9.0+cu126"
+    },
+    "PYTHONHASHSEED": null
+  }
+}

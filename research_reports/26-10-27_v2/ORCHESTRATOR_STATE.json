@@ -1,0 +1,93 @@
+{
+  "protocol": "MDMT-RELATION-BASIS-v2",
+  "status": "EXPERIMENT_COMPLETE_PUBLISHING",
+  "entry": "research_plans/26-10-27_v2/08_CODEX_TASK.md",
+  "retrieved_from": "Caelestis1903/My-Research-Project@main",
+  "audited_main_commit": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+  "local_git_checkout": false,
+  "user_seed_override": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "development_adaptation_trajectories": 48,
+  "common_prefix_identities": 8,
+  "stages": {
+    "audit": "COMPLETE",
+    "design": "COMPLETE",
+    "implement": "COMPLETE",
+    "review": "FIX2_PASS",
+    "run": "COMPLETE_48_RUNS_8_PREFIXES_96_E_READOUTS",
+    "analyze": "COMPLETE",
+    "publish": "IN_PROGRESS"
+  },
+  "model_storage": "RAM_ONLY",
+  "design": "research_reports/26-10-27_v2/DESIGN_SPECIFICATION.md",
+  "auditor": "/root/audit",
+  "designer": "/root/designer",
+  "coder": "/root/coder",
+  "reviewer": "/root/reviewer",
+  "runner": "/root/runner",
+  "review_blocking_issues": 0,
+  "runtime_issue": {
+    "method": "READ",
+    "dataset": "movielens",
+    "seed": 2022,
+    "component": "diagnostics.latency raw-X/cached comparison",
+    "error": "ValueError: Raw-X reconstruction mismatch",
+    "E_unlocked": false,
+    "partial_attempts_preserved": 4,
+    "next_step": "measure actual component errors and metric impact, then minimal fix and independent review before rerun",
+    "finding": "Same-context native/source caches reproduce exactly; cross-batch READ max logit error 2.384185791015625e-6; full Q logits and all AUC/LL differences zero.",
+    "design_addendum": "research_reports/26-10-27_v2/DESIGN_RUNTIME_NUMERICS_ADDENDUM.md",
+    "approved_parity": {
+      "atol": 1e-06,
+      "rtol": 1.3e-06
+    },
+    "fix_review": "PASS",
+    "revision2": {
+      "standard_fp32_atol": 1e-05,
+      "rtol": 1.3e-06,
+      "new_full_source_hash": "26708434c81106dd424d52b4de258bee8aad7b35640b1d50b8699290694a2a3c",
+      "training_source_hash": "29d7018f037c06af567d58646c6f81d022cab101a0e87c86c99af295e751cd98",
+      "retained_ready_workers": 4,
+      "lost_KR_workers_to_retry": 4,
+      "training_model_cache_metrics_selection_changed": false,
+      "review": "PASS",
+      "freeze_views": [
+        "GLOBAL_FREEZE.json",
+        "GLOBAL_FREEZE_FP32_STANDARD.json"
+      ],
+      "review_file": "RUNTIME_FIX2_REVIEW.md"
+    }
+  },
+  "completed_matrix_artifact_root": "artifacts/mdmt_relation_basis_v2/revision1",
+  "runtime_source_hash": "72f3e825dac422784fd575bd24450e7858e99ce138f6c8261b3ae7636b8b13fc",
+  "dataset_development_decisions": {
+    "movielens": {
+      "Cstar": "TARGET_ONLY",
+      "PRACTICAL": false,
+      "LOCAL": false,
+      "stage2": "NOT_TRIGGERED",
+      "delta_macro_LL": 0.00032513603567650706,
+      "delta_macro_AUC": -0.00020896395314848326
+    },
+    "kuairand": {
+      "Cstar": "TARGET_ONLY",
+      "PRACTICAL": false,
+      "LOCAL": false,
+      "GUARD": false,
+      "stage2": "NOT_TRIGGERED",
+      "delta_macro_LL": 0.0009488730192849515,
+      "delta_macro_AUC": -0.0019222030133244639
+    }
+  },
+  "global_freeze_canonical": "e7964525d8a176867abc3c36d68d8e25f903a8e5f42ef20bca6dee2c5f5167c2",
+  "final_report": "research_reports/26-10-27_v2/FINAL_REPORT.md",
+  "stage2": {
+    "movielens": "NOT_TRIGGERED",
+    "kuairand": "NOT_TRIGGERED"
+  },
+  "final_decision": "Stop current structural expansion; retain TARGET_ONLY selected on Q for both datasets."
+}

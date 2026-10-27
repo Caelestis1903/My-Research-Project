@@ -1,0 +1,68 @@
+{
+  "status": "FINAL_METHODS_FROZEN",
+  "protocol": "MDMT-RELATION-BASIS-v2",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "development_complete": true,
+  "adaptation_trajectories": 48,
+  "common_prefixes": 8,
+  "stage2": {
+    "movielens": "NOT_TRIGGERED",
+    "kuairand": "NOT_TRIGGERED"
+  },
+  "retained_simple_method": {
+    "movielens": "TARGET_ONLY",
+    "kuairand": "TARGET_ONLY"
+  },
+  "decision": "Stop structural expansion of the current route on both datasets; retain simple target-only adaptation. Evaluate all six frozen methods/states on historical E without retraining or selecting on E.",
+  "decision_evidence_role": "Q",
+  "gates": {
+    "movielens": {
+      "Cstar": "TARGET_ONLY",
+      "Cstar_Q_means": {
+        "B_REFERENCE": 0.4744026624428792,
+        "DIRECT": 0.47444848934400874,
+        "READ": 0.474397660942009,
+        "TARGET_ONLY": 0.4742930371188182
+      },
+      "delta_macro_LL": 0.00032513603567650706,
+      "delta_macro_AUC": -0.00020896395314848326,
+      "delta_natural_LL": 0.00027513918680061034,
+      "GUARD": true,
+      "PRACTICAL": false,
+      "LOCAL": false,
+      "formation_evidence_seeds": [
+        2022,
+        2023,
+        2024
+      ],
+      "stage2_eligible": false,
+      "finite_diagnostic_eligible": false
+    },
+    "kuairand": {
+      "Cstar": "TARGET_ONLY",
+      "Cstar_Q_means": {
+        "B_REFERENCE": 0.46689274683482623,
+        "DIRECT": 0.4667890550453254,
+        "READ": 0.4673547077023903,
+        "TARGET_ONLY": 0.4667641456784848
+      },
+      "delta_macro_LL": 0.0009488730192849515,
+      "delta_macro_AUC": -0.0019222030133244639,
+      "delta_natural_LL": 0.00018298564093141567,
+      "GUARD": false,
+      "PRACTICAL": false,
+      "LOCAL": false,
+      "formation_evidence_seeds": [],
+      "stage2_eligible": false,
+      "finite_diagnostic_eligible": false
+    }
+  },
+  "identity_freeze_policy": "Exact same 8 actual worker identities in both reviewed diagnostic compatibility views; model/training/cache/metrics/selection code identical; historical E only.",
+  "stage_report": "research_reports/26-10-27_v2/STAGE1_REPORT.md",
+  "formal_new_trajectories": "NOT_TRIGGERED; same frozen four-seed trajectories reused for historical reassessment"
+}

@@ -1,0 +1,247 @@
+{
+  "effective": {
+    "protocol": "MDMT-RELATION-BASIS-v2",
+    "status": "DESIGN_ONLY",
+    "plan_date": "2026-10-27",
+    "repository": "Caelestis1903/My-Research-Project",
+    "source_plan": "research_plans/2026-10-27",
+    "implementation_package": "experiments/mdmt_relation_basis_v2",
+    "artifact_root": "artifacts/mdmt_relation_basis_v2",
+    "report_root": "research_reports/26-10-27_v2",
+    "seeds": {
+      "development": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "uncertainty_only": [],
+      "formal": [
+        2022,
+        2023,
+        2024,
+        2025
+      ]
+    },
+    "data": {
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "domains": 3,
+      "tasks": 2,
+      "objective": "natural_valid_request_mean_bce",
+      "domain_resampling": false,
+      "task_weights": [
+        1.0,
+        1.0
+      ],
+      "fit_only_preprocessing": true,
+      "roles": {
+        "T0": "source_function_and_prefix_fit",
+        "F": "target_adaptation",
+        "S": "source_constraint_and_diagnostic_only",
+        "Q": "development_decision_only",
+        "V": "checkpoint_selection_macro_logloss",
+        "E": "locked_final_evaluation"
+      },
+      "exposed_test_policy": "historical_reassessment_only"
+    },
+    "model": {
+      "h_dim": 256,
+      "z_dim": 2,
+      "phi_dim": 64,
+      "request_dim": 32,
+      "basis_count": 2,
+      "function_residual_rank": 4,
+      "relation_rank": 2,
+      "reader_dim": 64,
+      "residual_head_dims": [
+        258,
+        32,
+        1
+      ],
+      "source_gate": "softmax_with_null",
+      "self_source_mask": true,
+      "basis_initialization": {
+        "U": "zeros",
+        "V": "normal",
+        "V_std": 0.02
+      },
+      "read_vector_init": "zeros",
+      "read_vector_l2_max": 2.0,
+      "source_loss_lambda_initial": 0.0
+    },
+    "training": {
+      "optimizer": "Adam",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.0,
+      "dtype": "float32",
+      "amp": false,
+      "tf32": false,
+      "warmup_epochs": 1,
+      "max_epochs": 20,
+      "batch_size": 2048,
+      "checkpoint_metric": "macro_logloss",
+      "checkpoint_tie_tolerance": 1e-12,
+      "candidate_epochs": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    "methods": [
+      "B_REFERENCE",
+      "DIRECT",
+      "READ",
+      "TARGET_ONLY",
+      "LOWRANK_RELATION",
+      "FULL_RELATION"
+    ],
+    "comparison": {
+      "dev_seeds": 4,
+      "formal_seeds": 4,
+      "max_methods_stage1": 6,
+      "practical_delta_macro_logloss": -0.0005,
+      "practical_delta_macro_auc": 0.0005,
+      "max_natural_logloss_harm": 0.001,
+      "max_cell_logloss_harm": 0.003,
+      "min_macro_auc_delta": -0.0005,
+      "relation_rank_grid": [
+        2
+      ],
+      "basis_count_grid": [
+        2
+      ],
+      "dynamic_split_enabled": false,
+      "explicit_gain_predictor_enabled": false,
+      "full_unfreeze_enabled": false
+    },
+    "diagnostics": {
+      "report_per_domain_task": true,
+      "report_macro_and_natural_metrics": true,
+      "report_selected_and_final": true,
+      "report_route_entropy": true,
+      "report_null_mass": true,
+      "report_basis_output_distance": true,
+      "report_source_function_interventions": true,
+      "report_runtime_and_memory": true,
+      "report_parameter_counts": true
+    },
+    "formal": {
+      "max_methods_per_dataset": 7,
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "unlock_test_after_freeze": true,
+      "no_seed_replacement": true
+    },
+    "resolution": {
+      "design": "research_reports/26-10-27_v2/DESIGN_SPECIFICATION.md",
+      "user_seed_override": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "model_storage": "RAM_ONLY",
+      "native": {
+        "epochs": 24,
+        "batch_size": 40960,
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "eligible_epochs": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ]
+      },
+      "pilot": {
+        "passes": 12,
+        "batch_size": 40960,
+        "lr": 0.001,
+        "weight_decay": 1e-05
+      },
+      "roles": {
+        "T0": [
+          "fit"
+        ],
+        "F": [
+          "P_form",
+          "P_read"
+        ],
+        "S": [
+          "P_cal",
+          "P_update"
+        ],
+        "Q": [
+          "Q_explore"
+        ],
+        "V": [
+          "validation"
+        ],
+        "E": [
+          "test_exposed"
+        ],
+        "legacy": [
+          "Q_legacy_confirm_exposed"
+        ]
+      },
+      "target_only_width": 40,
+      "request_activation": "GELU",
+      "null_logit": 0.0,
+      "prefix_offset": "native_logits_only",
+      "reset_adam_after_warmup": false,
+      "local_evidence_required_seeds": 4
+    },
+    "planning_file_sha256": "f9d1c4c840e9c50740a52e7a9ea556d3e5f6a3155e72562c4adf89d5739b9eb2",
+    "design_sha256": "c3b0dc138193ee31a49ecdd9584d966824a209a2809ba2fa140de433473d7dd5",
+    "config_hash": "c08a1ffded211086145c300cffe1807ec014246ef443ce399fd59e11177d0b73"
+  },
+  "identity": {
+    "protocol": "MDMT-RELATION-BASIS-v2",
+    "dataset": "kuairand",
+    "seed": 2023,
+    "config_hash": "c08a1ffded211086145c300cffe1807ec014246ef443ce399fd59e11177d0b73",
+    "source_hash": "26708434c81106dd424d52b4de258bee8aad7b35640b1d50b8699290694a2a3c",
+    "source_main_commit": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+    "data_role_hash": "8e3bb54c967a9a82d5f0c7e6489ddcb2fb573868bbcb72f93ae82a6527332da2",
+    "preprocessor_hash": "4d1dd44989d11dcb2b8267cfad9549d98e0ecf770e28d98ddee7df54a9ed079a",
+    "model_storage": "RAM_ONLY",
+    "native_model_hash": "7968ce2589e11180735244b08cbb94feb69a9ad5425a9c70800707c4bcc5dc59",
+    "source_function_hash": "30960f8155d5a881deab1135e112f0d4b62619454ec43055f3a4223dc819a7a7",
+    "method": "READ"
+  },
+  "loss": "sum_valid_logit_bce / valid_label_count"
+}
