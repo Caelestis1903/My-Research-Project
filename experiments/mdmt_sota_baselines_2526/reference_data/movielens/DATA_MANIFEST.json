@@ -1,0 +1,492 @@
+{
+  "schema_version": "mdmt-next-v1",
+  "protocol_id": "natural_roworder_fit80_probe10_query10_v1",
+  "dataset": "movielens",
+  "raw_path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+  "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+  "split_seed": 20261024,
+  "preprocess_fit_role": "fit",
+  "features": {
+    "dataset": "movielens",
+    "columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "age",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "dense_columns": [
+      "age"
+    ],
+    "sparse_columns": [
+      "user_id",
+      "movie_id",
+      "gender",
+      "occupation",
+      "zip",
+      "cate_id",
+      "domain_indicator"
+    ],
+    "vocab_sizes": {
+      "user_id": 5401,
+      "movie_id": 3632,
+      "gender": 3,
+      "occupation": 22,
+      "zip": 3201,
+      "cate_id": 19,
+      "domain_indicator": 3
+    },
+    "embedding_dim": 16,
+    "domain_column": "domain_indicator",
+    "encoder_hash": "cab74dbb13090a9339ae74310e24310d0145512d000ffc31f917965dfd7176d3",
+    "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+    "oov_index": 0
+  },
+  "roles": {
+    "fit": {
+      "n": 640133,
+      "row_id_hash": "d5823cb852e44ac098c296e2c91f324d2c7141d5094a78f3943bd2ee25289f4c",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 124759,
+          "positive": 69963,
+          "negative": 54796
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 254879,
+          "positive": 143910,
+          "negative": 110969
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 260495,
+          "positive": 156789,
+          "negative": 103706
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 124759,
+          "positive": 29257,
+          "negative": 95502
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 254879,
+          "positive": 56318,
+          "negative": 198561
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 260495,
+          "positive": 62389,
+          "negative": 198106
+        }
+      ]
+    },
+    "P_label": {
+      "n": 48010,
+      "row_id_hash": "f536489d99daa3f9ee10231d1bfdd8865e50329c7348535e969707b89034ec7b",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 9357,
+          "positive": 5223,
+          "negative": 4134
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 19116,
+          "positive": 10666,
+          "negative": 8450
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 19537,
+          "positive": 11734,
+          "negative": 7803
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 9357,
+          "positive": 2154,
+          "negative": 7203
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 19116,
+          "positive": 4116,
+          "negative": 15000
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 19537,
+          "positive": 4674,
+          "negative": 14863
+        }
+      ]
+    },
+    "P_cal": {
+      "n": 16003,
+      "row_id_hash": "b4156cd40c4afbfdff06afc431f85eeb77fa8f2cb3cbbf4f0ac4fa08d24d88ce",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 3119,
+          "positive": 1761,
+          "negative": 1358
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 6372,
+          "positive": 3488,
+          "negative": 2884
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 6512,
+          "positive": 3951,
+          "negative": 2561
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 3119,
+          "positive": 763,
+          "negative": 2356
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 6372,
+          "positive": 1374,
+          "negative": 4998
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 6512,
+          "positive": 1533,
+          "negative": 4979
+        }
+      ]
+    },
+    "P_update": {
+      "n": 16004,
+      "row_id_hash": "dc21ab5390072a97e06c4f9a9314ced72e4e5bd04d801e42c2480887923c305b",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 3119,
+          "positive": 1753,
+          "negative": 1366
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 6372,
+          "positive": 3510,
+          "negative": 2862
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 6513,
+          "positive": 3890,
+          "negative": 2623
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 3119,
+          "positive": 732,
+          "negative": 2387
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 6372,
+          "positive": 1341,
+          "negative": 5031
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 6513,
+          "positive": 1587,
+          "negative": 4926
+        }
+      ]
+    },
+    "Q_explore": {
+      "n": 40008,
+      "row_id_hash": "545c60a22ecf4e54613472180edc1c0853537f5f9d6f94d0b7cf4ac58ac5c19f",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 7797,
+          "positive": 4434,
+          "negative": 3363
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 15930,
+          "positive": 8981,
+          "negative": 6949
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 16281,
+          "positive": 9868,
+          "negative": 6413
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 7797,
+          "positive": 1864,
+          "negative": 5933
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 15930,
+          "positive": 3565,
+          "negative": 12365
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 16281,
+          "positive": 3897,
+          "negative": 12384
+        }
+      ]
+    },
+    "Q_confirm": {
+      "n": 40009,
+      "row_id_hash": "fca485d1fea52f4031548126d0099a131d2b44fcd505c1444b166c0bc5ab4294",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 7798,
+          "positive": 4360,
+          "negative": 3438
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 15930,
+          "positive": 8900,
+          "negative": 7030
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 16281,
+          "positive": 9839,
+          "negative": 6442
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 7798,
+          "positive": 1845,
+          "negative": 5953
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 15930,
+          "positive": 3444,
+          "negative": 12486
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 16281,
+          "positive": 3927,
+          "negative": 12354
+        }
+      ]
+    },
+    "validation": {
+      "n": 100021,
+      "row_id_hash": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 27111,
+          "positive": 14634,
+          "negative": 12477
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 35523,
+          "positive": 21027,
+          "negative": 14496
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 37387,
+          "positive": 22148,
+          "negative": 15239
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 27111,
+          "positive": 5781,
+          "negative": 21330
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 35523,
+          "positive": 8541,
+          "negative": 26982
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 37387,
+          "positive": 8889,
+          "negative": 28498
+        }
+      ]
+    },
+    "test": {
+      "n": 100021,
+      "row_id_hash": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+      "cells": [
+        {
+          "cell": 0,
+          "domain": 0,
+          "task": 0,
+          "n": 27687,
+          "positive": 14281,
+          "negative": 13406
+        },
+        {
+          "cell": 1,
+          "domain": 1,
+          "task": 0,
+          "n": 41434,
+          "positive": 22072,
+          "negative": 19362
+        },
+        {
+          "cell": 2,
+          "domain": 2,
+          "task": 0,
+          "n": 30900,
+          "positive": 18099,
+          "negative": 12801
+        },
+        {
+          "cell": 3,
+          "domain": 0,
+          "task": 1,
+          "n": 27687,
+          "positive": 4964,
+          "negative": 22723
+        },
+        {
+          "cell": 4,
+          "domain": 1,
+          "task": 1,
+          "n": 41434,
+          "positive": 7031,
+          "negative": 34403
+        },
+        {
+          "cell": 5,
+          "domain": 2,
+          "task": 1,
+          "n": 30900,
+          "positive": 6324,
+          "negative": 24576
+        }
+      ]
+    }
+  },
+  "array_hashes": {
+    "x": "cb9518c9ed67378f9f503e489c7c1910cac465a6279a1f4282023f0b69c0161e",
+    "y": "86a23b5684381e656e43390515ad9a2fed43577c0c78f412ca3c96ed1f15fb8a"
+  },
+  "label_definitions": [
+    "rating>3",
+    "rating>4"
+  ],
+  "provenance": "natural source row order; no verified user-disjoint or temporal claim",
+  "data_hash": "e0719739c5b83dd15e469b5d159025cd357ff9eca7586bd2cea55879cbbf8655"
+}

@@ -1,0 +1,92 @@
+{
+  "protocol": "MDMT-SOTA-2526-v1",
+  "identity_policy": "Pinned Git commit and path; where recorded, Git-provided blob IDs or the existing direct-byte source audit. No new digest was generated.",
+  "sources": [
+    {
+      "name": "HyperGate parent repository",
+      "repository": "https://github.com/XuHwang/HyperGate.git",
+      "commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "source_root": "/tmp/mdmt_sota_sources_2526/HyperGate",
+      "role": "Pins the upstream project and its RecStudio gitlink; the model file is loaded from the submodule checkout below.",
+      "gitlink": {
+        "path": "RecStudio",
+        "commit": "f08cca607e998e8be4c5e915a393346baffa71f6"
+      },
+      "git_blob_ids": {
+        ".gitmodules": "33961464f8efb5dd486ca25607a902e2e1df9cb9"
+      }
+    },
+    {
+      "name": "RecStudio HyperGate implementation",
+      "repository": "https://github.com/XuHwang/RecStudio.git",
+      "commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+      "license": "MIT; supplied in the external checkout at LICENSE.",
+      "runtime_loaded": true,
+      "components": [
+        {
+          "path": "recstudio/model/multitask/hypergate.py",
+          "git_blob_id": "6e8b52ba914662c6d40609240a1dee7738661b95"
+        },
+        {
+          "path": "recstudio/model/init.py",
+          "git_blob_id": "cc4fbe5189134cddd0a4984b09bc6bed5d25bd8e"
+        },
+        {
+          "path": "recstudio/model/basemodel/basemodel.yaml",
+          "git_blob_id": "d1988b0e23d90ab4d999e5c98ff4006532988294"
+        },
+        {
+          "path": "recstudio/model/module/ctr.py",
+          "git_blob_id": "256c9aeaba78a5f1409d60b7759e07a026e28fdf"
+        },
+        {
+          "path": "recstudio/model/module/layers.py",
+          "git_blob_id": "419cbbcfd2307fcb7b46c622bdd3ab24e5a6f35d"
+        }
+      ],
+      "initialization": "The pinned base YAML specifies xavier_normal. After _init_model, the shim applies the pinned init.py initializer to each immediate child in the same order as Recommender._init_parameter.",
+      "delivery": "No RecStudio source files are copied into the baseline package. Runtime loading uses the pinned external checkout and an in-memory adapter for RecStudio's runner lifecycle."
+    },
+    {
+      "name": "AutoIFS",
+      "repository": "https://github.com/ChaohuaYang/AutoIFS.git",
+      "commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+      "runtime_loaded": true,
+      "components": [
+        {
+          "path": "modules/autoifs.py",
+          "git_blob_id": "ebf72b8a419fd4ae6aa13fafcaea4c65ad51b715"
+        },
+        {
+          "path": "modules/layers.py",
+          "git_blob_id": "5138e5c3499912a77b84a9fc96515aa29678b667"
+        }
+      ],
+      "license": "No LICENSE file is present in the pinned checkout. The source is loaded from the external checkout and is not copied into the deliverable.",
+      "adapter_changes": [
+        "Replaces only the input embedding boundary to support disjoint sparse-ID offsets and normalized dense-age times a learned vector.",
+        "After constructing the unchanged official class, allocates the four output bias lists at their affine output widths. The upstream checkout is not modified."
+      ]
+    },
+    {
+      "name": "M3OE_FIXED1 initialization helper",
+      "repository": "This project; existing mdmt_basp_v1 source",
+      "reference_commit": "97151c74544c3651feb805d1898bc9ce1b8d12d3",
+      "path": "experiments/mdmt_basp_v1/prefix.py:make_native",
+      "git_blob_id": "c27e6580716de518adbbf4abeb7ef963e96b26aa",
+      "source_evidence": "REFERENCE_SOURCE_AUDIT.json records direct-byte equality for this tracked source against the independently fetched pinned reference checkout.",
+      "use": "Calls the existing Original-to-fixed1 initializer and its direct tensor equality check; the legacy hash-based adapter is not called."
+    }
+  ],
+  "configuration_provenance": {
+    "hypergate": "UNVERIFIED_PROPOSAL; the pinned repository contains no complete paper configuration. All three official gates remain enabled, and proposed values are recorded in default_config.json.",
+    "autoifs": "The pinned upstream topology is retained; input embedding and bias shape adaptations are disclosed above."
+  },
+  "verification_scope": {
+    "synthetic_cpu_only": true,
+    "real_training_started": false,
+    "research_performance_claimed": false
+  }
+}

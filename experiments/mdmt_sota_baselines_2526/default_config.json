@@ -1,0 +1,123 @@
+{
+  "protocol": "MDMT-SOTA-2526-v1",
+  "run_status": "PENDING_APPROVAL",
+  "smoke_only": false,
+  "methods": ["M3OE_FIXED1", "HYPERGATE", "AUTOIFS"],
+  "datasets": ["movielens", "kuairand"],
+  "development_seeds": [2022, 2023],
+  "formal_seeds": [2022, 2023, 2024, 2025, 2026],
+  "roles": {
+    "preprocess_fit": "T0",
+    "train": ["T0", "F"],
+    "selection": "V",
+    "development": "Q",
+    "final": "E",
+    "excluded": ["S", "legacy"]
+  },
+  "raw_paths": {
+    "movielens": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+    "kuairand": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv"
+  },
+  "historical_prepared": {
+    "movielens": "experiments/mdmt_sota_baselines_2526/reference_data/movielens",
+    "kuairand": "experiments/mdmt_sota_baselines_2526/reference_data/kuairand"
+  },
+  "prepared_root": "artifacts/mdmt_baselines_2526/data",
+  "source_roots": {
+    "recstudio": "/tmp/mdmt_sota_sources_2526/RecStudio",
+    "autoifs": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned"
+  },
+  "source_commits": {
+    "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+    "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+    "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+    "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+    "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+  },
+  "metrics": {
+    "checkpoint_selection": "V_macro_logloss",
+    "tie_tolerance": 1e-12,
+    "auc_input": "raw_logits",
+    "logloss": "stable_logit_softplus",
+    "views": ["selected", "fixed_final"]
+  },
+  "training": {
+    "optimizer": "Adam",
+    "precision": "float32",
+    "amp": false,
+    "tf32": false,
+    "weight_decay": 0.0
+  },
+  "models": {
+    "M3OE_FIXED1": {
+      "fcn_dims": [512, 256, 256, 64],
+      "expert_num": 4,
+      "embedding_dim": 16,
+      "fixed_coefficients": [1.0, 1.0, 1.0, 1.0],
+      "batch_size": 40960,
+      "epochs": 24,
+      "selection_start_epoch": 12,
+      "lr": 0.001,
+      "weight_decay": 0.00001,
+      "betas": [0.9, 0.999],
+      "eps": 1e-8
+    },
+    "HYPERGATE": {
+      "embedding_dim": 16,
+      "expert_num": 4,
+      "expert_dims": [256, 256],
+      "gate_dims": [256],
+      "tower_dims": [256, 128],
+      "activation": "relu",
+      "dropout": 0.3,
+      "batch_norm": false,
+      "gates": {"embedding": true, "expert_bias": true, "fusion": true},
+      "gate_input_type": "augmented_embedding",
+      "aug_dim": 16,
+      "aug_dims": [64],
+      "aug_dropout": 0.0,
+      "lambda_domain": 0.1,
+      "lambda_task": 0.1,
+      "configuration_provenance": {
+        "status": "UNVERIFIED_PROPOSAL",
+        "unverified_proposal": true,
+        "reason": "Pinned repository has no complete HyperGate config; ACM paper PDF was inaccessible."
+      },
+      "batch_size": 1024,
+      "eval_batch_size": 512,
+      "max_epochs": 1000,
+      "patience": 10,
+      "lr": 0.001,
+      "weight_decay": 0.0,
+      "betas": [0.9, 0.999],
+      "eps": 1e-8
+    },
+    "AUTOIFS": {
+      "embedding_dim": 16,
+      "mlp_dims": [1024, 512, 256],
+      "dropout": 0.0,
+      "batch_norm": false,
+      "rank": {"movielens": 2, "kuairand": 16},
+      "batch_size": 4096,
+      "search_epochs": 10,
+      "search_lr": 0.0003,
+      "search_weight_decay": 0.00003,
+      "gate_lr_ratio": 0.01,
+      "temperature_start": 1.0,
+      "temperature_end": 100.0,
+      "rewind_epoch_index": 9,
+      "lambda": [0.0, 0.0],
+      "reuse_lr": 0.0001,
+      "reuse_weight_decay": 0.0003,
+      "reuse_max_epochs": 50,
+      "reuse_patience": 1
+    }
+  },
+  "audit": {
+    "registered_raw_sha256_provenance": {
+      "movielens": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "kuairand": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f"
+    },
+    "checksum_revalidated": false
+  }
+}
