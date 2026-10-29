@@ -13,7 +13,10 @@ from experiments.mdmt_sota_baselines_2526 import cli as cli_module
 from experiments.mdmt_sota_baselines_2526.config import METHODS, PROTOCOL, SEEDS, load_config
 from experiments.mdmt_sota_baselines_2526.data import Data, prepare_owned
 from experiments.mdmt_sota_baselines_2526.evaluation import evaluate_role
-from experiments.mdmt_sota_baselines_2526.report import _evaluation_files, build_freeze, build_report
+from experiments.mdmt_sota_baselines_2526 import report as report_module
+from experiments.mdmt_sota_baselines_2526.report import (
+    RUNTIME_IO_AMENDMENT_ID, _evaluation_files, _package_source_contents, build_freeze, build_report,
+)
 from experiments.mdmt_sota_baselines_2526.training import train_one, measure_inference, _snapshot_implementation
 from experiments.mdmt_sota_baselines_2526.training import (
     _checkpoint, _restore_rng, _selector_removed_retained,
@@ -56,7 +59,7 @@ def _source_fixture(tmp_path, monkeypatch):
     return cfg, domains, labels
 
 
-def _synthetic_formal_matrix(run_root, data_manifests, config=None):
+def _synthetic_formal_matrix(run_root, data_manifests, config=None, source_snapshots=None):
     cfg = config or load_config()
     paths = {}
     for dataset in cfg["datasets"]:
@@ -65,15 +68,28 @@ def _synthetic_formal_matrix(run_root, data_manifests, config=None):
                 run_dir = run_root / "formal" / dataset / method / f"seed{seed}"
                 run_dir.mkdir(parents=True)
                 run_config = copy.deepcopy(cfg)
-                config_key = "lr" if "lr" in run_config["models"][method] else "search_lr"
-                run_config["models"][method][config_key] += (cfg["methods"].index(method) + 1) * 1e-5
+                if source_snapshots is None:
+                    config_key = "lr" if "lr" in run_config["models"][method] else "search_lr"
+                    run_config["models"][method][config_key] += (cfg["methods"].index(method) + 1) * 1e-5
                 snapshot_dir = run_dir / "implementation_snapshot"
-                snapshot_dir.mkdir()
-                snapshot_bytes = b"pipeline-source-v1"
-                (snapshot_dir / "pipeline.py").write_bytes(snapshot_bytes)
+                snapshot_dir.mkdir(parents=True)
+                if source_snapshots is None:
+                    revision = None
+                    snapshot_contents = {"pipeline.py": b"pipeline-source-v1"}
+                    (snapshot_dir / "pipeline.py").write_bytes(snapshot_contents["pipeline.py"])
+                else:
+                    revision_index = (cfg["datasets"].index(dataset) + cfg["methods"].index(method)
+                                      + cfg["formal_seeds"].index(seed)) % 2
+                    revision = ("R1", "R2")[revision_index]
+                    snapshot_contents = source_snapshots[revision]
+                    for relative, content in snapshot_contents.items():
+                        target = snapshot_dir / relative
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(content)
                 implementation_identity = {
                     "kind": "direct_source_snapshot", "snapshot_path": str(snapshot_dir.resolve()),
-                    "files": [{"path": "pipeline.py", "size_bytes": len(snapshot_bytes)}],
+                    "files": [{"path": relative, "size_bytes": len(content)}
+                              for relative, content in sorted(snapshot_contents.items())],
                 }
                 started = f"2026-10-28T00:00:{seed % 60:02d}+00:00"
                 embedded = {
@@ -446,6 +462,241 @@ def test_formal_freeze_compares_source_snapshot_bytes_not_only_sizes(tmp_path):
     snapshot_file.write_bytes(replacement)
     with pytest.raises(ValueError, match="different implementation source snapshot bytes"):
         build_freeze(run_root, tmp_path / "freeze.json")
+
+
+def _runtime_retry_fixture(tmp_path, name, amendment, source_contents, epoch_records):
+    retry_dir = tmp_path / name
+    retry_dir.mkdir()
+    snapshot_dir = retry_dir / "implementation_snapshot"
+    snapshot_dir.mkdir()
+    for relative, content in source_contents.items():
+        target = snapshot_dir / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(content)
+    implementation_identity = {
+        "kind": "direct_source_snapshot", "snapshot_path": str(snapshot_dir.resolve()),
+        "files": [{"path": path, "size_bytes": len(content)}
+                  for path, content in sorted(source_contents.items())],
+    }
+    selected, final = retry_dir / "selected.pt", retry_dir / "fixed_final.pt"
+    selected.write_bytes(b"synthetic selected checkpoint fixture")
+    final.write_bytes(b"synthetic final checkpoint fixture")
+    run = {
+        "protocol": PROTOCOL, "phase": "formal", "method": "HYPERGATE",
+        "dataset": "kuairand", "seed": 2022, "status": "TRAIN_COMPLETE_NOT_EVALUATED",
+        "config": amendment["configuration"], "source_commits": amendment["source_commits"],
+        "data_manifest": amendment["prepared_data_manifests"]["kuairand"],
+        "selection_metric": amendment["configuration"]["metrics"]["checkpoint_selection"],
+        "implementation_identity": implementation_identity,
+        "output_dir": str(retry_dir.resolve()),
+        "selected_checkpoint": str(selected.resolve()), "fixed_final_checkpoint": str(final.resolve()),
+    }
+    (retry_dir / "run.json").write_text(json.dumps(run), encoding="utf-8")
+    (retry_dir / "epoch_metrics.jsonl").write_text(
+        "".join(json.dumps(record) + "\n" for record in epoch_records), encoding="utf-8")
+    return retry_dir
+
+
+def test_runtime_io_mixed_freeze_requires_exact_review_pair_actual_replay_and_e_r2(tmp_path, monkeypatch):
+    import base64
+    import difflib
+
+    amendment_path = Path("research_reports/mdmt_baselines_2526/RUNTIME_IO_SOURCE_EQUIVALENCE.json")
+    amendment = json.loads(amendment_path.read_text(encoding="utf-8"))
+    with pytest.raises(ValueError, match="reviewed and replayed"):
+        build_freeze(tmp_path / "not_created", tmp_path / "pending_freeze.json",
+                     runtime_io_amendment=amendment_path)
+    snapshots = {
+        revision: {entry["path"]: base64.b64decode(entry["content_base64"], validate=True)
+                   for entry in amendment[f"{revision.lower()}_source_snapshot"]["files"]}
+        for revision in ("R1", "R2")
+    }
+    assert _package_source_contents() == snapshots["R2"]
+
+    old_dir = Path("artifacts/mdmt_baselines_2526/attempts/formal_kuairand_HYPERGATE_seed2022_attempt01_SIGSEGV")
+    old_records = [json.loads(line) for line in (old_dir / "epoch_metrics.jsonl").read_text().splitlines()]
+    assert len(old_records) >= 5
+    retry_dir = _runtime_retry_fixture(tmp_path, "retry_r2", amendment, snapshots["R2"], old_records[:5])
+    cpu_receipt = {"amendment_id": RUNTIME_IO_AMENDMENT_ID, "status": "PASS"}
+    cpu_path = tmp_path / "cpu_receipt.json"
+    cpu_path.write_text(json.dumps(cpu_receipt), encoding="utf-8")
+    feature_path = Path("research_reports/mdmt_baselines_2526/RUNTIME_IO_FEATURE_EQUIVALENCE.json")
+    feature_receipt = json.loads(feature_path.read_text(encoding="utf-8"))
+    reviewed_pair = {key: amendment[key] for key in (
+        "r1_source_snapshot", "r2_source_snapshot", "changed_paths", "configuration",
+        "source_commits", "prepared_data_manifests")}
+    review_receipt = {
+        "amendment_id": RUNTIME_IO_AMENDMENT_ID, "status": "PASS", "verdict": "PASS",
+        "reviewed_pair": reviewed_pair, "reviewed_cpu_evidence": cpu_receipt,
+        "reviewed_feature_evidence": feature_receipt,
+    }
+    review_path = tmp_path / "review_receipt.json"
+    review_path.write_text(json.dumps(review_receipt), encoding="utf-8")
+    amendment["status"] = "REVIEW_REPLAY_COMPLETE"
+    amendment["review"] = {"status": "PASS", "receipt_path": str(review_path)}
+    amendment["cpu_validation"] = {"status": "PASS", "receipt_path": str(cpu_path),
+                                   "feature_equivalence_receipt": str(feature_path)}
+    amendment["replay"] = {
+        "status": "PASS",
+        "failed_run_manifest": str((old_dir / "run.json").resolve()),
+        "failed_epoch_log": str((old_dir / "epoch_metrics.jsonl").resolve()),
+        "failed_crash_receipt": str((old_dir / "NATIVE_CRASH_RECEIPT.json").resolve()),
+        "retry_run_manifest": str((retry_dir / "run.json").resolve()),
+        "retry_epoch_log": str((retry_dir / "epoch_metrics.jsonl").resolve()),
+    }
+    completed_amendment = tmp_path / "completed_amendment_fixture.json"
+    completed_amendment.write_text(json.dumps(amendment), encoding="utf-8")
+
+    # A PASS summary cannot replace actual files or exact epoch comparisons.
+    fake_paths = copy.deepcopy(amendment)
+    fake_paths["replay"]["retry_run_manifest"] = str(tmp_path / "nonexistent-run.json")
+    fake_paths["replay"]["retry_epoch_log"] = str(tmp_path / "nonexistent-log.jsonl")
+    fake_path = tmp_path / "fake_paths.json"
+    fake_path.write_text(json.dumps(fake_paths), encoding="utf-8")
+    with pytest.raises(FileNotFoundError, match="run manifest or epoch log is missing"):
+        build_freeze(tmp_path / "not_created", tmp_path / "fake_path_freeze.json",
+                     runtime_io_amendment=fake_path)
+
+    four_epoch_dir = _runtime_retry_fixture(tmp_path, "retry_four", amendment,
+                                            snapshots["R2"], old_records[:4])
+    fewer = copy.deepcopy(amendment)
+    fewer["replay"]["retry_run_manifest"] = str((four_epoch_dir / "run.json").resolve())
+    fewer["replay"]["retry_epoch_log"] = str((four_epoch_dir / "epoch_metrics.jsonl").resolve())
+    fewer_path = tmp_path / "fewer.json"
+    fewer_path.write_text(json.dumps(fewer), encoding="utf-8")
+    with pytest.raises(ValueError, match="fewer than five complete train records"):
+        build_freeze(tmp_path / "not_created", tmp_path / "fewer_freeze.json", runtime_io_amendment=fewer_path)
+
+    changed_records = copy.deepcopy(old_records[:5])
+    changed_records[0]["train_loss"] += 1e-6
+    changed_dir = _runtime_retry_fixture(tmp_path, "retry_changed", amendment,
+                                         snapshots["R2"], changed_records)
+    changed = copy.deepcopy(amendment)
+    changed["replay"]["retry_run_manifest"] = str((changed_dir / "run.json").resolve())
+    changed["replay"]["retry_epoch_log"] = str((changed_dir / "epoch_metrics.jsonl").resolve())
+    changed_path = tmp_path / "changed_trajectory.json"
+    changed_path.write_text(json.dumps(changed), encoding="utf-8")
+    with pytest.raises(ValueError, match="first-five scientific trajectory fields differ"):
+        build_freeze(tmp_path / "not_created", tmp_path / "changed_freeze.json",
+                     runtime_io_amendment=changed_path)
+
+    r1_retry_dir = _runtime_retry_fixture(tmp_path, "retry_non_r2", amendment,
+                                          snapshots["R1"], old_records[:5])
+    non_r2 = copy.deepcopy(amendment)
+    non_r2["replay"]["retry_run_manifest"] = str((r1_retry_dir / "run.json").resolve())
+    non_r2["replay"]["retry_epoch_log"] = str((r1_retry_dir / "epoch_metrics.jsonl").resolve())
+    non_r2_path = tmp_path / "non_r2.json"
+    non_r2_path.write_text(json.dumps(non_r2), encoding="utf-8")
+    with pytest.raises(ValueError, match="does not contain the exact approved R2 source snapshot"):
+        build_freeze(tmp_path / "not_created", tmp_path / "non_r2_freeze.json",
+                     runtime_io_amendment=non_r2_path)
+
+    manifests = amendment["prepared_data_manifests"]
+    run_root = tmp_path / "runs"
+    paths = _synthetic_formal_matrix(run_root, manifests, source_snapshots=snapshots)
+    with pytest.raises(ValueError, match="different implementation source snapshot bytes"):
+        build_freeze(run_root, tmp_path / "default_mixed_freeze.json")
+
+    freeze_path = tmp_path / "amended_freeze.json"
+    frozen = build_freeze(run_root, freeze_path, runtime_io_amendment=completed_amendment)
+    revisions = {entry["source_revision"] for entry in frozen["runs"].values()}
+    assert revisions == {"R1", "R2"}
+    key = "movielens/M3OE_FIXED1/seed2022"
+    entry = frozen["runs"][key]
+    assert entry["source_revision"] == "R1"
+    assert set(entry["checkpoints"]) == {"selected", "fixed_final"}
+    for view in ("selected", "fixed_final"):
+        checkpoint = entry["checkpoints"][view]
+        expected = Path(paths[("movielens", "M3OE_FIXED1", 2022)]) / (
+            "selected.pt" if view == "selected" else "fixed_final.pt")
+        assert checkpoint["path"] == str(expected.resolve())
+        run_manifest = json.loads((expected.parent / "run.json").read_text(encoding="utf-8"))
+        assert checkpoint["embedded_identity"] == report_module._embedded_identity(run_manifest)
+
+    # Same-size mutations, including a currently forbidden eager-Y candidate, cannot reuse the receipt.
+    candidate = copy.deepcopy(amendment)
+    r2_file = candidate["r2_source_snapshot"]["files"]
+    data_entry = next(item for item in r2_file if item["path"] == "data.py")
+    r2_data = base64.b64decode(data_entry["content_base64"], validate=True)
+    eager = r2_data.replace(b'self.y = np.load(self.root / "y.npy", mmap_mode="r", allow_pickle=False)',
+                            b'self.y = np.load(self.root / "y.npy", allow_pickle=False)')
+    assert eager != r2_data
+    data_entry["size_bytes"] = len(eager)
+    data_entry["content_base64"] = base64.b64encode(eager).decode("ascii")
+    candidate["changed_files"] = copy.deepcopy(candidate["changed_files"])
+    changed_file = next(item for item in candidate["changed_files"] if item["path"] == "data.py")
+    changed_file["r2_content_base64"] = base64.b64encode(eager).decode("ascii")
+    before = snapshots["R1"]["data.py"].decode().splitlines(keepends=True)
+    after = eager.decode().splitlines(keepends=True)
+    changed_file["unified_diff"] = "".join(difflib.unified_diff(
+        before, after, fromfile="R1/data.py", tofile="R2/data.py"))
+    altered_current = dict(snapshots["R2"])
+    altered_current["data.py"] = eager
+    candidate_path = tmp_path / "altered_pair_with_old_review.json"
+    candidate_path.write_text(json.dumps(candidate), encoding="utf-8")
+    with monkeypatch.context() as patcher:
+        patcher.setattr(report_module, "_package_source_contents", lambda: altered_current)
+        with pytest.raises(ValueError, match="exact R1/R2 pair and originals"):
+            build_freeze(run_root, tmp_path / "old_receipt_reuse.json",
+                         runtime_io_amendment=candidate_path)
+
+    # The amendment's declared original identities are checked against every formal run.
+    run_path = paths[("movielens", "M3OE_FIXED1", 2022)] / "run.json"
+    original_run = json.loads(run_path.read_text(encoding="utf-8"))
+    drifted_run = copy.deepcopy(original_run)
+    drifted_run["source_commits"]["recstudio"] = "unapproved-source"
+    run_path.write_text(json.dumps(drifted_run), encoding="utf-8")
+    with pytest.raises(ValueError, match="source commits differ from the reviewed original"):
+        build_freeze(run_root, tmp_path / "original_identity_mismatch.json",
+                     runtime_io_amendment=completed_amendment)
+    run_path.write_text(json.dumps(original_run), encoding="utf-8")
+
+    data = Data.__new__(Data)
+    data.dataset = "movielens"
+    data.manifest = manifests["movielens"]
+    data.authorization = None
+    data.x = np.asarray([[0.0, 0.0]], dtype=np.float32)
+    data.y = np.asarray([[0.0, 1.0]], dtype=np.float32)
+    data.domain = np.asarray([0], dtype=np.int64)
+    data.roles = {"E": np.asarray([0], dtype=np.int64)}
+    label_calls = {"n": 0}
+    original_labels = Data.labels
+
+    def labels_spy(self, role, purpose, row_ids=None):
+        label_calls["n"] += 1
+        return original_labels(self, role, purpose, row_ids)
+
+    monkeypatch.setattr(Data, "labels", labels_spy)
+
+    class FixedLogits(torch.nn.Module):
+        def forward(self, x, domain=None):
+            return x.new_zeros((len(x), 2))
+
+    evaluate_role(FixedLogits(), data, "E", method="M3OE_FIXED1", seed=2022,
+                  final_manifest=frozen, phase="formal", run_identity=entry["identity"],
+                  checkpoint_identity=entry["checkpoints"]["selected"])
+    assert label_calls["n"] == 1
+
+    bad_revision_freeze = copy.deepcopy(frozen)
+    bad_revision_freeze["runs"][key]["source_revision"] = "R3"
+    data.authorization = None
+    label_calls["n"] = 0
+    with pytest.raises(PermissionError, match="source-revision binding"):
+        evaluate_role(FixedLogits(), data, "E", method="M3OE_FIXED1", seed=2022,
+                      final_manifest=bad_revision_freeze, phase="formal", run_identity=entry["identity"],
+                      checkpoint_identity=entry["checkpoints"]["selected"])
+    assert data.authorization is None and label_calls["n"] == 0
+
+    changed_package = dict(snapshots["R2"])
+    changed_data = bytearray(changed_package["data.py"])
+    changed_data[0] ^= 1
+    changed_package["data.py"] = bytes(changed_data)
+    monkeypatch.setattr(report_module, "_package_source_contents", lambda: changed_package)
+    with pytest.raises(PermissionError, match="Installed implementation package"):
+        evaluate_role(FixedLogits(), data, "E", method="M3OE_FIXED1", seed=2022,
+                      final_manifest=frozen, phase="formal", run_identity=entry["identity"],
+                      checkpoint_identity=entry["checkpoints"]["selected"])
+    assert data.authorization is None and label_calls["n"] == 0
 
 
 def test_positive_logits_are_removed_and_zero_logits_are_retained():

@@ -1,0 +1,2637 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+warning: Loadable section ".note.gnu.property" outside of ELF segments
+[New Thread 0x7f9e68dff700 (LWP 1529082)]
+[New Thread 0x7f9e59800700 (LWP 1529083)]
+[Detaching after vfork from child process 1529084]
+[Detaching after vfork from child process 1529096]
+[Detaching after vfork from child process 1529097]
+[Detaching after vfork from child process 1529098]
+[New Thread 0x7f9e58d85700 (LWP 1529099)]
+[New Thread 0x7f9e33f6c700 (LWP 1529100)]
+[New Thread 0x7f9e0f7f5700 (LWP 1529114)]
+[New Thread 0x7f9e0eff4700 (LWP 1529115)]
+[Detaching after vfork from child process 1529362]
+[Detaching after vfork from child process 1529363]
+[Detaching after vfork from child process 1529364]
+[Detaching after vfork from child process 1529413]
+[Detaching after vfork from child process 1529414]
+[Detaching after vfork from child process 1529415]
+34
+2797
+34
+2797
+34
+2797
+{
+  "protocol": "MDMT-SOTA-2526-v1",
+  "status": "TRAIN_COMPLETE_NOT_EVALUATED",
+  "phase": "formal",
+  "method": "AUTOIFS",
+  "dataset": "kuairand",
+  "seed": 2026,
+  "config": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "run_status": "PENDING_APPROVAL",
+    "smoke_only": false,
+    "methods": [
+      "M3OE_FIXED1",
+      "HYPERGATE",
+      "AUTOIFS"
+    ],
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "development_seeds": [
+      2022,
+      2023
+    ],
+    "formal_seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "roles": {
+      "preprocess_fit": "T0",
+      "train": [
+        "T0",
+        "F"
+      ],
+      "selection": "V",
+      "development": "Q",
+      "final": "E",
+      "excluded": [
+        "S",
+        "legacy"
+      ]
+    },
+    "raw_paths": {
+      "movielens": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "kuairand": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv"
+    },
+    "historical_prepared": {
+      "movielens": "experiments/mdmt_sota_baselines_2526/reference_data/movielens",
+      "kuairand": "experiments/mdmt_sota_baselines_2526/reference_data/kuairand"
+    },
+    "prepared_root": "artifacts/mdmt_baselines_2526/data",
+    "source_roots": {
+      "recstudio": "/tmp/mdmt_sota_sources_2526/RecStudio",
+      "autoifs": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned"
+    },
+    "source_commits": {
+      "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+      "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+    },
+    "metrics": {
+      "checkpoint_selection": "V_macro_logloss",
+      "tie_tolerance": 1e-12,
+      "auc_input": "raw_logits",
+      "logloss": "stable_logit_softplus",
+      "views": [
+        "selected",
+        "fixed_final"
+      ]
+    },
+    "training": {
+      "optimizer": "Adam",
+      "precision": "float32",
+      "amp": false,
+      "tf32": false,
+      "weight_decay": 0.0
+    },
+    "models": {
+      "M3OE_FIXED1": {
+        "fcn_dims": [
+          512,
+          256,
+          256,
+          64
+        ],
+        "expert_num": 4,
+        "embedding_dim": 16,
+        "fixed_coefficients": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "batch_size": 40960,
+        "epochs": 24,
+        "selection_start_epoch": 12,
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "HYPERGATE": {
+        "embedding_dim": 16,
+        "expert_num": 4,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "gate_dims": [
+          256
+        ],
+        "tower_dims": [
+          256,
+          128
+        ],
+        "activation": "relu",
+        "dropout": 0.3,
+        "batch_norm": false,
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "gate_input_type": "augmented_embedding",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "configuration_provenance": {
+          "status": "UNVERIFIED_PROPOSAL",
+          "unverified_proposal": true,
+          "reason": "Pinned repository has no complete HyperGate config; ACM paper PDF was inaccessible."
+        },
+        "batch_size": 1024,
+        "eval_batch_size": 512,
+        "max_epochs": 1000,
+        "patience": 10,
+        "lr": 0.001,
+        "weight_decay": 0.0,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "AUTOIFS": {
+        "embedding_dim": 16,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "dropout": 0.0,
+        "batch_norm": false,
+        "rank": {
+          "movielens": 2,
+          "kuairand": 16
+        },
+        "batch_size": 4096,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "gate_lr_ratio": 0.01,
+        "temperature_start": 1.0,
+        "temperature_end": 100.0,
+        "rewind_epoch_index": 9,
+        "lambda": [
+          0.0,
+          0.0
+        ],
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "reuse_max_epochs": 50,
+        "reuse_patience": 1
+      }
+    },
+    "audit": {
+      "registered_raw_sha256_provenance": {
+        "movielens": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+        "kuairand": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f"
+      },
+      "checksum_revalidated": false
+    }
+  },
+  "source_commits": {
+    "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+    "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+    "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+    "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+    "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+  },
+  "selection_metric": "V_macro_logloss",
+  "output_dir": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2026",
+  "started_at_utc": "2026-10-29T09:02:50.502625+00:00",
+  "e_policy": "locked_during_training",
+  "requested_device": "cuda:1",
+  "environment": {
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "platform": "Linux-5.15.0-136-generic-x86_64-with-glibc2.31",
+    "machine": "x86_64",
+    "pythonhashseed": null,
+    "torch": "2.9.0+cu126",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "scikit_learn": "1.6.1",
+    "cuda_available": true,
+    "tf32_matmul": "ieee",
+    "tf32_cudnn_conv": "ieee",
+    "requested_device": "cuda:1",
+    "device_name": "NVIDIA GeForce RTX 3090",
+    "device": "cuda:1"
+  },
+  "implementation_identity": {
+    "kind": "direct_source_snapshot",
+    "snapshot_path": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2026/implementation_snapshot",
+    "files": [
+      {
+        "path": "__init__.py",
+        "size_bytes": 127
+      },
+      {
+        "path": "__main__.py",
+        "size_bytes": 79
+      },
+      {
+        "path": "autoifs.py",
+        "size_bytes": 11899
+      },
+      {
+        "path": "cli.py",
+        "size_bytes": 23617
+      },
+      {
+        "path": "config.py",
+        "size_bytes": 2917
+      },
+      {
+        "path": "data.py",
+        "size_bytes": 17361
+      },
+      {
+        "path": "evaluation.py",
+        "size_bytes": 6943
+      },
+      {
+        "path": "hypergate.py",
+        "size_bytes": 12497
+      },
+      {
+        "path": "models.py",
+        "size_bytes": 6976
+      },
+      {
+        "path": "report.py",
+        "size_bytes": 46196
+      },
+      {
+        "path": "sources.py",
+        "size_bytes": 7014
+      },
+      {
+        "path": "training.py",
+        "size_bytes": 29787
+      },
+      {
+        "path": "default_config.json",
+        "size_bytes": 3806
+      },
+      {
+        "path": "reference_data/kuairand/DATA_MANIFEST.json",
+        "size_bytes": 12749
+      },
+      {
+        "path": "reference_data/kuairand/PREPROCESSOR.json",
+        "size_bytes": 55506
+      },
+      {
+        "path": "reference_data/movielens/DATA_MANIFEST.json",
+        "size_bytes": 10706
+      },
+      {
+        "path": "reference_data/movielens/PREPROCESSOR.json",
+        "size_bytes": 244449
+      },
+      {
+        "path": "reference_data/README.md",
+        "size_bytes": 743
+      }
+    ]
+  },
+  "data_manifest": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "status": "READY_DIRECT_VALUE_CHECKS",
+    "dataset": "kuairand",
+    "raw_path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+    "prepared_path": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand",
+    "registered_raw_sha256_provenance": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+    "checksum_revalidated": false,
+    "historical_manifest_raw_sha256_provenance": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+    "row_count": 2507666,
+    "features": {
+      "dataset": "kuairand",
+      "columns": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "domain_indicator"
+      ],
+      "dense_columns": [],
+      "sparse_columns": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "domain_indicator"
+      ],
+      "vocab_sizes": {
+        "user_active_degree": 10,
+        "is_live_streamer": 3,
+        "is_video_author": 3,
+        "follow_user_num_range": 9,
+        "fans_user_num_range": 10,
+        "friend_user_num_range": 8,
+        "register_days_range": 9,
+        "onehot_feat0": 3,
+        "onehot_feat1": 8,
+        "onehot_feat2": 50,
+        "onehot_feat3": 1461,
+        "onehot_feat4": 17,
+        "onehot_feat5": 35,
+        "onehot_feat6": 4,
+        "onehot_feat7": 119,
+        "onehot_feat8": 455,
+        "onehot_feat9": 8,
+        "onehot_feat10": 6,
+        "onehot_feat11": 6,
+        "onehot_feat12": 4,
+        "onehot_feat13": 4,
+        "onehot_feat14": 4,
+        "onehot_feat15": 4,
+        "onehot_feat16": 4,
+        "onehot_feat17": 4,
+        "video_type": 4,
+        "upload_dt": 4,
+        "upload_type": 15,
+        "server_width": 157,
+        "server_height": 121,
+        "music_type": 7,
+        "tag": 112,
+        "counts": 126,
+        "domain_indicator": 3
+      },
+      "embedding_dim": 16,
+      "domain_column": "domain_indicator",
+      "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+      "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "oov_index": 0
+    },
+    "role_map": {
+      "T0": [
+        "fit"
+      ],
+      "F": [
+        "P_label"
+      ],
+      "S": [
+        "P_cal",
+        "P_update"
+      ],
+      "Q": [
+        "Q_explore"
+      ],
+      "V": [
+        "validation"
+      ],
+      "E": [
+        "test"
+      ],
+      "legacy": [
+        "Q_confirm"
+      ]
+    },
+    "roles": {
+      "fit": {
+        "n": 1604904,
+        "domain_counts": [
+          138225,
+          1395118,
+          71561
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 138225,
+            "positive": 12544,
+            "negative": 125681
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 1395118,
+            "positive": 527229,
+            "negative": 867889
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 71561,
+            "positive": 44177,
+            "negative": 27384
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 138225,
+            "positive": 5687,
+            "negative": 132538
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 1395118,
+            "positive": 357295,
+            "negative": 1037823
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 71561,
+            "positive": 34681,
+            "negative": 36880
+          }
+        ]
+      },
+      "P_label": {
+        "n": 120367,
+        "domain_counts": [
+          10366,
+          104634,
+          5367
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 10366,
+            "positive": 912,
+            "negative": 9454
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 104634,
+            "positive": 39679,
+            "negative": 64955
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 5367,
+            "positive": 3316,
+            "negative": 2051
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 10366,
+            "positive": 402,
+            "negative": 9964
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 104634,
+            "positive": 26913,
+            "negative": 77721
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 5367,
+            "positive": 2613,
+            "negative": 2754
+          }
+        ]
+      },
+      "P_cal": {
+        "n": 40123,
+        "domain_counts": [
+          3456,
+          34878,
+          1789
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3456,
+            "positive": 334,
+            "negative": 3122
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 34878,
+            "positive": 13037,
+            "negative": 21841
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1789,
+            "positive": 1084,
+            "negative": 705
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3456,
+            "positive": 145,
+            "negative": 3311
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 34878,
+            "positive": 8820,
+            "negative": 26058
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1789,
+            "positive": 868,
+            "negative": 921
+          }
+        ]
+      },
+      "P_update": {
+        "n": 40123,
+        "domain_counts": [
+          3456,
+          34878,
+          1789
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3456,
+            "positive": 295,
+            "negative": 3161
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 34878,
+            "positive": 13216,
+            "negative": 21662
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1789,
+            "positive": 1114,
+            "negative": 675
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3456,
+            "positive": 129,
+            "negative": 3327
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 34878,
+            "positive": 8984,
+            "negative": 25894
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1789,
+            "positive": 878,
+            "negative": 911
+          }
+        ]
+      },
+      "Q_explore": {
+        "n": 100307,
+        "domain_counts": [
+          8639,
+          87195,
+          4473
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 8639,
+            "positive": 817,
+            "negative": 7822
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 87195,
+            "positive": 32928,
+            "negative": 54267
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 4473,
+            "positive": 2758,
+            "negative": 1715
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 8639,
+            "positive": 385,
+            "negative": 8254
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 87195,
+            "positive": 22257,
+            "negative": 64938
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 4473,
+            "positive": 2149,
+            "negative": 2324
+          }
+        ]
+      },
+      "Q_confirm": {
+        "n": 100308,
+        "domain_counts": [
+          8640,
+          87195,
+          4473
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 8640,
+            "positive": 802,
+            "negative": 7838
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 87195,
+            "positive": 32812,
+            "negative": 54383
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 4473,
+            "positive": 2731,
+            "negative": 1742
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 8640,
+            "positive": 373,
+            "negative": 8267
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 87195,
+            "positive": 22314,
+            "negative": 64881
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 4473,
+            "positive": 2178,
+            "negative": 2295
+          }
+        ]
+      },
+      "validation": {
+        "n": 250767,
+        "domain_counts": [
+          2692,
+          246232,
+          1843
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014
+          }
+        ]
+      },
+      "test": {
+        "n": 250767,
+        "domain_counts": [
+          2613,
+          246284,
+          1870
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 2613,
+            "positive": 228,
+            "negative": 2385
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 246284,
+            "positive": 51847,
+            "negative": 194437
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1870,
+            "positive": 1100,
+            "negative": 770
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 2613,
+            "positive": 120,
+            "negative": 2493
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 246284,
+            "positive": 27415,
+            "negative": 218869
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1870,
+            "positive": 827,
+            "negative": 1043
+          }
+        ]
+      }
+    },
+    "checks": {
+      "raw_schema_and_domain_mapping": "PASS_DIRECT_VALUES",
+      "labels_against_source_formula": "PASS_DIRECT_VALUES",
+      "features_against_source_formula": "PASS_DIRECT_VALUES",
+      "fit_vocabulary_and_scaler_against_retained_preprocessor": "PASS_DIRECT_VALUES",
+      "role_rows_disjoint_exhaustive_and_counts": "PASS_DIRECT_VALUES",
+      "historical_row_array_identity": "NOT_AVAILABLE_ARRAYS_MISSING",
+      "checksum": "NOT_RECOMPUTED_HASH_DENIED"
+    }
+  },
+  "selected_checkpoint": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2026/selected.pt",
+  "fixed_final_checkpoint": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2026/fixed_final.pt",
+  "selected_epoch": 1,
+  "final_epoch": 2,
+  "checkpoint_metadata": {
+    "selected": {
+      "stage": "reuse",
+      "epoch": 1,
+      "global_steps": 4642,
+      "model_meta": {
+        "ticket": true,
+        "temp": 100.0
+      }
+    },
+    "fixed_final": {
+      "stage": "reuse",
+      "epoch": 2,
+      "global_steps": 5064,
+      "model_meta": {
+        "ticket": true,
+        "temp": 100.0
+      }
+    }
+  },
+  "selected_validation": {
+    "cells": [
+      {
+        "cell": 0,
+        "domain": 0,
+        "task": 0,
+        "n": 2692,
+        "positive": 245,
+        "negative": 2447,
+        "logloss": 0.29091402244847003,
+        "auc": 0.6720432349482498
+      },
+      {
+        "cell": 1,
+        "domain": 1,
+        "task": 0,
+        "n": 246232,
+        "positive": 51644,
+        "negative": 194588,
+        "logloss": 0.5078098500765562,
+        "auc": 0.6968696854471654
+      },
+      {
+        "cell": 2,
+        "domain": 2,
+        "task": 0,
+        "n": 1843,
+        "positive": 1063,
+        "negative": 780,
+        "logloss": 0.6469659191168258,
+        "auc": 0.6588356610463854
+      },
+      {
+        "cell": 3,
+        "domain": 0,
+        "task": 1,
+        "n": 2692,
+        "positive": 101,
+        "negative": 2591,
+        "logloss": 0.15198844596741828,
+        "auc": 0.7063215777386306
+      },
+      {
+        "cell": 4,
+        "domain": 1,
+        "task": 1,
+        "n": 246232,
+        "positive": 27460,
+        "negative": 218772,
+        "logloss": 0.34864854637895953,
+        "auc": 0.7232221564508742
+      },
+      {
+        "cell": 5,
+        "domain": 2,
+        "task": 1,
+        "n": 1843,
+        "positive": 829,
+        "negative": 1014,
+        "logloss": 0.6488517005771042,
+        "auc": 0.6658951994156597
+      }
+    ],
+    "macro_auc": 0.6871979191744942,
+    "macro_logloss": 0.43252974742755573,
+    "natural_auc": 0.7094715242951081,
+    "natural_auc_defined_requests": 501534,
+    "macro_auc_defined_cells": 6,
+    "macro_logloss_defined_cells": 6,
+    "natural_logloss": 0.427623948115394,
+    "pooled_auc_by_task": [
+      0.7008795255812141,
+      0.7285342547045606
+    ],
+    "pooled_auc_valid_requests_by_task": [
+      250767,
+      250767
+    ],
+    "valid_requests": 501534
+  },
+  "final_validation": {
+    "cells": [
+      {
+        "cell": 0,
+        "domain": 0,
+        "task": 0,
+        "n": 2692,
+        "positive": 245,
+        "negative": 2447,
+        "logloss": 0.2915267101943905,
+        "auc": 0.6711274947249026
+      },
+      {
+        "cell": 1,
+        "domain": 1,
+        "task": 0,
+        "n": 246232,
+        "positive": 51644,
+        "negative": 194588,
+        "logloss": 0.5084500076152391,
+        "auc": 0.6963959125242675
+      },
+      {
+        "cell": 2,
+        "domain": 2,
+        "task": 0,
+        "n": 1843,
+        "positive": 1063,
+        "negative": 780,
+        "logloss": 0.647275579452696,
+        "auc": 0.6579950309959718
+      },
+      {
+        "cell": 3,
+        "domain": 0,
+        "task": 1,
+        "n": 2692,
+        "positive": 101,
+        "negative": 2591,
+        "logloss": 0.15239199016178856,
+        "auc": 0.70050555808186
+      },
+      {
+        "cell": 4,
+        "domain": 1,
+        "task": 1,
+        "n": 246232,
+        "positive": 27460,
+        "negative": 218772,
+        "logloss": 0.34679504085145135,
+        "auc": 0.7228092239295207
+      },
+      {
+        "cell": 5,
+        "domain": 2,
+        "task": 1,
+        "n": 1843,
+        "positive": 829,
+        "negative": 1014,
+        "logloss": 0.6488062214207887,
+        "auc": 0.6656055274409176
+      }
+    ],
+    "macro_auc": 0.6857397912829067,
+    "macro_logloss": 0.43254092494939234,
+    "natural_auc": 0.7089959029031814,
+    "natural_auc_defined_requests": 501534,
+    "macro_auc_defined_cells": 6,
+    "macro_logloss_defined_cells": 6,
+    "natural_logloss": 0.4270346709782761,
+    "pooled_auc_by_task": [
+      0.7003735348071852,
+      0.7280539536495325
+    ],
+    "pooled_auc_valid_requests_by_task": [
+      250767,
+      250767
+    ],
+    "valid_requests": 501534
+  },
+  "training_seconds": 118.78241256900947,
+  "total_elapsed_seconds": 120.4942579579947,
+  "global_steps": 5064,
+  "parameter_count": 2436811,
+  "peak_cuda_bytes": 487964672,
+  "inference_timing": {
+    "checkpoint_view": "selected",
+    "batch_size": 256,
+    "device": "cuda:1",
+    "warmup": 5,
+    "repetitions": 25,
+    "p50_ms": 4.976160998921841,
+    "p95_ms": 5.189227615483105
+  },
+  "epochs": [
+    {
+      "stage": "search_setup",
+      "optimizer_parameter_ownership": {
+        "base": [
+          "embedding.embedding",
+          "embedding.dense_vector",
+          "share_mlp.mlp.0.weight",
+          "share_mlp.mlp.0.bias",
+          "share_mlp.mlp.3.weight",
+          "share_mlp.mlp.3.bias",
+          "D_kernels.0",
+          "D_bias.0",
+          "T_kernels.0",
+          "T_bias.0",
+          "D_A_kernel.0",
+          "D_B_kernel.0",
+          "D_lora_bias.0",
+          "T_A_kernel.0",
+          "T_B_kernel.0",
+          "T_lora_bias.0"
+        ],
+        "gate": [
+          "gate_hypernet.mlp.0.weight",
+          "gate_hypernet.mlp.0.bias",
+          "gate_hypernet.mlp.3.weight",
+          "gate_hypernet.mlp.3.bias",
+          "gate_head0.weight",
+          "gate_head0.bias",
+          "gate_head1.weight",
+          "gate_head1.bias"
+        ]
+      },
+      "base_parameter_count": 1305075,
+      "gate_parameter_count": 1086984
+    },
+    {
+      "stage": "search",
+      "epoch": 0,
+      "train_loss": 1.112602323398349,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.112602323398349,
+        "gate_penalty": 0.0
+      },
+      "temperature": 1.0,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.30244979240420605,
+            "auc": 0.5740606990650776
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5380889443961223,
+            "auc": 0.6304881168176641
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6711991892491737,
+            "auc": 0.6086921388426563
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.1587488954055694,
+            "auc": 0.5867339725095628
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3767813799219058,
+            "auc": 0.6601230463369467
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6756151186608628,
+            "auc": 0.6138856967473465
+          }
+        ],
+        "macro_auc": 0.6123306117198757,
+        "macro_logloss": 0.45381388667297334,
+        "natural_auc": 0.6443587835176827,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.456587340707786,
+        "pooled_auc_by_task": [
+          0.6368651241490272,
+          0.6683119988365229
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.246750799997244
+    },
+    {
+      "stage": "search",
+      "epoch": 1,
+      "train_loss": 1.075728310236823,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.075728310236823,
+        "gate_penalty": 0.0
+      },
+      "temperature": 1.6681005372000588,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.3008549046795319,
+            "auc": 0.6052759313778637
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5211493097613423,
+            "auc": 0.646822425212749
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6577142018540553,
+            "auc": 0.6291555105289819
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15714285729518557,
+            "auc": 0.6191309597960954
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3612419874246118,
+            "auc": 0.6749369928729773
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6622574482415752,
+            "auc": 0.6334703773230266
+          }
+        ],
+        "macro_auc": 0.6347986995186157,
+        "macro_logloss": 0.443393451542717,
+        "natural_auc": 0.6601398666818922,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4405256904119243,
+        "pooled_auc_by_task": [
+          0.6524515159187548,
+          0.6822037887472946
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.13603603001684
+    },
+    {
+      "stage": "search",
+      "epoch": 2,
+      "train_loss": 1.0595118352834731,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.0595118352834731,
+        "gate_penalty": 0.0
+      },
+      "temperature": 2.782559402207125,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29926735719286035,
+            "auc": 0.6181663511338332
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5215296814452144,
+            "auc": 0.657118571609881
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6556187543259928,
+            "auc": 0.6334262006416287
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15610834479681115,
+            "auc": 0.6345308015942468
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.36291449314680296,
+            "auc": 0.6855886427949832
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6608961824658968,
+            "auc": 0.6362683587792617
+          }
+        ],
+        "macro_auc": 0.6441831544256391,
+        "macro_logloss": 0.4427224688955964,
+        "natural_auc": 0.6706021737818277,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.44150679000108733,
+        "pooled_auc_by_task": [
+          0.6622466996639144,
+          0.692145910493102
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.155552532000002
+    },
+    {
+      "stage": "search",
+      "epoch": 3,
+      "train_loss": 1.0442660944590552,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.0442660944590552,
+        "gate_penalty": 0.0
+      },
+      "temperature": 4.641588833612779,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29723230210778184,
+            "auc": 0.6412366663052635
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5092128112666998,
+            "auc": 0.6663548322271091
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.653162720988134,
+            "auc": 0.6422654798948308
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.1547286086683926,
+            "auc": 0.657519746571338
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3498736404660334,
+            "auc": 0.6925190253511859
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6588919686015325,
+            "auc": 0.641384905651399
+          }
+        ],
+        "macro_auc": 0.6568801093335211,
+        "macro_logloss": 0.4371836753497624,
+        "natural_auc": 0.6788378208122365,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.42902250046413115,
+        "pooled_auc_by_task": [
+          0.6713720717600169,
+          0.6991043285287337
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.146820044989
+    },
+    {
+      "stage": "search",
+      "epoch": 4,
+      "train_loss": 1.0298259637904994,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.0298259637904994,
+        "gate_penalty": 0.0
+      },
+      "temperature": 7.742636826811271,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.2951966547330428,
+            "auc": 0.6442124050273972
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5167673146191111,
+            "auc": 0.6779658145816468
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6604021807646645,
+            "auc": 0.6421279880357961
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15465175853921734,
+            "auc": 0.6603054747775047
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3546369462805278,
+            "auc": 0.7036936562835694
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6630622887823768,
+            "auc": 0.6442768669269551
+          }
+        ],
+        "macro_auc": 0.662097034272145,
+        "macro_logloss": 0.4407861906198234,
+        "natural_auc": 0.6900656408343504,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4351006131503429,
+        "pooled_auc_by_task": [
+          0.682620943169209,
+          0.7098592103671296
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.199400785000762
+    },
+    {
+      "stage": "search",
+      "epoch": 5,
+      "train_loss": 1.0173127200841479,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.0173127200841479,
+        "gate_penalty": 0.0
+      },
+      "temperature": 12.91549665014884,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29632470722951576,
+            "auc": 0.650530845766995
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5005802374825746,
+            "auc": 0.6833371953890334
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6489892207504142,
+            "auc": 0.647271872060207
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15431059178947396,
+            "auc": 0.6651394201558326
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.34386054366252383,
+            "auc": 0.7095993237509579
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6547737432973638,
+            "auc": 0.6513051298705934
+          }
+        ],
+        "macro_auc": 0.6678639644989365,
+        "macro_logloss": 0.4331398407019777,
+        "natural_auc": 0.6957067850859584,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.421794510024483,
+        "pooled_auc_by_task": [
+          0.6876275284748302,
+          0.7152405938467803
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.163923614018131
+    },
+    {
+      "stage": "search",
+      "epoch": 6,
+      "train_loss": 1.007032462743445,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 1.007032462743445,
+        "gate_penalty": 0.0
+      },
+      "temperature": 21.544346900318843,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29275581895844166,
+            "auc": 0.6613429188594113
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.506432802745823,
+            "auc": 0.6869439090270839
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6472018457491107,
+            "auc": 0.6532901560653207
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15212477000282554,
+            "auc": 0.6867183051767162
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3496824944234392,
+            "auc": 0.7129357911942272
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6527244339922087,
+            "auc": 0.6563955051474769
+          }
+        ],
+        "macro_auc": 0.6762710975783728,
+        "macro_logloss": 0.43348702764530805,
+        "natural_auc": 0.6993302743854142,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4274812166904511,
+        "pooled_auc_by_task": [
+          0.691181248908489,
+          0.7185340788531066
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.1143777280231
+    },
+    {
+      "stage": "search",
+      "epoch": 7,
+      "train_loss": 0.9980298799413242,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 0.9980298799413242,
+        "gate_penalty": 0.0
+      },
+      "temperature": 35.93813663804628,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29181975320467324,
+            "auc": 0.6627523915164758
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.4927417466520229,
+            "auc": 0.6906279514634963
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6479676094704472,
+            "auc": 0.6550341317509709
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15206620051867353,
+            "auc": 0.6899625894662025
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3344858582653435,
+            "auc": 0.7167776828660871
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6522972994457611,
+            "auc": 0.6626314825257018
+          }
+        ],
+        "macro_auc": 0.6796310382648224,
+        "macro_logloss": 0.42856307792615356,
+        "natural_auc": 0.7030794933307797,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4132944861735569,
+        "pooled_auc_by_task": [
+          0.6948528648918197,
+          0.7223331052686862
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.169319453998469
+    },
+    {
+      "stage": "search",
+      "epoch": 8,
+      "train_loss": 0.9906922167360289,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 0.9906922167360289,
+        "gate_penalty": 0.0
+      },
+      "temperature": 59.94842503189412,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29028621557803935,
+            "auc": 0.6659082758563172
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5027957584048612,
+            "auc": 0.6952399862496648
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6469744035859217,
+            "auc": 0.6556082205658875
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15107481119548283,
+            "auc": 0.7044529616991031
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.3466715817937971,
+            "auc": 0.7210541378460921
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6484045481814967,
+            "auc": 0.6669069694958161
+          }
+        ],
+        "macro_auc": 0.6848617586188134,
+        "macro_logloss": 0.43103455312326644,
+        "natural_auc": 0.7075559039090655,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.42418174920140556,
+        "pooled_auc_by_task": [
+          0.6992124940003532,
+          0.7263099048800288
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.185684649011819
+    },
+    {
+      "stage": "search_rewind",
+      "rewind_epoch_index": 9,
+      "temperature_before_final_search_epoch": 59.94842503189412,
+      "checkpoint": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2026/rewind_epoch9.pt"
+    },
+    {
+      "stage": "search",
+      "epoch": 9,
+      "train_loss": 0.9834452372677078,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 0.9834452372677078,
+        "gate_penalty": 0.0
+      },
+      "temperature": 100.00000000000003,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.2907987388724453,
+            "auc": 0.6644487627498895
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5216383161367407,
+            "auc": 0.6954977013951361
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.656079856453983,
+            "auc": 0.6561364787611259
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15157915540940947,
+            "auc": 0.6982127776652617
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.36057938239109383,
+            "auc": 0.7216339376140852
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6564936435626585,
+            "auc": 0.6651296802544832
+          }
+        ],
+        "macro_auc": 0.6835098897399968,
+        "macro_logloss": 0.43952818213772177,
+        "natural_auc": 0.7079211701188393,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4403294344866813,
+        "pooled_auc_by_task": [
+          0.6995035219567551,
+          0.7269433730741515
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.17922902898863
+    },
+    {
+      "stage": "reuse_setup",
+      "rewind_epoch_index": 9,
+      "fresh_model_from_rewind": true,
+      "fresh_base_optimizer": true,
+      "search_optimizer_state_reused": false,
+      "selector_transplant_equal": true,
+      "ticket": true,
+      "temperature": 100.0,
+      "gate_frozen": true,
+      "optimizer_parameter_ownership": {
+        "base": [
+          "embedding.embedding",
+          "embedding.dense_vector",
+          "share_mlp.mlp.0.weight",
+          "share_mlp.mlp.0.bias",
+          "share_mlp.mlp.3.weight",
+          "share_mlp.mlp.3.bias",
+          "D_kernels.0",
+          "D_bias.0",
+          "T_kernels.0",
+          "T_bias.0",
+          "D_A_kernel.0",
+          "D_B_kernel.0",
+          "D_lora_bias.0",
+          "T_A_kernel.0",
+          "T_B_kernel.0",
+          "T_lora_bias.0"
+        ],
+        "gate": []
+      }
+    },
+    {
+      "stage": "reuse",
+      "epoch": 1,
+      "train_loss": 0.9741180773368607,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 0.9741180773368607,
+        "gate_penalty": 0.0
+      },
+      "temperature": 100.0,
+      "ticket": true,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.29091402244847003,
+            "auc": 0.6720432349482498
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5078098500765562,
+            "auc": 0.6968696854471654
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.6469659191168258,
+            "auc": 0.6588356610463854
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15198844596741828,
+            "auc": 0.7063215777386306
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.34864854637895953,
+            "auc": 0.7232221564508742
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6488517005771042,
+            "auc": 0.6658951994156597
+          }
+        ],
+        "macro_auc": 0.6871979191744942,
+        "macro_logloss": 0.43252974742755573,
+        "natural_auc": 0.7094715242951081,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.427623948115394,
+        "pooled_auc_by_task": [
+          0.7008795255812141,
+          0.7285342547045606
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.596928320999723
+    },
+    {
+      "stage": "reuse",
+      "epoch": 2,
+      "train_loss": 0.9708999832691375,
+      "valid_label_exposures": 3450542,
+      "updates": 422,
+      "components": {
+        "predictive": 0.9708999832691375,
+        "gate_penalty": 0.0
+      },
+      "temperature": 100.0,
+      "ticket": true,
+      "validation": {
+        "cells": [
+          {
+            "cell": 0,
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447,
+            "logloss": 0.2915267101943905,
+            "auc": 0.6711274947249026
+          },
+          {
+            "cell": 1,
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588,
+            "logloss": 0.5084500076152391,
+            "auc": 0.6963959125242675
+          },
+          {
+            "cell": 2,
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780,
+            "logloss": 0.647275579452696,
+            "auc": 0.6579950309959718
+          },
+          {
+            "cell": 3,
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591,
+            "logloss": 0.15239199016178856,
+            "auc": 0.70050555808186
+          },
+          {
+            "cell": 4,
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772,
+            "logloss": 0.34679504085145135,
+            "auc": 0.7228092239295207
+          },
+          {
+            "cell": 5,
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014,
+            "logloss": 0.6488062214207887,
+            "auc": 0.6656055274409176
+          }
+        ],
+        "macro_auc": 0.6857397912829067,
+        "macro_logloss": 0.43254092494939234,
+        "natural_auc": 0.7089959029031814,
+        "natural_auc_defined_requests": 501534,
+        "macro_auc_defined_cells": 6,
+        "macro_logloss_defined_cells": 6,
+        "natural_logloss": 0.4270346709782761,
+        "pooled_auc_by_task": [
+          0.7003735348071852,
+          0.7280539536495325
+        ],
+        "pooled_auc_valid_requests_by_task": [
+          250767,
+          250767
+        ],
+        "valid_requests": 501534
+      },
+      "seconds": 9.589251680008601
+    },
+    {
+      "stage": "reuse_pruning_summary",
+      "source": "T0_union_F",
+      "selector_dimensions": 4,
+      "cells": [
+        {
+          "domain": 0,
+          "task": 0,
+          "rows": 148591,
+          "gate_decisions": 594364,
+          "removed": 148591,
+          "retained": 445773,
+          "pruned_fraction": 0.25
+        },
+        {
+          "domain": 0,
+          "task": 1,
+          "rows": 148591,
+          "gate_decisions": 594364,
+          "removed": 542675,
+          "retained": 51689,
+          "pruned_fraction": 0.9130347733039013
+        },
+        {
+          "domain": 1,
+          "task": 0,
+          "rows": 1499752,
+          "gate_decisions": 5999008,
+          "removed": 1499752,
+          "retained": 4499256,
+          "pruned_fraction": 0.25
+        },
+        {
+          "domain": 1,
+          "task": 1,
+          "rows": 1499752,
+          "gate_decisions": 5999008,
+          "removed": 5482718,
+          "retained": 516290,
+          "pruned_fraction": 0.9139374376563592
+        },
+        {
+          "domain": 2,
+          "task": 0,
+          "rows": 76928,
+          "gate_decisions": 307712,
+          "removed": 76928,
+          "retained": 230784,
+          "pruned_fraction": 0.25
+        },
+        {
+          "domain": 2,
+          "task": 1,
+          "rows": 76928,
+          "gate_decisions": 307712,
+          "removed": 277435,
+          "retained": 30277,
+          "pruned_fraction": 0.9016060472129783
+        }
+      ]
+    }
+  ]
+}
+[Thread 0x7f9e0eff4700 (LWP 1529115) exited]
+[Thread 0x7f9e0f7f5700 (LWP 1529114) exited]
+[Thread 0x7f9e58d85700 (LWP 1529099) exited]
+[Thread 0x7f9e59800700 (LWP 1529083) exited]
+[Thread 0x7f9e68dff700 (LWP 1529082) exited]
+[Thread 0x7f9f5fb28280 (LWP 1529065) exited]
+[Inferior 1 (process 1529065) exited normally]
+The program has no registers now.
+No registers.
+From                To                  Syms Read   Shared Object Library
+0x00007f9f5feb7100  0x00007f9f5fed9684  Yes         /lib64/ld-linux-x86-64.so.2
+0x00007f9f5fe7bae0  0x00007f9f5fe8b535  Yes         /lib/x86_64-linux-gnu/libpthread.so.0
+0x00007f9f5fe70220  0x00007f9f5fe71179  Yes         /lib/x86_64-linux-gnu/libdl.so.2
+0x00007f9f5fe6b3e0  0x00007f9f5fe6bd90  Yes         /lib/x86_64-linux-gnu/libutil.so.1
+0x00007f9f5fd283c0  0x00007f9f5fdcefa8  Yes         /lib/x86_64-linux-gnu/libm.so.6
+0x00007f9f5fb4b630  0x00007f9f5fcc04bd  Yes         /lib/x86_64-linux-gnu/libc.so.6
+0x00007f9f5fea1050  0x00007f9f5fea6de1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_json.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5eedf050  0x00007f9f5eee8101  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/math.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5eed6050  0x00007f9f5eed7a11  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_bisect.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5eecf050  0x00007f9f5eed0b81  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_random.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5edc4050  0x00007f9f5edc7c21  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/zlib.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5eda9040  0x00007f9f5edb82c7  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libz.so.1
+0x00007f9f5eda0050  0x00007f9f5eda1f01  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_bz2.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5ed8c050  0x00007f9f5ed99431  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libbz2.so.1.0
+0x00007f9f5ed81050  0x00007f9f5ed84b11  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_lzma.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5ed52040  0x00007f9f5ed6ffcb  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../liblzma.so.5
+0x00007f9f5ed49050  0x00007f9f5ed498d1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/grp.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5e3cd270  0x00007f9f5eb70df5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/_core/_multiarray_umath.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5cfabc00  0x00007f9f5e0c9bec  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/_core/../../numpy.libs/libscipy_openblas64_-ff651d7f.so
+0x00007f9f5cdbcf30  0x00007f9f5ce56954  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/../lib/libstdc++.so.6
+0x00007f9f5cce56e0  0x00007f9f5ccfa26c  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/../lib/libgcc_s.so.1
+0x00007f9f5c84b870  0x00007f9f5ca76837  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/_core/../../numpy.libs/libgfortran-040039e1-0352e75f.so.5.0.0
+0x00007f9f5c5f43e0  0x00007f9f5c617d2b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/_core/../../numpy.libs/libquadmath-96973f99-934c22de.so.0.0.0
+0x00007f9f5c5d5050  0x00007f9f5c5e7e61  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_datetime.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c4cb050  0x00007f9f5c4cb211  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_contextvars.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c3bf050  0x00007f9f5c3c3971  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_struct.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c39f050  0x00007f9f5c3b22d1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_pickle.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5ef08050  0x00007f9f5ef18251  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_ctypes.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5eef4000  0x00007f9f5eefc793  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libffi.so.8
+0x00007f9f5c105990  0x00007f9f5c12848b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/linalg/_umath_linalg.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5bffc050  0x00007f9f5bffd6e1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_opcode.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5bfe5050  0x00007f9f5bfee211  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_socket.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5beda050  0x00007f9f5bedb1a1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/fcntl.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5bed2050  0x00007f9f5bed4991  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_posixsubprocess.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5bec9050  0x00007f9f5becb301  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/select.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5beb8050  0x00007f9f5bebea41  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/array.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5beaf040  0x00007f9f5beaf0f9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch_global_deps.so
+0x00007f9f5bc0cf20  0x00007f9f5bc839fa  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cuda_runtime/lib/libcudart.so.12
+0x00007f9f5b9c92a0  0x00007f9f5b9ed3a2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libgomp.so.1
+0x00007f9f5b99c720  0x00007f9f5b99fd70  Yes         /lib/x86_64-linux-gnu/librt.so.1
+0x00007f9f57ddcc50  0x00007f9f5a442472  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/nvidia/cuda_nvrtc/lib/libnvrtc.so.12
+0x00007f9f574849d0  0x00007f9f57484d65  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/nvidia/cuda_nvrtc/lib/libnvrtc-builtins.so.12.6
+0x00007f9f54391580  0x00007f9f566c4b62  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/nvidia/nvjitlink/lib/libnvJitLink.so.12
+0x00007f9f5b9bb050  0x00007f9f5b9bb115  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/_C.cpython-313-x86_64-linux-gnu.so
+0x00007f9f52ec3ac0  0x00007f9f53bb0bd0  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch_python.so
+0x00007f9f52cc9c50  0x00007f9f52cf0a2e  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch.so
+0x00007f9f5b9b23d0  0x00007f9f5b9b4add  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libshm.so
+0x00007f9f3f311100  0x00007f9f4f842930  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch_cpu.so
+0x00007f9f0563a690  0x00007f9f085db5c2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch_cuda.so
+0x00007f9f047662f0  0x00007f9f047b7953  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libc10_cuda.so
+0x00007f9f0465f440  0x00007f9f046fee08  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libc10.so
+0x00007f9f04419230  0x00007f9f0442948e  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cudnn/lib/libcudnn.so.9
+0x00007f9eeb2948f0  0x00007f9eee259b92  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cusparselt/lib/libcusparseLt.so.0
+0x00007f9ee8ffce80  0x00007f9ee91dda7a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cufile/lib/libcufile.so.0
+0x00007f9ee8895150  0x00007f9ee8d30180  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cuda_cupti/lib/libcupti.so.12
+0x00007f9ee7f8a670  0x00007f9ee8024f82  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libtorch_nvshmem.so
+0x00007f9ed65d6890  0x00007f9ed70ab12a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cusparse/lib/libcusparse.so.12
+0x00007f9ec558b3a0  0x00007f9ec59d7fea  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cufft/lib/libcufft.so.11
+0x00007f9eacb05ba0  0x00007f9eacc70112  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/nccl/lib/libnccl.so.2
+0x00007f9ea6695d10  0x00007f9ea67add4a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/curand/lib/libcurand.so.10
+0x00007f9e9fd75000  0x00007f9ea046ec1a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cublas/lib/libcublas.so.12
+0x00007f9e7ea66a40  0x00007f9e8207a34a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/cublas/lib/libcublasLt.so.12
+0x00007f9e75ad4890  0x00007f9e75d3c352  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/../../nvidia/nvshmem/lib/libnvshmem_host.so.3
+0x00007f9e71697ec0  0x00007f9e723b2c64  Yes (*)     /lib/x86_64-linux-gnu/libcuda.so.1
+0x00007f9f5c392050  0x00007f9f5c394351  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_heapq.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c38a050  0x00007f9f5c38cbe1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/mmap.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c380050  0x00007f9f5c3831a1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/binascii.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c37a050  0x00007f9f5c37ab31  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_queue.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c372050  0x00007f9f5c373cd1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/readline.cpython-313-x86_64-linux-gnu.so
+0x00007f9e714db050  0x00007f9e71508e31  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libreadline.so.8
+0x00007f9e7148d040  0x00007f9e714aa938  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../.././libtinfow.so.6
+0x00007f9f5c363050  0x00007f9f5c368ad1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_hashlib.cpython-313-x86_64-linux-gnu.so
+0x00007f9e705b4080  0x00007f9e709093d2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libcrypto.so.3
+0x00007f9f5c353050  0x00007f9f5c35a281  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_blake2.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c342050  0x00007f9f5c34ad61  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/cmath.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c33c050  0x00007f9f5c33c231  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_uuid.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5b9a8050  0x00007f9f5b9ab5c1  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libuuid.so.1
+0x00007f9e75a7f050  0x00007f9e75a89221  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_ssl.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6f9ec040  0x00007f9e6fa878c7  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libssl.so.3
+0x00007f9e6f91f050  0x00007f9e6f9224a1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/unicodedata.cpython-313-x86_64-linux-gnu.so
+0x00007f9f5c337050  0x00007f9f5c337ee1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_multiprocessing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e75a67050  0x00007f9e75a67441  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_posixshmem.cpython-313-x86_64-linux-gnu.so
+0x00007f9e710a1050  0x00007f9e710a65c1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_asyncio.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6dd83c00  0x00007f9e6e01e98d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/lib.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6dbb6a90  0x00007f9e6dcdcff7  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libarrow_python.so.1900
+0x00007f9e6d80f7c0  0x00007f9e6da480f5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libarrow_substrait.so.1900
+0x00007f9e6d678f50  0x00007f9e6d747017  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libarrow_dataset.so.1900
+0x00007f9e6cef3000  0x00007f9e6d3dcfb2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libparquet.so.1900
+0x00007f9e6cc07790  0x00007f9e6cce7858  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libarrow_acero.so.1900
+0x00007f9e69ca7000  0x00007f9e6bf6a890  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/libarrow.so.1900
+0x00007f9e71076050  0x00007f9e7108bb91  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_decimal.cpython-313-x86_64-linux-gnu.so
+0x00007f9e71044040  0x00007f9e71063fa2  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/../../libmpdec.so.4
+0x00007f9e7100b8f0  0x00007f9e7102d343  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/bit_generator.cpython-313-x86_64-linux-gnu.so
+0x00007f9e70fcd830  0x00007f9e70ffd50f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_common.cpython-313-x86_64-linux-gnu.so
+0x00007f9e69642970  0x00007f9e6969ec94  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/mtrand.cpython-313-x86_64-linux-gnu.so
+0x00007f9e685b4830  0x00007f9e685f353f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_bounded_integers.cpython-313-x86_64-linux-gnu.so
+0x00007f9e696206b0  0x00007f9e69632d42  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_mt19937.cpython-313-x86_64-linux-gnu.so
+0x00007f9e696046e0  0x00007f9e6961446c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_philox.cpython-313-x86_64-linux-gnu.so
+0x00007f9e685936c0  0x00007f9e685a6a0b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_pcg64.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6857f650  0x00007f9e68588cda  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_sfc64.cpython-313-x86_64-linux-gnu.so
+0x00007f9e68497cf0  0x00007f9e6851d0a7  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/random/_generator.cpython-313-x86_64-linux-gnu.so
+0x00007f9e71473290  0x00007f9e7147895c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/pandas_parser.cpython-313-x86_64-linux-gnu.so
+0x00007f9e68486220  0x00007f9e6848aaed  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/pandas_datetime.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6832caa0  0x00007f9e68456b8f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/interval.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6811cae0  0x00007f9e682d0bcd  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/hashtable.cpython-313-x86_64-linux-gnu.so
+0x00007f9e680dd8b0  0x00007f9e681010a8  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/missing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e680a9890  0x00007f9e680cef58  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/dtypes.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6808e5b0  0x00007f9e6809fec5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/ccalendar.cpython-313-x86_64-linux-gnu.so
+0x00007f9e68069710  0x00007f9e68082990  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/np_datetime.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6801fa40  0x00007f9e68056e75  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/conversion.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6800d610  0x00007f9e680149af  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/base.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63df0bb0  0x00007f9e63ecb191  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/offsets.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63d4dae0  0x00007f9e63dbc447  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/timestamps.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63d12770  0x00007f9e63d34c50  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/nattype.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63c7bba0  0x00007f9e63cf2546  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/timedeltas.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63c32980  0x00007f9e63c6565e  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/timezones.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63c24050  0x00007f9e63c28d41  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_zoneinfo.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63bd5980  0x00007f9e63c13dc4  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/fields.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63b839a0  0x00007f9e63bc1cd3  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/tzconversion.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63b6b6a0  0x00007f9e63b77ebb  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/properties.cpython-313-x86_64-linux-gnu.so
+0x00007f9e639fdc20  0x00007f9e63a53d36  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/parsing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6399aa60  0x00007f9e639e7233  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/strptime.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6391aaa0  0x00007f9e63976280  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/period.cpython-313-x86_64-linux-gnu.so
+0x00007f9e638dc910  0x00007f9e63906f1a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslibs/vectorized.cpython-313-x86_64-linux-gnu.so
+0x00007f9e638ca590  0x00007f9e638d281f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/ops_dispatch.cpython-313-x86_64-linux-gnu.so
+0x00007f9e636cbac0  0x00007f9e6389b0cf  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/algos.cpython-313-x86_64-linux-gnu.so
+0x00007f9e635ecba0  0x00007f9e6369fc66  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/lib.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63402410  0x00007f9e634a0f3a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pyarrow/_compute.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6319a990  0x00007f9e631c8a33  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/ops.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63163960  0x00007f9e63188140  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/hashing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63140760  0x00007f9e6315567b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/arrays.cpython-313-x86_64-linux-gnu.so
+0x00007f9e63032050  0x00007f9e630372b1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_csv.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62fe2a30  0x00007f9e630202c5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/tslib.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62e05980  0x00007f9e62ec897f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/sparse.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62da0a10  0x00007f9e62deb8a8  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/internals.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62c8c650  0x00007f9e62c947b1  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/indexing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62bacb20  0x00007f9e62c6409f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/index.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62b67980  0x00007f9e62b948dc  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/writers.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62a1a9f0  0x00007f9e62b4ce3f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/join.cpython-313-x86_64-linux-gnu.so
+0x00007f9e627b8a80  0x00007f9e62804055  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/window/aggregations.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62782900  0x00007f9e627a5fea  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/window/indexers.cpython-313-x86_64-linux-gnu.so
+0x00007f9e627309c0  0x00007f9e6276fadc  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/reshape.cpython-313-x86_64-linux-gnu.so
+0x00007f9e623acae0  0x00007f9e625f7b17  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/groupby.cpython-313-x86_64-linux-gnu.so
+0x00007f9e62295470  0x00007f9e6229d83e  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/json.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6220bc90  0x00007f9e6227e75f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/parsers.cpython-313-x86_64-linux-gnu.so
+0x00007f9e620e7730  0x00007f9e620fdb3c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/pandas/_libs/testing.cpython-313-x86_64-linux-gnu.so
+0x00007f9e68003430  0x00007f9e68005d37  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/__check_build/_check_build.cpython-313-x86_64-linux-gnu.so
+0x00007f9e61ed07d0  0x00007f9e61edda46  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/_lib/_ccallback_c.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6f695710  0x00007f9e6f71058a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy/fft/_pocketfft_umath.cpython-313-x86_64-linux-gnu.so
+0x00007f9e61616450  0x00007f9e619cc12a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/_sparsetools.cpython-313-x86_64-linux-gnu.so
+0x00007f9e61563a20  0x00007f9e615fe068  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/_csparsetools.cpython-313-x86_64-linux-gnu.so
+0x00007f9e613abb10  0x00007f9e613ed172  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_fblas.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ffb2c00  0x00007f9e610bb80d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/../../scipy.libs/libscipy_openblas-68440149.so
+0x00007f9e5dd0fb60  0x00007f9e5ddd7872  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_flapack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5dc489d0  0x00007f9e5dcb78c9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_cythonized_array_utils.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5dbb52f0  0x00007f9e5dbcd58a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/cython_lapack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e6f64e9a0  0x00007f9e6f67db2f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_solve_toeplitz.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5db5d920  0x00007f9e5db886fc  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_decomp_lu_cython.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5da20960  0x00007f9e5da4ba2b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_matfuncs_sqrtm_triu.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d9d8860  0x00007f9e5d9f18e5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_matfuncs_expm.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d99d510  0x00007f9e5d9b0519  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_linalg_pythran.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d948770  0x00007f9e5d9865a8  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_decomp_update.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d9012a0  0x00007f9e5d92ab9a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/cython_blas.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d872ad0  0x00007f9e5d8c4ad5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_dsolve/_superlu.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d7bbb60  0x00007f9e5d80bae2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_eigen/arpack/_arpack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d325870  0x00007f9e5d550837  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_eigen/arpack/../../../../../scipy.libs/libgfortran-040039e1.so.5.0.0
+0x00007f9e5d0cf3e0  0x00007f9e5d0f2d2b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_eigen/arpack/../../../../../scipy.libs/libquadmath-96973f99.so.0.0.0
+0x00007f9e5d087ba0  0x00007f9e5d09bcd2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_propack/_spropack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5d01eba0  0x00007f9e5d0326f2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_propack/_dpropack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cf92c00  0x00007f9e5cfad182  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_propack/_cpropack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ceeec00  0x00007f9e5cf06a62  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/linalg/_propack/_zpropack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ce54990  0x00007f9e5ceb06d1  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_shortest_path.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ce236a0  0x00007f9e5ce413fb  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_tools.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cd91990  0x00007f9e5ce0a098  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_traversal.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cd56900  0x00007f9e5cd7e273  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_min_spanning_tree.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cd0a920  0x00007f9e5cd40579  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_flow.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ccbc900  0x00007f9e5ccf2628  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_matching.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cc74960  0x00007f9e5cca877c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/sparse/csgraph/_reordering.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5cb04e90  0x00007f9e5cc0a872  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_ufuncs.cpython-313-x86_64-linux-gnu.so
+0x00007f9e75a62050  0x00007f9e75a6212e  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/libsf_error_state.so
+0x00007f9e5c979ae0  0x00007f9e5cac7a12  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_ufuncs_cxx.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c72c640  0x00007f9e5c82e452  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_special_ufuncs.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c694440  0x00007f9e5c719292  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_gufuncs.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c657920  0x00007f9e5c687f22  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_specfun.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c6475b0  0x00007f9e5c64d901  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_comb.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c6276b0  0x00007f9e5c63b39a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/_ellip_harm_2.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c458d90  0x00007f9e5c4fec8a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_ckdtree.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c34eca0  0x00007f9e5c4128bd  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_qhull.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c338700  0x00007f9e5c341e85  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/_lib/messagestream.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c305900  0x00007f9e5c328c40  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_voronoi.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c2e71c0  0x00007f9e5c2fa64d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_distance_wrap.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c2b3920  0x00007f9e5c2d8587  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_hausdorff.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c233c60  0x00007f9e5c29bcea  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/_distance_pybind.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c14bb30  0x00007f9e5c1f36cf  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/spatial/transform/_rotation.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5c0324e0  0x00007f9e5c03ebb9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_group_columns.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bfddae0  0x00007f9e5c01be88  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_trlib/_trlib.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bfa17d0  0x00007f9e5bfaf0a5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_lbfgsb.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bf60680  0x00007f9e5bf79cf6  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_moduleTNC.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bf484d0  0x00007f9e5bf554a2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_cobyla.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bf343d0  0x00007f9e5bf406e2  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_slsqp.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bf1c2a0  0x00007f9e5bf2d79c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_minpack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5beee900  0x00007f9e5bf0fcd8  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_lsq/givens_elimination.cpython-313-x86_64-linux-gnu.so
+0x00007f9e70fc4130  0x00007f9e70fc55b4  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_zeros.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5bed26a0  0x00007f9e5bee24a5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_cython_nnls.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ba385b0  0x00007f9e5be22b1d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_highspy/_core.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b8dcdd0  0x00007f9e5b91140d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_highspy/_highs_options.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b7eda00  0x00007f9e5b8c3914  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/linalg/_decomp_interpolative.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b7cd6d0  0x00007f9e5b7df78a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/_lib/_uarray/_uarray.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b6d0ce0  0x00007f9e5b7a93ac  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/fft/_pocketfft/pypocketfft.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b680970  0x00007f9e5b6b858d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_bglu_dense.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b6741a0  0x00007f9e5b675cd5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_lsap.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b64eb60  0x00007f9e5b6670ba  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_pava_pybind.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b63f1f0  0x00007f9e5b644fcd  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/optimize/_direct.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b5028f0  0x00007f9e5b513495  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/integrate/_odepack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b4c8310  0x00007f9e5b4dbb5a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/integrate/_quadpack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b478b80  0x00007f9e5b496f92  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/integrate/_vode.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b43e4f0  0x00007f9e5b44bf62  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/integrate/_dop.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b3f8b80  0x00007f9e5b40c412  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/integrate/_lsoda.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b2c0220  0x00007f9e5b2cf3e4  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_fitpack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b270510  0x00007f9e5b2a5d32  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_dfitpack.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b2554b0  0x00007f9e5b260bfa  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_dierckx.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b1efa00  0x00007f9e5b242b9f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_ppoly.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b18dac0  0x00007f9e5b1d910c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_interpnd.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b0545b0  0x00007f9e5b07eae9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_rbfinterp_pythran.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5b0139a0  0x00007f9e5b0423da  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_rgi_cython.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5afc3c00  0x00007f9e5aff79aa  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/interpolate/_bspl.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5af1cb00  0x00007f9e5afa9540  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_stats.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5ac2aed0  0x00007f9e5aec5402  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/special/cython_special.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5aac99a0  0x00007f9e5ab0d3cf  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_sobol.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5aa8ca20  0x00007f9e5aab6344  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_qmc_cy.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a9499f0  0x00007f9e5a972fda  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_biasedurn.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a922590  0x00007f9e5a93b549  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_stats_pythran.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a913610  0x00007f9e5a919055  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_levy_stable/levyst.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a7d89c0  0x00007f9e5a8039e3  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_ansari_swilk_statistics.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a6ca430  0x00007f9e5a6d2942  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_mvn.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a694940  0x00007f9e5a6b9dc9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/stats/_rcont/rcont.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a56e360  0x00007f9e5a5887c9  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/ndimage/_nd_image.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a5661c0  0x00007f9e5a568442  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/ndimage/_rank_filter_1d.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a5079b0  0x00007f9e5a556351  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/scipy/ndimage/_ni_label.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a4c49c0  0x00007f9e5a4f48bf  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_isfinite.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a2f99f0  0x00007f9e5a3ac636  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/sparsefuncs_fast.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a2bd920  0x00007f9e5a2e5788  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/murmurhash.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a2aa5d0  0x00007f9e5a2b0ef7  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_openmp_helpers.cpython-313-x86_64-linux-gnu.so
+0x00007f9e5a084060  0x00007f9e5a09ac2a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/../../scikit_learn.libs/libgomp-a34b3233.so.1.0.0
+0x00007f9e5a049920  0x00007f9e5a07147a  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/cluster/_expected_mutual_info_fast.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59fcfa00  0x00007f9e5a03425b  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/preprocessing/_csr_polynomial_expansion.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59f56a10  0x00007f9e59fbb865  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/preprocessing/_target_encoder_fast.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59eb5a20  0x00007f9e59f2c0da  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_dist_metrics.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59d5ea20  0x00007f9e59d97c4f  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_argkmin.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59d11a30  0x00007f9e59d444c5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_base.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59ca6960  0x00007f9e59cf6729  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_datasets_pair.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59c269d0  0x00007f9e59c8d25c  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_cython_blas.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59bb9a30  0x00007f9e59c0b105  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_middle_term_computer.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59bae300  0x00007f9e59baf2dc  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_heap.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59ba7310  0x00007f9e59ba8729  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_sorting.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59b689b0  0x00007f9e59b94c52  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_argkmin_classmode.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59b13b10  0x00007f9e59b4dd75  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_radius_neighbors.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59af07e0  0x00007f9e59b03db5  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/utils/_vector_sentinel.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59aab9b0  0x00007f9e59adb460  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_distances_reduction/_radius_neighbors_classmode.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59a619b0  0x00007f9e59a9686d  Yes (*)     /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/sklearn/metrics/_pairwise_fast.cpython-313-x86_64-linux-gnu.so
+0x00007f9e7146d050  0x00007f9e7146d801  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_statistics.cpython-313-x86_64-linux-gnu.so
+0x00007f9e59906aa0  0x00007f9e5994e167  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/yaml/_yaml.cpython-313-x86_64-linux-gnu.so
+0x00007f9e33f86b10  0x00007f9e340f0b62  Yes (*)     /lib/x86_64-linux-gnu/libnvidia-ml.so.1
+0x00007f9e5837e050  0x00007f9e58380b11  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/_lsprof.cpython-313-x86_64-linux-gnu.so
+0x00007f9e58375050  0x00007f9e583762f1  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/lib-dynload/termios.cpython-313-x86_64-linux-gnu.so
+0x00007f9e12d73ec0  0x00007f9e17e18894  Yes         /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/triton/_C/libtriton.so
+                                        No          linux-vdso.so.1
+(*): Shared library is missing debugging information.

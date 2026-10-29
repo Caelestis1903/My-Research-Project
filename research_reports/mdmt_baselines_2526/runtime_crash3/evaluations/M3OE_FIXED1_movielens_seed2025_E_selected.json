@@ -1,0 +1,759 @@
+{
+  "status": "CLI_EXITED",
+  "profile": "D1",
+  "pid": 1538545,
+  "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+  "original_cli_argv": [
+    "--config",
+    "experiments/mdmt_sota_baselines_2526/default_config.json",
+    "evaluate",
+    "--run-dir",
+    "artifacts/mdmt_baselines_2526/runs/formal/movielens/M3OE_FIXED1/seed2025",
+    "--role",
+    "E",
+    "--view",
+    "selected",
+    "--freeze-manifest",
+    "artifacts/mdmt_baselines_2526/final_freeze.json",
+    "--method",
+    "M3OE_FIXED1",
+    "--dataset",
+    "movielens",
+    "--seed",
+    "2025",
+    "--device",
+    "cuda:1"
+  ],
+  "runpy_module": "experiments.mdmt_sota_baselines_2526",
+  "cli_command": "evaluate",
+  "run_dir": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/movielens/M3OE_FIXED1/seed2025",
+  "process_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONFAULTHANDLER": "1"
+  },
+  "inherited_thread_environment": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "NUMEXPR_NUM_THREADS": null
+  },
+  "torch_threads": {
+    "intra_op": 1,
+    "inter_op": 1
+  },
+  "source_identity": {
+    "source_equivalence_record": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/RUNTIME_IO_SOURCE_EQUIVALENCE.json",
+    "kind": "MDMT-SOTA-2526-RUNTIME-IO-R2",
+    "status": "REVIEW_REPLAY_COMPLETE",
+    "protocol": "MDMT-SOTA-2526-v1",
+    "source_commits": {
+      "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+      "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+    }
+  },
+  "configuration_path": "/home/xzf/Code/phase0-3/experiments/mdmt_sota_baselines_2526/default_config.json",
+  "configuration": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "run_status": "PENDING_APPROVAL",
+    "smoke_only": false,
+    "methods": [
+      "M3OE_FIXED1",
+      "HYPERGATE",
+      "AUTOIFS"
+    ],
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "development_seeds": [
+      2022,
+      2023
+    ],
+    "formal_seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "roles": {
+      "preprocess_fit": "T0",
+      "train": [
+        "T0",
+        "F"
+      ],
+      "selection": "V",
+      "development": "Q",
+      "final": "E",
+      "excluded": [
+        "S",
+        "legacy"
+      ]
+    },
+    "raw_paths": {
+      "movielens": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "kuairand": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv"
+    },
+    "historical_prepared": {
+      "movielens": "experiments/mdmt_sota_baselines_2526/reference_data/movielens",
+      "kuairand": "experiments/mdmt_sota_baselines_2526/reference_data/kuairand"
+    },
+    "prepared_root": "artifacts/mdmt_baselines_2526/data",
+    "source_roots": {
+      "recstudio": "/tmp/mdmt_sota_sources_2526/RecStudio",
+      "autoifs": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned"
+    },
+    "source_commits": {
+      "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+      "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+    },
+    "metrics": {
+      "checkpoint_selection": "V_macro_logloss",
+      "tie_tolerance": 1e-12,
+      "auc_input": "raw_logits",
+      "logloss": "stable_logit_softplus",
+      "views": [
+        "selected",
+        "fixed_final"
+      ]
+    },
+    "training": {
+      "optimizer": "Adam",
+      "precision": "float32",
+      "amp": false,
+      "tf32": false,
+      "weight_decay": 0.0
+    },
+    "models": {
+      "M3OE_FIXED1": {
+        "fcn_dims": [
+          512,
+          256,
+          256,
+          64
+        ],
+        "expert_num": 4,
+        "embedding_dim": 16,
+        "fixed_coefficients": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "batch_size": 40960,
+        "epochs": 24,
+        "selection_start_epoch": 12,
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "HYPERGATE": {
+        "embedding_dim": 16,
+        "expert_num": 4,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "gate_dims": [
+          256
+        ],
+        "tower_dims": [
+          256,
+          128
+        ],
+        "activation": "relu",
+        "dropout": 0.3,
+        "batch_norm": false,
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "gate_input_type": "augmented_embedding",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "configuration_provenance": {
+          "status": "UNVERIFIED_PROPOSAL",
+          "unverified_proposal": true,
+          "reason": "Pinned repository has no complete HyperGate config; ACM paper PDF was inaccessible."
+        },
+        "batch_size": 1024,
+        "eval_batch_size": 512,
+        "max_epochs": 1000,
+        "patience": 10,
+        "lr": 0.001,
+        "weight_decay": 0.0,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "AUTOIFS": {
+        "embedding_dim": 16,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "dropout": 0.0,
+        "batch_norm": false,
+        "rank": {
+          "movielens": 2,
+          "kuairand": 16
+        },
+        "batch_size": 4096,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "gate_lr_ratio": 0.01,
+        "temperature_start": 1.0,
+        "temperature_end": 100.0,
+        "rewind_epoch_index": 9,
+        "lambda": [
+          0.0,
+          0.0
+        ],
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "reuse_max_epochs": 50,
+        "reuse_patience": 1
+      }
+    },
+    "audit": {
+      "registered_raw_sha256_provenance": {
+        "movielens": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+        "kuairand": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f"
+      },
+      "checksum_revalidated": false
+    }
+  },
+  "prepared_data_manifest": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "status": "READY_DIRECT_VALUE_CHECKS",
+    "dataset": "movielens",
+    "raw_path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+    "prepared_path": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/movielens",
+    "registered_raw_sha256_provenance": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+    "checksum_revalidated": false,
+    "historical_manifest_raw_sha256_provenance": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+    "row_count": 1000209,
+    "features": {
+      "dataset": "movielens",
+      "columns": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "age",
+        "occupation",
+        "zip",
+        "cate_id",
+        "domain_indicator"
+      ],
+      "dense_columns": [
+        "age"
+      ],
+      "sparse_columns": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "occupation",
+        "zip",
+        "cate_id",
+        "domain_indicator"
+      ],
+      "vocab_sizes": {
+        "user_id": 5401,
+        "movie_id": 3632,
+        "gender": 3,
+        "occupation": 22,
+        "zip": 3201,
+        "cate_id": 19,
+        "domain_indicator": 3
+      },
+      "embedding_dim": 16,
+      "domain_column": "domain_indicator",
+      "encoder_hash": "cab74dbb13090a9339ae74310e24310d0145512d000ffc31f917965dfd7176d3",
+      "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+      "oov_index": 0
+    },
+    "role_map": {
+      "T0": [
+        "fit"
+      ],
+      "F": [
+        "P_label"
+      ],
+      "S": [
+        "P_cal",
+        "P_update"
+      ],
+      "Q": [
+        "Q_explore"
+      ],
+      "V": [
+        "validation"
+      ],
+      "E": [
+        "test"
+      ],
+      "legacy": [
+        "Q_confirm"
+      ]
+    },
+    "roles": {
+      "fit": {
+        "n": 640133,
+        "domain_counts": [
+          124759,
+          254879,
+          260495
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 124759,
+            "positive": 69963,
+            "negative": 54796
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 254879,
+            "positive": 143910,
+            "negative": 110969
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 260495,
+            "positive": 156789,
+            "negative": 103706
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 124759,
+            "positive": 29257,
+            "negative": 95502
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 254879,
+            "positive": 56318,
+            "negative": 198561
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 260495,
+            "positive": 62389,
+            "negative": 198106
+          }
+        ]
+      },
+      "P_label": {
+        "n": 48010,
+        "domain_counts": [
+          9357,
+          19116,
+          19537
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 9357,
+            "positive": 5223,
+            "negative": 4134
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 19116,
+            "positive": 10666,
+            "negative": 8450
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 19537,
+            "positive": 11734,
+            "negative": 7803
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 9357,
+            "positive": 2154,
+            "negative": 7203
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 19116,
+            "positive": 4116,
+            "negative": 15000
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 19537,
+            "positive": 4674,
+            "negative": 14863
+          }
+        ]
+      },
+      "P_cal": {
+        "n": 16003,
+        "domain_counts": [
+          3119,
+          6372,
+          6512
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3119,
+            "positive": 1761,
+            "negative": 1358
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 6372,
+            "positive": 3488,
+            "negative": 2884
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 6512,
+            "positive": 3951,
+            "negative": 2561
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3119,
+            "positive": 763,
+            "negative": 2356
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 6372,
+            "positive": 1374,
+            "negative": 4998
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 6512,
+            "positive": 1533,
+            "negative": 4979
+          }
+        ]
+      },
+      "P_update": {
+        "n": 16004,
+        "domain_counts": [
+          3119,
+          6372,
+          6513
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3119,
+            "positive": 1753,
+            "negative": 1366
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 6372,
+            "positive": 3510,
+            "negative": 2862
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 6513,
+            "positive": 3890,
+            "negative": 2623
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3119,
+            "positive": 732,
+            "negative": 2387
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 6372,
+            "positive": 1341,
+            "negative": 5031
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 6513,
+            "positive": 1587,
+            "negative": 4926
+          }
+        ]
+      },
+      "Q_explore": {
+        "n": 40008,
+        "domain_counts": [
+          7797,
+          15930,
+          16281
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 7797,
+            "positive": 4434,
+            "negative": 3363
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 15930,
+            "positive": 8981,
+            "negative": 6949
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 16281,
+            "positive": 9868,
+            "negative": 6413
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 7797,
+            "positive": 1864,
+            "negative": 5933
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 15930,
+            "positive": 3565,
+            "negative": 12365
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 16281,
+            "positive": 3897,
+            "negative": 12384
+          }
+        ]
+      },
+      "Q_confirm": {
+        "n": 40009,
+        "domain_counts": [
+          7798,
+          15930,
+          16281
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 7798,
+            "positive": 4360,
+            "negative": 3438
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 15930,
+            "positive": 8900,
+            "negative": 7030
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 16281,
+            "positive": 9839,
+            "negative": 6442
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 7798,
+            "positive": 1845,
+            "negative": 5953
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 15930,
+            "positive": 3444,
+            "negative": 12486
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 16281,
+            "positive": 3927,
+            "negative": 12354
+          }
+        ]
+      },
+      "validation": {
+        "n": 100021,
+        "domain_counts": [
+          27111,
+          35523,
+          37387
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 27111,
+            "positive": 14634,
+            "negative": 12477
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 35523,
+            "positive": 21027,
+            "negative": 14496
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 37387,
+            "positive": 22148,
+            "negative": 15239
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 27111,
+            "positive": 5781,
+            "negative": 21330
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 35523,
+            "positive": 8541,
+            "negative": 26982
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 37387,
+            "positive": 8889,
+            "negative": 28498
+          }
+        ]
+      },
+      "test": {
+        "n": 100021,
+        "domain_counts": [
+          27687,
+          41434,
+          30900
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 27687,
+            "positive": 14281,
+            "negative": 13406
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 41434,
+            "positive": 22072,
+            "negative": 19362
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 30900,
+            "positive": 18099,
+            "negative": 12801
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 27687,
+            "positive": 4964,
+            "negative": 22723
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 41434,
+            "positive": 7031,
+            "negative": 34403
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 30900,
+            "positive": 6324,
+            "negative": 24576
+          }
+        ]
+      }
+    },
+    "checks": {
+      "raw_schema_and_domain_mapping": "PASS_DIRECT_VALUES",
+      "labels_against_source_formula": "PASS_DIRECT_VALUES",
+      "features_against_source_formula": "PASS_DIRECT_VALUES",
+      "fit_vocabulary_and_scaler_against_retained_preprocessor": "PASS_DIRECT_VALUES",
+      "role_rows_disjoint_exhaustive_and_counts": "PASS_DIRECT_VALUES",
+      "historical_row_array_identity": "NOT_AVAILABLE_ARRAYS_MISSING",
+      "checksum": "NOT_RECOMPUTED_HASH_DENIED"
+    }
+  },
+  "run_identity_before_cli": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "phase": "formal",
+    "method": "M3OE_FIXED1",
+    "dataset": "movielens",
+    "seed": 2025,
+    "status": "TRAIN_COMPLETE_NOT_EVALUATED"
+  },
+  "entrypoint_exit_code": 0
+}

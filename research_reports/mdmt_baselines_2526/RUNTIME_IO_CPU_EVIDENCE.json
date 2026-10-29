@@ -1,0 +1,63 @@
+{
+  "amendment_id": "MDMT-SOTA-2526-RUNTIME-IO-R2",
+  "status": "PASS",
+  "recorded_date": "2026-10-29",
+  "project_python": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+  "synthetic_test_command": "python -m pytest experiments/mdmt_sota_baselines_2526/tests/test_pipeline.py experiments/mdmt_sota_baselines_2526/tests/test_runtime_io.py -q",
+  "synthetic_test_result": "16 passed in 1.90s",
+  "synthetic_checks": {
+    "x_is_ordinary_readonly_ndarray": "PASS",
+    "y_remains_memmap": "PASS",
+    "constructor_does_not_index_labels_or_read_E": "PASS",
+    "constructor_preserves_python_numpy_torch_cpu_rng": "PASS",
+    "E_S_and_legacy_permissions": "PASS",
+    "M3OE_logits_loss_gradients_adam_parameters_optimizer_and_rng_exact": "PASS",
+    "mixed_R1_R2_freeze_requires_explicit_completed_amendment": "PASS",
+    "both_checkpoint_views_remain_bound": "PASS",
+    "third_same_size_data_source_change_rejected": "PASS",
+    "unapproved_training_source_change_rejected": "PASS",
+    "pending_and_failed_replay_evidence_rejected": "PASS",
+    "unknown_source_revision_rejected_before_E_labels": "PASS",
+    "installed_package_drift_rejected_before_E_labels": "PASS",
+    "structured_review_receipt_binds_exact_source_pair_and_cpu_feature_evidence": "PASS",
+    "candidate_and_current_eager_y_change_with_old_review_rejected": "PASS",
+    "formal_run_config_source_data_must_match_amendment_originals": "PASS",
+    "pass_summary_with_missing_replay_run_or_log_rejected": "PASS",
+    "fewer_than_five_epoch_records_rejected": "PASS",
+    "first_five_training_validation_and_support_fields_compared_exactly": "PASS",
+    "retry_must_use_exact_r2_snapshot_and_existing_checkpoints": "PASS"
+  },
+  "actual_feature_equivalence_receipt": "research_reports/mdmt_baselines_2526/RUNTIME_IO_FEATURE_EQUIVALENCE.json",
+  "actual_feature_evidence_summary": {
+    "status": "PASS",
+    "datasets": {
+      "movielens": {
+        "status": "PASS_DIRECT_FULL_FEATURE_VALUES",
+        "shape": [
+          1000209,
+          8
+        ],
+        "dtype": "float32"
+      },
+      "kuairand": {
+        "status": "PASS_DIRECT_FULL_FEATURE_VALUES",
+        "shape": [
+          2507666,
+          34
+        ],
+        "dtype": "float32"
+      }
+    },
+    "full_x_values_and_ordered_batches_equal": true,
+    "labels_y_loaded": false,
+    "python_numpy_torch_cpu_rng_unchanged": true
+  },
+  "checksum_revalidated": false,
+  "real_training_or_E_evaluation": "NOT_RUN",
+  "replay_fixture_evidence": {
+    "preserved_failed_attempt": "artifacts/mdmt_baselines_2526/attempts/formal_kuairand_HYPERGATE_seed2022_attempt01_SIGSEGV",
+    "failed_run_and_first_five_epoch_records": "READ_ONLY_EXISTING_EVIDENCE",
+    "replacement_run_and_logs": "SYNTHETIC_TEMPORARY_FIXTURE",
+    "real_retry_or_E_evaluation": "NOT_RUN"
+  }
+}

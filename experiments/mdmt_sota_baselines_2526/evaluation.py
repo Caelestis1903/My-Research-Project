@@ -12,7 +12,7 @@ import torch
 from experiments.mdmt_relation_basis_v2.metrics import evaluate
 
 from .data import Data, tensor
-from .report import verify_frozen_source_snapshot
+from .report import verify_current_package_source_snapshot, verify_frozen_source_snapshot
 
 
 def evaluate_role(model, data, role, *, method, seed, device="cpu", batch_size=4096,
@@ -24,8 +24,22 @@ def evaluate_role(model, data, role, *, method, seed, device="cpu", batch_size=4
         data.authorization = None
         if final_manifest is None or run_identity is None or checkpoint_identity is None:
             raise PermissionError("E requires the exact frozen run and checkpoint identity")
-        frozen_snapshot = final_manifest.get("identity", {}).get("implementation_source_snapshot")
-        verify_frozen_source_snapshot(run_identity.get("implementation_identity"), frozen_snapshot)
+        identity = final_manifest.get("identity", {})
+        amendment = final_manifest.get("runtime_io_amendment")
+        if amendment is None:
+            frozen_snapshot = identity.get("implementation_source_snapshot")
+            verify_frozen_source_snapshot(run_identity.get("implementation_identity"), frozen_snapshot)
+        else:
+            key = f"{data.dataset}/{method}/seed{int(seed)}"
+            entry = final_manifest.get("runs", {}).get(key)
+            revision = entry.get("source_revision") if entry else None
+            source_snapshots = identity.get("training_source_snapshots_by_revision", {})
+            if revision not in ("R1", "R2") or revision not in source_snapshots:
+                raise PermissionError("E run has no exact reviewed R1/R2 source-revision binding")
+            verify_frozen_source_snapshot(run_identity.get("implementation_identity"),
+                                          source_snapshots[revision])
+            verify_current_package_source_snapshot(
+                identity.get("runtime_evaluation_source_snapshot"))
         data.authorize_final(final_manifest, method, seed, phase=phase, run_identity=run_identity,
                              view=checkpoint_view, checkpoint_identity=checkpoint_identity)
         purpose = "final"

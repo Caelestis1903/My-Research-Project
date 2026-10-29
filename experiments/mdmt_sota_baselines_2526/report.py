@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import base64
+import difflib
 import json
 import statistics
 from pathlib import Path
@@ -10,6 +11,9 @@ from pathlib import Path
 import torch
 
 from .config import DATASETS, METHODS, PROTOCOL, SEEDS, load_config
+
+RUNTIME_IO_AMENDMENT_ID = "MDMT-SOTA-2526-RUNTIME-IO-R2"
+RUNTIME_IO_ALLOWED_CHANGED_PATHS = ("data.py", "evaluation.py", "report.py")
 
 
 def _read_json(path):
@@ -109,6 +113,251 @@ def verify_frozen_source_snapshot(implementation_identity, frozen_snapshot):
     return current_snapshot
 
 
+def _package_source_contents():
+    package = Path(__file__).resolve().parent
+    paths = sorted(package.glob("*.py")) + [package / "default_config.json"]
+    paths += sorted((package / "reference_data").rglob("*.json"))
+    paths += [package / "reference_data" / "README.md"]
+    return {path.relative_to(package).as_posix(): path.read_bytes()
+            for path in paths if path.is_file()}
+
+
+def _decode_source_snapshot(snapshot):
+    if not isinstance(snapshot, dict) or snapshot.get("kind") != "direct_source_snapshot":
+        raise ValueError("Runtime IO amendment requires direct-source R1/R2 snapshots")
+    files = snapshot.get("files")
+    if not isinstance(files, list) or not files:
+        raise ValueError("Runtime IO source snapshot has no files")
+    paths = [entry.get("path") for entry in files]
+    if paths != sorted(paths) or len(paths) != len(set(paths)):
+        raise ValueError("Runtime IO source inventory must be sorted and unique")
+    contents = {}
+    for entry in files:
+        try:
+            content = base64.b64decode(entry["content_base64"], validate=True)
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError("Runtime IO source snapshot contains invalid base64") from exc
+        if len(content) != int(entry["size_bytes"]):
+            raise ValueError(f"Runtime IO source byte count differs for {entry['path']}")
+        contents[entry["path"]] = content
+    return contents
+
+
+def _manifest_path(path):
+    path = Path(path)
+    return path if path.is_absolute() else Path(__file__).resolve().parents[2] / path
+
+
+def _validate_run_originals(run, dataset, amendment, description):
+    expected_data = amendment.get("prepared_data_manifests", {}).get(dataset)
+    if run.get("config") != amendment.get("configuration"):
+        raise ValueError(f"{description} configuration differs from the reviewed original")
+    if run.get("source_commits") != amendment.get("source_commits"):
+        raise ValueError(f"{description} source commits differ from the reviewed original")
+    if expected_data is None or run.get("data_manifest") != expected_data:
+        raise ValueError(f"{description} prepared-data manifest differs from the reviewed original")
+
+
+def _first_five_training_records(path):
+    records = []
+    try:
+        with Path(path).open(encoding="utf-8") as handle:
+            for line in handle:
+                if line.strip():
+                    records.append(json.loads(line))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError(f"Replay epoch log cannot be read: {path}") from exc
+    training = [record for record in records if record.get("stage") == "train"]
+    if len(training) < 5:
+        raise ValueError(f"Replay epoch log has fewer than five complete train records: {path}")
+    first_five = training[:5]
+    required = ("stage", "epoch", "train_loss", "updates", "valid_label_exposures",
+                "components", "temperature", "validation")
+    for epoch, record in enumerate(first_five, 1):
+        if record.get("epoch") != epoch or any(field not in record for field in required):
+            raise ValueError(f"Replay epoch log does not contain complete ordered epoch {epoch}: {path}")
+        if (not isinstance(record.get("train_loss"), (int, float))
+                or not isinstance(record.get("updates"), int) or record["updates"] <= 0
+                or not isinstance(record.get("valid_label_exposures"), int)
+                or record["valid_label_exposures"] <= 0
+                or not isinstance(record.get("components"), dict)):
+            raise ValueError(f"Replay epoch {epoch} has incomplete training counters/components: {path}")
+        validation = record["validation"]
+        if (not isinstance(validation, dict) or len(validation.get("cells", [])) != 6
+                or "macro_auc" not in validation or "macro_logloss" not in validation):
+            raise ValueError(f"Replay epoch {epoch} lacks six validation cells and macro metrics: {path}")
+        cell_ids = {(cell.get("domain"), cell.get("task")) for cell in validation["cells"]}
+        if cell_ids != {(domain, task) for task in range(2) for domain in range(3)}:
+            raise ValueError(f"Replay epoch {epoch} validation does not cover all six domain/task cells: {path}")
+    # Seconds are the only excluded field. All present validation/support/train fields compare exactly.
+    return [{key: value for key, value in record.items() if key != "seconds"}
+            for record in first_five]
+
+
+def _validate_runtime_io_replay(replay, amendment, approved_sources):
+    if replay.get("status") != "PASS":
+        raise ValueError("Runtime IO R2 replay is not marked complete")
+    old_dir = Path(__file__).resolve().parents[2] / (
+        "artifacts/mdmt_baselines_2526/attempts/"
+        "formal_kuairand_HYPERGATE_seed2022_attempt01_SIGSEGV")
+    old_run_path = _manifest_path(replay.get("failed_run_manifest", ""))
+    old_log_path = _manifest_path(replay.get("failed_epoch_log", ""))
+    crash_path = _manifest_path(replay.get("failed_crash_receipt", ""))
+    if (old_run_path.resolve() != (old_dir / "run.json").resolve()
+            or old_log_path.resolve() != (old_dir / "epoch_metrics.jsonl").resolve()
+            or crash_path.resolve() != (old_dir / "NATIVE_CRASH_RECEIPT.json").resolve()):
+        raise ValueError("Replay must use the preserved fixed HyperGate/KuaiRand/2022 failed attempt")
+    old_run = _read_json(old_run_path)
+    crash = _read_json(crash_path)
+    if ((old_run.get("protocol"), old_run.get("phase"), old_run.get("method"),
+         old_run.get("dataset"), int(old_run.get("seed", -1))) !=
+            (PROTOCOL, "formal", "HYPERGATE", "kuairand", 2022)
+            or crash.get("status") != "NATIVE_PROCESS_CRASH" or crash.get("signal") != 11
+            or crash.get("E_was_read") is not False or crash.get("logged_complete_epochs") < 5):
+        raise ValueError("Preserved failed attempt identity/incident receipt is not the required R1 crash")
+    _validate_run_originals(old_run, "kuairand", amendment, "Preserved failed run")
+    archived_identity = dict(old_run.get("implementation_identity") or {})
+    archived_identity["snapshot_path"] = str((old_dir / "implementation_snapshot").resolve())
+    _, old_sources = _direct_source_snapshot(archived_identity)
+    if old_sources != approved_sources["R1"]:
+        raise ValueError("Preserved failed run source snapshot is not exact R1")
+
+    retry_run_path = _manifest_path(replay.get("retry_run_manifest", ""))
+    retry_log_path = _manifest_path(replay.get("retry_epoch_log", ""))
+    if not retry_run_path.is_file() or not retry_log_path.is_file():
+        raise FileNotFoundError("R2 replay run manifest or epoch log is missing")
+    retry_run = _read_json(retry_run_path)
+    if ((retry_run.get("protocol"), retry_run.get("phase"), retry_run.get("method"),
+         retry_run.get("dataset"), int(retry_run.get("seed", -1))) !=
+            (PROTOCOL, "formal", "HYPERGATE", "kuairand", 2022)
+            or retry_run.get("status") != "TRAIN_COMPLETE_NOT_EVALUATED"
+            or Path(retry_run.get("output_dir", "")).resolve() != retry_run_path.parent.resolve()
+            or retry_log_path.resolve() != (retry_run_path.parent / "epoch_metrics.jsonl").resolve()):
+        raise ValueError("R2 retry is not the completed formal HyperGate/KuaiRand/2022 run")
+    _validate_run_originals(retry_run, "kuairand", amendment, "R2 retry run")
+    _, retry_sources = _direct_source_snapshot(retry_run.get("implementation_identity"))
+    if retry_sources != approved_sources["R2"]:
+        raise ValueError("R2 retry run does not contain the exact approved R2 source snapshot")
+    for field, filename in (("selected_checkpoint", "selected.pt"),
+                            ("fixed_final_checkpoint", "fixed_final.pt")):
+        checkpoint = Path(retry_run.get(field, "")).resolve()
+        if checkpoint != (retry_run_path.parent / filename).resolve() or not checkpoint.is_file():
+            raise FileNotFoundError(f"R2 retry {field} is missing or at a different run path")
+
+    old_epochs = _first_five_training_records(old_log_path)
+    retry_epochs = _first_five_training_records(retry_log_path)
+    if old_epochs != retry_epochs:
+        raise ValueError("R2 retry first-five scientific trajectory fields differ from the failed R1 attempt")
+    return {"failed_run_manifest": str(old_run_path.resolve()),
+            "failed_epoch_log": str(old_log_path.resolve()),
+            "retry_run_manifest": str(retry_run_path.resolve()),
+            "retry_epoch_log": str(retry_log_path.resolve()),
+            "first_five_epochs": [record["epoch"] for record in retry_epochs],
+            "compared_fields": sorted(retry_epochs[0]),
+            "seconds_excluded": True, "exact": True}
+
+
+def _validate_runtime_io_amendment(amendment_path):
+    amendment_path = Path(amendment_path)
+    amendment = _read_json(amendment_path)
+    if (amendment.get("kind") != RUNTIME_IO_AMENDMENT_ID
+            or amendment.get("protocol") != PROTOCOL
+            or amendment.get("status") != "REVIEW_REPLAY_COMPLETE"):
+        raise ValueError("Runtime IO amendment is not the reviewed and replayed R2 amendment")
+    expected_matrix = {"datasets": list(DATASETS), "methods": list(METHODS), "seeds": list(SEEDS)}
+    if amendment.get("matrix") != expected_matrix:
+        raise ValueError("Runtime IO amendment matrix differs from the frozen 30-run protocol")
+    if amendment.get("allowed_changed_paths") != list(RUNTIME_IO_ALLOWED_CHANGED_PATHS):
+        raise ValueError("Runtime IO amendment changed-path permission differs from the fixed scope")
+    r1 = amendment.get("r1_source_snapshot")
+    r2 = amendment.get("r2_source_snapshot")
+    r1_contents = _decode_source_snapshot(r1)
+    r2_contents = _decode_source_snapshot(r2)
+    if set(r1_contents) != set(r2_contents):
+        raise ValueError("R1/R2 implementation source inventories differ")
+    changed_paths = sorted(path for path in r1_contents if r1_contents[path] != r2_contents[path])
+    if (not changed_paths or set(changed_paths) - set(RUNTIME_IO_ALLOWED_CHANGED_PATHS)
+            or amendment.get("changed_paths") != changed_paths):
+        raise ValueError("R1/R2 source differences exceed or misstate the approved changed paths")
+    changed_files = amendment.get("changed_files")
+    if not isinstance(changed_files, list) or [entry.get("path") for entry in changed_files] != changed_paths:
+        raise ValueError("Runtime IO changed-file evidence is incomplete")
+    for entry in changed_files:
+        path = entry["path"]
+        if (base64.b64decode(entry.get("r1_content_base64", ""), validate=True) != r1_contents[path]
+                or base64.b64decode(entry.get("r2_content_base64", ""), validate=True) != r2_contents[path]):
+            raise ValueError(f"Runtime IO changed-file byte evidence differs: {path}")
+        try:
+            before = r1_contents[path].decode("utf-8").splitlines(keepends=True)
+            after = r2_contents[path].decode("utf-8").splitlines(keepends=True)
+        except UnicodeDecodeError as exc:
+            raise ValueError(f"Runtime IO changed source is not UTF-8 text: {path}") from exc
+        expected_diff = "".join(difflib.unified_diff(
+            before, after, fromfile=f"R1/{path}", tofile=f"R2/{path}"))
+        if entry.get("unified_diff") != expected_diff:
+            raise ValueError(f"Runtime IO unified diff differs from source bytes: {path}")
+
+    if set(amendment.get("prepared_data_manifests", {})) != set(DATASETS):
+        raise ValueError("Runtime IO amendment must retain both approved prepared-data identities")
+    try:
+        source_configuration = json.loads(r2_contents["default_config.json"].decode("utf-8"))
+    except (KeyError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError("Approved R2 snapshot has no readable default configuration") from exc
+    if amendment.get("configuration") != source_configuration:
+        raise ValueError("Amendment configuration differs from the exact unchanged package configuration")
+    if amendment.get("source_commits") != amendment["configuration"].get("source_commits"):
+        raise ValueError("Amendment source commits differ from its configuration")
+
+    current = _package_source_contents()
+    if current != r2_contents:
+        raise ValueError("Installed implementation package is not byte-identical to approved R2")
+
+    review = amendment.get("review") or {}
+    if review.get("status") != "PASS" or not review.get("receipt_path"):
+        raise ValueError("Runtime IO amendment has no completed independent PASS receipt")
+    review_receipt = _read_json(_manifest_path(review["receipt_path"]))
+    reviewed_pair = {
+        key: amendment[key] for key in ("r1_source_snapshot", "r2_source_snapshot", "changed_paths",
+                                        "configuration", "source_commits", "prepared_data_manifests")
+    }
+    if (review_receipt.get("amendment_id") != RUNTIME_IO_AMENDMENT_ID
+            or review_receipt.get("status") != "PASS" or review_receipt.get("verdict") != "PASS"
+            or review_receipt.get("reviewed_pair") != reviewed_pair):
+        raise ValueError("Independent review receipt does not PASS this exact R1/R2 pair and originals")
+
+    cpu = amendment.get("cpu_validation") or {}
+    if cpu.get("status") != "PASS" or not cpu.get("receipt_path") or not cpu.get("feature_equivalence_receipt"):
+        raise ValueError("Runtime IO CPU equivalence evidence is incomplete")
+    cpu_receipt = _read_json(_manifest_path(cpu["receipt_path"]))
+    if cpu_receipt.get("amendment_id") != RUNTIME_IO_AMENDMENT_ID or cpu_receipt.get("status") != "PASS":
+        raise ValueError("Runtime IO CPU receipt is not a passing receipt for this amendment")
+    feature_receipt = _read_json(_manifest_path(cpu["feature_equivalence_receipt"]))
+    if (feature_receipt.get("status") != "PASS"
+            or set(feature_receipt.get("datasets", {})) != set(DATASETS)
+            or any(feature_receipt["datasets"][dataset].get("status") != "PASS_DIRECT_FULL_FEATURE_VALUES"
+                   for dataset in DATASETS)
+            or feature_receipt.get("labels_y_loaded") is not False):
+        raise ValueError("Both actual prepared datasets require passing x-only equivalence evidence")
+    if (review_receipt.get("reviewed_cpu_evidence") != cpu_receipt
+            or review_receipt.get("reviewed_feature_evidence") != feature_receipt):
+        raise ValueError("Independent review receipt does not cover the current CPU and feature evidence")
+
+    replay = amendment.get("replay") or {}
+    replay_verification = _validate_runtime_io_replay(
+        replay, amendment, {"R1": r1_contents, "R2": r2_contents})
+    return amendment, {"R1": r1_contents, "R2": r2_contents}, replay_verification
+
+
+def verify_current_package_source_snapshot(frozen_snapshot):
+    try:
+        current = _package_source_contents()
+        expected = _decode_source_snapshot(frozen_snapshot)
+    except (FileNotFoundError, KeyError, TypeError, ValueError) as exc:
+        raise PermissionError("Approved current-package source snapshot is invalid") from exc
+    if current != expected:
+        raise PermissionError("Installed implementation package differs from approved R2 evaluation source")
+
+
 def _verify_checkpoint_run(run, checkpoint, run_path):
     embedded = checkpoint.get("run_manifest") or {}
     expected = _embedded_identity(run)
@@ -117,7 +366,12 @@ def _verify_checkpoint_run(run, checkpoint, run_path):
         raise ValueError(f"Checkpoint embedded run/config/source/data identity differs: {run_path}")
 
 
-def build_freeze(run_root, output_path):
+def build_freeze(run_root, output_path, *, runtime_io_amendment=None):
+    amendment = None
+    approved_sources = None
+    replay_verification = None
+    if runtime_io_amendment is not None:
+        amendment, approved_sources, replay_verification = _validate_runtime_io_amendment(runtime_io_amendment)
     runs = {}
     global_identity = None
     per_dataset_identity = {}
@@ -135,6 +389,8 @@ def build_freeze(run_root, output_path):
             raise ValueError(f"Formal run identity mismatch: {key}")
         if Path(run.get("output_dir", "")).resolve() != path.parent.resolve():
             raise ValueError(f"Formal run output directory differs from its matrix location: {key}")
+        if amendment is not None:
+            _validate_run_originals(run, dataset, amendment, f"Formal matrix run {key}")
         current_global = _common_run_identity(run)
         current_data = run["data_manifest"]
         method_config = (run.get("config") or {}).get("models", {}).get(method)
@@ -145,11 +401,18 @@ def build_freeze(run_root, output_path):
         model_config_by_method[method] = method_config
         current_snapshot, current_source_contents = _direct_source_snapshot(
             run.get("implementation_identity"))
-        if frozen_source_snapshot is None:
-            frozen_source_snapshot = current_snapshot
-            frozen_source_contents = current_source_contents
-        elif current_source_contents != frozen_source_contents:
-            raise ValueError("Formal runs have different implementation source snapshot bytes")
+        source_revision = None
+        if amendment is None:
+            if frozen_source_snapshot is None:
+                frozen_source_snapshot = current_snapshot
+                frozen_source_contents = current_source_contents
+            elif current_source_contents != frozen_source_contents:
+                raise ValueError("Formal runs have different implementation source snapshot bytes")
+        else:
+            source_revision = next((revision for revision, contents in approved_sources.items()
+                                    if current_source_contents == contents), None)
+            if source_revision is None:
+                raise ValueError(f"{key} implementation snapshot is neither exact approved R1 nor R2")
         if global_identity is None:
             global_identity = current_global
         elif current_global != global_identity:
@@ -174,13 +437,27 @@ def build_freeze(run_root, output_path):
             if recorded_metadata != actual_metadata:
                 raise ValueError(f"{key} {view} checkpoint metadata differs from run manifest")
             checkpoints[view] = details
-        runs[key] = {"status": "COMPLETE", "identity": identity, "checkpoints": checkpoints}
+        entry = {"status": "COMPLETE", "identity": identity, "checkpoints": checkpoints}
+        if source_revision is not None:
+            entry["source_revision"] = source_revision
+        runs[key] = entry
     result = {"protocol": PROTOCOL, "status": "FROZEN", "runs": runs,
               "matrix": {"datasets": list(DATASETS), "methods": list(METHODS), "seeds": list(SEEDS)},
               "identity": {"global": global_identity, "prepared_data_by_dataset": per_dataset_identity,
-                           "model_config_by_method": model_config_by_method,
-                           "implementation_source_snapshot": frozen_source_snapshot},
+                           "model_config_by_method": model_config_by_method},
               "E_policy": "test role may be evaluated only after this complete 30-run freeze"}
+    if amendment is None:
+        result["identity"]["implementation_source_snapshot"] = frozen_source_snapshot
+    else:
+        source_snapshots = {revision: amendment[f"{revision.lower()}_source_snapshot"]
+                            for revision in ("R1", "R2")}
+        result["identity"].update({
+            "training_source_snapshots_by_revision": source_snapshots,
+            "runtime_evaluation_source_snapshot": source_snapshots["R2"],
+            "implementation_source_snapshot": source_snapshots["R2"],
+        })
+        result["runtime_io_amendment"] = amendment
+        result["runtime_io_replay_verification"] = replay_verification
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, indent=2), encoding="utf-8")

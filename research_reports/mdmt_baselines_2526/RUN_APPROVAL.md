@@ -1,5 +1,7 @@
 # RUN 审批材料
 
+**2026-10-29 用户已明确批准：“批准进入run阶段”。** 执行授权与当前 GPU 快照见 [RUN_AUTHORIZATION.json](RUN_AUTHORIZATION.json)。以下保留原审批材料；reviewed config 数值不变，开始按既定顺序执行 RUN。配置中的历史 `PENDING_APPROVAL` 字段由原严格加载器固定，本次授权单独记录，不改动已审查算法或超参数。
+
 状态：**IMPLEMENTED_AND_REVIEWED_UNIFIED_ADAPTATION_PENDING_USER_APPROVAL**。最终独立复审 **PASS**，21 项 CPU 合成测试通过；真实数据训练尚未启动。用户要求进入 RUN 前批准，审批范围包含试运行、开发及五种子正式实验。没有启动 runner。
 
 ## 待批准的实验范围

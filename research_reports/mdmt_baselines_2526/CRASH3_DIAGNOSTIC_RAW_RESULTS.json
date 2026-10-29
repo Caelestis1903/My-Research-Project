@@ -1,0 +1,378 @@
+{
+  "protocol": "MDMT-SOTA-2526-v1",
+  "diagnostic_addendum": "research_reports/mdmt_baselines_2526/DESIGN_RUNTIME_CRASH3_ADDENDUM.md",
+  "coder_report": "research_reports/mdmt_baselines_2526/CODER_RUNTIME_CRASH3_REPORT.md",
+  "tool": "research_reports/mdmt_baselines_2526/runtime_crash3_tool.py",
+  "execution_order": [
+    "D4",
+    "D1"
+  ],
+  "profiles": {
+    "D4": {
+      "diagnostic": {
+        "status": "PASS_DIAGNOSTIC_VALUES_AND_RNG",
+        "profile": "D4",
+        "dataset": "kuairand",
+        "method_context": "HYPERGATE evaluation input",
+        "device": "cuda:1",
+        "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+        "python_faulthandler_enabled": true,
+        "files_read": [
+          "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand/x.npy",
+          "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand/rows_validation.npy"
+        ],
+        "y_loaded": false,
+        "labels_read": false,
+        "configuration": "/home/xzf/Code/phase0-3/experiments/mdmt_sota_baselines_2526/default_config.json",
+        "source_identity": {
+          "source_equivalence_record": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/RUNTIME_IO_SOURCE_EQUIVALENCE.json",
+          "kind": "MDMT-SOTA-2526-RUNTIME-IO-R2",
+          "status": "REVIEW_REPLAY_COMPLETE",
+          "protocol": "MDMT-SOTA-2526-v1",
+          "source_commits": {
+            "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+            "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+            "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+            "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+            "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+          }
+        },
+        "inherited_thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        },
+        "effective_thread_environment": {
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        },
+        "torch_threads": {
+          "intra_op": 4,
+          "inter_op": 24
+        },
+        "numpy_runtime": "[{'numpy_version': '2.1.3',\n  'python': '3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, '\n            '16:09:02) [GCC 11.2.0]',\n  'uname': uname_result(system='Linux', node='ubun', release='5.15.0-136-generic', version='#147~20.04.1-Ubuntu SMP Wed Mar 19 16:13:14 UTC 2025', machine='x86_64')},\n {'simd_extensions': {'baseline': ['SSE', 'SSE2', 'SSE3'],\n                      'found': ['SSSE3',\n                                'SSE41',\n                                'POPCNT',\n                                'SSE42',\n                                'AVX',\n                                'F16C',\n                                'FMA3',\n                                'AVX2'],\n                      'not_found': ['AVX512F',\n                                    'AVX512CD',\n                                    'AVX512_KNL',\n                                    'AVX512_KNM',\n                                    'AVX512_SKX',\n                                    'AVX512_CLX',\n                                    'AVX512_CNL',\n                                    'AVX512_ICL']}},\n {'architecture': 'Haswell',\n  'filepath': '/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-ff651d7f.so',\n  'internal_api': 'openblas',\n  'num_threads': 4,\n  'prefix': 'libscipy_openblas',\n  'threading_layer': 'pthreads',\n  'user_api': 'blas',\n  'version': '0.3.27'},\n {'filepath': '/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libgomp.so.1',\n  'internal_api': 'openmp',\n  'num_threads': 4,\n  'prefix': 'libgomp',\n  'user_api': 'openmp',\n  'version': None}]",
+        "x": {
+          "type": "ndarray",
+          "shape": [
+            2507666,
+            34
+          ],
+          "dtype": "float32",
+          "strides": [
+            136,
+            4
+          ],
+          "owns_data": true,
+          "writeable": false,
+          "base_type": null
+        },
+        "v_row_ids": {
+          "type": "ndarray",
+          "shape": [
+            250767
+          ],
+          "dtype": "int64",
+          "strides": [
+            8
+          ],
+          "owns_data": true,
+          "writeable": true,
+          "base_type": null
+        },
+        "v_rows_count": 250767,
+        "eval_batch_size": 512,
+        "sweeps": 2,
+        "batches_per_sweep": 490,
+        "tail_batch_rows": 399,
+        "traversal_equal_to_D4": null,
+        "traversal_ids_file": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/runtime_crash3/D4/v_row_ids.npy",
+        "cpu_temporary_lifetime_exact": true,
+        "cuda_temporary_lifetime_exact": true,
+        "array_examples": {
+          "index_slice": {
+            "type": "ndarray",
+            "shape": [
+              512
+            ],
+            "dtype": "int64",
+            "strides": [
+              8
+            ],
+            "owns_data": false,
+            "writeable": true,
+            "base_type": "ndarray"
+          },
+          "advanced_index_batch": {
+            "type": "ndarray",
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "float32",
+            "strides": [
+              136,
+              4
+            ],
+            "owns_data": true,
+            "writeable": true,
+            "base_type": null
+          },
+          "owned_numpy_copy": {
+            "type": "ndarray",
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "float32",
+            "strides": [
+              136,
+              4
+            ],
+            "owns_data": true,
+            "writeable": true,
+            "base_type": null
+          },
+          "cpu_tensor": {
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu"
+          },
+          "cuda_tensor": {
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:1"
+          }
+        },
+        "sweep_checks": [
+          {
+            "sweep": 1,
+            "cpu_batches_exact": 490,
+            "cuda_batches_exact": 490
+          },
+          {
+            "sweep": 2,
+            "cpu_batches_exact": 490,
+            "cuda_batches_exact": 490
+          }
+        ],
+        "cpu_batches_exact": 980,
+        "cuda_batches_exact": 980,
+        "rng_unchanged": {
+          "python": true,
+          "numpy": true,
+          "torch_cpu": true,
+          "torch_cuda_device": true
+        },
+        "stage_log": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/runtime_crash3/D4/stages.jsonl"
+      },
+      "process_execution": {
+        "profile": "D4",
+        "pid": 1506624,
+        "exit_code": 0,
+        "started_at_utc": "2026-10-29T07:15:20,878174861+00:00",
+        "ended_at_utc": "2026-10-29T07:15:22,110169442+00:00",
+        "elapsed_seconds": 1.23106286,
+        "stdout_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D4.stdout.log",
+        "stderr_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D4.stderr.log"
+      },
+      "stdout_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D4.stdout.log",
+      "stderr_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D4.stderr.log",
+      "stage_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D4/stages.jsonl",
+      "row_ids_file": "research_reports/mdmt_baselines_2526/runtime_crash3/D4/v_row_ids.npy"
+    },
+    "D1": {
+      "diagnostic": {
+        "status": "PASS_DIAGNOSTIC_VALUES_AND_RNG",
+        "profile": "D1",
+        "dataset": "kuairand",
+        "method_context": "HYPERGATE evaluation input",
+        "device": "cuda:1",
+        "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+        "python_faulthandler_enabled": true,
+        "files_read": [
+          "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand/x.npy",
+          "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand/rows_validation.npy"
+        ],
+        "y_loaded": false,
+        "labels_read": false,
+        "configuration": "/home/xzf/Code/phase0-3/experiments/mdmt_sota_baselines_2526/default_config.json",
+        "source_identity": {
+          "source_equivalence_record": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/RUNTIME_IO_SOURCE_EQUIVALENCE.json",
+          "kind": "MDMT-SOTA-2526-RUNTIME-IO-R2",
+          "status": "REVIEW_REPLAY_COMPLETE",
+          "protocol": "MDMT-SOTA-2526-v1",
+          "source_commits": {
+            "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+            "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+            "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+            "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+            "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+          }
+        },
+        "inherited_thread_environment": {
+          "OMP_NUM_THREADS": null,
+          "MKL_NUM_THREADS": null,
+          "OPENBLAS_NUM_THREADS": null,
+          "NUMEXPR_NUM_THREADS": null
+        },
+        "effective_thread_environment": {
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "OPENBLAS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        },
+        "torch_threads": {
+          "intra_op": 1,
+          "inter_op": 1
+        },
+        "numpy_runtime": "[{'numpy_version': '2.1.3',\n  'python': '3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, '\n            '16:09:02) [GCC 11.2.0]',\n  'uname': uname_result(system='Linux', node='ubun', release='5.15.0-136-generic', version='#147~20.04.1-Ubuntu SMP Wed Mar 19 16:13:14 UTC 2025', machine='x86_64')},\n {'simd_extensions': {'baseline': ['SSE', 'SSE2', 'SSE3'],\n                      'found': ['SSSE3',\n                                'SSE41',\n                                'POPCNT',\n                                'SSE42',\n                                'AVX',\n                                'F16C',\n                                'FMA3',\n                                'AVX2'],\n                      'not_found': ['AVX512F',\n                                    'AVX512CD',\n                                    'AVX512_KNL',\n                                    'AVX512_KNM',\n                                    'AVX512_SKX',\n                                    'AVX512_CLX',\n                                    'AVX512_CNL',\n                                    'AVX512_ICL']}},\n {'architecture': 'Haswell',\n  'filepath': '/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/numpy.libs/libscipy_openblas64_-ff651d7f.so',\n  'internal_api': 'openblas',\n  'num_threads': 1,\n  'prefix': 'libscipy_openblas',\n  'threading_layer': 'pthreads',\n  'user_api': 'blas',\n  'version': '0.3.27'},\n {'filepath': '/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/lib/libgomp.so.1',\n  'internal_api': 'openmp',\n  'num_threads': 1,\n  'prefix': 'libgomp',\n  'user_api': 'openmp',\n  'version': None}]",
+        "x": {
+          "type": "ndarray",
+          "shape": [
+            2507666,
+            34
+          ],
+          "dtype": "float32",
+          "strides": [
+            136,
+            4
+          ],
+          "owns_data": true,
+          "writeable": false,
+          "base_type": null
+        },
+        "v_row_ids": {
+          "type": "ndarray",
+          "shape": [
+            250767
+          ],
+          "dtype": "int64",
+          "strides": [
+            8
+          ],
+          "owns_data": true,
+          "writeable": true,
+          "base_type": null
+        },
+        "v_rows_count": 250767,
+        "eval_batch_size": 512,
+        "sweeps": 2,
+        "batches_per_sweep": 490,
+        "tail_batch_rows": 399,
+        "traversal_equal_to_D4": true,
+        "traversal_ids_file": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/runtime_crash3/D1/v_row_ids.npy",
+        "cpu_temporary_lifetime_exact": true,
+        "cuda_temporary_lifetime_exact": true,
+        "array_examples": {
+          "index_slice": {
+            "type": "ndarray",
+            "shape": [
+              512
+            ],
+            "dtype": "int64",
+            "strides": [
+              8
+            ],
+            "owns_data": false,
+            "writeable": true,
+            "base_type": "ndarray"
+          },
+          "advanced_index_batch": {
+            "type": "ndarray",
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "float32",
+            "strides": [
+              136,
+              4
+            ],
+            "owns_data": true,
+            "writeable": true,
+            "base_type": null
+          },
+          "owned_numpy_copy": {
+            "type": "ndarray",
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "float32",
+            "strides": [
+              136,
+              4
+            ],
+            "owns_data": true,
+            "writeable": true,
+            "base_type": null
+          },
+          "cpu_tensor": {
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "torch.float32",
+            "device": "cpu"
+          },
+          "cuda_tensor": {
+            "shape": [
+              512,
+              34
+            ],
+            "dtype": "torch.float32",
+            "device": "cuda:1"
+          }
+        },
+        "sweep_checks": [
+          {
+            "sweep": 1,
+            "cpu_batches_exact": 490,
+            "cuda_batches_exact": 490
+          },
+          {
+            "sweep": 2,
+            "cpu_batches_exact": 490,
+            "cuda_batches_exact": 490
+          }
+        ],
+        "cpu_batches_exact": 980,
+        "cuda_batches_exact": 980,
+        "rng_unchanged": {
+          "python": true,
+          "numpy": true,
+          "torch_cpu": true,
+          "torch_cuda_device": true
+        },
+        "stage_log": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/runtime_crash3/D1/stages.jsonl"
+      },
+      "process_execution": {
+        "profile": "D1",
+        "pid": 1506791,
+        "exit_code": 0,
+        "started_at_utc": "2026-10-29T07:15:46,932463358+00:00",
+        "ended_at_utc": "2026-10-29T07:15:48,105617628+00:00",
+        "elapsed_seconds": 1.172181181,
+        "stdout_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D1.stdout.log",
+        "stderr_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D1.stderr.log"
+      },
+      "stdout_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D1.stdout.log",
+      "stderr_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D1.stderr.log",
+      "stage_log": "research_reports/mdmt_baselines_2526/runtime_crash3/D1/stages.jsonl",
+      "row_ids_file": "research_reports/mdmt_baselines_2526/runtime_crash3/D1/v_row_ids.npy"
+    }
+  },
+  "notes": [
+    "These are bounded conversion diagnostics only. No labels/y/E were read, and no training, freeze, or formal retry was launched.",
+    "Elapsed time/PID/exit code are runner-captured process receipts; all diagnostic stage/CPU/CUDA/RNG/source details are copied from each fresh process diagnostic.json."
+  ]
+}

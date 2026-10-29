@@ -1,0 +1,837 @@
+{
+  "status": "CLI_EXITED",
+  "profile": "D1",
+  "pid": 1539649,
+  "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+  "original_cli_argv": [
+    "--config",
+    "experiments/mdmt_sota_baselines_2526/default_config.json",
+    "evaluate",
+    "--run-dir",
+    "artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2025",
+    "--role",
+    "E",
+    "--view",
+    "selected",
+    "--freeze-manifest",
+    "artifacts/mdmt_baselines_2526/final_freeze.json",
+    "--method",
+    "AUTOIFS",
+    "--dataset",
+    "kuairand",
+    "--seed",
+    "2025",
+    "--device",
+    "cuda:1"
+  ],
+  "runpy_module": "experiments.mdmt_sota_baselines_2526",
+  "cli_command": "evaluate",
+  "run_dir": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/runs/formal/kuairand/AUTOIFS/seed2025",
+  "process_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "PYTHONFAULTHANDLER": "1"
+  },
+  "inherited_thread_environment": {
+    "OMP_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "NUMEXPR_NUM_THREADS": null
+  },
+  "torch_threads": {
+    "intra_op": 1,
+    "inter_op": 1
+  },
+  "source_identity": {
+    "source_equivalence_record": "/home/xzf/Code/phase0-3/research_reports/mdmt_baselines_2526/RUNTIME_IO_SOURCE_EQUIVALENCE.json",
+    "kind": "MDMT-SOTA-2526-RUNTIME-IO-R2",
+    "status": "REVIEW_REPLAY_COMPLETE",
+    "protocol": "MDMT-SOTA-2526-v1",
+    "source_commits": {
+      "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+      "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+    }
+  },
+  "configuration_path": "/home/xzf/Code/phase0-3/experiments/mdmt_sota_baselines_2526/default_config.json",
+  "configuration": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "run_status": "PENDING_APPROVAL",
+    "smoke_only": false,
+    "methods": [
+      "M3OE_FIXED1",
+      "HYPERGATE",
+      "AUTOIFS"
+    ],
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "development_seeds": [
+      2022,
+      2023
+    ],
+    "formal_seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "roles": {
+      "preprocess_fit": "T0",
+      "train": [
+        "T0",
+        "F"
+      ],
+      "selection": "V",
+      "development": "Q",
+      "final": "E",
+      "excluded": [
+        "S",
+        "legacy"
+      ]
+    },
+    "raw_paths": {
+      "movielens": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "kuairand": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv"
+    },
+    "historical_prepared": {
+      "movielens": "experiments/mdmt_sota_baselines_2526/reference_data/movielens",
+      "kuairand": "experiments/mdmt_sota_baselines_2526/reference_data/kuairand"
+    },
+    "prepared_root": "artifacts/mdmt_baselines_2526/data",
+    "source_roots": {
+      "recstudio": "/tmp/mdmt_sota_sources_2526/RecStudio",
+      "autoifs": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned"
+    },
+    "source_commits": {
+      "hypergate": "fdc82e3f3feee23694a8123f91092615f977900e",
+      "recstudio": "f08cca607e998e8be4c5e915a393346baffa71f6",
+      "autoifs": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+      "repository_main": "8eb461f5e0abc9c06385a4e8239e9621cae87ef8",
+      "repository_reference": "97151c74544c3651feb805d1898bc9ce1b8d12d3"
+    },
+    "metrics": {
+      "checkpoint_selection": "V_macro_logloss",
+      "tie_tolerance": 1e-12,
+      "auc_input": "raw_logits",
+      "logloss": "stable_logit_softplus",
+      "views": [
+        "selected",
+        "fixed_final"
+      ]
+    },
+    "training": {
+      "optimizer": "Adam",
+      "precision": "float32",
+      "amp": false,
+      "tf32": false,
+      "weight_decay": 0.0
+    },
+    "models": {
+      "M3OE_FIXED1": {
+        "fcn_dims": [
+          512,
+          256,
+          256,
+          64
+        ],
+        "expert_num": 4,
+        "embedding_dim": 16,
+        "fixed_coefficients": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "batch_size": 40960,
+        "epochs": 24,
+        "selection_start_epoch": 12,
+        "lr": 0.001,
+        "weight_decay": 1e-05,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "HYPERGATE": {
+        "embedding_dim": 16,
+        "expert_num": 4,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "gate_dims": [
+          256
+        ],
+        "tower_dims": [
+          256,
+          128
+        ],
+        "activation": "relu",
+        "dropout": 0.3,
+        "batch_norm": false,
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "gate_input_type": "augmented_embedding",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "configuration_provenance": {
+          "status": "UNVERIFIED_PROPOSAL",
+          "unverified_proposal": true,
+          "reason": "Pinned repository has no complete HyperGate config; ACM paper PDF was inaccessible."
+        },
+        "batch_size": 1024,
+        "eval_batch_size": 512,
+        "max_epochs": 1000,
+        "patience": 10,
+        "lr": 0.001,
+        "weight_decay": 0.0,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08
+      },
+      "AUTOIFS": {
+        "embedding_dim": 16,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "dropout": 0.0,
+        "batch_norm": false,
+        "rank": {
+          "movielens": 2,
+          "kuairand": 16
+        },
+        "batch_size": 4096,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "gate_lr_ratio": 0.01,
+        "temperature_start": 1.0,
+        "temperature_end": 100.0,
+        "rewind_epoch_index": 9,
+        "lambda": [
+          0.0,
+          0.0
+        ],
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "reuse_max_epochs": 50,
+        "reuse_patience": 1
+      }
+    },
+    "audit": {
+      "registered_raw_sha256_provenance": {
+        "movielens": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+        "kuairand": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f"
+      },
+      "checksum_revalidated": false
+    }
+  },
+  "prepared_data_manifest": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "status": "READY_DIRECT_VALUE_CHECKS",
+    "dataset": "kuairand",
+    "raw_path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+    "prepared_path": "/home/xzf/Code/phase0-3/artifacts/mdmt_baselines_2526/data/kuairand",
+    "registered_raw_sha256_provenance": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+    "checksum_revalidated": false,
+    "historical_manifest_raw_sha256_provenance": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+    "row_count": 2507666,
+    "features": {
+      "dataset": "kuairand",
+      "columns": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "domain_indicator"
+      ],
+      "dense_columns": [],
+      "sparse_columns": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts",
+        "domain_indicator"
+      ],
+      "vocab_sizes": {
+        "user_active_degree": 10,
+        "is_live_streamer": 3,
+        "is_video_author": 3,
+        "follow_user_num_range": 9,
+        "fans_user_num_range": 10,
+        "friend_user_num_range": 8,
+        "register_days_range": 9,
+        "onehot_feat0": 3,
+        "onehot_feat1": 8,
+        "onehot_feat2": 50,
+        "onehot_feat3": 1461,
+        "onehot_feat4": 17,
+        "onehot_feat5": 35,
+        "onehot_feat6": 4,
+        "onehot_feat7": 119,
+        "onehot_feat8": 455,
+        "onehot_feat9": 8,
+        "onehot_feat10": 6,
+        "onehot_feat11": 6,
+        "onehot_feat12": 4,
+        "onehot_feat13": 4,
+        "onehot_feat14": 4,
+        "onehot_feat15": 4,
+        "onehot_feat16": 4,
+        "onehot_feat17": 4,
+        "video_type": 4,
+        "upload_dt": 4,
+        "upload_type": 15,
+        "server_width": 157,
+        "server_height": 121,
+        "music_type": 7,
+        "tag": 112,
+        "counts": 126,
+        "domain_indicator": 3
+      },
+      "embedding_dim": 16,
+      "domain_column": "domain_indicator",
+      "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+      "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "oov_index": 0
+    },
+    "role_map": {
+      "T0": [
+        "fit"
+      ],
+      "F": [
+        "P_label"
+      ],
+      "S": [
+        "P_cal",
+        "P_update"
+      ],
+      "Q": [
+        "Q_explore"
+      ],
+      "V": [
+        "validation"
+      ],
+      "E": [
+        "test"
+      ],
+      "legacy": [
+        "Q_confirm"
+      ]
+    },
+    "roles": {
+      "fit": {
+        "n": 1604904,
+        "domain_counts": [
+          138225,
+          1395118,
+          71561
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 138225,
+            "positive": 12544,
+            "negative": 125681
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 1395118,
+            "positive": 527229,
+            "negative": 867889
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 71561,
+            "positive": 44177,
+            "negative": 27384
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 138225,
+            "positive": 5687,
+            "negative": 132538
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 1395118,
+            "positive": 357295,
+            "negative": 1037823
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 71561,
+            "positive": 34681,
+            "negative": 36880
+          }
+        ]
+      },
+      "P_label": {
+        "n": 120367,
+        "domain_counts": [
+          10366,
+          104634,
+          5367
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 10366,
+            "positive": 912,
+            "negative": 9454
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 104634,
+            "positive": 39679,
+            "negative": 64955
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 5367,
+            "positive": 3316,
+            "negative": 2051
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 10366,
+            "positive": 402,
+            "negative": 9964
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 104634,
+            "positive": 26913,
+            "negative": 77721
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 5367,
+            "positive": 2613,
+            "negative": 2754
+          }
+        ]
+      },
+      "P_cal": {
+        "n": 40123,
+        "domain_counts": [
+          3456,
+          34878,
+          1789
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3456,
+            "positive": 334,
+            "negative": 3122
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 34878,
+            "positive": 13037,
+            "negative": 21841
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1789,
+            "positive": 1084,
+            "negative": 705
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3456,
+            "positive": 145,
+            "negative": 3311
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 34878,
+            "positive": 8820,
+            "negative": 26058
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1789,
+            "positive": 868,
+            "negative": 921
+          }
+        ]
+      },
+      "P_update": {
+        "n": 40123,
+        "domain_counts": [
+          3456,
+          34878,
+          1789
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 3456,
+            "positive": 295,
+            "negative": 3161
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 34878,
+            "positive": 13216,
+            "negative": 21662
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1789,
+            "positive": 1114,
+            "negative": 675
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 3456,
+            "positive": 129,
+            "negative": 3327
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 34878,
+            "positive": 8984,
+            "negative": 25894
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1789,
+            "positive": 878,
+            "negative": 911
+          }
+        ]
+      },
+      "Q_explore": {
+        "n": 100307,
+        "domain_counts": [
+          8639,
+          87195,
+          4473
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 8639,
+            "positive": 817,
+            "negative": 7822
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 87195,
+            "positive": 32928,
+            "negative": 54267
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 4473,
+            "positive": 2758,
+            "negative": 1715
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 8639,
+            "positive": 385,
+            "negative": 8254
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 87195,
+            "positive": 22257,
+            "negative": 64938
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 4473,
+            "positive": 2149,
+            "negative": 2324
+          }
+        ]
+      },
+      "Q_confirm": {
+        "n": 100308,
+        "domain_counts": [
+          8640,
+          87195,
+          4473
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 8640,
+            "positive": 802,
+            "negative": 7838
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 87195,
+            "positive": 32812,
+            "negative": 54383
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 4473,
+            "positive": 2731,
+            "negative": 1742
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 8640,
+            "positive": 373,
+            "negative": 8267
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 87195,
+            "positive": 22314,
+            "negative": 64881
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 4473,
+            "positive": 2178,
+            "negative": 2295
+          }
+        ]
+      },
+      "validation": {
+        "n": 250767,
+        "domain_counts": [
+          2692,
+          246232,
+          1843
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 2692,
+            "positive": 245,
+            "negative": 2447
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 246232,
+            "positive": 51644,
+            "negative": 194588
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1843,
+            "positive": 1063,
+            "negative": 780
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 2692,
+            "positive": 101,
+            "negative": 2591
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 246232,
+            "positive": 27460,
+            "negative": 218772
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1843,
+            "positive": 829,
+            "negative": 1014
+          }
+        ]
+      },
+      "test": {
+        "n": 250767,
+        "domain_counts": [
+          2613,
+          246284,
+          1870
+        ],
+        "cells": [
+          {
+            "domain": 0,
+            "task": 0,
+            "n": 2613,
+            "positive": 228,
+            "negative": 2385
+          },
+          {
+            "domain": 1,
+            "task": 0,
+            "n": 246284,
+            "positive": 51847,
+            "negative": 194437
+          },
+          {
+            "domain": 2,
+            "task": 0,
+            "n": 1870,
+            "positive": 1100,
+            "negative": 770
+          },
+          {
+            "domain": 0,
+            "task": 1,
+            "n": 2613,
+            "positive": 120,
+            "negative": 2493
+          },
+          {
+            "domain": 1,
+            "task": 1,
+            "n": 246284,
+            "positive": 27415,
+            "negative": 218869
+          },
+          {
+            "domain": 2,
+            "task": 1,
+            "n": 1870,
+            "positive": 827,
+            "negative": 1043
+          }
+        ]
+      }
+    },
+    "checks": {
+      "raw_schema_and_domain_mapping": "PASS_DIRECT_VALUES",
+      "labels_against_source_formula": "PASS_DIRECT_VALUES",
+      "features_against_source_formula": "PASS_DIRECT_VALUES",
+      "fit_vocabulary_and_scaler_against_retained_preprocessor": "PASS_DIRECT_VALUES",
+      "role_rows_disjoint_exhaustive_and_counts": "PASS_DIRECT_VALUES",
+      "historical_row_array_identity": "NOT_AVAILABLE_ARRAYS_MISSING",
+      "checksum": "NOT_RECOMPUTED_HASH_DENIED"
+    }
+  },
+  "run_identity_before_cli": {
+    "protocol": "MDMT-SOTA-2526-v1",
+    "phase": "formal",
+    "method": "AUTOIFS",
+    "dataset": "kuairand",
+    "seed": 2025,
+    "status": "TRAIN_COMPLETE_NOT_EVALUATED"
+  },
+  "entrypoint_exit_code": 0
+}

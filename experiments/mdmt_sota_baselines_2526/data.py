@@ -210,7 +210,8 @@ class Data:
         self.manifest = json.loads((self.root / "DATA_MANIFEST.json").read_text(encoding="utf-8"))
         if self.manifest.get("status") != "READY_DIRECT_VALUE_CHECKS" or self.manifest.get("dataset") != dataset:
             raise ValueError("Direct-value preparation receipt is required")
-        self.x = np.load(self.root / "x.npy", mmap_mode="r", allow_pickle=False)
+        self.x = np.load(self.root / "x.npy", allow_pickle=False)
+        self.x.setflags(write=False)
         self.y = np.load(self.root / "y.npy", mmap_mode="r", allow_pickle=False)
         self.domain = self.x[:, -1].astype(np.int64)
         self.schema = self.manifest["features"]
