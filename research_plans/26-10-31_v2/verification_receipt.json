@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-31",
+  "plan_id": "GA31-R3",
+  "plan_directory": "research_plans/26-10-31_v2",
+  "status": "RESEARCH_AND_DESIGN_COMPLETE_NO_TRAINING",
+  "source_repository": "Caelestis1903/My-Research-Project",
+  "source_experiment_commit": "ee6e81fdfd37284e6447e8149cb93d04736dba02",
+  "main_base_commit": "60c45e60e6b9aa35eccaa2bd3d0898b72ac72acc",
+  "real_data_loaded": false,
+  "gpu_training_started": false,
+  "recommendation_model_executed": false,
+  "historical_files_modified": false,
+  "numeric_audit": {
+    "source_path": "research_reports/2026-10-31/analysis/SELECTED_RUNS.csv",
+    "source_blob": "69d8f3a4487d13cd63b717a576f4ea48e00e439c",
+    "rows_read": 40,
+    "recomputed_fields": ["macro_auc", "macro_logloss"],
+    "scope": "paired-seed reanalysis of reported selected metrics; not raw prediction recomputation",
+    "seeds": [2022, 2023, 2024, 2025, 2026],
+    "macro_auc_effects": {
+      "movielens_A1": {"mean": -0.0002667045414747027, "positive": 2},
+      "movielens_A01": {"mean": -0.00018823956310135337, "positive": 2},
+      "movielens_S0": {"mean": 0.0034734913996345376, "positive": 4},
+      "kuairand_A1": {"mean": 0.00018767306396931894, "positive": 2},
+      "kuairand_A01": {"mean": -0.004243362625905744, "positive": 1},
+      "kuairand_S0": {"mean": -0.006025638089972007, "positive": 1}
+    },
+    "report_erratum": "MovieLens A1 and A0.1 macro LogLoss each improve in 3/5 seeds; one prose location says 2/5. Historical file not modified.",
+    "large_file_read_limit": "PAIRED_EFFECTS contents fetch returned empty content although directory metadata reports 1465534 bytes; not treated as an empty or corrupted source file.",
+    "not_claimed": ["all epoch rows independently recomputed", "all 232 probes regenerated", "raw predictions or checkpoints loaded"]
+  },
+  "synthetic_checks": {
+    "implementation": "NumPy FP64, small arrays, no real model or data",
+    "coupled_Adam_loss_scale_identity_max_abs_error": 1.6653345369377348e-16,
+    "same_beta_fixed_mixture_EMA_identity_max_abs_error": 1.942890293094024e-16,
+    "second_moment_mean_square_identity_max_abs_error": 1.1102230246251565e-16,
+    "distinct_field_variance_checks": {
+      "F6_ratio_to_iid": 0.8,
+      "F33_ratio_to_iid": 0.96875,
+      "maximum_identity_error": 4.440892098500626e-16
+    },
+    "status": "PASS"
+  },
+  "run_matrix_arithmetic": {
+    "stage_A": 15,
+    "stage_B_mask": 10,
+    "stage_B_gaussian_optional_max": 20,
+    "required_formal_runs": 25,
+    "max_formal_runs": 45,
+    "required_original_updates": 39500,
+    "max_original_updates": 74000,
+    "unique_maximum_run_keys": 45,
+    "status": "PASS"
+  },
+  "target_environment_acceptance_not_yet_performed": [
+    "data and preprocessing identity hashes",
+    "source model and new baseline forward/gradient/actual PyTorch Adam identity",
+    "view masks, antithetic noise and paired RNG checks",
+    "RAM-only state lifecycle and read-only probes",
+    "formal training and all new performance/cost measurements"
+  ],
+  "conditional_algorithms": "C3-C7 and any source-aware momentum require a later frozen contract; they are not silently authorized by this plan.",
+  "literature_scope": "targeted primary-source comparison, not exhaustive novelty proof or full-paper/code reproduction"
+}
