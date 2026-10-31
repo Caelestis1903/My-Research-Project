@@ -1,0 +1,319 @@
+{
+  "schema_version": 2,
+  "study_id": "GA31-v2",
+  "status": "plan_frozen_not_executed",
+  "source_commit": "540171f865d3f80b7b46abdba69d0939cab49d80",
+  "scope": {
+    "implement": true,
+    "formal_training_runs": 32,
+    "offline_probes": true,
+    "stop_after_first_round_report": true,
+    "stage2_training": false
+  },
+  "source_paths": {
+    "model": "history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/data_generate/MDMTRec/models/multi_domain/fixed.py",
+    "features": "history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/data_generate/MDMTRec/basic/features.py",
+    "embedding": "history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/data_generate/MDMTRec/basic/layers.py",
+    "data": "history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/audited_data.py",
+    "identity_receipt": "history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/INTEGRITY.json"
+  },
+  "source_blobs": {
+    "model": "33d98b2708b40c526e72823032dae6b593baee05",
+    "features": "6daeb1904b05e0787b714a7eef73694f195e40eb",
+    "embedding": "1623a7cf6aee9dee2a7bb16e2adc7db58e6e0c63",
+    "data": "cb74983540b5b534bc8d5c07092d102d84a8d7ed"
+  },
+  "new_code_dir": "experiments/gradient_aug_20261031",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "model": {
+    "class": "MDMTRec",
+    "domains": 3,
+    "tasks": 2,
+    "expert_num": 4,
+    "fcn_dims": [
+      512,
+      256,
+      256,
+      64
+    ],
+    "sparse_embed_dim": 16,
+    "fusion": {
+      "exp_d": 1,
+      "exp_t": 1,
+      "bal_d": 1,
+      "bal_t": 1
+    },
+    "learned_fusion": false,
+    "darts": false,
+    "gate_input_detached": true,
+    "output": "sigmoid_probabilities"
+  },
+  "loss": {
+    "base": "mean_i(mean_t(BCE_probability))",
+    "view": "mean_i,t((1-lambda*a_i)*BCE_real + lambda*a_i*BCE_aug)",
+    "weight_budget": "one_per_original_sample",
+    "regularization_scaled_with_loss": false
+  },
+  "optimizer": {
+    "type": "torch.optim.Adam",
+    "count": 1,
+    "lr": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 1e-05,
+    "decay_type": "coupled_L2",
+    "amsgrad": false,
+    "foreach": false,
+    "fused": false
+  },
+  "training": {
+    "batch_size": 40960,
+    "epochs": 50,
+    "patience": null,
+    "shuffle": true,
+    "replacement": false,
+    "drop_last": false,
+    "num_workers": 0,
+    "sampler": "natural_without_replacement_shuffle",
+    "scheduler": null,
+    "amp": false,
+    "gradient_clipping": null,
+    "gradient_accumulation_steps": 1,
+    "parameter_ema": false,
+    "tf32": false,
+    "cudnn_benchmark": false,
+    "save_epochs": [
+      1,
+      5,
+      10,
+      20,
+      50
+    ],
+    "test_common_epochs": [
+      10,
+      50
+    ],
+    "selection": "strict validation macro six-cell AUC >; earliest tie; epoch>=1",
+    "test_access": "single evaluation phase after all selections frozen"
+  },
+  "rng": {
+    "loader_offsets": {
+      "train": 11000,
+      "validation": 33000,
+      "test": 44000
+    },
+    "augmentation": "independent device Generator, seed*1000000+global_step, step starts at 1",
+    "probe_train_row_seed": 314159,
+    "probe_validation_row_seed": 271828,
+    "probe_noise_seed": "seed*1000000+100000+2*anchor_global_step+probe_batch_index, index starts at 1"
+  },
+  "augmentation": {
+    "name": "NR-Gauss-v1",
+    "scope": "smallest_train_domain_tie_smallest_id",
+    "probability": 1,
+    "views_per_target_exposure": 1,
+    "mix_lambda": 0.5,
+    "relative_std": 0.1,
+    "noise": "iid Gaussian per field and coordinate",
+    "scale": "stopgrad(sqrt(mean_j(e_ifj**2))) per sample per field",
+    "scale_floor": 0,
+    "keep_dense_unchanged": true,
+    "keep_domain_embedding_unchanged": true,
+    "modify_input_ids": false
+  },
+  "arms": [
+    {
+      "id": "P0",
+      "augmentation_enabled": false,
+      "loss_scale": 1
+    },
+    {
+      "id": "P1",
+      "augmentation_enabled": false,
+      "loss_scale": 0.1
+    },
+    {
+      "id": "P2",
+      "augmentation_enabled": true,
+      "loss_scale": 1
+    },
+    {
+      "id": "P3",
+      "augmentation_enabled": true,
+      "loss_scale": 0.1
+    }
+  ],
+  "unsupported_flags": {
+    "gradient_mix_enabled": false,
+    "gradient_gate_enabled": false,
+    "optimizer_state_split_enabled": false
+  },
+  "developer_checks": {
+    "seed": 2022,
+    "max_epochs": 1,
+    "max_short_runs": 8,
+    "performance_tuning": false,
+    "test_metrics": false
+  },
+  "probe": {
+    "offline": true,
+    "anchors": [
+      "epoch1",
+      "epoch10",
+      "selected"
+    ],
+    "deduplicate_anchors": true,
+    "train_batches_per_anchor": 2,
+    "max_train_batch_size": 1024,
+    "max_validation_batch_size": 4096,
+    "gradients": "same original support and |B|*T denominator; raw excludes loss_scale and decay",
+    "counterfactual_optimizer": "deepcopy identical model+Adam state independently per branch; one real Adam step with c*g",
+    "train_state_mutation": false,
+    "selector_training": false
+  },
+  "decision": {
+    "work_scale": "choose P0/P1 using paired-seed mean selected validation macro AUC; tie=1; freeze before test",
+    "auc_mean_gain_min": 0.001,
+    "positive_seeds_min": 3,
+    "practically_small_mean_abs_max": 0.0005,
+    "practically_small_seed_abs_max": 0.001,
+    "practically_small_seed_count_min": 3,
+    "guard_auc_mean_loss_max": 0.002,
+    "guard_auc_negative_seed_min": 3,
+    "guard_macro_logloss_mean_increase_max": 0.002,
+    "guard_logloss_worse_seed_min": 3,
+    "ci": "descriptive paired t 95%, df=3; no mandatory significance gate",
+    "auto_add_seeds": false
+  },
+  "datasets": {
+    "movielens": {
+      "raw_path_default": "/home/xzf/data/ml-1m/ml-1m.csv",
+      "loader_setting": "natural",
+      "split_seed": 2022,
+      "train_domain_counts": [
+        155949,
+        318599,
+        325619
+      ],
+      "split_rows": {
+        "train": 800167,
+        "validation": 100021,
+        "test": 100021
+      },
+      "steps_per_epoch": 20,
+      "total_optimizer_steps": 1000,
+      "augmented_domain": 0,
+      "perturbable_sparse_fields": [
+        "user_id",
+        "movie_id",
+        "gender",
+        "occupation",
+        "zip",
+        "cate_id"
+      ],
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "array_hashes": {
+        "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+        "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+        "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+        "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+        "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+        "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+      },
+      "split_row_fingerprints": {
+        "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+        "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+        "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+      },
+      "split_row_id_hashes": {
+        "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+        "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+        "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+      },
+      "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+      "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+    },
+    "kuairand": {
+      "raw_path_default": "/home/xzf/data/kuairand/processed/kuai_rand.csv",
+      "loader_setting": "natural",
+      "split_seed": 2022,
+      "train_domain_counts": [
+        172782,
+        1743898,
+        89452
+      ],
+      "split_rows": {
+        "train": 2006132,
+        "validation": 250767,
+        "test": 250767
+      },
+      "steps_per_epoch": 49,
+      "total_optimizer_steps": 2450,
+      "augmented_domain": 2,
+      "perturbable_sparse_fields": [
+        "user_active_degree",
+        "is_live_streamer",
+        "is_video_author",
+        "follow_user_num_range",
+        "fans_user_num_range",
+        "friend_user_num_range",
+        "register_days_range",
+        "onehot_feat0",
+        "onehot_feat1",
+        "onehot_feat2",
+        "onehot_feat3",
+        "onehot_feat4",
+        "onehot_feat5",
+        "onehot_feat6",
+        "onehot_feat7",
+        "onehot_feat8",
+        "onehot_feat9",
+        "onehot_feat10",
+        "onehot_feat11",
+        "onehot_feat12",
+        "onehot_feat13",
+        "onehot_feat14",
+        "onehot_feat15",
+        "onehot_feat16",
+        "onehot_feat17",
+        "video_type",
+        "upload_dt",
+        "upload_type",
+        "server_width",
+        "server_height",
+        "music_type",
+        "tag",
+        "counts"
+      ],
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "array_hashes": {
+        "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+        "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+        "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+        "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+        "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+        "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+      },
+      "split_row_fingerprints": {
+        "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+        "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+        "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+      },
+      "split_row_id_hashes": {
+        "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+        "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+        "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+      },
+      "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+      "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  }
+}

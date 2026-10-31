@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "plan_id": "GA31-v2",
+  "source_commit": "540171f865d3f80b7b46abdba69d0939cab49d80",
+  "status": "PASS",
+  "validation_type": "static planning checks and synthetic numerical identities only",
+  "real_data_loaded": false,
+  "pytorch_available": false,
+  "training_started": false,
+  "model_forward_or_backward_run": false,
+  "checks": {
+    "source_blob_identity": "PASS (model, features, embedding, audited_data)",
+    "run_matrix_population_steps_and_hash_schema": "PASS (32 runs; ML 1000 / KR 2450 steps per run)",
+    "perturbable_fields_match_pinned_schema": "PASS (ML 6 / KR 33 sparse fields; domain and dense excluded)",
+    "markdown_links_control_chars_math_delimiters": "PASS",
+    "synthetic_zero_noise_loss_gradient_adam_algebra": "PASS (NumPy FP64; not PyTorch/model execution)",
+    "factorial_counterexample": "PASS (augmentation +0.02; scaling +0.01; interaction 0)",
+    "fixed_beta_fixed_lambda_ema_identity": "PASS (100 steps; max FP64 error 1.8123737485323057e-16)",
+    "scope_and_unsupported_flags": "PASS (no Stage 2 automatic training)",
+    "historical_numeric_evidence_preserved": "PASS"
+  },
+  "pending_target_environment_acceptance": [
+    "data and preprocessing hashes",
+    "M3oE baseline/zero-noise gradient and actual PyTorch Adam identity",
+    "feature slice and routing protection",
+    "paired RNG, checkpoint restore, read-only probes",
+    "GPU fit and 32 formal runs"
+  ],
+  "file_sha256_excluding_receipt": {
+    "00_README.md": "7dc18ad9fc92cad8145e11fe567d9c0e0df0622d66a45ee811b797f5dc45f170",
+    "01_历史证据与研究问题.md": "0ca2fea6f300a895ae4ca9a844ef7397e053dc68b0a3f698d313e3a1966c6a90",
+    "02_候选算法与相关工作.md": "ed007952184abe0c41c8bcea5a3d81d9caeda457b6b7e7a72a290030b27ca329",
+    "03_首轮实验与Codex实施规范.md": "e4e550cf4b517177554642e3ae60f40b1e70558675fcaca751481964f848671e",
+    "04_CODEX执行提示词.md": "7feb1eac7e4032d7768ff4b716fe5935596a85d0e2f0d7a2cd15d11b9f11c5f2",
+    "05_修订说明与核验.md": "26623fcd5723eacb6b8fa63db3f29db9461999e8deae35cd2f1884b90ade5019",
+    "stage0_protocol.json": "124bb5bd03fc9a3be94ea13872d4ecab641fb551a71abfb89141f9d6899090a7"
+  }
+}
