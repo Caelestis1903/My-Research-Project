@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "study_id": "GA31-R3",
+  "status": "DESIGN_ONLY_NOT_EXECUTED",
+  "contract": ["04_实验矩阵与决策树.md", "05_CODEX实施合同.md"],
+  "source": {
+    "repository": "Caelestis1903/My-Research-Project",
+    "branch": "26-10-31",
+    "commit": "ee6e81fdfd37284e6447e8149cb93d04736dba02",
+    "protocol_path": "experiments/gradient_aug_20261031/resolved_protocol.json",
+    "inherit_sections": ["model", "datasets"],
+    "inherit_identity": "raw/array/split/encoder/scaler hashes, feature order, model initialization and original-row shuffle",
+    "new_code_dir": "experiments/gradient_aug_20261031_v2",
+    "new_report_dir": "research_reports/2026-10-31_v2",
+    "modify_historical_files": false
+  },
+  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "training": {
+    "epochs": 50,
+    "batch_size": 40960,
+    "sampler": "natural_without_replacement_shuffle",
+    "drop_last": false,
+    "patience": null,
+    "num_workers": 0,
+    "steps_per_epoch": {"movielens": 20, "kuairand": 49},
+    "optimizer_steps_per_run": {"movielens": 1000, "kuairand": 2450},
+    "loss": "original-sample mean of two independent probability BCE tasks",
+    "view_objective": "mean_i,t[(1-lambda*a_i)*BCE_real + lambda*a_i/K*sum_v(BCE_aug_v)]",
+    "mix_lambda": 0.5,
+    "amp": false,
+    "tf32": false,
+    "scheduler": null,
+    "gradient_clipping": null,
+    "gradient_accumulation_steps": 1,
+    "parameter_ema": false,
+    "selection": "strict full-real-validation six-cell macro AUC maximum, earliest tie, epoch>=1",
+    "test_common_epochs": [10, 50],
+    "test_access": "once after all stages, baseline choices, candidate gates and checkpoints are frozen"
+  },
+  "optimizer": {
+    "type": "torch.optim.Adam",
+    "count": 1,
+    "lr": 0.01,
+    "betas": [0.9, 0.999],
+    "eps": 1e-8,
+    "weight_decay": 1e-5,
+    "decay_type": "coupled_L2",
+    "amsgrad": false,
+    "foreach": false,
+    "fused": false
+  },
+  "stage_A": {
+    "runs": [
+      {"dataset": "movielens", "arm": "B-ML", "loss_scale": 0.1, "weight_decay": 1e-5, "eps": 1e-8, "views": 0},
+      {"dataset": "kuairand", "arm": "B-KR", "loss_scale": 1.0, "weight_decay": 1e-5, "eps": 1e-8, "views": 0},
+      {"dataset": "movielens", "arm": "L2-ML", "loss_scale": 1.0, "weight_decay": 1e-4, "eps": 1e-8, "views": 0}
+    ],
+    "expand_each_over_seeds": true,
+    "formal_count": 15,
+    "choose_baseline": {
+      "movielens": "max mean selected validation macro AUC of B-ML and L2-ML; abs gap<=1e-6 ties choose L2-ML",
+      "kuairand": "B-KR"
+    },
+    "full_matching_scale_arm": "synthetic and single-step identity check only; no formal training arm"
+  },
+  "views": {
+    "scope": "source augmented_domain: ML d0 and KR d2",
+    "target_domain": {"movielens": 0, "kuairand": 2},
+    "eligible_fields": "source datasets[*].perturbable_sparse_fields, assert ML6/KR33",
+    "keep_domain_embedding": true,
+    "keep_dense": true,
+    "keep_input_ids_and_labels": true,
+    "fieldmask": {"fields_per_target": 1, "sampling": "uniform independent per target row", "replacement": "zero entire field embedding", "inverse_keep_rescaling": false},
+    "gaussian": {"relative_std": 0.1, "scale": "stopgrad per-clean-sample per-field RMS", "scale_floor": 0.0, "distribution": "standard normal per coordinate"}
+  },
+  "probe": {
+    "source": "chosen stage-A baseline RAM states",
+    "anchors": ["E1", "E10", "selected"],
+    "deduplicate_epochs": true,
+    "train_row_seed": 314159,
+    "train_batches": 2,
+    "train_batch_size": 1024,
+    "gaussian_independent_draws": 4,
+    "gaussian_negative_partners": 4,
+    "fieldmask_independent_draws": 4,
+    "gradient_computations_max_per_anchor_batch": 14,
+    "anchor_batches_max": 60,
+    "gradient_computations_max": 840,
+    "counterfactual_branches": ["real", "G-single", "G-IID2", "G-ANTI2", "M-single"],
+    "counterfactual_steps_max": 300,
+    "validation_panels": 2,
+    "validation_panel_rows_per_domain": "min(1024, floor(N_validation_domain/2)); disjoint panels",
+    "validation_row_seed_per_domain": "271828 + 100*domain",
+    "validation_utilities": ["six-cell macro BCE", "validation-population-weighted BCE", "per-cell BCE"],
+    "utility_used_for_gating_or_training": false,
+    "raw_gradient_excludes_scale_and_decay": true,
+    "negative_signal_estimates_kept": true,
+    "independent_and_antithetic_statistics_separate": true,
+    "mutate_formal_state": false
+  },
+  "stage_B": {
+    "all_arms_use_dataset_frozen_baseline_optimizer": true,
+    "restart_from_paired_initial_model": true,
+    "mandatory": [{"arm": "M1", "datasets": ["movielens", "kuairand"], "family": "fieldmask", "num_views": 1, "pairing": "iid"}],
+    "mandatory_count": 10,
+    "conditional": [
+      {"arm": "G-IID2", "family": "gaussian", "num_views": 2, "pairing": "iid"},
+      {"arm": "G-ANTI2", "family": "gaussian", "num_views": 2, "pairing": "antithetic"}
+    ],
+    "conditional_gate_per_dataset": {
+      "ratio": "V_anti/V_iid after each seed averages two batches and distinct E10/selected stages",
+      "V_anti": "(V_plus+V_minus+2*cross_cov_trace)/4",
+      "V_iid": "(V_plus+V_minus)/4",
+      "variance_denominator": "K-1",
+      "denominator_floor": "1e-24*max(1, squared_norm(g_real))",
+      "required_valid_seeds": 5,
+      "mean_ratio_max": 0.8,
+      "seeds_ratio_strictly_below_one_min": 4,
+      "invalid_statistics_action": "do not trigger; record missing or degenerate measurement",
+      "single_step_utility_gate": false
+    },
+    "conditional_count_max": 20
+  },
+  "budget": {
+    "required_formal_runs": 25,
+    "maximum_formal_runs": 45,
+    "required_original_optimizer_steps": 39500,
+    "maximum_original_optimizer_steps": 74000,
+    "development_seed": 2022,
+    "development_max_epoch_per_dataset": 1,
+    "development_test_access": false,
+    "auto_add_seeds": false,
+    "auto_hyperparameter_grid": false
+  },
+  "decision": {
+    "primary": "validation-selected test macro AUC",
+    "auc_mean_gain_min": 0.001,
+    "positive_seeds_min": 4,
+    "guard_auc_mean_loss_max": 0.002,
+    "guard_auc_negative_seeds_min": 4,
+    "guard_metrics": ["largest-train-domain task0 AUC", "largest-train-domain task1 AUC", "pooled task-mean AUC", "worst-cell AUC"],
+    "guard_macro_logloss_mean_increase_max": 0.002,
+    "guard_logloss_worse_seeds_min": 4,
+    "ci": "paired descriptive t 95%, df4; no mandatory significance gate",
+    "validation_test_direction_disagreement": "report partition-specific result and retain observed effect, no universal claim",
+    "late_only_gain": "no selected-method GO",
+    "single_dataset_gain": "retain conditional scope",
+    "complex_estimator_must_beat": ["chosen ordinary baseline", "same-view-count IID average"]
+  },
+  "state": {
+    "storage": "RAM_ONLY",
+    "snapshot_epochs": [1, 10, 50],
+    "retain_selected": true,
+    "single_coordinator_lifecycle": true,
+    "release_after": "all selections frozen, test evaluation and reports completed",
+    "disk_weight_files": false
+  },
+  "rng": {
+    "loader_offsets": {"train": 11000, "validation": 33000, "test": 44000},
+    "new_view_seed": "SHA256 UTF8 pipe-key first8 bytes little-endian masked to 63bits, exact key contract in 05",
+    "pair_first_gaussian_view": true,
+    "antithetic_second_view": "negate same standard noise; no second random draw"
+  },
+  "unsupported": ["adaptive_mask", "vug", "dbo", "cosine_gate", "shared_control", "prototype", "cross_domain_read_controller", "source_momentum", "conditional_second_moment", "consistency_loss", "input_ST", "sampling_q_change"],
+  "stop_after": "stage B and final report; conditional C candidates require a new frozen contract"
+}
