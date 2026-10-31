@@ -1,0 +1,85 @@
+{
+  "five_seed": {
+    "movielens": {
+      "working_scale": 0.1,
+      "effect": "A0.1",
+      "validation_gate": false,
+      "test_gate": false,
+      "other_scale_validation_gate": false,
+      "other_scale_test_gate": false,
+      "small_effect": false,
+      "guards": [],
+      "status": "NO_PROMOTION"
+    },
+    "kuairand": {
+      "working_scale": 1,
+      "effect": "A1",
+      "validation_gate": false,
+      "test_gate": false,
+      "other_scale_validation_gate": false,
+      "other_scale_test_gate": false,
+      "small_effect": false,
+      "guards": [
+        {
+          "split": "test",
+          "subset": "five_seed",
+          "dataset": "kuairand",
+          "checkpoint": "selected",
+          "metric": "worst_cell_auc",
+          "effect": "A1",
+          "n": 5,
+          "mean": -0.008536150288824151,
+          "std": 0.008087617923307425,
+          "ci_low": -0.018578254295422494,
+          "ci_high": 0.0015059537177741899,
+          "positive": 0,
+          "negative": 5,
+          "practically_small": 1
+        }
+      ],
+      "status": "TRADEOFF"
+    }
+  },
+  "four_seed_sensitivity": {
+    "movielens": {
+      "working_scale": 0.1,
+      "effect": "A0.1",
+      "validation_gate": false,
+      "test_gate": false,
+      "other_scale_validation_gate": false,
+      "other_scale_test_gate": false,
+      "small_effect": false,
+      "guards": [],
+      "status": "NO_PROMOTION"
+    },
+    "kuairand": {
+      "working_scale": 1,
+      "effect": "A1",
+      "validation_gate": true,
+      "test_gate": false,
+      "other_scale_validation_gate": false,
+      "other_scale_test_gate": false,
+      "small_effect": false,
+      "guards": [
+        {
+          "split": "test",
+          "subset": "four_seed_sensitivity",
+          "dataset": "kuairand",
+          "checkpoint": "selected",
+          "metric": "worst_cell_auc",
+          "effect": "A1",
+          "n": 4,
+          "mean": -0.01000909565754432,
+          "std": 0.008529300352489454,
+          "ci_low": -0.023581115854264232,
+          "ci_high": 0.0035629245391755916,
+          "positive": 0,
+          "negative": 4,
+          "practically_small": 1
+        }
+      ],
+      "status": "TRADEOFF"
+    }
+  },
+  "stop_after_round": true
+}
