@@ -2,7 +2,7 @@
 
 ## 0. 任务边界
 
-本文件供后续 Codex 实现和执行 GA31-R3；当前这次任务只写规划，没有训练。算法与预算以04及 `phase1_protocol.json` 为准。本轮允许 A、A-probe、B-M、满足门槛的 B-G；**C3–C7、自适应 MASK、VUG、DBO、参数冻结、共享控制、SAGU/SAOS 旧版不在授权范围。**
+本文件供后续 Codex 实现和执行 GA31-R3；当前这次任务只写规划，没有训练。算法与预算以04及 `phase1_protocol.json` 为准。本轮允许 A（含预注册A-online连续步只读探针）、A-probe、B-M、两个数据集必做的G-IID2、达到方差门的数据集额外执行的G-ANTI2；**C3–C7、自适应 MASK、VUG、DBO、参数冻结、共享控制、SAGU/SAOS 旧版不在授权范围。**
 
 当前 main 不必已包含实验分支源码。必须取得固定提交 `ee6e81fdfd37284e6447e8149cb93d04736dba02` 的 `experiments/gradient_aug_20261031/` 和 `research_reports/2026-10-31/`。可 fetch `origin/26-10-31` 后按固定 SHA 读取；不能用 main 上不存在的文件、旧540171版本或新分支后来移动的HEAD替代。无需为了获取来源把整个实验分支并入main。
 
@@ -15,8 +15,8 @@
 | `model.py`，blob `6f80172ba8e2cc829abb1ccea77cabdfa2953246` | fixed1模型、字段slice、Embedding forward hook、RMS噪声 | 保留主干；增加单字段零向量视图及显式noise输入 |
 | `objectives.py`，blob `e3fb4f73cb7fc747979747a24a8ec238b739a1ef` | 原样本预算的真实/增强损失 | 扩为K=1/2视图；不改BT分母 |
 | `protocol.py`，blob `8d10e865d7d8648254eb0536ae96c33f8633262f` | Adam、RAM snapshot、RNG恢复 | 复用语义；新parser不能沿用40run/P0–P3硬断言 |
-| `probe.py`，blob `ecce254a7963a3bc4ce535b2097aa3c262d2aacb` | 同状态联合deepcopy与单步比较 | 改为同θ/B多视图；不沿用一次噪声作为方差估计 |
-| `run.py`，blob `8e97d0afe4b79447ac4035fc4a9e8fa89a0dda87` | train_one、RAM coordinator、最终评估 | 新coordinator支持A→冻结基线→probe→B→统一test |
+| `probe.py`，blob `ecce254a7963a3bc4ce535b2097aa3c262d2aacb` | 同状态联合deepcopy与单步比较 | 改为同θ/B多视图；追加受控连续训练步探针，不能误用单次噪声当方差估计 |
+| `run.py`，blob `8e97d0afe4b79447ac4035fc4a9e8fa89a0dda87` | train_one、RAM coordinator、最终评估 | 新coordinator支持A（含在线只读探针）→冻结基线→离线probe/ANTI2门→必做M1与IID2→可选ANTI2→统一test |
 | `data.py`、`audited_data.py`、`basic/`、`reference.py`、`metrics.py` | 数据、基本层和评价 | 从同SHA固定来源；不混入其它版本同名包 |
 | `resolved_protocol.json` | 五seed、数据路径与完整身份哈希 | 数据/模型/初始化协议继承源对象，新实验差异单独覆盖 |
 
@@ -57,11 +57,11 @@ G-IID2使用两个独立的标准高斯张量；G-ANTI2使用同一张量及其�
 
 **正式运行必须在同一coordinator生命周期完成以下步骤：**
 
-1. A阶段15run完成，按完整validation冻结ML普通基线，KR固定B-KR。
-2. 在所选普通基线RAM状态做规定probe，冻结各数据集B-G触发状态；所有公式、门槛和源代码在首个run前已经冻结。
-3. 完成M1十次及被触发的G-IID2/G-ANTI2；它们从同seed初始模型重新训练。
-4. 冻结所有selected epoch、共同E10/E50、有效run键和所有决策，写入selection_frozen.json。
-5. 一次统一test评估阶段，生成主表、配对表、保护裁决，然后释放全部状态并记录释放。
+1. A阶段15run完成，每run真实训练过程同步采集04§3.1的少量连续步只读统计；按完整validation冻结ML工作基线（优先L2的实用替代规则见04§3），KR固定B-KR。
+2. 在所选普通基线RAM状态完成离线多视图probe，冻结各数据集的**G-ANTI2单独触发状态**；G-IID2无论门槛结果均为必做。全部门槛与源代码在首个run前冻结，test此时不可访问。
+3. 完成M1十run和G-IID2十run，另仅对通过方差门的数据集执行G-ANTI2各五run；所有B臂从同seed原始初始模型重新训练。
+4. 冻结所有selected epoch、共同E10/E50、有效run键和决策，写入selection_frozen.json。
+5. 一次统一test评估，生成主表、配对表、保护裁决，然后释放全部状态并记录释放。
 
 不得把stage-A CLI结束后再调用stage-B假装能恢复已释放状态。异常退出且没有磁盘状态时，只能标记中断并从头重跑相关run，不能声称任意step恢复。降低存储开销不是理由去省略实际Adam state。
 
@@ -73,9 +73,15 @@ None只在统计向量拼接时视为零；给optimizer提交反事实梯度时�
 
 计算S/V的独立样本组和ANTI相关组明确分开；S估计负值原样记录。训练probe每batch1024；两验证panel每域n_d=min(1024,floor(N_val,d/2))，由固定域内permutation分为不交叠两段。分别计算macro及validation人口加权BCE。零范数cosine、零方差分母写null和原因，不伪造0或1。
 
-B-G方差门的numerical floor定义为：`V_iid <= 1e-24 * max(1, ||g_r||²)`则该锚点-batch为NA。每seed至少有一个有效E10或selected阶段；不足五个有效seed则该数据集不触发，记录测量不足，不追加种子。每seed先在两个batch/去重阶段平均V_anti和V_iid，再取比；跨seed汇总。计算过程中float64累加；方差负到−1e-12以下视为实现错误，微小负舍入截0且记录。
+G-ANTI2方差门的numerical floor定义为：`V_iid <= 1e-24 * max(1, ||g_r||²)`则该锚点-batch为NA。每seed至少有一个有效E10或selected阶段；不足五个有效seed则该数据集不触发ANTI2，记录测量不足，不追加种子。每seed先对有效batch/去重阶段分别平均V_anti与V_iid，**再取R_s=mean(V_anti)/mean(V_iid)**；跨五seed计算R均值和R<1的数量。计算过程中float64累加；方差负到−1e-12以下视为实现错误，微小负舍入截0且记录。**这些规则只控制G-ANTI2，绝不跳过必做G-IID2。**
 
-最多60锚点-batch、840次梯度计算、300次实际反事实Adam step。实际少于上限按去重后计数。额外诊断不能自行扩成多步rollout或每step全模型grad dump。
+A-probe离线最多60锚点-batch、840次梯度计算、300次实际反事实Adam step。另有A-online最多120个**真实训练轨迹上观测状态**、360次额外autograd.grad、0次新增optimizer.step；两项分别出账，实际少于上限据实计数。额外诊断不能自行扩成多步rollout或每step全模型grad dump。
+
+### 4.1 在线时间探针的实施约束
+
+在15个阶段A run中预定窗口：ML的E10/E20、KR的E10/E40，每窗口原训练batch1–4，访问每个真实Adam.step之前的参数；无需额外训练步，且**不得以已经改变的训练梯度代替只读诊断**。固定1024训练行参考B_ref（314159独立采样，跨同seed、臂和窗口相同），同B_ref计算目标真实梯度与两份独立Gaussian目标增强梯度，按|B_ref|T归一化。随机键固定为`GA31-R3|dataset|seed|temporal|epoch|original_batch_index|gaussian|view`（view=1/2），不得调用或推进训练/loader/global RNG；这些诊断梯度是固定参考batch上的条件量，不冒称原始40960行全batch梯度。记录每个视图的差分范数、S_t=<δ_t1,δ_t2>、跨步C_t=<barδ_t,barδ_(t+1)>、逐步均值与波动、原步数/epoch/row_id哈希。S/C可为负，不能截断并假装严格余弦或持续获益；窗口末释放全部暂存梯度向量。
+
+使用torch.autograd.grad独立计算图，不改变正式模型参数、`.grad`、buffers、Adam、model.training标志或RNG；每次只读执行前后核对这些状态。在工程开发模式下，以临时epoch1的4步短窗测试启用/关闭探针的同seed训练轨迹匹配（在约定CPU/设备容差内），正式窗口仍仅按预注册E10/E20/E40执行。在线探针的**目的仅是判断下一轮是否值得研究C4差分时间滤波**，不作为本轮A/B算法训练门、不训练选择器。
 
 ## 5. 必要验收，不扩成防御性实验矩阵
 
@@ -85,7 +91,7 @@ B-G方差门的numerical floor定义为：`V_iid <= 1e-24 * max(1, ||g_r||²)`�
 
 **状态/配对：** 无增强B-ML与完整匹配Adam控制在相应m/c、v/c²状态映射后，单步参数更新一致；state counters及None一致。检查探针前后正式参数、optimizer、loader和Python/NumPy/Torch CPU/CUDA RNG不变。
 
-**选模/协议：** 50epoch不早停，无test参与训练或门选择；同seed初始化/原样本顺序一致。原始新代码检查CPU FP32 atol1e-6/rtol1e-5起步，超界先查原因，不要求长FP32训练逐位相同，不随意放宽一次step验收。
+**选模/协议：** 50epoch不早停，无test参与训练或门选择；同seed初始化/原样本顺序一致。明确检验G-IID2必做、ANTI2按统计门单独触发、ML工作基线仅由validation实用替代和AUC规则选择；静态展开应得35必要/45最大run及56,750/74,000个真实Adam更新。原始新代码检查CPU FP32 atol1e-6/rtol1e-5起步，超界先查原因，不要求长FP32训练逐位相同，不随意放宽一次step验收。
 
 工程开发只用seed2022、最多每数据集1个epoch的短检查，不按开发test调λ、κ、字段数或训练预算。不存在预先已训练成功的候选数据。
 
@@ -105,7 +111,7 @@ python -m experiments.gradient_aug_20261031_v2.run \
 
 ## 7. 工件和完成标准
 
-保存source_manifest、resolved_config、data_manifest、init/order/noise/state摘要哈希、run_ledger、epoch_metrics、per_cell_metrics、runtime_stats、view_stats、increment_probe、counterfactual_update、baseline_frozen、candidate_frozen、selection_frozen、paired_effects、DECISIONS、REPORT。保留失败/资源中断attempt，不当算法阴性；不得悄悄缩batch、删seed或换split。
+保存source_manifest、resolved_config、data_manifest、init/order/noise/state摘要哈希、run_ledger、epoch_metrics、per_cell_metrics、runtime_stats、view_stats、increment_probe、**temporal_probe、temporal_summary及只读轨迹一致性检查**、counterfactual_update、baseline_frozen、candidate_frozen、selection_frozen、paired_effects、DECISIONS、REPORT。保留失败/资源中断attempt，不当算法阴性；不得悄悄缩batch、删seed或换split。
 
 REPORT必须区分实际完成/未触发/阻塞，报告选点、共同E10、E50、全部六格与成本。若B-G未触发，应写未运行而非阴性。整体通过实用门但保护指标恶化，应写条件性TRADEOFF而非全面失败或全面成功。
 
@@ -113,4 +119,4 @@ REPORT必须区分实际完成/未触发/阻塞，报告选点、共同E10、E50
 
 ## 8. 可直接交给Codex的任务文本
 
-请读取本目录00–06及phase1_protocol.json，按05实现GA31-R3，按04执行有限矩阵。以固定实验提交ee6e81fdfd37284e6447e8149cb93d04736dba02为来源，保持自然数据、五seed、Sample原样本权重预算、fixed1和validation选模。先完成必要验收，然后在一个RAM coordinator内完成A阶段15run、规定probe、M1十run及仅被触发的双视图高斯臂，最后统一test、分析并提交新结果。不要恢复旧SAGU排序，不要求MASK胜出，不开发共享控制或未经冻结的来源动量。发生真实阻塞时交付完成内容与具体原因，不虚构训练或反复扩大实验。
+请读取本目录00–06及phase1_protocol.json，按05实现GA31-R3，按04执行有限矩阵。以固定实验提交ee6e81fdfd37284e6447e8149cb93d04736dba02为来源，保持自然数据、五seed、Sample原样本权重预算、fixed1和validation选模。先完成必要验收，然后在一个RAM coordinator内完成A阶段15run（含有界在线连续步只读探针）、规定离线probe、必做M1十run和G-IID2十run、仅在方差门通过时额外执行G-ANTI2，最后统一test、分析并提交新结果。ML基线实用替代判断只读validation，G-IID2不受ANTI2门限制，不能以跨优化器旧单视图结果解释新的视图数因果效应。不要恢复旧SAGU排序，不要求MASK胜出，不开发共享控制或未经冻结的来源动量。发生真实阻塞时交付完成内容与具体原因，不虚构训练或反复扩大实验。
