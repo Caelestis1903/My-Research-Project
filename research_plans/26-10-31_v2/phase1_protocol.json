@@ -2,19 +2,31 @@
   "schema_version": 1,
   "study_id": "GA31-R3",
   "status": "DESIGN_ONLY_NOT_EXECUTED",
-  "contract": ["04_实验矩阵与决策树.md", "05_CODEX实施合同.md"],
+  "contract": [
+    "04_实验矩阵与决策树.md",
+    "05_CODEX实施合同.md"
+  ],
   "source": {
     "repository": "Caelestis1903/My-Research-Project",
     "branch": "26-10-31",
     "commit": "ee6e81fdfd37284e6447e8149cb93d04736dba02",
     "protocol_path": "experiments/gradient_aug_20261031/resolved_protocol.json",
-    "inherit_sections": ["model", "datasets"],
+    "inherit_sections": [
+      "model",
+      "datasets"
+    ],
     "inherit_identity": "raw/array/split/encoder/scaler hashes, feature order, model initialization and original-row shuffle",
     "new_code_dir": "experiments/gradient_aug_20261031_v2",
     "new_report_dir": "research_reports/2026-10-31_v2",
     "modify_historical_files": false
   },
-  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
   "training": {
     "epochs": 50,
     "batch_size": 40960,
@@ -22,8 +34,14 @@
     "drop_last": false,
     "patience": null,
     "num_workers": 0,
-    "steps_per_epoch": {"movielens": 20, "kuairand": 49},
-    "optimizer_steps_per_run": {"movielens": 1000, "kuairand": 2450},
+    "steps_per_epoch": {
+      "movielens": 20,
+      "kuairand": 49
+    },
+    "optimizer_steps_per_run": {
+      "movielens": 1000,
+      "kuairand": 2450
+    },
     "loss": "original-sample mean of two independent probability BCE tasks",
     "view_objective": "mean_i,t[(1-lambda*a_i)*BCE_real + lambda*a_i/K*sum_v(BCE_aug_v)]",
     "mix_lambda": 0.5,
@@ -34,16 +52,22 @@
     "gradient_accumulation_steps": 1,
     "parameter_ema": false,
     "selection": "strict full-real-validation six-cell macro AUC maximum, earliest tie, epoch>=1",
-    "test_common_epochs": [10, 50],
+    "test_common_epochs": [
+      10,
+      50
+    ],
     "test_access": "once after all stages, baseline choices, candidate gates and checkpoints are frozen"
   },
   "optimizer": {
     "type": "torch.optim.Adam",
     "count": 1,
     "lr": 0.01,
-    "betas": [0.9, 0.999],
+    "betas": [
+      0.9,
+      0.999
+    ],
     "eps": 1e-8,
-    "weight_decay": 1e-5,
+    "weight_decay": 0.00001,
     "decay_type": "coupled_L2",
     "amsgrad": false,
     "foreach": false,
@@ -51,31 +75,69 @@
   },
   "stage_A": {
     "runs": [
-      {"dataset": "movielens", "arm": "B-ML", "loss_scale": 0.1, "weight_decay": 1e-5, "eps": 1e-8, "views": 0},
-      {"dataset": "kuairand", "arm": "B-KR", "loss_scale": 1.0, "weight_decay": 1e-5, "eps": 1e-8, "views": 0},
-      {"dataset": "movielens", "arm": "L2-ML", "loss_scale": 1.0, "weight_decay": 1e-4, "eps": 1e-8, "views": 0}
+      {
+        "dataset": "movielens",
+        "arm": "B-ML",
+        "loss_scale": 0.1,
+        "weight_decay": 0.00001,
+        "eps": 1e-8,
+        "views": 0
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "B-KR",
+        "loss_scale": 1,
+        "weight_decay": 0.00001,
+        "eps": 1e-8,
+        "views": 0
+      },
+      {
+        "dataset": "movielens",
+        "arm": "L2-ML",
+        "loss_scale": 1,
+        "weight_decay": 0.0001,
+        "eps": 1e-8,
+        "views": 0
+      }
     ],
     "expand_each_over_seeds": true,
     "formal_count": 15,
     "choose_baseline": {
-      "movielens": "max mean selected validation macro AUC of B-ML and L2-ML; abs gap<=1e-6 ties choose L2-ML",
+      "movielens": "validation-only: if abs(mean paired selected val AUC(L2-ML-B-ML))<=0.0005, at least 4/5 seeds abs delta<=0.001, and no validation guard regression (largest-domain task0/task1, pooled task-mean, worst-cell AUC loss>=0.002 or macro LogLoss rise>=0.002 in >=4/5 seeds), prefer L2-ML; else choose higher five-seed mean selected validation macro AUC; abs gap<=1e-6 tie choose L2-ML; freeze before test",
       "kuairand": "B-KR"
     },
     "full_matching_scale_arm": "synthetic and single-step identity check only; no formal training arm"
   },
   "views": {
     "scope": "source augmented_domain: ML d0 and KR d2",
-    "target_domain": {"movielens": 0, "kuairand": 2},
+    "target_domain": {
+      "movielens": 0,
+      "kuairand": 2
+    },
     "eligible_fields": "source datasets[*].perturbable_sparse_fields, assert ML6/KR33",
     "keep_domain_embedding": true,
     "keep_dense": true,
     "keep_input_ids_and_labels": true,
-    "fieldmask": {"fields_per_target": 1, "sampling": "uniform independent per target row", "replacement": "zero entire field embedding", "inverse_keep_rescaling": false},
-    "gaussian": {"relative_std": 0.1, "scale": "stopgrad per-clean-sample per-field RMS", "scale_floor": 0.0, "distribution": "standard normal per coordinate"}
+    "fieldmask": {
+      "fields_per_target": 1,
+      "sampling": "uniform independent per target row",
+      "replacement": "zero entire field embedding",
+      "inverse_keep_rescaling": false
+    },
+    "gaussian": {
+      "relative_std": 0.1,
+      "scale": "stopgrad per-clean-sample per-field RMS",
+      "scale_floor": 0,
+      "distribution": "standard normal per coordinate"
+    }
   },
   "probe": {
     "source": "chosen stage-A baseline RAM states",
-    "anchors": ["E1", "E10", "selected"],
+    "anchors": [
+      "E1",
+      "E10",
+      "selected"
+    ],
     "deduplicate_epochs": true,
     "train_row_seed": 314159,
     "train_batches": 2,
@@ -86,29 +148,106 @@
     "gradient_computations_max_per_anchor_batch": 14,
     "anchor_batches_max": 60,
     "gradient_computations_max": 840,
-    "counterfactual_branches": ["real", "G-single", "G-IID2", "G-ANTI2", "M-single"],
+    "counterfactual_branches": [
+      "real",
+      "G-single",
+      "G-IID2",
+      "G-ANTI2",
+      "M-single"
+    ],
     "counterfactual_steps_max": 300,
     "validation_panels": 2,
     "validation_panel_rows_per_domain": "min(1024, floor(N_validation_domain/2)); disjoint panels",
     "validation_row_seed_per_domain": "271828 + 100*domain",
-    "validation_utilities": ["six-cell macro BCE", "validation-population-weighted BCE", "per-cell BCE"],
+    "validation_utilities": [
+      "six-cell macro BCE",
+      "validation-population-weighted BCE",
+      "per-cell BCE"
+    ],
     "utility_used_for_gating_or_training": false,
     "raw_gradient_excludes_scale_and_decay": true,
     "negative_signal_estimates_kept": true,
     "independent_and_antithetic_statistics_separate": true,
-    "mutate_formal_state": false
+    "mutate_formal_state": false,
+    "temporal_online": {
+      "enabled": true,
+      "applies_to": "all 15 stage-A runs; primary interpretation uses only final frozen working baseline per dataset",
+      "windows_epochs": {
+        "movielens": [
+          10,
+          20
+        ],
+        "kuairand": [
+          10,
+          40
+        ]
+      },
+      "actual_train_batch_indices_each_window": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "timing": "read actual pre-optimizer.step parameter state on original training path; no state mutation",
+      "fixed_reference_train_rows": 1024,
+      "train_row_seed": 314159,
+      "reference_row_identity": "same train row IDs within dataset across all seeds, arms, windows and actual optimizer steps; distinct from original 40960-row training batch",
+      "views_per_step": 2,
+      "family": "GA31 Gaussian NR-Gauss-v1, relative std 0.1",
+      "rng_key": "GA31-R3|dataset|seed|temporal|epoch|original_batch_index|gaussian|view",
+      "denominator": "|fixed reference batch| * 2 tasks",
+      "per_observation_autograd_grad_calls": 3,
+      "max_observed_optimizer_states": 120,
+      "max_extra_gradients": 360,
+      "extra_optimizer_steps": 0,
+      "measures": [
+        "two target augmented minus target real graph gradients",
+        "independent-view delta norms and dispersion",
+        "S_t=dot(delta_t1,delta_t2) signed conditional squared-mean estimator",
+        "C_t=dot(mean_delta_t,mean_delta_tplus1) across adjacent actual optimization states",
+        "row hashes, epoch and original batch index, noise seed keys"
+      ],
+      "no_hard_gate_for_stage_B": true,
+      "no_automatic_source_momentum_training": true,
+      "required_check": "probe on/off must leave original model updates, gradients, Adam, loader/global RNG and training order matched in 4-step development test"
+    }
   },
   "stage_B": {
     "all_arms_use_dataset_frozen_baseline_optimizer": true,
     "restart_from_paired_initial_model": true,
-    "mandatory": [{"arm": "M1", "datasets": ["movielens", "kuairand"], "family": "fieldmask", "num_views": 1, "pairing": "iid"}],
-    "mandatory_count": 10,
+    "mandatory": [
+      {
+        "arm": "M1",
+        "datasets": [
+          "movielens",
+          "kuairand"
+        ],
+        "family": "fieldmask",
+        "num_views": 1,
+        "pairing": "iid"
+      },
+      {
+        "arm": "G-IID2",
+        "datasets": [
+          "movielens",
+          "kuairand"
+        ],
+        "family": "gaussian",
+        "num_views": 2,
+        "pairing": "iid"
+      }
+    ],
+    "mandatory_count": 20,
     "conditional": [
-      {"arm": "G-IID2", "family": "gaussian", "num_views": 2, "pairing": "iid"},
-      {"arm": "G-ANTI2", "family": "gaussian", "num_views": 2, "pairing": "antithetic"}
+      {
+        "arm": "G-ANTI2",
+        "family": "gaussian",
+        "num_views": 2,
+        "pairing": "antithetic"
+      }
     ],
     "conditional_gate_per_dataset": {
-      "ratio": "V_anti/V_iid after each seed averages two batches and distinct E10/selected stages",
+      "ratio": "each seed R_s = mean(valid V_anti across E10 and selected (deduplicated), 2 batches) / mean(valid V_iid over same observations); across seeds require mean R<=0.8 and >=4/5 R<1",
       "V_anti": "(V_plus+V_minus+2*cross_cov_trace)/4",
       "V_iid": "(V_plus+V_minus)/4",
       "variance_denominator": "K-1",
@@ -117,20 +256,26 @@
       "mean_ratio_max": 0.8,
       "seeds_ratio_strictly_below_one_min": 4,
       "invalid_statistics_action": "do not trigger; record missing or degenerate measurement",
-      "single_step_utility_gate": false
+      "single_step_utility_gate": false,
+      "applies_to": "G-ANTI2 only. G-IID2 mandatory on both datasets regardless of variance gate."
     },
-    "conditional_count_max": 20
+    "conditional_count_max": 10
   },
   "budget": {
-    "required_formal_runs": 25,
+    "required_formal_runs": 35,
     "maximum_formal_runs": 45,
-    "required_original_optimizer_steps": 39500,
+    "required_original_optimizer_steps": 56750,
     "maximum_original_optimizer_steps": 74000,
     "development_seed": 2022,
     "development_max_epoch_per_dataset": 1,
     "development_test_access": false,
     "auto_add_seeds": false,
-    "auto_hyperparameter_grid": false
+    "auto_hyperparameter_grid": false,
+    "online_temporal_observed_states_max": 120,
+    "online_temporal_extra_gradients_max": 360,
+    "offline_probe_gradients_max": 840,
+    "offline_probe_counterfactual_steps_max": 300,
+    "all_probe_gradients_max": 1200
   },
   "decision": {
     "primary": "validation-selected test macro AUC",
@@ -138,29 +283,59 @@
     "positive_seeds_min": 4,
     "guard_auc_mean_loss_max": 0.002,
     "guard_auc_negative_seeds_min": 4,
-    "guard_metrics": ["largest-train-domain task0 AUC", "largest-train-domain task1 AUC", "pooled task-mean AUC", "worst-cell AUC"],
+    "guard_metrics": [
+      "largest-train-domain task0 AUC",
+      "largest-train-domain task1 AUC",
+      "pooled task-mean AUC",
+      "worst-cell AUC"
+    ],
     "guard_macro_logloss_mean_increase_max": 0.002,
     "guard_logloss_worse_seeds_min": 4,
     "ci": "paired descriptive t 95%, df4; no mandatory significance gate",
     "validation_test_direction_disagreement": "report partition-specific result and retain observed effect, no universal claim",
     "late_only_gain": "no selected-method GO",
     "single_dataset_gain": "retain conditional scope",
-    "complex_estimator_must_beat": ["chosen ordinary baseline", "same-view-count IID average"]
+    "complex_estimator_must_beat": [
+      "chosen ordinary baseline",
+      "same-view-count IID average"
+    ]
   },
   "state": {
     "storage": "RAM_ONLY",
-    "snapshot_epochs": [1, 10, 50],
+    "snapshot_epochs": [
+      1,
+      10,
+      50
+    ],
     "retain_selected": true,
     "single_coordinator_lifecycle": true,
     "release_after": "all selections frozen, test evaluation and reports completed",
     "disk_weight_files": false
   },
   "rng": {
-    "loader_offsets": {"train": 11000, "validation": 33000, "test": 44000},
+    "loader_offsets": {
+      "train": 11000,
+      "validation": 33000,
+      "test": 44000
+    },
     "new_view_seed": "SHA256 UTF8 pipe-key first8 bytes little-endian masked to 63bits, exact key contract in 05",
     "pair_first_gaussian_view": true,
     "antithetic_second_view": "negate same standard noise; no second random draw"
   },
-  "unsupported": ["adaptive_mask", "vug", "dbo", "cosine_gate", "shared_control", "prototype", "cross_domain_read_controller", "source_momentum", "conditional_second_moment", "consistency_loss", "input_ST", "sampling_q_change"],
-  "stop_after": "stage B and final report; conditional C candidates require a new frozen contract"
+  "unsupported": [
+    "adaptive_mask",
+    "vug",
+    "dbo",
+    "cosine_gate",
+    "shared_control",
+    "prototype",
+    "cross_domain_read_controller",
+    "source_momentum",
+    "conditional_second_moment",
+    "consistency_loss",
+    "input_ST",
+    "sampling_q_change"
+  ],
+  "stop_after": "stage B and final report; conditional C candidates require a new frozen contract",
+  "revision": "R3-r1-codex-readiness"
 }
