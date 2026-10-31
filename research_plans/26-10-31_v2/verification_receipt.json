@@ -14,20 +14,51 @@
     "source_path": "research_reports/2026-10-31/analysis/SELECTED_RUNS.csv",
     "source_blob": "69d8f3a4487d13cd63b717a576f4ea48e00e439c",
     "rows_read": 40,
-    "recomputed_fields": ["macro_auc", "macro_logloss"],
+    "recomputed_fields": [
+      "macro_auc",
+      "macro_logloss"
+    ],
     "scope": "paired-seed reanalysis of reported selected metrics; not raw prediction recomputation",
-    "seeds": [2022, 2023, 2024, 2025, 2026],
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
     "macro_auc_effects": {
-      "movielens_A1": {"mean": -0.0002667045382987565, "positive": 2},
-      "movielens_A01": {"mean": -0.0001882395557190275, "positive": 2},
-      "movielens_S0": {"mean": 0.003473491397999262, "positive": 4},
-      "kuairand_A1": {"mean": 0.00018767305957552162, "positive": 2},
-      "kuairand_A01": {"mean": -0.004243362560219399, "positive": 1},
-      "kuairand_S0": {"mean": -0.006025638127671362, "positive": 1}
+      "movielens_A1": {
+        "mean": -0.0002667045382987565,
+        "positive": 2
+      },
+      "movielens_A01": {
+        "mean": -0.0001882395557190275,
+        "positive": 2
+      },
+      "movielens_S0": {
+        "mean": 0.003473491397999262,
+        "positive": 4
+      },
+      "kuairand_A1": {
+        "mean": 0.00018767305957552162,
+        "positive": 2
+      },
+      "kuairand_A01": {
+        "mean": -0.004243362560219399,
+        "positive": 1
+      },
+      "kuairand_S0": {
+        "mean": -0.006025638127671362,
+        "positive": 1
+      }
     },
     "report_erratum": "MovieLens A1 and A0.1 macro LogLoss each improve in 3/5 seeds; one prose location says 2/5. Historical file not modified.",
     "large_file_read_limit": "PAIRED_EFFECTS contents fetch returned empty content although directory metadata reports 1465534 bytes; not treated as an empty or corrupted source file.",
-    "not_claimed": ["all epoch rows independently recomputed", "all 232 probes regenerated", "raw predictions or checkpoints loaded"]
+    "not_claimed": [
+      "all epoch rows independently recomputed",
+      "all 232 probes regenerated",
+      "raw predictions or checkpoints loaded"
+    ]
   },
   "synthetic_checks": {
     "implementation": "NumPy FP64, small arrays, no real model or data",
@@ -44,21 +75,65 @@
   "run_matrix_arithmetic": {
     "stage_A": 15,
     "stage_B_mask": 10,
-    "stage_B_gaussian_optional_max": 20,
-    "required_formal_runs": 25,
+    "required_formal_runs": 35,
     "max_formal_runs": 45,
-    "required_original_updates": 39500,
+    "required_original_updates": 56750,
     "max_original_updates": 74000,
     "unique_maximum_run_keys": 45,
-    "status": "PASS"
+    "status": "PASS_REVISED_STATIC_ARITHMETIC",
+    "stage_B_gaussian_iid_required": 10,
+    "stage_B_gaussian_antithetic_optional_max": 10,
+    "online_temporal_observations_max": 120,
+    "online_temporal_extra_gradients_max": 360,
+    "offline_probe_gradients_max": 840,
+    "combined_probe_gradients_max": 1200
   },
   "target_environment_acceptance_not_yet_performed": [
     "data and preprocessing identity hashes",
     "source model and new baseline forward/gradient/actual PyTorch Adam identity",
     "view masks, antithetic noise and paired RNG checks",
     "RAM-only state lifecycle and read-only probes",
-    "formal training and all new performance/cost measurements"
+    "formal training and all new performance/cost measurements",
+    "online temporal probe trajectory noninterference and numerical identity"
   ],
   "conditional_algorithms": "C3-C7 and any source-aware momentum require a later frozen contract; they are not silently authorized by this plan.",
-  "literature_scope": "targeted primary-source comparison, not exhaustive novelty proof or full-paper/code reproduction"
+  "literature_scope": "targeted primary-source comparison, not exhaustive novelty proof or full-paper/code reproduction",
+  "revision": {
+    "id": "GA31-R3-r1",
+    "reason": "Codex readiness review: decision coverage and downstream momentum-time diagnostic",
+    "parent_main_commit": "baa0c4f9ff41439deff9f43abd1be5a21b91345a",
+    "scope": "planning/config revision only; no real data loaded or GPU/model training",
+    "changes": [
+      "G-IID2 is mandatory on both datasets; variance gate applies only to optional G-ANTI2",
+      "Stage A samples actual consecutive pre-step parameter states with a fixed reference batch and independent view noise; no additional formal optimizer step",
+      "Validation-only practical substitution prefers simple L2 baseline when within frozen tolerances",
+      "Synchronized 35-45 run and 56,750-74,000 optimizer-step budget"
+    ],
+    "arithmetic": {
+      "stage_A_runs": 15,
+      "stage_A_optimizer_steps": 22250,
+      "mask_runs": 10,
+      "mask_optimizer_steps": 17250,
+      "iid2_runs": 10,
+      "iid2_optimizer_steps": 17250,
+      "anti2_optional_max_runs": 10,
+      "anti2_optional_max_steps": 17250,
+      "required_runs": 35,
+      "max_runs": 45,
+      "required_steps": 56750,
+      "max_steps": 74000,
+      "temporal_max_states": 120,
+      "temporal_max_gradients": 360,
+      "offline_max_gradients": 840,
+      "combined_max_gradients": 1200
+    },
+    "verification": "static cross-file intent checks and arithmetic only; previous synthetic checks retained, not rerun",
+    "future_execution_checks": [
+      "online probe on/off does not change base training model/Adam/loader/global RNG trajectory",
+      "data identity, actual model and gradient semantics",
+      "source state hashes and fixed reference-row identity",
+      "stage-A validation-only baseline selection and unconditional IID2 scheduling",
+      "no use of temporal series or test as stage-B gates"
+    ]
+  }
 }
