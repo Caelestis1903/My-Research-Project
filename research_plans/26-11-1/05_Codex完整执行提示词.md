@@ -64,7 +64,7 @@
 
 ### D2. P1 SAD-Momentum
 
-同一θ和batch分别计算真实梯度g_real和增强梯度g_aug，δ=g_aug−g_real。
+同一θ和batch计算全batch真实梯度g_real；另分别计算GA31指定目标域上的aug与clean loss梯度，二者均使用原始B×T分母，δ=g_aug_target−g_real_target。绝不能用目标域aug梯度减去全batch真实梯度。
 m_real=β1*m_real+(1−β1)*(g_real+wd*θ)
 q_delta=β_delta*q_delta+(1−β_delta)*δ
 v=β2*v+(1−β2)*(g_real+λδ+wd*θ)^2
