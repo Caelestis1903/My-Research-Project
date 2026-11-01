@@ -1,0 +1,106 @@
+version: 1
+project: Caelestis1903/My-Research-Project
+target_branch: main
+plan_directory: research_plans/26-11-2
+execution_entry: 06_Codex完整执行提示词.md
+mode:
+  standard_hours: 8-10
+  hard_stop_hours: 12
+  reduced_hours: 4
+protocol:
+  datasets: [movielens, kuairand]
+  dev_seeds: [2022, 2024]
+  confirmation_seeds: [2023, 2025, 2026]
+  epochs: 50
+  batch_size: 40960
+  precision: fp32
+  objective: sample
+  model: fixed1
+  base_lr: 0.01
+  weight_decay:
+    movielens: 0.0001
+    kuairand: 0.00001
+  test_policy: freeze_all_then_evaluate_once
+limits:
+  max_unique_full_trajectories: 40
+  max_shadows_per_trajectory: 4
+  max_additional_trials: 8
+  max_confirmed_candidates: 2
+  max_retries_per_run: 2
+  stop_dispatch_hours: 10
+  hard_stop_hours: 12
+arms:
+  - id: A0
+    role: no_augmentation_time_baseline
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    trajectories: 4
+    shadows: [fixed_ema, delayed_ema_5ep, swa_window20]
+  - id: A1
+    role: ordinary_gaussian_reference
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    trajectories: 4
+    shadows: [fixed_ema, adaptive_ema, replay_rho]
+  - id: B1
+    role: difficulty_aware_feature_selection
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    trajectories: 4
+    shadows: [fixed_ema, adaptive_ema, replay_rho]
+  - id: B2
+    role: taskwise_conflict_component_removal
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    trajectories: 4
+    shadows: [fixed_ema, adaptive_ema, replay_rho]
+  - id: B3
+    role: dose_matched_delayed_augmentation
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    trajectories: 4
+    shadows: [fixed_ema, adaptive_ema, replay_rho]
+conditional:
+  matched_controls:
+    B1: random_feature_mask_replay_or_4_runs_if_not_replayable
+    B2: fixed_delta_shrinkage_ratio_frozen_from_train_only
+    B3: random_five_epoch_off_schedule_seed_1729
+  additional_trials:
+    B1:
+      trigger: "B1 exceeds random mask; mean_delta_auc >= 0.0003; 2_of_2_positive"
+      config: "tau=2"
+    B2:
+      trigger: "B2 exceeds fixed shrinkage; stable direction; below practical gate"
+      config: "eta=0.5"
+    B3:
+      trigger: "B3 exceeds random schedule; 2_of_2_positive"
+      config: "delay=10ep, lambda=0.625"
+    max_total_runs: 8
+  confirmation:
+    candidates_max: 2
+    seeds: [2023, 2025, 2026]
+    runs_per_candidate: 6
+    total_runs_max: 12
+    trigger: "development_practical_gate_and_no_protection"
+  reduced_mode:
+    development_runs: 20
+    confirmation_candidates_max: 1
+    confirmation_runs_max: 6
+    additional_trials: 0
+    stop_if_projected_over_hours: 4
+decisions:
+  practical_gate:
+    mean_delta_macro_auc_min: 0.001
+    positive_dev_seeds: 2
+    logloss_mean_worsening_max: 0.002
+    worst_or_largest_domain_task_auc_drop_max: 0.002
+    must_exceed_matched_control: true
+  exploratory_keep:
+    mean_delta_macro_auc_min: 0.0003
+    positive_dev_seeds: 2
+    must_exceed_matched_control: true
+    no_protection: true
+  stop:
+    no_increment_vs_matched_control: true
+    no_positive_auc_and_no_other_registered_benefit: true
+    no_budget_expansion: true
