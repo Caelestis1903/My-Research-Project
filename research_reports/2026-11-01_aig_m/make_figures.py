@@ -48,6 +48,30 @@ def main():
     fig.savefig(out / 'selected_seed_effects.pdf')
     plt.close(fig)
 
+    gates = pd.read_csv(run / 'gate_epoch_summary.csv')
+    gates = gates[gates.stage == 'S4']
+    fig, axes = plt.subplots(2, 2, figsize=(10, 6), constrained_layout=True)
+    for row, dataset in enumerate(['movielens', 'kuairand']):
+        for col, group in enumerate(['E', 'P']):
+            ax = axes[row, col]
+            for trial, color in [('M1', '#c26d29'), ('M2', '#377ca8')]:
+                values = gates[(gates.dataset == dataset) & (gates.group == group)
+                               & (gates.trial == trial)]
+                assert set(values.seed) == {2022, 2024} and len(values) == 100
+                curve = values.groupby('epoch').gate.agg(['mean', 'std'])
+                ax.plot(curve.index, curve['mean'], label=trial, color=color)
+                ax.fill_between(curve.index, curve['mean'] - curve['std'],
+                    curve['mean'] + curve['std'], color=color, alpha=.15)
+            ax.axhline(.5, color='#888888', ls=':', lw=1)
+            ax.set_ylim(0, 1)
+            ax.set_title(dataset + ' | group ' + group)
+            ax.set_xlabel('Epoch; two development seeds, mean +/- sample SD')
+            ax.set_ylabel('Gate = lambda / lambda_max')
+            ax.legend(frameon=False)
+    fig.savefig(out / 'innovation_gate_curves.png', dpi=180)
+    fig.savefig(out / 'innovation_gate_curves.pdf')
+    plt.close(fig)
+
 
 if __name__ == '__main__':
     main()

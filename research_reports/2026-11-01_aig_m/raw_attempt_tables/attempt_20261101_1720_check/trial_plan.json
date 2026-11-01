@@ -1,0 +1,980 @@
+{
+  "development_seeds": [
+    2022,
+    2024
+  ],
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "epochs": 50,
+  "batch_size": 40960,
+  "stages": {
+    "S1": [
+      "C",
+      "A",
+      "B",
+      "D"
+    ],
+    "S2": [
+      "G1",
+      "G2",
+      "G3"
+    ],
+    "S3": [
+      "S95",
+      "S99"
+    ],
+    "S4": [
+      "M1",
+      "M2"
+    ]
+  },
+  "base_configs": {
+    "movielens": {
+      "A": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.005,
+        "weight_decay": 0.0001,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9828205985452511,
+          "H8": 0.995677200433284,
+          "H20": 0.9982686325973925
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "B": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.01,
+        "weight_decay": 3e-05,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9828205985452511,
+          "H8": 0.995677200433284,
+          "H20": 0.9982686325973925
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "C": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.01,
+        "weight_decay": 0.0001,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9828205985452511,
+          "H8": 0.995677200433284,
+          "H20": 0.9982686325973925
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "D": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.02,
+        "weight_decay": 0.00030000000000000003,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9828205985452511,
+          "H8": 0.995677200433284,
+          "H20": 0.9982686325973925
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      }
+    },
+    "kuairand": {
+      "A": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.005,
+        "weight_decay": 1e-05,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9929520238904295,
+          "H8": 0.9982333297987682,
+          "H20": 0.9992929570313738
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "B": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.01,
+        "weight_decay": 3e-06,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9929520238904295,
+          "H8": 0.9982333297987682,
+          "H20": 0.9992929570313738
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "C": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.01,
+        "weight_decay": 1e-05,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9929520238904295,
+          "H8": 0.9982333297987682,
+          "H20": 0.9992929570313738
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      },
+      "D": {
+        "use_augmentation": false,
+        "use_sad": false,
+        "use_aig_m": false,
+        "use_shadow_ema": true,
+        "use_aig_swa": false,
+        "lr": 0.02,
+        "weight_decay": 3.0000000000000004e-05,
+        "lambda_aug": 0.5,
+        "noise_scale": 0.1,
+        "beta_delta": 0.0,
+        "lambda_min": 0.0,
+        "lambda_max": 0.5,
+        "thresholds": {},
+        "shadow_rates": {
+          "ema995": 0.995,
+          "H2": 0.9929520238904295,
+          "H8": 0.9982333297987682,
+          "H20": 0.9992929570313738
+        },
+        "group_rule": "E_embedding_P_target_path_U_other_v1",
+        "loss_scale": 1,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "slope": 4.0
+      }
+    }
+  },
+  "finite_candidate_templates": {
+    "S1": {
+      "movielens": {
+        "A": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.005,
+          "weight_decay": 0.0001,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "B": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.01,
+          "weight_decay": 3e-05,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "C": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.01,
+          "weight_decay": 0.0001,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "D": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.02,
+          "weight_decay": 0.00030000000000000003,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      },
+      "kuairand": {
+        "A": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.005,
+          "weight_decay": 1e-05,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "B": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.01,
+          "weight_decay": 3e-06,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "C": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.01,
+          "weight_decay": 1e-05,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "D": {
+          "use_augmentation": false,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": 0.02,
+          "weight_decay": 3.0000000000000004e-05,
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      }
+    },
+    "S2": {
+      "movielens": {
+        "G1": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.05,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "G2": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "G3": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.75,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      },
+      "kuairand": {
+        "G1": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.05,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "G2": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "G3": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.75,
+          "noise_scale": 0.1,
+          "beta_delta": 0.0,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      }
+    },
+    "S3": {
+      "movielens": {
+        "S95": {
+          "use_augmentation": true,
+          "use_sad": true,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "S99": {
+          "use_augmentation": true,
+          "use_sad": true,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.99,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      },
+      "kuairand": {
+        "S95": {
+          "use_augmentation": true,
+          "use_sad": true,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "S99": {
+          "use_augmentation": true,
+          "use_sad": true,
+          "use_aig_m": false,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.99,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {},
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      }
+    },
+    "S4": {
+      "movielens": {
+        "M1": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": true,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.25,
+          "thresholds": {
+            "E": "S95.E1.train.seeds2022_2024.E.q50",
+            "P": "S95.E1.train.seeds2022_2024.P.q50"
+          },
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "M2": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": true,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {
+            "E": "S95.E1.train.seeds2022_2024.E.q75",
+            "P": "S95.E1.train.seeds2022_2024.P.q75"
+          },
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9828205985452511,
+            "H8": 0.995677200433284,
+            "H20": 0.9982686325973925
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      },
+      "kuairand": {
+        "M1": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": true,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.25,
+          "thresholds": {
+            "E": "S95.E1.train.seeds2022_2024.E.q50",
+            "P": "S95.E1.train.seeds2022_2024.P.q50"
+          },
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        },
+        "M2": {
+          "use_augmentation": true,
+          "use_sad": false,
+          "use_aig_m": true,
+          "use_shadow_ema": true,
+          "use_aig_swa": false,
+          "lr": "S1.selected.lr",
+          "weight_decay": "S1.selected.weight_decay",
+          "lambda_aug": 0.5,
+          "noise_scale": 0.1,
+          "beta_delta": 0.95,
+          "lambda_min": 0.0,
+          "lambda_max": 0.5,
+          "thresholds": {
+            "E": "S95.E1.train.seeds2022_2024.E.q75",
+            "P": "S95.E1.train.seeds2022_2024.P.q75"
+          },
+          "shadow_rates": {
+            "ema995": 0.995,
+            "H2": 0.9929520238904295,
+            "H8": 0.9982333297987682,
+            "H20": 0.9992929570313738
+          },
+          "group_rule": "E_embedding_P_target_path_U_other_v1",
+          "loss_scale": 1,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "slope": 4.0
+        }
+      }
+    }
+  },
+  "template_hash": "d8f9141b988eefe21cba42bdf7d882e635b69e7a4709265ae55e1bd57908b80e",
+  "resolution": "template_hash identifies the recipe; actual config_hash is written only after S1/threshold resolution",
+  "schema": [
+    "stage",
+    "dataset",
+    "trial",
+    "seed",
+    "attempt",
+    "status",
+    "execution_commit",
+    "source_manifest_hash",
+    "data_hash",
+    "raw_sha256",
+    "split_row_id_hashes",
+    "encoder_hash",
+    "scaler_hash",
+    "config_hash",
+    "run_hash",
+    "resolved_config",
+    "planned_epochs",
+    "planned_optimizer_steps",
+    "completed_epochs",
+    "completed_optimizer_steps",
+    "init_hash",
+    "epoch_order_hash",
+    "selected_epochs",
+    "selected_model_hashes",
+    "cache_source",
+    "output_dir"
+  ]
+}

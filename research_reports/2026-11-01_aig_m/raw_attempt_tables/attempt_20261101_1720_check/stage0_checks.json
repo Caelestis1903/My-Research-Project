@@ -1,0 +1,177 @@
+{
+  "status": "PASS",
+  "datasets": [
+    {
+      "dataset": "movielens",
+      "status": "PASS",
+      "U_delta_exactly_zero": true,
+      "U_parameters": 44,
+      "four_shadow_noninterference": true,
+      "RAM_restore_next_step_equal": true,
+      "actual_batch_size": 40960,
+      "actual_optimizer_updates_including_source": 19,
+      "test_evaluated": false,
+      "shadow_formula_max_abs_error": 5.960464477539063e-08,
+      "peak_memory_bytes": 1262873600
+    },
+    {
+      "dataset": "kuairand",
+      "status": "PASS",
+      "U_delta_exactly_zero": true,
+      "U_parameters": 44,
+      "four_shadow_noninterference": true,
+      "RAM_restore_next_step_equal": true,
+      "actual_batch_size": 40960,
+      "actual_optimizer_updates_including_source": 19,
+      "test_evaluated": false,
+      "shadow_formula_max_abs_error": 7.450580596923828e-09,
+      "peak_memory_bytes": 1356083200
+    }
+  ],
+  "source_checks": {
+    "status": "PASS",
+    "seed": 2022,
+    "datasets": [
+      {
+        "dataset": "movielens",
+        "status": "PASS",
+        "source_prediction_loss_gradient_step_max_error": 0.0,
+        "actual_batch_size": 40960,
+        "parameter_count": 773470,
+        "memory_checks": [
+          {
+            "arm": "A1",
+            "peak_memory_bytes": 974140416,
+            "gradient_calls": 1,
+            "target_rows": 6103,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": false,
+              "q_delta_norm": null,
+              "m_real_norm": null,
+              "injection_ratio": null,
+              "q_delta_cosine": null,
+              "cosine_reason": "ordinary_Adam_no_separated_state",
+              "local_adam_update_cosine": null,
+              "local_adam_relative_difference": null,
+              "local_reference": "ordinary_Adam"
+            }
+          },
+          {
+            "arm": "A2",
+            "peak_memory_bytes": 1199650816,
+            "gradient_calls": 2,
+            "target_rows": 6103,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": true,
+              "q_delta_norm": 1.34554387410567e-06,
+              "m_real_norm": 0.12109582374004935,
+              "injection_ratio": 5.555698894888277e-06,
+              "q_delta_cosine": 0.9999999999999996,
+              "cosine_reason": "",
+              "local_adam_update_cosine": 0.9999999999999994,
+              "local_adam_relative_difference": 3.357829860537785e-08,
+              "local_reference": "one_step_from_mapped_same_state_not_A1_trajectory"
+            }
+          },
+          {
+            "arm": "A3",
+            "peak_memory_bytes": 1199650816,
+            "gradient_calls": 2,
+            "target_rows": 6103,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": true,
+              "q_delta_norm": 1.3455438190678224e-07,
+              "m_real_norm": 0.12109582374004935,
+              "injection_ratio": 5.555698732860729e-06,
+              "q_delta_cosine": 0.9999999999999999,
+              "cosine_reason": "",
+              "local_adam_update_cosine": 0.9999999999999994,
+              "local_adam_relative_difference": 3.380101588203442e-08,
+              "local_reference": "one_step_from_mapped_same_state_not_A1_trajectory"
+            }
+          }
+        ],
+        "shadow_trajectory_equal": true,
+        "RAM_resume_equal": true,
+        "development_optimizer_updates": 12,
+        "development_test_access": false
+      },
+      {
+        "dataset": "kuairand",
+        "status": "PASS",
+        "source_prediction_loss_gradient_step_max_error": 0.0,
+        "actual_batch_size": 40960,
+        "parameter_count": 1614254,
+        "memory_checks": [
+          {
+            "arm": "A1",
+            "peak_memory_bytes": 1073304576,
+            "gradient_calls": 1,
+            "target_rows": 1877,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": false,
+              "q_delta_norm": null,
+              "m_real_norm": null,
+              "injection_ratio": null,
+              "q_delta_cosine": null,
+              "cosine_reason": "ordinary_Adam_no_separated_state",
+              "local_adam_update_cosine": null,
+              "local_adam_relative_difference": null,
+              "local_reference": "ordinary_Adam"
+            }
+          },
+          {
+            "arm": "A2",
+            "peak_memory_bytes": 1301258752,
+            "gradient_calls": 2,
+            "target_rows": 1877,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": true,
+              "q_delta_norm": 3.4219265571376423e-06,
+              "m_real_norm": 0.1575288278459041,
+              "injection_ratio": 1.0861270836693965e-05,
+              "q_delta_cosine": 0.9999999999999998,
+              "cosine_reason": "",
+              "local_adam_update_cosine": 0.9999999999999993,
+              "local_adam_relative_difference": 3.404074944168073e-08,
+              "local_reference": "one_step_from_mapped_same_state_not_A1_trajectory"
+            }
+          },
+          {
+            "arm": "A3",
+            "peak_memory_bytes": 1301258752,
+            "gradient_calls": 2,
+            "target_rows": 1877,
+            "diagnostic": {
+              "measurement": "last_actual_batch",
+              "separated_state": true,
+              "q_delta_norm": 3.421926416890055e-07,
+              "m_real_norm": 0.1575288278459041,
+              "injection_ratio": 1.0861270580086699e-05,
+              "q_delta_cosine": 0.9999999999999998,
+              "cosine_reason": "",
+              "local_adam_update_cosine": 0.9999999999999992,
+              "local_adam_relative_difference": 3.410852627496483e-08,
+              "local_reference": "one_step_from_mapped_same_state_not_A1_trajectory"
+            }
+          }
+        ],
+        "shadow_trajectory_equal": true,
+        "RAM_resume_equal": true,
+        "development_optimizer_updates": 12,
+        "development_test_access": false
+      }
+    ],
+    "test_evaluated": false,
+    "disk_weight_files": false
+  },
+  "test_evaluated": false,
+  "storage": "RAM_ONLY",
+  "source_manifest_hash": "d297bea130cae8fedaeef47ae35239fd9af4f4d7f3076416eaf50670bcdae02c",
+  "execution_commit": "2cec25ab5b32411855a13ab3143678a5e980ea3f"
+}
