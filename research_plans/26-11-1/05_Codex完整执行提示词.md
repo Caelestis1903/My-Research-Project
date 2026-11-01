@@ -159,3 +159,6 @@ research_reports/2026-11-01_momentum/至少包含：
 - 是否值得进入下一阶段，以及唯一最有决策价值的下一实验。
 
 通过正常Git流程将新代码、配置、轻量报告和结果提交到独立分支，创建PR合入main。不得覆盖历史文件。若资源/权限阻塞，交付已完成内容并明确阻塞，不得虚构训练或推送状态。
+
+
+**梯度差分与None语义补充（强制覆盖任何简写）**：g_real是全batch真实loss梯度；g_real_target和g_aug_target分别是指定目标域clean/aug loss梯度，二者都除以原始B×T。δ=g_aug_target−g_real_target，混合梯度为g_real+λδ。不得用g_aug_target−g_real_full。每参数独立step_p：两路均None时跳过该参数所有状态；仅一侧None时将该侧视为零参与差分，合成梯度非None则更新并递增step_p。所有bias correction按step_p执行。
