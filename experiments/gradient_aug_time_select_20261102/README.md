@@ -20,3 +20,17 @@ Matched controls consume the eight-run additional budget, ordered R2/R1/R3, only
 Historical numerical baseline inputs default to `research_reports/2026-11-02_gradient_aug_time_select/historical_aigm_baseline/` (override with `--history-dir`). They are byte-preserved evidence from `26-11-01_v3@6f5742c2085c1e49d1767b0a7079bb9f28160eda`; their source receipt is beside them. Reuse requires current A0/A1 development checkpoint hashes and frozen configuration/data identity to match. Otherwise corresponding baselines must be newly trained within the cap. Existing test values are imported only after all current candidates and endpoints have frozen. Baseline numerical reuse does not restore historical weights or add seeds.
 
 Root run artifacts include every run/pass ledger, epoch/batch/view/mask/projection/rho diagnostics, per-kind validation/test metrics, selected endpoint hashes, paired raw values and seed-level mean/sample SD/t95% intervals, source/data/environment receipts, decisions, costs and release receipt. The orchestrator writes the scientific report after the runner completes.
+
+## Recovery after the first coordinator failure
+
+`attempt_20261102_0005` completed the 20 base trajectories but exited before controls/test while reading historical encoder/scaler identity from the wrong manifest level. Its weights were RAM-only and were lost. Recovery reads the actual nested `features.encoder_hash/scaler_hash`, rejects missing identities, and uses one numerical endpoint core for both old-log CPU preflight and later actual RAM verification.
+
+First run the real CPU preflight against the preserved numerical attempt; it reads no test CSV and creates a fresh receipt directory:
+
+```bash
+/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.gradient_aug_time_select_20261102.run --mode preflight --recovery-attempt artifacts/gradient_aug_time_select_20261102/attempt_20261102_0005 --task-start-unix 1793549242.1426222 --run-dir artifacts/gradient_aug_time_select_20261102/attempt_TIMESTAMP_preflight
+```
+
+After independent recovery review, freeze the new code SHA, repeat the two-dataset CUDA Stage0, and run a fresh `all` attempt. Add the same `--recovery-attempt` and `--task-start-unix 1793549242.1426222` to both `check` and `all` commands above. `all` itself reruns the numerical preflight before training. The original 10h and 12h deadlines remain UNIX `1793585242.1426222` and `1793592442.1426222`; restart does not extend them. Original worker cost and original development forecast carry forward.
+
+Fresh training reconstructs all 20 RAM trajectories, then compares initialization, effective configuration, every primary online step hash, order/view hashes, final optimizer, selected epochs and every retained endpoint identity/metric to the old attempt. A mismatch writes `cross_attempt_identity.json` and blocks promotion for independent review. Successful recomputation counts as the same scientific trajectories, with all additional physical passes charged. `execution_cost_continuity.json` separates old/current/combined costs; `recovery_execution_receipt.json` records origins, deadlines, source identities and preflight. Old attempt files remain untouched. The real-schema recovery regression test requires that preserved numerical attempt to be available at the path above.

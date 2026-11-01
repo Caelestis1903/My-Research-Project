@@ -25,6 +25,8 @@ from .protocol import (ROOT,HISTORY,DEV_SEEDS,CONFIRM_SEEDS,ARMS,protocol,config
 from .objectives import train_step
 from .shadows import ShadowController,replay_sequence
 from .analyze import compare,values,build_tables
+from .recovery import (COST_KEYS,historical_endpoint_core,attempt_endpoint_rows,task_clock,
+    recovery_context,verify_recomputed_results,execution_costs)
 
 
 def counters():
@@ -250,38 +252,9 @@ def confirmation_budget_reason(existing,planned,group):
 
 
 def historical_baseline_verification(results,p,out):
-    history=Path(p['history_dir']);checks=[];verified={d:False for d in p['datasets']}
-    required=['validation_metrics.csv','development_selected_checkpoints.json','formal_configuration_frozen.json','data_manifest.json']
-    if not all((history/f).exists() for f in required):
-        write_json(out/'historical_baseline_verification.json',dict(verified=verified,reason='missing historical identity files'));return verified
-    original=pd.read_csv(history/'validation_metrics.csv');development=json.loads((history/'development_selected_checkpoints.json').read_text())['checkpoints']
-    frozen=json.loads((history/'formal_configuration_frozen.json').read_text())['configurations'];data=json.loads((history/'data_manifest.json').read_text())
-    for d in p['datasets']:
-        ok=all(data[d][k]==p['datasets'][d][k] for k in ('array_hashes','encoder_hash','scaler_hash','split_row_id_hashes'))
-        for arm in ('A0','A1'):
-            old=frozen[d][arm]['config'];now=config(arm,d)
-            ok=ok and all(old[k]==now[k] for k in ('lr','weight_decay','betas','eps','lambda_aug'))
-            if arm=='A1':ok=ok and old['noise_scale']==now['noise_scale']
-            ok=ok and old['shadow_rates'][frozen[d][arm]['kind']]==now['rho_fixed']
-            for result in [r for r in results if r['dataset']==d and r['trial']==arm]:
-                for kind in ('online','fixed_ema'):
-                    for row in checkpoint_rows(result,kind):
-                        oldkind='online' if kind=='online' else frozen[d][arm]['kind']
-                        sourcearm=arm if kind=='online' else arm+'_EMA'
-                        found=original[(original.dataset==d)&(original.arm==sourcearm)&(original.seed==result['seed'])&
-                            (original.model_kind==oldkind)&(original.checkpoint==row['checkpoint'])].to_dict('records')
-                        if not found:
-                            trial='C' if arm=='A0' else 'G1' if d=='movielens' else 'G2'
-                            found=[x for x in development if x['dataset']==d and x['seed']==result['seed'] and x['trial']==trial and
-                                x['model_kind']==oldkind and x['checkpoint']==row['checkpoint'] and x['stage']==('S1' if arm=='A0' else 'S2')]
-                        match=len(found)==1 and found[0]['model_hash']==row['model_hash'] and int(found[0]['epoch'])==row['epoch']
-                        checks.append(dict(dataset=d,arm=arm,kind=kind,seed=result['seed'],checkpoint=row['checkpoint'],
-                            current_model_hash=row['model_hash'],historical_model_hash=found[0]['model_hash'] if len(found)==1 else None,matches=match))
-                        ok=ok and match
-        verified[d]=bool(ok)
-    write_json(out/'historical_baseline_verification.json',dict(verified=verified,checks=checks,history_dir=str(history),
-        source_commit='6f5742c2085c1e49d1767b0a7079bb9f28160eda',historical_test_accessed_for_decision=False))
-    return verified
+    rows=[row for result in results if result['trial'] in ('A0','A1') and result['seed'] in DEV_SEEDS
+        for kind in ('online','fixed_ema') for row in checkpoint_rows(result,kind)]
+    return historical_endpoint_core(rows,p,out)['verified']
 
 
 def matched_control(results,dataset,arm):
@@ -412,11 +385,15 @@ def aggregate(results,out):
 
 
 def finish_queue(bundles,p,out,results,start,additional,history_datasets=()):
+    verify_recomputed_results(results,p,out)
     unified_test(bundles,p,out,results,history_datasets);aggregate(results,out);build_tables(out)
+    costs=execution_costs(results,p);write_json(out/'execution_cost_continuity.json',costs)
     write_json(out/'completion.json',dict(status='EARLY_STOP_BUDGET' if p.get('budget_stopped') else 'COMPLETE',
         development_unique_runs=sum(r['stage'] in ('calibration','development') for r in results),additional_runs=additional,
-        unique_training_runs=len(results),full_training_passes=sum(r['training_passes'] for r in results),
-        total_epochs=sum(r['training_passes']*50 for r in results),optimizer_steps=sum(r['optimizer_steps'] for r in results),
+        unique_training_runs=costs['unique_scientific_trajectories'],current_attempt_training_runs=len(results),
+        full_training_passes=costs['combined']['training_passes'],current_attempt_passes=costs['current_attempt']['training_passes'],
+        total_epochs=costs['combined']['training_passes']*50,optimizer_steps=costs['combined']['optimizer_steps'],
+        training_worker_seconds=costs['combined']['training_seconds'],task_start_unix=p['task_start_unix'],
         wall_seconds=time.perf_counter()-start,test_evaluated=True,snapshot_tensor_bytes=sum(r['snapshot_tensor_bytes'] for r in results)))
     for result in results:result.pop('states')
     results.clear();gc.collect();write_json(out/'state_release.json',dict(released=True,storage='RAM_ONLY',after='frozen unified test and tables'))
@@ -427,21 +404,24 @@ def finish_if_budget(bundles,p,out,results,start,additional):
     write_json(out/'decision.json',dict(status='EARLY_STOP_BUDGET',reason='12h hard dispatch limit',
         complete_unique_trajectories=len(results),test_accessed=False))
     if results:finish_queue(bundles,p,out,results,start,additional)
+    else:write_json(out/'completion.json',dict(status='EARLY_STOP_BUDGET',current_attempt_training_runs=0,
+        test_evaluated=False,task_start_unix=p['task_start_unix'],reason='Original 12h dispatch limit already reached'))
     return True
 
 
 def all_stages(bundles,p,out):
-    start=time.perf_counter();results=[];additional=0;matched={};trial_decisions=[]
-    p['dispatch_deadline']=time.time()+p['limits']['hard_hours']*3600
+    start=time.perf_counter()-(time.time()-p['task_start_unix']);results=[];additional=0;matched={};trial_decisions=[]
     calibration=[]
     for dataset in bundles:
         job=make_jobs('calibration','A0',[dataset],[2022])
         current=schedule(bundles,p,out,job,p['devices']);results.extend(current)
         if finish_if_budget(bundles,p,out,results,start,additional):return
         calibration.append(dict(dataset=dataset,seconds=current[0]['training_seconds'],peak=current[0]['peak_memory_bytes']))
-    expected_worker=sum(x['seconds'] for x in calibration)*24
+    fresh_forecast=sum(x['seconds'] for x in calibration)*24
+    expected_worker=p.get('recovery',{}).get('original_development_forecast_seconds',fresh_forecast)
     write_json(out/'throughput_calibration.json',dict(runs=calibration,complete_50_epochs=True,
         projected_development_worker_seconds=expected_worker,
+        fresh_attempt_forecast_seconds=fresh_forecast,original_forecast_retained=bool(p.get('recovery')),
         calculation='2 A0 passes plus 4 passes each A1/B1/B2/B3, factors 1/1.25/2.2/1.05 per dataset'))
     results.extend(schedule(bundles,p,out,make_jobs('development','A0',bundles,[2024]),p['devices']))
     if finish_if_budget(bundles,p,out,results,start,additional):return
@@ -456,8 +436,11 @@ def all_stages(bundles,p,out):
         else:
             write_json(out/f'{arm}_development_decision.json',{d:compare(values(results,d,arm),values(results,d,'A1'),d) for d in bundles})
     assert len(results)==20
-    cost_ratio=sum(r['training_seconds'] for r in results)/expected_worker
-    write_json(out/'budget_calibration.json',dict(development_worker_seconds=sum(r['training_seconds'] for r in results),
+    verify_recomputed_results(results,p,out)
+    prior_worker=p.get('recovery',{}).get('prior_costs',{}).get('training_seconds',0.)
+    current_worker=sum(r['training_seconds'] for r in results);cost_ratio=(prior_worker+current_worker)/expected_worker
+    write_json(out/'budget_calibration.json',dict(development_worker_seconds=prior_worker+current_worker,
+        prior_attempt_worker_seconds=prior_worker,current_attempt_worker_seconds=current_worker,
         predicted_worker_seconds=expected_worker,cost_ratio=cost_ratio,cancel_tuning=cost_ratio>1.5,
         cancel_second_confirmation=cost_ratio>2.,test_accessed=False))
     historical=historical_baseline_verification(results,p,out)
@@ -567,10 +550,13 @@ def all_stages(bundles,p,out):
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['audit','check','all'],required=True)
+    parser=argparse.ArgumentParser();parser.add_argument('--mode',choices=['audit','preflight','check','all'],required=True)
     parser.add_argument('--run-dir',required=True);parser.add_argument('--device',default='cuda:1');parser.add_argument('--devices',default='0,1')
     parser.add_argument('--code-commit');parser.add_argument('--stage0-receipt');parser.add_argument('--history-dir',default=str(HISTORY))
+    parser.add_argument('--recovery-attempt');parser.add_argument('--task-start-unix',type=float)
     args=parser.parse_args();p=protocol();out=Path(args.run_dir);manifest=source_manifest()
+    if args.recovery_attempt and args.task_start_unix is None:parser.error('Recovery requires the original --task-start-unix')
+    if args.mode=='preflight' and not args.recovery_attempt:parser.error('Preflight requires --recovery-attempt with original numerical endpoints')
     if args.mode in ('check','all') and not args.code_commit:parser.error('Provide reviewed immutable --code-commit')
     if args.mode=='all':
         if not args.stage0_receipt:parser.error('Provide --stage0-receipt')
@@ -579,7 +565,26 @@ def main():
     if out.exists() and any(out.iterdir()):raise FileExistsError(f'Use a new attempt: {out}')
     out.mkdir(parents=True,exist_ok=True);torch.set_num_threads(1)
     p.update(execution_commit=args.code_commit,source_manifest_hash=manifest['hash'],devices=[int(v) for v in args.devices.split(',')],history_dir=args.history_dir)
+    p.update(task_clock(args.task_start_unix,p['limits']))
+    if args.recovery_attempt:
+        p['recovery']=recovery_context(args.recovery_attempt,args.task_start_unix,p)
+        preflight=historical_endpoint_core(attempt_endpoint_rows(args.recovery_attempt),p,out,'historical_preflight.json')
+        write_json(out/'recovery_execution_receipt.json',dict(task_start_unix=p['task_start_unix'],
+            recovery_start_unix=p['recovery_start_unix'],elapsed_before_recovery_seconds=p['elapsed_before_recovery_seconds'],
+            stop_dispatch_deadline=p['stop_dispatch_deadline'],dispatch_deadline=p['dispatch_deadline'],
+            prior_attempt=p['recovery']['prior_attempt'],prior_costs=p['recovery']['prior_costs'],
+            original_development_forecast_seconds=p['recovery']['original_development_forecast_seconds'],
+            original_execution_commit=p['recovery']['original_execution_commit'],
+            original_source_hash=p['recovery']['original_source_hash'],execution_commit=args.code_commit,
+            source_hash=manifest['hash'],historical_preflight_verified=preflight['verified'],
+            historical_test_accessed_for_decision=False,prior_RAM_weights_restored=False))
+        oldcost=[{k:r['stats'].get(k) for k in ('dataset','trial','seed','run_hash')+COST_KEYS}
+            for r in p['recovery']['runs'].values()]
+        pd.DataFrame(oldcost).to_csv(out/'prior_attempt_costs.csv',index=False)
     write_json(out/'source_manifest.json',dict(execution_commit=args.code_commit,**manifest));write_json(out/'resolved_config.json',p)
+    if args.mode=='preflight':
+        print(f"historical CPU preflight: {preflight['verified']}; {preflight['matched_endpoints']}/{preflight['endpoint_count']} endpoint matches",flush=True)
+        return
     write_json(out/'environment.json',dict(python=sys.version,torch=torch.__version__,cuda_runtime=torch.version.cuda,gpus=gpu_status(),
         tf32=False,cudnn_benchmark=False,cpu_threads=1,training_gpu_event_boundary='batch input through online/shadow update, host gaps included',
         evaluation_gpu_event_boundary='sum of model forward event intervals; CPU metrics excluded'))
