@@ -1,0 +1,122 @@
+{
+  "study_id": "GA31-R3",
+  "baselines": {
+    "movielens": "L2-ML",
+    "kuairand": "B-KR"
+  },
+  "methods": {
+    "movielens": {
+      "M1": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": -0.00124792318765925,
+          "positive_seeds": 0,
+          "guards": []
+        },
+        "test": {
+          "gain_gate": false,
+          "mean_delta_auc": -0.0016271166183051244,
+          "positive_seeds": 1,
+          "guards": []
+        },
+        "same_K_iid_gate": null
+      },
+      "G-IID2": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.00021081655770802677,
+          "positive_seeds": 3,
+          "guards": []
+        },
+        "test": {
+          "gain_gate": false,
+          "mean_delta_auc": -0.0002064524271426338,
+          "positive_seeds": 3,
+          "guards": []
+        },
+        "same_K_iid_gate": null
+      },
+      "G-ANTI2": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.00013260616095041035,
+          "positive_seeds": 3,
+          "guards": []
+        },
+        "test": {
+          "gain_gate": false,
+          "mean_delta_auc": -0.0006866401786065568,
+          "positive_seeds": 2,
+          "guards": []
+        },
+        "same_K_iid_gate": false
+      }
+    },
+    "kuairand": {
+      "M1": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.0013949791435380777,
+          "positive_seeds": 2,
+          "guards": [
+            {
+              "metric": "worst_cell_auc",
+              "mean": -0.003673110182967321,
+              "adverse_seeds": 4
+            }
+          ]
+        },
+        "test": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.0012306283034195786,
+          "positive_seeds": 2,
+          "guards": []
+        },
+        "same_K_iid_gate": null
+      },
+      "G-IID2": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.0032928811187326935,
+          "positive_seeds": 3,
+          "guards": []
+        },
+        "test": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.0024393759493801957,
+          "positive_seeds": 2,
+          "guards": []
+        },
+        "same_K_iid_gate": null
+      },
+      "G-ANTI2": {
+        "status": "NO_PROMOTION",
+        "validation": {
+          "gain_gate": false,
+          "mean_delta_auc": 0.0010828046347206798,
+          "positive_seeds": 2,
+          "guards": [
+            {
+              "metric": "worst_cell_auc",
+              "mean": -0.0030561556361944353,
+              "adverse_seeds": 4
+            }
+          ]
+        },
+        "test": {
+          "gain_gate": true,
+          "mean_delta_auc": 0.0012020451761437067,
+          "positive_seeds": 4,
+          "guards": []
+        },
+        "same_K_iid_gate": false
+      }
+    }
+  },
+  "stop_after_round": true
+}
