@@ -32,7 +32,7 @@ def main():
     for name in ('validation_metrics.csv', 'test_metrics.csv', 'selected_metrics.csv',
                  'paired_effects.csv', 'effect_summary.csv', 'arm_summary.csv',
                  'trial_ledger.csv', 'costs.csv', 'test_costs.csv',
-                 'failure_ledger.csv', 'launch_ledger.csv'):
+                 'failure_ledger.csv', 'launch_ledger.csv', 'validation_epoch_metrics.csv'):
         shutil.copyfile(RUN / name, tables / name)
     for path in RUN.glob('*.json'):
         if any(word in path.stem for word in ('decision', 'frozen', 'completion', 'release',
@@ -141,6 +141,7 @@ def main():
                 continue
             stats = json.loads((directory / 'runtime_stats.json').read_text())
             pass_rows.append(dict(dataset=row.dataset, trial=row.trial, seed=int(row.seed),
+                execution_attempt=RUN.name, scope='successful_current_job',
                 pass_name=pass_name, **{k: stats[k] for k in ('training_seconds', 'original_exposures',
                 'extra_views', 'training_forwards', 'gradient_calls', 'optimizer_steps',
                 'shadow_updates', 'validation_forwards', 'validation_wall_seconds',
@@ -171,23 +172,30 @@ def main():
                     source_total_energy=float(re.sum()), control_total_energy=float(energy.sum())))
     present['energy_measurement_scope'] = scope
     present.to_csv(tables / 'costs_presentation.csv', index=False, na_rep='N/A')
-    old = pd.read_csv(REPORT / 'failed_attempt_costs.csv')
-    old['execution_attempt'] = 'failed_0005'
-    new = raw.assign(execution_attempt=RUN.name)
-    physical = pd.concat([old, new], ignore_index=True)
-    physical.to_csv(tables / 'all_attempt_physical_costs_raw.csv', index=False)
+    # The runner's R3 ledger enumerates raw sources once, including failed retries
+    # and partial passes. Do not add inherited cumulative receipts a second time.
+    physical = pd.read_csv(RUN / 'physical_cost_ledger.csv')
+    shutil.copyfile(RUN / 'physical_cost_ledger.csv', tables / 'physical_cost_ledger.csv')
+    for name in ('physical_cost_sources.json', 'execution_cost_continuity.json'):
+        shutil.copyfile(RUN / name, decisions / name)
     additive = ['training_passes', 'training_seconds', 'original_exposures', 'extra_views',
                 'view_draws', 'training_forwards', 'gradient_calls', 'optimizer_steps',
                 'shadow_updates', 'validation_forwards', 'validation_wall_seconds',
                 'validation_gpu_event_ms', 'training_gpu_event_ms', 'selection_checks']
     totals = {k: float(physical[k].sum()) for k in additive}
     totals.update(scientific_unique_runs=len(raw),
-        execution_attempt_run_records=len(physical),
-        peak_worker_allocated_bytes=int(physical.peak_memory_bytes.max()),
-        peak_worker_reserved_bytes=int(physical.peak_reserved_bytes.max()),
+        physical_ledger_records=len(physical),
+        source_attempts=sorted(physical.source_attempt.unique()),
+        complete_passes=int(physical.complete_passes.sum()),
+        partial_passes=int(physical.partial_passes.sum()),
+        physical_totals_scope='known totals or lower bounds; trace counters count committed records',
+        unavailable_partial_components=sorted(set().union(*physical.unavailable_fields.map(json.loads))),
+        lower_bound_fields=sorted(set().union(*physical.lower_bound_fields.map(json.loads))),
+        current_successful_worker_peak_allocated_bytes=int(raw.peak_memory_bytes.max()),
+        current_successful_worker_peak_reserved_bytes=int(raw.peak_reserved_bytes.max()),
         wall_seconds_from_original_task_start=completion['wall_seconds'],
         test_costs=pd.read_csv(RUN / 'test_costs.csv').drop(columns=['dataset', 'trial', 'seed']).sum().to_dict(),
-        scope='failed plus recovery physical computation; scientific sample size unchanged',
+        scope='all failed and successful execution sources; scientific sample size unchanged',
         stage0_excluded=True)
     (tables / 'all_attempt_cost_totals.json').write_text(json.dumps(totals, indent=2) + '\n')
     pd.DataFrame(pass_rows).to_csv(tables / 'physical_pass_costs.csv', index=False)

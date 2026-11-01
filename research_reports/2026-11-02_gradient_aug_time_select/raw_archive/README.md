@@ -19,3 +19,5 @@ tar -xzf /tmp/gats02_failed_0005.tar.gz
 ```
 
 `failed_0005`包含首次Stage0、基础开发attempt和外层日志：20条科学轨迹完成，但协调器在历史接口处退出，未统一test，RAM模型丢失。首个wrapper错误文件是当时状态消息的转录，原始stderr曾被覆盖，不能作为原始traceback；最终KeyError的原始stderr保留。恢复attempt的归档与收据另列，勿将两次执行当作更多独立seed。
+
+`failed_recovery_0315`包含第二次执行及其Stage0/外层日志，共248文件，压缩包12410947字节，SHA-256为`0fd2fb527a530c8a08dbcc64a48da5186f1fb7e19315d5b62086445ba85bb51f`。它在B2的KR/2022 replay发生native -11退出，随后协调器退出；11条完整科学job与1条部分失败均未统一test。部分成本下界及原生诊断另见报告目录。恢复方式同上：校验对应SHA256SUMS，将同名前缀part按顺序拼接后从仓库根目录解压。R3必要CPU回归需要两个失败attempt均已恢复。

@@ -6,6 +6,7 @@
 
 - 工作基线 main：`0bf3e970ca47da44b129e67bb4c84a653ba6a20b`；历史证据：`26-11-01_v3@6f5742c2085c1e49d1767b0a7079bb9f28160eda`。
 - 首次attempt的训练源码 commit：`ac2ec5cc70be7dcb880a7dde1015e4634726fd96`；source manifest SHA-256：`ff5136395313436fa8b96f7bf585245eb0c6e7f2607c1caad40f4d4013bea130`。53 个实际执行源码文件的 Git blob 与该 commit 逐一相同，见 [执行核验](EXECUTION_SOURCE_VERIFICATION.json)。该attempt在开发训练后、统一测试前发生接口错误，不能将其称为完成全部实验；恢复执行身份另行记录。最终发布commit追加报告与分析文件，实际训练身份由各attempt收据分别确定。
+- 第二次执行commit：`3a164c6d6e3847883d1f2ae23c7d8e76ee47b6db`，source manifest：`95c5d28204849e2e815ff33753339a1ef115fdbb2401886923435b6e9511299d`；55/55实际源码blob匹配，见 [恢复执行身份](RECOVERY_EXECUTION_IDENTITY.json) 与 [源码核验](RECOVERY_EXECUTION_SOURCE_VERIFICATION.json)。它保留首次执行commit为父提交。恢复 [设计附录](RECOVERY_DESIGN_ADDENDUM.md)、[实现报告](RECOVERY_IMPLEMENTATION_REPORT.md)、[独立PASS](RECOVERY_REVIEW_REPORT.md) 和真实48端点 [预检](recovery_cpu_preflight_final/historical_preflight.json) 保留完整。该执行在B2原生worker退出后失败，未统一test。
 - Python 3.13.5、PyTorch 2.9.0+cu126，显式解释器 `/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python`；环境快照和 GPU 状态见 [预检](ENVIRONMENT_PREFLIGHT.json) 与原始运行 environment.json。
 - [来源收据](SOURCE_FETCH_RECEIPT.json)、[依赖核验](DEPENDENCY_SOURCE_VERIFICATION.json)、[数据核验](DATA_VERIFICATION.json)、[历史基线来源](historical_aigm_baseline/SOURCE_RECEIPT.json) 分别记录读取内容与身份。旧 MASK/Polyak 配套原始代码的可获得性边界见 [证据回顾](EVIDENCE_REVIEW.md)，本轮不声称逐行重现它们。
 
@@ -37,6 +38,10 @@
 
 B2逐任务的target clean及aug-clean损失均除以原B，投影后两个任务只平均一次。FP64 reduction得到组系数，更新为FP32，U组差分须精确零或None；weight decay不进入参考梯度。R2的q为两开发种子全部训练step/task的保留范数之和除以原差分范数之和，完全不看validation/test。它没有匹配逐步变化或两任务合成后的抵消，B2与R2差异仍可能包含这些因素及Adam预条件效应。
 
+实际投影日志保存的是逐task/组的差分与保留范数，batch trace保存full optimizer-input梯度范数；没有独立保存两任务合成后增强项的范数。因此不能事后声称已精确匹配或测量该合成项的动态剂量，也不把full梯度范数当成它的替代值。
+
+逐任务的投影约束也不等于最终合成更新对两个任务均无冲突：另一任务的差分与本任务参考梯度之间的交叉项没有被该公式约束，Adam预条件后也没有保持原欧氏内积符号的保证。因此task0退化与投影按合同发生可以同时成立。
+
 R1匹配每字段总数量和能量，不匹配每行覆盖数/能量异质性。B3与A1的“等剂量”专指Σepochλ=25，不等于Σλ²或实际扰动能量相等；R3匹配活跃次数与λ直方图，但只使用一个预先冻结的随机日程。rho随机排列同时改变时序关联、自相关与warm-up位置。
 
 ## 门槛、预算与统计
@@ -49,12 +54,14 @@ seed是统计重复单位。开发n=2、确认n=3、合并n=5分开；表格报�
 
 ## 成本与已知记录缺口
 
-`costs.csv`为原始每唯一轨迹的物理成本（包含重算pass），`physical_pass_costs.csv`另分首遍和重算。forward、梯度遍历、optimizer更新及shadow更新单独计数；五次梯度遍历不称为五倍FLOPs。每kind验证成本和独立选点均计入。并发worker秒可相加，不能当作队列墙钟。
+`costs.csv`为最终成功执行中每唯一轨迹的物理成本（包含重算pass），`physical_pass_costs.csv`另分这些成功job的首遍和重算。累计全部来源、失败retry及partial的口径由`physical_cost_ledger.csv`与`execution_cost_continuity.json`给出；不把各来源收据内继承的累计成本再次相加。部分native失败成本只记录可证下界，未提交的工作不可恢复为精确总数。forward、梯度遍历、optimizer更新及shadow更新单独计数；五次梯度遍历不称为五倍FLOPs。每kind验证成本和独立选点均计入。并发worker秒可相加，不能当作队列墙钟。
 
 独立复审发现 `mask_fields`/`perturbation_energy` 只在B1/R1 mask通道累积。A1/B2/B3/R2/R3的原始零为**未测量**，最终展示表改为N/A并保留原始列；A0的energy为结构性零，mask_fields为N/A。此缺口不影响指标、R1数量/能量匹配、R2的q或rho重算一致性；不补造实际能量。详见 [诊断记账复审](DIAGNOSTIC_ACCOUNTING_REVIEW.md)。B1/R1比较只取primary，能量为λ缩放前；actual perturbation RMS=√(energy/(target row exposures×fields×16))。日志中的embedding_rms是clean embedding尺度。
 
 正式训练前的首次wrapper启动因输出目录预先存在stdout/stderr而被空目录检查拒绝，尚未执行训练；修正外层日志位置后以同一配置启动。首次错误文件随后被重定向覆盖，其描述只能作为消息转录，不能称原始traceback保留。GPU外部任务未终止或操作。
 
 首次attempt完成20条基础科学轨迹、36个物理pass后，在历史数值基线核验中访问不存在的顶层encoder_hash而退出，尚未统一test。它的原始fatal traceback保留，RAM状态随进程退出丢失；不能从数值日志恢复模型。此前审查未用真实落盘schema覆盖此接口，恢复须经设计附录、coder修复、独立复审、真实48端点接口预检及新Stage0。重新训练原配置用于重建RAM，其物理成本全部累计，不增加独立seed或科学重复数；绝对10/12小时deadline沿用首次正式训练开始时间。训练失败、OOM、协调失败和重复计算分别记账，见 [失败attempt运行报告](FAILED_ATTEMPT_RUNNER_REPORT.md)。
+
+第二次attempt的KR/B2/2022在replay E42之后、epoch43第28批后发生native SIGSEGV(-11)，无Python traceback；窄范围系统日志记为nvidiactl segfault，未检出同期Xid，根因未定。其余11条科学job完整完成，但调度器把native退出判为不可恢复，协调器退出且RAM再次丢失。它没有统一test。已完成primary与日志可证实的partial replay单列成本；缺少尾部时钟/GPU event不线性外推为精确总数。见 [第二次失败报告](FAILED_RECOVERY_RUNNER_REPORT.md) 与 [R3设计](RECOVERY_DESIGN_ADDENDUM_R3.md)。后续修复限定为确认的-11限次原配置重试、真正独占重试及原生栈诊断；这不等于证明已排除底层native故障。
 
 所有model/Adam/shadow/RNG/selected状态只在RAM及RAM IPC中保存。磁盘仅数值日志、概率/行号数组、配置、hash和源码。队列冻结统一测试后释放RAM；复现需从头运行，不能从磁盘权重续训。

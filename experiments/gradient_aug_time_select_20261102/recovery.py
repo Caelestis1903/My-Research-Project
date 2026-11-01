@@ -13,6 +13,98 @@ COST_KEYS=('training_seconds','original_exposures','extra_views','view_draws','t
     'validation_gpu_event_ms','training_gpu_event_ms','selection_checks','training_passes')
 
 
+def scientific_job_key(job,p):
+    return digest(dict(dataset=job['dataset'],seed=int(job['seed']),config=job['config'],
+        data=p['datasets'][job['dataset']],rng=p['rng']))
+
+
+def partial_pass_cost(directory):
+    directory=Path(directory);trace=pd.read_csv(directory/'batch_trace.csv')
+    epochs=pd.read_csv(directory/'epoch_metrics.csv') if (directory/'epoch_metrics.csv').exists() else pd.DataFrame()
+    views=pd.read_csv(directory/'view_stats.csv') if (directory/'view_stats.csv').exists() else pd.DataFrame()
+    validation=pd.read_csv(directory/'validation_epoch_metrics.csv') if (directory/'validation_epoch_metrics.csv').exists() else pd.DataFrame()
+    values={key:None for key in COST_KEYS}
+    values.update(training_seconds=float(epochs.epoch_seconds.sum()) if len(epochs) else 0.,
+        original_exposures=int(trace.rows.sum()),gradient_calls=int(trace.gradient_calls.sum()),
+        optimizer_steps=len(trace),training_forwards=len(trace)+len(views),view_draws=len(views),
+        extra_views=int(views.target_rows.sum()) if len(views) else 0,training_passes=0,
+        selection_checks=len(validation))
+    for key in ('validation_forwards','validation_wall_seconds','validation_gpu_event_ms'):
+        if key in validation:values[key]=float(validation[key].sum())
+    return dict(**values,committed_epochs=len(epochs),committed_last_step=int(trace.global_step.max()) if len(trace) else 0,
+        measurement='partial_pass_lower_bound',complete_passes=0,partial_passes=1,
+        unavailable_fields=[key for key in COST_KEYS if values[key] is None],
+        lower_bound_fields=['training_seconds','training_forwards','view_draws','extra_views',
+            'validation_forwards','validation_wall_seconds','validation_gpu_event_ms','selection_checks'],
+        exact_committed_trace_fields=['original_exposures','gradient_calls','optimizer_steps'],
+        worker_time_boundary='sum of completed epoch_seconds; unfinished epoch and uncommitted final work excluded')
+
+
+def attempt_physical_costs(attempt):
+    """Count only this explicit source's raw run/pass files, never inherited receipts."""
+    attempt=Path(attempt).resolve();items=[]
+    for run in sorted(attempt.glob('runs/*/*/*/seed*/attempt*')):
+        if not run.is_dir():continue
+        dataset,trial,seed,number=run.parts[-4:];base=dict(source_attempt=str(attempt),dataset=dataset,trial=trial,
+            seed=int(seed.removeprefix('seed')),attempt=int(number.removeprefix('attempt')))
+        merged=run/'runtime_stats.json'
+        directories=[run] if merged.exists() else [run/'primary',run/'replay']
+        before=len(items)
+        for directory in directories:
+            path=directory/'runtime_stats.json'
+            if path.exists():
+                stats=json.loads(path.read_text());passes=stats['training_passes']
+                items.append(dict(**base,pass_kind='combined' if directory==run else directory.name,
+                    path=str(path),measurement='complete_merged_run' if directory==run else 'complete_pass',
+                    complete_job=directory==run or not stats['config']['replay_enabled'],complete_passes=passes,partial_passes=0,
+                    scientific_id=digest(dict(dataset=dataset,seed=base['seed'],config_hash=stats['config_hash'],
+                        data_hash=stats['run_identity']['data_hash'])),
+                    unavailable_fields=[],lower_bound_fields=[],committed_epochs=50*passes,
+                    **{key:stats[key] for key in COST_KEYS}))
+            elif (directory/'batch_trace.csv').exists():
+                items.append(dict(**base,pass_kind=directory.name,path=str(directory/'batch_trace.csv'),
+                    complete_job=False,**partial_pass_cost(directory)))
+            elif (directory/'resolved_config.json').exists():
+                items.append(dict(**base,pass_kind=directory.name,path=str(directory/'resolved_config.json'),
+                    measurement='started_pass_without_committed_trace',complete_job=False,complete_passes=0,partial_passes=1,
+                    unavailable_fields=[key for key in COST_KEYS if key!='training_passes'],lower_bound_fields=[],
+                    **{key:0 if key=='training_passes' else None for key in COST_KEYS}))
+        if len(items)==before and (run/'stderr.log').exists():
+            items.append(dict(**base,pass_kind='worker_setup',path=str(run/'stderr.log'),
+                measurement='worker_without_committed_training_trace',complete_job=False,complete_passes=0,partial_passes=0,
+                unavailable_fields=[key for key in COST_KEYS if key!='training_passes'],lower_bound_fields=[],
+                **{key:0 if key=='training_passes' else None for key in COST_KEYS}))
+    totals={key:sum(row[key] for row in items if row.get(key) is not None) for key in COST_KEYS}
+    unknown=sorted({key for row in items for key in row['unavailable_fields']})
+    lower=sorted(set(unknown)|{key for row in items for key in row['lower_bound_fields']})
+    return dict(source_attempt=str(attempt),items=items,known_totals_or_lower_bounds=totals,
+        lower_bound_fields=lower,unavailable_components=unknown,complete_jobs=sum(row['complete_job'] for row in items),
+        complete_passes=sum(row['complete_passes'] for row in items),partial_passes=sum(row['partial_passes'] for row in items),
+        deduplication='combined runtime_stats replaces its child primary/replay; different attempt directories remain separate',
+        inherited_receipts_read=False)
+
+
+def native_failure_history(sources,p):
+    counts={};records=[]
+    for source in sources:
+        root=Path(source);path=root/'failure_ledger.csv'
+        if not path.exists():continue
+        failures=pd.read_csv(path)
+        if not len(failures):continue
+        trials=pd.read_csv(root/'trial_ledger.csv')
+        for row in failures.to_dict('records'):
+            native=row.get('exitcode')==-11 or row.get('error')=='worker exited -11 without RAM state'
+            if not native:continue
+            matches=trials[(trials.status=='FAILED')&(trials.dataset==row['dataset'])&(trials.trial==row['trial'])&
+                (trials.seed==row['seed'])&(trials.attempt==row['attempt'])]
+            if len(matches)!=1:raise ValueError('Native failure must map to exactly one raw failed trial identity')
+            cfg=json.loads(matches.iloc[0]['resolved_config']);job=dict(dataset=row['dataset'],seed=int(row['seed']),config=cfg)
+            key=scientific_job_key(job,p);counts[key]=counts.get(key,0)+1
+            records.append(dict(source_attempt=str(root),dataset=row['dataset'],trial=row['trial'],seed=int(row['seed']),
+                failed_attempt=int(row['attempt']),exitcode=-11,job_key=key))
+    return dict(failures_by_job=counts,records=records)
+
+
 def read_identity(value,path):
     current=value
     for key in path:
@@ -140,7 +232,7 @@ def task_clock(task_start,limits,recovery_start=None):
         stop_dispatch_deadline=start+limits['stop_hours']*3600,dispatch_deadline=start+limits['hard_hours']*3600)
 
 
-def recovery_context(attempt,task_start,p):
+def recovery_context(attempt,task_start,p,additional_cost_attempts=()):
     attempt=Path(attempt);runs=completed_attempt_runs(attempt)
     original=json.loads((attempt/'resolved_config.json').read_text())
     for section in FIXED_SECTIONS:
@@ -150,8 +242,17 @@ def recovery_context(attempt,task_start,p):
     if abs(float(task_start)-first)>1e-6:raise ValueError('Recovery task start differs from original first launch')
     forecast=json.loads((attempt/'throughput_calibration.json').read_text())['projected_development_worker_seconds']
     if not forecast>0:raise ValueError('Original development forecast must be positive')
-    costs={k:sum(run['stats'].get(k,0) for run in runs.values()) for k in COST_KEYS}
+    source_paths=list(dict.fromkeys(str(Path(path).resolve()) for path in [attempt,*additional_cost_attempts]))
+    sources=[]
+    for source_path in source_paths:
+        source_config=json.loads((Path(source_path)/'resolved_config.json').read_text())
+        if any(read_identity(source_config,(key,)) is MISSING or source_config[key]!=p[key] for key in FIXED_SECTIONS):
+            raise ValueError(f'Additional raw cost source fixed identity mismatch: {source_path}')
+        sources.append(attempt_physical_costs(source_path))
+    costs={key:sum(source['known_totals_or_lower_bounds'][key] for source in sources) for key in COST_KEYS}
     return dict(prior_attempt=str(attempt.resolve()),runs=runs,prior_costs=costs,
+        cost_sources=sources,native_failure_history=native_failure_history(source_paths,p),
+        prior_lower_bound_fields=sorted({key for source in sources for key in source['lower_bound_fields']}),
         prior_unique_scientific_trajectories=len(runs),original_development_forecast_seconds=forecast,
         original_execution_commit=original.get('execution_commit'),original_source_hash=original.get('source_manifest_hash'),
         original_task_start_unix=first,original_test_evaluated=False)
@@ -199,13 +300,26 @@ def verify_recomputed_results(results,p,out):
     if not matched:raise RuntimeError('Cross-attempt trajectory identity mismatch; promotion blocked; independent review required')
 
 
-def execution_costs(results,p):
-    current={key:sum(r.get(key,0) for r in results) for key in COST_KEYS}
+def execution_costs(results,p,out=None):
+    current_source=attempt_physical_costs(out) if out is not None else None
+    current=(current_source['known_totals_or_lower_bounds'] if current_source is not None else
+        {key:sum(r.get(key,0) for r in results) for key in COST_KEYS})
     prior=p.get('recovery',{}).get('prior_costs',{key:0 for key in COST_KEYS})
     context=p.get('recovery');overlap=0
     if context:overlap=sum(f"{r['dataset']}|{r['trial']}|{r['seed']}" in context['runs'] for r in results)
-    unique=len(results)+(0 if context is None else context['prior_unique_scientific_trajectories']-overlap)
+    sources=[] if context is None else list(context.get('cost_sources',[]))
+    if current_source is not None:sources.append(current_source)
+    unique=(len({row['scientific_id'] for source in sources for row in source['items'] if row['complete_job']})
+        if sources else len(results))
+    if out is not None:
+        write_json(Path(out)/'physical_cost_sources.json',dict(sources=sources,
+            source_paths_deduplicated=True,inherited_prior_receipts_added=False))
+        pd.DataFrame([row for source in sources for row in source['items']]).to_csv(Path(out)/'physical_cost_ledger.csv',index=False)
     return dict(prior_attempt=prior,current_attempt=current,combined={key:prior[key]+current[key] for key in COST_KEYS},
+        measurement='known totals and explicitly labelled lower bounds',
+        lower_bound_fields=sorted({key for source in sources for key in source['lower_bound_fields']}),
+        unavailable_components=sorted({key for source in sources for key in source['unavailable_components']}),
+        complete_passes=sum(source['complete_passes'] for source in sources),partial_passes=sum(source['partial_passes'] for source in sources),
         prior_unique_scientific_trajectories=0 if context is None else context['prior_unique_scientific_trajectories'],
         verified_recomputed_trajectories=overlap,unique_scientific_trajectories=unique,
         current_complete_trajectories=len(results),wall_clock_start=p['task_start_unix'])

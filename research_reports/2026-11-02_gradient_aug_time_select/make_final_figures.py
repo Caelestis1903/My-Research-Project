@@ -67,7 +67,7 @@ def main():
         for y in range(arr.shape[0]):
             for x in range(arr.shape[1]):
                 if np.isfinite(arr[y, x]):
-                    ax.text(x, y, f'{arr[y, x]:+.3f}', ha='center', va='center', fontsize=8,
+                    ax.text(x, y, f'{arr[y, x]:+.4f}', ha='center', va='center', fontsize=8,
                             color='white' if abs(arr[y, x]) > bound * .6 else 'black')
                 else:
                     ax.text(x, y, 'N/A', ha='center', va='center', fontsize=8, color='#666666')
@@ -75,6 +75,33 @@ def main():
     fig.tight_layout(rect=(0, 0, .92, 1))
     fig.colorbar(im, ax=axes.ravel().tolist(), fraction=.025, pad=.04, label='Mean paired AUC difference')
     save(fig, 'final_domain_task_effects')
+
+    curves = pd.read_csv(TABLE / 'validation_epoch_metrics.csv')
+    curves = curves[(curves.model_kind == 'fixed_ema') & curves.seed.isin((2022, 2024)) &
+                    (curves['pass'] == 'primary')]
+    assert not curves.duplicated(['dataset', 'trial', 'seed', 'epoch']).any()
+    fig, axes = plt.subplots(2, 2, figsize=(12, 7), constrained_layout=True)
+    colors = dict(zip(('A0', 'A1', 'B1', 'R1', 'B2', 'R2', 'B3', 'R3'),
+                      ('#777777', '#111111', '#e69f00', '#b26900', '#0072b2', '#56b4e9', '#009e73', '#cc79a7')))
+    for row, dataset in enumerate(('movielens', 'kuairand')):
+        for col, metric in enumerate(('macro_auc', 'macro_logloss')):
+            ax = axes[row, col]
+            for arm in colors:
+                part = curves[(curves.dataset == dataset) & (curves.trial == arm)]
+                if part.empty:
+                    continue
+                assert part.groupby('epoch').seed.nunique().eq(2).all()
+                mean = part.groupby('epoch')[metric].mean()
+                ax.plot(mean.index, mean, color=colors[arm], ls='--' if arm.startswith('R') else '-',
+                        label=arm, lw=1.4)
+            ax.axvline(10, color='#aaaaaa', lw=.8, ls=':')
+            ax.set_title(f'{dataset.title()} | fixed EMA')
+            ax.set_xlabel('Epoch')
+            ax.set_ylabel('Validation ' + ('macro AUC' if col == 0 else 'macro LogLoss'))
+            ax.grid(alpha=.15)
+            ax.legend(fontsize=8, ncols=4)
+    fig.suptitle('Full training stage: development means (n=2); matched controls dashed\nSeed uncertainty is reported in paired tables, not inferred from epoch counts')
+    save(fig, 'final_validation_training_curves')
 
     confirmed = paired[(paired.checkpoint == 'selected') & (paired.subset == 'confirmation') &
                        (paired.metric == 'macro_auc') & paired.effect.isin(effects)]

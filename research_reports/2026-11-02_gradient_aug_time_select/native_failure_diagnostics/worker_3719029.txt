@@ -1,0 +1,35 @@
+Read-only native failure diagnostics; collected after coordinator exit.
+Kernel log match for the failed worker:
+2026-11-02T04:17:07,635525+08:00 python[3719029]: segfault at 2005d4038 ip 00000002005d4038 sp 00007ffd007c0450 error 15 in nvidiactl[200400000+3000000]
+Contemporaneous NVIDIA Xid matches near the recorded failure time:
+(no matching line returned)
+GPU 0 post-exit NVSMI fields:
+    GPU Recovery Action                   : None
+    GSP Firmware Version                  : 570.144
+    IBMNPU
+        Relaxed Ordering Mode             : N/A
+--
+    ECC Errors
+        Volatile
+            SRAM Correctable              : N/A
+            SRAM Uncorrectable Parity     : N/A
+--
+        GPU Current Temp                  : 51 C
+        GPU T.Limit Temp                  : N/A
+        GPU Shutdown Temp                 : 98 C
+        GPU Slowdown Temp                 : 95 C
+GPU 1 post-exit NVSMI fields:
+    GPU Recovery Action                   : None
+    GSP Firmware Version                  : 570.144
+    IBMNPU
+        Relaxed Ordering Mode             : N/A
+--
+    ECC Errors
+        Volatile
+            SRAM Correctable              : N/A
+            SRAM Uncorrectable Parity     : N/A
+--
+        GPU Current Temp                  : 43 C
+        GPU T.Limit Temp                  : N/A
+        GPU Shutdown Temp                 : 98 C
+        GPU Slowdown Temp                 : 95 C

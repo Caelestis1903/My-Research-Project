@@ -2,6 +2,7 @@
 import argparse
 import contextlib
 import copy
+import faulthandler
 import gc
 import json
 import multiprocessing as mp
@@ -26,7 +27,7 @@ from .objectives import train_step
 from .shadows import ShadowController,replay_sequence
 from .analyze import compare,values,build_tables
 from .recovery import (COST_KEYS,historical_endpoint_core,attempt_endpoint_rows,task_clock,
-    recovery_context,verify_recomputed_results,execution_costs)
+    recovery_context,verify_recomputed_results,execution_costs,scientific_job_key)
 
 
 def counters():
@@ -163,6 +164,7 @@ def worker(connection,bundles,p,job,device,out,attempt):
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     with (out/'stdout.log').open('w') as stdout,(out/'stderr.log').open('w') as stderr:
         with contextlib.redirect_stdout(stdout),contextlib.redirect_stderr(stderr):
+            faulthandler.enable(file=stderr,all_threads=True)
             try:
                 result=train_one(bundles[job['dataset']],job['dataset'],p,job,device,out,connection,attempt)
                 send_memory(connection,dict(kind='complete',result=result))
@@ -170,6 +172,7 @@ def worker(connection,bundles,p,job,device,out,attempt):
                 traceback.print_exc();send_memory(connection,dict(kind='error',error=repr(exc),
                     traceback=traceback.format_exc(),oom=isinstance(exc,torch.OutOfMemoryError),
                     recoverable=isinstance(exc,(torch.OutOfMemoryError,OSError))))
+            finally:faulthandler.disable()
     connection.close()
 
 
@@ -183,34 +186,57 @@ def ledger_row(p,job,status,attempt=0,result=None):
         selected_epochs=json.dumps(r.get('selected_epochs',{}),sort_keys=True),resolved_config=json.dumps(job['config'],sort_keys=True))
 
 
+def settled_native_failure(process):
+    process.join();code=process.exitcode
+    return dict(kind='error',error=f'worker exited {code} without RAM state',oom=False,
+        recoverable=code==-11,exitcode=code,signal=-code if code is not None and code<0 else None,reaped=True)
+
+
+def next_pending_index(pending,active,serial,p):
+    if any(scientific_job_key(record['job'],p) in serial for record in active):return None
+    retry=next((i for i,job in enumerate(pending) if scientific_job_key(job,p) in serial),None)
+    if retry is not None:return None if active else retry
+    return 0 if pending else None
+
+
 def schedule(bundles,p,out,jobs,devices):
     if not jobs:return []
     ctx=mp.get_context('fork');pending=list(jobs);active=[];completed=[];blocked=[];peaks={};attempts={};serial=set();allocating=False
     run_ids=[digest(identity(j['dataset'],j['seed'],j['config'],p,j.get('control'))) for j in jobs]
     assert len(set(run_ids))==len(run_ids)
+    history=p.get('recovery',{}).get('native_failure_history',{}).get('failures_by_job',{})
+    for job in jobs:
+        key=scientific_job_key(job,p);attempts[key]=history.get(key,0)
+        if attempts[key]:serial.add(key)
     for job in jobs:append_csv(out/'trial_ledger.csv',ledger_row(p,job,'PLANNED'))
     while pending or active:
         for record in list(active):
             connection,proc=record['connection'],record['process'];message=None
             if connection.poll():
                 try:message=receive_memory(connection)
-                except EOFError:message=dict(kind='error',error=f'worker exited {proc.exitcode} without RAM state',oom=False)
-            elif not proc.is_alive():message=dict(kind='error',error=f'worker exited {proc.exitcode} without RAM state',oom=False)
+                except EOFError:message=settled_native_failure(proc)
+            elif not proc.is_alive():message=settled_native_failure(proc)
             if message is None:continue
             if message['kind']=='allocated':
                 record['allocated']=True;allocating=False
                 peaks[record['gpu']]=max(peaks.get(record['gpu'],0),message['peak_memory_bytes']);continue
-            proc.join();connection.close();active.remove(record)
+            if not message.get('reaped'):proc.join()
+            connection.close();active.remove(record)
             if not record['allocated']:allocating=False
             job=record['job']
             if message['kind']=='complete':
                 completed.append(message['result']);append_csv(out/'trial_ledger.csv',ledger_row(p,job,'COMPLETE',record['attempt'],message['result']))
             else:
                 failure=dict(stage=job['stage'],dataset=job['dataset'],trial=job['trial'],seed=job['seed'],
-                    device=record['gpu'],attempt=record['attempt'],oom=message['oom'],error=message['error'],time=time.time())
+                    device=record['gpu'],attempt=record['attempt'],oom=message['oom'],error=message['error'],time=time.time(),
+                    exitcode=message.get('exitcode',proc.exitcode),signal=message.get('signal'),
+                    recoverable=message.get('recoverable',message['oom']),retry_index=record['attempt']-1,
+                    failure_count=record['attempt'],
+                    prior_native_failures=history.get(scientific_job_key(job,p),0),run_id=digest(identity(
+                        job['dataset'],job['seed'],job['config'],p,job.get('control'))))
                 append_csv(out/'failure_ledger.csv',failure);append_csv(out/'trial_ledger.csv',ledger_row(p,job,'FAILED',record['attempt']))
                 if record['attempt']<=p['limits']['retries'] and message.get('recoverable',message['oom']):
-                    if message['oom']:serial.add(digest(job))
+                    if message['oom'] or message.get('exitcode')==-11:serial.add(scientific_job_key(job,p))
                     pending.append(job)
                 else:blocked.append(failure)
             write_json(out/'progress.json',dict(stage=jobs[0]['stage'],completed=len(completed),total=len(jobs),
@@ -224,16 +250,22 @@ def schedule(bundles,p,out,jobs,devices):
                 gpu=status['index']
                 if gpu not in devices or status['memory']/status['total']>=.85 or status['power']/status['limit']>=.85:continue
                 if (status['total']-status['memory'])*1024**2<peaks.get(gpu,1800*1024**2)*1.15:continue
-                index=next((i for i,j in enumerate(pending) if digest(j) not in serial or not active),None)
+                index=next_pending_index(pending,active,serial,p)
                 if index is None:continue
-                job=pending.pop(index);key=digest(job);attempts[key]=attempts.get(key,0)+1
+                job=pending.pop(index);key=scientific_job_key(job,p)
+                if attempts[key]>p['limits']['retries']:
+                    blocked.append(dict(dataset=job['dataset'],trial=job['trial'],seed=job['seed'],
+                        error='Native retry budget exhausted in prior raw failure ledgers'))
+                    append_csv(out/'trial_ledger.csv',ledger_row(p,job,'RETRY_EXHAUSTED',attempts[key]));break
+                attempts[key]+=1
                 destination=out/'runs'/job['stage']/job['dataset']/job['trial']/f"seed{job['seed']}"/f'attempt{attempts[key]}'
                 parent,child=ctx.Pipe(duplex=False);proc=ctx.Process(target=worker,args=(child,bundles,p,job,f'cuda:{gpu}',destination,attempts[key]))
                 proc.start();child.close();active.append(dict(connection=parent,process=proc,job=job,gpu=gpu,allocated=False,attempt=attempts[key]))
                 append_csv(out/'trial_ledger.csv',ledger_row(p,job,'RUNNING',attempts[key]))
                 append_csv(out/'launch_ledger.csv',dict(time=time.time(),stage=job['stage'],dataset=job['dataset'],trial=job['trial'],
                     seed=job['seed'],attempt=attempts[key],gpu=gpu,memory_fraction=status['memory']/status['total'],
-                    power_fraction=status['power']/status['limit'],active_workers=len(active)))
+                    power_fraction=status['power']/status['limit'],active_workers=len(active),
+                    serial_retry=key in serial,retry_index=attempts[key]-1,prior_native_failures=history.get(key,0)))
                 allocating=True;break
         time.sleep(.5)
     if blocked:raise RuntimeError(f'Incomplete stage: {blocked}')
@@ -387,11 +419,12 @@ def aggregate(results,out):
 def finish_queue(bundles,p,out,results,start,additional,history_datasets=()):
     verify_recomputed_results(results,p,out)
     unified_test(bundles,p,out,results,history_datasets);aggregate(results,out);build_tables(out)
-    costs=execution_costs(results,p);write_json(out/'execution_cost_continuity.json',costs)
+    costs=execution_costs(results,p,out);write_json(out/'execution_cost_continuity.json',costs)
     write_json(out/'completion.json',dict(status='EARLY_STOP_BUDGET' if p.get('budget_stopped') else 'COMPLETE',
         development_unique_runs=sum(r['stage'] in ('calibration','development') for r in results),additional_runs=additional,
         unique_training_runs=costs['unique_scientific_trajectories'],current_attempt_training_runs=len(results),
         full_training_passes=costs['combined']['training_passes'],current_attempt_passes=costs['current_attempt']['training_passes'],
+        partial_training_passes=costs['partial_passes'],cost_lower_bound_fields=costs['lower_bound_fields'],
         total_epochs=costs['combined']['training_passes']*50,optimizer_steps=costs['combined']['optimizer_steps'],
         training_worker_seconds=costs['combined']['training_seconds'],task_start_unix=p['task_start_unix'],
         wall_seconds=time.perf_counter()-start,test_evaluated=True,snapshot_tensor_bytes=sum(r['snapshot_tensor_bytes'] for r in results)))
@@ -437,10 +470,12 @@ def all_stages(bundles,p,out):
             write_json(out/f'{arm}_development_decision.json',{d:compare(values(results,d,arm),values(results,d,'A1'),d) for d in bundles})
     assert len(results)==20
     verify_recomputed_results(results,p,out)
-    prior_worker=p.get('recovery',{}).get('prior_costs',{}).get('training_seconds',0.)
-    current_worker=sum(r['training_seconds'] for r in results);cost_ratio=(prior_worker+current_worker)/expected_worker
+    physical=execution_costs(results,p,out)
+    prior_worker=physical['prior_attempt']['training_seconds'];current_worker=physical['current_attempt']['training_seconds']
+    cost_ratio=(prior_worker+current_worker)/expected_worker
     write_json(out/'budget_calibration.json',dict(development_worker_seconds=prior_worker+current_worker,
         prior_attempt_worker_seconds=prior_worker,current_attempt_worker_seconds=current_worker,
+        worker_seconds_lower_bound='training_seconds' in physical['lower_bound_fields'],
         predicted_worker_seconds=expected_worker,cost_ratio=cost_ratio,cancel_tuning=cost_ratio>1.5,
         cancel_second_confirmation=cost_ratio>2.,test_accessed=False))
     historical=historical_baseline_verification(results,p,out)
@@ -554,8 +589,10 @@ def main():
     parser.add_argument('--run-dir',required=True);parser.add_argument('--device',default='cuda:1');parser.add_argument('--devices',default='0,1')
     parser.add_argument('--code-commit');parser.add_argument('--stage0-receipt');parser.add_argument('--history-dir',default=str(HISTORY))
     parser.add_argument('--recovery-attempt');parser.add_argument('--task-start-unix',type=float)
+    parser.add_argument('--additional-cost-attempt',action='append',default=[])
     args=parser.parse_args();p=protocol();out=Path(args.run_dir);manifest=source_manifest()
     if args.recovery_attempt and args.task_start_unix is None:parser.error('Recovery requires the original --task-start-unix')
+    if args.additional_cost_attempt and not args.recovery_attempt:parser.error('Additional raw cost sources require --recovery-attempt as identity reference')
     if args.mode=='preflight' and not args.recovery_attempt:parser.error('Preflight requires --recovery-attempt with original numerical endpoints')
     if args.mode in ('check','all') and not args.code_commit:parser.error('Provide reviewed immutable --code-commit')
     if args.mode=='all':
@@ -567,12 +604,17 @@ def main():
     p.update(execution_commit=args.code_commit,source_manifest_hash=manifest['hash'],devices=[int(v) for v in args.devices.split(',')],history_dir=args.history_dir)
     p.update(task_clock(args.task_start_unix,p['limits']))
     if args.recovery_attempt:
-        p['recovery']=recovery_context(args.recovery_attempt,args.task_start_unix,p)
+        p['recovery']=recovery_context(args.recovery_attempt,args.task_start_unix,p,args.additional_cost_attempt)
         preflight=historical_endpoint_core(attempt_endpoint_rows(args.recovery_attempt),p,out,'historical_preflight.json')
         write_json(out/'recovery_execution_receipt.json',dict(task_start_unix=p['task_start_unix'],
             recovery_start_unix=p['recovery_start_unix'],elapsed_before_recovery_seconds=p['elapsed_before_recovery_seconds'],
             stop_dispatch_deadline=p['stop_dispatch_deadline'],dispatch_deadline=p['dispatch_deadline'],
             prior_attempt=p['recovery']['prior_attempt'],prior_costs=p['recovery']['prior_costs'],
+            raw_cost_source_paths=[source['source_attempt'] for source in p['recovery']['cost_sources']],
+            prior_lower_bound_fields=p['recovery']['prior_lower_bound_fields'],
+            prior_complete_passes=sum(source['complete_passes'] for source in p['recovery']['cost_sources']),
+            prior_partial_passes=sum(source['partial_passes'] for source in p['recovery']['cost_sources']),
+            native_failure_history=p['recovery']['native_failure_history'],
             original_development_forecast_seconds=p['recovery']['original_development_forecast_seconds'],
             original_execution_commit=p['recovery']['original_execution_commit'],
             original_source_hash=p['recovery']['original_source_hash'],execution_commit=args.code_commit,
@@ -581,6 +623,9 @@ def main():
         oldcost=[{k:r['stats'].get(k) for k in ('dataset','trial','seed','run_hash')+COST_KEYS}
             for r in p['recovery']['runs'].values()]
         pd.DataFrame(oldcost).to_csv(out/'prior_attempt_costs.csv',index=False)
+        write_json(out/'prior_physical_cost_sources.json',dict(sources=p['recovery']['cost_sources'],
+            source_paths_deduplicated=True,inherited_prior_receipts_added=False))
+        pd.DataFrame([row for source in p['recovery']['cost_sources'] for row in source['items']]).to_csv(out/'prior_physical_cost_ledger.csv',index=False)
     write_json(out/'source_manifest.json',dict(execution_commit=args.code_commit,**manifest));write_json(out/'resolved_config.json',p)
     if args.mode=='preflight':
         print(f"historical CPU preflight: {preflight['verified']}; {preflight['matched_endpoints']}/{preflight['endpoint_count']} endpoint matches",flush=True)
@@ -591,7 +636,7 @@ def main():
     write_json(out/'trial_plan.json',dict(base_runs=20,max_additional=8,max_total=40,seeds=p['seeds'],
         arms={d:{arm:config(arm,d) for arm in ARMS} for d in p['datasets']},random_off_epochs=p['random_off_epochs'],
         off_schedule_seed=1729,numpy_version=np.__version__,state_storage='RAM_ONLY'))
-    (out/'failure_ledger.csv').write_text('stage,dataset,trial,seed,device,attempt,oom,error,time\n')
+    (out/'failure_ledger.csv').write_text('stage,dataset,trial,seed,device,attempt,oom,error,time,exitcode,signal,recoverable,retry_index,failure_count,prior_native_failures,run_id\n')
     bundles={};manifests={}
     for d in p['datasets']:
         destination=out/'data'/d;destination.mkdir(parents=True,exist_ok=True)
@@ -605,7 +650,9 @@ def main():
         write_json(out/'stage0_checks.json',dict(**answer,source_manifest_hash=manifest['hash'],execution_commit=args.code_commit));return
     try:all_stages(bundles,p,out)
     except Exception as exc:
-        write_json(out/'completion.json',dict(status='FAILED',error=repr(exc),traceback=traceback.format_exc()));raise
+        costs=execution_costs([],p,out);write_json(out/'execution_cost_continuity.json',costs)
+        write_json(out/'completion.json',dict(status='FAILED',error=repr(exc),traceback=traceback.format_exc(),
+            physical_cost_ledger='physical_cost_ledger.csv',complete_passes=costs['complete_passes'],partial_passes=costs['partial_passes']));raise
 
 
 if __name__=='__main__':main()
