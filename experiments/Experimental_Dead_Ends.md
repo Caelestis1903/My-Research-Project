@@ -1,6 +1,8 @@
 # Experimental Dead Ends / Closed Threads
 
 
+> **2026-11-02 最新结论：** 历史条目保留原日期和当时证据强度；新结论见下方追加条目及 [Global Summary](Experimental_Global_Summary.md)。不把旧日期的“最新决定”覆盖新的正式实验，也不重复登记相同seed或未触发阶段。
+
 > **2026-10-26更新：** 早期D001–D018保留为**具体过强主张或当时版本**的停止记录，非对动量、梯度、增强或差异化共享学科方向的永久否决。追加D019–D024；其对应的新可区分问题见 [Open Questions](Experimental_Open_Questions.md)、[2026-10-26总报告](Experimental_Branch_Synthesis_20261026.md)。
 
 
@@ -175,3 +177,52 @@
 - **Narrower Opportunity:** 已完成自然子项可限定使用；如后续要确认跨人口方法收益，先取得真实完整冻结记录或新人口，而不是按目录名替代实证。
 
 **不能错误关闭的事项：** 已有方法在相关方向尝试过，不等于目标群体内收益/来源可用函数已无研究价值；同样，NO_START、历史原工件缺失、n较小的区间跨0和新RCF未执行都不等于反证了对应科学问题。尤其“小域=困难域”不是研究者曾经认可的起点。
+
+## 2026-10-27—2026-11-02 新增具体方法/过强主张停线 D025–D033
+
+### D025 — 当前Relation-Basis低秩/全关系已优于TARGET_ONLY
+- **Evidence Against:** E058：两自然数据各4seed，Q均选择TARGET_ONLY，LOWRANK历史E宏AUC两数据各4/4下降。
+- **Status:** STOP_THIS_VERSION。
+- **Retained:** 来源可读性、原型局部共享的历史动机和其他形式仍可研究。
+
+### D026 — BASP-A的收益探测器与原型关系已经带来实用选读增量
+- **Evidence Against:** E059：留出μ不胜F域常量，CG主要选NULL，强TARGET_MATCH前宏AUC没有稳定实用增量。
+- **Status:** STOP_THIS_POLICY；P2–P5 NOT_TRIGGERED。
+- **Retained:** 部分固定读取依赖不等于完整政策有效；当前μ不能当已证实的收益相似性先验。
+
+### D027 — 目标域NR-Gauss独立稳定提高宏AUC
+- **Evidence Against:** E062：ML两尺度均未达增强门，KR c=1仅2/5正且最差格有保护损害。
+- **Status:** STOP_GA31_NRG_V1。
+- **Retained:** 不改写采用不同人口、目标、复制与权重的历史D套件的阳性结论。
+
+### D028 — 反向配对降低梯度方差即意味着独有泛化改进
+- **Evidence Against:** E063：KR ANTI2对普通基线条件正，但相对同预算IID2 AUC均值负，验证/最差格也不支持全门。
+- **Status:** NO_UNIQUE_METHOD_PROMOTION。
+- **Retained:** 条件方差确实降低，不把它机械解释为AUC增益。
+
+### D029 — 非零SAD增强差分长期记忆必优于普通增强Adam
+- **Evidence Against:** E065：βδ=.99改变更新，ML/KR对A1 selected宏AUC差均负，KR目标域两任务下降。
+- **Status:** STOP_TESTED_BETA_DELTA_099。
+- **Retained:** 非零状态不是无效实现；未来改变真实递推并注入域任务信息的方案不是当前A3的简单复测。
+
+### D030 — AIG-M创新门有已完成五seed可部署收益
+- **Evidence Against:** E066：有限开发搜索没过门，非零门输出不等于收益，五seed AIG候选**未运行**。
+- **Status:** STOP_AT_DEVELOPMENT；FORMAL_NOT_TRIGGERED。
+- **Retained:** 不把未识别的剂量/时程中介当成已证实独有信号，不靠扩seed无限维持同版本。
+
+### D031 — GATS B2两开发seed验证阳性足以确定整体推进
+- **Evidence Against:** E067：确认seed验证增益收缩，统一test对A1宏AUC+0.000005，对强A0+EMA仅2/5正。
+- **Status:** NO_PROMOTION_AFTER_COMPLETED_CONFIRMATION。
+- **Retained:** 开发/局部任务现象保留；同seed再次报告不算独立确认。
+
+### D032 — GATS难度覆盖B1、延迟B3、CV→rho C2已证明独有提升
+- **Evidence Against:** E068：各自匹配视图/日程控制与预定门未过。
+- **Status:** STOP_THESE_RULES；部分更大规模后续NOT_TRIGGERED。
+- **Retained:** 真正的MDMT任务条件性和时间动态仍是可发展的研究题目，不能把旧规则换名重新作为空白。
+
+### D033 — EMA02V2 J/F/TG/AG新视图已胜固定无增强EMA，应该继续全预算
+- **Evidence Against:** E069：ML F1仅有验证反向的小幅test信号，KR TG/AG的AUC与LL双重显著方向性退化。
+- **Status:** STOP_THESE_VIEW_VERSIONS；CONFIRMATION/W1_NOT_TRIGGERED。
+- **Retained:** ML F1只是条件线索，不能把当前视图梯度直接当动量式优化融合完成。
+
+**不是死路的结论：** 固定EMA选点排序的已测收益；原历史D套件在其协议内的正效应；来源读取/群体差异的有界事实。当前版本停线不推导全部梯度、增强、动量或共享思想不成立。
