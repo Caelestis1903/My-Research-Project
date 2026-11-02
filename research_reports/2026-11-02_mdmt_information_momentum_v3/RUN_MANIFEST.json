@@ -1,0 +1,67 @@
+{
+  "experiment_id": "MDMT_INFORMATION_MOMENTUM_V3",
+  "review_verdict": "PASS",
+  "review_source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+  "attempt": "/home/xzf/Code/phase0-3/artifacts/conditional_information_momentum_20261102_v3/attempt1",
+  "python": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+  "stage0": {
+    "command": "python -m experiments.conditional_information_momentum_20261102_v3.run stage0 --attempt /home/xzf/Code/phase0-3/artifacts/conditional_information_momentum_20261102_v3/attempt1 --review /home/xzf/Code/phase0-3/research_reports/2026-11-02_mdmt_information_momentum_v3/INDEPENDENT_REVIEW_RECEIPT.json --device cuda:1",
+    "device": "NVIDIA GeForce RTX 3090 cuda:1",
+    "result": "PASS",
+    "worker_seconds": 51.82776291191112,
+    "peak_reserved_bytes": 1633681408,
+    "test_accessed": false,
+    "formal_trajectories": 0,
+    "logs": [
+      "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/stage0.stdout.log",
+      "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/stage0.stderr.log"
+    ]
+  },
+  "s1": {
+    "stage": "S1",
+    "started_local": "2026-11-02",
+    "dataset_arms": "MovieLens / KuaiRand; A0, A1, P00(lambda .05,.2), P11(lambda .05,.2)",
+    "seeds": [
+      2022,
+      2024
+    ],
+    "trajectories": 24,
+    "epochs": 50,
+    "batch_size": 40960,
+    "devices": [
+      0,
+      1
+    ],
+    "command": "python -m experiments.conditional_information_momentum_20261102_v3.run schedule --attempt /home/xzf/Code/phase0-3/artifacts/conditional_information_momentum_20261102_v3/attempt1 --review /home/xzf/Code/phase0-3/research_reports/2026-11-02_mdmt_information_momentum_v3/INDEPENDENT_REVIEW_RECEIPT.json --dispatch /home/xzf/Code/phase0-3/artifacts/conditional_information_momentum_20261102_v3/attempt1/S1_DISPATCH.json --devices 0,1",
+    "logs": [
+      "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/S1_schedule.stdout.log",
+      "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/S1_schedule.stderr.log"
+    ],
+    "status": "COMPLETE",
+    "queue_wall_seconds": 2380.0265767179662,
+    "completed": 24,
+    "failed": 0,
+    "test_accessed": false
+  },
+  "test_evaluation": {
+    "status": "COMPLETE",
+    "endpoints": 144,
+    "all_complete": true,
+    "freeze_log_mtime": "2026-11-02T23:28:36.931846+08:00",
+    "evaluation_log_mtime": "2026-11-02T23:32:23.661397+08:00",
+    "sum_endpoint_seconds": 132.99870387546252,
+    "mean_endpoint_seconds": 0.9236021102462675,
+    "median_endpoint_seconds": 0.7142232439946383,
+    "min_endpoint_seconds": 0.34770244790706784,
+    "max_endpoint_seconds": 41.605614357977174,
+    "stdout_log": "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/final_evaluate.stdout.log",
+    "stderr_log": "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/final_evaluate.stderr.log",
+    "freeze_to_evaluation_log_mtime_interval_seconds": 227.0,
+    "timing_note": "Interval between freeze stdout log mtime and final evaluation stdout log mtime; includes command/process startup gaps and is not a measured evaluation-process wall duration."
+  },
+  "ram_guardian": {
+    "status": "SHUTDOWN",
+    "shutdown_at": "2026-11-02T23:33:30.064314+08:00",
+    "stdout_log": "artifacts/conditional_information_momentum_20261102_v3/attempt1/logs/shutdown.stdout.log"
+  }
+}
