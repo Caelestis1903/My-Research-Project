@@ -1,0 +1,287 @@
+schema_version: 1
+study: EMA02V2
+status: planning_only_no_gpu_experiments
+repository: Caelestis1903/My-Research-Project
+plan_directory: research_plans/26-11-2_v2
+entry: 06_Codex完整执行提示词.md
+source_refs:
+  main_read: 0bf3e970ca47da44b129e67bb4c84a653ba6a20b
+  gats_release: e59efa2fd954c4d2231b679a742406cfbe2a1077
+  gats_execution: be0227e510f00864b8c7ec7565def0b5a813be4f
+  aigm_release: 6f5742c2085c1e49d1767b0a7079bb9f28160eda
+  gam_release: ee4cf0512a7723624c9ee6a1ef192f0f7f17686b
+protocol:
+  epochs: 50
+  batch_size: 40960
+  tasks: 2
+  domains: 3
+  seed_dev: [2022, 2024]
+  seed_confirm: [2023, 2025, 2026]
+  seed_window: [2023, 2025]
+  precision: fp32
+  amp: false
+  tf32: false
+  early_stopping: false
+  model: fixed1
+  embedding_dim: 16
+  shared_experts: 4
+  fcn_dims: [512, 256, 256, 64]
+  fixed_fusion: 1
+  learned_fusion: false
+  automl_darts: false
+  dbo: false
+  loss_normalizer: original_batch_size_times_2
+  lambda: 0.5
+  auxiliary_loss_weight: 0
+  training_gate_input_detach: true
+  probe_gate_input_detach: false
+  probe_parameter_gradients: false
+  perturbation_full_detach: true
+  higher_order_gradients: false
+  original_split: [0.8, 0.1, 0.1]
+  split_order: global_raw_row_before_kuairand_tab_filter
+  train_only_preprocessing_fit: true
+  oov_index: 0
+  estimators: [online, fixed_ema]
+  checkpoints: [selected, E50]
+  selection: validation_macro_auc_strict_improvement_earliest_tie
+  test_access: after_all_configs_endpoints_hashes_frozen
+  optimizer:
+    name: Adam
+    lr: 0.01
+    betas: [0.9, 0.999]
+    eps: 1.0e-8
+    coupled_weight_decay: true
+    foreach: false
+    fused: false
+    amsgrad: false
+    preserve_none_vs_zero: true
+    steps_per_original_batch: 1
+  ema:
+    initialization: exact_copy_theta0
+    update_order: after_optimizer_step
+    teacher_read: before_current_optimizer_step
+    bias_correction: false
+    clock: global_optimizer_step
+    count: 1
+    buffers: copy_from_online
+    forbid_disable_state_when_teacher_enabled: true
+datasets:
+  movielens:
+    csv: /home_new/xzf/datasets/ml-1m/ml-1m.csv
+    target_domain: 0
+    perturbable_sparse_fields: 6
+    train_counts: [155949, 318599, 325619]
+    train_total: 800167
+    validation_count: 100021
+    test_count: 100021
+    labels: [rating_gt_3, rating_gt_4]
+    known_joint_label_nesting: true
+    kappa: 0.05
+    kappa_half: 0.025
+    rho: 0.9828205985452511
+    weight_decay: 0.0001
+  kuairand:
+    csv: /home_new/xzf/datasets/kuairand/processed/kuai_rand.csv
+    tabs: [0, 1, 4]
+    target_domain: 2
+    perturbable_sparse_fields: 33
+    train_counts: [172782, 1743898, 89452]
+    train_total: 2006132
+    validation_count: 250767
+    test_count: 250767
+    labels: [is_click, long_view]
+    known_joint_label_nesting: false
+    joint_label_counts: stage0_train_only_required_not_yet_measured
+    kappa: 0.1
+    kappa_half: 0.05
+    rho: 0.995
+    weight_decay: 0.00001
+mechanisms:
+  joint_label:
+    donor_count_max: 2
+    donor_same_domain: true
+    donor_same_full_label_vector: true
+    exclude_self: true
+    alpha_max: 0.2
+    shared_radius_across_candidates: true
+    norm_zero: 1.0e-12
+    no_positive_score_coverage_gate: true
+    donor_backprop: false
+  ema_field:
+    gain_cap: 0.25
+    svd_dtype: float64
+    svd_relative_cutoff: 1.0e-6
+    svd_absolute_zero: 1.0e-12
+    gradient_zero: 1.0e-12
+    projected_gradient_ratio_fallback: 0.001
+    weighted_energy_zero: 1.0e-24
+    fallback: one_keyed_projected_gaussian_draw_then_zero
+    uniform_gain_rescaling: true
+    coordinatewise_clip: false
+    expected_equal_teacher_student_degeneracy: true
+    random_control: current_state_counterfactual_F1_row_energy
+methods:
+  A0: {family: none, views: 0, teacher_feedback: false}
+  A1: {family: source_gaussian, views: 1, teacher_feedback: false}
+  J0: {family: joint_label, selector: random, views: 1, teacher_feedback: false}
+  J1: {family: joint_label, selector: max_min_task_response, views: 1, teacher_feedback: false}
+  J_SUM: {family: joint_label, selector: max_mean_task_response, views: 1, teacher_feedback: false}
+  F0: {family: field_gain, projection: false, direction: supervised_gradient, views: 1, teacher_feedback: false}
+  F1: {family: field_gain, projection: true, direction: projected_gradient_with_fallback, views: 1, teacher_feedback: true}
+  FR: {family: field_gain, projection: false, counterfactual_projection: true, direction: counterfactual_energy_rademacher, views: 1, teacher_feedback: true, deployable_winner: false}
+  F_PR: {family: field_gain, projection: true, direction: random_in_nullspace, views: 1, teacher_feedback: true}
+  TG: {family: task_gradient, logical_task_views: 2, objective: one_task_per_view, teacher_feedback: false}
+  RG: {family: task_random, logical_task_views: 2, objective: one_task_per_view, teacher_feedback: false}
+  AG: {family: aggregate_gradient, logical_task_views: 2, physical_views: 1, objective: one_task_per_view, teacher_feedback: false}
+gates:
+  strong_baseline_mean_auc: 0.001
+  matched_and_A1_mean_auc: 0.0005
+  development_positive_required: 2
+  development_n: 2
+  marginal_baseline_range: [0.0005, 0.001]
+  marginal_upper_exclusive: true
+  confirmation_positive_required: 2
+  confirmation_n: 3
+  combined_positive_required: 4
+  combined_n: 5
+  logloss_mean_harm: 0.002
+  any_cell_auc_mean_harm: 0.002
+  harm_adverse_dev_required: 2
+  harm_adverse_confirm_required: 2
+  harm_adverse_combined_required: 4
+  protection_references: [A0_fixed_ema, strongest_required_simple_control]
+  ties_auc_difference_below: 0.0005
+  prefer_simple_order: [J0, F0, RG, AG, J_SUM, F_PR, J1, F1, TG]
+  uncertainty_interval: paired_seed_t95_unadjusted
+  statistical_significance_is_only_gate: false
+stages:
+  S0:
+    kind: design_implementation_independent_review_semantic_and_cuda_preflight
+    scientific_trajectories: 0
+    test_access: false
+  S1:
+    kind: full_training
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    arms: [A0, A1, J0, J1, F0, F1]
+    max_trajectories: 24
+  S1R:
+    kind: conditional_per_dataset
+    condition: F1_vs_A0_mean_ge_0.0005_and_2of2_positive_and_no_harm_and_F1_vs_F0_mean_gt_0
+    arms: [FR]
+    seeds: [2022, 2024]
+    max_datasets: 2
+    max_trajectories: 4
+  S2M:
+    path: main
+    condition: marginal_main_family_only_no_harm_and_positive_increment_over_simple
+    max_families_per_dataset: 1
+    new_kappa_multipliers: [0.5]
+    unchanged: [lambda, rho, lr, weight_decay, alpha_max, gain_cap, svd_relative_cutoff]
+    seeds: [2022, 2024]
+    family_arms:
+      J: [J0, J1]
+      F: [F0, F1, FR]
+    max_datasets: 2
+    max_trajectories: 12
+  S3M:
+    path: main
+    condition: one_main_family_per_dataset_is_otherwise_eligible_for_confirmation
+    conditional_arm_by_family: {J: J_SUM, F: F_PR}
+    seeds: [2022, 2024]
+    max_datasets: 2
+    max_trajectories: 4
+  S2B:
+    path: backup
+    condition: all_main_families_and_simple_alternatives_lack_go_or_marginal_signal_and_no_S2M_or_S3M_started
+    datasets: [movielens, kuairand]
+    seeds: [2022, 2024]
+    arms: [TG, RG, AG]
+    hyperparameter_search: false
+    max_trajectories: 12
+  S4:
+    kind: held_seed_confirmation
+    condition: full_development_gate_and_required_controls_complete
+    max_winners_per_dataset: 1
+    seeds: [2023, 2025, 2026]
+    arms_by_winner:
+      J1: [A0, A1, J1]
+      J_SUM: [A0, A1, J0, J_SUM]
+      F1: [A0, A1, F0, F1]
+      F_PR: [A0, A1, F0, FR, F_PR]
+      TG: [A0, A1, RG, AG, TG]
+      J0: [A0, A1, J0]
+      F0: [A0, A1, F0]
+      AG: [A0, A1, AG]
+      RG: [A0, A1, RG]
+    additional_control_by_winner:
+      J1: {pool: [J0, J_SUM], count: 1, tie_prefer: J0}
+      F1: {pool: [FR, F_PR], count: 1, tie_prefer: F_PR}
+    additional_control_selection: strongest_completed_development_validation_mean_then_cost_if_difference_lt_0.0005_then_tie_prefer
+    control_identity_freeze: before_any_confirmation_seed_results
+    unconfirmed_controls_evidence_n: 2
+    max_datasets: 2
+    max_trajectories: 30
+  S5:
+    kind: extra_raw_row_split_confirmation
+    condition: S4_validation_confirmation_gate_passed_before_any_test_opened
+    split_id: W1
+    global_raw_fractions:
+      train: [0.0, 0.6]
+      select: [0.6, 0.7]
+      confirm: [0.7, 0.8]
+    boundary_rounding: floor_fraction_times_raw_N
+    kuairand_filter_after_split: true
+    preprocessing_refit_on_W1_train_only: true
+    hyperparameter_search: false
+    fixed_step_rho_unchanged: true
+    seeds: [2023, 2025]
+    arm_roles: [A0, frozen_winner, strongest_frozen_simple_reference_or_A1_if_winner_simple]
+    max_datasets: 2
+    max_trajectories: 12
+    undefined_auc_cell_action: INCONCLUSIVE_WINDOW_no_new_window_search
+    independent_external_data: false
+    verified_chronological_order: false
+paths:
+  main: [S1, S1R, S2M, S3M, S4, S5]
+  backup: [S1, S1R, S2B, S4, S5]
+  stop: [S1, S1R]
+path_choice_immutable_after_first_exclusive_job: true
+mutually_exclusive_stage_sets: [[S2M, S3M], [S2B]]
+budgets:
+  default_initial_trajectories: 24
+  main_max_unique: 86
+  backup_max_unique: 82
+  global_max_unique: 86
+  per_job_retries_max: 1
+  physical_cost_multiplier_cap: 1.20
+  physical_cost_base: stage0_forecast_for_legally_approved_dispatch_queue
+  retries_increase_statistical_n: false
+  shadow_views_epochs_increase_statistical_n: false
+resources:
+  python: /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python
+  external_gpu_jobs: never_kill_or_preempt
+  current_gpu_memory_power_fraction_limit: 0.85
+  oom_action: lower_concurrency_only_same_config
+  model_optimizer_ema_rng_loader_state_storage: process_RAM_only
+  disk_tensor_checkpoints_allowed: false
+  guardian: independent_long_lived_RAM_process_with_epoch_commit_ack
+  total_memory_loss: report_unrecoverable_no_full_queue_replay
+  lost_eval_state: EVAL_STATE_LOST_unless_one_essential_recompute_within_budget
+  probes_necessary_for_generation: counted_not_free
+  diagnostic_extra_teacher_aug_forward_steps_per_epoch: 2
+  validation_forwards_per_epoch_per_trajectory: 2
+required_outputs:
+  - SOURCE_RECEIPT.json
+  - DESIGN_SPECIFICATION.md
+  - CODER_IMPLEMENTATION_REPORT.md
+  - INDEPENDENT_REVIEW_REPORT.md
+  - STAGE0_REPORT.json
+  - run_ledger.csv
+  - decision_ledger.jsonl
+  - physical_cost_ledger.csv
+  - validation_metrics.csv
+  - test_metrics.csv
+  - paired_effects.csv
+  - REPORT.md
