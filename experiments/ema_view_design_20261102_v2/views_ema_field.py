@@ -8,9 +8,10 @@ def null_basis(jacobian):
     j = jacobian.double()
     lengths = j.norm(dim=2, keepdim=True)
     j = torch.where(lengths > 1e-12, j/lengths.clamp_min(1e-12), torch.zeros_like(j))
-    _, singular, vh = torch.linalg.svd(j, full_matrices=False)
+    # Tiny FP64 matrices use CPU SVD; CUDA batched SVD dominates the measured step cost.
+    _, singular, vh = torch.linalg.svd(j.cpu(), full_matrices=False)
     keep = (singular > singular[:, :1]*1e-6) & (singular[:, :1] > 1e-12)
-    return vh*keep[:, :, None], j, keep.sum(1)
+    return (vh*keep[:, :, None]).to(j.device), j, keep.sum(1).to(j.device)
 
 
 def project(basis, value):

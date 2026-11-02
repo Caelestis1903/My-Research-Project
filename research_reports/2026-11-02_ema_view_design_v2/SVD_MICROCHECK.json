@@ -1,0 +1,121 @@
+{
+  "status": "PASS",
+  "kind": "engineering_calibration_no_training",
+  "source_hash_before": "e524699526ae6e8eaf38950a0255eb359c7ca7705a64dab4f60bf9aa1ea93307",
+  "dataset": "kuairand",
+  "seed": 2022,
+  "device": "cuda:0",
+  "gpu_status_before": [
+    {
+      "index": 0.0,
+      "memory": 20864.0,
+      "total": 24576.0,
+      "power": 199.13,
+      "limit": 350.0
+    },
+    {
+      "index": 1.0,
+      "memory": 18189.0,
+      "total": 24576.0,
+      "power": 271.83,
+      "limit": 350.0
+    }
+  ],
+  "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+  "original_batch_rows": 40960,
+  "target_rows": 1843,
+  "jacobian_shape": [
+    1843,
+    2,
+    33
+  ],
+  "cuda_basis_seconds": 2.693276913021691,
+  "cpu_basis_seconds_including_transfers": 0.00579775997903198,
+  "speedup": 464.53749771672557,
+  "ranks_identical": true,
+  "projected_vector_max_abs_error": 2.220446049250313e-15,
+  "normalized_joint_residual_max": 3.711471586074082e-15,
+  "projected_vector_atol": 5e-10,
+  "projected_vector_rtol": 1e-08,
+  "delta_atol": 2e-07,
+  "delta_rtol": 1e-05,
+  "same_state_unchanged": true,
+  "arm_comparisons": [
+    {
+      "arm": "F1",
+      "max_abs_delta_error": 0.0,
+      "fallback_rows": 1843,
+      "rank_counts": [
+        0,
+        0,
+        1843
+      ],
+      "capped_rows": 637,
+      "counts": {
+        "probe_forwards": 1,
+        "input_gradient_calls": 3,
+        "teacher_forwards": 1,
+        "diagnostic_teacher_forwards": 0
+      },
+      "counts_identical": true,
+      "cuda_seconds": 2.857549158972688,
+      "cpu_seconds_including_transfers": 0.03155383304692805
+    },
+    {
+      "arm": "FR",
+      "max_abs_delta_error": 0.0,
+      "fallback_rows": 1843,
+      "rank_counts": [
+        0,
+        0,
+        1843
+      ],
+      "capped_rows": 637,
+      "counts": {
+        "probe_forwards": 1,
+        "input_gradient_calls": 3,
+        "teacher_forwards": 1,
+        "diagnostic_teacher_forwards": 0
+      },
+      "counts_identical": true,
+      "cuda_seconds": 2.724092493066564,
+      "cpu_seconds_including_transfers": 0.0367900439305231
+    },
+    {
+      "arm": "F_PR",
+      "max_abs_delta_error": 0.0,
+      "fallback_rows": 1843,
+      "rank_counts": [
+        0,
+        0,
+        1843
+      ],
+      "capped_rows": 637,
+      "counts": {
+        "probe_forwards": 0,
+        "input_gradient_calls": 2,
+        "teacher_forwards": 1,
+        "diagnostic_teacher_forwards": 0
+      },
+      "counts_identical": true,
+      "cuda_seconds": 2.724384216009639,
+      "cpu_seconds_including_transfers": 0.0325626980047673
+    }
+  ],
+  "physical_seconds": 53.324206685996614,
+  "work": {
+    "optimizer_steps": 0,
+    "parameter_backward_calls": 0,
+    "teacher_probe_forwards": 7,
+    "student_probe_forwards": 4,
+    "input_gradient_calls": 18,
+    "svd_calls": 8,
+    "cuda_svd_calls": 4,
+    "cpu_svd_calls": 4,
+    "final_test_accesses": 0
+  },
+  "source_hash_after": "f2658c2163902e6e69d0ea562b0aded9ba0c635477c19edb140d6353bcb15e82",
+  "focused_test": "test_joint_projection_cap_degeneracy_and_fr_energy",
+  "focused_test_status": "PASS",
+  "focused_test_seconds": 1.58
+}
