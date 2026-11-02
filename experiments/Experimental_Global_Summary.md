@@ -1,6 +1,31 @@
 # Experimental Global Summary
 
 
+
+## 2026-11-02 最新跨分支综合裁定（10-27—11-02；优先于全部历史快照）
+
+**总状态：** main的系统性结论此前主要截至2026-10-26；此次补入9组不同已执行实验/基线（EXP052–EXP060），不把同源代码、重复训练、多个endpoint和未触发计划重复计数。报告和原始实验记录仍保留各自分支，本次仅将结论、证据与停止/开放状态纳入main。此前的历史实证与明确已接受的研究结论保留，不以新一轮防御性分析“重新归零”。
+
+| 时间与实验 | 主要实证结果 | 当下研究决策 |
+| --- | --- | --- |
+| 10-27 Relation-Basis v2 | 两自然数据各4seed，48条正式适配；LOWRANK相对Q选择的TARGET_ONLY历史E宏AUC：ML−0.000623、KR−0.002727（均4/4负）；FULL也无强优势 | **停止当前来源关系基底版本**；保留局部来源读取的历史价值。[10-27 Relation-Basis](https://github.com/Caelestis1903/My-Research-Project/blob/03c338092008a71b2d360a61b06d985eac551ec7/research_reports/26-10-27_v2/FINAL_REPORT.md) |
+| 10-28 BASP-A | 两自然数据各2seed、24条正式轨迹；CLUSTER_RELATION相对TARGET_MATCH的E宏AUC ML−0.000020、KR+0.000548（方向都1/2），留出μ预测不胜F常量、读取NULL权重约0.99+ | **当前原型关系/μ政策不晋级**，P2–P5未触发；不否定收益驱动原型概念。[10-28 BASP-A](https://github.com/Caelestis1903/My-Research-Project/blob/97151c74544c3651feb805d1898bc9ce1b8d12d3/research_reports/2026-10-28/FINAL_REPORT.md) |
+| 10-29 HyperGate/AutoIFS基线 | 两数据×3模型×5seed共30正式训练。HyperGate相对M3OE_FIXED1宏AUC：ML+0.007379、KR+0.014412；AutoIFS：+0.003551/+0.007308，四组都5/5正。KR AutoIFS宏LL−0.004400但natural LL+0.006677（5/5变差） | **两基线已经正式运行可用**；HyperGate配置有UNVERIFIED_PROPOSAL，V选择、训练协议不同，不称原论文严格复现。[10-29基线](https://github.com/Caelestis1903/My-Research-Project/blob/d2fdd272a2cdf7da626e29b97f61555d25271f89/research_reports/mdmt_baselines_2526/FINAL_REPORT.md) |
+| 10-31 GA31-v2 | 40条训练；ML无增强c=.1对c=1 selected AUC+0.003473（4/5），E10−0.004169、E50+0.026978；KR缩放selected−0.006026；NR-Gauss在ML两个尺度分别−0.000267/−0.000188 | 确认**loss scale影响轨迹/选点**，NR-Gauss本版无独立晋级收益；耦合wd与eps不能忽略。[10-31 GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md) |
+| 11-01 GA31-R3 | 45条训练；普通L2控制可作为ML缩放的简单排序参照。KR ANTI2相对普通基线test AUC+0.001202（4/5），但ANTI2−同K IID2均值−0.001237，validation及最差格不支持全门 | **反向配对减条件方差是真的，独有方法增量未成立**；不继续堆叠SAGU/SAOS。[11-01 GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md) |
+| 11-01 参数EMA＋SAD | 两数据×4臂×5seed共40正式训练；ML无增强shadow−online selected AUC+0.004399（5/5），LL+0.007800（4/5恶化）；KR AUC+0.004616（4/5）。SAD βδ=.99相对普通增强Adam宏AUC ML−0.000336、KR−0.001554 | **固定EMA接受为排序有效的强简单参照**；当前差分长记忆版本停止，不将非零差分误当收益。[11-01动量/EMA](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md) |
+| 11-01 AIGM01 | 56条唯一完整训练；调参后ML EMA selected AUC+0.003849（5/5）、KR+0.004616（4/5）；KR Gaussian+EMA相对无增强EMA宏LL−0.001664（5/5）、宏AUC+0.001476（3/5），但最大域d1两任务AUC−0.004654（5/5）/−0.004929（4/5） | EMA稳定参照；**增强表现为明确域/任务与指标取舍**。固定SAD/AIG-M开发门没过，不虚构正式五seedAIG阴性。[11-01 AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md) |
+| 11-02 GATS02 | 31条新增科学轨迹50epoch；KR B2开发验证对A1宏AUC+0.008184（2/2），保留seed确认缩小，五seed统一test对A1宏AUC+0.000005（3/5）；对更强A0固定EMA+0.001481（仅2/5）。B1、B3、当前C2规则均未晋级 | **B2开发局部信号保留，但不是可晋级整体算法**；当前B1/B3/C2停止。[11-02 GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md) |
+| 11-02 EMA02V2 | 36/36正式轨迹，2开发seed，144/144端点；ML F1−A0+EMA test AUC+0.000359（2/2）、验证均值−0.000424；KR TG/AG−A0+EMA test宏AUC−0.017174/−0.017534，LL均约+0.0124~0.0125，两seed同向 | 当前J/F/TG/AG视图构造**不晋级**，F1只是微弱test线索，确认/W1未触发；保留无增强固定EMA。[11-02 EMA02V2](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md) |
+
+**跨轮收敛的判断。** EMA的selected AUC收益不再是待“发现”的问题；用EMA影子参数本身不是对Adam动量公式的改造。缩放产生AUC效应、普通L2是强竞争者、方差下降不蕴含排名改善、非零差分历史不蕴含实用收益、复杂视图未胜简单EMA、某一任务收益可能转移成其他任务损失，这些都有各自已执行的实证支持。10-21 D套件历史结果与新GA31不同目标/人口，不互相取代。新研究应重点考虑**域×任务特征/标签需求如何影响增强与梯度，以及这些信息怎样进入真实动量/参数时间递推**，而不是重复先前阴性配置或再给EMA取新名字。
+
+**证据边界与下一行动：** 用户已明确认可的研究前提无需专门复验。10-29基线使用不同训练/选模口径，不能与GA31 AUC选点绝对值直接排名；GATS的开发、确认和test必须分开；ML EMA排序改善与LL代价并存；任何声称新总体收益的方法须至少胜当前强EMA和必要匹配控制。历史test/seed池多次用于研究判断，这不是独立新增用户/时间人口。未触发阶段只记NOT_TRIGGERED。后续如果有具体新增设计改变研究选择，再安排最小有区分力的实验；不为绝对确定性无限追加。
+
+**统一索引：** [实验EXP052–EXP060](Experimental_Experiment_Index.md)、[证据E058–E069](Experimental_Evidence_Ledger.md)、[稳定事实SF029–SF037](Experimental_Stable_Findings.md)、[版本停线](Experimental_Dead_Ends.md)、[指标分歧](Experimental_Contradiction_Register.md)。
+
+---
+
 > **2026-10-26 总结更新：** 本文件的当前科研裁定以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；后文标为10-18/10-09的Q1–Q7、训练计数及“当前”陈述均保留为当时的历史快照，不能覆盖晚于它的证据。原研究阶段报告未修改，原始文件与固定SHA见 [history_experiments](../history_experiments/README.md)。
 
 ## 2026-10-26 当前研究结论（优先于下方历史快照）
