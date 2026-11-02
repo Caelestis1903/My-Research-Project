@@ -1,6 +1,8 @@
 # Experimental Evidence Ledger
 
 
+> **2026-11-02最新入口：** 已增补10-27—11-02的9组已执行实验或基线；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。旧日期的“当前”、索引总数及计划属于历史快照。新增内容只是一套带固定提交溯源的结论和证据登记，不复制分支代码或研究报告。
+
 > **2026-10-26 总证据增量：** 历史 E001–E043 保持原编号与观测；后文新增 E044–E057（N18/N19/CM19、自然比例审计、重加权/调幅、10-24/25/26方法）。10-09的STRONG/MEDIUM/WEAK计数表仅是旧快照，**不得把新增证据默认加为“更多独立seed”**。总研究结论、后期修订和原始阶段路径以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；RCF-v1仍为设计，非实验效果证据。
 
 
@@ -638,3 +640,81 @@
 - **Source:** [v4 FINAL_REPORT](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md)、[PROCESS_REVISIONS](../history_experiments/26-10-26/research_reports/2026-10-26_v4/PROCESS_REVISIONS.md)。
 
 **新方案不等于新证据：** [2026-10-26-v2 RCF-v1](../research_plans/2026-10-26-v2/00_README.md)是针对E055–E057提出的可证伪后继函数设计，状态DESIGN_ONLY。未实现、未训练、未评价；不能在Evidence Ledger登记正向效应量。
+
+## 2026-10-27—2026-11-02 跨分支新增直接证据 E058–E069
+
+**证据层级：** 实测效应、机制诊断、解释及研究决定分别列出；未触发阶段和旧报告的重复副本不是反例。所有来源使用当时报告的**固定Git提交**；原文件仍在各分支，main只保留文字结论。
+
+### E058 — Relation-Basis v2在冻结强TARGET_ONLY对照前没有实用排序增量
+- **Observation:** 48条正式适配（2自然数据×6方法×4seed），Q两个数据都选TARGET_ONLY；LOWRANK_RELATION−该C*在历史E的macro AUC：MovieLens−0.00062292（4/4负，95%CI不跨0），KuaiRand−0.00272675（4/4负）。ML LL−0.00071533（3/4改善但区间跨0）；KR LL+0.00115698（4/4恶化）。FULL_RELATION也未改变强对照结论。
+- **Decision:** 当前关系基底/来源形成器停止扩展；不否认既有来源读取价值或其他多原型定义。
+- **Strength / Scope:** STRONG ML排序方向、MEDIUM版本性停止；固定自然评估人口，4seed。
+- **Source:** [10-27 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/03c338092008a71b2d360a61b06d985eac551ec7/research_reports/26-10-27_v2/FINAL_REPORT.md)；EXP052。
+
+### E059 — BASP-A收益预测与动态读取有活动，但未提供独立实用策略收益
+- **Observation:** 24正式轨迹，2自然集×2seed；CG−TARGET_MATCH历史E AUC：ML−0.00001955、KR+0.00054782，正向各1/2；Q上μ的留出skill不胜F域常量，soft群组近均匀，CG NULL读取权重约0.99+。部分FIXED_READ状态可检测到来源读依赖。
+- **Decision:** 关闭该版本收益μ/关系群组的晋级主张；P2–P5为NOT_TRIGGERED，不是负性能报告。读取价值与完整形成器收益不等价。
+- **Strength / Scope:** STRONG记录到的操作状态；MEDIUM条件停线、仅2seed。
+- **Source:** [10-28 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/97151c74544c3651feb805d1898bc9ce1b8d12d3/research_reports/2026-10-28/FINAL_REPORT.md)；EXP053。
+
+### E060 — 2025–26 MDMT开源模型强基线在两个自然数据集已有五seed结果
+- **Observation:** 30正式训练（M3OE_FIXED1、HyperGate、AutoIFS，ML/KR各五seed）。对M3OE_FIXED1：HyperGate ML/KR Δmacro AUC+0.007379/+0.014412，AutoIFS +0.003551/+0.007308，四组都5/5正。KR AutoIFS Δmacro LL−0.004400（5/5改善）而Δnatural LL+0.006677（5/5恶化）；主要评价域d1占约98.21%，加权反号有算术解释。
+- **Decision:** 两者是已完成的实测外部对照，不是仅搜到的名称；HyperGate部分参数UNVERIFIED_PROPOSAL，训练/选点不等于GA31协议、非官方严格复现。
+- **Strength / Scope:** STRONG五seed同协议比对及指标算术；WEAK架构纯因果。
+- **Source:** [MDMT基线FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/d2fdd272a2cdf7da626e29b97f61555d25271f89/research_reports/mdmt_baselines_2526/FINAL_REPORT.md)；EXP054。
+
+### E061 — 无增强loss统一缩放可改变selected排序与早晚优化轨迹
+- **Observation:** GA31-v2四臂、两集×5seed共40训练；ML c=.1−c=1无增强selected test macro AUC+0.003473（4/5），E10−0.004169、E50+0.026978；KR selected−0.006026（1/5）。耦合Adam将相对weight_decay和eps与c耦合。
+- **Decision:** 确认ML条件性缩放排序效应与KR反向边界；不是“纯LR减小”或“动态样本权重本身提高AUC”的直接证据。
+- **Strength / Scope:** STRONG ML阶段数值，MEDIUM KR版本性反例。
+- **Source:** [GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md)；EXP055。
+
+### E062 — NR-Gauss增强独有增量未过门，ML普通L2与缩放参照接近
+- **Observation:** GA31-v2目标域NR-Gauss增量：ML c=1 −0.000267、c=.1 −0.000188；KR c=1 +0.000188（2/5正）、c=.1 −0.004243。KR c=1最差格−0.008536（5/5损害）。GA31-R3在ML采用普通wd1e−4的L2控制，与c=.1缩放基线selected验证AUC差−0.000185、test AUC+0.000197（3/5），LL+0.001519（4/5损害）。
+- **Decision:** 停止这版NR-Gauss投入；普通L2是简单强参照，但不宣称完整eps/历史状态代数完全相等。早期10-21 D套件采用不同协议，旧阳性结果仍成立。
+- **Strength / Scope:** MEDIUM方法停线，STRONG实测因子对照。
+- **Source:** [GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md)、[GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md)；EXP055–EXP056。
+
+### E063 — 反向配对降低同参数视图方差但不等于比同K IID2更好
+- **Observation:** R3同θ反向配对降低条件方差。KR ANTI2−B-KR selected test AUC+0.001202（4/5），LL−0.001709（4/5），但ANTI2−G-IID2 AUC−0.001237；validation相对B仅2/5正、worst平均−0.003056（4/5损害）。ML ANTI2对工作基线−0.000687。
+- **Decision:** 保留STRONG方差构造事实及KR局部条件收益；**当前反向配对没有独有selected AUC晋级价值**。
+- **Strength / Scope:** STRONG诊断，MEDIUM当前方法选择。
+- **Source:** [GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md)；EXP056。
+
+### E064 — 参数EMA具有明确selected AUC收益，ML LL可能付出代价
+- **Observation:** 11-01动量实验中无增强shadow−online，ML selected test AUC+0.004399（5/5，全部30/30 cell×seed正），LL+0.007800（4/5恶化）；KR AUC+0.004616（4/5），LL−0.001225（3/5）。AIGM01调参后的ML AUC+0.003849（5/5，区间[+0.003384,+0.004314]），LL+0.001249（4/5恶化）；KR AUC同为+0.004616。
+- **Decision:** **接受固定EMA为当前AUC强参考**；非反馈参数shadow未更改在线Adam，不能混称更新动量公式或LL全面改善；后续同seed重建不作为新人口。
+- **Strength / Scope:** STRONG ML排序、MEDIUM KR排序；当前fixed1自然训练人口。
+- **Source:** [EMA/SAD REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md)、[AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md)；EXP057–EXP058。
+
+### E065 — SAD长差分记忆非零且真实改变更新，但未产生实用独有增量
+- **Observation:** SAD βδ=.99 A3−普通增强A1 online selected test macro AUC ML−0.000336、KR−0.001554；KR目标域两任务相对A1均5/5下降。差分q/局部实际更新都不为0。βδ=.9 A2与普通Adam在实数代数等价，却可因长期FP32轨迹/选点分离出现差异。
+- **Decision:** 停止当前长差分记忆公式独有收益主张，不误判为“差分没有计算”或“所有动量不可用”。
+- **Strength / Scope:** STRONG代数/执行，MEDIUM当前版NO_PROMOTION。
+- **Source:** [11-01 momentum](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md)；EXP057。
+
+### E066 — AIGM01再次支持EMA，但Gaussian收益有任务/域交换；创新门仅停于开发
+- **Observation:** 56条唯一完整训练，ML Gaussian+EMA−无增强EMA macro AUC+0.000318（2/5），KR +0.001476（3/5），KR macro LL−0.001664（5/5）。KR最大域d1/task0,task1 test AUC分别−0.004654（5/5）/−0.004929（4/5），pooled/traffic均下降；AIG-M动态门q/λ确实非零，但开发两seed未过晋级门，未执行被拒候选五seed正式评价。
+- **Decision:** EMA继续作强基线；**KR增强存在真实域任务损害、LL改善与macro增量弱支持并存**；AIG-M版内STOP_AT_DEV而非全预算失败。
+- **Strength / Scope:** STRONG KR最大域损害，MEDIUM EMA结果，WEAK创新门独有性。
+- **Source:** [AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md)；EXP058。
+
+### E067 — GATS B2任务投影开发阳性未在确认与统一test形成强基线整体收益
+- **Observation:** KR B2−A1开发验证mean AUC+0.008183500（2/2），B2−匹配R2+0.006231554；确认n=3对A1 +0.000640287（2/3），合并验证n=5 +0.003657572（4/5）。统一test n=5 B2−A1 macro AUC+0.000005156（3/5）、B2−更强A0固定EMA +0.001481447（仅2/5），pooled/traffic对A0均值负，worst/域任务有损害。
+- **Decision:** 已完成实际确认并停止晋级，保留“开发局部有益”的经验事实，不能再用同种子重复包装成新算法稳定成功。
+- **Strength / Scope:** STRONG数值/程序记录，MEDIUM停止决策。
+- **Source:** [GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)；EXP059。
+
+### E068 — 难度依赖增强、延迟时程与CV→rho当前规则均未过匹配门
+- **Observation:** GATS B1在ML/KR不胜A1及已触发匹配R1；B3 delay5不胜固定/随机时程R3；C2以梯度范数CV调rho相对固定EMA或rho均值回放增量很小，未触发确认；EMA早期滞后、后期增益是已知阶段现象，不说明C2成功。
+- **Decision:** STOP当前B1、B3、C2设计；没有独立搜索其他所有时程/任务增强规则，未触发阶段不登记为阴性。
+- **Strength / Scope:** MEDIUM预注册版本停线，WEAK方法独有价值。
+- **Source:** [GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)；EXP059。
+
+### E069 — 教师约束与任务梯度输入视图有真实计算，但未胜固定EMA
+- **Observation:** EMA02V2完成36/36正式轨迹、144/144端点，只有开发2seed。ML教师约束字段F1−A0+EMA test宏AUC+0.000358547（2/2）、验证均值−0.000424325，F1−F0 test +0.000969953；KR梯度任务双视图TG/AG−A0+EMA test AUC−0.017173896/−0.017534（两seed负），macro LL分别+0.012519/+0.012365。投影Jacobian秩2、梯度方向cos和扰动记录证明实际执行。
+- **Decision:** 停止当前J/F/TG/AG视图版本；F1 ML只是弱条件线索、确认/W1未触发。梯度视图不同不等于真实动量递推被更改。
+- **Strength / Scope:** MEDIUM KR版本伤害，WEAK ML F1边际收益；2seed。
+- **Source:** [EMA02V2](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md)；EXP060。
+
+**所有新增证据共同的边界：** 这些测试多次使用同一历史划分、既有seed池及参考轨迹。五seed是训练随机性，不是新外部样本/用户/时间窗口。强简单对照未被超越时可以作具体版本STOP；不能把已证明的其他现象归零。
