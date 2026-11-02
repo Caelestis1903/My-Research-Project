@@ -1,6 +1,8 @@
 # Experimental Contradiction Register
 
 
+> **2026-11-02 最新修订：** 历史假说/反例的原始文字和状态作为当日快照保留；新增条目承接10-27—11-02的已完成实验，当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将假说清单解释为研究者曾经认可的错误先验。
+
 > **2026-10-26 增量入口：** C001–C034是截至10-18的历史矛盾；新补C035–C042。各组须区分**同一估计对象真正矛盾**与**不同数据人口、训练目标、测试角色、比较臂或时钟的表面冲突**，并以 [当前跨轮综合](Experimental_Branch_Synthesis_20261026.md) 核对。不能为追求一致而覆盖原始负结果。
 
 
@@ -299,3 +301,43 @@
 - **Classification:** **EXECUTION STATUS / ARTIFACT AVAILABILITY**。不能一概写成“全部方法完整阴性”或“所有机制信息已齐”，更不能把RCF方案的理论价值记为测得AUC。E054–E057。
 
 **修订原则：** “小域=困难域”始终不是研究者认可的先验；共享数值失活、来源可读、形成器有用和共享可提升泛化分别是不同问题。若没有同人口/同参数/同指标的直接对照，保留竞争解释而不强行判某一机制为根因。
+
+## 2026-10-27—2026-11-02 新增跨分支/指标分歧 C043–C051
+
+### C043 — Relation-Basis在ML的弱LL改进与AUC一致受损
+- **A/B:** LOWRANK−TARGET_ONLY的历史E宏AUC ML−0.000623（4/4负）、LL−0.000715（3/4改善且区间跨0）；KR AUC/LL均不利。
+- **Classification:** **METRIC TRADEOFF, NOT PROOF OF UNIQUE METHOD VALUE**；保存局部损失信号，不覆写排序阴性及版本STOP。E058。
+
+### C044 — BASP-A部分固定来源读取有依赖，动态原型政策却未晋级
+- **A/B:** 部分读取对固定源内容的替换会引起评价变化，但CG的留出μ不胜常量、NULL占优，Q/E不稳定胜目标匹配。
+- **Classification:** **READ DEPENDENCE ≠ NEED TO FORM PROTOTYPES ≠ DEPLOYED BENEFIT**。E059；不能把旧来源可读性重新当作新机制发现。
+
+### C045 — GA31缩放产生selected收益与普通L2形成近似参照并存
+- **A/B:** ML c=.1对c=1无增强test selected AUC+0.003473；后续普通L2校准在ML的validation排序接近缩放参照、test AUC细微反号。
+- **Classification:** **DIFFERENT CONTROLS/OPTIMIZER PARAMETERIZATION**；缩放现象成立，但不能被单独归因动态样本specificity或纯LR变化。E061–E062。
+
+### C046 — ANTI2降低方差/相对普通基线部分提高，但不胜同K IID2
+- **A/B:** KR ANTI2−B-KR selected test宏AUC+0.001202（4/5）；ANTI2−IID2−0.001237；validation/最差格保护不支持整体晋级。
+- **Classification:** **BASELINE DEPENDENCE & MECHANISM/UTILITY SEPARATION**；既不删除方差下降事实，也不晋级当前方法。E063。
+
+### C047 — 非反馈EMA有稳定选点AUC收益却可带来ML LogLoss代价
+- **A/B:** ML无增强EMA−online AUC+0.004399（5/5）、LL+0.007800（4/5恶化）；调参后AUC+0.003849（5/5）、LL+0.001249（4/5恶化）。
+- **Classification:** **AUC RANKING VS PROBABILITY LOSS / TRAINING CONFIGURATION**；允许确认排序有效，不推断LL或改动Adam一阶动量有益。E064。
+
+### C048 — KR Gaussian+EMA宏LL改善而大流量域AUC受损
+- **A/B:** AIGM01 Gaussian相对无增强EMA test宏LL−0.001664（5/5）、宏AUC+0.001476（3/5）；d1/task0与task1 AUC−0.004654/−0.004929，pooled/traffic AUC下降。
+- **Classification:** **TASK/CELL BENEFIT DISTRIBUTION AND METRIC AGGREGATION**；不能拿一项宏均值掩盖受损目标。E066。
+
+### C049 — GATS B2开发通过与确认衰减、test近零同时成立
+- **A/B:** KR B2−A1开发validation宏AUC+0.008184（2/2），确认n=3 +0.000640（2/3），统一test五seed+0.000005（3/5）。部分目标任务的验证正值在test反向。
+- **Classification:** **DEVELOPMENT/CONFIRMATION/TEST ESTIMAND DIFFERENCE**；开发阳性是真实观察，但新方法晋级的整体证据已不足。E067。
+
+### C050 — EMA02V2 F1的ML微小test收益与validation反向
+- **A/B:** F1−A0+EMA test AUC+0.000359（2/2），validation均值−0.000424，低于+0.001实用门；KR总体又是另一方向。
+- **Classification:** **WEAK, WINDOW/SEED-CONDITIONAL TEST SIGNAL**；不因2/2符号正重新打开全预算。E069。
+
+### C051 — 同一个TG方法在selected/E50的ML排序结论不同
+- **A/B:** ML TG−A0+EMA selected test宏AUC−0.002418（0/2正），共同E50却+0.000376（2/2）；KR selected和E50仍退化。
+- **Classification:** **CHECKPOINT SPECIFICITY**；不能用E50后期小幅正值替换冻结selected主裁定，不否认阶段性现象。E069。
+
+**最新判断原则：** 相同数据/目标/算法/选点/评价人口的可比性优先；真实相反的metric和阶段效应必须并列，不将不一致机械判成研究失败，也不把历史反例反复包装成新问题。
