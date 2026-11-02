@@ -1,6 +1,8 @@
 # Experimental Hypothesis History
 
 
+> **2026-11-02 最新修订：** 历史假说/反例的原始文字和状态作为当日快照保留；新增条目承接10-27—11-02的已完成实验，当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将假说清单解释为研究者曾经认可的错误先验。
+
 > **2026-10-26 假设更新：** H001–H032是截至10-18的研究假说/竞争解释清单，**不是用户曾经持有的信念清单**。新增H033–H040承接后期自然人口、梯度/共享、RHD/LPS/DFD和RCF设计。旧状态计数是历史截面，不重新汇总为“目前否定了多少科研方向”；以[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前裁定。
 
 
@@ -400,3 +402,44 @@
 - **Allowed Claim:** 是有明确对照和预算的待验新假设；只有超过固定来源读、直接目标头、目标专有/统一微调、单宽后继等控制，才能谈新方法贡献。[RCF-v1](../research_plans/2026-10-26-v2/00_README.md)。
 
 **历史记述与研究立场：** 研究者一直区分“小域”和“困难域”，并非提出后才被迫否定。既有方法相近不导致方向被机械丢弃；如果真实新增收益在强参照下仍不能建立，则明确版本NO_GO和能重新建立差异的最小设计更改。
+
+## 2026-11-02 新增已检验主张/候选解释状态 H041–H047
+
+**说明：** H编号代表需被实证裁决的研究命题，不等于研究者曾相信该命题。历史假设状态维持其原日期快照；新版优先取证据的**对应协议**与当时强对照。
+
+### H041 — 当前低秩/全关系及BASP-A群组可直接提供强目标适配以外的稳定收益
+- **Evidence:** E058–E059；Relation-Basis在自然E对强C*的AUC方向不利，BASP-A的μ/NULL和群组责任没达到晋级门。
+- **Status:** WEAKENED_IN_TESTED_VERSIONS。
+- **Allowed Claim:** 所测路线停线；来源有条件可读性、其他原型形成方式仍为不同命题。
+
+### H042 — 10-21 D套件正效应已证明源于动态权重，新GA31会自动复制
+- **Evidence:** 早期Dconst01套件亦阳性（E050–E051），新GA31缩放/NR-Gauss使用不同目标、总尺度、人口和控制（E061–E062）。
+- **Status:** FALSIFIED_AS_DIRECT_CAUSAL_ATTRIBUTION。
+- **Allowed Claim:** 历史D与新缩放的各自实测现象保留，不把相似外形当同协议因果复现。
+
+### H043 — 降低增强方差或累计非零差分记忆足以保证selected泛化收益
+- **Evidence:** E063 ANTI2降方差但不胜IID2；E065 SAD改变更新而未胜A1；E066 AIG动态门非零而没过开发增量门。
+- **Status:** FALSIFIED_AS_A_SUFFICIENT_CRITERION_IN_TESTED_PROTOCOLS。
+- **Allowed Claim:** 具体方差和状态诊断仍有效，必须用强基线的真实性能决定晋级。
+
+### H044 — 非反馈参数EMA在当前fixed1设置没有可靠selected排序价值
+- **Evidence:** E064，ML两组五seed对照selected AUC+0.004399/+0.003849且均5/5正，KR+0.004616（4/5）；LL与AUC并不一致。
+- **Status:** FALSIFIED_FOR_CURRENT_FIXED1_AUC。
+- **Allowed Claim:** 采用EMA为强AUC基线；不是LL统一收益或新的Adam更新递推。
+
+### H045 — GATS B2两开发seed验证正差已经足以晋级
+- **Evidence:** E067，确认验证收缩、统一test五seed对A1宏AUC近零且对强A0固定EMA仅2/5正。
+- **Status:** FALSIFIED_AS_AN_ALGORITHM_PROMOTION_RULE。
+- **Allowed Claim:** 开发期任务投影的条件性现象成立，但本轮整体NO_GO。
+
+### H046 — 显式使用两个任务梯度构造输入视图就必然是有益MDMT协同
+- **Evidence:** E069，TG与AG真实生成视图且教师/任务方向诊断均正常，但KR selected test宏AUC和LL同时恶化。
+- **Status:** WEAKENED_FOR_THIS_VIEW_FORMULA。
+- **Allowed Claim:** 不否定所有任务条件增强；需要检查它是否真正改变有用更新和时间状态，而不是仅改变输入视图。
+
+### H047 — HyperGate和AutoIFS在本仓库尚未取得正式训练证据
+- **Evidence:** E060，10-29已完成两个自然数据×三模型×五seed正式训练与冻结评价。
+- **Status:** FALSIFIED_AS_EXECUTION_STATUS。
+- **Allowed Claim:** 已有当前适配协议内的强模型实测对照；不可称原作者参数完全核实或GA31协议下严格排名。
+
+**总体演化：** 已建立的EMA排序正效应与旧共享/样本重加权局部事实不因新候选不晋级而被归零。新的研究问题是怎样让域×任务信息在增强/梯度之外进入真实更新或动量递推，以及怎样相对强EMA得到独立净收益；不重跑被当前实验已经裁定的相同假说。
