@@ -1,0 +1,126 @@
+study_id: MDMT_INFORMATION_MOMENTUM_V3
+status: DESIGN_ONLY_NO_FORMAL_GPU_RUN
+context_main_sha: 96d21fccff4e9304589e82527ec7a859e8c3f05c
+source_execution_sha: 38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27
+execution_entrypoint_to_implement: experiments.conditional_information_momentum_20261102_v3.run
+model:
+  name: fixed1_MDMTRec
+  domains: 3
+  tasks: 2
+  shared_experts: 4
+  embedding_dim: 16
+  fcn_dims: [512, 256, 256, 64]
+  learned_fusion: false
+protocol:
+  natural_data: true
+  split: original_global_row_80_10_10
+  train_only_encoder_scaler: true
+  original_bce: sum_over_actual_B_times_T
+  pair_objective: additive_auxiliary_not_claimed_same_as_A0
+  batch_size: 40960
+  epochs: 50
+  early_stopping: false
+  precision: fp32
+  amp: false
+  tf32: false
+  optimizer_steps_per_batch: 1
+  ema_updates_per_step: 1
+optimizer:
+  lr: 0.01
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  weight_decay_semantics: coupled_once
+  foreach: false
+  fused: false
+  amsgrad: false
+ema:
+  feedback: false
+  initialize_from: theta0
+  buffers: copy_source
+pair:
+  conditions: [domain, task, positive_joint_label, negative_joint_label]
+  same_domain_only: true
+  current_train_batch_only: true
+  observed_negative_labels_only: true
+  pairs_per_selected_condition: 2048
+  conditions_per_step: 1
+  replacement: true
+  lambda_grid: [0.05, 0.2]
+  q_uniform_mass: 0.25
+  q_target_mass: 0.25
+  q_demand_mass: 0.5
+  demand_offset: 0.05
+  demand_beta: 0.9
+  demand_initial: 0.5
+  max_conditions: 24
+history:
+  eccm_beta: 0.99
+  eccm_clock: active_condition_steps_not_selected_count
+  eccm_gain: one_minus_beta_divided_by_q
+  cv_beta: 0.9
+  cv_use_old_table: true
+  cv_bias_correction: false
+  shared_names: [shared_weight, shared_bias]
+  shared_prefixes: [skip_conn., star_mlp., expert.]
+  embedding_history: false
+  combine_eccm_and_cv: false
+datasets:
+  movielens:
+    weight_decay: 0.0001
+    rho: 0.9828205985452511
+    gaussian_target_domain: 0
+    gaussian_kappa: 0.05
+    gaussian_lambda: 0.5
+    labels: [rating_gt_3, rating_gt_4]
+  kuairand:
+    weight_decay: 0.00001
+    rho: 0.995
+    gaussian_target_domain: 2
+    gaussian_kappa: 0.1
+    gaussian_lambda: 0.5
+    labels: [is_click, long_view]
+methods:
+  A0: {information: none, demand: none, optimizer: source_adam}
+  A1: {information: source_gaussian, demand: none, optimizer: source_adam}
+  P00: {information: real_pair, demand: static, optimizer: adam}
+  P10: {information: real_pair, demand: dynamic, optimizer: adam}
+  P01: {information: real_pair, demand: static, optimizer: eccm}
+  P11: {information: real_pair, demand: dynamic, optimizer: eccm}
+  PCV: {information: real_pair, demand: dynamic, optimizer: cv_then_adam}
+  PCOLL: {information: real_pair, demand: dynamic, optimizer: collapsed_pair_moment}
+seeds:
+  development: [2022, 2024]
+  confirmation: [2027, 2028, 2029, 2030, 2031]
+stages:
+  S0: {formal_training: false, purpose: implementation_correctness}
+  S1:
+    search_methods: [P00, P11]
+    references: [A0, A1]
+    maximum_trajectories: 24
+  S2:
+    methods: [P10, P01, PCV, PCOLL]
+    lambda: P11_selected_per_dataset
+    maximum_trajectories: 16
+    conditional_extra_lambda_methods: [PCV, PCOLL]
+    conditional_extra_maximum: 8
+  S3:
+    max_arms_per_dataset: 4
+    arms: [A0, best_simple, chosen_primary, strongest_other_history_competitor]
+    maximum_trajectories: 40
+  total_maximum_including_references: 88
+selection:
+  metric: validation_six_cell_macro_auc
+  tie: earliest_epoch
+  exclude_epoch_zero: true
+  shared_epochs: [10, 50]
+  freeze_before_test: true
+  historical_test_exposure: true
+  new_seed_is_new_population: false
+promotion:
+  versus_A0_auc: 0.001
+  versus_best_simple_auc: 0.0005
+  versus_nearest_history_auc: 0.0003
+  development_positive_seeds: 2
+  confirmation_positive_seeds: 4
+  repeated_logloss_harm: 0.002
+  repeated_cell_or_traffic_or_pooled_auc_harm: 0.002
