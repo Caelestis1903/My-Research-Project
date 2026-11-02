@@ -1,6 +1,8 @@
 # Experimental Stable Findings
 
 
+> **2026-11-02 最新结论：** 历史条目保留原日期和当时证据强度；新结论见下方追加条目及 [Global Summary](Experimental_Global_Summary.md)。不把旧日期的“最新决定”覆盖新的正式实验，也不重复登记相同seed或未触发阶段。
+
 > **2026-10-26增量：** 原SF001–SF020保留在各自历史估计对象和数据人口内。新增SF021–SF028，区分事实、局部反例和方法独有性；[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前统一结论。此处“稳定”表示可在限定协议内复述，不暗示新用户/时间窗口的普适性。
 
 
@@ -213,3 +215,43 @@
 - **Strength:** STRONG执行/资料状态；不能据此否定全部局部/多原型共享思路。
 
 **最新总体判断：** 优化响应、样本重加权和来源内容的条件收益值得研究，已测动态方案暂未建立普适强增量。研究者从未将“小域=困难域”作为成立先验；后期研究应先区分具体机制和强简单基线，而非反复防御性否定同一命题。
+
+## 2026-11-02 新增有边界的稳定事实 SF029–SF037
+
+### SF029 — 所测来源关系与BASP-A原型政策尚未胜强目标直接适配
+- **Finding:** 10-27 Relation-Basis v2低秩/全关系在两自然数据四seed的冻结Q决策下没有胜TARGET_ONLY，低秩在历史E宏AUC各4/4负；10-28 BASP-A的CG相对TARGET_MATCH不稳定，留出收益μ与NULL读取记录限制当前政策解释。
+- **Evidence IDs:** E058–E059；**Strength:** MEDIUM具体版本停线，STRONG所测机制状态；**Boundary:** 保留历史来源读取与局部群体收益问题，不否定整个共享方向。
+
+### SF030 — HyperGate与AutoIFS已在当前仓库正式五seed比较
+- **Finding:** 10-29两自然数据的HyperGate/AutoIFS相对M3OE_FIXED1宏AUC四组配对均5/5改善；KR AutoIFS macro LL改善而natural LL五seed变差。原论文参数完整核实及同训练预算的架构纯比较并未完成。
+- **Evidence IDs:** E060；**Strength:** STRONG本协议实测，不能宣称严格论文复现。
+
+### SF031 — 统一损失缩放在ML可提升selected AUC，简单L2解释必须优先考虑
+- **Finding:** GA31无增强ML c=.1相对c=1 selected AUC+0.003473（4/5）、KR相同缩放方向负；ML普通L2对缩放基线的selected验证差较小。耦合Adam同时改变相对wd和eps，早/末训练时钟与selected结果不等价。
+- **Evidence IDs:** E061–E062；**Strength:** STRONG ML条件性效应，MEDIUM控制比较；**Boundary:** 不当成旧D动态权重的独立收益。
+
+### SF032 — 固定参数EMA在当前协议具有可重复排序收益
+- **Finding:** ML两组五seed的EMA−online selected AUC分别+0.004399和+0.003849，均5/5正；KR+0.004616、4/5正。ML LogLoss在两组协议中多数seed恶化。EMA是非反馈shadow，不是对在线Adam动量递推的修改。
+- **Evidence IDs:** E064；**Strength:** STRONG ML AUC，MEDIUM KR AUC；**Boundary:** 不是LL一致收益、不是独立新时间窗口。
+
+### SF033 — 当前增强的局部收益不能代替总体/流量与LL保护
+- **Finding:** NR-Gauss在GA31未过主门；KR ANTI2对普通基线有条件test增量但不胜同K IID2；KR Gaussian+EMA的LL五seed改善伴随d1两任务AUC多数seed下降、pooled/traffic整体下降。必须保留六格及主指标口径。
+- **Evidence IDs:** E062–E063、E066；**Strength:** STRONG某些域损害，MEDIUM独有性停线。
+
+### SF034 — 非零差分梯度/动态门不自动增加实用排序
+- **Finding:** SAD βδ=.99实际修改Adam更新但两集selected宏AUC未胜普通增强A1；βδ=.9与普通Adam实数代数等价仍可能出现FP32长期轨迹差。AIG-M动态注入不为0而只停于开发门。
+- **Evidence IDs:** E065–E066；**Strength:** STRONG实现与代数身份，MEDIUM已测性能停线。
+
+### SF035 — GATS任务投影B2开发收益真实存在，却未形成稳定强基线增量
+- **Finding:** KR B2开发两seed在验证对A1/R2正向，保留seed确认均值大幅缩小；统一test五seed对A1宏AUC+0.000005156（3/5），对A0固定EMA只有2/5正。已完成当前阶段且明确不晋级。
+- **Evidence IDs:** E067；**Strength:** MEDIUM当前版本NO_PROMOTION；**Boundary:** 保留任务级/验证期条件性观察。
+
+### SF036 — GATS难度覆盖、延迟增强与CV自适应EMA当前版本未晋级
+- **Finding:** B1/B3/C2各在匹配控制或预定门下未建立独有macro增量，确认门未触发的臂不能声称正式阴性。EMA早期滞后/后期提升的阶段性事实并不证明CV→rho的新机制。
+- **Evidence IDs:** E068；**Strength:** MEDIUM当前规则停止，WEAK普遍外推。
+
+### SF037 — EMA02V2任务梯度视图确实产生不同方向，但不是有益融合证据
+- **Finding:** 两自然数据各2开发seed、36训练全部完成；ML F1 test对A0+EMA +0.000359（2/2）但验证均值负、幅度不足晋级；KR TG/AG对A0+EMA test宏AUC约−0.0172/−0.0175并伴随LL恶化，两seed一致。梯度探针与实际扰动正常执行。
+- **Evidence IDs:** E069；**Strength:** MEDIUM当前KR退化，WEAK ML F1微增量；**Boundary:** 不是新数据确认、也没有改在线动量公式。
+
+**研究结论采用：** 已测EMA AUC收益可直接作为后续强参照，具体增强/差分/视图方法未胜该参照时明确版本停止；已有来源可读性、D套件和局部条件收益均保留在其原协议内，不从单轮反例推翻。
