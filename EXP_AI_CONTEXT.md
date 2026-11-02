@@ -2,6 +2,24 @@
 # 面向后续 AI 实验的最小充分科研上下文
 
 
+
+## 2026-11-02 AI Handoff：最新研究事实及不重复清单
+
+**本段是最新权威上下文，优先于下方10-26、10-18、10-09的所有“当前”“下一步”历史记录。** 核对了截至11-02尚未进入main总台账的9组不同实验或正式基线活动，登记为[EXP052–EXP060](experiments/Experimental_Experiment_Index.md)和[E058–E069](experiments/Experimental_Evidence_Ledger.md)。只汇总结论，不复制研究分支代码、数据、报告或实验产物。已执行报告的同seed/同训练轨迹复用不当作独立验证。
+
+**已可接受的事实：**
+1. **固定参数EMA是当前有效的selected AUC基线。** 11-01的无增强online→非反馈EMA shadow，在MovieLens test宏AUC配对+0.004399（5/5），在另一次调参对照+0.003849（5/5）；KuaiRand +0.004616（4/5）。ML同期LogLoss分别+0.007800/+0.001249，均4/5恶化，**排序收益与概率损失收益不可等同**。EMA并未改写真实在线Adam动量递推。
+2. **统一loss尺度已经有可重复影响AUC的实证。** GA31-v2 ML无增强c=.1对c=1 selected test AUC+0.003473（4/5）、KR−0.006026；早/晚epoch可反向。耦合Adam中loss scale同时改变相对wd与eps；R3普通L2控制在ML可形成相近的简单工作参照。旧10-21 D套件也曾阳性，但使用不同目标、复制/噪声和人群，**不能直接把新缩放数值当成旧D的因果分解**。
+3. **更复杂的增强、差分与梯度视图尚未取得稳定独立方法收益。** NR-Gauss未过增量门；ANTI2确实降条件方差但未优于同预算IID2；SAD长差分记忆非零并改变更新但不胜普通增强；AIG-M创新度门、GATS的难度覆盖B1/延迟B3/CV→rho C2未晋级。GATS任务梯度投影B2在KR开发验证有正信号，但统一test五seed对A1的宏AUC只有+0.000005、对强A0+EMA仅2/5正。EMA02V2 ML F1仅有2seed测试+0.000359且验证反向；KR TG/AG相对A0+EMA的宏AUC约−0.0172/−0.0175，LL同时恶化。不要把没运行的后续确认阶段说成阴性。
+4. **共享/原型历史结论仍有范围。** Relation-Basis v2与BASP-A的所测形成/收益群组方法都未稳定超过强TARGET_ONLY/TARGET_MATCH；不否定此前局部来源可读性。10-29 HyperGate、AutoIFS**已经完成**两个自然数据集各五seed正式对比，并且相对M3OE_FIXED1的macro AUC四组配对均5/5正；各方法训练/选模协议与GA31不同，不能跨表直接排名。
+5. **任务/域的收益分配是有实证的。** KR Gaussian+EMA的宏LL可以5/5下降，但占流量优势的d1两个任务AUC多数seed下降；GATS B2各任务与验证/test分化。任何新算法都需要比较六格、macro/pooled/traffic、AUC/LL、selected/共同epoch，而不是只取正的宏均值。
+
+**下一步研究选择（明确为设计目标，而非已经证明的因果机制）：** 以固定无增强EMA为强参考，思考如何利用不同**域×任务**的信息构造具有针对性的增强或梯度，并使其**实际改变动量/参数时间递推公式或状态**；不能把普通梯度转成“梯度构造视图”就视为完成梯度＋增强＋动量的联合机制。只有当新增不确定性会改变算法选择时，安排匹配强简单控制的判别实验。过往已排除/保留的特定结论不能在下一分支以改名方式重新当作新问题。
+
+**九组源报告（均指向源分支固定提交，文件没有合入main）：** [10-27 Relation-Basis](https://github.com/Caelestis1903/My-Research-Project/blob/03c338092008a71b2d360a61b06d985eac551ec7/research_reports/26-10-27_v2/FINAL_REPORT.md)；[10-28 BASP-A](https://github.com/Caelestis1903/My-Research-Project/blob/97151c74544c3651feb805d1898bc9ce1b8d12d3/research_reports/2026-10-28/FINAL_REPORT.md)；[10-29基线](https://github.com/Caelestis1903/My-Research-Project/blob/d2fdd272a2cdf7da626e29b97f61555d25271f89/research_reports/mdmt_baselines_2526/FINAL_REPORT.md)；[10-31 GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md)；[11-01 GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md)；[11-01动量/EMA](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md)；[11-01 AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md)；[11-02 GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)；[11-02 EMA02V2](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md)。
+
+---
+
 > **重要状态更正（2026-10-26）：** 下文原先写作“当前”的S3/S4机制、S5未识别性、下一步实验建议，均属于**当时的历史handoff快照**。后续已出现多轮独立执行、新人口复核及算法决策。新AI会话的当前研究事实入口应为 [跨阶段总报告](experiments/Experimental_Branch_Synthesis_20261026.md)、[Global Summary](experiments/Experimental_Global_Summary.md)、[历史实验原件索引](history_experiments/README.md)。不得只读下方旧RQ而忽略后续实验。
 
 ## 2026-10-26 AI Handoff：当前最小充分研究状态
