@@ -1,6 +1,8 @@
 # Experimental Experiment Index
 
 
+> **2026-11-02最新入口：** 已增补10-27—11-02的9组已执行实验或基线；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。旧日期的“当前”、索引总数及计划属于历史快照。新增内容只是一套带固定提交溯源的结论和证据登记，不复制分支代码或研究报告。
+
 > **2026-10-26 当前索引入口：** 历史 EXP001–EXP042 原编号保留，下面10-18“合计42条”的数字是当时截面。现追加 EXP043–EXP051 **9个不同研究阶段/审计索引**，当前合计 **51条索引**（含历史未运行/评价only），**不是51组独立训练或51项算法创新**。最新时间线/归因以[2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为准；所有原始文件来自 [history_experiments](../history_experiments/README.md)；最新RCF-v1仅为设计，**不登记为已执行EXP**。
 
 
@@ -101,3 +103,21 @@
 **现阶段总数＝历史EXP001–EXP042 42项＋新增研究阶段索引9项＝51项。** EXP043与EXP044共享N18基础背景，EXP049/050/051有方法继承但不是相同网络轨迹；旧10-24/25/26的源Git分支存在祖先关系，不能把每条后继目录中继承的报告再当独立实验加总。
 
 **设计与证据分层：** [研究方案2026-10-26-v2：RCF-v1](../research_plans/2026-10-26-v2/00_README.md)为DESIGN_ONLY，尚无RCF训练、选点或AUC/LL；不纳入EXP计数。未来新增实验需核对相同模型/人口/seed是否只导出新读法，避免抬高独立试验数。
+
+## 2026-10-27—2026-11-02 新增已执行索引 EXP052–EXP060
+
+**索引累计为60条研究阶段/审计条目**（不是60个独立样本、算法或训练方法）。EXP001–EXP051原编号和历史计数保留。后续分支中的同名报告副本、RAM缓存基线、已有seed复用及失败重试不重复登记；计划/未触发后续阶段不假装有正式结果。
+
+| ID | 实验日期/来源 | 完成工作、重复单位及对照 | 主要结果/最终状态 |
+| --- | --- | --- | --- |
+| EXP052 | 10-27；26-10-27 | Relation-Basis v2，2自然数据×6方法×4seed，共48正式适配；Q选TARGET_ONLY | LOWRANK/FULL未胜简单目标适配，E宏AUC ML−0.000623、KR−0.002727（均4/4负），当前版停止；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/03c338092008a71b2d360a61b06d985eac551ec7/research_reports/26-10-27_v2/FINAL_REPORT.md) |
+| EXP053 | 10-28；26-10-28 | BASP-A两自然集×6臂×2seed，24条正式轨迹 | CG对TARGET_MATCH无稳定收益，留出收益探测μ不胜常量、NULL读取占优；P2–P5未触发；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/97151c74544c3651feb805d1898bc9ce1b8d12d3/research_reports/2026-10-28/FINAL_REPORT.md) |
+| EXP054 | 10-29；baseline/mdmt-sota-2526 | M3OE_FIXED1、HyperGate、AutoIFS；2自然数据×3模型×5seed，30正式训练+8开发 | 两新模型四组macro AUC相对M3OE均5/5提高，KR natural LL有权衡；并非论文严格复现；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/d2fdd272a2cdf7da626e29b97f61555d25271f89/research_reports/mdmt_baselines_2526/FINAL_REPORT.md) |
+| EXP055 | 10-31；26-10-31 | GA31-v2，loss_scale1/.1×NR-Gauss有无增强，2自然集×4臂×5seed，40正式训练 | ML c=.1无增强selected AUC+0.003473，KR缩放方向相反，增强未过门；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md) |
+| EXP056 | 11-01；26-11-01 | GA31-R3，ML普通L2控制、M1/IID2/ANTI2；45正式训练 | L2可作ML强普通参照；ANTI2降低方差但不胜IID2，未晋级；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md) |
+| EXP057 | 11-01；26-11-01_v2 | 4训练臂×2自然集×5seed=40正式训练；online+参数EMA shadow与SAD βδ控制 | EMA selected AUC实益、ML有LL代价；SAD长差分未胜普通增强，P2未触发；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md) |
+| EXP058 | 11-01；26-11-01_v3 | AIGM01：56条唯一完整训练、跨开发/正式复用8个RAM身份；正式A0/A1为五seed，AIG只开发 | EMA排序收益再现；KR Gaussian有域任务交换，固定SAD/AIG动态门不晋级；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md) |
+| EXP059 | 11-02；26-11-02 | GATS02：31条新增完整50epoch科学轨迹；B1/B2/B3/C2与匹配控制，KR B2保留3seed确认 | B2开发正而统一test五seed对A1宏AUC约+0.000005；不认整体晋级；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md) |
+| EXP060 | 11-02；26-11-02_v2 | EMA02V2：A0/A1/J0/J1/F0/F1/RG/AG/TG，两自然集×2开发seed；36正式训练、144统一测试端点 | ML F1弱测试信号不足门，KR TG/AG损害明显；确认/W1未触发；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md) |
+
+**统一去重：** 本次只新登记9组各自具有独立问题/实际实验活动的源报告。EXP058/059/060的A0、A1、EMA及早期GA31模型可能有数值重建、重用或相同seed池，**不把九个报告视为九次独立人口复现**。10-29的V-LL选点基线与后期GA31的validation-AUC选点、训练数据角色不同，严禁跨表绝对排名。
