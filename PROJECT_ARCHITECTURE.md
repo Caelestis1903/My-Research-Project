@@ -1,5 +1,9 @@
 # 项目架构与多版本演进全景文档
 
+
+
+> **2026-11-02 更新：技术架构快照与最新科研结论必须分开阅读。** 本文件主体是早期base_m3oe、mask、v1_momentum和v2_momentum等版本的**技术实现/历史实验**，其中单种子、历史角色命名和当时研究动机不得覆盖后续多种子自然人口实验的裁定。当前AI研究事实见[EXP_AI_CONTEXT.md](EXP_AI_CONTEXT.md)及[Experimental_Global_Summary.md](experiments/Experimental_Global_Summary.md)；新源分支的结论已归入[EXP052–EXP060](experiments/Experimental_Experiment_Index.md)、[E058–E069](experiments/Experimental_Evidence_Ledger.md)。截至11-02，固定参数EMA的selected AUC提升已有多轮五seed证据（ML +0.004399/+0.003849、KR +0.004616），但ML LL代价并存；缩放、常规L2和各增强/梯度/差分控制已实际研究，不能将旧文档中的“尚未验证”概括到当前整个仓库。历史架构细节和当时数字在本文件继续保留，**不代表当前统一强基线排名或新方法已验证的增量**。本次没有合并任何实验分支的代码或原始报告。
+
 > **适用范围**：本项目是 SIGIR 2024 论文 **M³oE: Multi-Domain Multi-Task Mixture-of-Experts Recommendation Framework** 官方代码（`base_m3oe`）之上的多版本研究仓库，围绕"多域多任务推荐"展开两条改进线：**稀缺域反事实数据增强**（`mask` 分支）与**优化器动量机制**（`v1_momentum` / `v2_momentum` 分支）。
 >
 > **阅读约定**：
