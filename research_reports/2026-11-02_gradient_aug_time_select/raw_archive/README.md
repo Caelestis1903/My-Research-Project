@@ -21,3 +21,17 @@ tar -xzf /tmp/gats02_failed_0005.tar.gz
 `failed_0005`包含首次Stage0、基础开发attempt和外层日志：20条科学轨迹完成，但协调器在历史接口处退出，未统一test，RAM模型丢失。首个wrapper错误文件是当时状态消息的转录，原始stderr曾被覆盖，不能作为原始traceback；最终KeyError的原始stderr保留。恢复attempt的归档与收据另列，勿将两次执行当作更多独立seed。
 
 `failed_recovery_0315`包含第二次执行及其Stage0/外层日志，共248文件，压缩包12410947字节，SHA-256为`0fd2fb527a530c8a08dbcc64a48da5186f1fb7e19315d5b62086445ba85bb51f`。它在B2的KR/2022 replay发生native -11退出，随后协调器退出；11条完整科学job与1条部分失败均未统一test。部分成本下界及原生诊断另见报告目录。恢复方式同上：校验对应SHA256SUMS，将同名前缀part按顺序拼接后从仓库根目录解压。R3必要CPU回归需要两个失败attempt均已恢复。
+
+`completed_0440`是已正常退出的R3完整执行，包含Stage0、31条科学轨迹、全部primary/replay、统一测试、冻结/完成/释放与成本收据及外层日志，共927文件，压缩包248044460字节，SHA-256为`918b7219366dd427f0673c8115d23cd9229d8415fffb2098c39bcd6725c503f7`。全部tar payload已逐文件读回核验。恢复命令：
+
+```bash
+cd research_reports/2026-11-02_gradient_aug_time_select/raw_archive
+sha256sum -c completed_0440.SHA256SUMS
+cat completed_0440.tar.gz.part* > /tmp/gats02_completed_0440.tar.gz
+sha256sum /tmp/gats02_completed_0440.tar.gz
+# 应为918b7219366dd427f0673c8115d23cd9229d8415fffb2098c39bcd6725c503f7
+cd ../../..
+tar -xzf /tmp/gats02_completed_0440.tar.gz
+```
+
+重现最终表图需恢复此归档；R3全部物理成本也引用两个失败attempt，故完整复现成本来源/CPU恢复回归还需恢复两个旧归档。三个归档共1800个文件，7个普通Git分片；模型训练状态未保存。

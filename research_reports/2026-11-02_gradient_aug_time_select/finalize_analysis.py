@@ -6,6 +6,7 @@ energy measurement scope, reviewed in DIAGNOSTIC_ACCOUNTING_REVIEW.md.
 """
 from pathlib import Path
 import argparse
+import ast
 import json
 import shutil
 import sys
@@ -36,7 +37,8 @@ def main():
         shutil.copyfile(RUN / name, tables / name)
     for path in RUN.glob('*.json'):
         if any(word in path.stem for word in ('decision', 'frozen', 'completion', 'release',
-                                             'historical', 'analysis_receipt', 'throughput')):
+                                             'historical', 'analysis_receipt', 'throughput',
+                                             'cross_attempt_identity', 'recovery_execution_receipt')):
             shutil.copyfile(path, decisions / path.name)
 
     # Arm summaries use seeds, never rows/epochs/cells, as repetition units.
@@ -160,7 +162,10 @@ def main():
                 actual_perturbation_rms=float(np.sqrt(energy.sum() / (n * fields * 16))),
                 energy_scope='pre_lambda_embedding_perturbation'))
             if row.trial.startswith('R1'):
-                source = Path(str(root).replace('/R1/', '/B1/')) / 'primary' / 'mask_stats.csv'
+                reference = raw[(raw.dataset == row.dataset) & (raw.seed == row.seed) &
+                                (raw.trial == 'B1')]
+                assert len(reference) == 1
+                source = Path(reference.iloc[0].output_dir) / 'primary' / 'mask_stats.csv'
                 ref = pd.read_csv(source)
                 assert list(mask.global_step) == list(ref.global_step)
                 rc = np.stack(ref['counts'].map(json.loads))
@@ -189,8 +194,8 @@ def main():
         complete_passes=int(physical.complete_passes.sum()),
         partial_passes=int(physical.partial_passes.sum()),
         physical_totals_scope='known totals or lower bounds; trace counters count committed records',
-        unavailable_partial_components=sorted(set().union(*physical.unavailable_fields.map(json.loads))),
-        lower_bound_fields=sorted(set().union(*physical.lower_bound_fields.map(json.loads))),
+        unavailable_partial_components=sorted(set().union(*physical.unavailable_fields.map(ast.literal_eval))),
+        lower_bound_fields=sorted(set().union(*physical.lower_bound_fields.map(ast.literal_eval))),
         current_successful_worker_peak_allocated_bytes=int(raw.peak_memory_bytes.max()),
         current_successful_worker_peak_reserved_bytes=int(raw.peak_reserved_bytes.max()),
         wall_seconds_from_original_task_start=completion['wall_seconds'],

@@ -7,6 +7,7 @@
 - 工作基线 main：`0bf3e970ca47da44b129e67bb4c84a653ba6a20b`；历史证据：`26-11-01_v3@6f5742c2085c1e49d1767b0a7079bb9f28160eda`。
 - 首次attempt的训练源码 commit：`ac2ec5cc70be7dcb880a7dde1015e4634726fd96`；source manifest SHA-256：`ff5136395313436fa8b96f7bf585245eb0c6e7f2607c1caad40f4d4013bea130`。53 个实际执行源码文件的 Git blob 与该 commit 逐一相同，见 [执行核验](EXECUTION_SOURCE_VERIFICATION.json)。该attempt在开发训练后、统一测试前发生接口错误，不能将其称为完成全部实验；恢复执行身份另行记录。最终发布commit追加报告与分析文件，实际训练身份由各attempt收据分别确定。
 - 第二次执行commit：`3a164c6d6e3847883d1f2ae23c7d8e76ee47b6db`，source manifest：`95c5d28204849e2e815ff33753339a1ef115fdbb2401886923435b6e9511299d`；55/55实际源码blob匹配，见 [恢复执行身份](RECOVERY_EXECUTION_IDENTITY.json) 与 [源码核验](RECOVERY_EXECUTION_SOURCE_VERIFICATION.json)。它保留首次执行commit为父提交。恢复 [设计附录](RECOVERY_DESIGN_ADDENDUM.md)、[实现报告](RECOVERY_IMPLEMENTATION_REPORT.md)、[独立PASS](RECOVERY_REVIEW_REPORT.md) 和真实48端点 [预检](recovery_cpu_preflight_final/historical_preflight.json) 保留完整。该执行在B2原生worker退出后失败，未统一test。
+- R3执行commit：`be0227e510f00864b8c7ec7565def0b5a813be4f`，source manifest：`7f7a0eecb052ca0be1f5f7ffc07433e85d5e2d73bcbfd7e2f6f0ff4efac328a1`，56/56源码blob匹配，见 [身份](R3_EXECUTION_IDENTITY.json) 与 [核验](R3_EXECUTION_SOURCE_VERIFICATION.json)。[R3独立PASS](RECOVERY_REVIEW_REPORT_R3.md)含12项CPU检查；真实预检仍48/48。该修复仅涉及已观测-11的限次独占重试、原生诊断及多来源物理计账，模型与目标函数保持原样。
 - Python 3.13.5、PyTorch 2.9.0+cu126，显式解释器 `/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python`；环境快照和 GPU 状态见 [预检](ENVIRONMENT_PREFLIGHT.json) 与原始运行 environment.json。
 - [来源收据](SOURCE_FETCH_RECEIPT.json)、[依赖核验](DEPENDENCY_SOURCE_VERIFICATION.json)、[数据核验](DATA_VERIFICATION.json)、[历史基线来源](historical_aigm_baseline/SOURCE_RECEIPT.json) 分别记录读取内容与身份。旧 MASK/Polyak 配套原始代码的可获得性边界见 [证据回顾](EVIDENCE_REVIEW.md)，本轮不声称逐行重现它们。
 
@@ -44,6 +45,8 @@ B2逐任务的target clean及aug-clean损失均除以原B，投影后两个任�
 
 R1匹配每字段总数量和能量，不匹配每行覆盖数/能量异质性。B3与A1的“等剂量”专指Σepochλ=25，不等于Σλ²或实际扰动能量相等；R3匹配活跃次数与λ直方图，但只使用一个预先冻结的随机日程。rho随机排列同时改变时序关联、自相关与warm-up位置。
 
+R3实际冻结的关闭epoch为 `[2, 9, 18, 36, 50]`，所有数据集/研究seed共用。E50在该随机日程中关闭，因此共同E50端点也反映末期干预位置差异；不把单一日程比较泛化为对所有随机日程的结论。
+
 ## 门槛、预算与统计
 
 主门为开发两seed Δmacro AUC均正且均值≥.001；探索门≥.0003且均正。LogLoss均值恶化≥.002或worst/最大域任务保护下降达到阈值则阻止晋级。匹配控制须两seed均正、平均ΔAUC≥.0005且无保护损害；近似平局优先更简单控制。原始比较、区间与状态以原始decision JSON为准，不用测试结果改写裁决。
@@ -55,6 +58,8 @@ seed是统计重复单位。开发n=2、确认n=3、合并n=5分开；表格报�
 ## 成本与已知记录缺口
 
 `costs.csv`为最终成功执行中每唯一轨迹的物理成本（包含重算pass），`physical_pass_costs.csv`另分这些成功job的首遍和重算。累计全部来源、失败retry及partial的口径由`physical_cost_ledger.csv`与`execution_cost_continuity.json`给出；不把各来源收据内继承的累计成本再次相加。部分native失败成本只记录可证下界，未提交的工作不可恢复为精确总数。forward、梯度遍历、optimizer更新及shadow更新单独计数；五次梯度遍历不称为五倍FLOPs。每kind验证成本和独立选点均计入。并发worker秒可相加，不能当作队列墙钟。
+
+各臂的实际GPU分配、并发及独占重试条件不同，因此worker时间是本次执行记录，不能直接作为受控的算法耗时倍率。比较计算需求时同时给出forward/梯度遍历/更新次数与实际时间，按launch ledger解释资源差异。
 
 独立复审发现 `mask_fields`/`perturbation_energy` 只在B1/R1 mask通道累积。A1/B2/B3/R2/R3的原始零为**未测量**，最终展示表改为N/A并保留原始列；A0的energy为结构性零，mask_fields为N/A。此缺口不影响指标、R1数量/能量匹配、R2的q或rho重算一致性；不补造实际能量。详见 [诊断记账复审](DIAGNOSTIC_ACCOUNTING_REVIEW.md)。B1/R1比较只取primary，能量为λ缩放前；actual perturbation RMS=√(energy/(target row exposures×fields×16))。日志中的embedding_rms是clean embedding尺度。
 

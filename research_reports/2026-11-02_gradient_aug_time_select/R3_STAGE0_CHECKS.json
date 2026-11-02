@@ -1,0 +1,334 @@
+{
+  "status": "PASS",
+  "datasets": [
+    {
+      "dataset": "movielens",
+      "status": "PASS",
+      "batch_size": 40960,
+      "checks": [
+        {
+          "case": "A0_source_Adam_exact",
+          "status": "PASS",
+          "gradient_calls": 1
+        },
+        {
+          "case": "A1_source_Adam_exact",
+          "status": "PASS",
+          "gradient_calls": 1
+        },
+        {
+          "case": "B1_R1_real_count_energy_and_RNG",
+          "status": "PASS",
+          "source_counts": [
+            3031,
+            3073,
+            3068,
+            3021,
+            3063,
+            2996
+          ],
+          "source_energies": [
+            1.232096662821283e-06,
+            1.2509737580464789e-06,
+            7.857871968596466e-07,
+            1.1117508902021032e-06,
+            1.082300469096778e-06,
+            1.005633570185911e-06
+          ],
+          "control_energies": [
+            1.232096558385353e-06,
+            1.2509738191099453e-06,
+            7.857871527546368e-07,
+            1.1117508569337788e-06,
+            1.0823004775242047e-06,
+            1.005633526645825e-06
+          ]
+        },
+        {
+          "case": "B2_real_task_gradients_U_projection_and_RAM_restore",
+          "status": "PASS",
+          "projection": [
+            {
+              "task": 0,
+              "group": "E",
+              "clean_norm": 0.006435730217130872,
+              "delta_norm": 1.0402112456642903e-06,
+              "retained_norm": 1.0397478385506435e-06,
+              "dot": -1.9980560724391748e-10,
+              "cosine": -0.029841690966409883,
+              "coefficient": -4.824052222997845e-06,
+              "removed_norm": 3.104629866056459e-08,
+              "projected_dot": -4.824052243634807e-18
+            },
+            {
+              "task": 0,
+              "group": "P",
+              "clean_norm": 0.013299333899895611,
+              "delta_norm": 2.081761877650987e-06,
+              "retained_norm": 2.081748286660142e-06,
+              "dot": -1.0022888504641612e-10,
+              "cosine": -0.0036200641961133114,
+              "coefficient": -5.666737786377626e-07,
+              "removed_norm": 7.536383794419139e-09,
+              "projected_dot": -5.666737529589529e-19
+            },
+            {
+              "task": 1,
+              "group": "E",
+              "clean_norm": 0.04615609440302381,
+              "delta_norm": 3.679200024305765e-06,
+              "retained_norm": 3.679200024305765e-06,
+              "dot": 2.3753738049196085e-09,
+              "cosine": 0.013987720736385729,
+              "coefficient": 1.1149974053758822e-06,
+              "removed_norm": 0.0,
+              "projected_dot": 2.3753738049196085e-09
+            },
+            {
+              "task": 1,
+              "group": "P",
+              "clean_norm": 0.6432194190381887,
+              "delta_norm": 1.996642164007407e-05,
+              "retained_norm": 1.9964772529105974e-05,
+              "dot": -1.650575526016979e-07,
+              "cosine": -0.01285215580957156,
+              "coefficient": -3.9894874791235117e-07,
+              "removed_norm": 2.566115818581953e-07,
+              "projected_dot": -3.9892604837717376e-19
+            }
+          ],
+          "gradient_calls": 5,
+          "U_delta_exactly_zero": true,
+          "full_next_step_equal": true
+        },
+        {
+          "case": "B1_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "B2_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "B3_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "three_independent_shadows_nonfeedback_and_lambda_budget",
+          "status": "PASS"
+        }
+      ],
+      "actual_optimizer_updates": 13,
+      "peak_memory_bytes": 2079853568,
+      "peak_reserved_bytes": 2298478592,
+      "test_evaluated": false
+    },
+    {
+      "dataset": "kuairand",
+      "status": "PASS",
+      "batch_size": 40960,
+      "checks": [
+        {
+          "case": "A0_source_Adam_exact",
+          "status": "PASS",
+          "gradient_calls": 1
+        },
+        {
+          "case": "A1_source_Adam_exact",
+          "status": "PASS",
+          "gradient_calls": 1
+        },
+        {
+          "case": "B1_R1_real_count_energy_and_RNG",
+          "status": "PASS",
+          "source_counts": [
+            944,
+            924,
+            940,
+            937,
+            931,
+            950,
+            963,
+            923,
+            969,
+            953,
+            961,
+            939,
+            939,
+            954,
+            945,
+            944,
+            956,
+            926,
+            952,
+            941,
+            914,
+            952,
+            924,
+            947,
+            936,
+            955,
+            908,
+            938,
+            928,
+            914,
+            967,
+            946,
+            962
+          ],
+          "source_energies": [
+            1.1832364038870785e-06,
+            2.1080831027932697e-06,
+            1.3305604003460815e-06,
+            1.652965491327447e-06,
+            1.7149212792541705e-06,
+            1.5498214708889125e-06,
+            1.287427796434501e-06,
+            1.9389878987257047e-06,
+            1.4472461141929919e-06,
+            1.4180053032248848e-06,
+            1.5385198385693463e-06,
+            1.290536490313947e-06,
+            1.512767119658442e-06,
+            1.894847926247388e-06,
+            1.519461904747987e-06,
+            1.5319613704210666e-06,
+            1.5630847309542472e-06,
+            1.1800565132631825e-06,
+            1.8071466640773063e-06,
+            1.3012724483306937e-06,
+            1.5324636023279117e-06,
+            2.1156827848818233e-06,
+            2.2320012385081533e-06,
+            1.4022837541504515e-06,
+            1.600710858374535e-06,
+            1.7398643888852981e-06,
+            7.491735248845853e-07,
+            1.5850054555751073e-06,
+            1.5960792464473754e-06,
+            1.855017673352545e-06,
+            1.829531204099578e-06,
+            1.4650839006221656e-06,
+            1.4415907393986023e-06
+          ],
+          "control_energies": [
+            1.1832363333404394e-06,
+            2.1080831706506296e-06,
+            1.3305604348483891e-06,
+            1.6529655173098835e-06,
+            1.714921299080251e-06,
+            1.5498212885323446e-06,
+            1.2874278141530326e-06,
+            1.9389879674673276e-06,
+            1.447246123806757e-06,
+            1.4180052806437242e-06,
+            1.5385198908593949e-06,
+            1.2905364235547529e-06,
+            1.5127670675214837e-06,
+            1.8948478400109188e-06,
+            1.5194619648364113e-06,
+            1.5319614520681635e-06,
+            1.5630848228874497e-06,
+            1.1800564819125928e-06,
+            1.8071468713768944e-06,
+            1.3012724935709315e-06,
+            1.5324634465883458e-06,
+            2.1156827389296913e-06,
+            2.232001094273668e-06,
+            1.4022837731846227e-06,
+            1.600710878473473e-06,
+            1.7398644741935514e-06,
+            7.491735568525383e-07,
+            1.5850055214353011e-06,
+            1.596079273187517e-06,
+            1.8550177830289463e-06,
+            1.82953119645123e-06,
+            1.465083894529799e-06,
+            1.441590654844306e-06
+          ]
+        },
+        {
+          "case": "B2_real_task_gradients_U_projection_and_RAM_restore",
+          "status": "PASS",
+          "projection": [
+            {
+              "task": 0,
+              "group": "E",
+              "clean_norm": 0.04156950373721676,
+              "delta_norm": 1.4775683210767086e-05,
+              "retained_norm": 1.4775683210767086e-05,
+              "dot": 6.249311793097156e-08,
+              "cosine": 0.10174406262687241,
+              "coefficient": 3.6164504011151236e-05,
+              "removed_norm": 0.0,
+              "projected_dot": 6.249311793097156e-08
+            },
+            {
+              "task": 0,
+              "group": "P",
+              "clean_norm": 0.21617066932333626,
+              "delta_norm": 6.683056027026514e-05,
+              "retained_norm": 6.683056027026514e-05,
+              "dot": 2.0172332890198504e-08,
+              "cosine": 0.0013963176479654211,
+              "coefficient": 4.3168065990739386e-07,
+              "removed_norm": 0.0,
+              "projected_dot": 2.0172332890198504e-08
+            },
+            {
+              "task": 1,
+              "group": "E",
+              "clean_norm": 0.002780599218287182,
+              "delta_norm": 7.626307070559001e-08,
+              "retained_norm": 7.362611818263309e-08,
+              "dot": -5.5280849829699385e-11,
+              "cosine": -0.2594650295620076,
+              "coefficient": -7.149865332728795e-06,
+              "removed_norm": 1.988090995504431e-08,
+              "projected_dot": -7.149865317474855e-18
+            },
+            {
+              "task": 1,
+              "group": "P",
+              "clean_norm": 0.0034693200318155555,
+              "delta_norm": 9.809990491314748e-07,
+              "retained_norm": 9.790428295202575e-07,
+              "dot": -2.1482548892088669e-10,
+              "cosine": -0.06310231196651225,
+              "coefficient": -1.7848307735572416e-05,
+              "removed_norm": 6.192149156102993e-08,
+              "projected_dot": -1.7848307687628193e-17
+            }
+          ],
+          "gradient_calls": 5,
+          "U_delta_exactly_zero": true,
+          "full_next_step_equal": true
+        },
+        {
+          "case": "B1_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "B2_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "B3_disabled_exact_A1",
+          "status": "PASS"
+        },
+        {
+          "case": "three_independent_shadows_nonfeedback_and_lambda_budget",
+          "status": "PASS"
+        }
+      ],
+      "actual_optimizer_updates": 13,
+      "peak_memory_bytes": 2220430336,
+      "peak_reserved_bytes": 2589982720,
+      "test_evaluated": false
+    }
+  ],
+  "test_evaluated": false,
+  "storage": "RAM_ONLY",
+  "source_manifest_hash": "7f7a0eecb052ca0be1f5f7ffc07433e85d5e2d73bcbfd7e2f6f0ff4efac328a1",
+  "execution_commit": "be0227e510f00864b8c7ec7565def0b5a813be4f"
+}
