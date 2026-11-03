@@ -62,10 +62,54 @@ def tables(attempt, output):
     return frame, stats
 
 
+def supplement(attempt, baseline, output):
+    new = collect(attempt)
+    assert set(new.arm) == {'P01', 'P10'} and len(new) == 96
+    old = pd.read_csv(baseline)
+    old = old[(old.arm == 'A0') | (old.arm.isin(['P00', 'P11']) & (old.lambda_pair == .05))].copy()
+    assert len(old) == 144
+    new['origin'] = 'new_supplement'; old['origin'] = 'frozen_v3_reuse'
+    frame = pd.concat([old, new], ignore_index=True)
+    identity = ['dataset', 'seed', 'role', 'checkpoint', 'estimator']
+    assert not frame.duplicated(identity + ['arm']).any()
+    assert set(frame.seed) == {2022, 2024}
+    output.mkdir(parents=True, exist_ok=True)
+    frame.to_csv(output/'endpoints.csv', index=False)
+    metrics = [c for c in frame if c.endswith(('_auc', '_logloss'))]
+    contrasts = {
+        'ECCM_static': {'P01': 1, 'P00': -1},
+        'ECCM_dynamic': {'P11': 1, 'P10': -1},
+        'dynamic_Adam': {'P10': 1, 'P00': -1},
+        'dynamic_ECCM': {'P11': 1, 'P01': -1},
+        'interaction': {'P11': 1, 'P10': -1, 'P01': -1, 'P00': 1},
+        **{arm+'_vs_A0': {arm: 1, 'A0': -1} for arm in ('P00', 'P01', 'P10', 'P11')},
+    }
+    rows = []
+    for keys, data in frame.groupby(identity):
+        values = data.set_index('arm')
+        assert set(values.index) == {'A0', 'P00', 'P01', 'P10', 'P11'}
+        for contrast, coefficients in contrasts.items():
+            for metric in metrics:
+                rows.append(dict(zip(identity, keys), contrast=contrast, metric=metric,
+                    difference=sum(weight*values.loc[arm, metric] for arm, weight in coefficients.items())))
+    effects = pd.DataFrame(rows)
+    effects.to_csv(output/'effects_by_seed.csv', index=False)
+    group = ['dataset', 'role', 'checkpoint', 'estimator', 'contrast', 'metric']
+    stats = effects.groupby(group).difference.agg(n='count', mean='mean', sd='std', positive=lambda x: (x > 0).sum(), negative=lambda x: (x < 0).sum()).reset_index()
+    assert (stats.n == 2).all()
+    half = t.ppf(.975, stats.n-1)*stats.sd/np.sqrt(stats.n)
+    stats['ci95_low'] = stats['mean']-half; stats['ci95_high'] = stats['mean']+half
+    stats.to_csv(output/'effects_summary.csv', index=False)
+    long = frame.melt(id_vars=identity+['arm'], value_vars=metrics, var_name='metric', value_name='value')
+    long.groupby(['dataset','role','checkpoint','estimator','arm','metric']).value.agg(['count','mean','std']).reset_index().to_csv(output/'summary.csv', index=False)
+    return frame, stats
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--attempt', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--baseline', type=Path)
     args = parser.parse_args()
-    frame, stats = tables(args.attempt, args.output)
+    frame, stats = supplement(args.attempt, args.baseline, args.output) if args.baseline else tables(args.attempt, args.output)
     print(json.dumps(dict(endpoints=len(frame), paired_comparisons=len(stats))))

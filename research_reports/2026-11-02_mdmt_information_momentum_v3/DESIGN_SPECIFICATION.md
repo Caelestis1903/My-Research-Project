@@ -117,3 +117,52 @@ runner只按已审查配置执行并记录原始结果；协调者根据validati
 ## 10. 设计时就绪状态
 
 GPU和PyTorch可见性由协调者已检查；两CSV存在，固定源40文件已核对；数据manifest和真实S0仍需运行。没有已知数据缺失阻塞。实现开始前本规范可冻结；正式训练前必须完成独立review和S0。基线E10状态缺失若无其他有效工件须重放，已明确成本与路径；不需要新增研究阶段。
+
+## 11. 2026-11-03 独立补充机制实验执行规范
+
+本节依据用户 `buchong.md`，仅补齐原2×2中的P01/P10。原S1停止决定、原S2/S3的NOT_TRIGGERED记录和历史结论保持不变。本次是停止后的独立补充研究，由用户明确授权固定lambda=.05；既有test已经暴露，报告须说明这一时间顺序。原八臂矩阵、搜索、PCV/PCOLL和S3均不进入本次队列。
+
+### 11.1 唯一新增矩阵与代码复用
+
+新增且仅新增：`{movielens,kuairand} × {P01,P10} × {2022,2024} × lambda_pair=.05`，共8条，每条50epoch。P01=静态条件采样+ECCM；P10=动态条件采样+普通Adam。原数据、模型、loss、EMA、初始种子、loader/pair随机流、batch40960及其他超参全部不变。
+
+已检查现有 `protocol.py::config` 和 `run.py::job/schedule/freeze/final_evaluate`：P01/P10已实现；schedule允许S2显式dispatch且不要求同attempt先运行S1，因此无需新增算法或改变原runner。新建独立RAM attempt目录（例如 `artifacts/conditional_information_momentum_20261102_v3/supplement_20261103`），使用原guardian和原入口；不复用已释放模型状态的attempt1，不向旧dispatch添加任务。
+
+最小执行配置为 `stage='S2'`、`approved_by='orchestrator'`，jobs逐一调用 `job(dataset,arm,seed,'S2',lambda_pair=.05)`。S2这里只是既有执行接口的合法阶段标签；补充配置记录 `study_role='independent_post_stop_supplement'`、用户任务来源和原attempt标识，报告中不得把它写为原S1晋级。coder责任仅生成/核对这8条dispatch及必要分析适配；没有实际缺口时不修改训练代码。
+
+### 11.2 最小检查与旧证据复用
+
+沿用原独立审查、14项CPU测试及真实S0的有效证据。正式启动前核对当前 `source_manifest()` 与原 `INDEPENDENT_REVIEW_RECEIPT.json`、`IMPLEMENTATION_SOURCE_MANIFEST.json` 一致；核对P01/P10仍按上述模式映射、8个job身份无重复、seed/epoch/lambda固定。将原PASS的 `STAGE0_REPORT.json` 复制进新attempt作为调度需要的已完成证据，补充配置记录其原路径、hash和reuse理由；不得改写时间或称本次新跑了S0。原峰值作为现有调度准入值，保持现有逐卡显存/功耗和RAM规则。
+
+coder完成执行配置后仍由另一个reviewer核查本补充规范、dispatch、实际代码身份与coder实施说明，给出PASS后运行。训练代码未改不重新跑整个S0，不重新证明ECCM/CV代数；如有必须修复的具体接线变化，只重做受影响检查并重新审查。
+
+A0、P00 .05、P11 .05直接复用原attempt1已冻结的数值记录，禁止重训/重放。复用前按dataset/seed/arm/lambda关联旧job、CONFIGURATION_FROZEN、SELECTION_FROZEN、result/test endpoint，核对source、data raw/arrays/row IDs/encoder/scaler、初始化和loader协议、50epoch、EMA参数及selected规则一致。新worker沿用 `load_dataset` 自动核对原固定manifest；新旧manifest比较身份字段，attempt/path不同不构成数据不一致。若缺少某条旧指标，先从原raw记录提取，不生成替代基线或凭报告四舍五入值计算。
+
+### 11.3 冻结、测试与内存生命周期
+
+启动前冻结8个配置及其source hash；所有新轨迹每epoch完整validation，online/EMA各自macro六格AUC严格提高才更新，保留最早平局，排除E0；selected/E10/E50状态只驻RAM。8条全部50epoch完成后，由协调者冻结所有新选点与状态hash，再调用原freeze/evaluate入口，得到8×2估计器×3端点=48个新test逻辑端点。阶段decision写明 `training_complete=true`、只结束本补充、`S3=NOT_AUTHORIZED`、无搜索；不重新调用原S1门决定是否跑这8条。
+
+本次新test不得提前运行或参与配置/选点，旧test数值只用于冻结后的对照分析。新48端点全部落数值记录后释放RAM并关闭本次guardian。A0/P00/P11不需要也不声称有本次前向复核。物理新增=8条；复用逻辑轨迹=两数据×三方法×两seed=12条；2×2机制分析四方法共16条逻辑轨迹，另有4条A0参照。不得把旧轨迹计为本次新增。
+
+### 11.4 冻结统计口径与问题
+
+主口径fixed_ema selected；对每数据、每seed、每指标分别计算：
+
+- 静态下ECCM简单效应：`P01−P00`。
+- 动态下ECCM简单效应：`P11−P10`。
+- 普通Adam下动态选择简单效应：`P10−P00`。
+- ECCM下动态选择简单效应：`P11−P01`。
+- 交互：`I=P11−P10−P01+P00`，先在同seed内计算，再跨seed汇总。
+- 各PAIR方法相对强基线：`Pxy−A0`。
+
+AUC正差为改善，LogLoss负差为改善；LogLoss交互正值表示组合比可加预期更不利，不与AUC符号混称。可附ECCM和动态选择各自两简单效应的均值作为边际主效应，但不能替代上述四个简单效应。对全部对比提供逐seed原值/差、均值、样本SD、n=2的95%配对t区间（df=1），方向计数；不能将六格、epoch、不同lambda或重复endpoint视为独立样本。
+
+同时保留validation与test、online/EMA、selected/E10/E50的六格AUC/LogLoss、macro、traffic/sample-weighted、pooled、worst和checkpoint身份。selected交互包含方法各自验证选点策略的作用；共同E10/E50辅助区分阶段与选点。域大小沿用原train counts，难度分别用A0性能描述；检查是否小域收益/大域损失及宏/traffic反号。
+
+报告回答静态ECCM是否有独立增量、动态选择是否有独立增量、交互正负/稳定性、值得保留的组件；每项结合A0、LL、六格/traffic保护与两个seed一致性，标STRONG/MEDIUM/WEAK。正交互本身不等于组合胜A0，两个seed正值不自动触发新阶段。原晋级阈值可作为量级参照，不能事后修改原停止决定或新增S3。未解决的条件历史是否胜PCOLL、CV是否足够仍如实保留，不为解释它们补跑。
+
+### 11.5 同报告、同分支交付
+
+仅在既有 `research_reports/2026-11-02_mdmt_information_momentum_v3/REPORT.md` 末尾追加独立章节“2026-11-03：P01/P10补充机制实验”，结构为补充结论、矩阵与继承身份、四简单效应/交互/A0证据、域任务与阶段差异、成本、未解决问题和下一步决定。原正文的“S2未执行”等历史叙述保持其当时语境，新增章节明确本补充发生在其后；可在原报告开头加一行补充章节导航。
+
+原表格/原raw不覆盖；新数值CSV/JSON、冻结记录和运行日志放既有报告目录下明确的supplement子目录或带supplement前缀文件。不新建另一篇REPORT或补充报告Markdown。coder/reviewer/runner的实施与审查说明追加到各自既有记录，保持此前证据。最终代码与原报告更新推送原 `26-11-02_v3` 分支，不创建新研究分支。

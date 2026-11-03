@@ -138,3 +138,109 @@ seed为统计单位。AUC/LogLoss均来自未扰动真实测试输入；选点�
 | movielens | P11 | 0.05 | 2024 | 1000 | 491.43 | 1.013 | 1.258 |
 | movielens | P11 | 0.2 | 2022 | 1000 | 389.457 | 1.013 | 1.258 |
 | movielens | P11 | 0.2 | 2024 | 1000 | 235.878 | 1.013 | 1.258 |
+
+## 2026-11-03 固定λ=.05补充：新增8条、复用12条
+
+以下为新旧匹配的20条逻辑轨迹，原轨迹不计为新增。完整240行验证/test端点及全部六格、阶段和状态hash见[supplement/endpoints.csv](supplement/endpoints.csv)。
+
+| dataset | arm | seed | epoch | macro_auc | macro_logloss |
+| --- | --- | --- | --- | --- | --- |
+| kuairand | A0 | 2022 | 33 | 0.6734721 | 0.4362044 |
+| kuairand | A0 | 2024 | 50 | 0.6848714 | 0.4345008 |
+| kuairand | P00 | 2022 | 34 | 0.6764533 | 0.4350595 |
+| kuairand | P00 | 2024 | 37 | 0.6704084 | 0.4378288 |
+| kuairand | P01 | 2022 | 42 | 0.6898648 | 0.431583 |
+| kuairand | P01 | 2024 | 34 | 0.6811945 | 0.4373841 |
+| kuairand | P10 | 2022 | 48 | 0.6871815 | 0.428641 |
+| kuairand | P10 | 2024 | 30 | 0.6744648 | 0.4361743 |
+| kuairand | P11 | 2022 | 35 | 0.6828313 | 0.4336474 |
+| kuairand | P11 | 2024 | 28 | 0.6783196 | 0.4365394 |
+| movielens | A0 | 2022 | 26 | 0.7795384 | 0.4949422 |
+| movielens | A0 | 2024 | 20 | 0.7790776 | 0.49505 |
+| movielens | P00 | 2022 | 23 | 0.7782234 | 0.4923124 |
+| movielens | P00 | 2024 | 21 | 0.7780118 | 0.4929313 |
+| movielens | P01 | 2022 | 20 | 0.7782691 | 0.4922506 |
+| movielens | P01 | 2024 | 23 | 0.778197 | 0.4933864 |
+| movielens | P10 | 2022 | 22 | 0.7786838 | 0.4915848 |
+| movielens | P10 | 2024 | 22 | 0.7786462 | 0.4949229 |
+| movielens | P11 | 2022 | 23 | 0.7789351 | 0.4919056 |
+| movielens | P11 | 2024 | 22 | 0.7778577 | 0.4946842 |
+
+### 逐seed组件效应与交互（EMA selected test）
+
+| dataset | seed | contrast | metric | difference |
+| --- | --- | --- | --- | --- |
+| kuairand | 2022 | ECCM_static | macro_auc | 0.0134115 |
+| kuairand | 2022 | ECCM_static | macro_logloss | -0.0034765 |
+| kuairand | 2022 | ECCM_dynamic | macro_auc | -0.0043502 |
+| kuairand | 2022 | ECCM_dynamic | macro_logloss | 0.0050064 |
+| kuairand | 2022 | dynamic_Adam | macro_auc | 0.0107282 |
+| kuairand | 2022 | dynamic_Adam | macro_logloss | -0.0064185 |
+| kuairand | 2022 | dynamic_ECCM | macro_auc | -0.0070335 |
+| kuairand | 2022 | dynamic_ECCM | macro_logloss | 0.0020644 |
+| kuairand | 2022 | interaction | macro_auc | -0.0177617 |
+| kuairand | 2022 | interaction | macro_logloss | 0.0084829 |
+| kuairand | 2022 | P00_vs_A0 | macro_auc | 0.0029812 |
+| kuairand | 2022 | P00_vs_A0 | macro_logloss | -0.0011449 |
+| kuairand | 2022 | P01_vs_A0 | macro_auc | 0.0163927 |
+| kuairand | 2022 | P01_vs_A0 | macro_logloss | -0.0046214 |
+| kuairand | 2022 | P10_vs_A0 | macro_auc | 0.0137094 |
+| kuairand | 2022 | P10_vs_A0 | macro_logloss | -0.0075635 |
+| kuairand | 2022 | P11_vs_A0 | macro_auc | 0.0093592 |
+| kuairand | 2022 | P11_vs_A0 | macro_logloss | -0.0025571 |
+| kuairand | 2024 | ECCM_static | macro_auc | 0.0107862 |
+| kuairand | 2024 | ECCM_static | macro_logloss | -0.0004448 |
+| kuairand | 2024 | ECCM_dynamic | macro_auc | 0.0038548 |
+| kuairand | 2024 | ECCM_dynamic | macro_logloss | 0.0003651 |
+| kuairand | 2024 | dynamic_Adam | macro_auc | 0.0040565 |
+| kuairand | 2024 | dynamic_Adam | macro_logloss | -0.0016545 |
+| kuairand | 2024 | dynamic_ECCM | macro_auc | -0.0028749 |
+| kuairand | 2024 | dynamic_ECCM | macro_logloss | -0.0008446 |
+| kuairand | 2024 | interaction | macro_auc | -0.0069314 |
+| kuairand | 2024 | interaction | macro_logloss | 0.0008099 |
+| kuairand | 2024 | P00_vs_A0 | macro_auc | -0.0144631 |
+| kuairand | 2024 | P00_vs_A0 | macro_logloss | 0.003328 |
+| kuairand | 2024 | P01_vs_A0 | macro_auc | -0.0036769 |
+| kuairand | 2024 | P01_vs_A0 | macro_logloss | 0.0028832 |
+| kuairand | 2024 | P10_vs_A0 | macro_auc | -0.0104066 |
+| kuairand | 2024 | P10_vs_A0 | macro_logloss | 0.0016735 |
+| kuairand | 2024 | P11_vs_A0 | macro_auc | -0.0065518 |
+| kuairand | 2024 | P11_vs_A0 | macro_logloss | 0.0020386 |
+| movielens | 2022 | ECCM_static | macro_auc | 4.57e-05 |
+| movielens | 2022 | ECCM_static | macro_logloss | -6.18e-05 |
+| movielens | 2022 | ECCM_dynamic | macro_auc | 0.0002513 |
+| movielens | 2022 | ECCM_dynamic | macro_logloss | 0.0003208 |
+| movielens | 2022 | dynamic_Adam | macro_auc | 0.0004604 |
+| movielens | 2022 | dynamic_Adam | macro_logloss | -0.0007275 |
+| movielens | 2022 | dynamic_ECCM | macro_auc | 0.000666 |
+| movielens | 2022 | dynamic_ECCM | macro_logloss | -0.000345 |
+| movielens | 2022 | interaction | macro_auc | 0.0002056 |
+| movielens | 2022 | interaction | macro_logloss | 0.0003826 |
+| movielens | 2022 | P00_vs_A0 | macro_auc | -0.001315 |
+| movielens | 2022 | P00_vs_A0 | macro_logloss | -0.0026299 |
+| movielens | 2022 | P01_vs_A0 | macro_auc | -0.0012693 |
+| movielens | 2022 | P01_vs_A0 | macro_logloss | -0.0026917 |
+| movielens | 2022 | P10_vs_A0 | macro_auc | -0.0008546 |
+| movielens | 2022 | P10_vs_A0 | macro_logloss | -0.0033574 |
+| movielens | 2022 | P11_vs_A0 | macro_auc | -0.0006033 |
+| movielens | 2022 | P11_vs_A0 | macro_logloss | -0.0030366 |
+| movielens | 2024 | ECCM_static | macro_auc | 0.0001852 |
+| movielens | 2024 | ECCM_static | macro_logloss | 0.0004551 |
+| movielens | 2024 | ECCM_dynamic | macro_auc | -0.0007885 |
+| movielens | 2024 | ECCM_dynamic | macro_logloss | -0.0002387 |
+| movielens | 2024 | dynamic_Adam | macro_auc | 0.0006344 |
+| movielens | 2024 | dynamic_Adam | macro_logloss | 0.0019916 |
+| movielens | 2024 | dynamic_ECCM | macro_auc | -0.0003393 |
+| movielens | 2024 | dynamic_ECCM | macro_logloss | 0.0012978 |
+| movielens | 2024 | interaction | macro_auc | -0.0009737 |
+| movielens | 2024 | interaction | macro_logloss | -0.0006938 |
+| movielens | 2024 | P00_vs_A0 | macro_auc | -0.0010658 |
+| movielens | 2024 | P00_vs_A0 | macro_logloss | -0.0021187 |
+| movielens | 2024 | P01_vs_A0 | macro_auc | -0.0008806 |
+| movielens | 2024 | P01_vs_A0 | macro_logloss | -0.0016636 |
+| movielens | 2024 | P10_vs_A0 | macro_auc | -0.0004314 |
+| movielens | 2024 | P10_vs_A0 | macro_logloss | -0.0001271 |
+| movielens | 2024 | P11_vs_A0 | macro_auc | -0.0012199 |
+| movielens | 2024 | P11_vs_A0 | macro_logloss | -0.0003658 |
+
+全部指标的均值、样本SD、方向计数、95%配对t区间见[supplement/effects_summary.csv](supplement/effects_summary.csv)，全部单seed差见[effects_by_seed.csv](supplement/effects_by_seed.csv)。

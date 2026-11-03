@@ -1,0 +1,1461 @@
+{
+  "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+  "time": 1793693157.866266,
+  "decision": {
+    "approved_by": "orchestrator",
+    "training_complete": true,
+    "study_role": "independent_post_stop_supplement",
+    "training_runs": 8,
+    "epochs": 400,
+    "optimizer_steps": 13800,
+    "S3": "NOT_AUTHORIZED",
+    "search": false,
+    "original_v3_stop_decision": "UNCHANGED",
+    "reason": "All eight fixed supplementary trajectories completed; freeze all validation-selected and E10/E50 endpoints before test.",
+    "test_accessed": false
+  },
+  "endpoints": [
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 25,
+      "model_hash": "53e135f276d7cc0bbc7353c7563bb9b89a0566888e5513ea526cbc18d1c2d01e"
+    },
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "212778ec5db3aea37fefb04f681963a2440918853c546689e70249fb1b0f03b2"
+    },
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "8069993a4170443320968db059e374f29aa78a70d8a982cb0d88902b81445130"
+    },
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 22,
+      "model_hash": "a266c9126827b5a9c7c5c41a2b0121e632fc9fbd77d6eb2ccb7591a9ae1eec21"
+    },
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "ab5edae57edddb73b7ef3cc133133edc0102b14d04d0ef5b42828098cc0c8dc5"
+    },
+    {
+      "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "33ee74fef90de2afb8cc9c84cfc863edf5cd5e4b16a1bdc2b602228b893ac83a"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "42365e62aeeed40e90d1790be6ec563d288e0632cefbc362b104a968fe9041ab"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 22,
+      "model_hash": "775266b0748090564c30dbdfa56b3156707803b1b31227a4951be4cc90cf5056"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "c30932d06156ddea4524b63e97b2ce5e19b474f78efd664d47bd5f06bd9b54f6"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "7227b8e818327bbcba2a84712c4a248aa6cc0afcc3fee4e8080ef157232b46c1"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 22,
+      "model_hash": "18f73b9ba65f8484056f80b2314f3567285e79efb7dd357b79118188f3d83c5a"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "6f0403ac568ccac6c37fc8fa1032b071d8469f2bf36f2cd5716f06f8de2c8b98"
+    },
+    {
+      "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "movielens",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "4aad56230a0da6bbc7577c7e3698bb62909403e4a6586bade2a3167eede5e574"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "bd67919140da1a404809a39648275d904bf28f9fb53dd3e130e78e38ad38efc6"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 17,
+      "model_hash": "7db71272e151670d87017d61f14cdf098cd2c22f70fb344493c79f45550b9754"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "ed525c27b97ce6111926b3961095a70a465ba6c05550c9c1304e0264c574248c"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "81ad2269a4835dd3e6254b93f62ac4e1caaa1ed4d312a8368c93cd7a3dbcdee4"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 20,
+      "model_hash": "77c25088fe6c06035923844b33e0f4be28f7b0e44909eef3d70ada9d72b7e4f2"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "e7d615bdab69fb79d0ee332c07a2a6a550901dd181b01716c45e07b2e869e709"
+    },
+    {
+      "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "5e019f47edcba2f8bd21b89eef477fba9285f8e21b2a824d43020f9ea3bb8684"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "141c489e1c30eea9d25b42d0e744897e17bec6f472984f4355f8d839d24dfe10"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 20,
+      "model_hash": "9de59780eb7ca6bb49df64dd053601bc5073526f456858c9419565c697da65b5"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "39b4ac4039bbf5ba9dde0a7623d45f1a24730dbede1e98d50560da246d2b1866"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "0c32822087556e49ef17fe16520d24b72119e1fabb92f5094f6aabaa33d0be8e"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 23,
+      "model_hash": "d98264d3e4ee4f531192646c48112f78ce169632f9188487ce8c6c5fe53c24a2"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "278b4d8d1f6773594b5fbd5feaf118f3aa48ef942e7a18475fd5e1aa416dba88"
+    },
+    {
+      "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b",
+      "job": {
+        "dataset": "movielens",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "movielens",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.05,
+          "target_domain": 0,
+          "rho": 0.9828205985452511,
+          "weight_decay": 0.0001,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "7cd51f993582d500229d62b17939b7129060595689f79d57f9b58ba47bef7b7b"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "0b3535aee5cacbe09be177f3557d4dc394c855755e6897b92144b4ceb2078dfb"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 19,
+      "model_hash": "32ac5d322bfe369b8d41ed20754cbc621e1d24565e109803e47c7de96736526a"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "7c3b39b957d7cdbfb07772e8c8dbd9eca3381fa8bae5d71a5b47cc0b8676c5f1"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "ec653271371c07bb5e61276f6d07c381196008b84f940b11a3a7b6c6bb3f5270"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 30,
+      "model_hash": "538cc7ec5a2b0cbb58399b139931c26eb5a2a4c227548d9803171154cc54ef05"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "97b01feebad64f093d8729c8bb1743fd99843fc5fe1d656ca28de05d51357fc4"
+    },
+    {
+      "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "83424e66f1ff138f4412eb2e13a50205caf592c58da8b0e46c9083c4d1f4137c"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "1aca2fc712f498f3ac30fe838fa2fcaa09c797cc2e84a236fd4c6b8bebbf6f0c"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 26,
+      "model_hash": "c7aeb2f6757de05947de24dbd428409eae14de67424c8b1cc434cfe7fdb92fca"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "eb1bad2498b73ea521081c9524d27786ce2137984060a7c8351310f4e492d989"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "60d1025a17958b02669c5aa6ba99f6321bd577de66f45021f9f344abc82da68b"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 34,
+      "model_hash": "4cf6fc48525bdb43a18ecb7d371d12796192bd086fdd236bb33227e9651e90c0"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "e590ca73d6e96ccfcc5f4b05280d5ac1ee109ae64e9b1c10307f06ef4699c147"
+    },
+    {
+      "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2024,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "a573410730ddfaa43e886a0c70ff7fe8bd8ad83ec73d0a8f5c21f7cf6ec19d08"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "1a82a69b81bc30f433872d0d4ccf579f2192c38219044b99367331639ad46f7d"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 48,
+      "model_hash": "e8b36a78df14d99351912f62701f55ca70b24e2701b68f6bbcb646f404ff9455"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "ef21b593190c48e22b17eb9e675fafba76c8b5ebb06eda401255fb2462362e2f"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "fd5fea2b5e5e36b841bf8a534ba67d71fc39389636b6463770875422217c2b22"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 48,
+      "model_hash": "491a774e20f8e61f708e712e4968033884d345eca5370a18bbf2c3c80fa8b8f3"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "26ff02055c709c6309805ee06a55ffc79bb606121a6f17b2e4be78734afcbab0"
+    },
+    {
+      "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P10",
+          "dataset": "kuairand",
+          "mode": "adam",
+          "dynamic": true,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "ee95ca547ecc38ade0b9cb8a758e7fe89f9d7274f54b92df6966013a5c1fd43d"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "9fa3a8bb5677e23df4170c91bbd1fc9162d17b5dad52c7e99bdbbac10e3c0d62"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "online",
+      "checkpoint": "selected",
+      "epoch": 29,
+      "model_hash": "d8fec708f47adc0361b7095953cee938155ffab3e58168279e9202f71834523e"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "online",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "9dc42dd19058ace1daf4515900be11d880802271f489d4072b012a9177300f36"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "online",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "40edd2d46c7c614c72d1e23e1a415892535e743d852dc18510139ab6308fa788"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "selected",
+      "epoch": 42,
+      "model_hash": "c23a3449f7da96ab8b3945465b0843f0d37108c4aef190c77e30d8412d4e21d6"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E10",
+      "epoch": 10,
+      "model_hash": "b1b1113e2f0786f25ec13e2ec13595a0a8a30a1f165cfb0903bcd9e0ccd3769a"
+    },
+    {
+      "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2022,
+        "stage": "S2",
+        "split_id": "original",
+        "config": {
+          "arm": "P01",
+          "dataset": "kuairand",
+          "mode": "eccm",
+          "dynamic": false,
+          "lambda_pair": 0.05,
+          "lambda_aug": 0.5,
+          "kappa": 0.1,
+          "target_domain": 2,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "lr": 0.01,
+          "epochs": 50,
+          "batch_size": 40960
+        },
+        "source_hash": "5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a",
+        "key": "f4a96b7942bd8597a744da978ea831ee3dedc7ad5ccd8f257013dbb5983a1ba0"
+      },
+      "model_kind": "fixed_ema",
+      "checkpoint": "E50",
+      "epoch": 50,
+      "model_hash": "665b76d568f7a4e1eb0dd554beb2459f4eb77005fb5db8bc38e29028ab8a69a8"
+    }
+  ],
+  "validation_only_selection": true,
+  "test_opened": false
+}

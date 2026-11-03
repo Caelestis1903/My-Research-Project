@@ -24,3 +24,16 @@
 - The final test evaluation completed 144/144 endpoints: 24 trajectories × online/fixed EMA × selected/E10/E50. All endpoint rows have status `COMPLETE`. The interval between the freeze stdout log mtime (23:28:36.932) and final-evaluation stdout log mtime (23:32:23.661 local time) was 227 seconds; it includes command/process startup gaps and is not a measured evaluation-process wall duration. Summed endpoint time was 132.999 seconds (mean 0.924, median 0.714; range 0.348–41.606 seconds). The long endpoint includes first-time MovieLens/KR loading and is retained as recorded.
 - S2/S3 were NOT_TRIGGERED per the signed final decision. The RAM guardian shut down successfully after all states were released.
 - Final evaluation output: `artifacts/conditional_information_momentum_20261102_v3/attempt1/final_evaluation.json`; per-endpoint rows: `test_endpoints/`; logs: `logs/final_evaluate.stdout.log`, `logs/final_evaluate.stderr.log`, `logs/shutdown.stdout.log`.
+
+
+## Supplement 2026-11-03, Stage S2 (running)
+
+- Authorization: reviewer PASS supplement entry bound to unchanged source hash `5adc90554898ce9eefe707de2365ef9b13865402d77b360efaee2f255e91db0a`; orchestrator-signed fixed dispatch. Prior Stage0 reused unchanged; no CPU/S0 rerun.
+- Matrix: 8 trajectories, P01 and P10 × MovieLens/KuaiRand × seeds 2022/2024; lambda 0.05; 50 epochs; batch 40960.
+- Attempt: `artifacts/conditional_information_momentum_20261102_v3/supplement_20261103`; dispatch `S2_DISPATCH.json`.
+- Current progress: see attempt `progress.json`; test not accessed. No test evaluation until a separate signed final decision.
+- Logs: `S2_schedule.stdout.log`, `S2_schedule.stderr.log`; per-run raw metrics/traces in attempt `runs/`.
+
+- Final S2 status: 8/8 trajectories complete; 0 active, 0 pending, 0 failed; scheduler exit code 0; queue wall time 2320.4988 seconds. Stage0 was reused unchanged. `progress.json` records `test_accessed: false`. All eight result files are present; the RAM guardian remains active holding states while final evaluation awaits a separate orchestrator decision.
+
+- Final S2 supplement evaluation: 48/48 test endpoints completed across 8 trajectories × online/fixed EMA × selected/E10/E50. Evaluation process exit code 0; actual process wall 297.998 seconds, UTC 2026-11-03T08:06:11.858211+00:00 to 2026-11-03T08:11:09.855927+00:00 (record: `artifacts/conditional_information_momentum_20261102_v3/supplement_20261103/evaluate_process_timing.json`). S2 training record retains `test_accessed: false`; the separate `final_test_evaluation` record marks test accessed. RAM guardian shutdown succeeded after states were released.

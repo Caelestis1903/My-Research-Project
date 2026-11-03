@@ -24,3 +24,20 @@ tar -xJf /tmp/mdmt_information_momentum_v3_raw.tar.xz
 ```
 
 研究结论与阶段决定不依赖恢复模型文件。原实验环境为Python3.13.5/PyTorch2.9.0+cu126，真实数据路径和身份见配置及S0记录。
+
+## 2026-11-03补充机制实验
+
+[原报告中的补充章节](REPORT.md#supplement-20261103)：固定λ=.05，新增P01/P10共8条50epoch训练、48个test端点；A0/P00/P11复用原冻结数值。原停止决定保持不变。完整补充表格和冻结身份在supplement/，本次仍提交同一26-11-02_v3分支。
+
+补充原始证据恢复（仓库根目录）：
+
+```sh
+cat research_reports/2026-11-02_mdmt_information_momentum_v3/supplement/raw_scalar_records.tar.xz.part* > /tmp/mdmt_v3_supplement.tar.xz
+tar -xJf /tmp/mdmt_v3_supplement.tar.xz
+```
+
+重新汇总：
+
+```sh
+/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python research_reports/2026-11-02_mdmt_information_momentum_v3/build_tables.py --attempt artifacts/conditional_information_momentum_20261102_v3/supplement_20261103 --baseline research_reports/2026-11-02_mdmt_information_momentum_v3/tables/endpoints.csv --output research_reports/2026-11-02_mdmt_information_momentum_v3/supplement
+```

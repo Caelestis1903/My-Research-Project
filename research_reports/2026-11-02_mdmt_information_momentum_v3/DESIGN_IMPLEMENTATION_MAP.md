@@ -19,3 +19,14 @@
 | CPU formulas/parity/resume; real full-batch S0 | `tests/test_semantics.py`, `stage0.py` |
 
 Source adaptation notes: `guardian.py` adapts the source module entry/socket prefix. The runner retains source epoch RAM commit and loader semantics, adds E10, and replaces the old study's search/cost-stop rules with this study's explicit finite dispatch. No model weights are written to disk.
+
+## 2026-11-03：第11节补充配置映射
+
+| 补充规范 | 最小实现/证据 |
+|---|---|
+| 固定8条P01/P10，不改算法 | `supplement_20261103/S2_DISPATCH.json`，原 `run.job`，source hash保持5adc9055 |
+| 运行前配置冻结，不自动S3/搜索/基线重跑 | `supplement_20261103/CONFIGURATION_FROZEN.json` |
+| 原CPU/S0复用及峰值准入 | 原14项CPU证据；原字节复制 `STAGE0_REPORT.json`，配置中记录原路径/hash及new_stage0_runs=0 |
+| 旧12条A0/P00/P11固定结果及数据身份 | `SOURCE_BASELINE_IDENTITY.json`，144行旧endpoint与原结果7,344个标量精确相符 |
+| 8条完整训练后冻结48个新test端点 | 原 `run.schedule` → 协调者FINAL_DECISION → `run.freeze/final_evaluate`；仅生成配置，未执行 |
+| 原报告/原分支追加 | 实施说明追加本目录原 `CODER_IMPLEMENTATION_REPORT.md`；未新建报告Markdown或改历史结果 |
