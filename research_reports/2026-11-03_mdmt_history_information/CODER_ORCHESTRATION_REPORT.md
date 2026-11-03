@@ -1,0 +1,17 @@
+# CODER ORCHESTRATION REPORT
+
+实现者：`/root/designer`，在DESIGN完成后由主agent分派为第二coder；独立reviewer未参与本实现。负责run.py、guardian.py、decisions.py、reporting.py及test_decisions.py。核心数学与S0由`/root/luna_coder`负责。
+
+已实现prepare/check/stage0/dispatch/decide/freeze/evaluate/report和内部worker/guardian，另提供有因基础设施retry与status/shutdown。worker沿固定v3的50epoch、验证选点和RAM ACK生命周期适配；T previous_state由核心optimizer状态携带。完成训练后worker可退出，guardian保留online/EMA selected/E10/E50至全局冻结及test完成。不会生成模型或优化器磁盘文件。
+
+prepare核对完整数据manifest，并导入固定历史8条A0/A1（两数据×2022/2024）的完整validation记录。配置、50epoch、raw/array/row/encoder/scaler身份和六端点hash必须齐全；旧test文件只在全局冻结后的evaluate读取。旧A0/A1是数值引用，保存原commit/key/job/文件hash，不能计作新独立训练。临时目录导入检查已通过8条引用，未读取历史test。
+
+阶段规则直接实现冻结05/YAML：D0数据分别决定，D1每组四个固定配置，2024只复现已选winner，D2匹配控制和复杂增量门，CONFIRM最多四arm补三seed；同科学身份跨阶段去重。成本门只排除S0已测默认具体配置，其余同家族预定配置和简单近邻继续。单配置数值失败以明确IMPLEMENTATION_BLOCKED记录，其余队列继续；OOM/被终止worker先留NEEDS_INFRASTRUCTURE_REPLAY，runner提供原因后每身份最多一次重放，不能把失败当科学阴性。缺失的D2控制不能支持联合主张。尚未完成或未处理重放的阶段不能决策和冻结。
+
+每张GPU按实际显存和功耗85%条件及对应S0峰值准入，队首无法容纳时尝试其他已授权pending身份。不会杀外部任务或缩batch。原始逐batch/epoch JSON、result、failure和physical_cost保持完整；guardian.json的IPC凭据不进入report导出。
+
+report生成endpoints、six_cell、validation_epochs、paired_seed、paired_summary、transport_interactions、costs及RUN_MANIFEST。统计使用seed，开发/本轮未开发/全部分开，样本SD和95%配对t区间；单seed区间留空。只生成数值，科学结论由主agent撰写REPORT.md和QUESTION_DISPOSITION.md。并发worker时长不称独占GPU时间；成功重放行用当前physical attempt秒/计数，旧已commit累计另列，失败physical成本另行，防止重复计账。失败中未完成step的精确计数标缺失，其wall time仍记录。
+
+检查：Python语法检查通过；整包CPU回归覆盖6核心测试及5编排测试。编排测试覆盖两数据独立D0/固定网格、2024不换配置、D2联合增量与简单替代、缺失控制时保留简单候选、具体成本配置不屏蔽家族、冻结前test拒绝。最终结果见CPU_TESTS.json。
+
+本阶段没有运行正式GPU轨迹，也没有分析性能结果。真实数据S0与正式队列由独立审查通过后的runner执行。
