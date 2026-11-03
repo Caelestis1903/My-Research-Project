@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "plan_compiler_and_decision_contract_only",
+  "plan_sha256": "fd00ae660ec177507fe2c3194359ebd010163a3d878c1aff83afe6b13078b2ed",
+  "commands_executed": [
+    "python plan.py self-test",
+    "python plan.py materialize --out compiled",
+    "python -m py_compile plan.py"
+  ],
+  "counts": {
+    "all_unique_trajectories": 80,
+    "core_unique_trajectories": 60,
+    "expected_new_core": 30,
+    "published_slots": 30,
+    "primary_factorial_slots": 40,
+    "fallback_factorial_slots": 40
+  },
+  "checks": [
+    "unique_job_matrix_and_seed_coverage",
+    "complete_CP_and_CG_factorials",
+    "inclusive_macro_and_cell_thresholds",
+    "negative_seed_allowed",
+    "logloss_independent",
+    "fewer_than_five_seeds_incomplete",
+    "duplicate_seed_rejected",
+    "validation_strict_max_earliest_tie",
+    "search_and_epoch_zero_excluded",
+    "undefined_cell_rejected",
+    "idempotent_matrix_materialization"
+  ],
+  "training_executed": false,
+  "gpu_tests_executed": false,
+  "server_runtime_inspected": false,
+  "note": "This receipt verifies only the delivered planning compiler and decision contract. Codex must implement and test the new GPU runtime before execution."
+}

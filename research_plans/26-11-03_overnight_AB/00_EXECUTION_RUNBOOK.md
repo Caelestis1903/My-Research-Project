@@ -1,59 +1,99 @@
-# 2026-11-03 晚间任务：A 正式基线 AUC 选点 + B 正收益组件组合探索
+# 2026-11-03 晚间 A＋B 联合实验：Codex 唯一执行入口
 
-> 状态：可交付 Codex 的执行清单；本文件不是实验已经启动或完成的证明。须由具备仓库和GPU环境的执行者运行。用户已指定今晚同时推进任务 A、B。
+**交付状态：工程实验规划已冻结；不是已经启动或完成 GPU 实验的证明。** 本次交付包含可运行的矩阵生成/规则自检程序；训练、调度适配代码由 Codex 按以下确定规格实现，然后实际运行。不得再开展开放式算法设计，也不得只生成另一份研究建议而停止。
 
-## 0. 最高优先级输入与防重复
+目标分支：`research-plan/26-11-03-overnight-ab-auc`。规划目录：`research_plans/26-11-03_overnight_AB/`。人类只需将本文件交给 Codex；其余文件均由本入口导航，不存在另一份需要自行选择的启动提示词。
 
-1. 启动时读取 main 最新的 `EXP_AI_CONTEXT.md`、`experiments/Experimental_Global_Summary.md`、`MDMT_ALGORITHM_METRICS_LEDGER.md`，再读取正在进行的历史候选五seed补评的最新运行清单、完成标志和结果。不得根据旧分支停机规则覆盖 main 最新规则。
-2. 不覆盖正在运行的任务或其工作目录、运行标识、checkpoint；不能将同一seed下的在线/EMA或相同轨迹的不同epoch算作独立seed。对主目录台账的写入采用增量合并，避免和其他任务同时修改同一文件造成覆盖。
-3. 不做小域=困难域的任何假设、实验或讨论。
-4. 必须先审计已有训练记录/权重，复用可严格恢复的结果。运行前核对数据人口、split哈希、seed、模型版本、训练预算、更新步数、优化器、选点窗口和EMA策略；任何不等价记录只能作为单独协议附录，不能直接混入主表。
+## 1. 已作出的决定
 
-## 1. 两项任务共享的唯一主评价协议（AUC_SELECTED_V1）
+1. **主表统一完整自然 train 人口及 train-only 预处理。** 10/29 的 T0∪F/T0-only 基线不能仅换 checkpoint 后与近期候选横比。保留历史表；旧轨迹的 AUC 重选只进入独立历史附录。正式 A 表复用近期 M3oE fixed1 online 10 条，原则上新增 HyperGate/AutoIFS 各10条；若服务器已有完全等价新轨迹则继续复用。
+2. **主组合只选 C_MIX＋P01。** C_MIX 修正当前真实梯度，P01 保留静态 PAIR 的 ECCM 历史项；融合为一次二阶矩递推、一次参数更新、一次固定 EMA 更新。不得依次调用两个完整 optimizer.step。完整公式见03。
+3. **简单替代为 C_MIX＋Gaussian。** 已冻结其完整2×2和参数，仅在主组合工程/资源阻塞时替代，或在核心队列全部完成且事先授权追加时执行；不能因主组合1–4seed表现差而切换。默认不搜索 MASK，不枚举第三个组合。
+4. **核心预计新增30条完整训练**：A的20条＋主组合10条。A0、C_MIX、P01控制优先复用或等待正在运行的五seed补评。不是把A的全部30条、B的全部40个消融槽位重跑。
+5. 两数据都完成2022–2026五seed。KuaiRand可先运行，MovieLens不是通过单seed门才获准运行的后续阶段。A和B独立实现、独立工程验收、共享公平GPU队列，任何一条线不得被另一条线的全部训练阻塞。
 
-- 每个模型、每个seed，仅在**validation V 上按六个 domain×task cell 的等权 macro AUC 最大值**选择 checkpoint，平局选最早合法checkpoint；不再按 validation LogLoss 选点。不使用 test E 的任何结果调参、选epoch或决定checkpoint。
-- 统一选择每个模型**最终训练阶段全部合法epoch**中的最高验证宏AUC（不继续沿用旧版因LL选点形成的任意窄窗口，例如M3oE原12–24窗口）；AutoIFS的search阶段属于架构搜索，不作为最终reuse模型的候选checkpoint。允许模型训练预算不同，但必须在执行前冻结各自训练阶段与全部可选epoch，并如实记录候选集合。若旧实验没有这些epoch的可恢复checkpoint/匹配预测，则必须重训；不能以test表现选择窗口。
-- 被选中的**同一个 checkpoint**计算 validation 和 test 的六格 AUC/原始未缩放 LogLoss、macro、traffic、pooled（能得到时）、selected epoch，在线和EMA（适用时）分别标记。LogLoss独立评价，不控制AUC选点。测试指标只在配置冻结后读取。
-- 固定seed集合优先沿用现有正式已完成的 2022–2026 五seed，且每个被比较的方法与对应对照使用一致的seed。五seed配对平均 test macro ΔAUC ≥ +0.003，同时每个cell五seed配对平均 ΔAUC ≥ −0.001，才是“AUC合格且满足逐格约束”。不要求4/5或5/5同向，不以1–2seed做科学性能淘汰；LL五seed配对平均ΔLL<0标记LL改善，未改善时照实报告但不自动否定AUC。
-- 明确分开：自研完整方案 vs 已发表模型（正式论文基线）；自研X+EMA vs A0+EMA（内部组件增量）；自研X+EMA vs 普通在线训练（完整方案总收益）。只有正式发表的M3oE、HyperGate、AutoIFS等可进入论文baseline栏；EMA自研版本、C_MIX、P01等是内部控制/候选，不能冒称正式发表基线。
-- 严禁把曾经由测试集影响研究选型的结果宣称为全新盲测确认。所有历史结果溯源，严禁换选点后混用旧测试值。
+## 2. 阅读及执行次序
 
-## 2. 任务 A：已发表模型统一验证宏AUC选点
+首先读取最新 main 的 `EXP_AI_CONTEXT.md`、`experiments/Experimental_Global_Summary.md`、`MDMT_ALGORITHM_METRICS_LEDGER.md`，再读取最新本地历史五seed进度/结果。本规划审计基准 main 为 `92a592418d3f11a588f1e628fbe9364ceab71e18`；读取最新规则不等于任意改变本次固定配置。
 
-目标：建立 M3oE（M3OE_FIXED1适配版）、HyperGate、AutoIFS 在 MovieLens、KuaiRand 各五seed上与当前方案可对比的 V-macro-AUC-selected 正式基线。
+依次执行：
 
-A0. 读取 `baseline/mdmt-sota-2526` 分支及报告 `research_reports/mdmt_baselines_2526/FINAL_REPORT.md`、原始运行清单、逐epoch V AUC、已保存checkpoint/预测缓存。旧正式协议是 V LogLoss 选点，不能直接把相应test值改名为V AUC选点结果。验证原模型结构及适配；不擅自宣称作者原论文严格复现。
-A1. 逐方法×数据集×seed做恢复审计：能否从已存同轨迹的V逐epoch AUC及相应checkpoint或匹配test端点**准确**恢复新选点结果。若只有标量但没有所需选点的模型/预测/匹配test评价结果，则不能编造，安排严格必要的重训。
-A2. 复用能准确复用者，对缺失者重训，建立 `AUC_SELECTED_V1` 新组。模型原生合法训练阶段/独立合理超参保留并明确标记；必要时做公平、有限的validation-only超参搜索，不能使用test选择配置。
-A3. 完成两数据集、三已发表模型、五seed结果；输出六格绝对AUC与LL、macro/traffic/pooled、配对差、训练与推理成本、源代码和配置身份；确认原先V-LL表保留为历史组，不覆盖。
-A4. 统一协议无法立刻完全恢复的情况按待跑清单逐个排队，标记 NOT_DONE 而不是擅填成功；检查是否与正在运行的补seed任务冲突。
+| 顺序 | 文件 | 必须完成的工作 |
+|---|---|---|
+| 1 | `01_AUDIT_AND_REUSE.md` | 原清单修正、逐轨迹复用和外部任务认领；输出真实审计表 |
+| 2 | `protocol.json`、`plan.py` | 校验并展开固定矩阵；冻结数据/代码/配置身份 |
+| 3 | `02_TASK_A_IMPLEMENTATION.md` | 发表模型数据、训练阶段、AUC选点适配 |
+| 4 | `03_TASK_B_IMPLEMENTATION.md` | 融合优化器、两套完整2×2、有限工程测试 |
+| 5 | `04_RUNTIME_AND_REPORTING.md` | 队列、RAM恢复、逐seed封存、汇总与发布 |
 
-## 3. 任务 B：有收益组件的有限组合探索
+实现统一放入新包 `experiments/overnight_ab_20261103/`。禁止修改正在补评的 history/pair 包、其 vendor、SOURCE_MANIFEST、旧 decisions/schedule 和历史报告。不能在原工作目录切分支或更新正在运行的源码。
 
-目标：判断目前已观察到的正收益组件是否有可叠加、互补或冲突的AUC作用；**不是**以组合方式替代正在进行的五seed补评。
+### 工作树准备
 
-B0. 检查最新五seed补评是否结束，读取其中对C_MIX、P01等候选的每seed/每cell结果；未完成先准备组合代码/配置/测试，不抢GPU也不重复训练。已执行1–2seed仅作待验证信号，不是淘汰依据。
-B1. 候选只允许最多两组。默认优先研究“C_MIX（当前共享梯度修复）+ P01（静态ECCM历史修复）”，其机制不同但可能相互抵消，不能预设必定协同。需要先核对优化器作用顺序与共享参数集合、梯度是否重复缩放、二阶矩输入、EMA是否仍然非反馈；若代码无法正确组合或计算成本过高，则采用“C_MIX + Gaussian增强”作为更简单替代。第二组只有在有额外预算且确有互补信息时再运行，优先选择Gaussian或MASK中的一种，不必全部排列。
-B2. 每组采用2×2控制：A0+EMA、X+EMA、Y+EMA、X+Y+EMA。仅在数据、架构、seed、总更新数、训练目标和选点规则完全匹配时复用已完成单组件轨迹；否则为该2×2补齐相应训练。不允许把自研A0/EMA标记为正式发表基线。
-B3. 优先KuaiRand（此前C_MIX单seed有V和E双正信号）；MovieLens仍应列入后续五seed计划，不能因为单seed负值直接判为无效。每个被正式裁决的组合至少五seed，无1–2seed性能停机门。每个完成的seed立即写入原始指标并保存可恢复状态。
-B4. 报告组合相对A0+EMA的整体增量、相对X+EMA/Y+EMA的增量，以及2×2交互项 `I = AUC(X+Y) - AUC(X) - AUC(Y) + AUC(A0)`（同seed、相同选点协议的test宏AUC，跨5seed再平均），完整六格与LL。交互项是描述性的，不把正交互自动解释为因果机制证明。
-B5. 遵照main新规则，五seed平均test宏AUC ≥ +0.003且所有cell平均跌幅≥−0.001才标记合格；未满足时区分宏增益/局部代价/成本；不得强制全部seed同向。若单组件补评仍未完成，本晚能完成的准备任务仍要输出，并在GPU空闲时按依赖队列继续执行，不擅自使用未达到五seed的结果作否决。
+Codex从现有仓库保存 `HISTORY_REPO=$(git rev-parse --show-toplevel)`；读取进程/工作树及未提交改动，不清理它们。在独立工作树中，以审计基准 main 为代码基础建立 `execution/26-11-03-overnight-ab`（若已存在则恢复该工作树，不强制覆盖）。从原方案分支复制本规划目录。需要更新的最高优先级main规则另存审计快照；若只是新增结果，可接入复用清单，不改变冻结数学定义。主目录代码存在缺失时按01的固定源补齐，不使用整分支合并覆盖运行目录。
 
-## 4. 资源与自动运行调度
+示例首次准备命令（变量均由当前仓库实际解析）：
 
-1. 先检测GPU当前进程/显存与运行任务锁；不终止或覆盖用户现有历史补seed任务。A的数据与模型重用审计、B的代码适配和smoke可并行CPU准备。
-2. GPU任务实行同一调度队列，**确保A和B都有独立执行机会**，不得让A的全部可能重训（最多30个模型×seed轨迹）无限排在B前。推荐顺序：当前补seed结束→A已有轨迹重选恢复与最小真实训练验证→B主组合完整5seed→A剩余必要重训→B第二组合（若有预算）；按实际资源安全调整顺序，不牺牲统计协议。
-3. 所有真实训练用tmux/nohup等断线可恢复方式运行，保存manifest（数据版本、commit、seed、模型配置、结果hash）、逐seed标量、错误日志、GPU/时间成本和进度完成标记。工程smoke可单seed，但不得将smoke作为算法性能否决。遇CUDA OOM或兼容性问题可修工程问题并记录修复，不能偷改训练目标后与旧轨迹合并。
-4. 不要求执行中人工确认；遇无法在本夜完成的矩阵，按已冻结队列持续运行或留可恢复job清单，不宣称未完成结果。严禁后台服务不可用时谎报“已开始GPU训练”。
+```sh
+HISTORY_REPO=$(git rev-parse --show-toplevel)
+git fetch origin main research-plan/26-11-03-overnight-ab-auc baseline/mdmt-sota-2526
+WORKTREE="${HISTORY_REPO}_overnight_ab"
+git worktree add -b execution/26-11-03-overnight-ab "$WORKTREE" 92a592418d3f11a588f1e628fbe9364ceab71e18
+cd "$WORKTREE"
+git restore --source=origin/research-plan/26-11-03-overnight-ab-auc -- research_plans/26-11-03_overnight_AB
+```
 
-## 5. 交付物与仓库维护
+上述仅适用于首次建立；重复执行用 `git worktree list --porcelain` 找已有目录，不能重复创建、reset或删除。将解析后的HISTORY_REPO写入本轮运行配置；其 artifacts 只读接入，新产物使用独立路径。
 
-- `research_plans/26-11-03_overnight_AB/`：本runbook、冻结的 protocol.yaml、queue.yaml/manifest.json、A复用审计表、B机制兼容审查表。
-- 执行分支下提供 A/B 各自的逐seed CSV、六格与汇总指标、对照差、LogLoss、CPU/GPU资源记录、断点恢复脚本和执行入口、阶段报告与最终研究决策。
-- 性能结果用独立、明确的 `AUC_SELECTED_V1` 协议组回填 main `MDMT_ALGORITHM_METRICS_LEDGER.md`；与其它并发改动以最新main增量合并，不覆盖历史研究报告。
-- 结果汇总须明确写清：已完成多少真实训练、是否全五seed、哪些可复用、哪些因记录缺失必须重训、哪个组合达标、失败/未完成原因、后续优先级。
-- 不必在研究方案中再追加理论上无法影响本轮算法选择的防御性实验，也不预设任何组件或组合必定有益。
+## 3. 唯一评价规则
 
-## 6. Codex启动入口（执行提示）
+选点协议 `AUC_SELECTED_V1`；数据协议 `FULLTRAIN_NATURAL80_10_10`。每个模型/估计器在最终训练阶段epoch1–50中，取 validation 六格等权 macro AUC **严格最大、并列最早**的checkpoint。AutoIFS只允许reuse1–50，不允许search进入候选。禁止LL选点、限制M3为12–24、跨seed平均后挑同一epoch、按test挑epoch。online与EMA各自选点，不要求二者选中同一epoch；**每个端点的validation和test必须是同一个模型状态**。
 
-“请严格执行本文件的A+B夜间队列。先读取main最新权威上下文并审计运行中的五seed补评，冻结AUC_SELECTED_V1及运行清单，优先复用数据；再完成A和B的必要实现、smoke、全量五seed实验和自动汇总。不得以单seed/单格/正向seed不足提前性能停止；不要争抢正在运行的GPU训练。保留旧V-LogLoss选点基线表，不捏造缺失checkpoint。完成后更新独立报告与main台账，给出清晰可复核的结果与未完成项。”
+五seed配对test平均宏ΔAUC≥0.003即宏收益达标；六格各自五seed平均ΔAUC≥−0.001独立判断逐格保护。两项均满足才写“AUC合格且满足逐格约束”。LL平均差<0独立判为改善。不要增加正向seed数量、单seed单格、置信区间、validation/test同向、traffic同向等硬门。不足五seed只写INCOMPLETE。
+
+发表基线只有M3oE fixed1适配、HyperGate、AutoIFS。A0+EMA、Gaussian、C_MIX、P01、组合均不是发表基线。分别报告：对三个发表模型的正式比较、相对A0 online的完整方案总收益、相对A0 fixedEMA的组件增量、相对单组件的组合增量及2×2交互。不能因组件增量未达0.003抹去总收益，也不能把仅胜M3说成胜过三个模型。
+
+**小域不是困难域。** 本任务不提出、检验或反向分析这一命题。只继承已固定的数据和目标域设置。
+
+## 4. Codex必须实现的命令契约
+
+现已交付、无需GPU即可运行的规划程序：
+
+```sh
+PY=/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python
+PLAN=research_plans/26-11-03_overnight_AB
+"$PY" "$PLAN/plan.py" self-test
+"$PY" "$PLAN/plan.py" materialize --out /tmp/mdmt-overnight-ab-plan
+```
+
+然后实现新包及04中全部子命令；以下是**实现后**的真实自动化启动命令，不得在模块尚未实现时声称已运行：
+
+```sh
+ATTEMPT="$HISTORY_REPO/artifacts/mdmt_overnight_ab_20261103/attempt1"
+"$PY" -m pytest experiments/overnight_ab_20261103/tests -q
+"$PY" -m experiments.overnight_ab_20261103.run prepare \
+  --plan "$PLAN/protocol.json" --history-root "$HISTORY_REPO" --attempt "$ATTEMPT"
+"$PY" -m experiments.overnight_ab_20261103.run smoke --attempt "$ATTEMPT" --devices 0,1
+mkdir -p "$ATTEMPT"
+nohup "$PY" -m experiments.overnight_ab_20261103.run run \
+  --attempt "$ATTEMPT" --devices 0,1 --resume \
+  >"$ATTEMPT/coordinator.log" 2>&1 < /dev/null &
+```
+
+`run`自动完成调度、逐seed冻结/评价、汇总、阶段报告，不要求训练后再由用户手动发起summarize。实现阶段先让已通过工程验收的A或B进入共享队列，另一条线可继续CPU实现；不等待所有可选功能完成才给两项实际运行机会。未通过的具体arm不得派发。
+
+没有GPU权限时须提交实现、测试和READY/WAIT_RESOURCE清单，不能虚报启动。本次规划撰写本身不拥有服务器训练进程。
+
+## 5. 完成条件
+
+- **审计完成**：A旧30条逐条说明是否仅历史重选可用、为何主表不可复用；近期A0/C/P/G逐seed标明REUSE_DONE、WAIT_EXTERNAL或确切缺失。不能把GitHub未推送结果当作服务器未运行。
+- **A完成**：两数据×3模型×5seed共30个合法online selected端点，含六格AUC/LL、macro/traffic/pooled、选点和成本身份。预计10复用20新训；逐项以审计实际数为准。
+- **B主组合完成**：两数据各完整2×2×5seed，A0/C/P/CP均有固定EMA selected端点；40个消融槽位并非40个新增训练。四格来自同协议匹配seed。若主组合工程阻塞但替代完成，写“替代组合完成；主组合工程阻塞”，不可写主组合性能失败。
+- **运行完成**：没有未解释缺项；全部授权job为DONE或明确BLOCKED/WAIT_EXTERNAL。科学完整性与队列结束分开报告，不把部分完成强行记FINAL_COMPLETE。
+- **交付完成**：04约定的原始表、配对表、2×2表、审计、进度、费用、FINAL_REPORT.md及台账增量生成；提交执行分支。更新main台账前读取其最新版本并做增量合并，不覆盖并行补评成果，不篡改旧报告。
+
+## 6. 停止边界
+
+不使用任何1–4seed性能停止门。允许明确代码错误、NaN、不可用数据、RAM/GPU资源不足导致工程暂停。自动基础设施重试为首次失败后最多2次，正常epoch让出不算失败。OOM不改batch/精度/目标；只等待资源后原配置恢复。主机或guardian丢失权重时仅重放缺失轨迹，不能宣称RAM-only支持断电续训。
+
+夜间预算不足时保留固定队列继续或可恢复暂停，不能为了“跑满一夜”添加新机制，也不承诺某个时点一定跑完。核心矩阵不因test表现或历史候选补评结论而缩减。
