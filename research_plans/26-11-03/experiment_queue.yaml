@@ -1,0 +1,252 @@
+schema_version: 1
+study: MDMT_HISTORY_INFORMATION_20261103
+status: DESIGN_ONLY
+specification: 03_ALGORITHM_SPEC.md
+implementation_contract: 04_IMPLEMENTATION_CONTRACT.md
+decision_contract: 05_EXPERIMENT_PLAN.md
+codex_entry: 06_CODEX_PROMPT.md
+repository: Caelestis1903/My-Research-Project
+source:
+  context_commit: 37065a52f083ddb196efa3dacccb5f7c793edfb6
+  implementation_commit: a06f9d3e544a8658b2d24ddc8f7d10d3f20f0288
+  implementation_root: experiments/conditional_information_momentum_20261102_v3
+  upstream_ema_commit: 38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27
+  supplement_p01_p10: COMPLETED
+  pcv_pcoll_formal_results: NOT_EXECUTED
+paths:
+  package: experiments/mdmt_history_information_20261103
+  reports: research_reports/2026-11-03_mdmt_history_information
+  execution_branch: 26-11-03_history_information
+  python: /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python
+datasets:
+  movielens:
+    csv: /home_new/xzf/datasets/ml-1m/ml-1m.csv
+    train_domain_counts: [155949, 318599, 325619]
+    weight_decay: 0.0001
+    rho: 0.9828205985452511
+  kuairand:
+    csv: /home_new/xzf/datasets/kuairand/processed/kuai_rand.csv
+    train_domain_counts: [172782, 1743898, 89452]
+    weight_decay: 0.00001
+    rho: 0.995
+protocol:
+  split_id: original
+  raw_row_split: [0.8, 0.1, 0.1]
+  population: natural
+  preprocessing_fit: train_only
+  batch_size: 40960
+  epochs: 50
+  early_stopping: false
+  lr: 0.01
+  betas: [0.9, 0.999]
+  eps: 0.00000001
+  weight_decay_type: coupled
+  foreach: false
+  fused: false
+  amsgrad: false
+  fp32: true
+  amp: false
+  tf32: false
+  ema_feedback: false
+  ema_initialization: theta0
+  buffer_update: copy
+  disk_parameter_checkpoints: forbidden
+  select: earliest_strict_max_validation_six_cell_macro_auc
+  primary_estimator: fixed_ema
+  estimators: [online, fixed_ema]
+  endpoints: [selected, E10, E50]
+  test_access: after_global_configuration_and_selection_freeze
+  historical_reference_policy: exact_identity_numerical_reuse
+  source_a1_rng_study: EMA02V2
+  loader_seed_offset: 11000
+  development_seeds: [2022, 2024]
+  confirmation_additional_seeds: [2023, 2025, 2026]
+  search_seed: 2022
+  replicate_seed: 2024
+  shared_exact_names: [shared_weight, shared_bias]
+  shared_prefixes: ['skip_conn.', 'star_mlp.', 'expert.']
+  metrics: [six_cell_auc, six_cell_logloss, macro_auc, macro_logloss,
+            traffic_auc, traffic_logloss, pooled_task_mean_auc,
+            pooled_task_mean_logloss, worst_cell_auc]
+information:
+  anchors_per_present_domain: 256
+  anchor_sampling: uniform_without_replacement_natural
+  share_anchors_across_tasks: true
+  donor_primary: same_domain_same_target_label_opposite_other_label_other_row
+  donor_fallback: same_domain_same_target_label_other_row_then_self
+  donor_sampling: uniform_with_replacement_across_anchors
+  mix_fields: all_non_domain_embedding_fields_with_common_tau
+  supervised_target: anchor_target_task_only
+  lambda_default: 0.1
+  tau_default: 0.1
+  lambda_or_tau_zero_supervised_goal: exact_real_loss_bypass
+  rng: SHA256_first8_little_endian_mod_2pow63_minus1_CPU_torch_generator
+  rng_key: 'MDMT1103|dataset|seed|epoch|global_step|stream|domain|task'
+  rng_exclude: [arm, lambda_mix, tau, kappa]
+history:
+  H:
+    domain_schedule: round_robin_next_present
+    tasks_per_probe_domain: 2
+    agreement_cosine: 0.2
+    kappa_default: 1.0
+    geometry: current_adam_preconditioner_sqrt
+    max_normals: 4
+    gram_dtype: float64
+    solver: enumerate_active_subsets_KKT
+    pinv_rcond: 0.000000000001
+    feasibility_tol: '1e-9 * max(1, norm(h))'
+    empty_constraints: identity
+    solver_failure: numerical_failure_not_silent_reset
+    second_moment: real_gradient_plus_coupled_L2
+  T:
+    kappa_default: 0.25
+    previous_point: previous_step_complete_preupdate_parameters_and_buffers
+    same_current_samples_and_indices_at_both_points: true
+    correction: 'kappa * beta1 * (1-beta1**(step-1)) * delta_clipped'
+    delta_clip: 'delta * min(1, norm(g_shared)/(norm(delta)+1e-12))'
+    first_step_delta: 0
+    additional_delta_ema: false
+    second_moment: current_supervised_gradient_plus_coupled_L2
+arms:
+  A0f: {goal: real, optimizer: source_adam, source_arm: A0}
+  A1: {goal: source_gaussian, optimizer: source_adam, source_arm: A1}
+  SCALE: {goal: scaled_real, optimizer: source_adam, lambda_scale: 0.1}
+  M: {goal: conditioned_mix, optimizer: source_adam, lambda_mix: 0.1, tau: 0.1}
+  U_MIX: {goal: same_target_mix, optimizer: source_adam, lambda_mix: 0.1, tau: 0.1}
+  T0: {goal: real, optimizer: transport, kappa: 0.25}
+  TM: {goal: conditioned_mix, optimizer: transport, lambda_mix: 0.1, tau: 0.1, kappa: 0.25}
+  T_U: {goal: same_target_mix, optimizer: transport, lambda_mix: 0.1, tau: 0.1, kappa: 0.25}
+  T_NORM: {goal: conditioned_mix, optimizer: transport_norm_only, lambda_mix: 0.1, tau: 0.1, kappa: 0.25}
+  H_REAL: {goal: real, optimizer: history_repair, probe: real_second, kappa: 1.0}
+  H_MIX: {goal: real, optimizer: history_repair, probe: conditioned_mix, tau: 0.1, kappa: 1.0}
+  H_U: {goal: real, optimizer: history_repair, probe: same_target_mix, tau: 0.1, kappa: 1.0}
+  H_NORM: {goal: real, optimizer: history_norm_only, probe: conditioned_mix, tau: 0.1, kappa: 1.0}
+  C_MIX: {goal: real, optimizer: current_gradient_repair, probe: conditioned_mix, tau: 0.1, kappa: 1.0}
+grids:
+  A0:
+    - {lr: 0.01, weight_decay_multiplier: 1}
+    - {lr: 0.005, weight_decay_multiplier: 1}
+    - {lr: 0.02, weight_decay_multiplier: 1}
+    - {lr: 0.01, weight_decay_multiplier: 2}
+  H_MIX:
+    - {tau: 0.1, kappa: 1.0}
+    - {tau: 0.05, kappa: 1.0}
+    - {tau: 0.2, kappa: 1.0}
+    - {tau: 0.1, kappa: 0.5}
+  H_REAL:
+    - {kappa: 1.0}
+    - {kappa: 0.75}
+    - {kappa: 0.5}
+    - {kappa: 0.25}
+  C_MIX:
+    - {tau: 0.1, kappa: 1.0}
+    - {tau: 0.05, kappa: 1.0}
+    - {tau: 0.2, kappa: 1.0}
+    - {tau: 0.1, kappa: 0.5}
+  TM:
+    - {lambda_mix: 0.1, tau: 0.1, kappa: 0.25}
+    - {lambda_mix: 0.1, tau: 0.05, kappa: 0.25}
+    - {lambda_mix: 0.1, tau: 0.2, kappa: 0.25}
+    - {lambda_mix: 0.1, tau: 0.1, kappa: 0.5}
+  T0:
+    - {kappa: 0.25}
+    - {kappa: 0.1}
+    - {kappa: 0.5}
+    - {kappa: 1.0}
+  M:
+    - {lambda_mix: 0.1, tau: 0.1}
+    - {lambda_mix: 0.1, tau: 0.05}
+    - {lambda_mix: 0.1, tau: 0.2}
+    - {lambda_mix: 0.05, tau: 0.1}
+  U_MIX:
+    - {lambda_mix: 0.1, tau: 0.1}
+    - {lambda_mix: 0.1, tau: 0.05}
+    - {lambda_mix: 0.1, tau: 0.2}
+    - {lambda_mix: 0.05, tau: 0.1}
+stages:
+  S0:
+    official_trajectories: false
+    full_batch_arms: [A0f, M, H_MIX, TM]
+    warmup_steps_per_arm: 2
+    measured_steps_per_arm: 3
+    training_step_cost_ceiling_vs_A0: 4.0
+  D0:
+    seeds: [2022]
+    arms: [A0f, A1, M, T0, TM, H_REAL, H_MIX, C_MIX, SCALE]
+    max_slots_both_datasets: 18
+    family_choice: per_dataset_at_most_one
+    family_tie_tolerance: 0.0002
+    family_tie_order: [M, H, T]
+    positive_signal: 'delta_vs_A0f > 0'
+    bounded_near_miss: 'focal_delta_vs_A0f >= -0.0005 and focal_delta_vs_best_simple >= 0.0003'
+    near_miss_arms: [H_MIX, TM]
+  D1:
+    seeds: [2022]
+    configs_per_group: 4
+    groups_per_dataset: 3
+    max_slots_both_datasets: 24
+    H_groups: [H_MIX, best_D0_of_H_REAL_or_C_MIX, A0]
+    H_simple_tie_prefer: H_REAL
+    T_groups: [TM, best_D0_of_T0_or_M, A0]
+    T_simple_tie_prefer: M
+    M_groups: [M, U_MIX, A0]
+    simple_choice_tolerance: 0.0002
+    grid_tie_tolerance: 0.000001
+    grid_tie_rule: first_listed
+  REPLICATE:
+    seeds: [2024]
+    arms: each_D1_group_frozen_winner
+    max_slots_both_datasets: 6
+    continuation_mean_vs_each_A0: 0.0005
+    continuation_min_seed_vs_each_A0: -0.0002
+  D2:
+    seeds: [2022, 2024]
+    max_controls_per_dataset: 6
+    max_slots_both_datasets: 24
+    H_controls: [H_REAL_matched, C_MIX_matched, H_U_matched, H_NORM_matched, M_tau_matched, SCALE_0p1]
+    T_controls: [M_matched, T0_matched, A0f, T_U_matched, T_NORM_matched, SCALE_0p1]
+    M_controls: [U_matched_to_M, M_matched_to_U, SCALE_lambda_M, SCALE_lambda_U, A0f, A1]
+    baseline_mean_gain_min: 0.0005
+    baseline_positive_seeds_min: 2
+    joint_component_gain_min: 0.0003
+    joint_component_positive_seeds_min: 2
+    H_joint_controls: [H_REAL_matched, C_MIX_matched, H_U_matched, H_NORM_matched]
+    T_joint_controls: [M_matched, T0_matched, T_U_matched, T_NORM_matched]
+    simple_preference_tolerance: 0.0003
+    simple_order: [SCALE, A1, U_MIX, M, H_NORM, T_NORM, C_MIX, H_REAL, T0, H_U, H_MIX, T_U, TM]
+  CONFIRM:
+    additional_seeds: [2023, 2025, 2026]
+    arm_roles: [A0f, A0b, chosen, strongest_other_comparator]
+    max_unique_arms_per_dataset: 4
+    max_slots_both_datasets: 24
+    final_test_mean_gain_vs_each_A0_min: 0.0005
+    final_test_positive_seeds_vs_each_A0_min: 4
+    nondevelopment_seed_mean_gain_min_exclusive: 0
+    nondevelopment_seed_positive_count_min: 2
+    joint_gain_vs_strongest_comparator_min: 0.0003
+    joint_positive_seeds_vs_comparator_min: 4
+protections:
+  auc_harm_threshold: 0.002
+  auc_harm_metrics: [same_cell_auc, traffic_auc, pooled_task_mean_auc]
+  development_harm_direction: all_available_development_seeds
+  confirmation_harm_direction_count: 4
+  auc_tradeoff_promote_as_general_gain: false
+  macro_logloss_harm_threshold: 0.002
+  ll_tradeoff_promote_for_auc: true
+  ll_tradeoff_label_required: AUC_WITH_LL_TRADEOFF
+budget:
+  official_request_slots_max: 96
+  deduplicate_before_dispatch: true
+  stage_in_scientific_identity: false
+  attempt_in_scientific_identity: false
+  historical_fixed_baselines: numerical_references_not_new_training
+  max_infrastructure_replays_per_identity: 1
+  extra_hyperparameters_or_seeds: forbidden
+  automatic_pcv_pcoll_or_F: forbidden
+reporting:
+  statistical_unit: seed
+  paired_ci: two_sided_student_t_95_percent
+  p_value_required_for_decision: false
+  developmental_and_confirmation_subsets_separate: true
+  claim_new_population: false
+  status_enum: [COMPLETED, NO_GAIN, AUC_TRADEOFF, COST_BLOCKED, NOT_TRIGGERED, DEFERRED_BY_BUDGET, IMPLEMENTATION_BLOCKED]
