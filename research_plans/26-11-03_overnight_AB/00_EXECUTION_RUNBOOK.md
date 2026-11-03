@@ -4,7 +4,7 @@
 
 ## 0. 最高优先级输入与防重复
 
-1. 启动时读取 main 最新的 \`EXP_AI_CONTEXT.md\`、\`experiments/Experimental_Global_Summary.md\`、\`MDMT_ALGORITHM_METRICS_LEDGER.md\`，再读取正在进行的历史候选五seed补评的最新运行清单、完成标志和结果。不得根据旧分支停机规则覆盖 main 最新规则。
+1. 启动时读取 main 最新的 `EXP_AI_CONTEXT.md`、`experiments/Experimental_Global_Summary.md`、`MDMT_ALGORITHM_METRICS_LEDGER.md`，再读取正在进行的历史候选五seed补评的最新运行清单、完成标志和结果。不得根据旧分支停机规则覆盖 main 最新规则。
 2. 不覆盖正在运行的任务或其工作目录、运行标识、checkpoint；不能将同一seed下的在线/EMA或相同轨迹的不同epoch算作独立seed。对主目录台账的写入采用增量合并，避免和其他任务同时修改同一文件造成覆盖。
 3. 不做小域=困难域的任何假设、实验或讨论。
 4. 必须先审计已有训练记录/权重，复用可严格恢复的结果。运行前核对数据人口、split哈希、seed、模型版本、训练预算、更新步数、优化器、选点窗口和EMA策略；任何不等价记录只能作为单独协议附录，不能直接混入主表。
@@ -12,7 +12,7 @@
 ## 1. 两项任务共享的唯一主评价协议（AUC_SELECTED_V1）
 
 - 每个模型、每个seed，仅在**validation V 上按六个 domain×task cell 的等权 macro AUC 最大值**选择 checkpoint，平局选最早合法checkpoint；不再按 validation LogLoss 选点。不使用 test E 的任何结果调参、选epoch或决定checkpoint。
-- 模型选点前先确定合法checkpoint候选集合及训练阶段（尤其 AutoIFS search/reuse 与 M3oE 旧版 12–24 选点窗）；记录每个模型的原生窗口。如果能支持同等完整窗口则采用事先冻结的统一可评价窗口；不能随意强制不同方法训练相同轮次或以test表现改选窗口。不同窗口/协议不可比的部分明确分组，不声称完全同协议。
+- 统一选择每个模型**最终训练阶段全部合法epoch**中的最高验证宏AUC（不继续沿用旧版因LL选点形成的任意窄窗口，例如M3oE原12–24窗口）；AutoIFS的search阶段属于架构搜索，不作为最终reuse模型的候选checkpoint。允许模型训练预算不同，但必须在执行前冻结各自训练阶段与全部可选epoch，并如实记录候选集合。若旧实验没有这些epoch的可恢复checkpoint/匹配预测，则必须重训；不能以test表现选择窗口。
 - 被选中的**同一个 checkpoint**计算 validation 和 test 的六格 AUC/原始未缩放 LogLoss、macro、traffic、pooled（能得到时）、selected epoch，在线和EMA（适用时）分别标记。LogLoss独立评价，不控制AUC选点。测试指标只在配置冻结后读取。
 - 固定seed集合优先沿用现有正式已完成的 2022–2026 五seed，且每个被比较的方法与对应对照使用一致的seed。五seed配对平均 test macro ΔAUC ≥ +0.003，同时每个cell五seed配对平均 ΔAUC ≥ −0.001，才是“AUC合格且满足逐格约束”。不要求4/5或5/5同向，不以1–2seed做科学性能淘汰；LL五seed配对平均ΔLL<0标记LL改善，未改善时照实报告但不自动否定AUC。
 - 明确分开：自研完整方案 vs 已发表模型（正式论文基线）；自研X+EMA vs A0+EMA（内部组件增量）；自研X+EMA vs 普通在线训练（完整方案总收益）。只有正式发表的M3oE、HyperGate、AutoIFS等可进入论文baseline栏；EMA自研版本、C_MIX、P01等是内部控制/候选，不能冒称正式发表基线。
@@ -22,9 +22,9 @@
 
 目标：建立 M3oE（M3OE_FIXED1适配版）、HyperGate、AutoIFS 在 MovieLens、KuaiRand 各五seed上与当前方案可对比的 V-macro-AUC-selected 正式基线。
 
-A0. 读取 \`baseline/mdmt-sota-2526\` 分支及报告 \`research_reports/mdmt_baselines_2526/FINAL_REPORT.md\`、原始运行清单、逐epoch V AUC、已保存checkpoint/预测缓存。旧正式协议是 V LogLoss 选点，不能直接把相应test值改名为V AUC选点结果。验证原模型结构及适配；不擅自宣称作者原论文严格复现。
+A0. 读取 `baseline/mdmt-sota-2526` 分支及报告 `research_reports/mdmt_baselines_2526/FINAL_REPORT.md`、原始运行清单、逐epoch V AUC、已保存checkpoint/预测缓存。旧正式协议是 V LogLoss 选点，不能直接把相应test值改名为V AUC选点结果。验证原模型结构及适配；不擅自宣称作者原论文严格复现。
 A1. 逐方法×数据集×seed做恢复审计：能否从已存同轨迹的V逐epoch AUC及相应checkpoint或匹配test端点**准确**恢复新选点结果。若只有标量但没有所需选点的模型/预测/匹配test评价结果，则不能编造，安排严格必要的重训。
-A2. 复用能准确复用者，对缺失者重训，建立 \`AUC_SELECTED_V1\` 新组。模型原生合法训练阶段/独立合理超参保留并明确标记；必要时做公平、有限的validation-only超参搜索，不能使用test选择配置。
+A2. 复用能准确复用者，对缺失者重训，建立 `AUC_SELECTED_V1` 新组。模型原生合法训练阶段/独立合理超参保留并明确标记；必要时做公平、有限的validation-only超参搜索，不能使用test选择配置。
 A3. 完成两数据集、三已发表模型、五seed结果；输出六格绝对AUC与LL、macro/traffic/pooled、配对差、训练与推理成本、源代码和配置身份；确认原先V-LL表保留为历史组，不覆盖。
 A4. 统一协议无法立刻完全恢复的情况按待跑清单逐个排队，标记 NOT_DONE 而不是擅填成功；检查是否与正在运行的补seed任务冲突。
 
@@ -36,7 +36,7 @@ B0. 检查最新五seed补评是否结束，读取其中对C_MIX、P01等候选�
 B1. 候选只允许最多两组。默认优先研究“C_MIX（当前共享梯度修复）+ P01（静态ECCM历史修复）”，其机制不同但可能相互抵消，不能预设必定协同。需要先核对优化器作用顺序与共享参数集合、梯度是否重复缩放、二阶矩输入、EMA是否仍然非反馈；若代码无法正确组合或计算成本过高，则采用“C_MIX + Gaussian增强”作为更简单替代。第二组只有在有额外预算且确有互补信息时再运行，优先选择Gaussian或MASK中的一种，不必全部排列。
 B2. 每组采用2×2控制：A0+EMA、X+EMA、Y+EMA、X+Y+EMA。仅在数据、架构、seed、总更新数、训练目标和选点规则完全匹配时复用已完成单组件轨迹；否则为该2×2补齐相应训练。不允许把自研A0/EMA标记为正式发表基线。
 B3. 优先KuaiRand（此前C_MIX单seed有V和E双正信号）；MovieLens仍应列入后续五seed计划，不能因为单seed负值直接判为无效。每个被正式裁决的组合至少五seed，无1–2seed性能停机门。每个完成的seed立即写入原始指标并保存可恢复状态。
-B4. 报告组合相对A0+EMA的整体增量、相对X+EMA/Y+EMA的增量，以及2×2交互项 \`I = AUC(X+Y) - AUC(X) - AUC(Y) + AUC(A0)\`（同seed、相同选点协议的test宏AUC，跨5seed再平均），完整六格与LL。交互项是描述性的，不把正交互自动解释为因果机制证明。
+B4. 报告组合相对A0+EMA的整体增量、相对X+EMA/Y+EMA的增量，以及2×2交互项 `I = AUC(X+Y) - AUC(X) - AUC(Y) + AUC(A0)`（同seed、相同选点协议的test宏AUC，跨5seed再平均），完整六格与LL。交互项是描述性的，不把正交互自动解释为因果机制证明。
 B5. 遵照main新规则，五seed平均test宏AUC ≥ +0.003且所有cell平均跌幅≥−0.001才标记合格；未满足时区分宏增益/局部代价/成本；不得强制全部seed同向。若单组件补评仍未完成，本晚能完成的准备任务仍要输出，并在GPU空闲时按依赖队列继续执行，不擅自使用未达到五seed的结果作否决。
 
 ## 4. 资源与自动运行调度
@@ -48,9 +48,9 @@ B5. 遵照main新规则，五seed平均test宏AUC ≥ +0.003且所有cell平均�
 
 ## 5. 交付物与仓库维护
 
-- \`research_plans/26-11-03_overnight_AB/\`：本runbook、冻结的 protocol.yaml、queue.yaml/manifest.json、A复用审计表、B机制兼容审查表。
+- `research_plans/26-11-03_overnight_AB/`：本runbook、冻结的 protocol.yaml、queue.yaml/manifest.json、A复用审计表、B机制兼容审查表。
 - 执行分支下提供 A/B 各自的逐seed CSV、六格与汇总指标、对照差、LogLoss、CPU/GPU资源记录、断点恢复脚本和执行入口、阶段报告与最终研究决策。
-- 性能结果用独立、明确的 \`AUC_SELECTED_V1\` 协议组回填 main \`MDMT_ALGORITHM_METRICS_LEDGER.md\`；与其它并发改动以最新main增量合并，不覆盖历史研究报告。
+- 性能结果用独立、明确的 `AUC_SELECTED_V1` 协议组回填 main `MDMT_ALGORITHM_METRICS_LEDGER.md`；与其它并发改动以最新main增量合并，不覆盖历史研究报告。
 - 结果汇总须明确写清：已完成多少真实训练、是否全五seed、哪些可复用、哪些因记录缺失必须重训、哪个组合达标、失败/未完成原因、后续优先级。
 - 不必在研究方案中再追加理论上无法影响本轮算法选择的防御性实验，也不预设任何组件或组合必定有益。
 
