@@ -60,6 +60,20 @@ def main():
                     stages.append(dict(checkpoint=checkpoint, split=split, arm=arm, reference=reference,
                         **{m: contrast[m]['mean'] for m in METRICS}))
             result['paired'][checkpoint][split] = paired
+    result['online'] = {}
+    for checkpoint in ('selected', 'E10', 'E50'):
+        result['online'][checkpoint] = {}
+        for split in ('test', 'validation'):
+            groups = {}
+            for arm in ('G-D0', 'G-D02'):
+                values = sorted((r for r in rows if r['arm'] == arm and r['estimator'] == 'online'
+                                 and r['checkpoint'] == checkpoint and r['split'] == split),
+                                key=lambda r: int(r['seed']))
+                assert tuple(int(r['seed']) for r in values) == SEEDS
+                groups[arm] = {m: stats([float(r[m]) for r in values]) for m in METRICS}
+            result['online'][checkpoint][split] = dict(absolute=groups, G_D02_minus_G_D0={
+                m: stats([x-y for x, y in zip(groups['G-D02'][m]['values'], groups['G-D0'][m]['values'])])
+                for m in METRICS})
     with (HERE / 'STAGE_EFFECTS.csv').open('w', newline='') as stream:
         writer = csv.DictWriter(stream, fieldnames=list(stages[0]))
         writer.writeheader()
