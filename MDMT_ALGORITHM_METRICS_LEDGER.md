@@ -25,6 +25,21 @@
 
 ## 已回填性能矩阵
 
+### 11/04 补齐：MovieLens与KuaiRand的G-D0五seed对比
+
+MovieLens原GAUSSIAN_A1 / fixed_ema实际仅增强d0，已完成2022–2026五seed、每条50epoch；本次作为G-D0复用接入。MovieLens复用Gaussian 5条及三个发表模型15条，新增训练0条。KuaiRand引用本分支既有G-D0结果；两数据集各自n=5。
+
+共同设置：自然原行序80/10/10、train-only预处理、fixed1 M3oE、Adam lr=.01、batch40960、λ=.5、50epoch、FP32、validation六格Macro AUC严格最高且并列最早选点。MovieLens：κ=.05、wd=1e-4、EMAρ=.9828205985452511；KuaiRand：κ=.1、wd=1e-5、EMAρ=.995。
+
+[MovieLens补充说明](research_reports/2026-11-04_gaussian_domain_coverage/MOVIELENS_SUPPLEMENT.md) · [双数据集原数表](research_reports/2026-11-04_gaussian_domain_coverage/G_D0_TWO_DATASETS.csv) · [来源核对](research_reports/2026-11-04_gaussian_domain_coverage/MOVIELENS_SOURCE_AUDIT.json)
+
+| 数据集 / 配置 | n | d0t0 | d0t1 | d1t0 | d1t1 | d2t0 | d2t1 | Macro AUC / LL | Traffic AUC / LL | Pooled AUC / LL |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| MovieLens G-D0 / fixed_ema（复用） | 5 | 0.774415 / 0.585145 | 0.789658 / 0.407081 | 0.782567 / 0.573874 | 0.801390 / 0.390412 | 0.756629 / 0.580689 | 0.771482 / 0.437731 | 0.779357 / 0.495822 | 0.780600 / 0.494372 | 0.780950 / 0.494372 |
+| KuaiRand G-D0 / fixed_ema（既有） | 5 | 0.643921 / 0.287652 | 0.662809 / 0.181037 | 0.702451 / 0.504622 | 0.730723 / 0.345700 | 0.655604 / 0.649660 | 0.679574 / 0.644436 | 0.679180 / 0.435518 | 0.715563 / 0.424828 | 0.720768 / 0.424828 |
+
+MovieLens最强发表模型为M3oE（AUC 0.775189669）；G-D0五seed平均ΔAUC+0.004166933，5/5正，六格均改善，按本分支规则为强算法且满足六格保护；平均ΔLL+0.000931348，4/5恶化。相对HyperGate/AutoIFS的ΔAUC分别+0.007944846/+0.006932013，六格保护均满足，平均ΔLL分别−0.002731649/−0.000271961。KuaiRand相对最强HyperGate的ΔAUC仍为−0.002932373；原KuaiRand覆盖对比和所有历史记录继续保留。
+
 ### 11/04 KuaiRand：Gaussian增强领域覆盖（五seed）
 
 FULLTRAIN_NATURAL80_10_10 / AUC_SELECTED_V1；fixed1 M3oE、自然Sample、batch40960、50epoch、Adam lr=.01/wd1e-5、κ=.1/λ=.5/EMAρ=.995。G-D0=[0]、G-D02=[0,2]各新增五seed，G-D2=[2]复用既有五seed；新增10条/500epoch。以下均为fixedEMA、validation六格Macro AUC严格最大最早selected的test均值，n=5。

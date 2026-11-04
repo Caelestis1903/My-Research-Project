@@ -4,6 +4,8 @@
 
 **当前选择：排序优先保留G-D0，概率损失优先保留G-D2；不优先追加G-D02实验。** G-D0的Macro AUC为0.679180，比G-D2高0.001181；G-D02为0.674604，比G-D0低0.004576。三种Gaussian均低于HyperGate的0.682113，均未达到本轮候选算法或强算法标准。G-D0对M3oE的总AUC收益为+0.007274，六格保护满足，保留这项完整方案收益。
 
+MovieLens的既有GAUSSIAN_A1/fixed_ema已核对为G-D0，2022–2026五seed全部复用，本次补充新增训练0条。来源、逐seed结果及发表模型比较见[MovieLens补充报告](MOVIELENS_SUPPLEMENT.md)，两数据集的六格AUC/LogLoss与各自超参数见[G-D0双数据集对比](G_D0_TWO_DATASETS.md)。下文保留KuaiRand原实验范围及其10条新增训练计数。
+
 ## 1. 统一协议与完成范围
 
 仅改变Gaussian增强覆盖集合：[0]、[0,2]；[2]直接复用历史五seed。原fixed1 M3oE、1614254参数、embedding16、4共享专家、FCN[512,256,256,64]；Gaussian κ=.1、λ=.5、固定EMA ρ=.995、普通Adam lr=.01、coupled wd=1e-5、betas=(.9,.999)、eps=1e-8、batch40960、FP32、50epoch保持冻结。原GA31-R3局部Generator和逐字段RMS detach规则保留；单域直接调用原函数，双域分别产生视图并统一计算 (ΣLreal + .5Σselected(Laug−Lreal))/(2B)。每batch一次backward、Adam和EMA更新。

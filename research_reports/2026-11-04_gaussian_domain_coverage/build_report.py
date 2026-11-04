@@ -48,6 +48,11 @@ def main():
         '完整自然人口，不重采样。train共2006132行，validation/test各250767行，每epoch49步。'
         '任务0=is_click，任务1=long_view。',
     ]
+    if (HERE/'MOVIELENS_SOURCE_AUDIT.json').exists():
+        blocks.insert(3, 'MovieLens的既有GAUSSIAN_A1/fixed_ema已核对为G-D0，2022–2026五seed全部复用，'
+            '本次补充新增训练0条。来源、逐seed结果及发表模型比较见[MovieLens补充报告](MOVIELENS_SUPPLEMENT.md)，'
+            '两数据集的六格AUC/LogLoss与各自超参数见[G-D0双数据集对比](G_D0_TWO_DATASETS.md)。'
+            '下文保留KuaiRand原实验范围及其10条新增训练计数。')
     population = []
     for d, (tab, train) in enumerate(((0,172782),(1,1743898),(4,89452))):
         sample = {split:next(r for r in records if r['arm']=='M3OE' and r['checkpoint']=='selected'
