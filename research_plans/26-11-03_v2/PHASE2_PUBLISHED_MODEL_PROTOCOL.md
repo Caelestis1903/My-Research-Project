@@ -58,6 +58,17 @@ Gaussian＋EMA至少已在ML总收益达标且逐格满足，应列候选；KR�
 
 ## 5. 给后续Codex的直接实现任务
 
+第一阶段已完成：30条新增训练、10条历史复用、180个新增test端点，零失败。按固定EMA selected主端点，冻结以下实际名单：
+
+| 数据 | 总AUC与逐格约束均满足 | 宏AUC达标但有逐格代价 | 当前AUC主比较不优先 |
+|---|---|---|---|
+| MovieLens | C_MIX、H_MIX、P01、Gaussian＋EMA | — | M：总ΔAUC+.002956435，LL改善保留 |
+| KuaiRand | P01、H_MIX、C_MIX、GATS B2＋EMA | Gaussian＋EMA：d0t0−.001271286 | M：总ΔAUC+.002534206，d0t0−.002767112，LL改善保留 |
+
+KuaiRand P01相对固定EMA的组件宏AUC+.004085725，但d1t0/t1为−.001333993/−.001047387；整体方法相对普通训练六格均提升。正式模型比较使用完整配置的总收益资格，组件比较保留“宏AUC达标、逐格约束未满足”。完整结果见[正式报告](../../research_reports/2026-11-03_mdmt_five_seed_completion/REPORT.md)和[机器裁定](../../research_reports/2026-11-03_mdmt_five_seed_completion/DECISIONS.json)。本阶段待新增HyperGate/AutoIFS共20条；M3及候选直接复用。
+
+五seed历史结果按新规则重算还应纳入 **KuaiRand GATS B2＋固定EMA**：相对普通A0 online，总ΔMacro AUC **+.006097847**、ΔMacro LogLoss **−.003002719**，六格平均ΔAUC均为正（+.002766/+.014624/+.005044/+.005339/+.002483/+.006331），满足总体收益与逐格约束。相对A0固定EMA的增量为+.001481447/−.001777377；相对Gaussian＋EMA为+.000005156/−.000113784。该配置具备进入正式比较的整体收益，投影组件相对Gaussian的排序增量接近零。五seed普通/固定EMA控制的selected模型hash与AIGM01逐一一致，逐seed重算见 `research_reports/2026-11-03_mdmt_five_seed_completion/GATS_B2_HISTORICAL_PAIRED.csv`；来源是[GATS冻结报告与原数表](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)。复用已完成五seed，不增加训练。其跨数据集覆盖记录为ML不足五seed，不补列ML正式收益。
+
 1. 将本协议和第一阶段入选名单冻结为一个新实验config，不修改历史default_config（旧config.py固定T0/F人口和V选择，无法只改路径获得新协议）。
 2. 复用 `models.build_model` 中HyperGate/AutoIFS adapter及官方source装载，增加与近期bundle对应的schema适配。M3优先直接沿用第一阶段source构建器，使可复用训练身份保持一致。
 3. 复用旧 `training.py` 的HyperGate训练循环及AutoIFS `_fit_autoifs` 算法步骤；只调整数据接口、validation AUC比较、固定预算和RAM状态交接。旧 `_write_checkpoint` 明确写磁盘，不能调用；用第一阶段guardian内存方式承载rewind/selected/E10/final。
