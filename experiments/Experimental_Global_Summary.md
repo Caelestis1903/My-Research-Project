@@ -26,7 +26,27 @@
 ---
 
 
-## 2026-11-02 最新跨分支综合裁定（10-27—11-02；优先于全部历史快照）
+## 2026-11-04 最新跨分支实证整合（优先于下方11/02历史裁定）
+
+**本轮范围和合并截止。** 原11/02总裁定已整合EXP052–EXP060九组结果，本轮只新增11/02–03补充分支、11/03条件信息及真实历史实验、11/03五seed补全（11/04发布）、11/04 A+B统一发表模型及CP组合、11/04 Gaussian域覆盖及MovieLens既有来源核验。原始报告仍留源分支、本文只归档结论；性能总台账中11/03五seed数字原已存在，新增11/04发表模型/CP及KR G-D0/G-D02完整六格指标。不重复计算同轨迹的多个估计器、E10/E50或重命名别名。
+
+| 实验来源与执行情况 | 关键实证（除特别说明外，为validation六格宏AUC选点后的test） | 当前结论与决策 |
+| --- | --- | --- |
+| [11/02–03 PAIR/ECCM及P01/P10补充](https://github.com/Caelestis1903/My-Research-Project/blob/a06f9d3e544a8658b2d24ddc8f7d10d3f20f0288/research_reports/2026-11-02_mdmt_information_momentum_v3/REPORT.md) | 原S1两数据各2seed、24条训练；新增8条训练补充λ=.05的P00/P01/P10/P11两seed完整2×2。KR P01−P00的test宏AUC **+0.012099**、validation **−0.000101**；KR交互P11−P10−P01+P00的test **−0.012347**（两seed均负），ML交互**−0.000384**且种子异向 | 此配置有KR测试条件性增益及负交互线索；**n=2不能五seed性能否决**，旧S2/S3 NOT_TRIGGERED不构成阴性。不能据此证明ECCM独立必要性 |
+| [11/03 条件信息增强与真实历史更新](https://github.com/Caelestis1903/My-Research-Project/blob/f9c2a8ef7b29b899e63b1beba823df1b6ea22c72/research_reports/2026-11-03_mdmt_history_information/REPORT.md) | 候选仅seed2022，新训13条、650epoch；KR C_MIX相对A0f的test宏AUC **+0.009531**、LogLoss **−0.005302**，但validation d0t0 **−0.006295**；H_MIX的test宏AUC **+0.012815**，traffic AUC **−0.000647**。ML全部候选主AUC未超过A0f，T0 test LL **−0.007020** | 原D0门停止、后续不触发是历史执行事实，不是五seed全否定。C/H/M后有完整五seed应以新裁定为准；T0/TM/H_REAL保持早期信号；KR TM为COST_BLOCKED |
+| [11/03五seed补全，11/04发布](https://github.com/Caelestis1903/My-Research-Project/blob/652ee0235fec2d0d4cfc67b4a6ef9977519619bf/research_reports/2026-11-03_mdmt_five_seed_completion/REPORT.md) | 两数据四候选40条逻辑轨迹（30新、10复用）。对普通M3oE online，ML C/H/P01固定EMA总宏AUC **+0.003253/+0.003059/+0.003225**、KR **+0.003720/+0.005579/+0.008702**，对应六格保护均满足。KR P01对无组件固定EMA AUC **+0.004086**但d1t0/t1 **−0.001334/−0.001047**。ML Gaussian＋EMA总AUC **+0.004167**、LL **+0.000931**；KR GATS B2历史总AUC **+0.006098**、六格保护通过 | **接受所列完整方案相对普通模型的五seed整体AUC收益**；不得把EMA贡献说成组件独有作用。KR P01对EMA宏收益达标但逐格保护未通过，ML C/H/P01相对EMA AUC均负；五seed原值已进main台账 |
+| [11/04 Overnight A+B统一AUC选点和CP组合](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md) | 30条A发表模型槽位、40条B组合槽位，合计30条新增训练。ML M3/HG/AutoIFS宏AUC **0.775190/0.771412/0.772425**，最强M3；KR **0.671907/0.682113/0.678597**，最强HG。CP fixedEMA ML/KR **0.777525/0.678168**，对M3总AUC **+0.002335/+0.006261**，对单独P01 **−0.000890/−0.002441** | 论文基线已统一自然人口、AUC合法选点。旧10/29 V按LL及人口/预处理不同不得跨表排名。CP对ML最强M3未达+.003、KR不胜HG，排序优先不替代P01；其对KR M3的总AUC及LL收益保留 |
+| [11/04 Gaussian领域覆盖](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md)／[ML源核验](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/MOVIELENS_SUPPLEMENT.md) | KR G-D0/G-D02各新训5seed，G-D2沿用旧5seed，三者宏AUC **0.679180/0.674604/0.677999**、LL **0.435518/0.436172/0.434283**。D02−D0宏AUC **−0.004576**，d0t0 **−0.014949**。ML G-D0即旧Gaussian，宏AUC **0.779357**、相对M3 **+0.004167**且六格保护通过，ML复用无新训练 | KR宏AUC优先G-D0、宏LL优先G-D2，双域G-D02不优先。KR三臂均不胜最强HG，G-D0对M3总AUC **+0.007274**且六格通过。ML G-D0可按同协议胜最强发表M3，但LL平均上升 |
+
+**跨轮收敛结论。** EMA是独立明确有效的时间平滑内部参照。旧一、两seed的停止门不能自动推翻后续完整五seed的整体排序收益；整体方案收益同样不能直接证明C、H、PAIR、ECCM单个新增部件各自有效。完整2×2已足以拒绝把CP作为当前排序优先组合。统一AUC选点后ML的正式发表模型排序与10/29旧协议相反，本轮以M3、HyperGate、AutoIFS三种合法发表模型为正式baseline；其自带训练设置/架构不同，不声称同超参训练或严格复现原论文。Gaussian改变增强域可改变六格与宏/traffic/LL取舍，直接增加覆盖并未获得排序加成。
+
+**适用条件与后续决策。** 两自然数据均原行序80/10/10、train-only预处理，ML train 800167行、KR train 2006132行；固定M3与内部候选batch40960、Adam lr=.01、50epoch，EMA rho为ML .9828205985452511、KR .995。各模型按validation六格macro AUC严格最大、并列最早选点后以test为主；E10/E50仅作阶段诊断，online/EMA是同轨迹不同估计器。五seed总AUC配对均值≥+.003、逐cell均值≥−.001分别裁定，LL配对均值<0单独报告。KR test流量主要来自d1，宏/traffic会因权重不同方向分歧。**当前决策**是保留ML G-D0相对最强论文模型的已达标优势、KR的已有完整方案总收益但不声称超过HG；优先研究可改变算法选择的域任务收益分配与组件增量，不重启已完成论文基线统一或进行缺乏决策价值的重复确认。
+
+**数值入口：** [MDMT算法性能总台账](../MDMT_ALGORITHM_METRICS_LEDGER.md)。Overnight增量为正式M3/HG/AI与CP的六格及selected/E10/E50；KR G-D0/G-D02新数据与旧G-D2锚点同协议并列。ML G-D0与原Gaussian、KR G-D2与原Gaussian各为一组源轨迹的别名，不能累加独立seed或训练次数。
+
+---
+
+## 2026-11-02 历史跨分支综合裁定（10-27—11-02；以11/04新整合为准）
 
 **总状态：** main的系统性结论此前主要截至2026-10-26；此次补入9组不同已执行实验/基线（EXP052–EXP060），不把同源代码、重复训练、多个endpoint和未触发计划重复计数。报告和原始实验记录仍保留各自分支，本次仅将结论、证据与停止/开放状态纳入main。此前的历史实证与明确已接受的研究结论保留，不以新一轮防御性分析“重新归零”。
 

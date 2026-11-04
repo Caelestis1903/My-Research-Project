@@ -29,9 +29,23 @@
 
 
 
-## 2026-11-02 AI Handoff：最新研究事实及不重复清单
+## 2026-11-04 最新 AI Handoff：五seed、统一发表模型与Gaussian覆盖（优先于11/02旧快照）
 
-**本段是最新权威上下文，优先于下方10-26、10-18、10-09的所有“当前”“下一步”历史记录。** 核对了截至11-02尚未进入main总台账的9组不同实验或正式基线活动，登记为[EXP052–EXP060](experiments/Experimental_Experiment_Index.md)和[E058–E069](experiments/Experimental_Evidence_Ledger.md)。只汇总结论，不复制研究分支代码、数据、报告或实验产物。已执行报告的同seed/同训练轨迹复用不当作独立验证。
+**本次增量范围。** 此前11/02归档的EXP052–EXP060不再重复登记；新增整合11/02–03 PAIR/ECCM补充、11/03条件信息/真实历史分支、11/03五seed补全（11/04发布）、11/04 Overnight A+B统一发表模型比较，以及11/04 Gaussian增强域覆盖和MovieLens来源补齐。仅提取科学结论和关键指标，不合并原实验分支的代码、日志或训练产物；[指标台账](MDMT_ALGORITHM_METRICS_LEDGER.md)记录六格绝对值、Macro/Traffic/Pooled及选点身份。**下方11/02“最新”“下一步”是历史快照，不得覆盖本节研究决定。**
+
+1. **正式论文模型已统一AUC选点，不能继续把这项工作列为未执行。** FULLTRAIN_NATURAL80_10_10、train-only预处理、validation六格Macro AUC最早最大值选点，test五seed：MovieLens M3oE fixed1 / HyperGate / AutoIFS Macro AUC依次**0.775190 / 0.771412 / 0.772425**，其中M3oE最强；KuaiRand依次**0.671907 / 0.682113 / 0.678597**，其中HyperGate最强。三者是已发表论文模型的工程适配，各自保留不同的训练/优化器/批量和AutoIFS search/reuse阶段；HyperGate超参仍标记UNVERIFIED_PROPOSAL。旧10/29的V按LogLoss选点及训练人口/预处理不同，旧排序不能跨协议继承。[A+B统一对比](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md)
+2. **五seed补全修正旧单seed的局部判断：总收益≠组件增量。** 相对普通M3oE online，C_MIX/H_MIX/P01＋固定EMA在MovieLens配对Macro AUC分别**+0.003253/+0.003059/+0.003225**，KuaiRand分别**+0.003720/+0.005579/+0.008702**，均达到五seed总AUC阈值且六格均值满足−0.001保护。相对*无新增组件*固定EMA，MovieLens三者的新增组件AUC增量均负；KuaiRand P01组件增量**+0.004086**，但d1t0/d1t1 **−0.001334/−0.001047**，属于“宏收益达标、单格保护未满足”。M整体增量在两数据均不足+0.003。早期条件信息实验只在seed2022执行13条新轨迹，KR C_MIX test+0.009531/LL−0.005302但validation d0t0下降；旧D0停止门、未触发阶段不再冒充五seed结论，T0/TM/H_REAL依旧只具早期信号。[五seed补全](https://github.com/Caelestis1903/My-Research-Project/blob/652ee0235fec2d0d4cfc67b4a6ef9977519619bf/research_reports/2026-11-03_mdmt_five_seed_completion/REPORT.md)；[旧条件信息报告](https://github.com/Caelestis1903/My-Research-Project/blob/f9c2a8ef7b29b899e63b1beba823df1b6ea22c72/research_reports/2026-11-03_mdmt_history_information/REPORT.md)
+3. **Gaussian＋EMA在两个数据集已可同协议定位，覆盖更多领域并不保证更好的AUC。** MovieLens旧Gaussian实际增强d0（现名G-D0），Macro AUC/LL **0.779357/0.495822**；对本轮最强论文模型M3oE AUC **+0.004167**，六格保护通过，LL却**+0.000931**。KuaiRand旧Gaussian增强d2（G-D2）Macro AUC/LL **0.677999/0.434283**；本轮新增G-D0 **0.679180/0.435518**，G-D02（同时增强d0、d2）**0.674604/0.436172**。KR D0−D2 AUC **+0.001181**；D02−D0 **−0.004576**，d0t0 **−0.014949**。三种KR Gaussian均不及最强论文模型HyperGate 0.682113，但G-D0相对M3oE的完整方案总AUC **+0.007274**、六格保护通过；对固定EMA的组件AUC **+0.002657**，d1两个任务下降越过保护线。ML G-D0核验**仅复用已有五seed，新增训练0条**，并非另一个新算法。[KR覆盖报告](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md)；[ML别名与来源核验](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/MOVIELENS_SUPPLEMENT.md)
+4. **C_MIX＋P01的CP组合未取得预期排序叠加。** CP fixedEMA在ML/KR Macro AUC/LL分别**0.777525/0.494212**和**0.678168/0.434505**；对普通M3oE总AUC **+0.002335/+0.006261**，对固定EMA内部组件增量**−0.001514/+0.001645**，对P01分别**−0.000890/−0.002441**。ML未达到相对最强发表M3oE的+0.003，KR落后最强HyperGate **−0.003945**。保留ML相对HG/AutoIFS的AUC优势、KR相对M3oE已达标整体AUC与LL改善，但**当前排序优先级不以CP取代P01**。当前投影同时改变梯度方向与范数，不直接将损失变化解释为独立方向机制。[CP完整2×2及A+B](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md)
+5. **PAIR/ECCM早期两seed仅作为组件线索，后续完整P01五seed是另一个结论层次。** 11/03补充P01/P10时，KR P01−P00 test AUC **+0.012099**（n=2），但validation **−0.000101**；KR两seed2×2交互（P11−P10−P01+P00）test **−0.012347**。说明在此配置内存在非加性与V/test差异，但不证明ECCM单组件的五seed必要性。原S2/S3 NOT_TRIGGERED与KR TM的COST_BLOCKED原样保留为执行状态。[PAIR/ECCM与补充](https://github.com/Caelestis1903/My-Research-Project/blob/a06f9d3e544a8658b2d24ddc8f7d10d3f20f0288/research_reports/2026-11-02_mdmt_information_momentum_v3/REPORT.md)
+
+**研究决策：** 正式论文Baseline仅使用已发表的M3oE、HyperGate、AutoIFS；固定EMA及C/H/P01/Gaussian/CP只能作为候选或内部消融。现有五seed足以接受若干完整配置相对普通训练的总AUC收益；不能把这部分收益完全归因于新增机制。ML G-D0已超过最强发表模型并满足六格保护；KR Gaussian未超过最强HyperGate。KR宏AUC优先G-D0、宏LL优先G-D2；当前不优先追加G-D02。未来如研究独立梯度/历史机制，只在差异可能改变下一方案选择时安排匹配控制，不重复测试已归档事实。
+
+---
+
+## 2026-11-02 AI Handoff：历史研究事实及不重复清单（11/04优先）
+
+**本段仅是2026-11-02历史Handoff；以上方2026-11-04最新裁定为准，但相对下方10-26、10-18、10-09旧快照仍具有更高优先级。** 核对了截至11-02尚未进入main总台账的9组不同实验或正式基线活动，登记为[EXP052–EXP060](experiments/Experimental_Experiment_Index.md)和[E058–E069](experiments/Experimental_Evidence_Ledger.md)。只汇总结论，不复制研究分支代码、数据、报告或实验产物。已执行报告的同seed/同训练轨迹复用不当作独立验证。
 
 **已可接受的事实：**
 1. **固定参数EMA是当前有效的selected AUC基线。** 11-01的无增强online→非反馈EMA shadow，在MovieLens test宏AUC配对+0.004399（5/5），在另一次调参对照+0.003849（5/5）；KuaiRand +0.004616（4/5）。ML同期LogLoss分别+0.007800/+0.001249，均4/5恶化，**排序收益与概率损失收益不可等同**。EMA并未改写真实在线Adam动量递推。
