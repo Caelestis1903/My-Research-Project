@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "study_id": "AUG_HISTORY_20261105",
+  "route": "B",
+  "status": "PASS WITH FIXES",
+  "blocking_issues": [],
+  "source_hash": "9baac157d4574ccc2ec02a9db42cd365ec918346c32b1b3ace2dcc6f65893f2a",
+  "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+  "source_ref": "c8675ae2923c15b6965884b140b5b646690cd95e",
+  "plan_ref": "2645f1f724f52f5ed5dea4b479335c0dc12fabcd",
+  "reviewed_at_utc": "2026-11-05 10:22:58 UTC",
+  "report": "research_reports/2026-11-05_aug_history/REVIEW_REPORT.md",
+  "first_verdict": "FAIL",
+  "corrected_issues": [
+    "Explicit resume requeues failed/dead owners once per invocation and retains RAM state",
+    "Live guardian owners are excluded from dispatch and foreign registration failures cannot clear ownership",
+    "Rejected scalar/replay transactions restore the previously committed RAM state and index"
+  ],
+  "independent_verification": {
+    "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m pytest experiments/aug_history_20261105/tests/test_b.py -q -k 'resume_ownership or ram_export_restore'",
+    "result": "2 passed, 9 deselected, 1 warning in 8.49s",
+    "exit_code": 0
+  },
+  "run_stage_requirements": [
+    "Preflight and source/data identity pass for this implementation",
+    "B STAGE0_CHECKS pass for this source hash",
+    "Both datasets pass original batch40960 GPU smoke for this source hash"
+  ],
+  "deferred_routes": {
+    "A": "DESIGN_COMPLETE_NOT_IMPLEMENTED",
+    "C": "DESIGN_COMPLETE_NOT_IMPLEMENTED"
+  }
+}
