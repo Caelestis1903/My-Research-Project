@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "study_id": "AUG_HISTORY_20261105",
+  "route": "A",
+  "dataset": "movielens",
+  "status": "DECIDED",
+  "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+  "selection_hash": "ba672ccb017266847085f3de6ccd72cbec8115c93489b4c89b84517b21d8a4c2",
+  "seed_ids": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "all_required_candidates_complete": true,
+  "winners": {
+    "A_GROUP": "A_GROUP_020_K20",
+    "A_GLOBAL": "A_GLOBAL_020_K20",
+    "A_FIXED": "A_FIXED_T_FAST",
+    "U": "F"
+  },
+  "selected_candidate": "F",
+  "validation": {
+    "macro_auc_by_winner": {
+      "A_GROUP": 0.7595443133224734,
+      "A_GLOBAL": 0.7595382419306058,
+      "A_FIXED": 0.7595639153498115,
+      "U": 0.7595220143897777
+    },
+    "F_macro_auc": 0.7595220143897777,
+    "unconstrained_family_score_winner": "A_FIXED_T_FAST",
+    "protected_best": "A_FIXED_T_FAST",
+    "selected_candidate": "F",
+    "selected_macro_auc": 0.7595220143897777,
+    "selected_minus_F": 0.0,
+    "six_cell_auc_deltas": {
+      "d0t0": 0.0,
+      "d0t1": 0.0,
+      "d1t0": 0.0,
+      "d1t1": 0.0,
+      "d2t0": 0.0,
+      "d2t1": 0.0
+    },
+    "simpler_preferred": true,
+    "simple_choice_gap": 4.1900960033758317e-05,
+    "measured_cost_seconds": {
+      "A_GROUP_020_K20": 330.02275443303006,
+      "A_GLOBAL_020_K20": 305.39501035894136,
+      "A_FIXED_T_FAST": 261.3453901369612,
+      "F": 237.2203364810448
+    }
+  },
+  "decision_basis": {
+    "split": "validation",
+    "test_consulted": false,
+    "historical_test_exposure": true
+  },
+  "cost": {
+    "online_trajectories": 5,
+    "estimator_seed_instances": 75,
+    "training_seconds": 2882.775461141031,
+    "probe_seconds": 456.737247231933,
+    "validation_seconds": 3660.534819607019,
+    "gpu_seconds": 7000.047527979983,
+    "wall_seconds": 7000.047527979983,
+    "original_rows": 200041750,
+    "extra_views": 38987250,
+    "real_adam_steps": 5000,
+    "validations": 4000,
+    "peak_gpu_bytes": 1029393408,
+    "peak_gpu_reserved_bytes": 1115684864,
+    "peak_ram_bytes": 3507441664,
+    "sampling_seconds": 21.870547653994436
+  },
+  "matched_rule": "A_NO_PROTECTED_INCREMENT",
+  "next_action": "RUN_C",
+  "next_actions": [
+    {
+      "route": "C",
+      "dataset": "movielens",
+      "matrix": "C_FULL",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    }
+  ],
+  "deferred_routes": [],
+  "test_report": {
+    "status": "NOT_YET_EVALUATED"
+  }
+}

@@ -1,0 +1,13 @@
+...................                                                      [100%]
+=============================== warnings summary ===============================
+experiments/aug_history_20261105/tests/test_a.py::test_a_source_purity_clocks_and_restore[movielens]
+  /home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/backends/__init__.py:46: UserWarning: Please use the new API settings to control TF32 behavior, such as torch.backends.cudnn.conv.fp32_precision = 'tf32' or torch.backends.cuda.matmul.fp32_precision = 'ieee'. Old settings, e.g, torch.backends.cuda.matmul.allow_tf32 = True, torch.backends.cudnn.allow_tf32 = True, allowTF32CuDNN() and allowTF32CuBLAS() will be deprecated after Pytorch 2.9. Please see https://pytorch.org/docs/main/notes/cuda.html#tensorfloat-32-tf32-on-ampere-and-later-devices (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:80.)
+    self.setter(val)
+
+experiments/aug_history_20261105/tests/test_b.py::test_source_online_hash_and_loss[movielens]
+  /home/xzf/Code/phase0-3_aug_history_20261105/experiments/aug_history_20261105/tests/test_b.py:78: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+  Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+    assert not empty.metadata['augmented'] and all(float(v)==0 for v in empty.aug_by_cell.values())
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+19 passed, 2 warnings in 155.04s (0:02:35)
