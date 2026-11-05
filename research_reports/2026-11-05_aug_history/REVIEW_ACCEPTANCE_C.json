@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "study_id": "AUG_HISTORY_20261105",
+  "route": "C",
+  "scope_datasets": ["movielens"],
+  "status": "PASS",
+  "blocking_issues": [],
+  "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+  "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+  "source_ref": "c8675ae2923c15b6965884b140b5b646690cd95e",
+  "plan_ref": "2645f1f724f52f5ed5dea4b479335c0dc12fabcd",
+  "reviewed_at_utc": "2026-11-05 15:04:30 UTC",
+  "report": "research_reports/2026-11-05_aug_history/REVIEW_REPORT_C.md",
+  "independent_verification": [
+    {
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m pytest experiments/aug_history_20261105/tests/test_c.py -q",
+      "result": "7 passed, 1 warning in 14.93s",
+      "exit_code": 0
+    },
+    {
+      "check": "ENGINEERING_ONLY four-stage resolver/select/decision/report/STOP integration",
+      "result": "PASS",
+      "trajectories": 30,
+      "validation_rows": 3000,
+      "hpo_rows": 6,
+      "frozen_endpoint_identities": 90,
+      "scalar_report_endpoint_rows": 330,
+      "scalar_report_summary_rows": 3366
+    },
+    {
+      "check": "Actual immutable A/B provenance, parent reuse and ML-only continuation",
+      "result": "PASS"
+    }
+  ],
+  "run_stage_requirements": [
+    "New C attempt preflight and current source/data/parent identity pass",
+    "C STAGE0_CHECKS pass for this source hash and MovieLens scope",
+    "Original batch40960 GPU smoke passes gamma-zero source equivalence and a nonzero old-teacher conditional-statistic/view path"
+  ],
+  "deferred_routes": {
+    "kuairand_C": "DEFERRED_NOT_RUN"
+  }
+}

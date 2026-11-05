@@ -53,6 +53,9 @@ def candidate_deviation(candidate):
 def select(output):
     from .report import write_csv
     output = Path(output)
+    if read_json(output/'PREPARED.json').get('route')=='C':
+        from .c_search import select_C
+        return select_C(output)
     prepared,summaries = complete_summaries(output)
     route_name=prepared.get('route','B')
     curves,hpo,selected = [],[],{}
@@ -142,6 +145,8 @@ def require_frozen(output,path):
     prepared = read_json(output/'PREPARED.json')
     if frozen.get('route')!=prepared.get('route','B'):
         raise ValueError('Frozen selection route differs from prepared attempt')
+    if frozen.get('route')=='C' and frozen.get('scope_datasets')!=prepared.get('scope_datasets'):
+        raise ValueError('Frozen C scope differs from prepared attempt')
     if frozen.get('selection_hash') != digest(unsigned) or frozen.get('seed_ids') != SEEDS:
         raise ValueError('Frozen selection checksum or seeds changed')
     if (frozen['source_hash'],frozen['manifest_hash']) != (prepared['identity']['source_hash'],prepared['identity']['manifest_hash']):

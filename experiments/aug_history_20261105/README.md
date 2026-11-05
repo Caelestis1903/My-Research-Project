@@ -27,4 +27,12 @@ A uses the frozen twelve-path grouping, four fixed profiles, four grouped contro
 
 Use a separate output such as `artifacts/aug_history_20261105/attempt_A1`, and add `--route A` to preflight/validate/train/select/decide/evaluate/report/continue/release. `preflight` writes `GROUP_MAP.json`. Independent A acceptance is `research_reports/2026-11-05_aug_history/REVIEW_ACCEPTANCE_A.json`, bound to the new source hash. `validate --suite A --gpu-smoke` runs original batch40960 through step20 so the actual K20 q controllers are exercised; these are engineering checks.
 
-`continue --route A --decision artifacts/aug_history_20261105/attempt1/B/DECISION.json --output artifacts/aug_history_20261105/attempt_A1 --resume` reads B's own stored PREPARED/selection identities and writes a continuation receipt only to the A output. It does not reinterpret B under the new source hash. Subsequent A commands write under the new output's `A/` directory. C remains `DESIGN_COMPLETE_NOT_IMPLEMENTED` until triggered.
+`continue --route A --decision artifacts/aug_history_20261105/attempt1/B/DECISION.json --output artifacts/aug_history_20261105/attempt_A1 --resume` reads B's own stored PREPARED/selection identities and writes a continuation receipt only to the A output. It does not reinterpret B under the new source hash. Subsequent A commands write under the new output's `A/` directory.
+
+## Route C: MovieLens
+
+C uses a separate `attempt_C1` output and `--route C --datasets movielens` on preflight/train. Its prepared identity, stage resolutions, smokes and report persist this scope; KuaiRand scientific jobs are rejected. Independent acceptance is `REVIEW_ACCEPTANCE_C.json` bound to the new source hash. Run `continue --route C` with the frozen A decision first; its immutable `ENTRY_CONTINUATION.json` records MovieLens authorization and the prior source identities.
+
+`train` runs C1/C2 five seeds each, freezes W12, resolves C3 five seeds, freezes W123, resolves C4 five seeds, freezes C*, then runs the two C*-matched controls five seeds each. Each numeric configuration has its own immutable resolution and trajectory IDs. All thirty jobs use the existing RAM guardian; current teacher/statistics/rotations and selected states stay in RAM. Gamma-zero F/online endpoints are reused from B with their original identities, adding no C0 science training.
+
+`validate --suite C --gpu-smoke` checks original batch40960 gamma-zero source equivalence and a nonzero old-teacher conditional path. `select/decide/evaluate/report/continue --route C` then complete the frozen test phase and STOP_AND_REPORT. Ordinary training and A probes retain the source detached gate; only C's input probe restores the full gate-input derivative.

@@ -24,7 +24,10 @@ def create_session(job, bundle, device):
     optimizer = torch.optim.Adam(model.parameters(), lr=c['lr'], betas=tuple(c['betas']),
         eps=c['eps'], weight_decay=c['weight_decay'], foreach=False, fused=False, amsgrad=False)
     ids = ['online']+[row['id'] for row in job['candidates']]
-    if job.get('route','B')=='A':
+    if job.get('route','B')=='C':
+        from .conditional_state import ConditionalAugState
+        bank=ConditionalAugState(model,layout,bundle,c,job['seed'],job['candidates'][0]['id'])
+    elif job.get('route','B')=='A':
         from .group_registry import build_path_groups
         from .grouped_ema import GroupedEMABank
         registry=build_path_groups(model,bundle)
@@ -47,6 +50,21 @@ def train_batch(session, x, y, row_ids=None):
     model, optimizer, bank = session['model'], session['optimizer'], session['bank']
     config, seed = session['job']['config'], session['job']['seed']
     step = session['global_step']+1
+    if session['job'].get('route','B')=='C':
+        from .conditional_objective import conditional_loss_terms
+        if row_ids is None:
+            raise ValueError('C probes require current raw batch row IDs')
+        response=bank.before_step(model,row_ids,step)
+        optimizer.zero_grad(set_to_none=True)
+        terms=conditional_loss_terms(model,x,y,bank.root,dict(config,seed=seed,step=step))
+        if not bool(torch.isfinite(terms.total)):
+            raise FloatingPointError('Nonfinite conditional training loss')
+        terms.total.backward(); optimizer.step(); bank.after_step(model,step)
+        session['global_step']=step
+        response['views']=terms.metadata.get('conditional_metadata',{})
+        return dict(loss=float(terms.total.detach()),clean_loss=float(terms.clean.detach()),
+            extra_views=terms.metadata['extra_views'],probe_seconds=response['probe_seconds'],response=response,
+            views=[{k:v[k] for k in ('key','seed','hash')} for v in terms.metadata['views']])
     if session['job'].get('route','B')=='A':
         if row_ids is None:
             raise ValueError('A probes require current raw batch row IDs')

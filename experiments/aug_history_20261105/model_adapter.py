@@ -5,10 +5,26 @@ from experiments.mdmt_history_information_20261103.vendor.v3.vendor.ema02.vendor
 
 class ModelAdapter(MDMTRec):
     def forward_logits(self, x, params=None, delta=None, probe_input_full_graph=False):
-        if delta is not None or probe_input_full_graph:
-            raise NotImplementedError('Full-input probes belong to the triggered C implementation')
         outputs, handles = {}, []
         try:
+            if delta is not None:
+                if delta.shape!=(x.shape[1],len(self.perturb_slices),16):
+                    raise ValueError('delta must have shape [N,fields,16]')
+                def add_delta(module,inputs,output):
+                    value=output.clone()
+                    for field,(start,end) in enumerate(self.perturb_slices):
+                        value[:,start:end]=output[:,start:end]+delta[:,field,:]
+                    return value
+                handles.append(self.embedding.register_forward_hook(add_delta))
+            if probe_input_full_graph:
+                captured={}
+                handles.append(self.skip_conn.register_forward_hook(
+                    lambda module,inputs,output:captured.__setitem__('skip',output)))
+                handles.append(self.star_mlp.register_forward_hook(
+                    lambda module,inputs,output:captured.__setitem__('star',output)))
+                for gate in self.gate:
+                    handles.append(gate.register_forward_pre_hook(
+                        lambda module,inputs:(captured['star']+captured['skip'],)))
             for index, tower in enumerate(self.tower):
                 handles.append(tower.register_forward_hook(
                     lambda module, inputs, output, index=index: outputs.__setitem__(index, output.squeeze(1))))

@@ -39,6 +39,9 @@ def archived_online_cost(dataset):
 
 def decide(output):
     output=Path(output); route=output/'B'
+    if read_json(output/'PREPARED.json').get('route')=='C':
+        from .c_search import decide_C
+        return decide_C(output)
     if read_json(output/'PREPARED.json').get('route','B')=='A':
         return decide_A(output)
     frozen=require_frozen(output,route/'selection_frozen.json')
@@ -161,6 +164,9 @@ def endpoint_row(job,candidate,endpoint,point,split,values,layout_hash):
 
 
 def evaluate(output,frozen_path,device='cuda:0'):
+    if read_json(Path(output)/'PREPARED.json').get('route')=='C':
+        from .c_search import evaluate_C
+        return evaluate_C(output,frozen_path,device)
     import torch
     from . import guardian
     from .model_adapter import build_model
@@ -210,6 +216,9 @@ def evaluate(output,frozen_path,device='cuda:0'):
 
 
 def report(output):
+    if read_json(Path(output)/'PREPARED.json').get('route')=='C':
+        from .c_search import report_C
+        return report_C(output)
     output=Path(output); prepared=read_json(output/'PREPARED.json'); route_name=prepared.get('route','B'); route=output/route_name
     if not (route/'EVALUATED.json').exists():
         raise Incomplete('Complete frozen test endpoints before report')

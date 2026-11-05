@@ -59,9 +59,14 @@ def resolve(manifest, dataset, route='B'):
         for row in candidates:
             if row['family'] is None:
                 row['family']='A_GROUP' if row['mode']=='grouped' else 'A_GLOBAL'
+    elif route=='C':
+        if dataset!='movielens':
+            raise ValueError('C scientific scope is MovieLens only')
+        candidates=[dict(id='C1_NEG',family='C_SEARCH',gamma=-2.,refresh_steps=20,control_mode='task'),
+                    dict(id='C2_POS',family='C_SEARCH',gamma=2.,refresh_steps=20,control_mode='task')]
     else:
-        raise ValueError('Route C is DESIGN_COMPLETE_NOT_IMPLEMENTED')
-    if len(candidates) != 15 or len({row['id'] for row in candidates}) != 15:
+        raise ValueError('Unknown experiment route')
+    if route!='C' and (len(candidates) != 15 or len({row['id'] for row in candidates}) != 15):
         raise ValueError('Each implemented route must contain fifteen distinct estimators')
     return ResolvedProtocol(m, dataset, c, candidates, sha_file(path))
 
@@ -142,15 +147,19 @@ def published_reference():
         primary_reference=dict(movielens='M3oE_fixed1', kuairand='HyperGate'))
 
 
-def preflight(manifest, output, route='B'):
+def preflight(manifest, output, route='B', datasets=None):
     output = Path(output); output.mkdir(parents=True, exist_ok=True)
-    protocols = {ds: resolve(manifest,ds,route) for ds in ('movielens','kuairand')}
+    scope=list(datasets or (['movielens'] if route=='C' else ['movielens','kuairand']))
+    if route=='C' and scope!=['movielens']:
+        raise ValueError('C preflight scope must be [movielens]')
+    protocols = {ds: resolve(manifest,ds,route) for ds in scope}
     source = source_manifest()
     data = {ds: verify_data(p) for ds, p in protocols.items()}
     _, reference = published_reference()
     identity = dict(source_hash=source['sha256'], manifest_hash=sha_file(manifest),
         datasets={ds:digest(row) for ds,row in data.items()})
     if route!='B': identity['route']=route
+    if route=='C': identity['scope_datasets']=scope
     old = output/'PREPARED.json'
     if old.exists() and read_json(old)['identity'] != identity:
         raise ValueError('Attempt identity differs; use another output path')
@@ -176,6 +185,7 @@ def preflight(manifest, output, route='B'):
         write_json(output/'GROUP_MAP.json',groups)
     jobs = []
     for ds,p in protocols.items():
+        if route=='C': continue
         for seed in SEEDS:
             job = dict(dataset=ds, seed=seed, route=route, config=p.config,
                 config_hash=digest(p.config), manifest_hash=p.manifest_hash, source_hash=source['sha256'],
@@ -188,6 +198,12 @@ def preflight(manifest, output, route='B'):
     prepared = dict(identity=identity, source_receipt=receipt, environment=environment,
         jobs=jobs, cache_root=str(CACHE), manifest=str(Path(manifest).resolve()))
     if route!='B': prepared['route']=route
+    if route=='C':
+        from . import c_search
+        prepared.update(scope_datasets=scope,resolved_configs={ds:p.config for ds,p in protocols.items()},
+            candidate_templates=protocols['movielens'].manifest['route_C'])
+        prepared['jobs']=c_search.initialize(output,prepared)
+        receipt['scope_datasets']=scope
     write_json(output/'SOURCE_RECEIPT.json',receipt)
     write_json(output/'RESOLVED_PROTOCOL.json',{ds:p.config for ds,p in protocols.items()})
     write_json(output/'DATA_MANIFEST.json',data)

@@ -1,4 +1,4 @@
-"""Review-gated A/B execution with RAM-only state and frozen continuation commands."""
+"""Review-gated A/B/C execution with RAM-only state and frozen continuation commands."""
 import argparse
 import copy
 import json
@@ -24,12 +24,15 @@ def prepared(output,manifest):
     p=read_json(Path(output)/'PREPARED.json')
     if p['identity']['manifest_hash']!=sha_file(manifest) or p['identity']['source_hash']!=protocol.source_manifest()['sha256']:
         raise ValueError('Implementation/manifest differs from prepared identity')
+    if p.get('route')=='C':
+        from . import c_search
+        p['jobs']=c_search.resolved_jobs(output,p)
     return p
 
 
 def review_gate(output,p):
     route=p.get('route','B')
-    path=protocol.ROOT/'research_reports/2026-11-05_aug_history'/('REVIEW_ACCEPTANCE_A.json' if route=='A' else 'REVIEW_ACCEPTANCE.json')
+    path=protocol.ROOT/'research_reports/2026-11-05_aug_history'/('REVIEW_ACCEPTANCE.json' if route=='B' else f'REVIEW_ACCEPTANCE_{route}.json')
     if not path.exists():
         raise RuntimeError('Independent review acceptance is required before formal train')
     review=read_json(path)
@@ -39,11 +42,15 @@ def review_gate(output,p):
     if checks[route]['status']!='PASS' or checks['source_hash']!=p['identity']['source_hash']:
         raise RuntimeError(route+' engineering checks must pass for this implementation')
     smoke=read_json(Path(output)/'GPU_SMOKE.json')
-    if smoke.get('route','B')!=route or smoke.get('source_hash')!=p['identity']['source_hash'] or any(smoke['datasets'].get(ds,{}).get('status')!='PASS' for ds in ('movielens','kuairand')):
-        raise RuntimeError('Both original-batch GPU smokes must pass')
+    scope=p.get('scope_datasets',['movielens','kuairand'])
+    if smoke.get('route','B')!=route or smoke.get('source_hash')!=p['identity']['source_hash'] or any(smoke['datasets'].get(ds,{}).get('status')!='PASS' for ds in scope):
+        raise RuntimeError('Original-batch GPU smokes must pass for the prepared scope')
 
 
 def gpu_smoke(output,p,devices):
+    if p.get('route')=='C':
+        from .c_smoke import gpu_smoke_C
+        return gpu_smoke_C(output,p,devices)
     from .model_adapter import build_model
     from .objectives import source_losses
     if not torch.cuda.is_available():
@@ -102,16 +109,13 @@ class CostBlocked(RuntimeError):
 
 
 def validate(output,p,suite,gpu,devices):
-    if suite=='C':
-        result={suite:dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED')}
-        write_json(Path(output)/f'{suite}_CHECKS.json',result)
-        return result
     command=[sys.executable,'-m','pytest',str(Path(__file__).parent/'tests'),'-q']
     result=subprocess.run(command,cwd=protocol.ROOT,text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
     (Path(output)/'validation_tests.log').write_text(result.stdout)
     checks=dict(source_hash=p['identity']['source_hash'],B=dict(status='PASS' if result.returncode==0 else 'FAIL',
         command=command,exit_code=result.returncode,log='validation_tests.log'),
-        A=dict(status='PASS' if result.returncode==0 else 'FAIL'),C=dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED'))
+        A=dict(status='PASS' if result.returncode==0 else 'FAIL'),C=dict(status='PASS' if result.returncode==0 else 'FAIL'))
+    if p.get('route')=='C': checks['scope_datasets']=p['scope_datasets']
     write_json(Path(output)/'STAGE0_CHECKS.json',checks)
     if result.returncode:
         raise RuntimeError('Validation failed; see validation_tests.log')
@@ -177,7 +181,14 @@ def train(output,p,datasets,seeds,devices,resume=False):
         raise ValueError('Scientific train requires all five frozen seeds')
     if not torch.cuda.is_available():
         raise CostBlocked('CUDA is unavailable')
+    if p.get('route')=='C':
+        from . import c_search
+        c_search.scope_check(p,datasets)
     guardian.ensure_guardian(output)
+    if p.get('route')=='C':
+        if not p.get('_resolved_stage'):
+            return c_search.train_stages(output,p,datasets,seeds,lambda jobs:
+                train(output,dict(p,jobs=jobs,_resolved_stage=True),datasets,seeds,devices,resume))
     jobs=[j for j in p['jobs'] if j['dataset'] in datasets]
     running={}; retried=set(); output=Path(output)
     smoke=read_json(output/'GPU_SMOKE.json')['datasets']
@@ -230,7 +241,7 @@ def continuation(output,decision,manifest):
     commands=[]
     for action in decision['next_actions']:
         route=action['route']
-        commands.append(dict(action=action,status='IMPLEMENTED_REVIEW_REQUIRED' if route=='A' else 'DESIGN_COMPLETE_NOT_IMPLEMENTED',
+        commands.append(dict(action=action,status='IMPLEMENTED_REVIEW_REQUIRED',
             specification=str(protocol.ROOT/f'research_plans/26-11-5/route_{route}/04_CODEX_EXECUTION.md'),
             command=[sys.executable,'-m',PACKAGE,'train','--manifest',str(manifest),'--route',route,
                 '--datasets',action['dataset'],'--seeds',*map(str,protocol.SEEDS),'--output',str(output),'--resume']))
@@ -241,6 +252,17 @@ def continuation(output,decision,manifest):
             sha256=sha_file(decision_path.parent/'selection_frozen.json'),selection_hash=frozen['selection_hash']),
         source_prepared=dict(path=str(origin/'PREPARED.json'),sha256=sha_file(origin/'PREPARED.json'),identity=origin_prepared['identity']),
         allowed_actions=decision['next_actions'])
+    current_path=Path(output)/'PREPARED.json'
+    if current_path.exists():
+        current=read_json(current_path)
+        if current.get('route')=='C':
+            scope=current['scope_datasets']; result['scope_datasets']=scope
+            if origin!=Path(output).resolve():
+                allowed=sorted(a['dataset'] for a in decision['next_actions'] if a['route']=='C')
+                if allowed!=scope:
+                    raise ValueError('Source A decision does not authorize this C scope')
+                from .c_search import immutable_json
+                immutable_json(Path(output)/'ENTRY_CONTINUATION.json',result)
     write_json(Path(output)/'CONTINUATION.json',result)
     return result
 
@@ -258,8 +280,9 @@ def parser():
         if name=='validate':
             sub.add_argument('--suite',choices=('all','B','A','C'),default='all')
             sub.add_argument('--gpu-smoke',action='store_true')
+        if name in ('preflight','train'):
+            sub.add_argument('--datasets',nargs='+',choices=('movielens','kuairand'),default=None if name=='preflight' else ['movielens','kuairand'])
         if name=='train':
-            sub.add_argument('--datasets',nargs='+',choices=('movielens','kuairand'),default=['movielens','kuairand'])
             sub.add_argument('--seeds',nargs='+',type=int,default=protocol.SEEDS)
             sub.add_argument('--resume',action='store_true')
         if name=='select': sub.add_argument('--split',choices=('validation',),default='validation')
@@ -281,11 +304,9 @@ def main(argv=None):
         if args.command=='_guardian':
             guardian.serve(args.output); return 0
         if args.command=='preflight':
-            result=protocol.preflight(args.manifest,args.output,args.route)
+            result=protocol.preflight(args.manifest,args.output,args.route,args.datasets)
             print(json.dumps(dict(status='PREFLIGHT_PASS',identity=result['identity']))); return 0
         p=prepared(args.output,args.manifest)
-        if args.route=='C' and args.command not in ('validate',):
-            raise RuntimeError('Route C: DESIGN_COMPLETE_NOT_IMPLEMENTED; follow its frozen specification and independent review')
         if args.command not in ('_worker',) and args.route!=p.get('route','B'):
             raise ValueError('CLI route differs from prepared attempt')
         if args.command=='validate': result=validate(args.output,p,args.suite,args.gpu_smoke,args.devices)
