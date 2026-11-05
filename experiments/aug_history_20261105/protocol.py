@@ -32,7 +32,7 @@ class ResolvedProtocol:
     manifest_hash: str
 
 
-def resolve(manifest, dataset):
+def resolve(manifest, dataset, route='B'):
     path = Path(manifest)
     m = read_json(path)
     if dataset not in ('movielens', 'kuairand') or m['seeds'] != SEEDS:
@@ -50,9 +50,19 @@ def resolve(manifest, dataset):
         kappa=d['kappa'], rho=d['rho0'], weight_decay=d['weight_decay'],
         parameter_count=d['parameter_count'], steps_per_epoch=d['steps_per_epoch'],
         eval_batch_size=40960, target_domain=0)
-    candidates = copy.deepcopy(m['route_B']['uniform_candidates']+m['route_B']['directed_candidates'])
+    if route=='B':
+        candidates = copy.deepcopy(m['route_B']['uniform_candidates']+m['route_B']['directed_candidates'])
+    elif route=='A':
+        candidates=[dict(row,family=family) for key,family in
+            (('uniform_candidates','U'),('fixed_group_candidates','A_FIXED'),('adaptive_candidates',None))
+            for row in copy.deepcopy(m['route_A'][key])]
+        for row in candidates:
+            if row['family'] is None:
+                row['family']='A_GROUP' if row['mode']=='grouped' else 'A_GLOBAL'
+    else:
+        raise ValueError('Route C is DESIGN_COMPLETE_NOT_IMPLEMENTED')
     if len(candidates) != 15 or len({row['id'] for row in candidates}) != 15:
-        raise ValueError('B must contain fifteen distinct estimators')
+        raise ValueError('Each implemented route must contain fifteen distinct estimators')
     return ResolvedProtocol(m, dataset, c, candidates, sha_file(path))
 
 
@@ -132,14 +142,15 @@ def published_reference():
         primary_reference=dict(movielens='M3oE_fixed1', kuairand='HyperGate'))
 
 
-def preflight(manifest, output):
+def preflight(manifest, output, route='B'):
     output = Path(output); output.mkdir(parents=True, exist_ok=True)
-    protocols = {ds: resolve(manifest,ds) for ds in ('movielens','kuairand')}
+    protocols = {ds: resolve(manifest,ds,route) for ds in ('movielens','kuairand')}
     source = source_manifest()
     data = {ds: verify_data(p) for ds, p in protocols.items()}
     _, reference = published_reference()
     identity = dict(source_hash=source['sha256'], manifest_hash=sha_file(manifest),
         datasets={ds:digest(row) for ds,row in data.items()})
+    if route!='B': identity['route']=route
     old = output/'PREPARED.json'
     if old.exists() and read_json(old)['identity'] != identity:
         raise ValueError('Attempt identity differs; use another output path')
@@ -154,17 +165,29 @@ def preflight(manifest, output):
         platform=platform.platform(), dependencies=subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True).splitlines())
     if torch.cuda.is_available():
         environment['gpus'] = subprocess.check_output(['nvidia-smi','-L'],text=True).splitlines()
+    groups={}
+    if route=='A':
+        from .group_registry import build_path_groups
+        from .model_adapter import build_model
+        for ds,p in protocols.items():
+            history.setup(2022,'cpu')
+            bundle=cached_bundle(CACHE,ds,include_test=False)
+            groups[ds]=build_path_groups(build_model(bundle,p.config),bundle).as_dict()
+        write_json(output/'GROUP_MAP.json',groups)
     jobs = []
     for ds,p in protocols.items():
         for seed in SEEDS:
-            job = dict(dataset=ds, seed=seed, route='B', config=p.config,
+            job = dict(dataset=ds, seed=seed, route=route, config=p.config,
                 config_hash=digest(p.config), manifest_hash=p.manifest_hash, source_hash=source['sha256'],
                 data_hash=digest(data[ds]), layout_hash=None, candidates=p.candidates)
+            if route=='A':
+                job.update(group_hash=groups[ds]['group_hash'],layout_hash=groups[ds]['layout_hash'])
             key = digest(job)
             job.update(job_id=key, trajectory_id=key)
             jobs.append(job)
     prepared = dict(identity=identity, source_receipt=receipt, environment=environment,
         jobs=jobs, cache_root=str(CACHE), manifest=str(Path(manifest).resolve()))
+    if route!='B': prepared['route']=route
     write_json(output/'SOURCE_RECEIPT.json',receipt)
     write_json(output/'RESOLVED_PROTOCOL.json',{ds:p.config for ds,p in protocols.items()})
     write_json(output/'DATA_MANIFEST.json',data)

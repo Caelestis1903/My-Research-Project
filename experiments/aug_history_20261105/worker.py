@@ -24,9 +24,18 @@ def create_session(job, bundle, device):
     optimizer = torch.optim.Adam(model.parameters(), lr=c['lr'], betas=tuple(c['betas']),
         eps=c['eps'], weight_decay=c['weight_decay'], foreach=False, fused=False, amsgrad=False)
     ids = ['online']+[row['id'] for row in job['candidates']]
+    if job.get('route','B')=='A':
+        from .group_registry import build_path_groups
+        from .grouped_ema import GroupedEMABank
+        registry=build_path_groups(model,bundle)
+        if job.get('group_hash',registry.hash)!=registry.hash:
+            raise ValueError('A job group identity changed')
+        bank=GroupedEMABank(layout.flatten(model.parameters()),job['candidates'],c['rho'],registry,bundle,job['seed'])
+    else:
+        bank=ShadowBank(layout.flatten(model.parameters()),job['candidates'],c['rho'],job['dataset'],job['seed'])
     return dict(job=copy.deepcopy(job), bundle=bundle, device=str(device), model=model,
         scratch=scratch, optimizer=optimizer, layout=layout,
-        bank=ShadowBank(layout.flatten(model.parameters()), job['candidates'], c['rho'], job['dataset'], job['seed']),
+        bank=bank,
         loader=torch.Generator().manual_seed(job['seed']+11000), rng=history.rng_state(device),
         epoch=0, global_step=0, commit_index=0, batch_position=0,
         selection={kind:dict(final_stage='train', best_score=-float('inf'), selected=None) for kind in ids},
@@ -34,10 +43,24 @@ def create_session(job, bundle, device):
         init_hash=state.state_digest(model.state_dict()), complete=False)
 
 
-def train_batch(session, x, y):
+def train_batch(session, x, y, row_ids=None):
     model, optimizer, bank = session['model'], session['optimizer'], session['bank']
     config, seed = session['job']['config'], session['job']['seed']
     step = session['global_step']+1
+    if session['job'].get('route','B')=='A':
+        if row_ids is None:
+            raise ValueError('A probes require current raw batch row IDs')
+        optimizer.zero_grad(set_to_none=True)
+        terms=loss_terms(model,x,y,dict(config,seed=seed,step=step))
+        if not bool(torch.isfinite(terms.total)):
+            raise FloatingPointError('Nonfinite training loss')
+        terms.total.backward(); optimizer.step()
+        response=bank.after_step(dict(step=step,theta=session['layout'].flatten(model.parameters()),
+            row_ids=row_ids,model=model))
+        session['global_step']=step
+        return dict(loss=float(terms.total.detach()),clean_loss=float(terms.clean.detach()),
+            extra_views=terms.metadata['extra_views'],probe_seconds=response['controller_seconds']+response['sampling_seconds'],
+            response=response,views=[{k:v[k] for k in ('key','seed','hash')} for v in terms.metadata['views']])
     optimizer.zero_grad(set_to_none=True)
     refresh = bank.refresh_due(step)
     terms = loss_terms(model,x,y,dict(config,seed=seed,step=step))
@@ -86,14 +109,16 @@ def advance_epoch(session):
     order = torch.randperm(len(bundle.train_y),generator=session['loader']).numpy()
     order_hash = hashlib.sha256(np.asarray(bundle.train_row_ids[order]).tobytes()).hexdigest()
     start, loss, clean, probes, extra = time.perf_counter(), 0., 0., 0., 0
+    sampling_seconds=0.
     trace = []
     for batch, offset in enumerate(range(0,len(order),c['batch_size']),1):
         ids = order[offset:offset+c['batch_size']]
         x = torch.as_tensor(np.array(bundle.train_x[ids]),device=device).T
         y = torch.as_tensor(np.array(bundle.train_y[ids]),device=device)
-        value = train_batch(session,x,y)
+        value = train_batch(session,x,y,row_ids=np.asarray(bundle.train_row_ids[ids]))
         loss += value['loss']*len(ids); clean += value['clean_loss']*len(ids)
         probes += value['probe_seconds']; extra += value['extra_views']
+        if job.get('route','B')=='A': sampling_seconds+=value['response']['sampling_seconds']
         trace.append(dict(batch=batch,global_step=session['global_step'],rows=len(ids),
             row_ids_hash=hashlib.sha256(np.asarray(bundle.train_row_ids[ids]).tobytes()).hexdigest(),**value))
     if cuda:
@@ -111,6 +136,8 @@ def advance_epoch(session):
         values = evaluation.evaluate_model(estimator,bundle,'validation','G-D0',c['eval_batch_size'])
         elapsed = time.perf_counter()-eval_start
         session['candidate_cost'][kind] += elapsed
+        if job.get('route','B')=='A' and kind!='online':
+            session['bank'].states[kind].cost['validation_seconds']+=elapsed
         hashes[kind] = state.state_digest(estimator.state_dict())
         validation[kind] = values
         tracker = session['selection'][kind]
@@ -128,25 +155,30 @@ def advance_epoch(session):
         peak_gpu_bytes=torch.cuda.max_memory_allocated(device) if cuda else 0,
         peak_gpu_reserved_bytes=torch.cuda.max_memory_reserved(device) if cuda else 0,
         peak_ram_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024)
+    if job.get('route','B')=='A': cost['sampling_seconds']=sampling_seconds
     for key,value in cost.items():
         session['cost'][key] = max(session['cost'].get(key,0),value) if key.startswith('peak_') else session['cost'].get(key,0)+value
     session.update(epoch=epoch,commit_index=epoch,batch_position=0,rng=train_rng,complete=epoch==50)
     if session['complete'] and session['global_step'] != c['steps_per_epoch']*50:
         raise ValueError('Population/step count differs from frozen protocol')
-    return dict(dataset=job['dataset'],seed=job['seed'],job_id=job['job_id'],epoch=epoch,
+    result=dict(dataset=job['dataset'],seed=job['seed'],job_id=job['job_id'],epoch=epoch,
         commit_index=epoch,global_step=session['global_step'],order_hash=order_hash,
         init_hash=session['init_hash'],layout_hash=session['layout'].hash,
         validation=validation,model_hash=hashes,cost=cost,
         candidate_cost=session['candidate_cost'].copy(),
         training_loss=loss/len(order),clean_loss=clean/len(order),batch_trace=trace,
         complete=session['complete'])
+    if job.get('route','B')=='A':
+        result.update(group_hash=session['bank'].registry.hash,
+            estimator_costs={cid:state.cost.copy() for cid,state in session['bank'].states.items()})
+    return result
 
 
 def export_session(session):
     fields = ('job','epoch','global_step','commit_index','batch_position','rng','snapshots',
               'cost','candidate_cost','init_hash','complete')
     snapshot = {k:session[k] for k in fields}
-    snapshot.update(schema_version=1, route='B',layout_hash=session['layout'].hash,
+    snapshot.update(schema_version=1, route=session['job'].get('route','B'),layout_hash=session['layout'].hash,
         online=session['model'].state_dict(),optimizer=session['optimizer'].state_dict(),
         bank=session['bank'].state_dict(),loader=session['loader'].get_state(),
         best_scores={k:v['best_score'] for k,v in session['selection'].items()})
@@ -154,7 +186,7 @@ def export_session(session):
 
 
 def restore_session(job,bundle,device,snapshot):
-    if snapshot['schema_version'] != 1 or snapshot['route'] != 'B' or snapshot['job'] != job:
+    if snapshot['schema_version'] != 1 or snapshot['route'] != job.get('route','B') or snapshot['job'] != job:
         raise ValueError('RAM snapshot identity mismatch')
     session = create_session(job,bundle,device)
     if session['layout'].hash != snapshot['layout_hash']:

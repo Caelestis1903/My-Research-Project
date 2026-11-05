@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "study_id": "AUG_HISTORY_20261105",
+  "route": "A",
+  "status": "PASS",
+  "blocking_issues": [],
+  "source_hash": "afecc8dcef7f1687d61383af0ca69176eb7b7ec26d0700eb43836a827b5e2ff9",
+  "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+  "source_ref": "c8675ae2923c15b6965884b140b5b646690cd95e",
+  "plan_ref": "2645f1f724f52f5ed5dea4b479335c0dc12fabcd",
+  "reviewed_at_utc": "2026-11-05 12:27:40 UTC",
+  "report": "research_reports/2026-11-05_aug_history/REVIEW_REPORT_A.md",
+  "prior_B_selection_hash": "fce00de767c5e95b0cb627f53eb5851d43a6c1e64a8c4786db73e57c0ff202a4",
+  "independent_verification": [
+    {
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m pytest experiments/aug_history_20261105/tests/test_a.py -q -k 'fixed_profile_q0 or probe_train or old_b_continuation'",
+      "result": "3 passed, 5 deselected in 4.68s",
+      "exit_code": 0
+    },
+    {
+      "check": "ENGINEERING_ONLY scalar select/decide integration: F family, matched GLOBAL, simpler-cost choice, RUN_C branch",
+      "result": "PASS"
+    },
+    {
+      "check": "Actual archived B continuation identity and immutable source files",
+      "result": "PASS"
+    }
+  ],
+  "run_stage_requirements": [
+    "New A attempt preflight and current source/data/group identity pass",
+    "A STAGE0_CHECKS pass for this source hash",
+    "Both datasets pass original batch40960 GPU smoke including actual K20 GROUP/GLOBAL controller paths"
+  ],
+  "deferred_routes": {
+    "C": "DESIGN_COMPLETE_NOT_IMPLEMENTED"
+  }
+}

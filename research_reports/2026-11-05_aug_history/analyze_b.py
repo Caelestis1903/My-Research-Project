@@ -37,6 +37,9 @@ lines = ['# B阶段实验分析：增强响应定向参数EMA', '',
     '- ENDPOINTS.csv SHA-256 `6d9b9cb7b1c188c732018b416b946386170834aa664b19f3ed5180976bc2b935`。',
     '- 10条独立online、500个连续epoch、17250次真实Adam；7500次影子validation与500次online validation。每候选每数据完整五seed，2022–2026。',
     '- FULLTRAIN_NATURAL80_10_10、train-only预处理、batch40960、50epoch、fixed1、原Gaussian d0、普通coupled Adam；validation六格Macro AUC最早严格最大值选点。模型/Adam/Q/checkpoint仅RAM。', '',
+    '- test沿用历史研究划分；本轮在配置与选点冻结后统一评价，阶段动作于test前冻结。', '',
+    '![B完整方案与组件比较](figures/B_COMPARISON.png)', '',
+    '左图为五seed均值±样本SD；右图为D与各控制的配对差均值、seed级95%CI及逐seed点，单位为微AUC（10⁻⁶）。', '',
     '## 家族选择', '',
     '各家族同预算独立调参；数值为五seed selected均值。全部候选见HPO_SUMMARY与VALIDATION_CURVES。', '',
     '| 数据集 | 家族/配置 | validation AUC | test AUC均值±SD | test LL均值±SD |',
@@ -60,8 +63,8 @@ for dataset, selected in hpo['datasets'].items():
         values += [values[3]-values[4]]
         lines.append(f'| {dataset} | {seed} | {a[seed]["epoch"]}/{b[seed]["epoch"]} | ' + ' | '.join(f'{v:.9f}' for v in values) + ' |')
 lines += ['', '## 总收益与组件增量', '',
-    '单位为seed，SD为配对差样本SD，95%区间为Student-t(df4)。区间与同向数用于描述。AUC均差≥+.003、六格均差≥−.001、LL均差<0分别判断。ML主发表参照为M3oE，KR为HyperGate；三发表模型全部保留，各自训练设置沿用源报告，HyperGate保留UNVERIFIED_PROPOSAL超参标记。', '',
-    '| 数据集 | D比较对象 | ΔAUC | SD | 95% CI | ΔLL | AUC正向seed | 最差格ΔAUC | AUC达标/格保护/LL下降 |',
+    '单位为seed，SD为配对差样本SD，95%区间为Student-t(df4)。区间与同向数用于描述。正式AUC均差≥+.003、六格均差≥−.001、LL均差<0分别判断；内部控制报告实际组件增量，不增加+.003门。ML主发表参照为M3oE，KR为HyperGate；三发表模型全部保留，各自训练设置沿用源报告，HyperGate保留UNVERIFIED_PROPOSAL超参标记。', '',
+    '| 数据集 | D比较对象 | ΔAUC | SD | 95% CI | ΔLL | AUC正向seed | 最差格ΔAUC | 正式AUC资格/格保护/LL下降 |',
     '|---|---|---:|---:|---|---:|---:|---:|---|']
 for dataset, selected in hpo['datasets'].items():
     a = points(dataset, selected['winners']['D']['candidate_id'])
@@ -72,7 +75,8 @@ for dataset, selected in hpo['datasets'].items():
         delta = paired(a, b, 'macro_auc'); gain = st.mean(delta)
         loss = st.mean(paired(a, b, 'macro_logloss'))
         worst = min(st.mean(paired(a, b, f'd{d}t{t}_auc')) for d in range(3) for t in range(2))
-        lines.append(f'| {dataset} | {candidate} | {gain:+.9f} | {st.stdev(delta):.9f} | {interval(delta)} | {loss:+.9f} | {sum(v>0 for v in delta)}/5 | {worst:+.9f} | {gain>=.003}/{worst>=-.001}/{loss<0} |')
+        qualification = str(gain >= .003) if candidate in ['M3oE_fixed1','HyperGate','AutoIFS'] else '内部增量'
+        lines.append(f'| {dataset} | {candidate} | {gain:+.9f} | {st.stdev(delta):.9f} | {interval(delta)} | {loss:+.9f} | {sum(v>0 for v in delta)}/5 | {worst:+.9f} | {qualification}/{worst>=-.001}/{loss<0} |')
 lines += ['', '## 六格、任务与训练阶段', '',
     '| 数据集 | cell | D AUC | D LL | ΔAUC对F | ΔLL对F |', '|---|---|---:|---:|---:|---:|']
 for dataset, selected in hpo['datasets'].items():
@@ -99,4 +103,47 @@ lines += ['', '## 证据、竞争解释和后续', '',
     '首轮独立审查修复resume入口、存活owner保护、冲突事务RAM回滚三个问题。运行中因内存占用增长轮换四个worker，分别从KR2023 E27、2022 E35、2024 E39、2025 E40恢复；最终各seed恰好50个正式提交epoch。未提交部分物理成本见RUNNER_REPORT。配置、batch、候选和数学规则保持冻结。',
     '全部原值、逐seed六格、源/数据/模型hash和选点身份见 `artifacts/aug_history_20261105/attempt1/B/ENDPOINTS.csv`；全部候选曲线、HPO、配对与成本见同目录CSV，原始epoch标量见attempt1/runs。B模型RAM已按授权在评价后释放。A/C及完整任务结论由最终报告汇总。', '']
 (Path(__file__).parent / 'B_STAGE_ANALYSIS.md').write_text('\n'.join(lines))
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 7), layout='constrained')
+labels = {'F':'Gaussian + fixed EMA', 'M3oE_fixed1':'M3oE fixed1', 'HyperGate':'HyperGate', 'AutoIFS':'AutoIFS'}
+for index, (dataset, selected) in enumerate(hpo['datasets'].items()):
+    directed = selected['winners']['D']['candidate_id']
+    candidates = ['M3oE_fixed1', 'HyperGate', 'AutoIFS', 'F', directed]
+    ax = axes[index, 0]
+    for position, candidate in enumerate(candidates):
+        data = points(dataset, candidate)
+        values = [float(r['macro_auc']) for r in data.values()]
+        ax.errorbar(position, st.mean(values), yerr=st.stdev(values), fmt='o', capsize=4,
+                    color='#1167b1' if candidate == directed else '#666666')
+    ax.set_xticks(range(5), [labels.get(c, 'B directed') for c in candidates], rotation=20, ha='right')
+    ax.set_ylabel('Test macro AUC (mean +/- SD)')
+    ax.set_title(dataset.title())
+    ax.grid(axis='y', alpha=.2)
+    ax = axes[index, 1]
+    controls = [('F','F')] + [(f+'*', selected['winners'][f]['candidate_id']) for f in ['U','M','S']]
+    controls += [(f+'@D', c) for f, c in selected['matched_at_D'].items()]
+    unique = {}
+    for label, candidate in controls:
+        unique[candidate] = unique.get(candidate, '') + ('/' if candidate in unique else '') + label
+    a = points(dataset, directed)
+    for position, (candidate, label) in enumerate(unique.items()):
+        values = paired(a, points(dataset, candidate), 'macro_auc')
+        center = st.mean(values); half = 2.7764451051977987 * st.stdev(values) / math.sqrt(5)
+        ax.errorbar(position, center*1e6, yerr=half*1e6, fmt='o', color='#1167b1', capsize=4)
+        ax.scatter([position+(i-2)*.035 for i in range(5)], [v*1e6 for v in values],
+                   color='#777777', alpha=.55, s=12)
+    ax.axhline(0, color='#333333', linewidth=.8)
+    ax.set_xticks(range(len(unique)), list(unique.values()))
+    ax.set_ylabel('D - control AUC (x 1e-6)')
+    ax.set_title('Paired component changes, n=5 (95% CI)')
+    ax.grid(axis='y', alpha=.2)
+directory = Path(__file__).parent / 'figures'
+directory.mkdir(exist_ok=True)
+fig.savefig(directory/'B_COMPARISON.png', dpi=180)
+fig.savefig(directory/'B_COMPARISON.svg')
+plt.close(fig)
 print('B_STAGE_ANALYSIS.md generated')

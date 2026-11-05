@@ -33,7 +33,8 @@ def rank_family(rows):
     if any(row['seed_ids'] != SEEDS or not row['complete'] for row in rows):
         raise Incomplete('Each HPO candidate requires all five seeds')
     def order(row):
-        return (-row['score'],row['measured_cost_seconds'],abs(math.log2(row['half_life_ratio'])),row['candidate_id'])
+        return (-row['score'],row['measured_cost_seconds'],row.get('deviation',
+            abs(math.log2(row['half_life_ratio'])) if row.get('half_life_ratio') else 0.),row['candidate_id'])
     unconstrained = min(rows,key=order)
     protected = [r for r in rows if r['cell_protected']]
     chosen = min(protected or rows,key=order)
@@ -41,10 +42,19 @@ def rank_family(rows):
         status='CELL_PROTECTED' if protected else 'VALIDATION_CELL_TRADEOFF')
 
 
+def candidate_deviation(candidate):
+    if 'half_life_ratio' in candidate:
+        return abs(math.log2(candidate['half_life_ratio']))
+    if 'half_life_ratios' in candidate:
+        return sum(abs(math.log2(h)) for h in candidate['half_life_ratios'])
+    return 0.
+
+
 def select(output):
     from .report import write_csv
     output = Path(output)
     prepared,summaries = complete_summaries(output)
+    route_name=prepared.get('route','B')
     curves,hpo,selected = [],[],{}
     for dataset in ('movielens','kuairand'):
         peers = sorted([row for row in summaries.values() if row['job']['dataset']==dataset],key=lambda r:r['job']['seed'])
@@ -64,26 +74,36 @@ def select(output):
             reference = [r['snapshots']['F']['selected']['validation'] for r in peers]
             deltas = {cell:math.fsum(v[cell+'_auc']-f[cell+'_auc'] for v,f in zip(values,reference))/5 for cell in CELLS}
             actual_cost = sum(r['candidate_cost'][cid] for r in peers)
-            if candidate['family'] != 'U':
+            if route_name=='A':
+                actual_cost=sum(sum(r['estimator_costs'][cid].values()) for r in peers)
+            elif candidate['family'] != 'U':
                 actual_cost += sum(r['cost']['probe_seconds'] for r in peers)
             row = dict(dataset=dataset,candidate_id=cid,family=candidate['family'],
-                half_life_ratio=candidate['half_life_ratio'],refresh_steps=candidate.get('refresh_steps'),
+                half_life_ratio=candidate.get('half_life_ratio'),refresh_steps=candidate.get('refresh_steps'),
                 seed_ids=SEEDS,complete=True,score=math.fsum(score(v) for v in values)/5,
                 score_sd=statistics.stdev(score(v) for v in values),
                 measured_cost_seconds=actual_cost,cell_protected=all(v>=-.001 for v in deltas.values()),
                 selected_epochs=[r['snapshots'][cid]['selected']['epoch'] for r in peers],
                 selected_validation_scores=[score(v) for v in values],config=candidate,
                 **{cell+'_delta_F':value for cell,value in deltas.items()})
+            if route_name=='A': row['deviation']=candidate_deviation(candidate)
             for metric in values[0]:
                 if all(v[metric] is not None for v in values):
                     row[metric+'_mean'] = math.fsum(v[metric] for v in values)/5
                     row[metric+'_sd'] = statistics.stdev(v[metric] for v in values)
             hpo.append(row)
         current = [r for r in hpo if r['dataset']==dataset]
-        winners = {f:rank_family([r for r in current if r['family']==f]) for f in ('D','U','M','S')}
-        directed = next(r for r in candidates if r['id']==winners['D']['candidate_id'])
-        matched = {f:next(r['id'] for r in candidates if r['family']==f and
-            r['half_life_ratio']==directed['half_life_ratio'] and r.get('refresh_steps')==directed.get('refresh_steps')) for f in ('M','S')}
+        if route_name=='A':
+            winners={f:rank_family([r for r in current if r['family']==f or f=='A_FIXED' and r['candidate_id']=='F'])
+                for f in ('A_GROUP','A_GLOBAL','A_FIXED','U')}
+            grouped=next(r for r in candidates if r['id']==winners['A_GROUP']['candidate_id'])
+            matched={'A_GLOBAL':next(r['id'] for r in candidates if r['family']=='A_GLOBAL' and
+                r['eta']==grouped['eta'] and r['refresh_steps']==grouped['refresh_steps'])}
+        else:
+            winners = {f:rank_family([r for r in current if r['family']==f]) for f in ('D','U','M','S')}
+            directed = next(r for r in candidates if r['id']==winners['D']['candidate_id'])
+            matched = {f:next(r['id'] for r in candidates if r['family']==f and
+                r['half_life_ratio']==directed['half_life_ratio'] and r.get('refresh_steps')==directed.get('refresh_steps')) for f in ('M','S')}
         report_ids = sorted({'online','F',*(r['candidate_id'] for r in winners.values()),*matched.values()})
         endpoints = []
         for row in peers:
@@ -91,13 +111,16 @@ def select(output):
                 for endpoint,point in row['snapshots'][cid].items():
                     endpoints.append(dict(seed=row['job']['seed'],candidate_id=cid,checkpoint=endpoint,
                         trajectory_id=row['job']['trajectory_id'],job_id=row['job']['job_id'],**point))
-        selected[dataset] = dict(winners=winners,matched_at_D=matched,report_candidates=report_ids,
+        selected[dataset] = dict(winners=winners,report_candidates=report_ids,
             candidates=candidates,endpoints=endpoints,cost={k:sum(r['cost'][k] for r in peers)
                 if not k.startswith('peak_') else max(r['cost'][k] for r in peers) for k in peers[0]['cost']})
-    route = output/'B'; route.mkdir(exist_ok=True)
+        selected[dataset]['matched_at_GROUP' if route_name=='A' else 'matched_at_D']=matched
+        if route_name=='A':
+            selected[dataset]['candidate_measured_costs']={r['candidate_id']:r['measured_cost_seconds'] for r in current}
+    route = output/route_name; route.mkdir(exist_ok=True)
     write_csv(route/'VALIDATION_CURVES.csv',curves)
     write_csv(route/'HPO_SUMMARY.csv',hpo)
-    selection = dict(schema_version=1,route='B',status='HPO_FROZEN',seed_ids=SEEDS,
+    selection = dict(schema_version=1,route=route_name,status='HPO_FROZEN',seed_ids=SEEDS,
         manifest_hash=prepared['identity']['manifest_hash'],source_hash=prepared['identity']['source_hash'],
         input_hashes=dict(curves=sha_file(route/'VALIDATION_CURVES.csv'),hpo=sha_file(route/'HPO_SUMMARY.csv')),
         datasets=selected,rule=read_json(prepared['manifest'])['selection'])
@@ -117,6 +140,8 @@ def require_frozen(output,path):
     frozen = read_json(path)
     unsigned = {k:v for k,v in frozen.items() if k!='selection_hash'}
     prepared = read_json(output/'PREPARED.json')
+    if frozen.get('route')!=prepared.get('route','B'):
+        raise ValueError('Frozen selection route differs from prepared attempt')
     if frozen.get('selection_hash') != digest(unsigned) or frozen.get('seed_ids') != SEEDS:
         raise ValueError('Frozen selection checksum or seeds changed')
     if (frozen['source_hash'],frozen['manifest_hash']) != (prepared['identity']['source_hash'],prepared['identity']['manifest_hash']):

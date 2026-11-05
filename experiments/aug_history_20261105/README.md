@@ -20,3 +20,11 @@ Use `/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python` for every comma
 After correcting a worker failure or reducing concurrency for an OOM, `train --resume` reopens each failed/dead-worker job once in that invocation and retains its last committed RAM epoch. A subsequent failure ends that invocation. A restarted coordinator leaves still-live guardian workers running and does not dispatch a duplicate owner.
 
 Exit codes: 0 complete, 2 configuration/numerical identity error, 3 engineering blocker, 4 measured resource blocker, 5 incomplete five-seed/dependency state. A/C are implemented and independently reviewed only when their frozen decisions trigger them.
+
+## Route A
+
+A uses the frozen twelve-path grouping, four fixed profiles, four grouped controllers, four global controllers and the three U/F shadows. It replays the original G-D0 trajectory from initialization.
+
+Use a separate output such as `artifacts/aug_history_20261105/attempt_A1`, and add `--route A` to preflight/validate/train/select/decide/evaluate/report/continue/release. `preflight` writes `GROUP_MAP.json`. Independent A acceptance is `research_reports/2026-11-05_aug_history/REVIEW_ACCEPTANCE_A.json`, bound to the new source hash. `validate --suite A --gpu-smoke` runs original batch40960 through step20 so the actual K20 q controllers are exercised; these are engineering checks.
+
+`continue --route A --decision artifacts/aug_history_20261105/attempt1/B/DECISION.json --output artifacts/aug_history_20261105/attempt_A1 --resume` reads B's own stored PREPARED/selection identities and writes a continuation receipt only to the A output. It does not reinterpret B under the new source hash. Subsequent A commands write under the new output's `A/` directory. C remains `DESIGN_COMPLETE_NOT_IMPLEMENTED` until triggered.

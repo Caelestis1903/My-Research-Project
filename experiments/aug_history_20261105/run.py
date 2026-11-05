@@ -1,4 +1,4 @@
-"""Review-gated B execution with RAM-only state and finite continuation commands."""
+"""Review-gated A/B execution with RAM-only state and frozen continuation commands."""
 import argparse
 import copy
 import json
@@ -28,17 +28,18 @@ def prepared(output,manifest):
 
 
 def review_gate(output,p):
-    path=protocol.ROOT/'research_reports/2026-11-05_aug_history/REVIEW_ACCEPTANCE.json'
+    route=p.get('route','B')
+    path=protocol.ROOT/'research_reports/2026-11-05_aug_history'/('REVIEW_ACCEPTANCE_A.json' if route=='A' else 'REVIEW_ACCEPTANCE.json')
     if not path.exists():
         raise RuntimeError('Independent review acceptance is required before formal train')
     review=read_json(path)
     if review.get('status') not in ('PASS','PASS WITH FIXES','PASS_WITH_FIXES') or review.get('blocking_issues') or review.get('source_hash')!=p['identity']['source_hash']:
         raise RuntimeError('Independent review has blocking issues or another source hash')
     checks=read_json(Path(output)/'STAGE0_CHECKS.json')
-    if checks['B']['status']!='PASS' or checks['source_hash']!=p['identity']['source_hash']:
-        raise RuntimeError('B engineering checks must pass for this implementation')
+    if checks[route]['status']!='PASS' or checks['source_hash']!=p['identity']['source_hash']:
+        raise RuntimeError(route+' engineering checks must pass for this implementation')
     smoke=read_json(Path(output)/'GPU_SMOKE.json')
-    if smoke.get('source_hash')!=p['identity']['source_hash'] or any(smoke['datasets'].get(ds,{}).get('status')!='PASS' for ds in ('movielens','kuairand')):
+    if smoke.get('route','B')!=route or smoke.get('source_hash')!=p['identity']['source_hash'] or any(smoke['datasets'].get(ds,{}).get('status')!='PASS' for ds in ('movielens','kuairand')):
         raise RuntimeError('Both original-batch GPU smokes must pass')
 
 
@@ -68,22 +69,30 @@ def gpu_smoke(output,p,devices):
         x=torch.as_tensor(np.array(bundle.train_x[ids]),device=device).T
         y=torch.as_tensor(np.array(bundle.train_y[ids]),device=device)
         torch.cuda.reset_peak_memory_stats(device)
-        started=time.perf_counter(); result=worker.train_batch(session,x,y)
-        opt.zero_grad(set_to_none=True)
-        loss,_=source_losses(reference,x,y,0,dict(num_views=1,view_family='gaussian',pairing='iid'),
-            ds,2022,1,mix_lambda=.5,kappa=job['config']['kappa'])
-        loss.backward(); opt.step()
+        started=time.perf_counter()
+        steps=20 if p.get('route','B')=='A' else 1
+        for step in range(1,steps+1):
+            result=worker.train_batch(session,x,y,row_ids=np.asarray(bundle.train_row_ids[ids]))
+            opt.zero_grad(set_to_none=True)
+            loss,_=source_losses(reference,x,y,0,dict(num_views=1,view_family='gaussian',pairing='iid'),
+                ds,2022,step,mix_lambda=.5,kappa=job['config']['kappa'])
+            loss.backward(); opt.step()
         if any(not torch.equal(a,b) for a,b in zip(reference.parameters(),session['model'].parameters())):
             raise RuntimeError('Original-batch online source equivalence failed')
         torch.cuda.synchronize(device)
         rows[ds]=dict(status='PASS',purpose='ENGINEERING_ONLY',device=device,batch_size=40960,
             peak_gpu_bytes=torch.cuda.max_memory_reserved(device),wall_seconds=time.perf_counter()-started,
             loss=result['loss'],online_model_hash=state_digest(session['model'].state_dict()),
-            source_model_hash=state_digest(reference.state_dict()),optimizer_steps=1,shadow_updates=1,
+            source_model_hash=state_digest(reference.state_dict()),optimizer_steps=steps,shadow_updates=steps,
             admission=resource)
+        if p.get('route','B')=='A':
+            rows[ds]['controllers']=result['response']['controllers']
+            if len(rows[ds]['controllers'])!=4:
+                raise RuntimeError('A smoke did not reach its K20 controller paths')
         del session,reference,opt,x,y,bundle
         torch.cuda.empty_cache()
     result=dict(source_hash=p['identity']['source_hash'],datasets=rows)
+    if p.get('route','B')!='B': result['route']=p['route']
     write_json(Path(output)/'GPU_SMOKE.json',result)
     return result
 
@@ -93,7 +102,7 @@ class CostBlocked(RuntimeError):
 
 
 def validate(output,p,suite,gpu,devices):
-    if suite in ('A','C'):
+    if suite=='C':
         result={suite:dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED')}
         write_json(Path(output)/f'{suite}_CHECKS.json',result)
         return result
@@ -102,10 +111,10 @@ def validate(output,p,suite,gpu,devices):
     (Path(output)/'validation_tests.log').write_text(result.stdout)
     checks=dict(source_hash=p['identity']['source_hash'],B=dict(status='PASS' if result.returncode==0 else 'FAIL',
         command=command,exit_code=result.returncode,log='validation_tests.log'),
-        A=dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED'),C=dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED'))
+        A=dict(status='PASS' if result.returncode==0 else 'FAIL'),C=dict(status='DESIGN_COMPLETE_NOT_IMPLEMENTED'))
     write_json(Path(output)/'STAGE0_CHECKS.json',checks)
     if result.returncode:
-        raise RuntimeError('B validation failed; see validation_tests.log')
+        raise RuntimeError('Validation failed; see validation_tests.log')
     if gpu:
         checks['GPU_SMOKE']=gpu_smoke(output,p,devices)
     return checks
@@ -201,7 +210,7 @@ def train(output,p,datasets,seeds,devices,resume=False):
                 (directory/'ALLOCATED.json').unlink(missing_ok=True)
                 stream=(directory/'worker.log').open('ab')
                 process=subprocess.Popen([sys.executable,'-m',PACKAGE,'_worker','--manifest',p['manifest'],
-                    '--output',str(output),'--job',job['job_id'],'--device',f'cuda:{device}'],cwd=protocol.ROOT,
+                    '--output',str(output),'--route',p.get('route','B'),'--job',job['job_id'],'--device',f'cuda:{device}'],cwd=protocol.ROOT,
                     stdout=stream,stderr=stream,start_new_session=True)
                 running[job['job_id']]=(process,stream,device)
                 append_json(output/'ADMISSIONS.jsonl',dict(job_id=job['job_id'],dataset=job['dataset'],seed=job['seed'],
@@ -213,18 +222,25 @@ def train(output,p,datasets,seeds,devices,resume=False):
 
 
 def continuation(output,decision,manifest):
-    decision=read_json(decision)
-    frozen=selection.require_frozen(output,Path(output)/'B/selection_frozen.json')
+    decision_path=Path(decision).resolve(); decision=read_json(decision_path)
+    origin=decision_path.parent.parent
+    frozen=selection.require_frozen(origin,decision_path.parent/'selection_frozen.json')
     if decision['selection_hash']!=frozen['selection_hash']:
         raise ValueError('Continuation decision does not match frozen selection')
     commands=[]
     for action in decision['next_actions']:
         route=action['route']
-        commands.append(dict(action=action,status='DESIGN_COMPLETE_NOT_IMPLEMENTED',
+        commands.append(dict(action=action,status='IMPLEMENTED_REVIEW_REQUIRED' if route=='A' else 'DESIGN_COMPLETE_NOT_IMPLEMENTED',
             specification=str(protocol.ROOT/f'research_plans/26-11-5/route_{route}/04_CODEX_EXECUTION.md'),
             command=[sys.executable,'-m',PACKAGE,'train','--manifest',str(manifest),'--route',route,
                 '--datasets',action['dataset'],'--seeds',*map(str,protocol.SEEDS),'--output',str(output),'--resume']))
-    result=dict(status='AWAITING_TRIGGERED_IMPLEMENTATION' if commands else 'STOP_AND_REPORT',commands=commands)
+    origin_prepared=read_json(origin/'PREPARED.json')
+    result=dict(status='CONTINUATION_RESOLVED' if commands else 'STOP_AND_REPORT',commands=commands,
+        source_decision=dict(path=str(decision_path),sha256=sha_file(decision_path)),
+        source_selection=dict(path=str(decision_path.parent/'selection_frozen.json'),
+            sha256=sha_file(decision_path.parent/'selection_frozen.json'),selection_hash=frozen['selection_hash']),
+        source_prepared=dict(path=str(origin/'PREPARED.json'),sha256=sha_file(origin/'PREPARED.json'),identity=origin_prepared['identity']),
+        allowed_actions=decision['next_actions'])
     write_json(Path(output)/'CONTINUATION.json',result)
     return result
 
@@ -265,11 +281,13 @@ def main(argv=None):
         if args.command=='_guardian':
             guardian.serve(args.output); return 0
         if args.command=='preflight':
-            result=protocol.preflight(args.manifest,args.output)
+            result=protocol.preflight(args.manifest,args.output,args.route)
             print(json.dumps(dict(status='PREFLIGHT_PASS',identity=result['identity']))); return 0
         p=prepared(args.output,args.manifest)
-        if args.route!='B' and args.command not in ('validate',):
-            raise RuntimeError(f'Route {args.route}: DESIGN_COMPLETE_NOT_IMPLEMENTED; follow its frozen specification and independent review')
+        if args.route=='C' and args.command not in ('validate',):
+            raise RuntimeError('Route C: DESIGN_COMPLETE_NOT_IMPLEMENTED; follow its frozen specification and independent review')
+        if args.command not in ('_worker',) and args.route!=p.get('route','B'):
+            raise ValueError('CLI route differs from prepared attempt')
         if args.command=='validate': result=validate(args.output,p,args.suite,args.gpu_smoke,args.devices)
         elif args.command=='train': result=train(args.output,p,args.datasets,args.seeds,args.devices,args.resume)
         elif args.command=='_worker': execute_job(args.output,p,args.job,args.device); return 0

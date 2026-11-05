@@ -130,6 +130,8 @@ def serve(output):
                                 layout_hash=snapshot['layout_hash'],snapshots={candidate:{endpoint:{
                                     k:v for k,v in point.items() if k!='model_state'}
                                     for endpoint,point in endpoints.items()} for candidate,endpoints in snapshot['snapshots'].items()})
+                            if snapshot['route']=='A':
+                                summaries[name]['estimator_costs']={cid:data['cost'].copy() for cid,data in snapshot['bank']['states'].items()}
                         result = dict(summaries=summaries)
                     elif command == 'complete':
                         row = records[key]
@@ -142,7 +144,8 @@ def serve(output):
                     elif command == 'retry':
                         result = retry_job(output,key,records[key])
                     elif command == 'release':
-                        if not (output/'B/EVALUATED.json').exists():
+                        route=read_json(output/'PREPARED.json').get('route','B')
+                        if not (output/route/'EVALUATED.json').exists():
                             raise ValueError('Unevaluated endpoint state cannot be released')
                         for row in records.values():
                             if alive(row.get('worker')):

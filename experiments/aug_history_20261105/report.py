@@ -39,6 +39,8 @@ def archived_online_cost(dataset):
 
 def decide(output):
     output=Path(output); route=output/'B'
+    if read_json(output/'PREPARED.json').get('route','B')=='A':
+        return decide_A(output)
     frozen=require_frozen(output,route/'selection_frozen.json')
     published,_=published_reference()
     decisions={}
@@ -94,9 +96,59 @@ def decide(output):
     return result
 
 
+def decide_A(output):
+    output=Path(output); route=output/'A'
+    frozen=require_frozen(output,route/'selection_frozen.json')
+    decisions={}
+    for dataset,current in frozen['datasets'].items():
+        points={(r['candidate_id'],r['seed']):r for r in current['endpoints'] if r['checkpoint']=='selected'}
+        winners={family:value['candidate_id'] for family,value in current['winners'].items()}
+        candidates={row['id']:row for row in current['candidates']}
+        def value(cid):
+            return math.fsum(score(points[cid,seed]['validation']) for seed in SEEDS)/5
+        def delta(cid):
+            return {cell:math.fsum(points[cid,seed]['validation'][cell+'_auc']-
+                points['F',seed]['validation'][cell+'_auc'] for seed in SEEDS)/5 for cell in CELLS}
+        ids=list(dict.fromkeys(winners.values()))
+        protected=[cid for cid in ids if all(d>=-.001 for d in delta(cid).values())]
+        from .selection import candidate_deviation
+        costs=current['candidate_measured_costs']
+        order=lambda cid:(-value(cid),costs[cid],candidate_deviation(candidates[cid]),cid)
+        best=min(protected or ids,key=order)
+        simplicity={'U':0,'A_FIXED':1,'A_GLOBAL':2,'A_GROUP':3}
+        simpler=[cid for cid in (protected or ids) if value(best)-value(cid)<=.0002 and
+            costs[cid]<costs[best] and simplicity[candidates[cid]['family']]<simplicity[candidates[best]['family']]]
+        chosen=min(simpler,key=lambda cid:(costs[cid],simplicity[candidates[cid]['family']],order(cid))) if simpler else best
+        gains=delta(chosen)
+        retain=value(chosen)>value('F') and all(d>=-.001 for d in gains.values())
+        action='RETAIN_A_OR_B_AND_REPORT' if retain else 'RUN_C'
+        next_actions=[] if retain else [dict(route='C',dataset=dataset,matrix='C_FULL',seeds=SEEDS)]
+        decision=dict(schema_version=1,study_id='AUG_HISTORY_20261105',route='A',dataset=dataset,status='DECIDED',
+            manifest_hash=frozen['manifest_hash'],selection_hash=frozen['selection_hash'],seed_ids=SEEDS,
+            all_required_candidates_complete=True,winners=winners,selected_candidate=chosen,
+            validation=dict(macro_auc_by_winner={family:value(cid) for family,cid in winners.items()},
+                F_macro_auc=value('F'),unconstrained_family_score_winner=min(ids,key=order),
+                protected_best=best,selected_candidate=chosen,selected_macro_auc=value(chosen),
+                selected_minus_F=value(chosen)-value('F'),six_cell_auc_deltas=gains,
+                simpler_preferred=bool(simpler),simple_choice_gap=value(best)-value(chosen),
+                measured_cost_seconds={cid:costs[cid] for cid in ids}),
+            decision_basis=dict(split='validation',test_consulted=False,historical_test_exposure=True),
+            cost=dict(online_trajectories=5,estimator_seed_instances=75,**current['cost']),
+            matched_rule='A_RETAIN' if retain else 'A_NO_PROTECTED_INCREMENT',next_action=action,next_actions=next_actions,
+            deferred_routes=['C'] if retain else [],test_report=dict(status='NOT_YET_EVALUATED'))
+        path=route/dataset/'DECISION.json'
+        if path.exists() and read_json(path)!=decision:
+            raise ValueError('Frozen A validation decision changed')
+        write_json(path,decision); decisions[dataset]=decision
+    result=dict(route='A',basis='validation',selection_hash=frozen['selection_hash'],datasets=decisions,
+        next_actions=[action for row in decisions.values() for action in row['next_actions']])
+    write_json(route/'DECISION.json',result)
+    return result
+
+
 def endpoint_row(job,candidate,endpoint,point,split,values,layout_hash):
     config=next((r for r in job['candidates'] if r['id']==candidate),dict(id='online',family='ONLINE'))
-    return dict(dataset=job['dataset'],candidate_id=candidate,family=config['family'],seed=job['seed'],
+    row=dict(dataset=job['dataset'],candidate_id=candidate,family=config['family'],seed=job['seed'],
         trajectory_id=job['trajectory_id'],estimator=candidate,checkpoint=endpoint,epoch=point['epoch'],
         model_hash=point['model_hash'],stage='train',split=split,
         config_json=dict(parent=job['config'],candidate=config),config_hash=digest(dict(parent=job['config'],candidate=config)),
@@ -104,6 +156,8 @@ def endpoint_row(job,candidate,endpoint,point,split,values,layout_hash):
         split_hash=digest(job['config']['source']['split_row_id_hashes']),
         preprocessing_hash=digest({k:job['config']['source'][k] for k in ('encoder_hash','scaler_hash')}),
         layout_hash=layout_hash,**values)
+    if job.get('route','B')=='A': row['group_hash']=job['group_hash']
+    return row
 
 
 def evaluate(output,frozen_path,device='cuda:0'):
@@ -113,7 +167,7 @@ def evaluate(output,frozen_path,device='cuda:0'):
     from experiments.overnight_ab_20261103.data_bridge import cached_bundle
     from experiments.overnight_ab_20261103.evaluation import evaluate_model
     from experiments.overnight_ab_20261103.state import state_digest
-    output=Path(output); route=output/'B'; prepared=read_json(output/'PREPARED.json')
+    output=Path(output); prepared=read_json(output/'PREPARED.json'); route=output/prepared.get('route','B')
     frozen=require_frozen(output,frozen_path)
     if not (route/'DECISION.json').exists():
         raise Incomplete('Freeze validation dispatch before test evaluation')
@@ -156,7 +210,7 @@ def evaluate(output,frozen_path,device='cuda:0'):
 
 
 def report(output):
-    output=Path(output); route=output/'B'
+    output=Path(output); prepared=read_json(output/'PREPARED.json'); route_name=prepared.get('route','B'); route=output/route_name
     if not (route/'EVALUATED.json').exists():
         raise Incomplete('Complete frozen test endpoints before report')
     frozen=require_frozen(output,route/'selection_frozen.json')
@@ -165,8 +219,13 @@ def report(output):
     pairs,summaries=[],[]
     for dataset,current in frozen['datasets'].items():
         w={k:v['candidate_id'] for k,v in current['winners'].items()}
-        comparisons=[(w['D'],ref) for ref in dict.fromkeys(['F',w['U'],w['M'],w['S'],*current['matched_at_D'].values()])]
+        if route_name=='A':
+            comparisons=[(w['A_GROUP'],ref) for ref in dict.fromkeys(['F',w['A_GLOBAL'],w['A_FIXED'],w['U'],*current['matched_at_GROUP'].values()])]
+            comparisons.extend((cid,'F') for cid in set(w.values()) if cid!='F')
+        else:
+            comparisons=[(w['D'],ref) for ref in dict.fromkeys(['F',w['U'],w['M'],w['S'],*current['matched_at_D'].values()])]
         comparisons += [(cid,ref) for cid in dict.fromkeys(['F',*w.values()]) for ref in ('M3oE_fixed1','HyperGate','AutoIFS')]
+        comparisons=list(dict.fromkeys(comparisons))
         for method,reference in comparisons:
             for split in ('validation','test'):
                 for endpoint in ('selected','E10','E50'):
@@ -196,10 +255,10 @@ def report(output):
         totals={key:max(r['cost'][key] for r in records) if key.startswith('peak_') else sum(r['cost'][key] for r in records) for key in records[0]['cost']}
         costs.append(dict(dataset=job['dataset'],seed=job['seed'],trajectory_id=job['trajectory_id'],**totals))
     write_csv(route/'COSTS.csv',costs)
-    write_json(output/'RUN_MANIFEST.json',dict(prepared,status='B_EVALUATED',selection_hash=frozen['selection_hash'],
+    write_json(output/'RUN_MANIFEST.json',dict(prepared,status=route_name+'_EVALUATED',selection_hash=frozen['selection_hash'],
         raw_tables={p.name:sha_file(p) for p in route.glob('*.csv')},costs=costs))
     lines=['# 11/05 增强响应与历史估计：实验数据报告','',
-        'B：两数据集、2022–2026 五 seed、每条 50 epoch，15 个非反馈影子；共 10 条在线轨迹。',
+        f'{route_name}：两数据集、2022–2026 五 seed、每条 50 epoch，15 个非反馈影子；共 10 条在线轨迹。',
         '各候选完整验证，超参数与端点按 validation 冻结。A/C 的状态见 DECISION.json 和后续执行记录。',
         '', '| 数据集 | 家族 | 验证赢家 |', '|---|---|---|']
     for dataset,current in frozen['datasets'].items():
@@ -208,4 +267,4 @@ def report(output):
     lines += ['', '逐 seed、六格、Macro/Traffic/Pooled、selected/E10/E50、配对均差与 95% 区间分别见 ENDPOINTS.csv、PAIRED_SEED.csv、PAIRED_SUMMARY.csv；成本见 COSTS.csv。',
         'HyperGate 沿用来源标记 UNVERIFIED_PROPOSAL。科学解释由主代理结合完整数表撰写。','']
     (route/'REPORT.md').write_text('\n'.join(lines))
-    return dict(status='B_REPORTED',rows=len(rows),paired_rows=len(pairs),summary_rows=len(summaries))
+    return dict(status=route_name+'_REPORTED',rows=len(rows),paired_rows=len(pairs),summary_rows=len(summaries))
