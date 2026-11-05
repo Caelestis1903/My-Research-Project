@@ -1,0 +1,81 @@
+{
+  "status": "CONTINUATION_RESOLVED",
+  "commands": [
+    {
+      "action": {
+        "route": "C",
+        "dataset": "movielens",
+        "matrix": "C_FULL",
+        "seeds": [
+          2022,
+          2023,
+          2024,
+          2025,
+          2026
+        ]
+      },
+      "status": "IMPLEMENTED_REVIEW_REQUIRED",
+      "specification": "/home/xzf/Code/phase0-3_aug_history_20261105/research_plans/26-11-5/route_C/04_CODEX_EXECUTION.md",
+      "command": [
+        "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+        "-m",
+        "experiments.aug_history_20261105.run",
+        "train",
+        "--manifest",
+        "research_plans/26-11-5/experiment_manifest.json",
+        "--route",
+        "C",
+        "--datasets",
+        "movielens",
+        "--seeds",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026",
+        "--output",
+        "/home/xzf/Code/phase0-3_aug_history_20261105/artifacts/aug_history_20261105/attempt_C1",
+        "--resume"
+      ]
+    }
+  ],
+  "source_decision": {
+    "path": "/home/xzf/Code/phase0-3_aug_history_20261105/artifacts/aug_history_20261105/attempt_A1/A/DECISION.json",
+    "sha256": "e985515c0829b7825c05bef8312d98972a2660badc833043f483f20ed2170769"
+  },
+  "source_selection": {
+    "path": "/home/xzf/Code/phase0-3_aug_history_20261105/artifacts/aug_history_20261105/attempt_A1/A/selection_frozen.json",
+    "sha256": "b6e6e635ca991306337d56bbf0f306bebd503332f99b58a68072c29e76c04023",
+    "selection_hash": "ba672ccb017266847085f3de6ccd72cbec8115c93489b4c89b84517b21d8a4c2"
+  },
+  "source_prepared": {
+    "path": "/home/xzf/Code/phase0-3_aug_history_20261105/artifacts/aug_history_20261105/attempt_A1/PREPARED.json",
+    "sha256": "ca13d2005d2ca0ebc740955999ca5511748ec701bb74d0e20c16cbd736fa5393",
+    "identity": {
+      "source_hash": "afecc8dcef7f1687d61383af0ca69176eb7b7ec26d0700eb43836a827b5e2ff9",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "datasets": {
+        "movielens": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+        "kuairand": "abd68b9748a2a6c77c4ab9464957d98e554b8a8050c7cf62fc36c978728853a1"
+      },
+      "route": "A"
+    }
+  },
+  "allowed_actions": [
+    {
+      "route": "C",
+      "dataset": "movielens",
+      "matrix": "C_FULL",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    }
+  ],
+  "scope_datasets": [
+    "movielens"
+  ]
+}

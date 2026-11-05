@@ -26,6 +26,20 @@
 ---
 
 
+## 2026-11-06 AUG_HISTORY完整五seed实验
+
+[中文报告](../research_reports/2026-11-05_aug_history/REPORT.md) · [B分析](../research_reports/2026-11-05_aug_history/B_STAGE_ANALYSIS.md) · [A分析](../research_reports/2026-11-05_aug_history/A_STAGE_ANALYSIS.md) · [C分析](../research_reports/2026-11-05_aug_history/C_STAGE_ANALYSIS.md) · [六格性能台账](../MDMT_ALGORITHM_METRICS_LEDGER.md)。B→A两数据→C仅ML的冻结路线完整执行；所有候选五seed2022–2026、50epoch，50次物理训练、2500epoch、64500 Adam、19000模型validation。B/A父online逐epoch完全相同，重放与影子不增加独立seed；C新增30条配置×seed路径，γ0父控制复用。
+
+| 组件 | 五seed实证 | 证据与决策 |
+|---|---|---|
+| B定向EMA | D−F test AUC ML+0.000000104/KR−0.000004946；D/M/S与F几乎重合，响应非零、秩正常 | STRONG：当前有限网格无实用幅度独立增量；按validation两数据进入A |
+| A路径分组EMA | ML GROUP/GLOBAL对F AUC−0.000750/−0.000728、LL下降；KR固定S_FAST validation+0.001010转为test−0.000217、LL+0.000312 | MEDIUM：selected增量不稳定，早期/选点及AUC/LL取舍；ML选F进C，KR按原V动作停止后续C |
+| C历史漂移条件增强 | C*为γ=.5/K20；最终V按成本规则选MERGED。MERGED−F test AUC−0.000667190（5/5负，CI全负）、LL+0.000357811；任务C*对MERGED/ROTATED分别+0.000397735/+0.000018904，CI跨0且LL更高 | MEDIUM：当前C没有对F稳定增量；WEAK：任务/真实方向独立必要性。最终STOP_AND_REPORT |
+
+**整体收益继续保留：** ML完整C_MERGED+EMA对普通M3oE AUC+0.003499743、最差格+0.003065726，正式AUC和六格保护通过，LL+0.001289159；F本身对M3 AUC+0.004166933、LL+0.000931348。KR最终固定profile对主发表参照HyperGate AUC−0.003149636、LL−0.004760317，未战胜主AUC参照。三发表模型配置及预算沿用冻结来源，HG保留UNVERIFIED_PROPOSAL标记。
+
+**解释与执行范围：** 控制器/条件统计实际触发；B/A源online完全不变，C改变自身训练。KR GROUP局部有小域改善/大域下降，固定profile在最小域反而下降，C多数格下降；规模作为主解释为WEAK。更有区分力的后续是固定统计与谱/强度后真实方向对固定旋转、保留F及新封存自然人口评价，本轮未追加。KR C为DEFERRED_NOT_RUN，B+C未运行。B四次必要RAM轮换、A两次必要及一次重复轮换保留提交状态；缺少部分未提交耗时。参数仅RAM，Git归档源码/标量/图/报告，test沿用历史人口。
+
 ## 2026-11-04 最新跨分支实证整合（优先于下方11/02历史裁定）
 
 **本轮范围和合并截止。** 原11/02总裁定已整合EXP052–EXP060九组结果，本轮只新增11/02–03补充分支、11/03条件信息及真实历史实验、11/03五seed补全（11/04发布）、11/04 A+B统一发表模型及CP组合、11/04 Gaussian域覆盖及MovieLens既有来源核验。原始报告仍留源分支、本文只归档结论；性能总台账中11/03五seed数字原已存在，新增11/04发表模型/CP及KR G-D0/G-D02完整六格指标。不重复计算同轨迹的多个估计器、E10/E50或重命名别名。

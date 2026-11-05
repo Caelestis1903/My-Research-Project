@@ -1,0 +1,500 @@
+{
+  "stage": "III",
+  "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+  "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+  "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+  "scope_datasets": [
+    "movielens"
+  ],
+  "seed_ids": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "configurations": [
+    {
+      "id": "C4_CADENCE",
+      "gamma": 0.5,
+      "refresh_steps": 40,
+      "control_mode": "task"
+    }
+  ],
+  "dependencies": {
+    "W123": "866d3ce36fe9c9376e35db350296744b888ebcda76afd4a8d38faed937500ec8"
+  },
+  "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+  "jobs": [
+    {
+      "dataset": "movielens",
+      "seed": 2022,
+      "route": "C",
+      "config": {
+        "dataset": "movielens",
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "lambda_aug": 0.5,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "parameter_count": 773470,
+        "steps_per_epoch": 20,
+        "eval_batch_size": 40960,
+        "target_domain": 0,
+        "gamma": 0.5,
+        "refresh_steps": 40,
+        "control_mode": "task"
+      },
+      "config_hash": "771f3eb72fba0b2988776c67c912cc164a1c8b310deb2d89efcf7b81334573c3",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+      "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+      "layout_hash": null,
+      "candidates": [
+        {
+          "id": "C4_CADENCE",
+          "gamma": 0.5,
+          "refresh_steps": 40,
+          "control_mode": "task",
+          "family": "C_SEARCH"
+        }
+      ],
+      "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+      "scope_datasets": [
+        "movielens"
+      ],
+      "job_id": "eb355e1cc08692ea0cd7ac05c98656c4d55deb5b8173d21a731b280ea55795b4",
+      "trajectory_id": "eb355e1cc08692ea0cd7ac05c98656c4d55deb5b8173d21a731b280ea55795b4"
+    },
+    {
+      "dataset": "movielens",
+      "seed": 2023,
+      "route": "C",
+      "config": {
+        "dataset": "movielens",
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "lambda_aug": 0.5,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "parameter_count": 773470,
+        "steps_per_epoch": 20,
+        "eval_batch_size": 40960,
+        "target_domain": 0,
+        "gamma": 0.5,
+        "refresh_steps": 40,
+        "control_mode": "task"
+      },
+      "config_hash": "771f3eb72fba0b2988776c67c912cc164a1c8b310deb2d89efcf7b81334573c3",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+      "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+      "layout_hash": null,
+      "candidates": [
+        {
+          "id": "C4_CADENCE",
+          "gamma": 0.5,
+          "refresh_steps": 40,
+          "control_mode": "task",
+          "family": "C_SEARCH"
+        }
+      ],
+      "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+      "scope_datasets": [
+        "movielens"
+      ],
+      "job_id": "6986cbd0d06c4d60a79bad7c6c742e18846cc26068ff6e96ac53bed954f94428",
+      "trajectory_id": "6986cbd0d06c4d60a79bad7c6c742e18846cc26068ff6e96ac53bed954f94428"
+    },
+    {
+      "dataset": "movielens",
+      "seed": 2024,
+      "route": "C",
+      "config": {
+        "dataset": "movielens",
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "lambda_aug": 0.5,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "parameter_count": 773470,
+        "steps_per_epoch": 20,
+        "eval_batch_size": 40960,
+        "target_domain": 0,
+        "gamma": 0.5,
+        "refresh_steps": 40,
+        "control_mode": "task"
+      },
+      "config_hash": "771f3eb72fba0b2988776c67c912cc164a1c8b310deb2d89efcf7b81334573c3",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+      "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+      "layout_hash": null,
+      "candidates": [
+        {
+          "id": "C4_CADENCE",
+          "gamma": 0.5,
+          "refresh_steps": 40,
+          "control_mode": "task",
+          "family": "C_SEARCH"
+        }
+      ],
+      "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+      "scope_datasets": [
+        "movielens"
+      ],
+      "job_id": "842f3ab03363c9e718ead9ced7f318a1bb855fd18e7faa6bac6e3d368739ddb4",
+      "trajectory_id": "842f3ab03363c9e718ead9ced7f318a1bb855fd18e7faa6bac6e3d368739ddb4"
+    },
+    {
+      "dataset": "movielens",
+      "seed": 2025,
+      "route": "C",
+      "config": {
+        "dataset": "movielens",
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "lambda_aug": 0.5,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "parameter_count": 773470,
+        "steps_per_epoch": 20,
+        "eval_batch_size": 40960,
+        "target_domain": 0,
+        "gamma": 0.5,
+        "refresh_steps": 40,
+        "control_mode": "task"
+      },
+      "config_hash": "771f3eb72fba0b2988776c67c912cc164a1c8b310deb2d89efcf7b81334573c3",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+      "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+      "layout_hash": null,
+      "candidates": [
+        {
+          "id": "C4_CADENCE",
+          "gamma": 0.5,
+          "refresh_steps": 40,
+          "control_mode": "task",
+          "family": "C_SEARCH"
+        }
+      ],
+      "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+      "scope_datasets": [
+        "movielens"
+      ],
+      "job_id": "abc983c8cfe5f3ac6c917a6349577a4e57e6c7530702ad3456915b1380acb355",
+      "trajectory_id": "abc983c8cfe5f3ac6c917a6349577a4e57e6c7530702ad3456915b1380acb355"
+    },
+    {
+      "dataset": "movielens",
+      "seed": 2026,
+      "route": "C",
+      "config": {
+        "dataset": "movielens",
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "lambda_aug": 0.5,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "parameter_count": 773470,
+        "steps_per_epoch": 20,
+        "eval_batch_size": 40960,
+        "target_domain": 0,
+        "gamma": 0.5,
+        "refresh_steps": 40,
+        "control_mode": "task"
+      },
+      "config_hash": "771f3eb72fba0b2988776c67c912cc164a1c8b310deb2d89efcf7b81334573c3",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "source_hash": "d78a938330e5eb8334213c7f0beed66926956c35e1cff90c180260d12fd331e2",
+      "data_hash": "9ec469c348ddfb359019f8072a866d2e9e832f3bc87cb9adbbfa76a2c6ecc42f",
+      "layout_hash": null,
+      "candidates": [
+        {
+          "id": "C4_CADENCE",
+          "gamma": 0.5,
+          "refresh_steps": 40,
+          "control_mode": "task",
+          "family": "C_SEARCH"
+        }
+      ],
+      "resolution_hash": "6a8609ce5d8d8106fd0eb554acaa43fe1ac905a29a48a488d67d4e39e64a8008",
+      "scope_datasets": [
+        "movielens"
+      ],
+      "job_id": "24b5e533efd1817deb2edc28349af9dbc2d922baef88dcedb383e000ee76bce5",
+      "trajectory_id": "24b5e533efd1817deb2edc28349af9dbc2d922baef88dcedb383e000ee76bce5"
+    }
+  ]
+}

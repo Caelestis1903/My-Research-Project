@@ -29,6 +29,19 @@
 
 
 
+## 2026-11-06 最新已完成：AUG_HISTORY增强响应与参数历史
+
+[中文总报告](research_reports/2026-11-05_aug_history/REPORT.md)及[B](research_reports/2026-11-05_aug_history/B_STAGE_ANALYSIS.md)/[A](research_reports/2026-11-05_aug_history/A_STAGE_ANALYSIS.md)/[C](research_reports/2026-11-05_aug_history/C_STAGE_ANALYSIS.md)分析为本轮来源。规划固定`2645f1f724f52f5ed5dea4b479335c0dc12fabcd`，父源码`c8675ae2923c15b6965884b140b5b646690cd95e`；沿用自然80/10/10、M3oE fixed1、batch40960、50epoch，所有科学候选五seed2022–2026。每阶段独立设计/实施/审查后正式运行，选择及下一动作在本阶段test前冻结。
+
+- **完成与计数：** B/A各两数据×五seed，C仅ML六配置×五seed；50次物理训练、2500epoch、64500 Adam、19000模型validation。B/A的500个online/order hash逐一相同，是十个父路径重放；统计n仍为每配置五seed。96条配置×数据集×selected/E10/E50记录已回填主台账。KR C为DEFERRED_NOT_RUN，B+C未运行，最终STOP_AND_REPORT。
+- **B，STRONG描述性事实：** D−F test AUC为ML+0.000000104、KR−0.000004946；响应实际启用，D秩2/M秩1。当前有限方向EMA网格没有实用幅度独立增量。
+- **A，MEDIUM：** ML GROUP/GLOBAL对F test AUC−0.000750/−0.000728，LL−0.000813/−0.001472，4/5 seed AUC下降；ML按validation简化选F并进入C。KR固定S_FAST的validation+0.001009861转为test−0.000217263、LL+0.000311569，内部最差格−0.001824793；按原validation动作保留profile并停止KR后续C。早期E10优势不等于selected收益。
+- **C，MEDIUM：** 搜索赢家C3_WEAK(γ=.5,K20)，最终按validation成本容忍规则选C_MERGED。MERGED test AUC/LL=.778689413/.496180076，对F−0.000667190/+0.000357811，五seed AUC均负；C3/ROTATED均值也低于F。任务C*对MERGED/ROTATED AUC+0.000397735/+0.000018904，CI均跨0且LL均更高；任务分解、真实方向独立必要性证据WEAK。1375次刷新中1345次统计非零，其余30次为初始化。
+- **总收益与模型：** ML完整MERGED+EMA对普通M3oE AUC+0.003499743、最差格+0.003065726，满足正式AUC及保护线；LL+0.001289159。KR A_FIXED_S_FAST对主发表参照HyperGate AUC−0.003149636、LL−0.004760317。完整方案总收益和新增组件增量分别裁定，F仍属内部控制。HG保持UNVERIFIED_PROPOSAL配置标记。
+- **解释与后续：** A的KR GROUP局部出现小域改善/大域下降，固定profile反而损失最小域，C多格同降；规模主解释为WEAK。当前版本停止。最有区分力的新研究是固定train-only统计及逐步谱/强度后的真实方向对旋转方向，保留F和新封存自然人口评价；本轮未执行该建议。
+
+运行事实：B四次必要RAM轮换，A两次必要及一次不需要的重复轮换，均从保留的RAM提交继续；额外未提交开销缺少完整计时。C无轮换。源码、标量、曲线、hash及报告归档，参数/优化器/Q/A/root/旋转矩阵及checkpoint均仅RAM。test为历史研究划分。
+
 ## 2026-11-04 最新 AI Handoff：五seed、统一发表模型与Gaussian覆盖（优先于11/02旧快照）
 
 **本次增量范围。** 此前11/02归档的EXP052–EXP060不再重复登记；新增整合11/02–03 PAIR/ECCM补充、11/03条件信息/真实历史分支、11/03五seed补全（11/04发布）、11/04 Overnight A+B统一发表模型比较，以及11/04 Gaussian增强域覆盖和MovieLens来源补齐。仅提取科学结论和关键指标，不合并原实验分支的代码、日志或训练产物；[指标台账](MDMT_ALGORITHM_METRICS_LEDGER.md)记录六格绝对值、Macro/Traffic/Pooled及选点身份。**下方11/02“最新”“下一步”是历史快照，不得覆盖本节研究决定。**

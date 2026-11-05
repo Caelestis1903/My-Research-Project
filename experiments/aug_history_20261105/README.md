@@ -1,12 +1,22 @@
 # AUG_HISTORY_20261105
 
-Frozen B implementation for `research_plans/26-11-5/07_FINAL_CODEX_ENTRY.md`.
+Executed B/A/C implementation for `research_plans/26-11-5/07_FINAL_CODEX_ENTRY.md`.
 The probability forward and online Gaussian/Adam path are reused from the pinned source. Fifteen independent non-feedback shadows run on each online trajectory. Model/optimizer/shadow/selected/E10/E50 states remain in a separate RAM guardian.
+
+The full frozen study completed on 2026-11-06: B and A on both datasets, then C on MovieLens. See the [Chinese scientific report](../../research_reports/2026-11-05_aug_history/REPORT.md). KuaiRand C is `DEFERRED_NOT_RUN`; the final action is `STOP_AND_REPORT`.
+
+| Stage | Exact implementation commit | Archived scalar output |
+|---|---|---|
+| B | `79690772dedefafa24b80d1817aca8c61907be5b` | `artifacts/aug_history_20261105/attempt1` |
+| A | `f00b5ce6b9e6476ca689b781667a5d698742aa70` | `artifacts/aug_history_20261105/attempt_A1` |
+| C | `933cb2f02790722af2fa4ea704f993b79df29afa` | `artifacts/aug_history_20261105/attempt_C1` |
+
+For exact training reproduction, use the corresponding commit in a separate worktree and a fresh output directory. Review receipts and archived outputs bind the stage-specific source hash; a later implementation must not reinterpret an earlier attempt under its own source identity. All three guardians were released after frozen evaluation, so parameter states are no longer retained. Scalar analyses can be rebuilt directly from the archived CSV/JSON files using `research_reports/2026-11-05_aug_history/analyze_{b,a,c}.py`.
 
 Use `/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python` for every command below. Invoke module `experiments.aug_history_20261105.run`; all subcommands accept `--manifest research_plans/26-11-5/experiment_manifest.json --output artifacts/aug_history_20261105/attempt1`.
 
 1. `preflight` verifies source, real raw CSV/cache identities, populations and the fixed published-reference table.
-2. `validate --suite all` executes focused CPU acceptance checks and reports A/C as `DESIGN_COMPLETE_NOT_IMPLEMENTED`.
+2. `validate --suite B` executes focused B CPU acceptance checks. A and C use their own suites and independent acceptance receipts below.
 3. An independent reviewer writes `research_reports/2026-11-05_aug_history/REVIEW_ACCEPTANCE.json` with `status: PASS` (or `PASS WITH FIXES`), no `blocking_issues`, and the exact `source_hash` from preflight.
 4. `validate --suite B --gpu-smoke --devices 0 1` checks original batch40960 source equivalence without performance selection.
 5. `train --route B --datasets movielens kuairand --seeds 2022 2023 2024 2025 2026 --resume` admits concurrent workers per eligible GPU and retains completed endpoints in RAM.
