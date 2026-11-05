@@ -1,0 +1,276 @@
+{
+  "route": "B",
+  "basis": "validation",
+  "selection_hash": "fce00de767c5e95b0cb627f53eb5851d43a6c1e64a8c4786db73e57c0ff202a4",
+  "datasets": {
+    "movielens": {
+      "schema_version": 1,
+      "study_id": "AUG_HISTORY_20261105",
+      "route": "B",
+      "dataset": "movielens",
+      "status": "DECIDED",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "selection_hash": "fce00de767c5e95b0cb627f53eb5851d43a6c1e64a8c4786db73e57c0ff202a4",
+      "seed_ids": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "all_required_candidates_complete": true,
+      "winners": {
+        "D": "D_H05_K10",
+        "U": "F",
+        "M": "M_H05_K20",
+        "S": "S_H20_K20"
+      },
+      "validation": {
+        "macro_auc_by_winner": {
+          "D": 0.7595224987978858,
+          "U": 0.7595220143897777,
+          "M": 0.7595224192505463,
+          "S": 0.7595223027313385
+        },
+        "F_macro_auc": 0.7595220143897777,
+        "six_cell_auc_deltas": {
+          "d0t0": 2.299160070440287e-06,
+          "d0t1": 1.7273716142796046e-06,
+          "d1t0": 3.608836363078183e-08,
+          "d1t1": 4.682077357598402e-07,
+          "d2t0": -6.023465049187493e-07,
+          "d2t1": -1.0220326312371241e-06
+        },
+        "direction_gain": 1.960665473310641e-07,
+        "multi_response_gain": 7.954733949322446e-08,
+        "simple_near": true,
+        "aggregation_tradeoff": false,
+        "online_cost_supported": "unknown",
+        "online_cost_sources": [],
+        "residual_cell_reference": "M3oE_fixed1 / A0 online selected validation",
+        "residual_cell_auc_deltas": {
+          "d0t0": 0.0034618499186514383,
+          "d0t1": 0.001857183185651179,
+          "d1t0": 0.0032462523087365635,
+          "d1t1": 0.0021801227530465093,
+          "d2t0": 0.0034491759336871654,
+          "d2t1": 0.002949665915336497
+        }
+      },
+      "test_report": {
+        "status": "NOT_YET_EVALUATED",
+        "formal_gains": {},
+        "component_gains": {},
+        "six_cell_deltas": {}
+      },
+      "decision_basis": {
+        "split": "validation",
+        "test_consulted": false,
+        "historical_test_exposure": true,
+        "source_hashes": []
+      },
+      "cost": {
+        "online_trajectories": 5,
+        "estimator_seed_instances": 75,
+        "training_seconds": 2293.5082387439415,
+        "probe_seconds": 252.30727563603068,
+        "validation_seconds": 3662.283953670014,
+        "gpu_seconds": 6208.099468049986,
+        "wall_seconds": 6208.099468049986,
+        "original_rows": 200041750,
+        "extra_views": 38987250,
+        "real_adam_steps": 5000,
+        "validations": 4000,
+        "peak_gpu_bytes": 1329370112,
+        "peak_gpu_reserved_bytes": 1669332992,
+        "peak_ram_bytes": 3791704064
+      },
+      "matched_rule": "B_SIMPLE_SUFFICIENT",
+      "next_action": "RUN_A",
+      "next_actions": [
+        {
+          "route": "A",
+          "dataset": "movielens",
+          "matrix": "A_FULL",
+          "seeds": [
+            2022,
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        }
+      ],
+      "deferred_routes": [
+        "C"
+      ],
+      "reason": {
+        "D_minus_F": 4.844081080701557e-07,
+        "direction_gain": 1.960665473310641e-07,
+        "multi_response_gain": 7.954733949322446e-08,
+        "simple_near": true
+      }
+    },
+    "kuairand": {
+      "schema_version": 1,
+      "study_id": "AUG_HISTORY_20261105",
+      "route": "B",
+      "dataset": "kuairand",
+      "status": "DECIDED",
+      "manifest_hash": "76345194a8d09c8cadf3544e39c35174a452abb3827f071250da7f259c45749d",
+      "selection_hash": "fce00de767c5e95b0cb627f53eb5851d43a6c1e64a8c4786db73e57c0ff202a4",
+      "seed_ids": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "all_required_candidates_complete": true,
+      "winners": {
+        "D": "D_H05_K20",
+        "U": "U_FAST",
+        "M": "M_H20_K10",
+        "S": "S_H05_K20"
+      },
+      "validation": {
+        "macro_auc_by_winner": {
+          "D": 0.6908124024375522,
+          "U": 0.6908611745348457,
+          "M": 0.6908146208013383,
+          "S": 0.6908036396900901
+        },
+        "F_macro_auc": 0.6908024225491685,
+        "six_cell_auc_deltas": {
+          "d0t0": 9.674486876853905e-06,
+          "d0t1": 6.419785166467129e-05,
+          "d1t0": -7.686802012241146e-07,
+          "d1t1": -3.994853667865783e-07,
+          "d2t0": 1.6884965144736696e-06,
+          "d2t1": -1.451333918629505e-05
+        },
+        "direction_gain": 8.762747462087717e-06,
+        "multi_response_gain": -2.218363786110622e-06,
+        "simple_near": true,
+        "aggregation_tradeoff": false,
+        "online_cost_supported": true,
+        "online_cost_sources": [
+          {
+            "path": "/home/xzf/Code/phase0-3_aug_history_20261105/research_reports/2026-11-04_gaussian_domain_coverage/ENDPOINTS.csv",
+            "sha256": "5de7c064542d19b79bcae49325c49f7e40fb35f41b21e7e1b0a236cb0bf69875",
+            "dataset": "kuairand",
+            "checkpoint": "E50",
+            "estimator": "online",
+            "split": "validation",
+            "comparison": "G-D0 minus M3OE",
+            "seed_ids": [
+              2022,
+              2023,
+              2024,
+              2025,
+              2026
+            ],
+            "six_cell_auc_deltas": {
+              "d0t0": -0.01268275189111201,
+              "d0t1": 0.0028292910340822043,
+              "d1t0": 2.1983664659241954e-05,
+              "d1t1": -0.0008802035586600754,
+              "d2t0": 0.0037788551993632735,
+              "d2t1": 0.0033940990190410637
+            }
+          }
+        ],
+        "residual_cell_reference": "M3oE_fixed1 / A0 online selected validation",
+        "residual_cell_auc_deltas": {
+          "d0t0": -0.00048372434384460485,
+          "d0t1": 0.008027024238510205,
+          "d1t0": 0.004865375936604033,
+          "d1t1": 0.005003395018042101,
+          "d2t0": 0.0054616831898111505,
+          "d2t1": 0.004331161090927305
+        }
+      },
+      "test_report": {
+        "status": "NOT_YET_EVALUATED",
+        "formal_gains": {},
+        "component_gains": {},
+        "six_cell_deltas": {}
+      },
+      "decision_basis": {
+        "split": "validation",
+        "test_consulted": false,
+        "historical_test_exposure": true,
+        "source_hashes": [
+          "5de7c064542d19b79bcae49325c49f7e40fb35f41b21e7e1b0a236cb0bf69875"
+        ]
+      },
+      "cost": {
+        "online_trajectories": 5,
+        "estimator_seed_instances": 75,
+        "training_seconds": 5912.714408493017,
+        "probe_seconds": 865.3330036889784,
+        "validation_seconds": 7576.961264816,
+        "gpu_seconds": 14355.008676997995,
+        "wall_seconds": 14355.008676997995,
+        "original_rows": 501533000,
+        "extra_views": 43195500,
+        "real_adam_steps": 12250,
+        "validations": 4000,
+        "peak_gpu_bytes": 1544485376,
+        "peak_gpu_reserved_bytes": 1872756736,
+        "peak_ram_bytes": 6040367104
+      },
+      "matched_rule": "B_SIMPLE_SUFFICIENT",
+      "next_action": "RUN_A",
+      "next_actions": [
+        {
+          "route": "A",
+          "dataset": "kuairand",
+          "matrix": "A_FULL",
+          "seeds": [
+            2022,
+            2023,
+            2024,
+            2025,
+            2026
+          ]
+        }
+      ],
+      "deferred_routes": [
+        "C"
+      ],
+      "reason": {
+        "D_minus_F": 9.979888383693236e-06,
+        "direction_gain": 8.762747462087717e-06,
+        "multi_response_gain": -2.218363786110622e-06,
+        "simple_near": true
+      }
+    }
+  },
+  "next_actions": [
+    {
+      "route": "A",
+      "dataset": "movielens",
+      "matrix": "A_FULL",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    },
+    {
+      "route": "A",
+      "dataset": "kuairand",
+      "matrix": "A_FULL",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ]
+    }
+  ]
+}
