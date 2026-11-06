@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_train.py", line 238, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_train.py", line 234, in main
+    try:runner=Runner(cfg,a.device,a.smoke);runner.fit()
+                                            ~~~~~~~~~~^^
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_train.py", line 197, in fit
+    rr=order[offset:offset+self.c['batch_size']];val=self.update(rr);total+=val*len(rr);examples+=len(rr);online.append((self.online_pred,self.b.train_y[rr],self.b.train_x[rr,-1]))
+                                                     ~~~~~~~~~~~^^^^
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_train.py", line 138, in update
+    p=self.model(x);loss=self.objective(p,y,x[-1].long());assert torch.isfinite(loss),'nonfinite loss';loss.backward()
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_models.py", line 243, in forward
+    def forward(self,x,neutral=None):return torch.cat([m(x,neutral) for m in self.models],1)
+                                                       ~^^^^^^^^^^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/xzf/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/xzf/Code/phase0-3-20261019-git/experiments/cm19_models.py", line 171, in forward
+    rms.append(z.detach().square().mean().sqrt());cores.append(core.detach().square().mean().sqrt())
+                                                               ~~~~~~~~~~~~~~~~~~~~^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 192.00 MiB. GPU 1 has a total capacity of 23.57 GiB of which 177.19 MiB is free. Process 1408450 has 5.05 GiB memory in use. Process 1408587 has 5.05 GiB memory in use. Process 1421463 has 5.05 GiB memory in use. Process 1421940 has 4.58 GiB memory in use. Including non-PyTorch memory, this process has 3.62 GiB memory in use. Of the allocated memory 3.14 GiB is allocated by PyTorch, and 183.78 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
