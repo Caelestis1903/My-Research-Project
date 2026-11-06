@@ -9,7 +9,7 @@ import pytest
 import torch
 
 from experiments.overnight_ab_20261103.state import write_json
-from experiments.ema_mechanism_20261106.panels import build_panels, load_panels, row_side, save_panels
+from experiments.ema_mechanism_20261106.panels import build_panels, load_panels, load_panel_identity, row_side, save_panels
 
 
 def panel_fixture():
@@ -76,3 +76,38 @@ def test_panel_identity_roundtrip_conflict_and_validation_missing_class(tmp_path
     bundle.train_y[:]=0
     with pytest.raises(ValueError,match='PANEL_POPULATION_MISMATCH'):
         build_panels(bundle,2022,spec)
+
+
+def test_validation_min_quota_masks_unequal_domain_populations(tmp_path):
+    bundle,spec=panel_fixture()
+    take=np.concatenate([np.flatnonzero(bundle.val_x[:,-1]==domain)[:count]
+                         for domain,count in enumerate((19,73,11))])
+    for name in ('val_x','val_y','val_row_ids'):
+        setattr(bundle,name,getattr(bundle,name)[take])
+    panels=build_panels(bundle,2022,spec);v=panels['V_mech'];valid=v['valid_mask']
+    assert v['indices'].shape==(3,40)
+    assert valid.sum(axis=1).tolist()==[19,40,11]
+    assert np.array_equal(valid,v['indices']>=0)
+    assert (v['row_ids'][~valid]==-1).all() and (v['y'][~valid]==-1).all()
+    assert (v['validation_row_side'][~valid]==-1).all() and (v['natural_x'][~valid]==0).all()
+    for domain,count in enumerate((19,40,11)):
+        rows=v['row_ids'][domain,valid[domain]]
+        assert len(np.unique(rows))==count
+        assert np.array_equal(v['natural_x'][domain,valid[domain]],bundle.val_x[v['indices'][domain,valid[domain]]])
+        if domain!=1:
+            assert set(rows)==set(bundle.val_row_ids[bundle.val_x[:,-1]==domain])
+        for task in range(2):
+            cell=2*domain+task;pairs=v['pairs'][cell,:v['pair_counts'][cell]]
+            assert (pairs>=0).all() and (pairs<count).all()
+            assert (v['y'][domain,pairs[:,0],task]==1).all()
+            assert (v['y'][domain,pairs[:,1],task]==0).all()
+    receipts=save_panels(tmp_path,'movielens',2022,panels)
+    raw=load_panel_identity(tmp_path/receipts['V_mech']['path'])
+    assert 'valid_mask' not in raw
+    assert receipts['V_mech']['valid_mask_rule']=='valid_mask=(indices>=0)'
+    assert receipts['V_mech']['actual_count']==[19,40,11]
+    assert receipts['V_mech']['representation_version']=='validation_masked_cap_v1'
+    write_json(tmp_path/'PROBE_MANIFEST.json',dict(panels={'movielens':{'2022':receipts}}))
+    loaded=load_panels(tmp_path,'movielens',2022,bundle)['V_mech']
+    assert np.array_equal(loaded['valid_mask'],valid)
+    assert loaded['panel_hash']==v['panel_hash']

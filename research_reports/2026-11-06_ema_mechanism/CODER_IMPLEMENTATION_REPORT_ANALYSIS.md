@@ -45,3 +45,11 @@ freeze验证20条全50epoch、五seed/条件、实际RAM selected/E10/E50与曲�
 结果：**11 passed**。覆盖SSE-ridge与截距、F回退/并列、源LL端点与温度恒等、576/240的seed/时间/行隔离、仅训练折标准化、未来新pulse标签和24支持、pair padding、seed聚合、预算不足拒绝freeze、篡改冻结拒绝、独立Test子进程。两模块py_compile通过。
 
 本实现阶段未运行正式训练、未访问新Test、未计算本轮研究结论。GPU工程smoke、真实20轨迹与全流程产物由独立审查通过后的runner执行。
+
+## 修订 R3：Validation masked cap
+
+按 `DESIGN_SPECIFICATION.md` 第11节，V_mech的每域人数是 `min(4096, available)`。分析端统一由身份NPZ已有 `indices>=0` 派生有效mask，不增加持久字段。`_panel_metric_matrix` 的完整V_mech/行分侧指标只取有效行；这同时覆盖LOSO历史偏好。排序pair在gather前验证每个索引落在有效槽，temporal T和flip按pair_count取实际pair；flip的精确面板AUC另按有效行筛选标签和概率。校准拟合侧、评分侧分别取valid与side==0/1的交集，评分侧使用另一合法side，不能用拟合mask补集包含padding。
+
+C_BG沿用core已修订的 `load_panels/panel_predictions/pulse_rows`，因此其自然V读出和派生pulse/未来标签继承同一mask。evaluation只读取官方完整Validation/Test端点，不消费有界V面板，未增加掩码分支。COSTS已对全部peak_*字段按job取max，自动接入core新增的实际guardian RSS成本字段。
+
+新增一个最小不等长域测试，同时覆盖V_mech/V_A/V_B指标等于仅取真实行、pair不含无效槽、精确flip AUC与校准fit/score均排除-1标签。分析与评价测试现为 **12 passed**。报告另生成 `VALIDATION_PANEL_COUNTS.csv`，直接从固定身份记录逐seed/域有效人数及两行分侧人数。此修订无工程/科学Adam、无新Test读取，原attempt继续。

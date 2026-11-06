@@ -355,10 +355,17 @@ def _stage1_selection(study, records):
     return pd.DataFrame(rows), pd.DataFrame(gain_rows)
 
 
+def _validation_mask(identity):
+    return np.asarray(identity['indices']) >= 0
+
+
 def _panel_metric_matrix(identity, p, side=None):
     result = np.full((6, 2), np.nan)
+    valid = _validation_mask(identity)
     for c, (d, t) in enumerate((d, t) for d in range(3) for t in range(2)):
-        mask = np.ones(p.shape[1], dtype=bool) if side is None else identity['validation_row_side'][d] == side
+        mask = valid[d].copy()
+        if side is not None:
+            mask &= identity['validation_row_side'][d] == side
         y, values = identity['y'][d, mask, t], p[d, mask, t]
         result[c] = cell_auc(y, values), source_logloss(y, values)
     return result
@@ -429,7 +436,12 @@ def _panel_pairs(identity, panel_id, cell):
     if panel_id != 'V_mech':
         return identity['rank_pairs'][cell]
     count = int(identity.get('pair_counts', np.full(6, len(identity['pairs'][cell])))[cell])
-    return identity['pairs'][cell, :count]
+    pairs = identity['pairs'][cell, :count]
+    if 'indices' in identity and len(pairs):
+        valid = _validation_mask(identity)[cell//2]
+        if np.any(pairs < 0) or np.any(pairs >= len(valid)) or not valid[pairs].all():
+            raise ValueError('Validation rank pair refers to an invalid container slot')
+    return pairs
 
 
 def temporal_rank_stability(study, out, records):
@@ -542,14 +554,18 @@ def rank_flips(study, out, records):
                     aa, bb = _pair_scores(a, pairs), _pair_scores(b, pairs)
                     delta = aa-bb
                     labels = identity['y'][d, :, t] if panel_id == 'V_mech' else identity['rank_y'][c]
+                    exact_a, exact_b = a, b
+                    if panel_id == 'V_mech':
+                        valid = _validation_mask(identity)[d]
+                        labels, exact_a, exact_b = labels[valid], a[valid], b[valid]
                     rows.append(dict(_identity(r), panel_id=panel_id, readout_id=receipt['readout_id'],
                         cell=CELLS[c], pair_count=len(pairs), correction=float(np.maximum(delta, 0).mean()) if len(delta) else np.nan,
                         damage=float(np.maximum(-delta, 0).mean()) if len(delta) else np.nan, sampled_net_flip=float(delta.mean()) if len(delta) else np.nan,
                         unchanged=float((delta == 0).mean()) if len(delta) else np.nan, new_ties=float(((aa == .5) & (bb != .5)).mean()) if len(delta) else np.nan,
                         broken_ties=float(((aa != .5) & (bb == .5)).mean()) if len(delta) else np.nan,
-                        paired_sample_auc=float(aa.mean()) if len(delta) else np.nan, exact_panel_auc=cell_auc(labels, a),
+                        paired_sample_auc=float(aa.mean()) if len(delta) else np.nan, exact_panel_auc=cell_auc(labels, exact_a),
                         missing_reason=None if len(delta) else 'NA_SINGLE_CLASS',
-                        exact_auc_delta=cell_auc(labels, a)-cell_auc(labels, b)))
+                        exact_auc_delta=cell_auc(labels, exact_a)-cell_auc(labels, exact_b)))
     result = pd.DataFrame(rows)
     write_table(Path(out)/'RANK_FLIPS.csv', result)
     return result
@@ -920,6 +936,7 @@ def _calibration_controls(study, out, records, trigger):
         fid = _fid(study, ds)
         for seed in SEEDS:
             panel = panel_identity(out, ds, seed, 'V_mech')
+            valid = _validation_mask(panel)
             for epoch in (20, 40):
                 record = index[ds, objective, seed, epoch]
                 predictions = {rid: _prediction(out, record, 'V_mech', physical)['p']
@@ -928,8 +945,8 @@ def _calibration_controls(study, out, records, trigger):
                     for t in range(2):
                         y = panel['y'][d, :, t]
                         for fit_side in (0, 1):
-                            fit_mask = panel['validation_row_side'][d] == fit_side
-                            score_mask = ~fit_mask
+                            fit_mask = valid[d] & (panel['validation_row_side'][d] == fit_side)
+                            score_mask = valid[d] & (panel['validation_row_side'][d] == 1-fit_side)
                             for rid in ('online', 'F'):
                                 p = predictions[rid][d, :, t]
                                 if not fit_mask.any() or not score_mask.any():
@@ -1417,6 +1434,17 @@ def generate_report(study, out):
     _figures(study, out)
     decisions = read_json(out/'MECHANISM_DECISIONS.json')
     prepared = read_json(out/'PREPARED.json')
+    panel_counts = []
+    for dataset in study.manifest['datasets']:
+        for seed in SEEDS:
+            panel = panel_identity(out, dataset, seed, 'V_mech')
+            valid = _validation_mask(panel)
+            for domain in range(3):
+                panel_counts.append(dict(dataset=dataset, seed=seed, domain=domain,
+                    actual_count=int(valid[domain].sum()), container_capacity=valid.shape[1],
+                    V_A_count=int((valid[domain] & (panel['validation_row_side'][domain] == 0)).sum()),
+                    V_B_count=int((valid[domain] & (panel['validation_row_side'][domain] == 1)).sum())))
+    write_table(out/'VALIDATION_PANEL_COUNTS.csv', panel_counts)
     stages = {stage: read_json(out/f'STAGE{stage}_DECISION.json') for stage in range(1, 5)}
     # All numbers below are table-derived. The orchestrator supplies the final scientific synthesis.
     lines = ['# EMA 收益机制实验报告', '',
@@ -1463,6 +1491,7 @@ def generate_report(study, out):
         f"plan hash：`{study.identity['plan_hash']}`；analysis hash：`{input_hashes(study,out)['analysis_hash']}`。",
         '每个端点身份见 [SELECTION_FROZEN.json](SELECTION_FROZEN.json)；与源、数据、面板、分析、阶段决定的绑定见 [FREEZE_RECEIPT.json](FREEZE_RECEIPT.json)。Test由独立进程读取，归档同state复用单列，pulse/条件最优/温度不进入Test。',
         '数据身份与原CSV/cache/row/split/encoder/scaler：[DATA_MANIFEST.json](DATA_MANIFEST.json)、[PROBE_MANIFEST.json](PROBE_MANIFEST.json)。既有证据和A/B去重：[AUDIT_INVENTORY.json](AUDIT_INVENTORY.json)、[EVIDENCE_REUSE.csv](EVIDENCE_REUSE.csv)、[ARCHIVED_FACTORIAL.csv](ARCHIVED_FACTORIAL.csv)。',
+        'V_mech每域有效自然行数为min(4096,该域Validation人数)，[VALIDATION_PANEL_COUNTS.csv](VALIDATION_PANEL_COUNTS.csv)记录逐seed有效人数及V_A/V_B人数。固定容量容器以indices≥0解析真实行；指标、排序pair、偏好、校准和未来标签均按真实行计算。完整Validation选点与Test仍使用源完整人口。',
         '设计、实现、审查和运行修订记录由研究交付目录中的 DESIGN_SPECIFICATION、CODER_IMPLEMENTATION_REPORT、IMPLEMENTATION_REVIEW 与原始运行日志提供。', '',
         '## 成本与产物', '',
         f"本轮实际逻辑Adam数：{int(costs['real_adam_steps'].sum())}；完整V模型读出：{int(costs['validations'].sum())}；新增pulse状态：{int(costs['pulse_state_readouts'].sum())}；M2小面板梯度：{int(costs['gradient_probes'].sum())}。",

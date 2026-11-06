@@ -150,3 +150,38 @@ def test_group_reductions_float64_cancellation_and_exact_repeat():
     first=reduce_groups(values,groups)
     assert first.dtype==torch.float64 and torch.equal(first,expected)
     assert torch.equal(first,reduce_groups(values,groups))
+
+
+def test_unequal_validation_domains_use_only_valid_rows(monkeypatch):
+    from experiments.ema_mechanism_20261106 import readouts
+    from experiments.mdmt_history_information_20261103.protocol import metrics
+    model=torch.nn.Linear(2,2)
+    domains=np.repeat(np.arange(3),[4,8,4]);rows=np.arange(len(domains))
+    x=np.column_stack((rows,domains)).astype(np.float32)
+    y=np.column_stack((rows%2,(rows+1)%2)).astype(np.float32)
+    bundle=SimpleNamespace(val_x=x,val_y=y)
+    indices=np.full((3,6),-1,dtype=np.int64)
+    for d,n in enumerate((3,6,2)): indices[d,:n]=np.flatnonzero(domains==d)[:n]
+    valid=indices>=0;natural_x=np.full((3,6,2),-999.,np.float32);natural_y=np.full((3,6,2),-1.,np.float32)
+    natural_x[valid]=x[indices[valid]];natural_y[valid]=y[indices[valid]]
+    sides=np.full((3,6),-1,dtype=np.int8)
+    for d,n in enumerate((3,6,2)): sides[d,:n]=np.arange(n)%2
+    panel=dict(panel_id='V_mech',natural_indices=indices,natural_x=natural_x,natural_y=natural_y,valid_mask=valid,validation_row_side=sides)
+    seen=[]
+    def fake_predictions(scratch,bx,**kwargs):
+        assert not bool((bx[0]==-999).any())
+        seen.append(bx.shape[1]);z=torch.stack((bx[0]*.1,-bx[0]*.1),dim=1)
+        return readouts.PredictionBatch(z.sigmoid(),z)
+    monkeypatch.setattr(readouts,'read_predictions',fake_predictions)
+    pred=readouts.panel_predictions(model,panel)
+    assert seen==[11] and np.all(pred['p'][~valid]==0) and np.all(pred['z'][~valid]==0)
+    pulse=readouts.pulse_rows(panel,pred,'F',None,'F','hash')
+    for row in pulse:
+        d=row['domain'];expected=(3,6,2)[d]
+        if row['panel_id'] in ('V_A','V_B'): expected=int(((sides[d]==(0 if row['panel_id']=='V_A' else 1))&valid[d]).sum())
+        assert row['actual_count']==expected and row['logloss'] is not None
+    seen.clear();full,picked=readouts.evaluate_full_validation(model,bundle,panel,batch_size=5)
+    assert sum(seen)==len(y) and np.all(picked['p'][~valid]==0) and np.all(picked['z'][~valid]==0)
+    expected_p=np.concatenate([fake_predictions(model,torch.as_tensor(x[i:i+5]).T).p.numpy() for i in range(0,len(x),5)])
+    assert full==metrics(y,expected_p,domains)
+    assert np.array_equal(picked['p'][valid],expected_p[indices[valid]])

@@ -118,3 +118,66 @@ def test_seed_summary_averages_correlated_rows_before_seed_statistics():
     assert result['n_seeds'] == 5
     assert result['mean'] == 2
     assert result['sample_sd'] == pytest.approx(np.std(range(5), ddof=1))
+
+
+def test_ragged_validation_masks_metrics_pairs_flips_and_calibration(tmp_path, monkeypatch):
+    indices = np.full((3, 6), -1, dtype=np.int64)
+    y = np.full((3, 6, 2), -1, dtype=np.float32)
+    side = np.full((3, 6), -1, dtype=np.int8)
+    p = np.zeros((3, 6, 2), dtype=np.float32)
+    for d, count in enumerate((4, 6, 4)):
+        indices[d, :count] = np.arange(count)
+        y[d, :count, 0] = np.arange(count) % 2
+        y[d, :count, 1] = 1-y[d, :count, 0]
+        side[d, :count] = np.repeat([0, 1], count//2)
+        p[d, :count] = .2+.6*y[d, :count]
+    pairs = np.tile(np.array([[1, 0], [3, 2]], dtype=np.int32), (6, 1, 1))
+    # Task1 has the opposite labels.
+    pairs[1::2] = pairs[1::2, :, ::-1]
+    identity = dict(indices=indices, y=y, validation_row_side=side, pairs=pairs,
+                    pair_counts=np.full(6, 2))
+    for row_side in (None, 0, 1):
+        result = a._panel_metric_matrix(identity, p, row_side)
+        for c in range(6):
+            d, t = c//2, c % 2
+            valid = indices[d] >= 0
+            if row_side is not None:
+                valid &= side[d] == row_side
+            assert result[c, 0] == a.cell_auc(y[d, valid, t], p[d, valid, t])
+            assert result[c, 1] == a.source_logloss(y[d, valid, t], p[d, valid, t])
+    np.testing.assert_array_equal(a._panel_pairs(identity, 'V_mech', 0), pairs[0])
+    invalid = dict(identity, pairs=pairs.copy())
+    invalid['pairs'][0, 0, 0] = 4
+    with pytest.raises(ValueError, match='invalid container'):
+        a._panel_pairs(invalid, 'V_mech', 0)
+
+    rank_y = np.tile([0, 1, 0, 1], (6, 1)).astype(np.float32)
+    train = dict(rank_y=rank_y, rank_pairs=np.tile([[1, 0], [3, 2]], (6, 1, 1)))
+    monkeypatch.setattr(a, 'panel_identity', lambda out, ds, seed, panel: identity if panel == 'V_mech' else train)
+    monkeypatch.setattr(a, '_prediction', lambda out, record, panel, rid: {'p': p} if panel == 'V_mech' else {'rank_p': .2+.6*rank_y})
+    study = SimpleNamespace(manifest={'datasets': {'movielens': {'aliases': {'F': 'H2'}}}})
+    record = dict(job_id='masked', dataset='movielens', objective='clean', seed=2022, epoch=20,
+        validation={'H2': {}}, pulse_readouts=[{}],
+        predictions=[dict(panel_id=panel, readout_id=rid, physical_readout_id=rid)
+                     for panel in ('P_A', 'P_B', 'V_mech') for rid in ('H2', 'fast_S')])
+    flipped = a.rank_flips(study, tmp_path, [record])
+    v = flipped[flipped['panel_id'] == 'V_mech']
+    np.testing.assert_allclose(v['exact_panel_auc'], 1.)
+    np.testing.assert_allclose(v['exact_auc_delta'], 0.)
+
+    original_ll = a.source_logloss
+    observed_labels = []
+    def checked_ll(labels, probability):
+        assert np.all(np.isin(labels, [0, 1]))
+        observed_labels.append(len(labels))
+        return original_ll(labels, probability)
+    monkeypatch.setattr(a, 'source_logloss', checked_ll)
+    def temperature_fit(fn, **kwargs):
+        fn(1.)
+        return SimpleNamespace(success=True, x=1., nit=1)
+    monkeypatch.setattr(a, 'minimize_scalar', temperature_fit)
+    records = [dict(dataset='movielens', objective='clean', seed=s, epoch=e,
+                    model_hash={'online': 'online', 'H2': 'F'}) for s in a.SEEDS for e in (20, 40)]
+    result = a._calibration_controls(study, tmp_path, records,
+        {'triggered': True, 'strata': [{'dataset': 'movielens', 'objective': 'clean'}]})
+    assert len(result) == 240 and set(observed_labels) == {2, 3}

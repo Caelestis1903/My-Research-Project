@@ -42,3 +42,17 @@ Resolver基本检查实际通过16份冻结source SHA/Git blob核对，生成20�
 修订：独立测试初次收集因tests包尚未建立而无法使用相对导入，已改为完整模块导入；集成发现的manifest重复keyword已修正。修改后上述4项重新通过。
 
 完整preflight、GPU smoke、20条科学训练与研究分析由后续 REVIEW/RUN/ANALYZE 执行；本 coder 未启动这些阶段。无本分工内未实现功能。
+
+## R1：实际 Validation 不等域人数的表示修复
+
+RUN 的首次 preflight 在 KuaiRand 面板构建处停止：原始 Validation 三域人数为 `[2692,246232,1843]`，冻结 `min(4096,available)` 要求实际观察 `[2692,4096,1843]`。初版错误要求三个域等长，导致工程入口被阻塞。训练、验证曲线与Test评价均未启动。
+
+按 designer 批准的 R1 修复，身份/预测继续使用固定4096宽的数值容器；真实行之外的槽位 `indices/row_ids/y/validation_row_side=-1`，内存feature x为0。`valid_mask=indices>=0`只在加载/attach时派生，不新增NPZ字段，源行人口、样本配额与抽样RNG均不变。pairs只从真实标签0/1生成；core和analysis调用者必须用该mask排除未用槽位。
+
+新增一个针对性测试覆盖不等域 `[19,73,11]`、cap40的实际 `[19,40,11]`：有效行无重复，小于cap的域包含全部原行，未用槽位sentinel正确，pairs只指向真实正负行，身份保存后从indices恢复同一mask。
+
+修复后本分工5项测试通过（1.15s）。另做了实际源数据的只读表示核验：五seed全部15份已保存MovieLens面板与重建数组逐项完全一致；KuaiRand seed2022有效行数精确为 `[2692,4096,1843]`，六格pair counts均4096。未改动既有面板文件。
+
+原attempt仅有S0标量和15份MovieLens面板身份，尚无 `PREPARED/RUN_MANIFEST/PROBE_MANIFEST`、guardian或epoch事务。完成caller修复、独立复审和实现提交后，可在同attempt刷新audit来源收据并续跑preflight，幂等复用既有MovieLens身份。
+
+R3复核补齐 `PROBE_MANIFEST` 的V receipt短元数据：`valid_mask_rule="valid_mask=(indices>=0)"`、每域 `actual_count`、`representation_version="validation_masked_cap_v1"`。这些字段由已绑定的indices派生，不进入NPZ、identity或panel_hash计算；原面板文件无需重写。既有R1针对性测试同时断言这三项receipt内容。

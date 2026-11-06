@@ -57,8 +57,12 @@ def _attach_inputs(panel, bundle):
         for original, alias in (('indices', 'natural_indices'), ('row_ids', 'natural_row_ids'),
                                 ('y', 'natural_y'), ('pairs', 'rank_pairs')):
             panel[alias] = panel[original]
+        panel['valid_mask']=panel['indices']>=0
         if bundle is not None:
-            panel['natural_x'] = np.asarray(bundle.val_x[panel['indices']])
+            valid=panel['valid_mask']
+            x=np.zeros((*panel['indices'].shape,bundle.val_x.shape[1]),dtype=bundle.val_x.dtype)
+            x[valid]=bundle.val_x[panel['indices'][valid]]
+            panel['natural_x']=x
     elif bundle is not None:
         panel['rank_x'] = np.asarray(bundle.train_x[panel['rank_indices']])
         panel['natural_x'] = np.asarray(bundle.train_x[panel['natural_indices']])
@@ -99,9 +103,13 @@ def build_panels(bundle, seed, spec):
     natural = [_sample(pool, min(spec['validation_natural_rows_per_domain'], len(pool)),
         _generator(dataset, seed, 'V_mech', f'd{domain}_natural'), f'V_mech/d{domain}')
         for domain, pool in enumerate(natural)]
-    if len({len(rows) for rows in natural}) != 1:
-        raise ValueError('PANEL_POPULATION_MISMATCH: validation domain row shapes differ')
-    indices = np.stack(natural); labels = np.asarray(bundle.val_y[indices])
+    width=spec['validation_natural_rows_per_domain']
+    indices=np.full((3,width),-1,dtype=np.int64)
+    valid=np.zeros((3,width),dtype=bool)
+    for domain,selected in enumerate(natural):
+        indices[domain,:len(selected)]=selected;valid[domain,:len(selected)]=True
+    labels=np.full((3,width,2),-1,dtype=bundle.val_y.dtype)
+    labels[valid]=bundle.val_y[indices[valid]]
     pairs_n = spec['validation_pairs_per_cell_for_temporal_stat']
     pairs = np.full((6, pairs_n, 2), -1, dtype=np.int32); counts = []
     for domain in range(3):
@@ -110,9 +118,12 @@ def build_panels(bundle, seed, spec):
             selected = _pairs(np.flatnonzero(y == 1), np.flatnonzero(y == 0), pairs_n,
                 _generator(dataset, seed, 'V_mech', f'd{domain}t{task}_pairs'))
             cell = 2*domain+task; pairs[cell, :len(selected)] = selected; counts.append(len(selected))
-    rows = np.asarray(bundle.val_row_ids[indices])
+    rows=np.full(indices.shape,-1,dtype=bundle.val_row_ids.dtype)
+    rows[valid]=bundle.val_row_ids[indices[valid]]
+    sides=np.full(indices.shape,-1,dtype=np.int8)
+    sides[valid]=row_side(dataset,rows[valid])
     panel = dict(panel_id='V_mech', indices=indices, row_ids=rows, y=labels,
-        validation_row_side=row_side(dataset, rows), pairs=pairs, pair_counts=np.asarray(counts, dtype=np.int32))
+        validation_row_side=sides, pairs=pairs, pair_counts=np.asarray(counts, dtype=np.int32))
     result['V_mech'] = _attach_inputs(_identity(panel, dataset, seed, spec), bundle)
     a = np.concatenate((result['P_A']['rank_row_ids'].ravel(), result['P_A']['natural_row_ids'].ravel()))
     b = np.concatenate((result['P_B']['rank_row_ids'].ravel(), result['P_B']['natural_row_ids'].ravel()))
@@ -140,6 +151,10 @@ def save_panels(out, dataset, seed, panels):
         result[name] = dict(path=str(path.relative_to(out)), sha256=sha_file(path),
             panel_hash=panel['panel_hash'], pair_hash=panel['pair_hash'], identity=panel['identity'],
             arrays={key:dict(shape=list(value.shape), dtype=str(value.dtype)) for key,value in arrays.items()})
+        if name=='V_mech':
+            result[name].update(valid_mask_rule='valid_mask=(indices>=0)',
+                actual_count=(panel['indices']>=0).sum(axis=1).tolist(),
+                representation_version='validation_masked_cap_v1')
     return result
 
 

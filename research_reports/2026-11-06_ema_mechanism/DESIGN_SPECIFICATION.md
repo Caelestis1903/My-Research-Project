@@ -142,3 +142,20 @@ reviewer独立核对规格/实际代码/CODER_IMPLEMENTATION_REPORT；PASS或PAS
 统计mean、ddof1 SD、逐seed配对及95% CI `mean±2.776445*SD/sqrt(5)`；六格/AUC/LL、macro/traffic/pooled、split/selected/fixed/common严格区分。最终报告回答Q1–Q5，绑定plan/source/data/implementation/analysis hash及缺陷修订。全局台账/上下文只给更新提案，旧记录保持原样。
 
 完成20条、S1–S4、冻结Test、报告和产物hash后自动release本任务RAM并提交代码/报告到新分支；不因局部问题继续追加H/seed/指标/控制。所跳过工作仅限未授权新算法、旧基线重训及与当前结论无关的工程扩展。
+
+## 11. 修订 R1：V_mech 的自然人口上限与固定容器表示
+
+修订结论：**APPROVED — 实现表示修正，科学配置不变。** preflight 发现 KuaiRand 完整 Validation 各域人数为 `[2692,246232,1843]`，因此其 V_mech 实际有效人数应为 `[2692,4096,1843]`。
+
+具体依据是 manifest `panels.validation_row_cap_rule="min(4096, available domain population)"`，04 第5.1节“4096行或该域全体可用行”，06 第3.1节“最多4096行”。05 第6节配额检查中的 `PANEL_POPULATION_MISMATCH` 适用于不能满足固定训练rank/natural配额或身份错误，不把合法的Validation min规则当作配额失败。05形状表的 `[3,4096,2]` 是有界存储容器上界，不要求每域恰有4096个不同自然样本。本规格第5节“V_mech每域4096”的简写按此修订解释；不补采、不有放回重复、不改变源数据或split。
+
+实现固定为以下规则：
+
+1. Validation的natural索引/row ID/label/side仍用固定域优先容器 `[3,4096,...]`，在内存由已有natural `indices>=0` 派生同布局bool `valid_mask:[3,4096]`（不新增NPZ字段），每域 `valid_count=min(4096,N_d)`。只在前valid_count个槽位放真实自然样本；无效槽的索引、row ID、label、side均设为-1。p/z的无效槽为固定0，仅为未使用的存储槽；有效概率检查仅针对valid槽，mask是解析这些数组的必要条件。已有indices及sentinel唯一确定mask与计数，NPZ receipt引用原panel hash，不按epoch/readout重复保存；无效x槽为0。满额ML的已有NPZ字段、字节及hash完全不变。
+2. 原forward、完整V提取到V_mech、pulse读出以及一切tensor/NumPy gather必须先选valid槽，禁止用-1索引访问原数组最后一行或让无效label进入任何公式。得到真实输出后仅散射回valid槽。训练loader、原完整V指标/选点和Test人口完全不受这个表示影响。
+3. 精确V_mech/V_A/V_B AUC与LL、H偏好交叉评价、pulse标签/非加性、S3未来label、C_CAL及C_BG的Validation评价全部使用 `valid_mask`，行侧再与 `side==0/1` 取交集；实际分母使用有效真实人数。缺类别继续NA，不重新分配侧或填造指标。P_A/P_B固定训练配额保持原规则。
+4. V fixed pair只从valid槽中真实正负样本构造，索引必须指向valid槽；不足4096对使用全部可用pair，缺类NA。若pair也采用固定上界容器，另存pair_valid_mask/pair_count，未用pair索引为-1；T/flip只除有效pair数。此规则沿用03第7.3节，不增加pair或forward预算。
+5. `PROBE_MANIFEST`记录派生规则 `valid_mask=(indices>=0)`、每域actual_count及澄清版本 `validation_masked_cap_v1`；既有indices/row_id/side数组hash已唯一绑定mask，保持原panel hash计算规则。尚未成功生成的KR panel使用新sentinel表示形成其首次合法hash；既有ML panel的NPZ字段、内容、identity及hash全部保持不变。PREPARED/job观察身份引用各自实际panel hash。两condition同seed仍共用同一panel；所有epoch/readout使用固定mask，不能按输出改变有效性。文件白名单允许这些bool固定索引元数据，仍禁object/pickle/参数。
+6. 当前尚无工程或科学Adam且PREPARED未发布；同attempt继续使用已保存的ML panel身份，不能重新生成或改变其字节/hash。仅完成此前失败的KR panel并在preflight收据绑定本修订；不能在正式epoch记录产生后静默改已有panel。修订、实际人数及新hash写入preflight/CODER报告和最终数据说明。
+
+最小验收在已有panel/指标测试中加入一个人数不等的小型真实索引例子：检查min人数、无效索引从不被gather、掩码数组指标等于只取真实行的指标、V_A/V_B及pair均不包含无效槽。原 `[3,4096,2]` 预测上界、2GiB预算、20轨迹/五seed/50epoch及全部统计折保持不变。

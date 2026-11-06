@@ -48,9 +48,12 @@ def panel_predictions(scratch,panel):
     device=next(scratch.parameters()).device
     with torch.no_grad():
         natural=np.asarray(panel['natural_x']); shape=natural.shape[:2]
-        x=torch.as_tensor(np.array(natural.reshape(-1,natural.shape[-1])),device=device).T
-        value=read_predictions(scratch,x)
-        result=dict(natural_p=value.p.cpu().numpy().reshape(*shape,2),natural_z=value.z.cpu().numpy().reshape(*shape,2))
+        valid=np.asarray(panel.get('valid_mask',np.ones(shape,dtype=bool)),dtype=bool)
+        result=dict(natural_p=np.zeros((*shape,2),np.float32),natural_z=np.zeros((*shape,2),np.float32))
+        if valid.any():
+            x=torch.as_tensor(np.array(natural[valid]),device=device).T
+            value=read_predictions(scratch,x)
+            result['natural_p'][valid]=value.p.cpu().numpy();result['natural_z'][valid]=value.z.cpu().numpy()
         if panel['panel_id']!='V_mech':
             rank=np.asarray(panel['rank_x']);x=torch.as_tensor(np.array(rank.reshape(-1,rank.shape[-1])),device=device).T
             value=read_predictions(scratch,x);p=value.p.reshape(6,rank.shape[1],2);z=value.z.reshape_as(p)
@@ -61,15 +64,15 @@ def panel_predictions(scratch,panel):
 
 
 def evaluate_full_validation(model,bundle,panel,batch_size=40960,include_logits=True):
-    device=next(model.parameters()).device; predictions=[]; natural_p=np.empty((*panel['natural_indices'].shape,2),np.float32)
-    natural_z=np.empty_like(natural_p) if include_logits else None
-    indices=panel['natural_indices']; was=model.training;model.eval()
+    device=next(model.parameters()).device; predictions=[]; natural_p=np.zeros((*panel['natural_indices'].shape,2),np.float32)
+    natural_z=np.zeros_like(natural_p) if include_logits else None
+    indices=panel['natural_indices'];valid=np.asarray(panel.get('valid_mask',indices>=0),dtype=bool); was=model.training;model.eval()
     try:
         with torch.no_grad():
             for offset in range(0,len(bundle.val_y),batch_size):
                 end=min(offset+batch_size,len(bundle.val_y));x=torch.as_tensor(np.array(bundle.val_x[offset:end]),device=device).T
                 value=read_predictions(model,x);p=value.p.cpu().numpy();predictions.append(p)
-                mask=(indices>=offset)&(indices<end);natural_p[mask]=p[indices[mask]-offset]
+                mask=valid&(indices>=offset)&(indices<end);natural_p[mask]=p[indices[mask]-offset]
                 if include_logits: natural_z[mask]=value.z.cpu().numpy()[indices[mask]-offset]
     finally: model.train(was)
     result=dict(p=natural_p)
@@ -91,6 +94,7 @@ def pulse_rows(panel,pred,readout_id,group_id,variant,state_hash):
             for side,name in ((None,'V_mech'),(0,'V_A'),(1,'V_B')) if is_v else ((None,panel['panel_id']),):
                 y=np.asarray(panel['natural_y'][d,:,t]);p=pred['p'][d,:,t] if is_v else pred['natural_p'][d,:,t]
                 mask=np.ones(len(y),bool) if side is None else panel['validation_row_side'][d]==side
+                if is_v: mask &= np.asarray(panel.get('valid_mask',panel['natural_indices']>=0)[d],dtype=bool)
                 vals=cell_metrics(y[mask],p[mask]);risk=None
                 if not is_v:
                     vals['auc']=cell_metrics(panel['rank_y'][c],pred['rank_p'][c])['auc']

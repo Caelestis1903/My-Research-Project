@@ -47,3 +47,9 @@ Added one small cancellation-scale/exact-repeat check. Re-ran the existing finit
 ## Review revision R2 — measured guardian RSS
 
 Added actual guardian `VmRSS` and `resource.ru_maxrss` byte measurements. Guardian status exposes current RSS and peak; every successful epoch commit records `peak_guardian_ram_bytes` in cost and the RAM summary, so the existing `peak_` maximum aggregation carries it into COSTS. Smoke receipts include the worker process RSS peak. Model payload accounting remains a separate `tensor_bytes` measure; scientific records/metrics are unchanged. The existing commit test now checks both record and summary RSS fields. Core checks: **9 passed**.
+
+## Preflight revision R3 — unequal Validation domain populations
+
+Real KuaiRand Validation has domain populations 2692/246232/1843, so the prescribed natural mechanism sample counts are 2692/4096/1843. The designer approved a fixed 4096-row storage container with `valid_mask` derived from nonnegative source indices. Core readouts now forward only those real rows and scatter outputs into a zero-initialized container; full Validation extraction also starts from zero and gathers only valid indices. Every V_mech/V_A/V_B pulse metric intersects its row mask with `valid_mask`. No sentinel enters a forward or metric. Source full-Validation training/selection population and the prediction byte cap remain unchanged.
+
+One targeted unequal-domain test verifies the actual forwarded row count, zero unused slots, per-domain/per-row-side metric counts, exact full-Validation metric preservation at the same batch partition and correct panel gathering. Core checks: **10 passed**. Preflight had not written PREPARED; no smoke or scientific Adam trajectory had started when this issue was corrected.
