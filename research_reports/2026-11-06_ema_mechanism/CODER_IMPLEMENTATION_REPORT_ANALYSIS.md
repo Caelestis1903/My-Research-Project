@@ -53,3 +53,13 @@ freeze验证20条全50epoch、五seed/条件、实际RAM selected/E10/E50与曲�
 C_BG沿用core已修订的 `load_panels/panel_predictions/pulse_rows`，因此其自然V读出和派生pulse/未来标签继承同一mask。evaluation只读取官方完整Validation/Test端点，不消费有界V面板，未增加掩码分支。COSTS已对全部peak_*字段按job取max，自动接入core新增的实际guardian RSS成本字段。
 
 新增一个最小不等长域测试，同时覆盖V_mech/V_A/V_B指标等于仅取真实行、pair不含无效槽、精确flip AUC与校准fit/score均排除-1标签。分析与评价测试现为 **12 passed**。报告另生成 `VALIDATION_PANEL_COUNTS.csv`，直接从固定身份记录逐seed/域有效人数及两行分侧人数。此修订无工程/科学Adam、无新Test读取，原attempt继续。
+
+## 修订 R4：采集后派生表无损压缩与分析身份
+
+20条轨迹完成后，S2的 `PULSE_CONTRASTS.csv` 为337,299,690字节，使观察目录超过2GiB。该表不在manifest必需清单中；唯一持久读取caller是报告图 `_figures`，S2/S3/S4实际统计使用同一epoch记录计算的内存contrast表。为保留完整逐行数值，写入与图读取改为 `PULSE_CONTRASTS.csv.gz`，CSV序列化及全部科研计算保持相同。没有删除原始PULSE_READOUTS、逐seed对比或summary。
+
+等待既有S2进程成功结束后，将已生成CSV流式gzip，解压字节SHA256与原CSV完全一致：`6988ad1e93c9ee8b4eb6d437f364020d79039a5c644d05504d56d68e88b6b3fe`。验证完成才删除未压缩副本；gzip为12,926,160字节，观察目录降至1,891,241,685字节。实际字节与hash记于 `PULSE_CONTRASTS_STORAGE_RECEIPT.json`。S1/S2没有重新计算。
+
+采集实现hash仍为 `e371a4c00352a9eba8f76b11c4f50f790c8c80cd02552feb4eb5a86502810aaf`。新增窄范围 `collection_identity` 对照SOURCE_RECEIPT冻结文件清单，除analysis.py/evaluation.py及各自tests外的删除、新增或修改均拒绝；源、计划、manifest身份也逐项匹配。PREPARED/SOURCE及已完成阶段收据保持原字节；`ANALYSIS_REVISION.json` 单列旧collection hash、当前完整文件hash与analysis文件hash，无时间变化字段，重复调用保持相同字节/hash。input_hashes、freeze与独立Test gate绑定此修订；端点和报告保留原采集hash，不把当前分析实现冒作采集实现。
+
+新增无损CSV roundtrip和采集/分析身份分离测试，检查训练组件变动/额外文件被拒绝、原收据不变和分析修订幂等。分析与评价基本测试现为 **14 passed**。未重训、未增加科学矩阵、未访问新Test；后续S3等待独立复审。

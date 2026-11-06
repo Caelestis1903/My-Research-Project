@@ -48,7 +48,7 @@ def write_table(path, rows, columns=None):
             frame[col] = frame[col].map(lambda v: json.dumps(_plain(v), sort_keys=True)
                                         if isinstance(v, (dict, list, tuple)) else v)
     temporary = path.with_suffix(path.suffix + '.tmp')
-    frame.to_csv(temporary, index=False)
+    frame.to_csv(temporary, index=False, compression='gzip' if path.suffix == '.gz' else None)
     os.replace(temporary, path)
     return frame
 
@@ -122,10 +122,51 @@ def load_records(study, out, require_complete=True):
     return records
 
 
+def collection_identity(study, out):
+    """Keep the collected implementation fixed while binding a reviewed analysis revision."""
+    from .protocol import implementation_identity
+    out = Path(out)
+    prepared = read_json(out/'PREPARED.json')
+    frozen = prepared['identity']
+    if prepared['manifest_hash'] != study.manifest_hash or any(
+            study.identity.get(k) != v for k, v in frozen.items()
+            if k not in ('implementation_hash', 'implementation_commit')):
+        raise ValueError('Prepared source, plan or scientific protocol differs from collection')
+    source = read_json(out/'SOURCE_RECEIPT.json')['implementation']
+    if source['sha256'] != frozen['implementation_hash'] or digest(source['files']) != frozen['implementation_hash']:
+        raise ValueError('Collected source receipt does not match the frozen implementation hash')
+    current = implementation_identity()
+    changed = {name: dict(collection_sha256=source['files'].get(name), current_sha256=current['files'].get(name))
+               for name in sorted(set(source['files']) | set(current['files']))
+               if source['files'].get(name) != current['files'].get(name)}
+    allowed = {f'experiments/ema_mechanism_20261106/{name}' for name in
+               ('analysis.py', 'evaluation.py', 'tests/test_analysis.py', 'tests/test_evaluation.py')}
+    if set(changed)-allowed:
+        raise ValueError('A collected training/observer component changed: '+str(sorted(set(changed)-allowed)))
+    revision = dict(schema_version='1.0', revision_id='POSTCOLLECTION_LOSSLESS_DERIVED_CSV_GZIP',
+        collection_implementation_hash=frozen['implementation_hash'],
+        collection_implementation_commit=frozen.get('implementation_commit'),
+        current_implementation_hash=current['sha256'], changed_files=changed,
+        analysis_files={p.name: sha_file(p) for p in (Path(__file__), Path(__file__).with_name('evaluation.py'))},
+        manifest_hash=study.manifest_hash,
+        change='Lossless gzip storage of the derived pulse contrast CSV; scientific computations unchanged')
+    path = out/'ANALYSIS_REVISION.json'
+    if path.exists():
+        if read_json(path) != revision:
+            raise ValueError('The registered analysis revision differs from current files')
+    else:
+        write_json(path, revision)
+    return frozen, revision
+
+
 def input_hashes(study, out, include_records=True):
     out = Path(out)
     result = dict(manifest_hash=study.manifest_hash,
                   analysis_hash=digest({p.name: sha_file(p) for p in (Path(__file__), Path(__file__).with_name('evaluation.py'))}))
+    if (out/'PREPARED.json').exists():
+        collected, revision = collection_identity(study, out)
+        result.update(collection_implementation_hash=collected['implementation_hash'],
+                      analysis_revision_hash=digest(revision), analysis_revision_receipt_sha256=sha_file(out/'ANALYSIS_REVISION.json'))
     for name in ('SOURCE_RECEIPT.json', 'DATA_MANIFEST.json', 'PROBE_MANIFEST.json', 'PREPARED.json'):
         if (out/name).exists():
             result[name] = sha_file(out/name)
@@ -1127,7 +1168,7 @@ def analyze_stage(study, out, stage):
         result['next_action'] = 'ANALYZE_STAGE2_FROM_EXISTING_OBSERVATIONS'
     elif stage == 2:
         contrasts, interactions = pulse_contrasts(records)
-        write_table(out/'PULSE_CONTRASTS.csv', contrasts)
+        write_table(out/'PULSE_CONTRASTS.csv.gz', contrasts)
         write_table(out/'GROUP_INTERACTIONS.csv', interactions)
         pulse_summary = summarize_seeds(contrasts,
             ['dataset', 'objective', 'panel_id', 'cell', 'group_id', 'functional_support', 'metric', 'contrast'])
@@ -1349,7 +1390,7 @@ def _figures(study, out):
             axis.set_title(ds+' / '+obj+' / '+phase, fontsize=9)
             fig.colorbar(image, ax=axis, shrink=.7)
     _save_figure(fig, directory, 'HISTORY_PREFERENCE_HEATMAP')
-    pulse = pd.read_csv(out/'PULSE_CONTRASTS.csv')
+    pulse = pd.read_csv(out/'PULSE_CONTRASTS.csv.gz')
     fig, axes = plt.subplots(4, 3, figsize=(14, 14), constrained_layout=True)
     for row, (ds, obj) in enumerate(combos):
         for col, contrast in enumerate(('fast_minus_F', 'slow_minus_F', 'fast_minus_slow')):
@@ -1434,6 +1475,7 @@ def generate_report(study, out):
     _figures(study, out)
     decisions = read_json(out/'MECHANISM_DECISIONS.json')
     prepared = read_json(out/'PREPARED.json')
+    collected_identity, analysis_revision = collection_identity(study, out)
     panel_counts = []
     for dataset in study.manifest['datasets']:
         for seed in SEEDS:
@@ -1487,8 +1529,9 @@ def generate_report(study, out):
         '固定历史组合与较合适旧online的竞争解释由 [VALIDATION_GAINS.csv](VALIDATION_GAINS.csv) 的年龄匹配对比约束；低波动与延后改进由 [TEMPORAL_RANK_STABILITY.csv](TEMPORAL_RANK_STABILITY.csv) 分开检查。',
         '单组可加性由 [GROUP_INTERACTIONS.csv](GROUP_INTERACTIONS.csv) 与第二背景读出检查。P_A/P_B样本敏感性和full/source_detach差异保留在 [PANEL_STABILITY.csv](PANEL_STABILITY.csv)、[METRIC_CORRESPONDENCE.csv](METRIC_CORRESPONDENCE.csv)。', '',
         '## 冻结、来源与修订', '',
-        f"source commit：`{study.identity['source_commit']}`；implementation hash：`{study.identity['implementation_hash']}`；manifest hash：`{study.manifest_hash}`。",
+        f"source commit：`{collected_identity['source_commit']}`；collection implementation hash：`{collected_identity['implementation_hash']}`；manifest hash：`{study.manifest_hash}`。",
         f"plan hash：`{study.identity['plan_hash']}`；analysis hash：`{input_hashes(study,out)['analysis_hash']}`。",
+        f"采集后派生表采用无损gzip，当前分析实现hash为 `{analysis_revision['current_implementation_hash']}`；原采集身份和本次分析修订分列于 [ANALYSIS_REVISION.json](ANALYSIS_REVISION.json)。",
         '每个端点身份见 [SELECTION_FROZEN.json](SELECTION_FROZEN.json)；与源、数据、面板、分析、阶段决定的绑定见 [FREEZE_RECEIPT.json](FREEZE_RECEIPT.json)。Test由独立进程读取，归档同state复用单列，pulse/条件最优/温度不进入Test。',
         '数据身份与原CSV/cache/row/split/encoder/scaler：[DATA_MANIFEST.json](DATA_MANIFEST.json)、[PROBE_MANIFEST.json](PROBE_MANIFEST.json)。既有证据和A/B去重：[AUDIT_INVENTORY.json](AUDIT_INVENTORY.json)、[EVIDENCE_REUSE.csv](EVIDENCE_REUSE.csv)、[ARCHIVED_FACTORIAL.csv](ARCHIVED_FACTORIAL.csv)。',
         'V_mech每域有效自然行数为min(4096,该域Validation人数)，[VALIDATION_PANEL_COUNTS.csv](VALIDATION_PANEL_COUNTS.csv)记录逐seed有效人数及V_A/V_B人数。固定容量容器以indices≥0解析真实行；指标、排序pair、偏好、校准和未来标签均按真实行计算。完整Validation选点与Test仍使用源完整人口。',

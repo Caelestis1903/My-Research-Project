@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 
 from experiments.overnight_ab_20261103.state import read_json, write_json, sha_file, state_digest, digest
-from .analysis import ROOT, SEEDS, Incomplete, _jobs, _fid, load_records, input_hashes, write_table, _plain
+from .analysis import ROOT, SEEDS, Incomplete, _jobs, _fid, load_records, input_hashes, write_table, _plain, collection_identity
 
 
 def _binding(study, out):
@@ -58,8 +58,7 @@ def _complete_summaries(study, out):
 def freeze_endpoints(study, out):
     out = Path(out)
     prepared = read_json(out/'PREPARED.json')
-    if prepared['manifest_hash'] != study.manifest_hash or prepared['identity'] != study.identity:
-        raise ValueError('Prepared source, plan or implementation differs at freeze')
+    collected, revision = collection_identity(study, out)
     binding = _binding(study, out)
     summaries = _complete_summaries(study, out)
     endpoints = []
@@ -76,7 +75,8 @@ def freeze_endpoints(study, out):
                     checkpoint=marker, epoch=point['epoch'], state_hash=point['model_hash'],
                     validation=point['validation'], layout_hash=summary['layout_hash'], group_hash=summary['group_hash'],
                     data_hash=prepared['data_identity'][job['dataset']]['data_hash'],
-                    source_commit=study.identity['source_commit'], implementation_hash=study.identity['implementation_hash']))
+                    source_commit=collected['source_commit'], implementation_hash=collected['implementation_hash'],
+                    analysis_revision_hash=digest(revision)))
     if len(endpoints) > 270:
         raise ValueError('Frozen Test endpoint budget exceeded')
     selection = dict(schema_version='1.0', study_id=study.manifest['study_id'], endpoints=endpoints,

@@ -181,3 +181,50 @@ def test_ragged_validation_masks_metrics_pairs_flips_and_calibration(tmp_path, m
     result = a._calibration_controls(study, tmp_path, records,
         {'triggered': True, 'strata': [{'dataset': 'movielens', 'objective': 'clean'}]})
     assert len(result) == 240 and set(observed_labels) == {2, 3}
+
+
+def test_gzip_table_keeps_identical_csv_bytes_and_values(tmp_path):
+    import gzip
+    rows = pd.DataFrame([dict(seed=2022, value=.12345678901234567, scope={'cell': 'd0t0'}),
+                         dict(seed=2023, value=-.000000000123456789, scope={'cell': 'd1t1'})])
+    plain, compressed = tmp_path/'table.csv', tmp_path/'table.csv.gz'
+    a.write_table(plain, rows)
+    a.write_table(compressed, rows)
+    with gzip.open(compressed, 'rb') as stream:
+        assert stream.read() == plain.read_bytes()
+    pd.testing.assert_frame_equal(pd.read_csv(plain), pd.read_csv(compressed))
+
+
+def test_analysis_revision_keeps_collection_hash_and_rejects_training_changes(tmp_path, monkeypatch):
+    from experiments.ema_mechanism_20261106 import protocol
+    from experiments.overnight_ab_20261103.state import digest, read_json, sha_file, write_json
+    prefix = 'experiments/ema_mechanism_20261106/'
+    original_files = {prefix+'analysis.py': 'old_analysis', prefix+'evaluation.py': 'old_evaluation',
+                      prefix+'state.py': 'frozen_training'}
+    original_hash = digest(original_files)
+    identity = dict(manifest_hash='manifest', source_commit='source', plan_hash='plan',
+                    implementation_hash=original_hash, implementation_commit='collected_commit')
+    write_json(tmp_path/'PREPARED.json', {'manifest_hash': 'manifest', 'identity': identity})
+    write_json(tmp_path/'SOURCE_RECEIPT.json', {'implementation': {'files': original_files, 'sha256': original_hash}})
+    source_bytes = (tmp_path/'SOURCE_RECEIPT.json').read_bytes()
+    prepared_bytes = (tmp_path/'PREPARED.json').read_bytes()
+    current_files = dict(original_files, **{prefix+'analysis.py': 'new_analysis'})
+    monkeypatch.setattr(protocol, 'implementation_identity', lambda: {'files': current_files, 'sha256': digest(current_files)})
+    current_identity = dict(identity, implementation_hash=digest(current_files), implementation_commit='analysis_commit')
+    study = SimpleNamespace(manifest_hash='manifest', identity=current_identity)
+    collected, revision = a.collection_identity(study, tmp_path)
+    assert collected['implementation_hash'] == original_hash
+    assert revision['collection_implementation_hash'] == original_hash
+    assert revision['current_implementation_hash'] == digest(current_files)
+    receipt_hash = sha_file(tmp_path/'ANALYSIS_REVISION.json')
+    assert a.collection_identity(study, tmp_path) == (collected, revision)
+    assert sha_file(tmp_path/'ANALYSIS_REVISION.json') == receipt_hash
+    assert (tmp_path/'SOURCE_RECEIPT.json').read_bytes() == source_bytes
+    assert (tmp_path/'PREPARED.json').read_bytes() == prepared_bytes
+    current_files[prefix+'state.py'] = 'changed_training'
+    with pytest.raises(ValueError, match='training/observer'):
+        a.collection_identity(study, tmp_path)
+    current_files[prefix+'state.py'] = original_files[prefix+'state.py']
+    current_files[prefix+'extra_training.py'] = 'new_training'
+    with pytest.raises(ValueError, match='training/observer'):
+        a.collection_identity(study, tmp_path)

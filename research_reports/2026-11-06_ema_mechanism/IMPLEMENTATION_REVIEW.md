@@ -1,8 +1,8 @@
 # Independent implementation review
 
-Verdict: **PASS WITH FIXES**. R1, R2 and the real-preflight R3 below are corrected and checked. There are no remaining blocking findings for the frozen experiment.
+Verdict: **PASS WITH FIXES**. R1, R2, the real-preflight R3 and the post-collection storage R4 below are corrected and checked. There are no remaining blocking findings for the frozen experiment.
 
-Reviewer: independent reviewer agent, separate from all three implementation agents. Review date: 2026-11-06. Reviewed the approved `DESIGN_SPECIFICATION.md`, all three `CODER_IMPLEMENTATION_REPORT_*` files, the actual new package and tests, and the frozen plan's mathematical, implementation and evaluation contracts.
+Reviewer: independent reviewer agent, separate from all three implementation agents. Collection review date: 2026-11-06; R4 storage review date: 2026-11-07. Reviewed the approved `DESIGN_SPECIFICATION.md`, all three `CODER_IMPLEMENTATION_REPORT_*` files, the actual new package and tests, and the frozen plan's mathematical, implementation and evaluation contracts.
 
 ## Reviewed identity
 
@@ -10,7 +10,9 @@ Reviewer: independent reviewer agent, separate from all three implementation age
 |---|---|
 | Source commit | `40705dfe0bb4fe614bdca835c0bae567348c87d0` |
 | Plan commit | `9fb59d5a53bf0efa555caeaca03e1ffa3812b686` |
-| New implementation SHA256 | `e371a4c00352a9eba8f76b11c4f50f790c8c80cd02552feb4eb5a86502810aaf` |
+| Collection implementation SHA256 | `e371a4c00352a9eba8f76b11c4f50f790c8c80cd02552feb4eb5a86502810aaf` |
+| R4 current full implementation SHA256 | `d2c4dda8525991e65902dbd011648b910893e86da8333cf3c8bbdfcc0b9253d7` |
+| R4 analysis/evaluation SHA256 | `b9f314370ad16b365523a7532ec10e92bf7cea66d417da9d94ea3106bb8640ca` |
 | Audited source-files SHA256 | `49c109a753bdd07ad5acf7c2e919830d7611296eb839fba1b73efc917a2c26c0` |
 | Manifest SHA256 | `b65ae44febf828cb0cf844bf8d0226567921d6e675396a8b6beed7e50c3640dd` |
 | Plan-files SHA256 | `d9cecac2ab0fc87f53c425b355192ee6198354ddfe8cf22a7dc65595129534da` |
@@ -24,6 +26,7 @@ The implementation digest is produced by `protocol.implementation_identity()` ov
 | R1 — FP32 CUDA scatter accumulation in observation reductions | M2 direction scores lacked the specified ordered, sufficiently precise accumulation; atomic variation could also conflict with exact epoch replay identity. | Fixed twelve-group order and coordinate-preserving float64 sums replace scatter atomics. Innovation/geometry differences and products, M2 displacement differences, gradient products and energies are formed in float64 before reduction. Source training and EMA arithmetic are unchanged. Cancellation/repeat, finite-difference, source-equality, RAM-continuation and observer-schema checks pass. |
 | R2 — guardian tensor payload was counted but actual guardian RSS was absent | The required resource report would omit guardian process memory and conflate the model-payload cap with process memory. | Guardian status records actual `VmRSS` and `ru_maxrss`; committed epoch costs and RAM summaries include `peak_guardian_ram_bytes`. The existing COSTS maximum aggregation retains that field. Smoke receipts include worker RSS. The commit/RSS check passes. |
 | R3 — initial preflight incorrectly required equal-sized Validation domains | KuaiRand has only 2,692 and 1,843 Validation rows in two domains; the frozen `min(4096, available)` rule was legal but the initial stack rejected it. | Designer specification §11 approves the fixed-capacity representation. Existing indices determine the valid mask; unused index/row/label/side slots are -1 and prediction slots are zero. Real rows alone enter forwards, metrics, pairs, preferences, future labels and controls. Three targeted checks cover panel construction, core readouts and analysis. All 27 necessary tests pass. |
+| R4 — uncompressed derived pulse contrast table exceeded the observation budget | The 337,299,690-byte derived CSV pushed the observation directory above 2GiB during S2. | Retain the full table as lossless `.csv.gz`; change its writer and sole disk reader together. Preserve the original collection identity and freeze the separately reviewed analysis revision. The decompressed bytes match the original SHA256 exactly; all 14 affected analysis/evaluation tests pass. |
 
 ## Specification checks
 
@@ -62,3 +65,31 @@ The failed initial preflight had published no PREPARED state, guardian or epoch.
 The reviewed implementation may proceed through `audit`, `preflight`, `validate`, both original-batch dataset smokes and the fixed twenty-job collection, followed by S1–S4, endpoint freeze, independent Test evaluation, report and release. Runtime validation and both smoke receipts must bind the implementation hash above. Copy this review to the run output before `train`.
 
 GPU smoke and scientific trajectories were not run during review. Their measured resource and full-budget results are produced by the prescribed RUN stage.
+
+## R4: post-collection lossless storage review
+
+This revision follows completion of all twenty formal trajectories and S1/S2. It changes `analysis.py`, `evaluation.py` and `tests/test_analysis.py` only. The diff leaves the training, observer, pulse, predictor, fold, control and statistical formulas unchanged.
+
+`PULSE_CONTRASTS.csv` is absent from the manifest's required-name list. Its sole persistent reader is `_figures`; other S2/S3/S4 calculations obtain the same contrasts in RAM from committed epoch records. The revision preserves the complete table as `PULSE_CONTRASTS.csv.gz`, explicitly requests gzip despite the atomic temporary filename, and updates `_figures` to read the compressed filename. Required raw pulse readouts and summaries remain present.
+
+The reviewer independently streamed and hashed the actual gzip artifact:
+
+| Check | Result |
+|---|---|
+| Uncompressed bytes | 337,299,690 |
+| Compressed bytes | 12,926,160 |
+| Original and decompressed SHA256 | `6988ad1e93c9ee8b4eb6d437f364020d79039a5c644d05504d56d68e88b6b3fe` |
+| Compressed SHA256 | `f9301d610a28e2dd8a88fe9249d4d87ad21417b2f1623a4e216bbf7a4b1701d2` |
+| Observation directory at review | 1,891,243,243 bytes, below 2,147,483,648 bytes |
+
+The old CSV was removed after its decompressed-byte hash was verified. `PULSE_CONTRASTS_STORAGE_RECEIPT.json` records the conversion. No training, prediction or statistical value requires recomputation for this representation change.
+
+The `collection_identity` helper retains the original `e371...` collection hash. It verifies the digest of the original implementation file map from `SOURCE_RECEIPT.json`, then compares every current implementation filename/hash against that map. Changes outside `analysis.py`, `evaluation.py` and their two test files, including added training files, are rejected. Source, manifest and plan identities still match; the original PREPARED and SOURCE files are not rewritten. The actual changed-file set is the three files listed above.
+
+`ANALYSIS_REVISION.json` separately binds the old collection hash/commit, the new full file hash, both analysis-file hashes and the exact changed-file map. Its content has no changing timestamp, and repeated calls preserve its bytes. `input_hashes`, freeze and the independent Test gate bind this receipt; endpoint provenance keeps the original collection implementation hash. The reviewer confirmed that SOURCE, PREPARED, DATA and PROBE byte hashes still equal the hashes already bound by both S1 and S2.
+
+The analysis-revision digest is `4111c3bdde9337503057ef6ff0ea88be025fb9d609287c0996c469c89f6539fc`; its file SHA256 is `6a2733e86bd0adb557d61492fb69a16f0abbc68d17c386fe555d06b721aec45b`.
+
+Independent affected-suite run: `python -m pytest experiments/ema_mechanism_20261106/tests/test_analysis.py experiments/ema_mechanism_20261106/tests/test_evaluation.py -q` — **14 passed in 2.32 seconds**. The new checks cover byte-identical CSV/gzip roundtrip, unchanged source receipts, stable analysis-revision bytes, and refusal of changed or added training components.
+
+R4 is approved for continuation through S3/S4, freeze, independent Test, report and release. The original collection is retained; this storage revision adds no training or Test access.
