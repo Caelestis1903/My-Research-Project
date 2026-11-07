@@ -1,0 +1,56 @@
+{
+  "run_id": "natural__kuairand__rank_protected__seed2022",
+  "seed": 2022,
+  "population_seed": 2022,
+  "dataset": "kuairand",
+  "suite": "natural",
+  "method": "rank_protected",
+  "backbone": "m3oe",
+  "noise_interaction": 0.0,
+  "epochs": 50,
+  "lr": 0.003,
+  "batch_size": 40960,
+  "train_rows": 1905827,
+  "train_meta_rows": 100305,
+  "p": [
+    0.08612691498231477,
+    0.8692835183886051,
+    0.04458956662908018
+  ],
+  "source_base_commit": "939e93eb74bc7851f1f685f818937903947612d6",
+  "optimizer": "Adam",
+  "optimizer_count": 1,
+  "weight_decay": 1e-05,
+  "original_protocol_overlap": false,
+  "objective": "Sample mean-row mean-task BCE or declared suite objective",
+  "learned_fusion": false,
+  "fusion_fixed_sigmoid1": true,
+  "parameters": 880046,
+  "noise_channel_parameters": 0,
+  "trainable_noise_channel_parameters": 0,
+  "noise_rates": null,
+  "selection": "earliest strict maximum six-cell macro AUC on selection half; rank arms eligible only after epoch10 pruning",
+  "engineering": false,
+  "test_read": false,
+  "from_scratch": true,
+  "backbone_frozen": false,
+  "review": "primary self-review under revised start.md",
+  "data_source": {
+    "fit_scope": "global_base_training_split",
+    "split_rule": "global_row_order_80_10_10_then_filter",
+    "label_definitions": {
+      "task0": "stored_is_click",
+      "task1": "stored_long_view"
+    },
+    "oov_index": 0,
+    "selected_training_row_ids_hash": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+    "raw_file": "/home/xzf/data/kuairand/processed/kuai_rand.csv",
+    "raw_file_size": 416370411,
+    "physical_domain_mapping": {
+      "0": "tab0",
+      "1": "tab1",
+      "2": "tab4"
+    }
+  },
+  "state_directory": "/home_new/xzf_n19_artifacts/natural__kuairand__rank_protected__seed2022"
+}
