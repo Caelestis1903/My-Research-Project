@@ -6,7 +6,7 @@
 
 **当前保留固定无增强 EMA 的 A0f。** MovieLens 的全部候选均未超过验证集主端点；KuaiRand 的 C_MIX 有明显宏指标收益，但验证集域0任务0退化，触发预设保护门。两数据在 D0 停止，后续有界基线 A0b、组件控制及多seed确认均未触发。因此，本轮未接受新的总体工作方案，也没有形成超过 A0b 的实证比较。
 
-测试集保留了有价值的分化：KuaiRand C_MIX 相对 A0f 的 selected EMA 宏 AUC **+0.009531**、LogLoss **−0.005302**，六格 AUC 全正；H_MIX 的宏 AUC 增幅更大，但 traffic/pooled 下降；M 同样以最大域退化换取两个较小域收益。MovieLens 则所有候选 selected test 宏 AUC 都下降，其中 T0/TM 的 LogLoss 改善最明显。**新候选只有 seed 2022，泛化收益与机制必要性的证据强度均为 WEAK。** 本轮完成了预定停止条件，不据测试集追加配置或恢复后续阶段。
+测试集保留了有价值的分化：KuaiRand C_MIX 相对 A0f 的 selected EMA 宏 AUC **+0.009531**、LogLoss **−0.005302**，六格 AUC 全正；H_MIX 的宏 AUC 增幅更大，但 traffic/pooled 下降；M同样出现不同域任务格之间的收益与代价分化。MovieLens 则所有候选 selected test 宏 AUC 都下降，其中 T0/TM 的 LogLoss 改善最明显。**新候选只有 seed 2022，泛化收益与机制必要性的证据强度均为 WEAK。** 本轮完成了预定停止条件，不据测试集追加配置或恢复后续阶段。
 
 ## 1. 实际完成的范围
 
