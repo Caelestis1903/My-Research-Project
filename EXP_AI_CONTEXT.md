@@ -31,7 +31,7 @@
 
 ## 2026-11-08 最新 AI Handoff：11/05 AUG_HISTORY 与 11/06 EMA_MECHANISM
 
-**范围与去重。** 本次覆盖11/02–11/08的实验分支。11/02–04的GATS02、EMA02V2、PAIR/ECCM、条件信息/真实历史、Overnight A+B及Gaussian覆盖，已在本文件11/04 Handoff和Global Summary中完成结论整合；本轮不重复计数或重跑。11/03五seed补全报告已经存在于main。新增实证集中在11/05 AUG_HISTORY和11/06 EMA_MECHANISM；本次将八份核心主报告归档到main的research_reports目录，原始CSV/JSON、图像、运行产物和实现代码仍留在来源分支，没有合并代码。
+**范围与去重。** 本次覆盖11/02–11/08的实验分支。**固定研究边界：小域不是困难域。** 不得把域大小当作困难度代理，不设计或解释任何实验来证明或否定这一判断。样本支持、正例稀疏和训练曝光如需研究，必须作为各自独立、可直接观测的变量处理，不映射成域难度。 11/02–04的GATS02、EMA02V2、PAIR/ECCM、条件信息/真实历史、Overnight A+B及Gaussian覆盖，已在本文件11/04 Handoff和Global Summary中完成结论整合；本轮不重复计数或重跑。11/03五seed补全报告已经存在于main。新增实证集中在11/05 AUG_HISTORY和11/06 EMA_MECHANISM；本次将八份核心主报告归档到main的research_reports目录，原始CSV/JSON、图像、运行产物和实现代码仍留在来源分支，没有合并代码。
 
 ### 11/05 AUG_HISTORY：方向、路径分组和梯度漂移协方差的增量审查
 
