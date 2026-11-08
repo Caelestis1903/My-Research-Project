@@ -76,13 +76,13 @@
 - **Evidence Strength:** MEDIUM。
 - **Known exceptions:** S7-B 使用短窗口与 fresh-Adam private-state 近似；S8 full-state continuation仍不支持 selected-best gain。
 
-## SF009 — 现有数据没有识别 domain size 的独立因果效应
+## SF009 — 早期实验未单独识别 domain size 的独立因果效应
 
-- **Finding:** 早期 large-role 关联存在，但后续对照未单独操纵 domain size；目标权重、域身份、difficulty、样本多样性、曝光与 checkpoint 均可能共同变化。
+- **Finding:** 早期large-role关联存在，但后续对照未单独操纵domain size；目标权重、域身份、样本多样性、曝光与checkpoint等因素共同变化。
 - **Evidence IDs:** E002–E004、E010、E014、E020。
-- **Scope:** 跨 P0–S6 的实验矩阵。
-- **Evidence Strength:** STRONG（关于“尚未识别”的结论）；对 size 本身效应强弱不作判断。
-- **Known exceptions:** 角色/样本规模与部分结果相关；相关不等于 size-only causality。
+- **Scope:** 跨P0–S6的历史实验记录；仅描述旧实验的可识别边界。
+- **Evidence Strength:** STRONG（关于旧设计未单独识别size-only效应）；不对域难度作推断。
+- **Research boundary:** 小域不是困难域。本条不用于证明或否定该固定判断，也不构成继续研究域大小与困难度关系的开放问题。
 
 ## SF010 — 当前阶段必须同时报告 target/non-target、AUC/LogLoss 与 checkpoint
 
