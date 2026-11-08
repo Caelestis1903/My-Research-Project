@@ -12,7 +12,7 @@
 | 旧问题 | 10-18 状态 | 已缩窄/仍缺的证据 |
 | --- | --- | --- |
 | OQ001 Sample极端自然比例的minority selected gap | OPEN | 固定mask、别名复制不等于独立新真实样本；未得极端自然比例可推广结果 |
-| OQ002 domain size独立因果 | NOT_IDENTIFIABLE | N2仅排除固定θ域count波动占主导，不识别真实support N；**小域≠困难域从来不是默认待证假设** |
+| OQ002 domain size独立因果 | CLOSED_BY_RESEARCH_BOUNDARY | **小域不是困难域**是固定研究边界；域大小不得作为困难度代理，不设计相关验证/否定实验。历史N2结果仅保留原始记录，不作为该边界的证据。 |
 | OQ003 Equal/S5 history m/v具体承载 | OPEN / HISTORICAL_LINEAGE_MISSING | 新Sample q影子状态不是原Equal S5同θ谱系 |
 | OQ004 Equal access/history跨backbone与target | OPEN | 后续多数是同目标q干预，非原access对照的普适复现 |
 | OQ005 ML late DH的过拟合与optimizer-policy归因 | BOUNDARY / MEDIATION_OPEN | S8 late rescue不提高原best；N17阶段反例不能识别原DH中介 |
@@ -33,13 +33,12 @@
 - **Competing Explanations:** 可能不存在可观测 gap；可能随 ratio、域身份、目标权重、sample diversity、checkpoint 或训练 exposure 改变。
 - **Evidence That Would Resolve It:** 在明确对齐的 selected checkpoint、per-domain/task AUC 与 LogLoss、同 seed joint/reference comparison 下，重复观察不同 imbalance ratios 的 gap 大小与方向。
 
-## OQ002 — Domain size 是因果变量，还是 objective/identity/exposure/difficulty 的代理？
+## OQ002 — 域大小与困难度的关系不作为研究假设
 
-- **Scientific Question:** 当数据域身份、objective、训练曝光和难度结构被分离时，单独改变可用样本量会否改变 target/non-target performance？
-- **Why Unresolved:** P0 轮换改变多项数据属性；S4/S5 固定自然域结构；S6 targets 是最大域；没有在同一域身份与目标下独立改变 size 的因果对照。
-- **Relevant Evidence IDs:** E002–E004、E010、E014、E020。
-- **Competing Explanations:** loss coefficient、sampling exposure、label prior/data shift、domain identity、gradient scale、convergence speed。
-- **Evidence That Would Resolve It:** 同一数据身份与任务下只改变一个规模相关因素，同时保持或明确记录目标权重、暴露次数、数据切分和 checkpoint 规则。
+- **Status:** CLOSED_BY_RESEARCH_BOUNDARY。
+- **固定边界：** 小域不是困难域。不得把域大小、样本量或域人口标签当作困难度代理；不得设计、执行或解释实验来证明或否定这一判断。
+- **可区分的其他变量：** 若某个算法问题确实需要，可单独研究正例稀疏、训练曝光、标签支持或数据覆盖等直接可观测量；必须明确其独立定义和作用路径，不将其重命名为“域难度”，也不将结果用于挑战上述边界。
+- **处理规则：** 本条不再列入开放实验清单；历史OQ002相关实验只保留其原始实验事实，不作为该固定边界的证据。
 
 ## OQ003 — Equal KuaiRand d1 的 persistent-history effect 具体由哪些状态部分承载？
 
@@ -166,11 +165,11 @@
 - **Minimal discriminating evidence:** 先明确单篇先验假设/迁移失败边界及最小可证伪反例，再决定是否提出方法与完整文献新颖性检索；不要把没有跑完整D3/SAF解释成其无效。
 - **Links:** Q12–Q14、Q25–Q27、Q52；E043。
 
-### OQ019 — 真实独立支持样本数N、困难度、正例稀疏与训练曝光谁在起作用？
+### OQ019 — 正例稀疏与训练曝光如何分别影响梯度统计和更新轨迹？
 
-- **Current evidence:** 不存在一致“小域改善大域下降”模式；KR Adam 0/8、SGD 1/8满足严格双小域收益/大域损失；ML小域d1明显下降，但三物理域自然性质共变。
-- **Unresolved:** 独立新增unique样本数、标签支持、物理域身份、任务难度与q曝光的各自贡献；N2 fixed-count/alias、V8 corruption均不是这些自然属性的独立因果检验。
-- **Minimal discriminating evidence:** 若真正研究样本数因果，需在同域同任务上获得不同真实独立支持的资料或预注册严格可构造对照；否则维持“尚未识别”而非无止境反驳用户原本已否定的“小域=困难域”命题。
+- **Current evidence:** 既有记录包含不同任务/域下的正例支持、重复曝光与采样变化，但这些因素必须分开描述；不将其合并成域难度指标。
+- **Unresolved:** 在固定任务定义和评价协议下，正例稀疏、重复曝光与采样权重分别如何影响梯度方差、更新方向和selected AUC/LogLoss。
+- **Minimal discriminating evidence:** 只有当这些直接可观测变量会改变具体算法选择时，才对单一因素做预算受控的干预；保持域身份和任务定义清晰，不以域大小推断困难度，也不把结果用于证明或否定“小域不是困难域”。
 - **Links:** Q7–Q9、Q43；E035、E038、E040。
 
 ### OQ020 — 何时可把局部/后期收益提升为selected泛化改进而非只是慢学习/减轻过拟合？
