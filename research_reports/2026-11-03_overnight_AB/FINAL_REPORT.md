@@ -1,6 +1,6 @@
 # 完整实验报告：统一发表模型比较与 C_MIX＋P01 组合
 
-> Main-branch report archive created 2026-11-08. Source branch: research-plan/26-11-03-overnight-ab-auc. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: research-plan/26-11-03-overnight-ab-auc. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 完成日期：2026-11-04。实验 `MDMT_OVERNIGHT_AB_20261103`，评价协议 `AUC_SELECTED_V1`，数据协议 `FULLTRAIN_NATURAL80_10_10`。**状态 FINAL_COMPLETE：A端点30/30，B端点40/40，新增30条训练、1600epoch，缺项0。**
 
@@ -103,8 +103,6 @@ KR对AI的Macro LL+.001512835，但traffic LL−.005255473；对HG的Macro LL−
 KR对EMA的任务0/1域等权AUC增量为−.000573605/+.003863300；相对M3则为+.002847393/+.009675101。ML对EMA的两个任务均下降约.00150/.00153。任务平均与traffic分别保留，防止单一宏值掩盖分布。
 
 最差平均格ML为d2t0：M3 .752263170、EMA .756328580、CP .755159840；KR为d0t0：M3 .635616977、EMA .636990695、CP .636470632。KR逐seed先取最差格再平均则为M3 .634324636、CP .636470632，口径另列。
-
-**WEAK：域规模作为主要因果解释。** 域人口与身份、标签和特征支持共同固定，本轮没有独立操纵N。KR最大域占test约98.21%，解释traffic的权重支配；d0t1 validation/test仅101/120正例，提供了小格波动的具体来源。ML对EMA六格排序均下降，KR收益集中于特定任务，现有证据不足以将规模识别为主要驱动因素。
 
 ## 6. 训练阶段、loss与矛盾证据
 
