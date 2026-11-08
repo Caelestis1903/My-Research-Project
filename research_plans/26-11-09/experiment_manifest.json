@@ -176,7 +176,8 @@
   },
   "stage_C": {
     "enabled_if": [
-      "B_ADAPTIVE_GAIN_SUPPORTED"
+      "B_ADAPTIVE_GAIN_SUPPORTED",
+      "STATIC_TASK_GAIN_SUPPORTED"
     ],
     "datasets": [
       "movielens",
@@ -234,7 +235,15 @@
     "gpu_admission_fraction": 0.85,
     "prediction_disk_cap_bytes": 2147483648,
     "guardian_ram_cap_bytes": 4294967296,
-    "dynamic_parameter_state_bytes_required": true
+    "dynamic_parameter_state_bytes_required": true,
+    "shared_parameter_S_numel": {
+      "movielens": 483152,
+      "kuairand": 661920
+    },
+    "shared_parameter_S_fp32_bytes": {
+      "movielens": 1932608,
+      "kuairand": 2647680
+    }
   },
   "outputs": [
     "SOURCE_AUDIT.md",
