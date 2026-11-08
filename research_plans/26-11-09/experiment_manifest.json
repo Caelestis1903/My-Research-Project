@@ -172,7 +172,8 @@
       0.5
     ],
     "task_count": 2,
-    "adapted_parameter_group": "S"
+    "adapted_parameter_group": "S",
+    "routing_contract": "input_x_has_no_task_id; ModelAdapter.forward_logits_returns_Nx2; task_t_uses_tower_3t_plus_domain; domain_from_x_last_column"
   },
   "stage_C": {
     "enabled_if": [
@@ -219,14 +220,19 @@
     "B": {
       "states": 2,
       "controller": "argmax_smoothed_task_three_domain_train_macro_auc_gain",
-      "routing": "task_id_selects_shared_S_history"
+      "routing": "two_functional_forwards_replace_shared_S_with_task_state_then_take_output_column_0_or_1",
+      "reference_forward_calls": 2
     },
     "C": {
       "states": 1,
       "readout": "F_S + lambda_task * (theta_S - F_S)",
       "lambda_candidates": "0 and 1-rho_fixed; optional 2*(1-rho_fixed) only after A1",
       "convex_only": true,
-      "cannot_represent_slow_history": true
+      "cannot_represent_slow_history": true,
+      "parameter_interpolation_routing": "two_functional_forwards_with_task_lambda_then_take_output_column_0_or_1",
+      "function_space_alternative": "z_t=(1-lambda_t)*z_F_t+lambda_t*z_online_t",
+      "function_space_alternative_is_parameter_ema": false,
+      "function_space_alternative_preserves_shared_parameter_semantics": true
     }
   },
   "resource_limits": {
