@@ -2,6 +2,8 @@
 
 ## 1. 直接接受的经验结论
 
+**分支身份核验：** 11/07的 `experiments/ema_mechanism_20261106/worker.py`、`analysis.py` 和 `research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md` 在 `26-11-07` 存在，在 `main` 不存在（GitHub contents API返回404）。因此这些机制代码、报告与产物不能假定已合并；Codex实现必须以26-11-07实际head为基底，main只作为规划交付分支。
+
 ### 1.1 固定 EMA 有效，但收益包含阶段取舍
 
 11/07报告在同一 online 训练轨迹上比较 F 与 online，五seed selected Test Macro AUC净益：
