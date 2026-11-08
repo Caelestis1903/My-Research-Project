@@ -39,9 +39,17 @@ experiments/ema_adaptive_20261109/
 4. domain d的三个域格在task t前向时均使用同一task历史S状态；
 5. 非S参数在A/B/C之间保持完全相同的读出来源。
 
-B路由实现：构造完整参数映射时，按task_id选择 `F_S^(t)`，其余参数使用固定F读出。批次混合两个task时，可先按真实task mask拆分前向再按原样本顺序scatter回输出；不得改变原始预测行序。若源模型已存在task-specific tower route，应在其正确位置替换S参数，而不是复制整个模型或更改gate语义。
+B路由实现：构造完整参数映射时，按task_id选择 `F_S^(t)`，其余参数使用固定F读出。输入x本身不含task_id，ModelAdapter.forward_logits一次返回[N,2]两列任务输出；任务t的domain tower索引为3*t+d，domain由x[-1]选择。参考实现必须对同一x做两次functional forward：S替换为F_S^(0)时取输出列0，S替换为F_S^(1)时取输出列1，再stack回原始[N,2]。禁止假设可按输入task mask拆batch。可实现只计算目标task tower的优化前向，但必须与双forward参考实现逐值一致。若源模型已存在task-specific tower route，应在其正确位置替换S参数，而不是复制整个模型或更改gate语义。
 
 C路由：读取单一F_S与当前online θ_S，计算 `F_S + λ_t(θ_S-F_S)`；其余参数同样使用固定F。λ_t只依task，不依domain。
+
+另一个低成本备选C-F在函数空间混合两路raw logits：
+
+\[
+z_t=(1-\lambda_t)z_{F,t}+\lambda_t z_{online,t}.
+\]
+
+它保留一份共享参数F和online参数，不创建task-specific参数副本；属于输出混合而非参数EMA。必须单独命名、测试和报告。
 
 ## 4. EMA状态管理与精确更新顺序
 
