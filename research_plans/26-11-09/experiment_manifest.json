@@ -158,7 +158,8 @@
       "task_dual_history_B",
       "single_history_interpolation_C",
       "uniform_fast",
-      "uniform_slow"
+      "uniform_slow",
+      "single_history_function_space_gate_C_F"
     ],
     "action_interval_epochs": 1,
     "controller_signal_panel": "P_A",
@@ -230,9 +231,10 @@
       "convex_only": true,
       "cannot_represent_slow_history": true,
       "parameter_interpolation_routing": "two_functional_forwards_with_task_lambda_then_take_output_column_0_or_1",
-      "function_space_alternative": "z_t=(1-lambda_t)*z_F_t+lambda_t*z_online_t",
+      "function_space_alternative": "C-F: z_t=(1-lambda_t)*z_F_t+lambda_t*z_online_t; reuse existing online/F readouts; no extra forward",
       "function_space_alternative_is_parameter_ema": false,
-      "function_space_alternative_preserves_shared_parameter_semantics": true
+      "function_space_alternative_preserves_shared_parameter_semantics": true,
+      "parameter_interpolation_reference_forward_calls": 2
     }
   },
   "resource_limits": {
