@@ -43,6 +43,9 @@
 6. P_A训练面板反复调动作存在过拟合风险；A0/A1跨面板验证是必要阶段门。
 7. 若PREDICTIVE_OOF或其他逐窗产物为空/缺失，不能用FINAL_REPORT摘要代替原始逐窗数据。
 
+### 假设六：输入batch携带task_id，可以直接按任务切分共享参数路由
+ 不成立。ModelAdapter.forward_logits输入不含task_id，一次forward产生两列任务输出；task由输出列索引区分，domain由输入末列区分。B/C-P参考实现必须两次functional forward后取对应任务列。该事实会增加推理计算，已纳入05/07。另列C-F函数空间logit门控作为保持共享语义的替代。
+
 ## 5. 修订记录
 
 - R1：明确A0先于新增训练，持续性不能由e+5预测误差替代。
@@ -53,6 +56,7 @@
 - R6：仅研究S，不扩展12参数组；域样本规模不参与难度/控制假设。
 - R7：缺失逐窗数据标SOURCE_INCOMPLETE，不伪造、不自动否决。
 - R8：A1新seed 2027–2031；历史seed 2022–2026仅开发。
+- R9：核验ModelAdapter真实任务路由，纠正“输入task_id切分”的不存在假设，并纳入双functional forward与C-F函数门控替代。
 
 ## 6. 最终决策
 
