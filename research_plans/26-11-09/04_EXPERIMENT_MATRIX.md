@@ -14,7 +14,9 @@
 
 必须读取 11/07 的原始 pulse/readout/metrics、PREDICTIVE_OOF、PREDICTION_SEED/SUMMARY、PREDICTIVE_COMPARISONS、ACTION_DECISIONS、HISTORY_PREFERENCE_SUMMARY、PANEL_STABILITY、METRIC_CORRESPONDENCE、TEMPORAL_RANK_STABILITY、GROUP_INTERACTIONS、MECHANISM_DECISIONS。先校验文件是否真实存在、非空、哈希一致；报告摘要不替代逐窗原始数据。
 
-11/07原始pulse每5epoch一次（e=5,10,…,50），A0的相邻窗口lag-1表示相隔5epoch；不能将其称为逐epoch持续性。原预测器用P_A在e提供特征，预测e+5新pulse在V_A/V_B上的Fast−F/Slow−F收益；它不是当前pulse延迟生效的估计。C_design基线为48-way condition-cell-group onehot + epoch/50，ridge alpha=1、无惩罚截距，按dataset独立拟合，4seed early origins 5/10/15训练、heldout seed late origins 25/30/35/40/45评分，并交换V_A/V_B标签侧。\n\n对每个dataset×objective×seed×cell×group计算：
+11/07原始pulse每5epoch一次（e=5,10,…,50），A0的相邻窗口lag-1表示相隔5epoch；不能将其称为逐epoch持续性。原预测器用P_A在e提供特征，预测e+5新pulse在V_A/V_B上的Fast−F/Slow−F收益；它不是当前pulse延迟生效的估计。C_design基线为48-way condition-cell-group onehot + epoch/50，ridge alpha=1、无惩罚截距，按dataset独立拟合，4seed early origins 5/10/15训练、heldout seed late origins 25/30/35/40/45评分，并交换V_A/V_B标签侧。
+
+对每个dataset×objective×seed×cell×group计算：
 - Fast−F与Slow−F的窗口序列；
 - 相邻pulse窗口（间隔5 epoch）的符号一致率；
 - 窗口收益的Spearman/Kendall排序稳定性；
