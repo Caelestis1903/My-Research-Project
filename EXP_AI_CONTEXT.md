@@ -29,6 +29,52 @@
 
 
 
+## 2026-11-08 最新 AI Handoff：11/05 AUG_HISTORY 与 11/06 EMA_MECHANISM
+
+**范围与去重。** 本次覆盖11/02–11/08的实验分支。11/02–04的GATS02、EMA02V2、PAIR/ECCM、条件信息/真实历史、Overnight A+B及Gaussian覆盖，已在本文件11/04 Handoff和Global Summary中完成结论整合；本轮不重复计数或重跑。11/03五seed补全报告已经存在于main。新增实证集中在11/05 AUG_HISTORY和11/06 EMA_MECHANISM；本次将八份核心主报告归档到main的research_reports目录，原始CSV/JSON、图像、运行产物和实现代码仍留在来源分支，没有合并代码。
+
+### 11/05 AUG_HISTORY：方向、路径分组和梯度漂移协方差的增量审查
+
+- **规模与协议：** 50次物理完整训练、40条唯一配置×数据集×seed训练路径；五seed，2500 epoch、64500次Adam。B/A中的部分臂复用同一父轨迹；不能把复用读出计为新增seed。C只在MovieLens完成，KuaiRand C按预注册计划DEFERRED_NOT_RUN。
+- **B：方向响应EMA。** D相对固定EMA F的selected Test Macro AUC增量，MovieLens仅+0.000000104、KuaiRand−0.000004946。方向响应确实被激活，但没有形成可用的排序增量。
+- **A：路径/分组时间尺度。** MovieLens GROUP/GLOBAL相对F的selected Macro AUC分别−0.000750/−0.000728；KuaiRand分别−0.000175/−0.000213。部分早期验证优势没有转化为selected Test收益；当前分组时间尺度版本不晋级。
+- **C：梯度漂移协方差增强。** MovieLens C_MERGED相对F的selected Macro AUC为−0.000667190，LogLoss差+0.000357811，AUC正向seed为0/5；C3_WEAK与旋转方向控制的均值也未超过F。协方差/更新统计实际生效，但当前结果不支持真实方向信息具有独立必要性。KuaiRand C未运行，不能记为阴性。
+- **完整方法总收益与组件增量分开。** MovieLens C_MERGED+EMA相对普通M3oE的总Macro AUC为+0.003499743，最差单格增量+0.003065726，LogLoss差+0.001289159；这保留了完整配置的总排序收益，但不能归因成C组件的独立增益。
+- **决策：** 停止当前B/A/C版本晋级；固定EMA F保留为强内部控制。若后续要继续方向机制，只做真实方向与旋转方向在匹配谱/协方差条件下的定向比较，不扩展无区分力的候选。
+
+主报告：[AUG_HISTORY REPORT](research_reports/2026-11-05_aug_history/REPORT.md)。B/A/C逐阶段分析和原始表仍可从来源分支26-11-06访问。
+
+### 11/06 EMA_MECHANISM：固定EMA的排序收益、阶段代价与动作预测
+
+- **协议：** M3oE fixed1；MovieLens/KuaiRand × clean/Gaussian D0；每个条件五seed（2022–2026），共20条轨迹、1000 epoch、34500次正式Adam。online与F是同轨迹读出，F表示固定EMA影子参数。
+- **selected Test的F−online Macro AUC：**
+
+| 数据/目标 | ΔMacro AUC | 正向seed | ΔMacro LogLoss |
+|---|---:|---:|---:|
+| MovieLens clean | +0.003848845 | 5/5 | +0.001248644 |
+| MovieLens Gaussian | +0.003856802 | 5/5 | +0.005334282 |
+| KuaiRand clean | +0.004616399 | 4/5 | −0.001225342 |
+| KuaiRand Gaussian | +0.007766927 | 5/5 | +0.000327687 |
+
+LogLoss差为正表示F的损失更高。四组selected Test排序收益均为正，三组5/5正向，KuaiRand clean为4/5。
+- **不是单纯的checkpoint延迟。** 晚期epoch31–50的Validation年龄匹配online对照中，F−age-matched-online AUC依次为+0.002993、+0.003153、+0.004503、+0.003746，四项95%配对区间下界均大于0。早期epoch1–10的F−online AUC约为MovieLens−0.0030、KuaiRand−0.0203/−0.0206；固定pair的晚期排序变化率明显下降，但早期也更平稳且AUC更低。当前证据支持“历史组合价值与学习滞后成本并存，排序稳定和学习进度共同决定效用”，不能把低波动本身等同于收益。
+- **时间尺度适应性仍有限。** 逐格常驻时间尺度的交叉评价仅KuaiRand Gaussian为正（+0.000375±0.000331，5/5）；MovieLens clean/Gaussian和KuaiRand clean分别为−0.000047、−0.000082、−0.000152。
+- **预测指标与动作收益分离。** C_design在四组未来收益数值预测MAE均优于M2/M3，但整体单组动作收益较小。KuaiRand Gaussian d0t1共享组S的M3_direct局部净益+0.000346；相对C_simple的五seed增量仅+0.000048355±0.000199264，复杂指标独立必要性证据弱。
+- **Gaussian×EMA不是统一协同。** selected Test交互AUC MovieLens +0.000007957、KuaiRand +0.003150528，均仅3/5 seed为正；Validation selected与Test E50交互方向不同。MovieLens E40校准诊断解释了该锚点大部分LL差异，但不能据此消除selected Test上的LL代价。
+- **决策：** 固定EMA的selected排序收益及其阶段性代价已获得强支持；不再把“EMA是否提高AUC”设为待证问题。当前分组时间尺度和复杂动作指标尚未形成普遍可晋级算法。后续适应性设计应寻找能跨seed预测未来收益、并真正改变参数时间递推的信号。
+
+主报告：[EMA_MECHANISM FINAL_REPORT](research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。selected Test绝对值及同轨迹配对结果已回填MDMT_ALGORITHM_METRICS_LEDGER.md。
+
+### 当前研究决策
+
+1. 固定EMA F是强内部参考/控制，不是正式发表模型baseline；正式发表模型仍限M3oE、HyperGate、AutoIFS。
+2. AUG_HISTORY的B/A/C当前版本不晋级；完整方法总收益与新增组件增量必须分开报告。
+3. 固定EMA收益已超出年龄匹配online对照；下一步不是重复证明固定EMA有效，而是解释哪些可观测信号能预测历史组合的未来排序价值与阶段性滞后。
+4. 域×任务信息若用于适应性EMA，必须进入实际参数时间递推或其状态更新，并与固定EMA、简单统计量和匹配控制竞争；只构造额外梯度视图不算完成融合。
+5. 继续遵守五seed、selected Test Macro AUC、逐格平均跌幅不超过0.001的保护规则；LogLoss单独报告，不以LL代价抹去AUC收益，也不以AUC收益掩盖LL代价。
+
+---
+
 ## 2026-11-04 最新 AI Handoff：五seed、统一发表模型与Gaussian覆盖（优先于11/02旧快照）
 
 **本次增量范围。** 此前11/02归档的EXP052–EXP060不再重复登记；新增整合11/02–03 PAIR/ECCM补充、11/03条件信息/真实历史分支、11/03五seed补全（11/04发布）、11/04 Overnight A+B统一发表模型比较，以及11/04 Gaussian增强域覆盖和MovieLens来源补齐。仅提取科学结论和关键指标，不合并原实验分支的代码、日志或训练产物；[指标台账](MDMT_ALGORITHM_METRICS_LEDGER.md)记录六格绝对值、Macro/Traffic/Pooled及选点身份。**下方11/02“最新”“下一步”是历史快照，不得覆盖本节研究决定。**
