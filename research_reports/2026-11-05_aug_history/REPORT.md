@@ -1,6 +1,6 @@
 # 增强响应、参数历史与条件增强实验报告
 
-> Main-branch report archive created 2026-11-08. Source branch: 26-11-06. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: 26-11-06. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. One section outside the current research scope is omitted from this main-branch archive; the source-branch original is unchanged.
 
 实验身份：`AUG_HISTORY_20261105`。规划入口为[07_FINAL_CODEX_ENTRY](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-06/research_plans/26-11-5/07_FINAL_CODEX_ENTRY.md)，固定方案来自main的`research_plans/26-11-5/`。本报告将完整方案的收益、内部组件增量和运行事实分别记录；AUC与LogLoss独立判断。
 
@@ -103,22 +103,7 @@ C3_WEAK对F的V增量+0.000082331转为test selected−0.000269455；MERGED的E1
 
 ![C匹配控制和训练阶段](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-06/research_reports/2026-11-05_aug_history/figures/C_COMPARISON.png)
 
-## 域规模、难度与收益分配
-
-| 数据/域 | train人口 | train task0/task1正例率 | 普通M3oE test task0/task1 AUC |
-|---|---:|---|---|
-| ML d0 | 155949 | .5610 / .2348 | .770298 / .785173 |
-| ML d1 | 318599 | .5633 / .2202 | .778130 / .797449 |
-| ML d2 | 325619 | .6021 / .2396 | .752263 / .767825 |
-| KR d0 | 172782 | .0909 / .0412 | .635617 / .645909 |
-| KR d1 | 1743898 | .3778 / .2561 | .698833 / .726663 |
-| KR d2 | 89452 | .6169 / .4848 | .653260 / .671157 |
-
-ML最大域d2的普通模型AUC最低；KR最小域d2的AUC高于较大d0。域规模不能直接替代基准排序难度。KR基率差异很大，跨域LL还受标签熵与校准影响。只有每数据三域且规模与身份、标签、特征及增强域共同变化，规模作为主要因果解释的证据为 **WEAK**。
-
-B的D−F没有明显“小域改善/大域下降”模式。A在KR的GROUP相对F使最大域d1两任务下降约0.000545/0.000561，最小d2改善约0.000298/0.000188，存在该配置下的局部取舍；但固定profile反而使最小d2下降0.001825/0.001370，中等d0改善0.001086/0.000808。ML GROUP六格全部下降。取舍依赖具体规则、任务与阶段，不能提升为统一规模规律。
-
-C的MERGED/ROTATED六格对F均下降；C3_WEAK仅最小d0的task1改善0.000135763，同域task0下降0.000404106，最大d2两任务下降0.000523184/0.000398796。任务条件性比单一规模分类更符合这些局部结果，规模作为主解释仍为 **WEAK**。
+> 本main归档版本仅保留当前研究范围内的报告内容；来源分支原始报告保持不变。
 
 ## 重复现象、矛盾与最有区分力的下一实验
 
