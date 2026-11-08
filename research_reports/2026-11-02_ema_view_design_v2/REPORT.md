@@ -1,6 +1,6 @@
 # EMA02V2：联合标签插值、教师约束字段增强与任务双视图实验报告
 
-> Main-branch report archive created 2026-11-08. Source branch: 26-11-02_v2. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: 26-11-02_v2. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 **完成日期：2026-11-02。36/36 条正式轨迹均完成 50 epoch，统一 test 的 144/144 个端点完成；训练和评价无失败、无重试。最终研究决定：停止当前新增视图候选，保留 A0＋固定 EMA。**
 
@@ -163,11 +163,7 @@ ML 的标签为 rating>3 / rating>4，训练联合标签01计数为0。KR 使用
 
 完整六格LL及逐seed数值在原始指标CSV，全部方法的格均值/差和正向数在 [cell_effects.csv](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02_v2/research_reports/2026-11-02_ema_view_design_v2/tables/cell_effects.csv)。[minimum_cell_gains.csv](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02_v2/research_reports/2026-11-02_ema_view_design_v2/tables/minimum_cell_gains.csv) 同时保留每seed的 `min_cell(candidate−A0)` 与两个worst值的差，二者分列。
 
-**规模不是当前已识别的主解释变量（WEAK）。** ML最大训练域d2的基线AUC低于小域d0；KR最难基线域d0比最小域d2更大。KR d0t1 test只有120正例，而d1占test约98.21%，基率、评估支持量与训练规模分别影响指标及波动。跨数据集还改变标签、字段数、κ、每epoch步数和EMA的epoch等价窗口。
-
-**没有统一的小域改善／大域下降模式。** ML F1的主要正差来自最大域d2，目标小域只接近持平；KR F1在最大域d1均值略正，却在目标小域d2两个任务均下降。KR RG确有目标小域收益，但另一个小域d0下降更大，最大域接近持平。TG/AG在KR同时伤害目标域与最大域，属于广泛退化。以上具体格现象见原值，整体规模决定论证据 **WEAK**。
-
-KR F1的pooled/traffic AUC均值约+.001199/+.000908，而macro为−.004076；这反映最大域与稀有域的交换。J1的KR最大域两任务测试下降约.006231/.007294，且两seed均负。TG/AG的目标域任务下降达到约.033–.039，不能由macro平均掩盖。
+KR F1的pooled/traffic AUC均值约+.001199/+.000908，而macro为−.004076；macro与人口加权指标方向不同，需分别报告。J1的KR最大域两任务测试下降约.006231/.007294，且两seed均负。TG/AG的目标域任务下降达到约.033–.039，不能由macro平均掩盖。
 
 KR J1 的平均worst-cell AUC差为+.003338，但两个seed的最小配对cell差分别为−.011039、−.034804。worst格身份的变化与某个固定域任务受损可同时发生，需用逐格配对差判断保护。
 
@@ -203,7 +199,6 @@ TG两任务输入方向的平均cosine约为ML .297–.300、KR .076–.083，AG
 - **MEDIUM：** 当前TG/AG在KR的AUC、LL、目标域及共同E50同时退化，普通随机控制更好；优先停止该配置。
 - **WEAK：** F1在ML相对F0缓解损害，测试对A0有微小正差，但验证相反、无确认；J1在ML相对J0的小差也不足实用门。
 - **WEAK：** KR强seed反转、稀有格支持量有限，macro与traffic/pooled方向可不同；不能用单个正seed选择方法。
-- **WEAK：** 域规模单独解释不了跨域与跨方法的效应；基线可预测性、标签语义、干预对象及自然人口漂移共同存在。
 
 竞争解释包括：梯度视图的局部升loss方向未保持泛化标签语义；教师约束主要减轻部分有害方向/实际能量；共享参数使目标域干预传到未增强域；BCE风险、排序和checkpoint阶段不同；ML F1小信号由窗口特化或seed波动产生。当前证据能排除“候选一直没有实际扰动”及“完全由供体缺失导致”，尚未区分前述机制贡献。
 
