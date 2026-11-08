@@ -1,6 +1,6 @@
 # 条件信息增强与真实历史更新：完整实验报告
 
-> Main-branch report archive created 2026-11-08. Source branch: 26-11-03_history_information. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: 26-11-03_history_information. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 日期：2026-11-03。执行分支：`26-11-03_history_information`。研究方案：[冻结计划](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_plans/26-11-03/06_CODEX_PROMPT.md)。
 
@@ -80,24 +80,7 @@ KR C_MIX的test六格差为+.002554、+.042686、+.001208、+.001292、+.004179�
 
 诊断来自首步及每20步的样本，ML每轨迹51条、KR123条，不代表全步比例。H_MIX采样投影非零比例ML86.3%、KR83.7%；H_REAL为29.4%、22.8%；C_MIX为41.2%、35.0%。T0采样裁剪比例ML62.7%、KR72.4%，TM在ML为72.5%。因此没有“机制完全没动”的接线解释；这些数字本身不构成泛化收益。M的优先跨另一任务标签donor使用率：ML任务0/1约57.5%/77.2%，KR约67.4%/95.8%；记录中无self回退。任务支持不同，不能把两个任务视作同一种增强难度。U与NORM控制未触发，**另一任务条件增量、方向性相对等范数缩放的价值均未解决**。详见[sampled_diagnostics.csv](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/sampled_diagnostics.csv)。
 
-## 5. 域规模、任务难度与代价
-
-| 数据/域 | 训练行数 | test行数 | A0f test任务0 AUC | A0f test任务1 AUC |
-| --- | ---: | ---: | ---: | ---: |
-| ML d0 | 155949 | 27687 | .775434 | .789358 |
-| ML d1 | 318599 | 41434 | .781927 | .800612 |
-| ML d2 | 325619 | 30900 | .758092 | .771809 |
-| KR d0 | 172782 | 2613 | .633017 | .632240 |
-| KR d1 | 1743898 | 246284 | .703322 | .731653 |
-| KR d2 | 89452 | 1870 | .660670 | .679930 |
-
-ML最大训练域d2的两任务基线AUC最低；KR最小域d2的基线AUC高于d0。规模不能充当难度代理，也不足以作为本轮结果的单一主解释。KR test d1占约98.2%，因此小域较大的AUC变化可以推高等权macro，却难以抵消最大域小幅下降。
-
-![六格AUC差](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/figures/six_cell_auc.png)
-
-KR M在test两个较小域四格全部提升，最大域两任务分别下降.004111/.004846，traffic下降.004075；H_MIX也表现为小域四格提升、大域两格下降，traffic下降.000647。这个**特定方法、特定test人口下的小域改善/大域下降权衡可见（WEAK）**。H_REAL却是大域两任务提升、小域大多下降；C_MIX的test六格均正，说明该权衡不是所有方法必然满足的规律。ML主要是多数格共同下降。
-
-最差格也不能代替逐格保护：KR H_MIX的最差AUC从.632240升至.660467，但最大域下降；T0最差格升至.641124，同时最小域两任务下降.011993/.010643。C_MIX最差格为.635571；ML所有候选最差AUC均未超过A0f的.758092。逐任务、逐域等权均值见[domain_task_summary.csv](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/domain_task_summary.csv)，全部原始格见[six_cell.csv](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/six_cell.csv)。
+> 本main归档版本仅保留当前研究范围内的报告内容；来源分支原始报告保持不变。
 
 ## 6. 重复现象、矛盾与竞争解释
 
