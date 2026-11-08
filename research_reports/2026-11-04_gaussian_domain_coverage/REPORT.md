@@ -1,6 +1,6 @@
 # KuaiRand Gaussian领域覆盖：五seed完整研究报告
 
-> Main-branch report archive created 2026-11-08. Source branch: research/26-11-04-gaussian-domain-coverage. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: research/26-11-04-gaussian-domain-coverage. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 完成日期：2026-11-04。状态 FINAL_COMPLETE：新增10/10条轨迹、500/500epoch、24500次Adam及EMA更新；全部最终评价完成。主结果为固定EMA的validation六格Macro AUC最高、精确并列最早checkpoint的test指标。seeds为2022–2026。
 
@@ -161,8 +161,6 @@ G-D0相对AutoIFS的平均AUC高0.000583，对HyperGate仍差0.002932。G-D02对
 | G-D2 | 0.664615 | 0.691383 | 0.479812 | 0.388754 | 0.634346 |
 
 G-D0相对D2的任务0 AUC+0.002710107、任务1−0.000348330；D02相对D0两任务均下降（−0.004265568/−0.004886849）。三种Gaussian的平均最差格均为d0t0，D0提高至0.643921，D02降至0.628972。
-
-**WEAK：域规模作为主要因果解释。** d0训练人口约为d2的1.93倍，M3oE的d0两任务AUC却更低；HyperGate下最小平均格转为d2t0。域身份、标签分布、特征支持、增强曝光量与N共同变化。d0t1的validation/test正例仅101/120；本轮保持人口固定，直接识别覆盖集合的影响，未分离N的独立贡献。
 
 ## 6. 训练阶段、验证/测试与在线模型
 
