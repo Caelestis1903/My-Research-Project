@@ -15,6 +15,8 @@
 - 增强/历史控制来源：`26-11-07` 的 `research_reports/2026-11-05_aug_history/` 及 main 的 `research_plans/26-11-5/`。
 - 机制规划来源：main 的 `research_plans/26-11-6/`，尤其 01–09 和 `experiment_manifest.json`。
 
+已核对：`experiments/ema_mechanism_20261106/worker.py`、`analysis.py` 与 `research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md` 在 `26-11-07` 可读取，但在 `main` 返回404，说明该机制分支内容尚未合入main。Codex必须从 `26-11-07` 实际head建立隔离worktree，并在SOURCE_AUDIT记录其真实head SHA；不能从main直接启动，也不能把该分支的文件误认为main已有。
+
 11/07机制报告固定 EMA 的 F−online selected Test Macro AUC：ML Clean +0.003848845、ML Gaussian D0 +0.003856802、KR Clean +0.004616399、KR Gaussian D0 +0.007766927，均为同轨迹五seed配对值。晚期 F 还优于按理论平均历史年龄匹配的旧 online；早期则有滞后损失。ML 的 AUC收益伴随 LogLoss代价。不能把所有收益简化为 checkpoint 延迟，也不能把低通性质直接当成性能机制。
 
 11/07收益指标比较中，M2对局部训练排序风险变化的近似很准确，但迁移到独立验证 AUC 较弱；M3直接 AUC 跨面板稳定性有限；C_design在四种条件下的未来数值预测误差优于 M2/M3。复杂指标整体动作价值小，KuaiRand Gaussian、d0t1、共享参数 S 的 M3_direct相对 C_simple 仅约 +0.000048 AUC。11/05 A/B/C 未建立超越固定 F 的稳定独立 Test 增益。以上是本轮设计约束，不是要求重新跑这些实验。
