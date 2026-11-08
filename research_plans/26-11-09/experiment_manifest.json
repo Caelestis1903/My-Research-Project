@@ -18,9 +18,15 @@
     "epochs": 50,
     "optimizer": "torch.optim.Adam",
     "lr": 0.01,
-    "betas": [0.9, 0.999],
+    "betas": [
+      0.9,
+      0.999
+    ],
     "eps": 1e-8,
-    "weight_decay": {"movielens": 0.0001, "kuairand": 0.00001},
+    "weight_decay": {
+      "movielens": 0.0001,
+      "kuairand": 0.00001
+    },
     "precision": "FP32",
     "amp": false,
     "tf32": false,
@@ -32,59 +38,167 @@
     "checkpoint_rule": "earliest_strict_max_validation_six_cell_macro_auc"
   },
   "seeds": {
-    "historical_development": [2022, 2023, 2024, 2025, 2026],
-    "prospective_confirmation": [2027, 2028, 2029, 2030, 2031]
+    "historical_development": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "prospective_confirmation": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ]
   },
   "datasets": {
     "movielens": {
       "steps_per_epoch": 20,
       "rho_fixed": 0.9828205985452511,
-      "rho_fast": 0.965936,
-      "rho_slow": 0.991373,
-      "stages": ["C"]
+      "rho_fast": 0.9659363289248455,
+      "rho_slow": 0.9913730874626621,
+      "stages": [
+        "C"
+      ]
     },
     "kuairand": {
       "steps_per_epoch": 49,
       "rho_fixed": 0.995,
       "rho_fast": 0.990025,
-      "rho_slow": 0.997497,
-      "stages": ["A1", "B", "C"]
+      "rho_slow": 0.9974968671630001,
+      "stages": [
+        "A1",
+        "B",
+        "C"
+      ]
     }
   },
-  "conditions": ["clean", "gaussian_d0"],
+  "conditions": [
+    "clean",
+    "gaussian_d0"
+  ],
   "stage_A0": {
     "new_training_runs": 0,
     "source": "research_reports/2026-11-06_ema_mechanism",
     "pulse_spacing_epochs": 5,
-    "signals": ["fast_minus_fixed", "slow_minus_fixed", "fast_minus_slow"],
-    "metrics": ["lag1_sign_agreement", "lag1_rank_correlation", "forward_e_plus_5_prediction", "panel_transfer", "action_regret"],
-    "baselines": ["C_design", "C_simple", "M0", "M2", "M3", "identity_stage"],
-    "outcome_states": ["PERSISTENCE_SUPPORTED", "STATIC_PREFERENCE_ONLY", "NO_ACTIONABLE_SIGNAL", "SOURCE_INCOMPLETE"]
+    "signals": [
+      "fast_minus_fixed",
+      "slow_minus_fixed",
+      "fast_minus_slow"
+    ],
+    "metrics": [
+      "lag1_sign_agreement",
+      "lag1_rank_correlation",
+      "forward_e_plus_5_prediction",
+      "panel_transfer",
+      "action_regret"
+    ],
+    "baselines": [
+      "C_design",
+      "C_simple",
+      "M0",
+      "M2",
+      "M3",
+      "identity_stage"
+    ],
+    "outcome_states": [
+      "PERSISTENCE_SUPPORTED",
+      "STATIC_PREFERENCE_ONLY",
+      "NO_ACTIONABLE_SIGNAL",
+      "SOURCE_INCOMPLETE"
+    ],
+    "required_source_artifacts": [
+      "research_reports/2026-11-06_ema_mechanism/PULSE_READOUTS.csv",
+      "research_reports/2026-11-06_ema_mechanism/PULSE_METRICS.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTIVE_OOF.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTION_SEED.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTION_SUMMARY.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTIVE_COMPARISONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/ACTION_DECISIONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/HISTORY_PREFERENCE_SUMMARY.csv",
+      "research_reports/2026-11-06_ema_mechanism/PANEL_STABILITY.csv",
+      "research_reports/2026-11-06_ema_mechanism/METRIC_CORRESPONDENCE.csv",
+      "research_reports/2026-11-06_ema_mechanism/TEMPORAL_RANK_STABILITY.csv",
+      "research_reports/2026-11-06_ema_mechanism/GROUP_INTERACTIONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/MECHANISM_DECISIONS.json"
+    ]
   },
   "stage_A1": {
-    "enabled_if": ["PERSISTENCE_SUPPORTED", "STATIC_PREFERENCE_ONLY"],
-    "datasets": ["kuairand"],
-    "conditions": ["clean", "gaussian_d0"],
-    "seeds": [2027, 2028, 2029, 2030, 2031],
+    "enabled_if": [
+      "PERSISTENCE_SUPPORTED",
+      "STATIC_PREFERENCE_ONLY"
+    ],
+    "datasets": [
+      "kuairand"
+    ],
+    "conditions": [
+      "clean",
+      "gaussian_d0"
+    ],
+    "seeds": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ],
     "epochs": 50,
     "new_unique_online_trajectories": 10
   },
   "stage_B": {
-    "enabled_if": ["A1_SIGNAL_TRANSFER_SUPPORTED"],
+    "enabled_if": [
+      "A1_SIGNAL_TRANSFER_SUPPORTED"
+    ],
     "shared_online_trajectory": true,
-    "algorithms": ["fixed_F", "global_A", "task_dual_history_B", "single_history_interpolation_C", "uniform_fast", "uniform_slow"],
+    "algorithms": [
+      "fixed_F",
+      "global_A",
+      "task_dual_history_B",
+      "single_history_interpolation_C",
+      "uniform_fast",
+      "uniform_slow"
+    ],
     "action_interval_epochs": 1,
     "controller_signal_panel": "P_A",
-    "audit_panels": ["P_B", "V_A", "V_B"],
-    "reward_smoothing_beta_candidates": [0.0, 0.5],
+    "audit_panels": [
+      "P_B",
+      "V_A",
+      "V_B"
+    ],
+    "reward_smoothing_beta_candidates": [
+      0,
+      0.5
+    ],
     "task_count": 2,
     "adapted_parameter_group": "S"
   },
   "stage_C": {
-    "enabled_if": ["B_ADAPTIVE_GAIN_SUPPORTED"],
-    "datasets": ["movielens", "kuairand"],
-    "conditions": ["clean", "gaussian_d0"],
-    "test_freeze_required": true
+    "enabled_if": [
+      "B_ADAPTIVE_GAIN_SUPPORTED"
+    ],
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "conditions": [
+      "clean",
+      "gaussian_d0"
+    ],
+    "test_freeze_required": true,
+    "prospective_seeds": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ],
+    "new_unique_online_trajectories": {
+      "movielens": 10,
+      "kuairand": 0,
+      "note": "Reuse KR A1 trajectories; train ML only after B freezes a winner."
+    }
   },
   "ema": {
     "initialization": "theta_0",
