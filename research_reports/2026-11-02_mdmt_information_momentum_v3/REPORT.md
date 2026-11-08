@@ -1,6 +1,6 @@
 # 条件监督与动量实验报告：保留 A0，关闭本轮候选
 
-> Main-branch report archive created 2026-11-08. Source branch: 26-11-02_v3. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: 26-11-02_v3. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 2026-11-03更新：原实验结论保留；按 `buchong.md` 完成的P01/P10独立补充见文末[补充机制实验](#supplement-20261103)。
 
@@ -70,11 +70,7 @@ start.md的覆盖规则仅允许2022–2026，替代原方案确认seed2027–20
 | KR | d1 | 1743898 | .718211 |
 | KR | d2 | 89452 | .668502 |
 
-ML最小d0不是最低AUC域，最大d2反而最低；KR最小d2也不是最低AUC域，中等大小d0更低。这里用基线AUC描述可观测预测难度，不把它解释为已控制标签、人群后的因果难度。大小与难度没有等价关系。
-
 ML的四个PAIR配置在三个域的测试AUC均值全部下降，未出现小域改善/大域下降的平均权衡。KR P11 .05的d0/d1/d2 AUC差为 **+.006901/−.002779/+.000089**：宏均值主要由中等域d0推动，最小域近零，最大域下降。task0/task1宏AUC差为−.001788/+.004595，主要正项是d0t1的+.017014；六格均为一正一负seed。
-
-同一KR P11 .05的traffic AUC **−.002657**、pooled AUC **−.002601**、worst-cell AUC **−.002824**，traffic/pooled LL **+.001696**，均与宏AUC正值构成冲突。它是平均层面的域任务收益代价，seed一致性为WEAK，尚不支持稳定的小域救援机制。domain size可影响流量权重与宏/traffic分歧，但没有被独立操纵，且观察不随大小单调；现有证据不支持把大小当作主要原因。
 
 ## 训练阶段与替代解释
 
@@ -162,8 +158,6 @@ S1调度墙钟约 **2380秒（39分40秒）**；24条训练累计worker时间 **
 | KR | P10 | +.001651 | 1/2 | −.002945 | −.002850 | −.002732 |
 
 ML新增两方法在两个seed都没有超过A0，延续原实验的AUC下降/LL改善。KR两个新方法的宏均值阳性均只有1/2正；相应验证ΔAUC为P01−.000153、P10−.001335，也都只有1/2正。测试宏均值不能替代强基线稳定性。P10的KR d1t1 test AUC均值下降.003128且2/2下降，构成具体的域任务代价。
-
-KR相对A0的域AUC差：P01 d0/d1/d2为+.016274/−.001713/+.004513，P10为+.002573/−.002970/+.005351。最小d2的两个新方法均2/2改善，但最大d1的均值下降，方向各1/2；因此存在平均层面的“小域收益/大域下降”权衡，不能称稳定的大域牺牲。原数据大小与A0难度表仍适用：KR中等大小d0比最小d2更难，ML最大d2更难。没有独立改变域大小，不能把规模识别为主要原因。
 
 相对P00，KR静态ECCM的域增量+.025294/+.000810/+.010192，动态Adam为+.011593/−.000447/+.011030；两者d0/d2均2/2正，但traffic效应分别只有+.001136/−.000235。相对于不同基线，域收益与流量代价的判断不同。KR交互的task0/task1宏AUC差为−.017904/−.006789，d0/d1/d2为−.020966/−.000619/−.015454，负交互并非只出现在一个任务。
 
