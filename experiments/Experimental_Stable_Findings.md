@@ -254,4 +254,63 @@
 - **Finding:** 两自然数据各2开发seed、36训练全部完成；ML F1 test对A0+EMA +0.000359（2/2）但验证均值负、幅度不足晋级；KR TG/AG对A0+EMA test宏AUC约−0.0172/−0.0175并伴随LL恶化，两seed一致。梯度探针与实际扰动正常执行。
 - **Evidence IDs:** E069；**Strength:** MEDIUM当前KR退化，WEAK ML F1微增量；**Boundary:** 不是新数据确认、也没有改在线动量公式。
 
+## 2026-11-08 新增稳定事实（SF038–SF048）
+
+### SF038 — 完整候选组合的总收益不等于新增组件的独立收益
+- **Finding:** 11/03五seed补全中，C/H/P01+固定EMA相对普通M3oE online的Macro AUC增量：ML +0.003253/+0.003059/+0.003225，KR +0.003720/+0.005579/+0.008702，六格保护均满足。相对固定EMA的组件增量则不同：ML三候选均未超过EMA；KR P01虽有+0.004086宏增量，但d1t0/d1t1分别−0.001334/−0.001047，未满足逐格保护。
+- **Source:** 11/04 Global Summary；[五seed补全报告](../research_reports/2026-11-03_mdmt_five_seed_completion/REPORT.md)。
+- **Strength:** STRONG（完整配置总收益）；MEDIUM（组件增量与逐格取舍）。
+
+### SF039 — 统一AUC选点后的正式发表模型排序已明确
+- **Finding:** 在统一自然人口、validation六格Macro AUC最早严格最大值选点的协议下，ML M3oE/HyperGate/AutoIFS Macro AUC为0.775190/0.771412/0.772425，M3oE最高；KR为0.671907/0.682113/0.678597，HyperGate最高。该排序替代旧V-LogLoss选点结果作为当前同协议参照；不同训练协议的绝对值不跨表排名。
+- **Source:** [Overnight A+B报告](../research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md)。
+- **Strength:** STRONG（当前协议内排序）；适用范围限于已运行适配版本和本轮协议。
+
+### SF040 — Gaussian覆盖的收益具有数据集与指标条件性
+- **Finding:** ML Gaussian D0 Macro AUC为0.779357，相对M3oE +0.004167且六格保护通过，Macro LogLoss差+0.000931。KR G-D0/G-D2/G-D02 Macro AUC为0.679180/0.677999/0.674604，均未超过HyperGate 0.682113；KR不同覆盖的AUC与LL排序不一致。
+- **Source:** [Gaussian覆盖报告](../research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md)。
+- **Strength:** STRONG（所测配置和协议）；不外推为普遍增强规律。
+
+### SF041 — CP组合未形成相对P01的加性排序优势
+- **Finding:** CP fixedEMA的ML/KR Macro AUC为0.777525/0.678168，相对M3oE总增量+0.002335/+0.006261；但相对单独P01分别−0.000890/−0.002441。KR对M3oE的总收益保留，但当前CP组合不替代P01排序方案。
+- **Source:** [Overnight A+B报告](../research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md)。
+- **Strength:** MEDIUM（当前2×2组合和协议）。
+
+### SF042 — 当前方向响应EMA没有超过固定EMA
+- **Finding:** AUG_HISTORY中B方向响应确实执行，但D−F selected Test Macro AUC仅ML +0.000000104、KR −0.000004946；没有实用增量。
+- **Source:** [AUG_HISTORY报告](../research_reports/2026-11-05_aug_history/REPORT.md)。
+- **Strength:** MEDIUM（当前方向定义、模型、候选网格和数据协议）。
+
+### SF043 — 当前路径/分组时间尺度版本未获得selected收益
+- **Finding:** AUG_HISTORY的GROUP/GLOBAL时间尺度相对F，ML Macro AUC分别−0.000750/−0.000728，KR分别−0.000175/−0.000213；部分早期验证优势没有转化为selected Test增益。
+- **Source:** [AUG_HISTORY报告](../research_reports/2026-11-05_aug_history/REPORT.md)。
+- **Strength:** MEDIUM（当前实现和候选范围；不否定其他适应性信号）。
+
+### SF044 — 当前梯度漂移协方差增强没有超过固定EMA
+- **Finding:** MovieLens C_MERGED−F selected Test Macro AUC为−0.000667190、LogLoss差+0.000357811、AUC正向seed为0/5；C3_WEAK与旋转控制的均值也未超过F。当前数据不支持真实方向信息具有独立必要性；KuaiRand C为未运行，不记阴性。
+- **Source:** [AUG_HISTORY报告](../research_reports/2026-11-05_aug_history/REPORT.md)。
+- **Strength:** MEDIUM（MovieLens当前候选）；KuaiRand C为NOT_RUN。
+
+### SF045 — 固定EMA的selected排序收益超过年龄匹配online对照
+- **Finding:** EMA_MECHANISM四组F−online selected Test Macro AUC为ML clean +0.003848845、ML Gaussian +0.003856802、KR clean +0.004616399、KR Gaussian +0.007766927；正向seed分别5/5、5/5、4/5、5/5。晚期Validation年龄匹配online对照仍有+0.002993/+0.003153/+0.004503/+0.003746，四项95%区间下界均大于0。早期F存在明显学习滞后，晚期排序变化率下降。
+- **Source:** [EMA_MECHANISM最终报告](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。
+- **Strength:** STRONG（四个已测条件的同轨迹配对和年龄匹配对照）。
+
+### SF046 — 常驻时间尺度交叉收益目前只在KuaiRand Gaussian条件下成立
+- **Finding:** 逐格常驻时间尺度交叉评价：ML clean −0.000047、ML Gaussian −0.000082、KR clean −0.000152、KR Gaussian +0.000375±0.000331（5/5）。这是条件性局部证据，不支持普遍的分组rho策略。
+- **Source:** [EMA_MECHANISM最终报告](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。
+- **Strength:** MEDIUM（单条件局部交叉收益）。
+
+### SF047 — 未来收益预测准确度与动作增益不是同一结论
+- **Finding:** C_design在四组未来收益数值预测MAE均优于M2/M3，但整体单组动作收益较小。KuaiRand Gaussian d0t1共享组S的M3_direct局部净益+0.000346；M3相对C_simple的五seed增量+0.000048355、SD 0.000199264，复杂指标独立必要性证据弱。
+- **Source:** [EMA_MECHANISM最终报告](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。
+- **Strength:** MEDIUM（C_design预测MAE）；WEAK（复杂指标独立动作价值）。
+
+### SF048 — Gaussian×EMA交互随阶段和选点改变，不支持统一协同规则
+- **Finding:** selected Test交互AUC为ML +0.000007957、KR +0.003150528，均仅3/5 seed正向；Validation selected和Test E50交互方向不同。ML E40分别校准的诊断将原F−online LL差+0.004593/+0.003986变为−0.000255/−0.000451，但这只解释E40锚点，不能据此消除selected Test LL代价。
+- **Source:** [EMA_MECHANISM最终报告](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。
+- **Strength:** MEDIUM（当前四条件和阶段）；不外推为通用Gaussian×EMA协同。
+
+**研究结论采用：** 固定EMA的排序收益作为已接受的强内部参照；当前B/A/C自适应候选不晋级。完整配置总收益与新增组件增量分开；未来自适应设计必须提供跨seed的未来收益预测证据，并实际改变参数时间递推。AUC与LogLoss分别报告，所有结论限定于对应数据、模型、seed和选点协议。
+
 **研究结论采用：** 已测EMA AUC收益可直接作为后续强参照，具体增强/差分/视图方法未胜该参照时明确版本停止；已有来源可读性、D套件和局部条件收益均保留在其原协议内，不从单轮反例推翻。
