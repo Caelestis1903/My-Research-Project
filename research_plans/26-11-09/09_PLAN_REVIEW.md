@@ -2,7 +2,7 @@
 
 ## 1. 审查结论
 
-<badge>PASS WITH DESIGN BOUNDARIES</badge>
+**PASS WITH DESIGN BOUNDARIES**
 
 方案可作为Codex工程规划入口，但A0必须先确认逐窗原始数据的可用性；A/B/C的数学能力边界必须在实现和报告中保留。当前未执行GPU训练。
 
