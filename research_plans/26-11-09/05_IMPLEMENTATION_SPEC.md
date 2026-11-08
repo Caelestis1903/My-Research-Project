@@ -30,12 +30,14 @@ experiments/ema_adaptive_20261109/
 
 已有源文件保持不变；优先直接复用11/07的data bridge、固定面板、源loss、ModelAdapter、ParameterLayout和group registry。若接口不兼容，只在新包写适配器，不复制或修改历史vendor。
 
-## 3. 参数组与真实task路由\n\n11/07冻结 group_registry 的 S 坐标数为 MovieLens 483,152、KuaiRand 661,920。FP32下单份S状态理论字节分别为1,932,608与2,647,680；B额外增加一份同尺寸S历史状态。该值仅为参数payload，不含allocator、临时pulse、scratch模型和优化器开销，最终仍以运行时实测为准。
+## 3. 参数组与真实task路由
+
+11/07冻结 group_registry 的 S 坐标数为 MovieLens 483,152、KuaiRand 661,920。FP32下单份S状态理论字节分别为1,932,608与2,647,680；B额外增加一份同尺寸S历史状态。该值仅为参数payload，不含allocator、临时pulse、scratch模型和优化器开销，最终仍以运行时实测为准。
 
 从实际 `build_path_groups` 与模型计算图读取 S 的坐标索引。必须验证：
 1. S坐标集合与ParameterLayout完全一致；
 2. 任务0/1的真实tower/输出路径都调用同一共享S模块；
-3. task_id由真实batch/model route提供，不从参数名或domain id猜测；
+3. 输入x不含task_id；任务由forward输出列0/1区分，domain由x[-1]选择；
 4. domain d的三个域格在task t前向时均使用同一task历史S状态；
 5. 非S参数在A/B/C之间保持完全相同的读出来源。
 
