@@ -35,7 +35,7 @@ A0检验：lag-1 sign agreement、Spearman/Kendall跨窗排序、seed内lag-1相
 
 ## 3. H2：共享参数的任务条件化需求
 
-同一共享参数 S 在 task0/task1 的前向路径中复用。不同任务可能对同一参数轨迹有不同历史偏好。需要区分：
+同一共享参数 S 在 task0/task1 的前向路径中复用。实际 ModelAdapter.forward_logits 的输入 x 不含 task_id；模型一次返回两个任务输出列，任务 t 的 domain tower 索引为 3*t+d，domain 由 x[-1] 选择。因此不能假设可从输入 batch 按 task_id 直接拆分路由。若对两个任务使用不同 S 历史，必须分别用 S^(0)/S^(1) 做 functional forward，再分别取输出列 0/1 组合；或实现经数值验证的 task-specific branch forward。不同任务可能对同一参数轨迹有不同历史偏好。需要区分：
 
 - 任务级差异是否跨域稳定（每个任务聚合其三个域任务格）；
 - 域×任务局部差异是否足够稳定；
