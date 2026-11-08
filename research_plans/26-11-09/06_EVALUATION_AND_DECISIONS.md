@@ -38,7 +38,7 @@ A0/A1机制分析的主单位为seed。pulse窗口、task、domain、group、pan
 - Traffic AUC/LogLoss；
 - Pooled AUC/LogLoss；
 - 相对固定F的增量；
-- 相对已发表最强模型的增量；
+- 相对已发表最强模型的增量；若使用新seed 2027–2031而发表模型仅有2022–2026历史结果，必须标记为跨seed非配对上下文比较，不能套用配对五seed阈值。若要正式声称相对发表模型的配对收益，须在相同新seed上运行该发表模型的可比实现，或使用同seed已存在的正式模型端点；不得将非配对差包装成配对收益；
 - selected epoch、共同E50、每seed配对差；
 - 参数状态成本、推理成本与动作序列。
 
