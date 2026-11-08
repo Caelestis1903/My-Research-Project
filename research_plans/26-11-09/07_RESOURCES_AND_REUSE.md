@@ -14,7 +14,9 @@
 
 ## 2. 资源预算方法
 
-11/07冻结 group_registry 中，S坐标数为MovieLens 483,152、KuaiRand 661,920；FP32单状态payload分别约1.93MB、2.65MB，B额外增加同等大小的一份S历史。该数值不包含临时pulse、scratch参数副本、CUDA allocator与进程开销。\n\n在preflight动态计算：
+11/07冻结 group_registry 中，S坐标数为MovieLens 483,152、KuaiRand 661,920；FP32单状态payload分别约1.93MB、2.65MB，B额外增加同等大小的一份S历史。该数值不包含临时pulse、scratch参数副本、CUDA allocator与进程开销。
+
+在preflight动态计算：
 - S参数数量、dtype、单状态字节；
 - A新增状态字节；
 - B新增第二份S状态字节；
