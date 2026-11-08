@@ -46,6 +46,59 @@
 
 ---
 
+## 2026-11-08 本周实验分支整合（11/02–11/07）
+
+### 分支覆盖与归档审计
+
+| 实验分支 | 核心报告（已归档到main） | 整合状态 |
+|---|---|---|
+| 26-11-02 | [GATS02](../research_reports/2026-11-02_gradient_aug_time_select/REPORT.md) | 结论已在11/02历史裁定及SF035–SF036中；本次补齐主报告归档 |
+| 26-11-02_v2 | [EMA02V2](../research_reports/2026-11-02_ema_view_design_v2/REPORT.md) | 结论已在11/02历史裁定及SF037中；本次补齐主报告归档 |
+| 26-11-02_v3 | [PAIR/ECCM与条件监督](../research_reports/2026-11-02_mdmt_information_momentum_v3/REPORT.md) | 结论已在11/04整合中；本次补齐主报告归档 |
+| 26-11-03_history_information | [条件信息与真实历史](../research_reports/2026-11-03_mdmt_history_information/REPORT.md) | 结论已在11/04整合中；本次补齐主报告归档 |
+| research-plan/26-11-03-overnight-ab-auc | [Overnight A+B](../research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md) | 统一发表模型AUC选点、CP组合及五seed比较已在11/04整合中；本次补齐主报告归档 |
+| research/26-11-04-gaussian-domain-coverage | [Gaussian域覆盖](../research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md) | 已在11/04整合中；本次补齐主报告归档 |
+| 26-11-06 | [AUG_HISTORY](../research_reports/2026-11-05_aug_history/REPORT.md) | 新增11/05实验结论与96条配置×数据集×端点台账记录 |
+| 26-11-07 | [EMA_MECHANISM](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md) | 新增11/06机制研究结论与8行selected Test绝对指标 |
+
+11/03五seed补全报告已在main，不重复复制。research-plan/26-11-2-v3-conditional-information-momentum与research-plan/26-11-03-mdmt-history-information是方案分支，不作为独立实验结果；26-11-01系列在本次日期范围之外。按日期前缀检查未发现独立26-11-08实验分支，26-11-07为本周最后一个实验分支。本次只归档八份核心Markdown主报告及五份总上下文文件；没有合并实现代码、运行器、原始训练数据或大体量原始CSV/JSON，报告中的支持文件链接仍指向来源分支。
+
+### 11/05 AUG_HISTORY：当前自适应EMA候选没有超过固定EMA
+
+本轮50次物理完整训练对应40条唯一配置×数据集×seed路径；B/A存在同父轨迹复用，C仅完成MovieLens，KuaiRand C为DEFERRED_NOT_RUN。
+
+| 路径 | 关键结果（selected Test） | 裁定 |
+|---|---|---|
+| B：方向响应EMA | D−F Macro AUC：ML +0.000000104，KR −0.000004946 | 方向响应确实执行，但没有实用增量 |
+| A：路径/分组时间尺度 | ML GROUP/GLOBAL：−0.000750/−0.000728；KR GROUP/GLOBAL：−0.000175/−0.000213 | 当前分组/路径策略不晋级；早期验证优势不等于selected Test收益 |
+| C：梯度漂移协方差增强 | ML C_MERGED−F Macro AUC −0.000667190，ΔLL +0.000357811，0/5 seed AUC正向 | 当前版本不晋级；旋转控制未显示真实方向具有独立必要性 |
+| 完整配置总收益 | ML C_MERGED+EMA相对普通M3oE：Macro AUC +0.003499743，最差cell +0.003065726，ΔLL +0.001289159 | 完整配置总排序收益保留；不能把它归因成C组件增量 |
+
+**研究决策：** 停止当前B/A/C版本晋级，保留固定EMA F作为强内部控制。若继续方向机制，优先在匹配协方差谱/尺度的条件下区分真实方向与旋转方向；不继续扩展缺少判别力的分组候选。
+
+### 11/06 EMA_MECHANISM：固定EMA的收益超过年龄匹配延迟对照
+
+| 数据/目标 | F−online selected Test Macro AUC | 正向seed | F−online selected Test Macro LogLoss |
+|---|---:|---:|---:|
+| MovieLens clean | +0.003848845 | 5/5 | +0.001248644 |
+| MovieLens Gaussian | +0.003856802 | 5/5 | +0.005334282 |
+| KuaiRand clean | +0.004616399 | 4/5 | −0.001225342 |
+| KuaiRand Gaussian | +0.007766927 | 5/5 | +0.000327687 |
+
+年龄匹配online对照在晚期epoch31–50的Validation中，F仍分别领先+0.002993、+0.003153、+0.004503、+0.003746，四项95%配对区间下界均大于0。因此收益不只是选了更早的历史checkpoint或固定延迟。早期F有明显学习滞后；晚期排序变化率下降。当前结论是历史组合价值与学习滞后成本并存，低波动本身不是收益充分条件。
+
+逐格常驻时间尺度交叉评价只有KuaiRand Gaussian为正（+0.000375±0.000331，5/5）；其余三组均为负。C_design未来收益数值预测MAE在四组均优于M2/M3，但整体动作增益小。KuaiRand Gaussian d0t1共享组S的M3_direct局部净益+0.000346；相对C_simple的五seed增量+0.000048355±0.000199264，复杂指标独立必要性仍弱。Gaussian×EMA交互在selected Test为ML +0.000007957、KR +0.003150528，均只有3/5 seed正向，且Validation selected和Test E50方向不同，不支持统一协同规则。ML E40校准诊断解释了该锚点大部分LL差异，但selected Test的ML LL代价仍需如实保留。
+
+**研究决策：** 固定EMA的排序收益及其阶段性代价获得强支持；组级时间尺度和复杂预测控制只保留窄范围研究价值，不晋级为普遍算法。后续若设计自适应EMA，核心问题应是找到可跨seed预测未来收益、且能实际改变参数递推的信号。
+
+### 本周整合后的统一裁定
+
+- 11/02–04的结论沿用既有11/04整合，不重复计训练、不重复计seed、不把未触发分支改写成阴性。
+- 11/05–06的新增结果已经回填性能台账；online/F为同轨迹读出，不增加独立seed。
+- 固定EMA继续作为内部强参照；自研方法不能升级为正式发表模型baseline。
+- 组件增量与完整算法总收益分开；AUC与LogLoss分开裁定。
+- 当前优先问题从“固定EMA是否有效”收敛为“什么信号能预测并调节EMA历史组合的未来收益，同时控制阶段滞后”。
+
 ## 2026-11-02 历史跨分支综合裁定（10-27—11-02；以11/04新整合为准）
 
 **总状态：** main的系统性结论此前主要截至2026-10-26；此次补入9组不同已执行实验/基线（EXP052–EXP060），不把同源代码、重复训练、多个endpoint和未触发计划重复计数。报告和原始实验记录仍保留各自分支，本次仅将结论、证据与停止/开放状态纳入main。此前的历史实证与明确已接受的研究结论保留，不以新一轮防御性分析“重新归零”。
@@ -166,7 +219,9 @@
 | Experiment Index | 32 条：29 个既有实验组有正式运行/探测记录，2 个未运行/门控（E2、E7），另有 1 个 evaluation-only（S6-R2）；共 30 个条目有运行或评估结果 |
 | Evidence Ledger | 32 条：STRONG 10、MEDIUM 19、WEAK 3 |
 | Historical hypotheses | ACTIVE 2、PARTIALLY_SUPPORTED 3、WEAKENED 5、FALSIFIED 9、SUPERSEDED 1、OPEN 3 |
-| Stable Findings | 12 |
-| Open Questions | 10 |
+| Stable Findings | 48 |
+| Open Questions | 36 |
 | Dead Ends | 12 |
 | Phase 3 条件 | **具备进入证据驱动的下一阶段梳理条件**；尚不构成任何特定算法或普遍机制已成立的依据。Phase 3 应以这些限定事实和未解决问题为输入。 |
+
+> 计数说明：Stable Findings=48、Open Questions=36为2026-11-08更新后的当前文件条目数；Experiment Index/Evidence Ledger的32条仍是此前历史索引快照，本次未改动这两个文件。
