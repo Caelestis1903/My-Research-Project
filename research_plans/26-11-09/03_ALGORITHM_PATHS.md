@@ -92,7 +92,7 @@ m_{\lambda,t,e}=\beta m_{\lambda,t,e-1}+(1-\beta)g_{\lambda,t,e-1}.
 
 C-P参数插值的真实前向也需要分别为task0/1构造S参数映射，做两次functional forward，分别取输出列0/1后组合；不能通过输入batch切分实现。
 
-**更简单替代 C-F（函数空间任务门控）：** 复用既有固定F与online两路readout的raw logits（无需额外forward），对任务输出列做
+**更简单替代 C-F（函数空间任务门控）：** 复用既有固定F与online两路readout的raw logits（训练/验证阶段无需额外第三路forward），对任务输出列做
 \[
 z_t=(1-\lambda_t)z_{F,t}+\lambda_t z_{online,t}.
 \]
