@@ -45,4 +45,4 @@ A1计划10条唯一训练轨迹：KuaiRand Clean/G-D0 × 5 seeds；每条50epoch
 
 ## 5. 成本报告
 
-最终输出每条轨迹Adam step数、训练/Validation/pulse/controller探针时间、GPU allocated/reserved峰值、worker与guardian RSS、磁盘写入量、恢复次数、推理吞吐与延迟。A/B/C增量成本分开报告。B双S状态应与A/C实际状态字节直接对比；若B收益不足以覆盖成本，优先C或固定F。
+最终输出每条轨迹Adam step数、训练/Validation/pulse/controller探针时间、GPU allocated/reserved峰值、worker与guardian RSS、磁盘写入量、恢复次数、推理吞吐与延迟。A/B/C增量成本分开报告。B双S状态应与A/C实际状态字节直接对比；B和参数插值C-P还需计入双forward成本。函数空间C-F复用online/F两路输出，不增加S状态但需要保存两套预测函数参数。若B收益不足以覆盖成本，优先C-F、C-P或固定F，按实际吞吐和收益决定。
