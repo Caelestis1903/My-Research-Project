@@ -1,6 +1,6 @@
 # GATS02：增强覆盖、任务投影与时间平均
 
-> Main-branch report archive created 2026-11-08. Source branch: 26-11-02. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied.
+> Main-branch report archive created 2026-11-08. Source branch: 26-11-02. Supporting CSV/JSON files, figures, execution artifacts and implementation files remain on the source branch; relative links below resolve there. No source code or raw training artifacts were copied. Sections outside the current research scope are omitted from this main-branch archive; source-branch originals are unchanged.
 
 **状态：COMPLETE。31条新增科学轨迹全部完成50 epoch；统一test完成，RAM训练状态已释放。**
 
@@ -66,9 +66,7 @@ KR B2−R2的六格开发结果清楚显示效用分配：
 | 最小域/增强目标 d2t0 | −.003954700 | 0/2 |
 | 最小域/增强目标 d2t1 | −.002353659 | 0/2 |
 
-pooled/traffic AUC分别mean+.001150233/+.001322347，均2/2正；worst-cell差+.001426888/−.003636298，mean−.001104705。目标域两个任务下降没有触发既定的最大域/最小格均值保护，但必须作为实质权衡报告。这里最大域和另一个小域d0同时改善，最小目标域下降，规模不呈简单单调关系。
-
-ML的最大训练域d2在A0基线中比小域d0排序更难；KR最难基线域d0也不是最小训练域d2。KR validation的d0t1仅101个正例，而d2t1有829，最大域占validation约98%。训练域大小、评估正例数、标签基率和基线可预测性不是同一变量。固定模型下的基线AUC/LL用于描述难度，不当作域的内在难度真值。当前没有识别域大小是主要因果变量的证据（**WEAK**），但样本量对方差与归一化梯度权重仍是合理因素。跨数据集还同时改变标签、Gaussian κ、稀疏特征/参数量、每epoch更新数和固定EMA窗口，不能用KR与ML的结果差直接识别规模效应。
+pooled/traffic AUC分别mean+.001150233/+.001322347，均2/2正；worst-cell差+.001426888/−.003636298，mean−.001104705。目标域两个任务下降没有触发既定的最大域/最小格均值保护，但必须作为实质权衡报告。
 
 训练阶段也会改变判断。A0固定EMA相对online在KR E10的mean ΔAUC约−.021627，而E50约+.005603；ML为+.000990/+.003744。不能用早期滞后判断完整训练失败。A0 selected固定EMA−online为ML+.003364339、KR+.003321644；delayed5相对fixed近零；SWA−fixed为ML−.001364696、KR−.000311462，KR LL却改善。ML selected SWA E39只平均E31–39的9个epoch末参数，E50才有20个，E10不可用。当前n=2加同seed池历史n=5提供固定EMA排序价值的 **MEDIUM** 背景，不能把两组记录加成n=7。
 
@@ -171,11 +169,9 @@ C2测试adaptive−fixed AUC为ML−.000140981、KR−.000089110，均1/2正；a
 ## 证据综合与最能证伪的下一实验
 
 1. **稳定现象**：固定EMA完整训练后的排序收益反复出现；本轮ML没有新macro候选通过，KR B2开发macro在A1和R2两参考上均2/2正。R3重算的20条轨迹逐step及端点身份相同，是数值复现的 **STRONG** 工程证据，重复执行不增加效用统计n。
-2. **矛盾证据**：早期EMA滞后与晚期收益并存，AUC与LL可能相反；B1 KR的macro均值近零但最大域/traffic改善、d0t1下降；B2−R2的开发validation正收益在test反向，目标d2t1相对A1的val/test方向也反转。B2的confirmation macro没有稳定复现开发幅度。selected和共同epoch、online和shadow不能混为一个结论。
+2. **矛盾证据**：早期EMA滞后与晚期收益并存，AUC与LL可能相反；B1 KR的macro均值近零，但不同域任务格与traffic方向不同；B2−R2的开发validation正收益在test反向，d2t1相对A1的val/test方向也反转。B2的confirmation macro没有稳定复现开发幅度。selected和共同epoch、online和shadow不能混为一个结论。
 3. **证据强度**：新机制的整体效用为 **WEAK**，开发n=2、确认macro矛盾、五seed测试近零且区间宽；B2超出R2的归因为 **WEAK**，仅n=2且测试反向。B2相对A0的LL在val/test五seed均改善是 **MEDIUM** 的本配置方向现象，测试区间仍跨零；固定EMA作为已有排序基线的证据为 **MEDIUM**。数值同轨迹重现为 **STRONG** 工程证据。没有新增机制的一般性STRONG效用证据。
 4. **竞争解释**：validation选点特化、自然序不同区段的人口差异、稀有格/种子方差，以及方向处理、动态梯度剂量、任务合成抵消、Adam预条件、共享表示迁移都可能参与。当前未独立识别这些解释。逐任务δ对自身clean梯度的约束不约束另一任务交叉项，Adam后也无相同内积符号保证；训练局部几何成立不保证validation任务获益。
-5. **规模是否主解释**：现有格级反例、基线难度排序与标签基率差异不支持规模单独主导；当前未做域内受控规模干预，不能估计其独立因果贡献。
-6. **小域↑／大域↓是否存在**：没有统一方向。ML开发validation中多项干预表现为最大域两任务改善而macro近零，test没有保持；KR B2对R2的目标两任务在val/test均下降、最大域均改善，另一个小域d0的效应则随任务和split变化。应报告具体任务/域/参考/训练阶段，而不采用固定大小域故事。
 7. **下一判别**：测试反向后，优先于继续调η或追加方向归因的是预注册新自然序划分窗口，固定当前B2与简单R2、A0固定EMA及50epoch规则，比较validation-selected与共同E50，检验“可跨划分窗口效用”对“validation选点/窗口特化”的解释。若B2仍不能稳定超过R2，则停止当前投影效用主张；若反复超过，再设计逐step合成δ范数匹配的raw-δ方向控制，区分方向信息与动态剂量/任务抵消。这里提出的是下一轮判别，本轮没有追加训练。
 
 ## 逐候选最终研究决策
