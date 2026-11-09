@@ -1,0 +1,29 @@
+Independent reviewer checks, 2026-11-09
+Worktree: /home/xzf/Code/phase0-3_ema_adaptive_20261109
+Python: /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python
+
+Initial command:
+python -m pytest -q experiments/ema_adaptive_20261109/tests
+....... [100%]
+7 passed in 2.50s
+
+Independent hand-computed target join:
+origin 5 current_fast=0.1, target 10 y_fastF=0.2; six cells, no missing bridge.
+review synthetic target join: PASS; inherited ridge alpha=1 and source schema inspected
+
+Source dependency presence (no scientific values analyzed):
+review source dependency presence: PASS (32 files)
+All manifest stage_A0 required_source_artifacts present.
+
+R1 targeted rereview:
+GLOBAL requires four forward and four reverse checks.
+TASK requires four forward checks; four reverse checks retained as diagnostic_only.
+Hand-table regression with negative reverse TASK and passing GLOBAL/forward TASK:
+STATIC_PREFERENCE_ONLY.
+
+Final command:
+python -m pytest -q experiments/ema_adaptive_20261109/tests
+........ [100%]
+8 passed in 2.50s
+
+Scientific audit/analyze commands executed by reviewer: 0.

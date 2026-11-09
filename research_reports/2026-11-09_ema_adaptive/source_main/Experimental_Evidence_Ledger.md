@@ -1,0 +1,720 @@
+# Experimental Evidence Ledger
+
+
+> **2026-11-02最新入口：** 已增补10-27—11-02的9组已执行实验或基线；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。旧日期的“当前”、索引总数及计划属于历史快照。新增内容只是一套带固定提交溯源的结论和证据登记，不复制分支代码或研究报告。
+
+> **2026-10-26 总证据增量：** 历史 E001–E043 保持原编号与观测；后文新增 E044–E057（N18/N19/CM19、自然比例审计、重加权/调幅、10-24/25/26方法）。10-09的STRONG/MEDIUM/WEAK计数表仅是旧快照，**不得把新增证据默认加为“更多独立seed”**。总研究结论、后期修订和原始阶段路径以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；RCF-v1仍为设计，非实验效果证据。
+
+
+
+> **2026-10-18 增量:** 以下 E001–E032 是截至 2026-10-09 的历史证据，不被覆盖；本文件末尾新增 **E033–E043**。后续阶段主证据以[跨分支整合](Experimental_Branch_Synthesis_20261018.md)限定的数据集、样本、目标、训练协议、选择函数和统计检验为准。以下新编号代表**研究证据组**，不是每个原始训练的独立重复。
+
+
+状态截至 2026-10-09。Evidence 只记录直接观察与审计事实；Interpretation、status 和可接受外推单独列出。AUC 差均注明方向；除非写明，跨 seed 的均值使用报告口径，不能把 cell/epoch 当作独立 seed。
+
+## E001 — MovieLens 梯度 SNR 不支持“小域必然更噪”
+
+- **Observation:** P1 的共享参数诊断中，batch=40960 时 d0/d2 SNR 为 0.5085/0.5584；batch=4096 时为 0.0524/0.0511，大小差异消失并反向。梯度 cosine 为弱正。
+- **Source Experiments:** EXP001。
+- **Source Reports:** [`P1_diagnosis.md`](reports/history_report/P1_diagnosis.md)；[`P6_ablation.md`](reports/history_report/P6_ablation.md)（SNR 反推 γ 的后续 ablation）。
+- **Dataset / Objective / Model:** MovieLens-1M；旧 as-published objective；M3oE。
+- **Seeds:** 5（2022–2026）；SNR 汇总含 epoch×seed 配对观测。
+- **Effect Direction / Magnitude:** Mixed / batch dependent；SNR 差约 −0.050（40960）與 +0.0013（4096），不支持稳定的小域劣势。
+- **Robustness / Scope:** Weak；单数据集、单共享参数定义、两种 batch size。
+- **Current Status:** TENTATIVE。
+- **Current Interpretation:** 该测量条件下，小域较低 SNR 不是稳定现象；P6 的 SNR-derived momentum 未改善也不说明所有数据域都没有噪声差异。
+- **Alternative Explanations:** batch size、样本组成、共享参数集合、梯度方差估计方式。
+- **Evidence Strength:** WEAK。
+
+## E002 — 历史 comp1 增益随 ratio 并非单调，ratio 与总 N 曾混杂
+
+- **Observation:** MovieLens 早期 comp1 相对 baseline 的 AUC 差随 downsample ratio 依次约为 +0.0064、+0.0034、−0.0012、+0.0053、+0.0166、+0.0202；后两档同时改变总训练样本量。P0-2 固定 N 设计仍观察到 ratio 对部分增益有贡献。
+- **Source Experiments:** EXP003、EXP006。
+- **Source Reports:** [`ML_P5_REPORT.md`](reports/history_report/ML_P5_REPORT.md)、[`P0_2_STAGE_REVIEW.md`](reports/history_report/P0_2_STAGE_REVIEW.md)。
+- **Dataset / Objective / Model:** MovieLens-1M；历史训练目标；M3oE。
+- **Seeds:** P5 各 ratio 为 3 或 5；P0-2 为 4。
+- **Effect Direction / Magnitude:** Mixed；P5 不是单调曲线；P0-2 ratio=50 的 L-role Δtransfer −0.015545 ± 0.010894。
+- **Robustness / Scope:** Medium；旧实验与固定 N 复核方向不完全相同，且 role/ratio/样本结构不可视为单一变量。
+- **Current Status:** SUPERSEDED（针对“ratio 单调解释”）。
+- **Current Interpretation:** ratio 与 early comp1 表现有关，但不足以支持单调 ratio law 或 domain-size 单因果。
+- **Alternative Explanations:** 总 N、域身份、有效 loss 权重、样本多样性、checkpoint、初始化方差。
+- **Evidence Strength:** MEDIUM。
+
+## E003 — 大域角色上的旧退化不局限于 M3oE，但不识别 size 单因果
+
+- **Observation:** 固定 N 角色轮换中，P0-1 的 L-role Δtransfer 为 −0.014557 ± 0.007439；P0-2 ratio=50 的 L-role 为 −0.015545 ± 0.010894。P0-3 的 MMoE 也出现 L-role 负 transfer（约 −0.0116），与 M3oE 同向。
+- **Source Experiments:** EXP005–EXP007。
+- **Source Reports:** [`P0_1_STAGE_REVIEW.md`](reports/history_report/P0_1_STAGE_REVIEW.md)、[`P0_2_STAGE_REVIEW.md`](reports/history_report/P0_2_STAGE_REVIEW.md)、[`P0_3_STAGE_REVIEW.md`](reports/history_report/P0_3_STAGE_REVIEW.md)。
+- **Dataset / Objective / Model:** MovieLens；旧 objective；M3oE 与 MMoE。
+- **Seeds:** 4 per matrix; role/cell 配对数见各报告。
+- **Effect Direction / Magnitude:** L-role 负向；约 −0.01 AUC 量级。
+- **Robustness / Scope:** Medium；跨两个骨干和多个 role 条件，但仍受 objective、有效权重、域身份、训练收敛共同影响。
+- **Current Status:** SUPPORTED（限所测 fixed-N 配置）。
+- **Current Interpretation:** 早期退化不是 M3oE 独有；角色轮换比某一个物理域的解释更可信，但域大小未被独立操纵。
+- **Alternative Explanations:** Objective 权重、域身份与难度、样本多样性、gradient scale、训练收敛。
+- **Evidence Strength:** MEDIUM。
+
+## E004 — Equal 与 Sample 是不同目标；Sample 在已测选点减轻 Large-cell 损伤
+
+- **Observation:** P0-4 中，Equal-train / Equal-select 的 L-role Δ 为 −0.0155，Sample-train / Equal-select 为 −0.0012；P0-5 与 S2 的 Sample 条件也未达到预设 practical negative-transfer 门槛。S2 Equal−SD 有 8/24 组达到 −0.003 或更差，严格组合 gate 为 3/24；Sample−SD 为 0/24。
+- **Source Experiments:** EXP008–EXP009、EXP022。
+- **Source Reports:** [`P0_4_STAGE_REVIEW.md`](reports/history_report/P0_4_STAGE_REVIEW.md)、[`P0_5_STAGE_REVIEW.md`](reports/history_report/P0_5_STAGE_REVIEW.md)、[`stage_S2_analysis.md`](reports/stage_S2_analysis.md)。
+- **Dataset / Objective / Model:** 主要为 MovieLens；S2 另含 KuaiRand；M3oE。
+- **Seeds:** 4 per later stage; P0 summary uses paired role/seed blocks。
+- **Effect Direction / Magnitude:** Sample 相对 Equal 缩小 L-role 损伤约 0.0143 AUC；S2 KuaiRand tab1 click Equal−SD −0.045006 ± 0.000602，4/4 同向、5/5 common epochs 为负。
+- **Robustness / Scope:** Strong within tested objective, dataset, target, and checkpoint definitions；selected/common/final 并非同一 estimand。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** 目标加权会改变观察到的域级结果；Sample 减轻了所测 Large-cell selected 损伤，但不证明 Sample 对所有域/任务普遍最优或机制已识别。
+- **Alternative Explanations:** Effective objective coefficient、采样 exposure、dataset split/label shift、checkpoint selection、task/domain interaction。
+- **Evidence Strength:** STRONG。
+
+## E005 — comp1 的早期 residual 存在，但不证明 domain-conditioned momentum 独特
+
+- **Observation:** P0-5 Sample+comp1 的 residual AUC 为 +0.005407 ± 0.000620（12 paired blocks）。S0 中 comp1 相对 sample Adam 有正差，但相对 validation-selected uniform EMA 的 macro AUC 差为 −0.003033 ± 0.000815，4-seed 均值支持统一 EMA。
+- **Source Experiments:** EXP009、EXP018、EXP020。
+- **Source Reports:** [`P0_5_STAGE_REVIEW.md`](reports/history_report/P0_5_STAGE_REVIEW.md)、[`P6_ablation.md`](reports/history_report/P6_ablation.md)、[`stage_S0_analysis.md`](reports/stage_S0_analysis.md)。
+- **Dataset / Objective / Model:** MovieLens；P0/P6 历史目标与 S0 Sample；M3oE。
+- **Seeds:** P0-5 12 paired blocks；P6 5；S0 4 seeds × 3 rotations。
+- **Effect Direction / Magnitude:** 历史 residual 为正；S0 comp1−uniform-EMA macro AUC −0.003033 ± 0.000815。
+- **Robustness / Scope:** Medium；不同阶段协议不能把数值直接合并；S0 是机制特异性更强的匹配对照。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** 旧协议下 residual 确实出现；可接受的当前结论是它没有显示出相对可选 uniform-smoothing family 的独立优势，不是“EMA 在任何配置都无效”。
+- **Alternative Explanations:** 训练 exposure、objective、验证集选点、平滑策略族、任务/域聚合。
+- **Evidence Strength:** MEDIUM。
+
+## E006 — 已测 curriculum / schedule / adaptive calibration 未稳定胜过 Sample
+
+- **Observation:** P1-2 forward curriculum−none overall AUC +0.000839 ± 0.001018（p=0.198）；E5 Forward 对 static Sample 的 fixed-final 正向 seed 为 1/4，未过预设 GO gate；E6 Adaptive-NoEMA 未过 margin，Adaptive-EMA 未过 remaining-domain safety gate；E7 因 E6 STOP 而 0 runs。
+- **Source Experiments:** EXP010、EXP015–EXP017、EXP018（P6 component arms）。
+- **Source Reports:** [`P1_2_STAGE_REVIEW.md`](reports/history_report/P1_2_STAGE_REVIEW.md)、[`stage_E5_analysis.md`](reports/history_report/stage_E5_analysis.md)、[`stage_E5_go_no_go.md`](reports/history_report/stage_E5_go_no_go.md)、[`stage_E6_analysis.md`](reports/history_report/stage_E6_analysis.md)、[`stage_E6_go_no_go.md`](reports/history_report/stage_E6_go_no_go.md)、[`stage_E7_gate_stop.md`](reports/history_report/stage_E7_gate_stop.md)。
+- **Dataset / Objective / Model:** MovieLens 与 KuaiRand；M3oE；比较围绕 Sample baseline。
+- **Seeds:** P1-2 为 4-seed 配对设计；E6 为 4 seeds、24 runs；E7 未运行。
+- **Effect Direction / Magnitude:** Mixed / 未达到适用 gate；E6 Adaptive-EMA overall AUC +0.001584，但 Medium-domain safety gate 失败。
+- **Robustness / Scope:** Strong against the claim that these tested variants passed their own gates；不覆盖所有 schedule/controller。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** 在报告覆盖的实现、预算与 gate 内，未建立课程或自适应方法稳定超过静态 Sample 的证据。
+- **Alternative Explanations:** 预算、schedule 范围、域定义、selected vs common/final 指标、单个配置失配。
+- **Evidence Strength:** STRONG。
+
+## E007 — P7 组件迁移结果受骨干实现范围限制
+
+- **Observation:** MovieLens D=3 的 comp1−none 平均 AUC：MMoE +0.002978、PLE +0.005538、ShareBottom 适配 +0.004012；STAR 因复现差距过大而未纳入 comp1 transfer 结论。
+- **Source Experiments:** EXP019。
+- **Source Reports:** [`P7_generalization.md`](reports/history_report/P7_generalization.md)。
+- **Dataset / Objective / Model:** MovieLens；M3oE、MMoE、PLE、STAR、ShareBottom 本地适配；历史 objective。
+- **Seeds:** 依子矩阵；ShareBottom 单独补跑 5 seeds × 2 arms。
+- **Effect Direction / Magnitude:** 已测 MMoE/PLE/ShareBottom 均为小正值；STAR 不可比。
+- **Robustness / Scope:** Weak for cross-model mechanism；适配结构、跑批窗口和复现状态不同。
+- **Current Status:** TENTATIVE。
+- **Current Interpretation:** 仅能报告已测移植条件的表现；不构成 S3–S6 shared-access/history mechanism 的跨模型复制。
+- **Alternative Explanations:** 参数量、层适配、任务数 D/T、跑批窗口、objective、初始化。
+- **Evidence Strength:** WEAK。
+
+## E008 — S0 没有支持 comp1 相对统一 EMA 的独特机制优势
+
+- **Observation:** S0 comp1−sample Adam 的 macro AUC 差 +0.005307 ± 0.000523；comp1−validation-selected uniform EMA 为 −0.003033 ± 0.000815，3 个 rotation 平均后每个 seed 都是 uniform EMA 更好。
+- **Source Experiments:** EXP020。
+- **Source Reports:** [`stage_S0_analysis.md`](reports/stage_S0_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** MovieLens 强不均衡；Sample；M3OE。
+- **Seeds:** 4，且每 seed 先平均 3 个角色轮换。
+- **Effect Direction / Magnitude:** comp1 对 Adam 正；对可选 uniform EMA 负。
+- **Robustness / Scope:** Strong within matched exposures and tested controls。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** 残余效应可复现，但被统一平滑对照覆盖；不能再称 domain-conditioned momentum 的独立收益已建立。
+- **Alternative Explanations:** 平滑强度、选点准则、rotation aggregation、特定 MovieLens 配置。
+- **Evidence Strength:** STRONG。
+
+## E009 — Sample joint training 在 S1 测试范围内未显示稳定实用 residual NT
+
+- **Observation:** 192 个运行覆盖两个数据集、三个 backbone 和单域/联合设置；288 paired seed units 中，72 组汇总有 63 正、9 负，但 0/72 达到稳定 practical NT 门槛。最负候选约 −0.002923。
+- **Source Experiments:** EXP021。
+- **Source Reports:** [`stage_S1_analysis.md`](reports/stage_S1_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** MovieLens 与 KuaiRand；Sample；M3OE/MMoE/PLE。
+- **Seeds:** 4 per configuration。
+- **Effect Direction / Magnitude:** Overall joint−SD 有利；少数 per-cell 小负值低于预设 practical threshold。
+- **Robustness / Scope:** Strong for the preregistered Sample + SD-reference matrix; not all objectives or ratios。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** 不支持把普遍 Sample residual NT 作为当前已确认问题；不证明每一 cell 或未测极端 ratio 均无损伤。
+- **Alternative Explanations:** SD reference variance、backbone、dataset、cell/sample counts、selected/common checkpoint。
+- **Evidence Strength:** STRONG。
+
+## E010 — S2 Equal 的局部 selected loss 与 Sample 的缓解均受目标/数据条件约束
+
+- **Observation:** S2 Equal−SD 的 8/24 cell groups 达到 ≤−0.003，严格 gate 3/24；全部八组位于 Large role。KuaiRand tab1 click 为 −0.045006 ± 0.000602（4/4 seeds、5/5 common epochs）；MovieLens d2 rating>3 为 −0.018093 ± 0.004687（4/4）。Sample−SD 的 0/24 cell groups 达阈值。
+- **Source Experiments:** EXP022。
+- **Source Reports:** [`stage_S2_analysis.md`](reports/stage_S2_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural 与 MovieLens d2_large；Equal/Sample；M3OE。
+- **Seeds:** 4。
+- **Effect Direction / Magnitude:** Equal 下目标/角色依赖；Sample 的 selected threshold 结果近零或正。
+- **Robustness / Scope:** Strong for the identified KuaiRand Equal/tab1 cell; medium for cross-dataset size-role generalization because MovieLens late/common views can change direction。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** 等权目标下有窄范围、可重复的 selected large-cell loss；不应改写成所有“大域受损”或“Equal 一概错误”。
+- **Alternative Explanations:** Objective weights、dataset/target identity、基线、收敛和 checkpoint selection。
+- **Evidence Strength:** STRONG。
+
+## E011 — S3 在 KuaiRand Equal/tab1 中识别 shared-access 对 target 的条件性影响
+
+- **Observation:** TARGET_ONLY_SHARED−FULL 在 selected target 上 click/long_view AUC 分别 +0.038876 ± 0.003950 / +0.039576 ± 0.004107（4/4）；相应 interaction 为 +0.038579 / +0.039440（4/4）。Sample 下相同干预约 +0.0003/+0.0001。
+- **Source Experiments:** EXP023。
+- **Source Reports:** [`stage_S3_analysis.md`](reports/stage_S3_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural；Equal 与 Sample；M3OE；target=d1/tab1。
+- **Seeds:** 4；8 个严格配对 blocks 覆盖两个数据集与两个 objective。
+- **Effect Direction / Magnitude:** Equal 下 target rescue 大；Sample 下接近零。
+- **Robustness / Scope:** Strong within KuaiRand/natural/M3OE/Equal/tab1 and selected endpoint。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** shared parameters 的跨域 update access 是该 Equal 条件 target 结果的重要因果因素；该对照本身不证明纯几何 gradient conflict。
+- **Alternative Explanations:** 更新组成、objective coefficients、optimizer history、checkpoint differences、domain/task interaction。
+- **Evidence Strength:** STRONG。
+
+## E012 — S3 MovieLens selected replication 有 late-training 与 non-target 例外
+
+- **Observation:** MovieLens Equal selected target ages_35_45_50_56 的 access rescue 为 +0.019177（task0）/+0.014118（task1），4/4 同向；macro/non-target 指标不总是同向，后期训练有收敛例外。
+- **Source Experiments:** EXP023。
+- **Source Reports:** [`stage_S3_analysis.md`](reports/stage_S3_analysis.md)。
+- **Dataset / Objective / Model:** MovieLens d2_large；Equal/Sample；M3OE。
+- **Seeds:** 4。
+- **Effect Direction / Magnitude:** selected target 正；non-target 有代价，common/final 方向依阶段。
+- **Robustness / Scope:** Medium; one dataset and target, with later checkpoint counterexamples。
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** 该方向在 MovieLens selected 点也出现，但不足以升级为跨数据集、跨训练阶段的普遍安全收益。
+- **Alternative Explanations:** checkpoint、过拟合、dataset-specific target/task、non-target aggregate choice。
+- **Evidence Strength:** MEDIUM。
+
+## E013 — raw-gradient norm 与 applied-step norm 匹配都没有复现 S4 target rescue
+
+- **Observation:** KuaiRand d1/tab1 中 N−F 两任务 AUC −0.004048/−0.004873（0/4 正）；U−F 为 −0.000587/−0.000942（2/4 正）；T−F 为 +0.038876/+0.039576（4/4 正，且 5/5 common epochs 为正）。
+- **Source Experiments:** EXP024。
+- **Source Reports:** [`stage_S4_analysis.md`](reports/stage_S4_analysis.md)、[`stage_S4_A2_review.md`](reports/stage_S4_A2_review.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural；Equal；M3OE。
+- **Seeds:** 4。
+- **Effect Direction / Magnitude:** T rescue 稳定；两幅度控制未复现。
+- **Robustness / Scope:** Strong; execution/control audits passed for the canonical A2 matrix。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** 匹配这两种幅度统计不足以解释 S4 的 rescue；梯度组成/方向与持久 history 的联合解释仍需按后续 S5 限定。
+- **Alternative Explanations:** m/v history、梯度方向、每臂参数轨迹、objective-specific behavior。
+- **Evidence Strength:** STRONG。
+
+## E014 — S4 non-target 代价与 d2 late gain 是 first-class trade-off
+
+- **Observation:** T−F 在 KuaiRand d0 selected 两 task 约 −0.0314/−0.0321；d2 从 selected 混合方向转为 final +0.019810/+0.036160（4/4），且 LogLoss final 明显降低。
+- **Source Experiments:** EXP024。
+- **Source Reports:** [`stage_S4_analysis.md`](reports/stage_S4_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural；Equal；M3OE。
+- **Seeds:** 4。
+- **Effect Direction / Magnitude:** selected non-target damage; late d2 gain。
+- **Robustness / Scope:** Medium; domain/task and checkpoint dependent; domain sizes were not experimentally changed here。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** target rescue 与全域表现并不等价；late d2 result cannot support a monotonic domain-size claim。
+- **Alternative Explanations:** checkpoint selection、训练阶段、域身份、过拟合和 history effects。
+- **Evidence Strength:** MEDIUM。
+
+## E015 — S5 Equal KuaiRand d1 rescue follows persistent Adam history
+
+- **Observation:** T−F selected d1 AUC +0.041426/+0.042254（4/4）；HT−F +0.041085/+0.040528（4/4，约恢复 96–99%）；DH−F +0.000875/+0.000821（约 2%）。S5 moment gate 为 15/16；seed 2024/epoch1/m/HT 有限定。
+- **Source Experiments:** EXP025。
+- **Source Reports:** [`stage_S5_analysis.md`](reports/stage_S5_analysis.md)、[`stage_S5_review.md`](reports/stage_S5_review.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand-Pure natural；Equal；M3OE；target d1/tab1。
+- **Seeds:** 2022–2025（4）。
+- **Effect Direction / Magnitude:** HT follows T; DH remains close to F on target selected.
+- **Robustness / Scope:** Strong within the tested Equal / d1 / M3OE configuration; keep moment-gate exception visible。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** 在该条件下，d1 rescue 跟随完整 persistent history carrier；不识别 m、v 或 bias-correction 的单独作用。
+- **Alternative Explanations:** Objective、parameter trajectory、moment component、checkpoint rules、seed 2024 deviation。
+- **Evidence Strength:** STRONG。
+
+## E016 — S5 Equal 的 d0 history×current interaction 与 d2 late gains 有 seed/stage dependence
+
+- **Observation:** KuaiRand d0 T−F selected 为 −0.027338/−0.037392（0/4 正）；HT−F 均值较小但 seed 2024 仍明显为负，final HT−F 转为 +0.017840/+0.023840（4/4）。d2 HT−F selected/final 分别增加，final 4/4 正。
+- **Source Experiments:** EXP025。
+- **Source Reports:** [`stage_S5_analysis.md`](reports/stage_S5_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural；Equal；M3OE。
+- **Seeds:** 4。
+- **Effect Direction / Magnitude:** Mixed by domain and checkpoint; HT mitigates selected d0 cost on average; late d2 benefit。
+- **Robustness / Scope:** Medium; the seed 2024 exception and selected/final reversal matter。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** history×current interaction is a viable description for the tested trajectory, not a general safety or size law。
+- **Alternative Explanations:** seed variance、checkpoint timing、domain/task identity、objective、optimization trajectory。
+- **Evidence Strength:** MEDIUM。
+
+## E017 — S5-ML Equal target rescue partially replicates S5, while DH is not zero
+
+- **Observation:** MovieLens d2 target T−F selected +0.019408/+0.014270（4/4）；HT−F +0.018114/+0.014149（4/4）；DH−F +0.005859/+0.003583（2–3/4）。晚期 DH−F final/common target AUC 约 +0.0098/+0.0103（4/4），而 T rescue 衰减。
+- **Source Experiments:** EXP026。
+- **Source Reports:** [`stage_S5ML_analysis.md`](reports/stage_S5ML_analysis.md)。
+- **Dataset / Objective / Model:** MovieLens d2_large；Equal；M3OE。
+- **Seeds:** 4；16 canonical runs；moment gate 8/8。
+- **Effect Direction / Magnitude:** Selected F→T rescue replicated; HT≈T holds; DH≈F does not fully hold and is checkpoint dependent。
+- **Robustness / Scope:** Medium; mechanism factorization differs from KuaiRand and late MovieLens is overfit。
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** history-dominant HT half replicates; the complete “current effect is zero under FULL history” pattern does not generalize to this dataset.
+- **Alternative Explanations:** imbalance severity、task structure、late overfitting、checkpoint timing、domain identity。
+- **Evidence Strength:** MEDIUM。
+
+## E018 — S6 Phase A Sample F/T 未达到两个预注册 target practical gates
+
+- **Observation:** KuaiRand d1 selected T−F −0.000657/−0.000790（仅 1/4 正）；MovieLens d2 +0.001899/+0.002555（2/4 正）；四项均低于 +0.003。共同训练阶段也未出现稳定 target rescue。Sample T 对 selected non-target cells 有损伤。
+- **Source Experiments:** EXP027。
+- **Source Reports:** [`stage_S6_phaseA_analysis.md`](reports/stage_S6_phaseA_analysis.md)、[`stage_S6_phaseA_final_analysis_20260929.md`](reports/stage_S6_phaseA_final_analysis_20260929.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand natural、MovieLens d2_large；Sample；M3OE。
+- **Seeds:** 每数据集 4；共 16 新 runs。
+- **Effect Direction / Magnitude:** KR small negative; ML small positive; neither meets the practical gate。
+- **Robustness / Scope:** Strong for the preregistered Phase A STOP decision; does not establish an exact zero effect。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** S5 Equal 的 target rescue 不能外推为 Sample objective 下同样大小的 selected rescue。
+- **Alternative Explanations:** Seed variance、objective coefficient、target identity、sample split、checkpoint selection。
+- **Evidence Strength:** STRONG。
+
+## E019 — S6 Phase B Sample selected target 仍无 practical rescue；KuaiRand M1 未通过
+
+- **Observation:** 四臂 selected target T−F、HT−F、DH−F means 在两数据集均未达到 +0.003；KuaiRand HT selected LogLoss 对 target 4/4 改善但 AUC 无 practical mean rescue。KuaiRand early m conjunction 仅 4/8 通过、v 8/8；MovieLens m/v 均 8/8。代码/执行及配置一致性审查通过，但 KuaiRand 完整 M1 identification gate 为 FAIL。
+- **Source Experiments:** EXP028。
+- **Source Reports:** [`stage_S6_analysis.md`](reports/stage_S6_analysis.md)、[`stage_S6_phaseB_audit_review.md`](reports/stage_S6_phaseB_audit_review.md)、[`stage_S6_phaseB_run_report.md`](reports/stage_S6_phaseB_run_report.md)。
+- **Dataset / Objective / Model:** KuaiRand natural、MovieLens d2_large；Sample；M3OE。
+- **Seeds:** 4 per dataset; 16 new HT/DH runs plus Phase A F/T anchors。
+- **Effect Direction / Magnitude:** Selected target mixed and below threshold; metric-specific effects remain。
+- **Robustness / Scope:** Medium; KuaiRand optimizer-history interpretation is limited by M1 failure; do not treat structural validity as all gates passed。
+- **Current Status:** CONFIGURATION_SPECIFIC。
+- **Current Interpretation:** Sample 下 selected target practical gate 继续为 STOP；完整的 history/current mechanism 在 KuaiRand 不能作无条件 identification claim。
+- **Alternative Explanations:** Arm-specific parameter paths、effective weight decay、seed variance、AUC/LogLoss difference、checkpoint selection。
+- **Evidence Strength:** MEDIUM。
+
+## E020 — S6 Sample MovieLens late DH target gain accompanies severe F deterioration
+
+- **Observation:** MovieLens d2 target DH−F at common epoch39/49 approximately +0.003138/+0.010500 (task0) and +0.008317/+0.008107 (task1); final target LogLoss differences −0.073890/−0.045756 (4/4). Meanwhile F target AUC falls from selected .721797/.739511 to final .693747/.710896, and its LogLoss rises substantially. KuaiRand does not show the same late target rescue.
+- **Source Experiments:** EXP028; S6 DH trajectory reanalyses reuse this matrix.
+- **Source Reports:** [`stage_S6_analysis.md`](reports/stage_S6_analysis.md)、[`stage_S6_ML_DH_trajectory_reanalysis.md`](stage_S6_ML_DH_trajectory_reanalysis.md)、[`stage_S6_KR_DH_trajectory_reanalysis.md`](stage_S6_KR_DH_trajectory_reanalysis.md)。
+- **Dataset / Objective / Model:** MovieLens d2_large and KuaiRand d1; Sample; M3OE。
+- **Seeds:** 4 per dataset。
+- **Effect Direction / Magnitude:** MovieLens late DH target metric positive; selected target rescue null; KuaiRand late target pattern absent。
+- **Robustness / Scope:** Medium; fixed late checkpoints, dataset specific, and F is severely overtrained at MovieLens late epochs。
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** This is evidence of a late-stage trajectory effect under the tested protocol; it is not evidence that a method improves the normally selected model.
+- **Alternative Explanations:** Ordinary overfitting/overtraining、checkpoint timing、history/current policy、metric/target mismatch。
+- **Evidence Strength:** MEDIUM。
+
+## E021 — Equal/Sample history effects are objective dependent, but “Sample removes every optimizer effect” is too broad
+
+- **Observation:** Equal target T−F selected: KuaiRand +0.041426/+0.042254; MovieLens +0.019408/+0.014270. Under Sample, Phase A T−F is near zero or below threshold in both datasets. Phase B later shows MovieLens common-late DH−F target gains, while selected Sample target contrasts remain below threshold.
+- **Source Experiments:** EXP025–EXP028。
+- **Source Reports:** [`stage_S5_analysis.md`](reports/stage_S5_analysis.md)、[`stage_S5ML_analysis.md`](reports/stage_S5ML_analysis.md)、[`stage_S6_analysis.md`](reports/stage_S6_analysis.md)、[`exp_sn.md`](reports/exp_sn.md)。
+- **Dataset / Objective / Model:** KuaiRand and MovieLens; Equal vs Sample; M3OE。
+- **Seeds:** 4 per dataset/stage。
+- **Effect Direction / Magnitude:** Equal selected rescue is large; Sample selected rescue is below practical gate; late MovieLens Sample DH pattern remains metric/stage specific。
+- **Robustness / Scope:** Medium; matched objectives and dataset targets differ; S6 M1 limitation applies to KuaiRand Phase B。
+- **Current Status:** SUPERSEDED（for the broad claim that all optimizer/history effects disappear under Sample）。
+- **Current Interpretation:** Current safe claim is that the Equal selected target-rescue pattern does not transfer at practical magnitude to the tested Sample selected target gates; other late optimizer-policy effects are not all zero。
+- **Alternative Explanations:** Objective aggregation、overfitting、domain size and identity、AUC vs LogLoss、selected vs common checkpoint。
+- **Evidence Strength:** MEDIUM。
+
+## E022 — S6 derived trajectory analyses show non-target checkpoint effects, not independent replications
+
+- **Observation:** MovieLens DH−F test non-target gain at selected checkpoint has 4-seed mean approximately 0, but its longest common-epoch run above +0.003 spans K=5; KuaiRand selected non-target mean is +0.0068, while its qualifying common run is K=3 and is mixed by domain.
+- **Source Experiments:** EXP028 (same source runs; no new training).
+- **Source Reports:** [`stage_S6_ML_DH_trajectory_reanalysis.md`](stage_S6_ML_DH_trajectory_reanalysis.md)、[`stage_S6_KR_DH_trajectory_reanalysis.md`](stage_S6_KR_DH_trajectory_reanalysis.md)。
+- **Dataset / Objective / Model:** MovieLens and KuaiRand; Sample; M3OE。
+- **Seeds:** 4 each; five common checkpoint epochs in trajectory reports。
+- **Effect Direction / Magnitude:** Selected and common-stage views differ; MovieLens has a late non-target pattern, KuaiRand is weaker/mixed.
+- **Robustness / Scope:** Medium for the descriptive trajectory; not independent replication.
+- **Current Status:** SUPERSEDED (as a claim of normal-checkpoint method benefit by S8); underlying fixed-epoch observations remain in the source record。
+- **Current Interpretation:** Stage-dependent test observations must be retained, but S8's best-vs-original-best test narrows their practical interpretation to overfit-trajectory rescue。
+- **Alternative Explanations:** Overfit deterioration in F、different selected epochs、non-target weighting、domain-specific response。
+- **Evidence Strength:** MEDIUM。
+
+## E023 — S7-A cosine structure follows domain, while ConflictMass is not a stable performance marker
+
+- **Observation:** Across all probe seeds/checkpoints, same-domain cross-task cosine exceeds cross-domain pair values; cross-domain cosine changes sign across epochs. ConflictMass has no robust shared stage trend (MovieLens split; KuaiRand falls in 3/4).
+- **Source Experiments:** EXP029。
+- **Source Reports:** [`stage_S7_analysis.md`](reports/stage_S7_analysis.md)。
+- **Dataset / Objective / Model:** KuaiRand natural、MovieLens d2_large；Sample；M3OE。
+- **Seeds:** 4 per dataset; 8 probe runs。
+- **Effect Direction / Magnitude:** Domain-structured cosine; no stable monotonic cross-domain conflict trend。
+- **Robustness / Scope:** Medium; replicated across snapshots within these two datasets, but measurements are local gradient geometry。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** Domain×Task decomposition reveals structure hidden by task aggregation; cosine/ConflictMass alone does not establish harmful performance effect。
+- **Alternative Explanations:** Gradient norm scale、module reachability/dead ReLU、sample weighting、dataset-specific task structure。
+- **Evidence Strength:** MEDIUM。
+
+## E024 — S7-A validation-gradient utility is performance-aligned in late MovieLens, not universally sufficient
+
+- **Observation:** MovieLens F target performance deteriorates from early to late (target AUC −0.0208; 4/4); U_k becomes increasingly negative over later epochs. KuaiRand target AUC continues rising to epoch49 (4/4), even though target U_k is negative in 3/4 seeds at that snapshot.
+- **Source Experiments:** EXP029。
+- **Source Reports:** [`stage_S7_analysis.md`](reports/stage_S7_analysis.md)。
+- **Dataset / Objective / Model:** MovieLens d2_large and KuaiRand natural；Sample；M3OE。
+- **Seeds:** 4 per dataset。
+- **Effect Direction / Magnitude:** MovieLens late U_k and validation deterioration co-move; KuaiRand negative U_k does not coincide with realized AUC damage。
+- **Robustness / Scope:** Medium; observations are stable inside MovieLens but the KuaiRand counterexample limits causal sufficiency。
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** U_k is a conditional local first-order statistic; a negative value is not sufficient for realized performance decline.
+- **Alternative Explanations:** Adam preconditioning、multi-step trajectory、overfitting、gradient norm growth、metric noise。
+- **Evidence Strength:** MEDIUM。
+
+## E025 — S7-B changes late MovieLens gradient utility without validation improvement
+
+  - **Observation:** At same θ, MovieLens anchor39 target-current changes min-U on steps1–4 positively for all four seeds (approximately +0.0074 to +0.169); anchor9 is near zero/mixed. At anchor39 step5, target AUC mean difference is −0.001226 but only 3/4 seeds are negative (seed2025 is +0.002359); LogLoss mean is +0.011130 with 3/4 worse. KuaiRand has no stable early/late response contrast. S7-B uses fresh-Adam private parameters after step0, a declared approximation.
+- **Source Experiments:** EXP030。
+- **Source Reports:** [`stage_S7B_analysis.md`](reports/stage_S7B_analysis.md)。
+- **Dataset / Objective / Model:** MovieLens and KuaiRand; Sample; M3OE。
+- **Seeds:** 4 per dataset × 2 anchors (16 runs)。
+- **Effect Direction / Magnitude:** Gradient utility changed at late ML anchor; short-window validation did not improve.
+- **Robustness / Scope:** Medium; at anchor39 step5 AUC is negative in 3/4 seeds and LogLoss is worse in 3/4, the window is short, and private optimizer state is approximate。
+- **Current Status:** SUPPORTED（for the short-window observation）。
+- **Current Interpretation:** Gradient-geometry change is not enough to infer validation benefit; the proposed immediate gradient-to-performance chain is weakened。
+- **Alternative Explanations:** Short horizon、private-state approximation、Adam effective update、ordinary overfitting trajectory。
+- **Evidence Strength:** MEDIUM。
+
+## E026 — S8 finds no practical continuation benefit at selected checkpoints
+
+- **Observation:** S8 selected-anchor h=2-epoch continuation T−F and DH−F mean best-AUC differences are both +0.000062 on MovieLens; KuaiRand T−F −0.000445 and DH−F +0.000068. These are below +0.003; no MovieLens branch consistently sets a new best above the frozen F original best.
+- **Source Experiments:** EXP031。
+- **Source Reports:** [`stage_S8_analysis.md`](reports/stage_S8_analysis.md)、[`S8_REVIEW.md`](reports/S8_REVIEW.md)。
+- **Dataset / Objective / Model:** KuaiRand and MovieLens；Sample；M3OE。
+- **Seeds:** 4 per dataset; 8 base runs and 24 continuations。
+- **Effect Direction / Magnitude:** Selected-anchor branch contrast null / far below threshold。
+- **Robustness / Scope:** Strong for the tested seeds, anchors, branches, 2-epoch horizon, and frozen-best endpoint; the run validation gates passed。
+- **Current Status:** SUPPORTED。
+- **Current Interpretation:** The optimizer/current-source interventions did not improve normally selected performance to a practical magnitude in this protocol。
+- **Alternative Explanations:** Narrow continuation horizon、selected-state proximity to optimum、dataset-specific overfit behavior。
+- **Evidence Strength:** STRONG。
+
+## E027 — S8 late MovieLens gain is an overfit rescue pattern, not a better best model
+
+- **Observation:** MovieLens late-anchor DH−F best-window macro AUC +0.006826 (4/4) and final-step +0.010732 (4/4), but about 89% of the latter mean comes from seeds 2024/2025. Target-domain gain is much smaller (+0.000441 best; +0.002566 final), and every continuation best remains below that seed's frozen F original best. KuaiRand late T is harmful (final −0.010239, 0/4 positive) and DH is near zero.
+- **Source Experiments:** EXP031; reinterprets E020/E022.
+- **Source Reports:** [`stage_S8_analysis.md`](reports/stage_S8_analysis.md)、[`S8_REVIEW.md`](reports/S8_REVIEW.md)。
+- **Dataset / Objective / Model:** MovieLens and KuaiRand；Sample；M3OE。
+- **Seeds:** 4 per dataset。
+- **Effect Direction / Magnitude:** Late MovieLens macro DH appears positive; target/best endpoint is small; no branch beats original best. KuaiRand is a negative control.
+- **Robustness / Scope:** Medium; late macro effect is seed-skewed and metric dependent; execution was fully validated.
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** The evidence supports partial recovery from an overtrained late anchor, not a method that improves checkpoint-selected model performance.
+- **Alternative Explanations:** Ordinary overfitting/overtraining、non-target macro contribution、seed leverage、checkpoint horizon。
+- **Evidence Strength:** MEDIUM。
+
+## E028 — KuaiRand DH has a selected-checkpoint test-side non-target gain under Sample
+
+- **Observation:** At the canonical R0 validation-macro selected checkpoints, KuaiRand test Δ(DH−F) is N +0.0068 ± 0.0046 (4/4 positive; 3/4 ≥ +0.005), M +0.0044 ± 0.0029 (4/4 positive), and T −0.0004 ± 0.0031. Seed 2023 has target ΔT = −0.0047. On the six-point A-grid sensitivity variant, R1/R3/R4 test ΔN means are +0.0041/+0.0060/+0.0041, each 3/4 positive; their mean target deltas remain above −0.003. Exact test availability for truly reselected R1/R3/R4 is 0/4, 0/4, and 1/4 seeds respectively, so those results do not establish full-seed exact-rule robustness.
+- **Source Experiments:** EXP032; underlying F/DH source checkpoints in EXP027/EXP028。
+- **Source Reports:** [`stage_S6_R2_selected_solution_analysis.md`](stage_S6_R2_selected_solution_analysis.md)、[`s6r2_partA_gate_summary_kuairand.csv`](stage_S6_R2_raw_results/kuairand/s6r2_partA_gate_summary_kuairand.csv)。
+- **Dataset / Objective / Model:** KuaiRand-Pure natural; Sample; M3OE。
+- **Seeds:** 4 paired seeds, 2022–2025。
+- **Effect Direction / Magnitude:** Positive test non-target and macro means at canonical R0; target mean is near zero/slightly negative. Alternative-rule test robustness is A-grid sensitivity only.
+- **Robustness / Scope:** Medium; R0 N is 4/4 positive, but seed 2025 is near zero, one target seed crosses −0.003, and the alternative rules rely on a restricted checkpoint grid.
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** The tested KuaiRand/Sample/M3OE DH checkpoints have a test-side selected non-target advantage relative to F. This is not a validation-side advantage or evidence of a universal optimizer mechanism.
+- **Alternative Explanations:** Validation-to-test generalization gap、checkpoint timing、selection rule、seed variation。
+- **Evidence Strength:** MEDIUM。
+
+## E029 — KuaiRand selected-checkpoint advantage reverses between validation and test
+
+- **Observation:** At the same R0-selected checkpoint pairs, KuaiRand ΔN is −0.0039 ± 0.0081 on validation (1/4 positive) and +0.0068 ± 0.0046 on test (4/4 positive); ΔM is −0.0027 on validation and +0.0044 on test. The validation decomposition has N PolicyAtF = −0.0111 and PolicyAtDH = +0.0082 (four-seed means), with TimingAlongF = −0.0120. Test cross-epoch decomposition is unavailable because canonical epochs are off the saved grid; the saved same-epoch test N difference is positive at 16/20 seed×epoch points.
+- **Source Experiments:** EXP032; underlying F/DH source checkpoints in EXP027/EXP028。
+- **Source Reports:** [`stage_S6_R2_selected_solution_analysis.md`](stage_S6_R2_selected_solution_analysis.md)、[`s6r2_partB_decomposition_kuairand.csv`](stage_S6_R2_raw_results/kuairand/s6r2_partB_decomposition_kuairand.csv)、[`s6r2_partB_grid_trajectory_kuairand.csv`](stage_S6_R2_raw_results/kuairand/s6r2_partB_grid_trajectory_kuairand.csv)。
+- **Dataset / Objective / Model:** KuaiRand-Pure natural; Sample; M3OE。
+- **Seeds:** 4 paired seeds, 2022–2025。
+- **Effect Direction / Magnitude:** Validation non-target/macro means favor F; test non-target/macro means favor DH; target test mean is −0.0004.
+- **Robustness / Scope:** Medium for the layer-specific observations; the causal source of the val–test reversal is unresolved, and the test decomposition is blocked by missing off-grid checkpoints.
+- **Current Status:** UNRESOLVED。
+- **Current Interpretation:** The direction depends on evaluation layer at the same selected checkpoints. The result does not show a validation-visible improvement or identify why the held-out test gap changes direction.
+- **Alternative Explanations:** Checkpoint timing、validation/test distribution differences、seed-level heterogeneity。
+- **Evidence Strength:** MEDIUM。
+
+## E030 — MovieLens is a selected-checkpoint negative control in S6-R2
+
+- **Observation:** Under MovieLens R0, selected test ΔN is approximately −0.000002 ± 0.0031 (2/4 positive), ΔM is approximately 0.0000 ± 0.0029 (2/4 positive), and ΔT is +0.0001 ± 0.0026. No available exact or A-grid selection rule shows a stable test non-target gain; the saved-grid same-epoch ΔN reaches +0.0334 at epoch 19, while canonical selected epochs are 7–13.
+- **Source Experiments:** EXP032; underlying F/DH source checkpoints in EXP027/EXP028。
+- **Source Reports:** [`stage_S6_R2_selected_solution_analysis.md`](stage_S6_R2_selected_solution_analysis.md)、[`s6r2_partA_gate_summary_movielens.csv`](stage_S6_R2_raw_results/movielens/s6r2_partA_gate_summary_movielens.csv)、[`s6r2_partB_grid_trajectory_movielens.csv`](stage_S6_R2_raw_results/movielens/s6r2_partB_grid_trajectory_movielens.csv)。
+- **Dataset / Objective / Model:** MovieLens d2_large; Sample; M3OE。
+- **Seeds:** 4 paired seeds, 2022–2025。
+- **Effect Direction / Magnitude:** Selected test effect is near zero; late saved-grid effects can be positive but do not coincide with selected epochs.
+- **Robustness / Scope:** Medium within the four-seed negative-control setting; some alternative exact-rule test values are unavailable.
+- **Current Status:** DATASET_SPECIFIC。
+- **Current Interpretation:** The KuaiRand selected test result does not reproduce on MovieLens under the tested selection protocol; the dataset/stage contrast does not identify its cause.
+- **Alternative Explanations:** Dataset and target identity、selected-epoch timing、training-stage differences、seed variation。
+- **Evidence Strength:** MEDIUM。
+
+## E031 — KuaiRand DH selected validation windows are usually broader than F windows
+
+- **Observation:** In the four-seed KuaiRand window analysis, DH has 3 moderate plateaus and 1 narrow spike; F has 1 moderate plateau and 3 narrow spikes. DH seed 2023 is itself a narrow spike, and DH seed 2024 is edge-clipped at epoch 48.
+- **Source Experiments:** EXP032; underlying F/DH source checkpoints in EXP027/EXP028。
+- **Source Reports:** [`stage_S6_R2_selected_solution_analysis.md`](stage_S6_R2_selected_solution_analysis.md)、[`s6r2_partC_window_kuairand.csv`](stage_S6_R2_raw_results/kuairand/s6r2_partC_window_kuairand.csv)。
+- **Dataset / Objective / Model:** KuaiRand-Pure natural; Sample; M3OE。
+- **Seeds:** 4 paired seeds, 2022–2025。
+- **Effect Direction / Magnitude:** Window classification favors more moderate DH than F selections (3/4 vs 1/4).
+- **Robustness / Scope:** Weak; one dataset, four seeds, a categorical window rule, one DH spike, and one edge-clipped window.
+- **Current Status:** TENTATIVE。
+- **Current Interpretation:** A single narrow peak is not a sufficient description of all DH selections in this sample; the result does not establish generally broader or more stable DH optima.
+- **Alternative Explanations:** Seed-specific peak shape、edge clipping、the pre-registered window threshold。
+- **Evidence Strength:** WEAK。
+
+## E032 — KuaiRand cross-partition parameter swaps collapse and do not localize the gain
+
+- **Observation:** On the four KuaiRand seeds, C_hybrid test macro ranges 0.5450–0.5842 and D_hybrid 0.5196–0.5791, versus F_full mean 0.6730 and DH_full mean 0.6774. E_hybrid closely matches C_hybrid; F_hybrid differs from F_full by at most 0.00011 macro and 0.00016 non-target. Seed 2025 has a DH−F non-target denominator of about 1.1e−5, so its retention ratio is not informative. The manifest partitions and state-dict shapes pass the reported integrity checks.
+- **Source Experiments:** EXP032; underlying KuaiRand F/DH source checkpoints in EXP027/EXP028。
+- **Source Reports:** [`stage_S6_R2_selected_solution_analysis.md`](stage_S6_R2_selected_solution_analysis.md)、[`s6r2_partD_swap_kuairand.csv`](stage_S6_R2_raw_results/kuairand/s6r2_partD_swap_kuairand.csv)、[`s6r2_integrity_report.json`](stage_S6_R2_raw_results/s6r2_integrity_report.json)。
+- **Dataset / Objective / Model:** KuaiRand-Pure natural; Sample; M3OE; manifest split into shared, architecture, and private parameter sets。
+- **Seeds:** 4, 2022–2025; evaluation-only swaps, no new training。
+- **Effect Direction / Magnitude:** Both cross-partition hybrids have large negative test-macro changes relative to the intact parent solutions; the F architecture-only hybrid is nearly unchanged from F_full.
+- **Robustness / Scope:** Medium for these tested swaps across four seeds; one seed's retention ratio is undefined in practice and the result is limited to one model/data/partition definition.
+- **Current Status:** SUPPORTED（for the observed swap outcome）。
+- **Current Interpretation:** The tested partitions are not independently interchangeable and are consistent with cross-partition co-adaptation. These swaps do not identify which component causes the intact DH test-side advantage.
+- **Alternative Explanations:** Cross-partition co-adaptation、parameter-manifest boundary、seed 2025's near-zero denominator。
+- **Evidence Strength:** MEDIUM。
+
+## Strength tally
+
+| Evidence Strength | Count |
+|---|---:|
+| STRONG | 10 |
+| MEDIUM | 19 |
+| WEAK | 3 |
+| **Total** | **32** |
+
+
+---
+
+## 2026-10-15—2026-10-18 分支执行增量（不回写 E001–E032 的历史记录）
+
+### E033 — KR Sample F/DH B1 重建未稳定复制旧 S6-R2 test 非目标增益
+
+- **Observation:** 四seed×F/DH 共8/8新50epoch训练，400完整状态/800预测工件数值核验。R0 selected test 宏ΔAUC +0.000363（2/4正）、非目标 +0.000579（2/4正）、target −0.000069，target LL +0.004007。旧 S6-R2 非目标 test +0.006757（4/4正）、validation −0.003851。
+- **Source:** [10-15 B1 scientific_analysis](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-15/research_plans/2026-10-15/execution_20261015/B1_reconstruction_20261016/scientific_analysis.md)。
+- **Scope:** KR natural / M3OE / Sample，四seed、50epoch、validation macro R0选轮。**RECONSTRUCTION_NOT_HISTORICAL_EXACT**（init/lineage不同）；原test不是全新holdout。
+- **Evidence Strength:** STRONG（工件/数字），MEDIUM（没有稳定实用selected改善的本研究判断），WEAK（旧新差异原因）。
+- **Contrary evidence:** R1/R4 test 非目标 +0.011584、4/4正，但选同批epoch且target LL损伤；同轮次 val/test 也可反号。不能以 R0阴性擦除次要阳性或以R1事后重定主规则。
+
+### E034 — 固定目标同 q 干预的数学身份与有限θ局部 optimizer 差异
+
+- **Observation:** C2.1固定θ两dataset×4seed×8case，以及 Stage2B/2C新8case×4096 replay×64步验证同α不同q期望梯度一致但covariance/Adam局部应用更新可以不同。SGD的平均解析身份和样本路径分叉需区分；完整C与投影坐标 trace 可能相反（KR Sample：所选坐标比0.505344、旧完整C比2.497026）。
+- **Source:** [10-16 experiment_results Stage2B/C](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/execution_20261016/experiment_results.md)；[10-15 fixed θ](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-15/research_plans/2026-10-15/execution_20261015/C2_numeric_oracle_20261016/numeric_analysis.md)。
+- **Scope:** 有限pool、fixed θ、给定梯度图/少量所选坐标；**0新增正常训练**。Expected objective 恒等不等于模型选点等价；不证明S5历史必要性或普适降噪。
+- **Evidence Strength:** STRONG（数值/身份），WEAK（长期性能中介）。
+
+### E035 — KR Stage2D 16/16 实训：same-J Balanced 候选损伤而非无效应
+
+- **Observation:** 16/16配对IID正式训练完成。validation macro selected SB−SN = −0.010406（4/4负），test法证−0.012674；EB−EN validation −0.006547（3/4负），test−0.002714。原预注册收益和nonharm门不通过。Equal某些域/LL与宏AUC方向不一致。
+- **Source:** [10-16 Stage2D experiment_results](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/experiment_results.md)；[final execution](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16/research_plans/2026-10-16/stage2d_execution_20261016/execution_report.md)。
+- **Scope:** KR/M3OE；learned fusion / main+arch双Adam；2022–2025；50epoch、独立validation selection。q的总体干预同时改变重复、unique支持、梯度统计与后续θ；历史Stage2+文档“0run”是同分支较早快照。
+- **Evidence Strength:** STRONG（协议内负向重复和完成状态）；WEAK（归因为Adam m/v或唯一曝光中介）。
+
+### E036 — v2 fixed-fusion SGD 反例否定“Adam 对 q 效应通用必要”
+
+- **Observation:** P1 validation selected SB−SN：Adam −0.005556，3/4负，CI[−0.012286,+0.005721]；SGD −0.002104，4/4负，CI[−0.002478,−0.001680]。两optimizer interaction CI跨0。SGD LR=.1为[.1,1,10]校准下边界。
+- **Source:** [10-16 v2 mechanism_analysis](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v2/research_plans/2026-10-16_v2/execution_20261016/mechanism_analysis.md)；[P1 decision](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v2/research_plans/2026-10-16_v2/execution_20261016/p1_decision.json)。
+- **Scope:** fixed fusion / single optimizer，新协议不同E035双Adam；v2正式最终报告未归档完成，P2/P8中期不可当最终。
+- **Evidence Strength:** STRONG（该SGD设置的反例存在），WEAK（归纳所有SGD/LR或声称Adam与SGD等效）。
+
+### E037 — v3 complete：同目标 q 效应在optimizer、LR和checkpoint间有反号
+
+- **Observation:** 原规定/触发实验完成、综合分类BOUNDARY-CONFIRMED、候选方法NO_GO。冻结test selected SB−SN：固定Adam.01 −0.007069（2/4负）、固定SGD.1 −0.002518（4/4负）、校准Adam.003 −0.008698（4/4负）、校准SGD.3 −0.000972（4/4负）、ML SGD.3 +0.000539（1/4正）、AdaTask.003 −0.018917（4/4负）。calSGD共同37轮 +0.001614（4/4正）与selected −0.000972不同。
+- **Source:** [v3 FINAL_REPORT §§1–4](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)。
+- **Scope:** 各家族不同LR/阶段/图定义，n4；测试为已开发并冻结后读取，不是纯净新holdout。SGD有反例，不推出所有 q 对SGD皆负。
+- **Evidence Strength:** MEDIUM（多配置存在阶段/选择边界），WEAK（总体方法收益、跨域普适性）。
+
+### E038 — v3局部共享C/状态作用存在，但长期必要性与健康门未过
+
+- **Observation:** fixedθ全坐标 q协方差不同；V7早/中C的局部selection AUC缩小差距筛查4/4合格，但loss/train J联合门不通过，C-private full training NOT_TRIGGERED。V11 m/v消融含beta2=0的灾难性健康floor；全局等norm不保持各参数块norm，不能识别纯方向、单一m/v必要性。真实C/E共享、R私有、P混合。
+- **Source:** [v3 FINAL_REPORT §§6–9](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)；[v3 V7局部](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/V7_local_counterfactual_analysis.md)。
+- **Scope:** 给定theta/状态/冻结候选及阈值；不能用“full-training 未触发”宣称C机制被否定。
+- **Evidence Strength:** MEDIUM（局部路径），WEAK（长期唯一中介）；STRONG（参数支持及协议边界）。
+
+### E039 — N17 的 KR 主选点 q 效应未过预设多重检验
+
+- **Observation:** 新120条H100训练（48 tuning/72 formal）完成；正式固定test KR选点：Adam SB−SN −0.005203、8seed t95[−0.012006,+0.001600]、Holm p=.171875、7/8负；SGD +0.000837，CI[−0.004309,+0.005984]、Holm p=.6953125、5/8正。Adam bootstrap负区间不能事后代替预注册t/符号Holm主准则。
+- **Source:** [N17 FINAL_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md)；[paired data](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_performance/paired_seed_endpoints.csv)。
+- **Scope:** fixed fusion、Sample J、独立8 optimizer seeds2032–39、已开发历史test。Holm针对两KR主比较；次级AULC/ML/六cell不自动获得该主确认。
+- **Evidence Strength:** STRONG（实训完成/数值），WEAK/INCONCLUSIVE（KR selected primary统计判断）；不得写“等效”“普遍改善/损伤”。
+
+### E040 — N17 长期预算与评价人口可使表面效应变号
+
+- **Observation:** KR Adam早期 AULC1..20 −0.007480、8/8负，CI[−0.010031,−0.004930]；ML固定subset selected common−0.010392、own−0.010875、各8/8负，own E100则 **+0.021145，8/8正**。ML own对比 SN lr=.001 vs SB lr=.0003，既改q也改LR/训练速度，六cell保护未通过。相同历史calAdam E50预测的macro −0.009074、train-p cell +0.001016、test-p cell +0.003108。
+- **Source:** [N17 FINAL_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/FINAL_ANALYSIS.md)；[metric/population decomposition](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/METRIC_AND_POPULATION_DECOMPOSITION.md)。
+- **Scope:** 选点vs固定E100、early AULC、macro vs cell加权平均**都是不同估计对象**；加权cell AUC不等于 pooled AUC。
+- **Evidence Strength:** STRONG（同预测评价权重算术）；MEDIUM（阶段/配置条件边界），WEAK（把E100解释为pure-q部署收益）。
+
+### E041 — N17 固定quota排除了“随机域计数主导固定θ trace 差”的窄解释
+
+- **Observation:** N2 16有效fixedθ锚×四臂×512draw；SB/SN全部ALL trace比例：IID约2.009–2.584，quota约1.995–2.551；随机域计数项占预测trace的0.001297%–0.105936%。16条quota H100训练后选点q差 −0.009191、8seed t95[−0.015795,−0.002588]；quota×q交互 −0.003988，CI[−0.010310,+0.002333]。
+- **Source:** [N17 DOMAIN_COUNT_COUNTERFACTUAL](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/DOMAIN_COUNT_COUNTERFACTUAL.md)。
+- **Scope:** 固定锚点与给定梯度估计器；quota亦改变批内依赖/高阶矩，既不单独识别trace/performance中介，也不等同改变自然域真实数据集规模。原两项float32身份测试失败后仅更改独立验证逻辑、同seed同draw重验，原错误保存。
+- **Evidence Strength:** STRONG（所测固定点反证）、MEDIUM（quota后的有限条件训练现象）、WEAK（唯一长期因果解释）。
+
+### E042 — N17 C局部独立验证不足以触发长期拓扑机制实验
+
+- **Observation:** N3一次冻结embedding/E10候选，独立4seed两路径 full局部效应方向均4/4正、量级约+3e−5，MC精度条件达标，但实际界与方向门不过，**N4未触发**。这保留有限局部作用而非“C完全无效”；不能声称N4验证为NO。
+- **Source:** [N17 C_LOCAL_AND_TOPOLOGY_ANALYSIS](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/C_LOCAL_AND_TOPOLOGY_ANALYSIS.md)。
+- **Scope:** 同θ/optimizer状态、冻结微干预；与原 S5/S6 历史共享参数交换不是同一被解释效应。
+- **Evidence Strength:** MEDIUM（局部实际界与未触发条件），WEAK（长期共享必要性）。
+
+### E043 — 文献边界与现有方法候选最终 NO_GO 不代表全研究命题关闭
+
+- **Observation:** 15篇Stage2 targeted 和后续v3/N17原文核对已确认同目标重要性采样、variance-aware、Adam/SGD相互作用、动量/任务历史、顺序及selection是先例。D3/SAF原方法通常改变目标J，不能作为固定J改变q的严格同构反事实；AdaTask组件q-gap读数不代表完整方法最优效果。v3/N17没有候选同时通过预定macro收益和全cell/LL保护。
+- **Source:** [v3 existing-work coverage](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-16-v3/research_plans/2026-10-16_v3/execution_20261016/FINAL_REPORT.md)；[N17 LITERATURE_COVERAGE](https://github.com/Caelestis1903/My-Research-Project/blob/codex/execute-2026-10-17-run/research_plans/2026-10-17/execution_20261017/LITERATURE_COVERAGE.md)。
+- **Scope:** 有限针对性查新（非全面检索）、已测协议与候选；未运行完整D3/SAF性能基线，不宣称这些论文方法失败。
+- **Evidence Strength:** STRONG（已核对的公式边界），MEDIUM（本轮 NO_GO 决策），WEAK（主张全球独有创新）。
+
+
+## 2026-10-18—2026-10-26 跨轮证据E044–E057（日期和模型身份不可混用）
+
+### E044 — N18完成有界六方向探索，不等于六个方法都具独立贡献
+- **Observation:** P1–P6进行数学/数据检查、冻结教师的四seed头拟合与实测诊断；当前候选没有同时取得预设强对照优势与实质独立方法贡献。某些方向标DATA-BLOCKED，按门未做长期训练。
+- **Interpretation:** 相关科学问题和理论/局部反例仍可推进，不能把DATA-BLOCKED当作被负性能推翻。
+- **Strength / Scope:** STRONG执行与受控构造，WEAK方法推广；N18固定人口、冻结头范围。
+- **Source:** [N18 FINAL_REPORT](../history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md)。
+
+### E045 — N19完整328次训练未确立普适新算法，保留容量与阶段机制事实
+- **Observation:** 328正式训练、对应冻结测试完成；容量数值失活、通道误设、选点/末态、不同指标与总体方向反转有具体受控读数；没有稳定足够强的独立算法贡献证据。
+- **Interpretation:** 当前候选NO_GO不等于所有域间收益/知识通道原理被否定。
+- **Strength / Scope:** STRONG执行身份，MEDIUM受控现象，WEAK泛化；人工ML训练人口与固定设置不能代替自然完整ML。
+- **Source:** [N19 FINAL_REPORT](../history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md)。
+
+### E046 — CM19中KR fixed M3oE的输入乘性调制路径存在限定数值失活
+- **Observation:** 856次全预算网络训练及冻结测试完成；KR fixed/Adam selected 24/24 cell中和输入乘性调制不改变预测（固定数值判据），final多数cell仍中性或极小响应。
+- **Interpretation:** 不能推广为STAR/全部共享参数失活，也不能将中和预测不变等同于参数完全无梯度。
+- **Strength / Scope:** STRONG（同实现/固定干预/人口），不支持跨模型普遍机制。
+- **Source:** [CM19 FINAL_REPORT](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)。
+
+### E047 — 双factor正则/局部AdamW恢复路径响应但不保证selected性能
+- **Observation:** CM19中同步去两组factor的耦合L2或局部替换AdamW可显著改变该路径的数值贡献；只改一组与两组不等价。STAR/PEPNet/HAMUR/MMoE/PLE存在活跃路径反例；若干结构移除从头重训与即时中和效果反号。
+- **Interpretation:** 路径活性、训练必要性、相对强基线的最佳泛化是三个不同命题。AdamW是实现/状态特定干预，非所有共享问题的通用修复。
+- **Strength / Scope:** MEDIUM–STRONG特定干预，WEAK通用性能因果。
+- **Source:** [CM19 FINAL_REPORT](../history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md)。
+
+### E048 — 历史ML训练人口与自然比例存在被审计确认的系统差异
+- **Observation:** 10-15以来多轮固定ML人口187500（d0/d1/d2=34500/3000/150000），完整自然基础train 800167（155949/318599/325619），自然同N替代36543/74656/76301；自然支持量为人工4.2676倍。N19/CM19人工ML还以固定subset_seed2022保持优化seed独立。
+- **Interpretation:** 不能把historical suite=natural字段视为完整自然训练人口；新旧比较同时改变数量、角色、特征支持和更新步数。研究者原本也未主张小域必然更难。
+- **Strength / Scope:** STRONG人口/编码/身份；仅靠人口审计不确定任何性能机制。
+- **Source:** [自然人口审计](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)。
+
+### E049 — 自然ML局部重评削弱旧selected强效应的外推，完整transfer仍未完成
+- **Observation:** 自然matchedN/full下部分S5/S6 selected改善变负或很弱，同时full末态又出现有益响应；自然V2、N17及AO04有已完成可读结果。归档的CURRENT_WORK仍记录N19/CM19自然矩阵不完整。
+- **Interpretation:** 不将差值唯一归于“比例”，不按末态替换selected；部分阴性不使原人工结果无效，也不能将设计+放行算为全矩阵完成。
+- **Strength / Scope:** MEDIUM已完固定人口子项，STRONG执行状态，WEAK跨人口因果。
+- **Source:** [阶段性重评](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/RESEARCH_CONCLUSION_REASSESSMENT.md)、[当前状态](../history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md)。
+
+### E050 — D套件在自然MovieLens有重复收益，但独立因子尚未辨别
+- **Observation:** 10-21在ML/KR共48有效正式训练；ML D−B test macro AUC +0.006303（4/4）、macro LL −0.015962（4/4）；对原生移植O也有有限收益。D包括specificity权重、最小域复制、embedding噪声及尺度改变。
+- **Interpretation:** 可以保留“上传D套件在此协议有效”，不能说完整历史VUG/mask已复现、独立动态权重或增强必定是收益来源；O采用learned fusion双Adam而B固定fusion。
+- **Strength / Scope:** STRONG（ML四seed特定协议），WEAK单因素归因；使用legacy_group_sum非标准Sample/Equal。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E051 — 常数权重套件阳性与D权重接近下界削弱动态样本区分的必要性
+- **Observation:** ML Dconst01−B AUC +0.005676（4/4）且LL −0.018445；D/G在epoch5观测批样本权重接近下界0.1。Dconst01−D的预设非劣条件**未通过**，不能当成“等效”。
+- **Interpretation:** D的动态specificity不是获取ML套件收益的必要条件，但是否额外增益未完全判别；常数控制仍有复制/噪声/整体损失尺度，且D初期权重轨迹不同。
+- **Strength / Scope:** STRONG受控套件存在性、MEDIUM机制限制。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E052 — 匹配G梯度计算路径后τ=0.5未带来最终宏AUC优势
+- **Observation:** G−Gtau0 test宏AUC，ML −0.003466（4/4下降，t描述区间负），KR −0.006484（4/4下降但区间跨0）；Gtau0−D在KR test方向相反。KR早期G反而有优化速度改善。
+- **Interpretation:** G−D不是“只改变调幅”，还混入grad=None与零Tensor及逐格求导路径；G−Gtau0才是匹配对照。本协议终点不利不否定所有调幅理论，也不能忽略验证/test或pooled反向。
+- **Strength / Scope:** STRONG ML对比方向、MEDIUM KR趋势（区间宽）、WEAK通用论断。
+- **Source:** [M3oE复现REPORT](../history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md)。
+
+### E053 — 10-24 I1权限策略未获得selected主优势
+- **Observation:** 44主pilot、4基线适配pilot、40正式训练均按记录完成；I1_PERM相对固定RW的ML/KR selected test macro AUC为−0.000334/−0.000513，描述性区间跨零；KR final LL有限正向。
+- **Interpretation:** 未确认权限动态控制的独立selected改进；不能把final LL取代ranking主目标。
+- **Strength / Scope:** MEDIUM本轮阴性门控，条件性次级改善保留。
+- **Source:** [10-24 README](../history_experiments/10-24/research_reports/2026-10-24/README.md)。
+
+### E054 — NEXT-v2核心pilot完成而正式NO_START是正确停止，不是阴性正式训练
+- **Observation:** 48核心24epoch轨迹完成，全部晋级门失败；四seed/50epoch正式矩阵0条，部分aux/外部基线因预算停止。
+- **Interpretation:** 当前版本STOP_NO_PROMOTION；不能虚构0条正式的AUC效应。
+- **Strength / Scope:** STRONG执行状态，方法价值按已完成核心比较限定。
+- **Source:** [v2 README](../history_experiments/26-10-25/research_reports/2026-10-25/README.md)。
+
+### E055 — NEXT-v3 RHD的晚期风险减损不等于合法selected最优改善
+- **Observation:** 69条24epoch与20条KR正式50epoch轨迹完成。KR正式HB−BASE test LL在selected +0.00074075、epoch50 −0.00875428（负才有利）；所有方法50epoch自身LL仍高于合法selected。
+- **Interpretation:** 相对末态减损有条件中等证据，主要selected收益未建立；历史响应控制的某些候选动作未执行，不能用非零超参掩饰。
+- **Strength / Scope:** MEDIUM KR正式四seed阶段比较，WEAK独立方法价值。
+- **Source:** [v3 FINAL_REPORT](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)。
+
+### E056 — LPS来源内容可读不等于特定风险形成器必要
+- **Observation:** v3 LPS部分foreign读取在开发存在有限信号，但L4未稳定胜FEATURE/简单标量，正式延伸未过gate；CAL/OWNER/GEOM及原型输出提供简单竞争解释。
+- **Interpretation:** 不能因为关掉foreign后部分快照下降就证明meta形成/多函数必要；同时不能由形成器失败推出来源知识毫无价值。
+- **Strength / Scope:** MEDIUM来源读取有限性；WEAK形成独有性。
+- **Source:** [v3 FINAL_REPORT](../history_experiments/2026-10-25_15-56-04/research_reports/2026-10-25_v3/FINAL_REPORT.md)。
+
+### E057 — DFD-v4：目标需求有限可预测，完整来源函数形成未晋级且有机制记录缺项
+- **Observation:** ML P1 CONST−DEMAND LL +0.00108935，KR P1 CONST−DEMAND −0.000400568未过；ML P2 DFD−H_DIRECT/ETA_DIRECT LL +0.001639660/+0.001814021（正值较差），对UNIFORM增量很小，GEOM/SHUFFLE不能稳胜；已完成184导出/12计时。KR P2和P3/P4按gate NO_START。Q/outer原refitη固定μ分组导出缺失且原权重已清理。
+- **Interpretation:** 当前版本VERSION_NOT_SUPPORTED；需求选择信号、责任非恒定、形成独有性和可用主方法是四个不同层级。原缺项降低外层机制解释完整度，但不改变已保存P1/P2门控或主要负结论。
+- **Strength / Scope:** MEDIUM当前固定自然ML/KR开发、WEAK功能必要性；机制信息MISSING/MAJOR。
+- **Source:** [v4 FINAL_REPORT](../history_experiments/26-10-26/research_reports/2026-10-26_v4/FINAL_REPORT.md)、[PROCESS_REVISIONS](../history_experiments/26-10-26/research_reports/2026-10-26_v4/PROCESS_REVISIONS.md)。
+
+**新方案不等于新证据：** [2026-10-26-v2 RCF-v1](../research_plans/2026-10-26-v2/00_README.md)是针对E055–E057提出的可证伪后继函数设计，状态DESIGN_ONLY。未实现、未训练、未评价；不能在Evidence Ledger登记正向效应量。
+
+## 2026-10-27—2026-11-02 跨分支新增直接证据 E058–E069
+
+**证据层级：** 实测效应、机制诊断、解释及研究决定分别列出；未触发阶段和旧报告的重复副本不是反例。所有来源使用当时报告的**固定Git提交**；原文件仍在各分支，main只保留文字结论。
+
+### E058 — Relation-Basis v2在冻结强TARGET_ONLY对照前没有实用排序增量
+- **Observation:** 48条正式适配（2自然数据×6方法×4seed），Q两个数据都选TARGET_ONLY；LOWRANK_RELATION−该C*在历史E的macro AUC：MovieLens−0.00062292（4/4负，95%CI不跨0），KuaiRand−0.00272675（4/4负）。ML LL−0.00071533（3/4改善但区间跨0）；KR LL+0.00115698（4/4恶化）。FULL_RELATION也未改变强对照结论。
+- **Decision:** 当前关系基底/来源形成器停止扩展；不否认既有来源读取价值或其他多原型定义。
+- **Strength / Scope:** STRONG ML排序方向、MEDIUM版本性停止；固定自然评估人口，4seed。
+- **Source:** [10-27 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/03c338092008a71b2d360a61b06d985eac551ec7/research_reports/26-10-27_v2/FINAL_REPORT.md)；EXP052。
+
+### E059 — BASP-A收益预测与动态读取有活动，但未提供独立实用策略收益
+- **Observation:** 24正式轨迹，2自然集×2seed；CG−TARGET_MATCH历史E AUC：ML−0.00001955、KR+0.00054782，正向各1/2；Q上μ的留出skill不胜F域常量，soft群组近均匀，CG NULL读取权重约0.99+。部分FIXED_READ状态可检测到来源读依赖。
+- **Decision:** 关闭该版本收益μ/关系群组的晋级主张；P2–P5为NOT_TRIGGERED，不是负性能报告。读取价值与完整形成器收益不等价。
+- **Strength / Scope:** STRONG记录到的操作状态；MEDIUM条件停线、仅2seed。
+- **Source:** [10-28 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/97151c74544c3651feb805d1898bc9ce1b8d12d3/research_reports/2026-10-28/FINAL_REPORT.md)；EXP053。
+
+### E060 — 2025–26 MDMT开源模型强基线在两个自然数据集已有五seed结果
+- **Observation:** 30正式训练（M3OE_FIXED1、HyperGate、AutoIFS，ML/KR各五seed）。对M3OE_FIXED1：HyperGate ML/KR Δmacro AUC+0.007379/+0.014412，AutoIFS +0.003551/+0.007308，四组都5/5正。KR AutoIFS Δmacro LL−0.004400（5/5改善）而Δnatural LL+0.006677（5/5恶化）；主要评价域d1占约98.21%，加权反号有算术解释。
+- **Decision:** 两者是已完成的实测外部对照，不是仅搜到的名称；HyperGate部分参数UNVERIFIED_PROPOSAL，训练/选点不等于GA31协议、非官方严格复现。
+- **Strength / Scope:** STRONG五seed同协议比对及指标算术；WEAK架构纯因果。
+- **Source:** [MDMT基线FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/d2fdd272a2cdf7da626e29b97f61555d25271f89/research_reports/mdmt_baselines_2526/FINAL_REPORT.md)；EXP054。
+
+### E061 — 无增强loss统一缩放可改变selected排序与早晚优化轨迹
+- **Observation:** GA31-v2四臂、两集×5seed共40训练；ML c=.1−c=1无增强selected test macro AUC+0.003473（4/5），E10−0.004169、E50+0.026978；KR selected−0.006026（1/5）。耦合Adam将相对weight_decay和eps与c耦合。
+- **Decision:** 确认ML条件性缩放排序效应与KR反向边界；不是“纯LR减小”或“动态样本权重本身提高AUC”的直接证据。
+- **Strength / Scope:** STRONG ML阶段数值，MEDIUM KR版本性反例。
+- **Source:** [GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md)；EXP055。
+
+### E062 — NR-Gauss增强独有增量未过门，ML普通L2与缩放参照接近
+- **Observation:** GA31-v2目标域NR-Gauss增量：ML c=1 −0.000267、c=.1 −0.000188；KR c=1 +0.000188（2/5正）、c=.1 −0.004243。KR c=1最差格−0.008536（5/5损害）。GA31-R3在ML采用普通wd1e−4的L2控制，与c=.1缩放基线selected验证AUC差−0.000185、test AUC+0.000197（3/5），LL+0.001519（4/5损害）。
+- **Decision:** 停止这版NR-Gauss投入；普通L2是简单强参照，但不宣称完整eps/历史状态代数完全相等。早期10-21 D套件采用不同协议，旧阳性结果仍成立。
+- **Strength / Scope:** MEDIUM方法停线，STRONG实测因子对照。
+- **Source:** [GA31-v2](https://github.com/Caelestis1903/My-Research-Project/blob/ee6e81fdfd37284e6447e8149cb93d04736dba02/research_reports/2026-10-31/REPORT.md)、[GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md)；EXP055–EXP056。
+
+### E063 — 反向配对降低同参数视图方差但不等于比同K IID2更好
+- **Observation:** R3同θ反向配对降低条件方差。KR ANTI2−B-KR selected test AUC+0.001202（4/5），LL−0.001709（4/5），但ANTI2−G-IID2 AUC−0.001237；validation相对B仅2/5正、worst平均−0.003056（4/5损害）。ML ANTI2对工作基线−0.000687。
+- **Decision:** 保留STRONG方差构造事实及KR局部条件收益；**当前反向配对没有独有selected AUC晋级价值**。
+- **Strength / Scope:** STRONG诊断，MEDIUM当前方法选择。
+- **Source:** [GA31-R3](https://github.com/Caelestis1903/My-Research-Project/blob/a6f496b54f467cdf7b814b6bb8defdbdd457bc38/research_reports/2026-10-31_v2/REPORT.md)；EXP056。
+
+### E064 — 参数EMA具有明确selected AUC收益，ML LL可能付出代价
+- **Observation:** 11-01动量实验中无增强shadow−online，ML selected test AUC+0.004399（5/5，全部30/30 cell×seed正），LL+0.007800（4/5恶化）；KR AUC+0.004616（4/5），LL−0.001225（3/5）。AIGM01调参后的ML AUC+0.003849（5/5，区间[+0.003384,+0.004314]），LL+0.001249（4/5恶化）；KR AUC同为+0.004616。
+- **Decision:** **接受固定EMA为当前AUC强参考**；非反馈参数shadow未更改在线Adam，不能混称更新动量公式或LL全面改善；后续同seed重建不作为新人口。
+- **Strength / Scope:** STRONG ML排序、MEDIUM KR排序；当前fixed1自然训练人口。
+- **Source:** [EMA/SAD REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md)、[AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md)；EXP057–EXP058。
+
+### E065 — SAD长差分记忆非零且真实改变更新，但未产生实用独有增量
+- **Observation:** SAD βδ=.99 A3−普通增强A1 online selected test macro AUC ML−0.000336、KR−0.001554；KR目标域两任务相对A1均5/5下降。差分q/局部实际更新都不为0。βδ=.9 A2与普通Adam在实数代数等价，却可因长期FP32轨迹/选点分离出现差异。
+- **Decision:** 停止当前长差分记忆公式独有收益主张，不误判为“差分没有计算”或“所有动量不可用”。
+- **Strength / Scope:** STRONG代数/执行，MEDIUM当前版NO_PROMOTION。
+- **Source:** [11-01 momentum](https://github.com/Caelestis1903/My-Research-Project/blob/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b/research_reports/2026-11-01_momentum/REPORT.md)；EXP057。
+
+### E066 — AIGM01再次支持EMA，但Gaussian收益有任务/域交换；创新门仅停于开发
+- **Observation:** 56条唯一完整训练，ML Gaussian+EMA−无增强EMA macro AUC+0.000318（2/5），KR +0.001476（3/5），KR macro LL−0.001664（5/5）。KR最大域d1/task0,task1 test AUC分别−0.004654（5/5）/−0.004929（4/5），pooled/traffic均下降；AIG-M动态门q/λ确实非零，但开发两seed未过晋级门，未执行被拒候选五seed正式评价。
+- **Decision:** EMA继续作强基线；**KR增强存在真实域任务损害、LL改善与macro增量弱支持并存**；AIG-M版内STOP_AT_DEV而非全预算失败。
+- **Strength / Scope:** STRONG KR最大域损害，MEDIUM EMA结果，WEAK创新门独有性。
+- **Source:** [AIGM01](https://github.com/Caelestis1903/My-Research-Project/blob/6f5742c2085c1e49d1767b0a7079bb9f28160eda/research_reports/2026-11-01_aig_m/REPORT.md)；EXP058。
+
+### E067 — GATS B2任务投影开发阳性未在确认与统一test形成强基线整体收益
+- **Observation:** KR B2−A1开发验证mean AUC+0.008183500（2/2），B2−匹配R2+0.006231554；确认n=3对A1 +0.000640287（2/3），合并验证n=5 +0.003657572（4/5）。统一test n=5 B2−A1 macro AUC+0.000005156（3/5）、B2−更强A0固定EMA +0.001481447（仅2/5），pooled/traffic对A0均值负，worst/域任务有损害。
+- **Decision:** 已完成实际确认并停止晋级，保留“开发局部有益”的经验事实，不能再用同种子重复包装成新算法稳定成功。
+- **Strength / Scope:** STRONG数值/程序记录，MEDIUM停止决策。
+- **Source:** [GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)；EXP059。
+
+### E068 — 难度依赖增强、延迟时程与CV→rho当前规则均未过匹配门
+- **Observation:** GATS B1在ML/KR不胜A1及已触发匹配R1；B3 delay5不胜固定/随机时程R3；C2以梯度范数CV调rho相对固定EMA或rho均值回放增量很小，未触发确认；EMA早期滞后、后期增益是已知阶段现象，不说明C2成功。
+- **Decision:** STOP当前B1、B3、C2设计；没有独立搜索其他所有时程/任务增强规则，未触发阶段不登记为阴性。
+- **Strength / Scope:** MEDIUM预注册版本停线，WEAK方法独有价值。
+- **Source:** [GATS02](https://github.com/Caelestis1903/My-Research-Project/blob/e59efa2fd954c4d2231b679a742406cfbe2a1077/research_reports/2026-11-02_gradient_aug_time_select/REPORT.md)；EXP059。
+
+### E069 — 教师约束与任务梯度输入视图有真实计算，但未胜固定EMA
+- **Observation:** EMA02V2完成36/36正式轨迹、144/144端点，只有开发2seed。ML教师约束字段F1−A0+EMA test宏AUC+0.000358547（2/2）、验证均值−0.000424325，F1−F0 test +0.000969953；KR梯度任务双视图TG/AG−A0+EMA test AUC−0.017173896/−0.017534（两seed负），macro LL分别+0.012519/+0.012365。投影Jacobian秩2、梯度方向cos和扰动记录证明实际执行。
+- **Decision:** 停止当前J/F/TG/AG视图版本；F1 ML只是弱条件线索、确认/W1未触发。梯度视图不同不等于真实动量递推被更改。
+- **Strength / Scope:** MEDIUM KR版本伤害，WEAK ML F1边际收益；2seed。
+- **Source:** [EMA02V2](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md)；EXP060。
+
+**所有新增证据共同的边界：** 这些测试多次使用同一历史划分、既有seed池及参考轨迹。五seed是训练随机性，不是新外部样本/用户/时间窗口。强简单对照未被超越时可以作具体版本STOP；不能把已证明的其他现象归零。

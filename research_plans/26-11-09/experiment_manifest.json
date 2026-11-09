@@ -1,0 +1,285 @@
+{
+  "study_id": "MDMT_ADAPTIVE_EMA_20261109",
+  "status": "PLAN_ONLY_NOT_EXECUTED",
+  "repository": "Caelestis1903/My-Research-Project",
+  "target_branch": "main",
+  "plan_directory": "research_plans/26-11-09",
+  "source_branch": "26-11-07",
+  "source_branch_head_sha": "RESOLVE_AT_AUDIT_DO_NOT_GUESS",
+  "main_head_sha_at_audit": "RESOLVE_AT_AUDIT_DO_NOT_GUESS",
+  "source_commit_for_model_adapter_and_groups": "40705dfe0bb4fe614bdca835c0bae567348c87d0",
+  "source_commit_for_mechanism_collection": "05f75a73f3036694ee414b4483c878eac832f5b1",
+  "source_commit_for_11_05_history_controls": "79690772dedefafa24b80d1817aca8c61907be5b",
+  "protocol": {
+    "model": "M3oE_fixed1",
+    "population": "FULLTRAIN_NATURAL80_10_10",
+    "preprocessing": "train_only",
+    "batch_size": 40960,
+    "epochs": 50,
+    "optimizer": "torch.optim.Adam",
+    "lr": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-8,
+    "weight_decay": {
+      "movielens": 0.0001,
+      "kuairand": 0.00001
+    },
+    "precision": "FP32",
+    "amp": false,
+    "tf32": false,
+    "gradient_clipping": false,
+    "loader_population_mutation": false,
+    "controller_feedback_to_online_adam": false,
+    "test_available_to_controller": false,
+    "validation_used_for_controller": false,
+    "checkpoint_rule": "earliest_strict_max_validation_six_cell_macro_auc"
+  },
+  "seeds": {
+    "historical_development": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "prospective_confirmation": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ]
+  },
+  "datasets": {
+    "movielens": {
+      "steps_per_epoch": 20,
+      "rho_fixed": 0.9828205985452511,
+      "rho_fast": 0.9659363289248455,
+      "rho_slow": 0.9913730874626621,
+      "stages": [
+        "C"
+      ]
+    },
+    "kuairand": {
+      "steps_per_epoch": 49,
+      "rho_fixed": 0.995,
+      "rho_fast": 0.990025,
+      "rho_slow": 0.9974968671630001,
+      "stages": [
+        "A1",
+        "B",
+        "C"
+      ]
+    }
+  },
+  "conditions": [
+    "clean",
+    "gaussian_d0"
+  ],
+  "stage_A0": {
+    "new_training_runs": 0,
+    "source": "research_reports/2026-11-06_ema_mechanism",
+    "pulse_spacing_epochs": 5,
+    "signals": [
+      "fast_minus_fixed",
+      "slow_minus_fixed",
+      "fast_minus_slow"
+    ],
+    "metrics": [
+      "lag1_sign_agreement",
+      "lag1_rank_correlation",
+      "forward_e_plus_5_prediction",
+      "panel_transfer",
+      "action_regret"
+    ],
+    "baselines": [
+      "C_design",
+      "C_simple",
+      "M0",
+      "M2",
+      "M3",
+      "identity_stage"
+    ],
+    "outcome_states": [
+      "PERSISTENCE_SUPPORTED",
+      "STATIC_PREFERENCE_ONLY",
+      "NO_ACTIONABLE_SIGNAL",
+      "SOURCE_INCOMPLETE"
+    ],
+    "required_source_artifacts": [
+      "research_reports/2026-11-06_ema_mechanism/PULSE_READOUTS.csv",
+      "research_reports/2026-11-06_ema_mechanism/PULSE_METRICS.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTIVE_OOF.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTION_SEED.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTION_SUMMARY.csv",
+      "research_reports/2026-11-06_ema_mechanism/PREDICTIVE_COMPARISONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/ACTION_DECISIONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/HISTORY_PREFERENCE_SUMMARY.csv",
+      "research_reports/2026-11-06_ema_mechanism/PANEL_STABILITY.csv",
+      "research_reports/2026-11-06_ema_mechanism/METRIC_CORRESPONDENCE.csv",
+      "research_reports/2026-11-06_ema_mechanism/TEMPORAL_RANK_STABILITY.csv",
+      "research_reports/2026-11-06_ema_mechanism/GROUP_INTERACTIONS.csv",
+      "research_reports/2026-11-06_ema_mechanism/MECHANISM_DECISIONS.json"
+    ]
+  },
+  "stage_A1": {
+    "enabled_if": [
+      "PERSISTENCE_SUPPORTED",
+      "STATIC_PREFERENCE_ONLY"
+    ],
+    "datasets": [
+      "kuairand"
+    ],
+    "conditions": [
+      "clean",
+      "gaussian_d0"
+    ],
+    "seeds": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ],
+    "epochs": 50,
+    "new_unique_online_trajectories": 10
+  },
+  "stage_B": {
+    "enabled_if": [
+      "A1_SIGNAL_TRANSFER_SUPPORTED"
+    ],
+    "shared_online_trajectory": true,
+    "algorithms": [
+      "fixed_F",
+      "global_A",
+      "task_dual_history_B",
+      "single_history_interpolation_C",
+      "uniform_fast",
+      "uniform_slow",
+      "single_history_function_space_gate_C_F"
+    ],
+    "action_interval_epochs": 1,
+    "controller_signal_panel": "P_A",
+    "audit_panels": [
+      "P_B",
+      "V_A",
+      "V_B"
+    ],
+    "reward_smoothing_beta_candidates": [
+      0,
+      0.5
+    ],
+    "task_count": 2,
+    "adapted_parameter_group": "S",
+    "routing_contract": "input_x_has_no_task_id; ModelAdapter.forward_logits_returns_Nx2; task_t_uses_tower_3t_plus_domain; domain_from_x_last_column"
+  },
+  "stage_C": {
+    "enabled_if": [
+      "B_ADAPTIVE_GAIN_SUPPORTED",
+      "STATIC_TASK_GAIN_SUPPORTED"
+    ],
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "conditions": [
+      "clean",
+      "gaussian_d0"
+    ],
+    "test_freeze_required": true,
+    "prospective_seeds": [
+      2027,
+      2028,
+      2029,
+      2030,
+      2031
+    ],
+    "new_unique_online_trajectories": {
+      "movielens": 10,
+      "kuairand": 0,
+      "note": "Reuse KR A1 trajectories; train ML only after B freezes a winner."
+    }
+  },
+  "ema": {
+    "initialization": "theta_0",
+    "update_timing": "immediately_after_each_real_adam_step",
+    "fast": "rho_fixed**2",
+    "fixed": "rho_fixed",
+    "slow": "sqrt(rho_fixed)",
+    "pulse": "one_epoch_from_current_controller_state_then_discard",
+    "adaptive_rho_change": "epoch_boundary_only"
+  },
+  "algorithms": {
+    "A": {
+      "states": 1,
+      "controller": "argmax_smoothed_global_six_cell_train_macro_auc_gain",
+      "tie_break": "fixed"
+    },
+    "B": {
+      "states": 2,
+      "controller": "argmax_smoothed_task_three_domain_train_macro_auc_gain",
+      "routing": "two_functional_forwards_replace_shared_S_with_task_state_then_take_output_column_0_or_1",
+      "reference_forward_calls": 2
+    },
+    "C": {
+      "states": 1,
+      "readout": "F_S + lambda_task * (theta_S - F_S)",
+      "lambda_candidates": "0 and 1-rho_fixed; optional 2*(1-rho_fixed) only after A1",
+      "convex_only": true,
+      "cannot_represent_slow_history": true,
+      "parameter_interpolation_routing": "two_functional_forwards_with_task_lambda_then_take_output_column_0_or_1",
+      "function_space_alternative": "C-F: z_t=(1-lambda_t)*z_F_t+lambda_t*z_online_t; reuse existing online/F readouts; no extra forward",
+      "function_space_alternative_is_parameter_ema": false,
+      "function_space_alternative_preserves_shared_parameter_semantics": true,
+      "parameter_interpolation_reference_forward_calls": 2
+    }
+  },
+  "resource_limits": {
+    "max_workers": 2,
+    "host_ram_stop_fraction": 0.9,
+    "gpu_admission_fraction": 0.85,
+    "prediction_disk_cap_bytes": 2147483648,
+    "guardian_ram_cap_bytes": 4294967296,
+    "dynamic_parameter_state_bytes_required": true,
+    "shared_parameter_S_numel": {
+      "movielens": 483152,
+      "kuairand": 661920
+    },
+    "shared_parameter_S_fp32_bytes": {
+      "movielens": 1932608,
+      "kuairand": 2647680
+    }
+  },
+  "outputs": [
+    "SOURCE_AUDIT.md",
+    "AUDIT_INVENTORY.json",
+    "EVIDENCE_REUSE.csv",
+    "A0_PERSISTENCE_ROWS.csv",
+    "A0_DECISION.json",
+    "A1_SIGNAL_TRANSFER.csv",
+    "A1_DECISION.json",
+    "CONTROLLER_ACTIONS.csv",
+    "VALIDATION_CURVES.csv",
+    "ENDPOINTS.csv",
+    "COSTS.csv",
+    "IMPLEMENTATION_REVIEW.md",
+    "FINAL_REPORT.md",
+    "RELEASE_RECEIPT.json"
+  ],
+  "prohibited": [
+    "retest_fixed_ema_effectiveness",
+    "rerun_2026_11_05_A_B_C",
+    "change_online_adam_trajectory",
+    "modify_training_population_or_loader",
+    "use_validation_or_test_for_actions",
+    "expand_to_all_12_parameter_groups",
+    "use_domain_sample_size_as_difficulty_or_control_proxy",
+    "claim_C_equals_B",
+    "claim_convex_C_can_slow_history",
+    "treat_pulse_windows_as_independent_seeds",
+    "treat_local_pulse_gain_as_full_macro_auc_gain"
+  ]
+}
