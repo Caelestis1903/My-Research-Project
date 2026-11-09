@@ -26,6 +26,22 @@
 ---
 
 
+## 2026-11-09 PUB-MDMT：完整五seed迁移与同α控制
+
+**协议与完成量。** FULLTRAIN_NATURAL80_10_10，M3oE fixed1，Clean自然人口，ML/KR各seeds2022–2026；50epoch、batch40960、lr.01、coupled Adam。完成18组数值校准、40条2epoch频率比较、70条正式轨迹（3500epoch、120750次更新），A轨迹同步维护F。固定共同solver niter100/tol1e-4/ridge1e-8、α频率10。正式训练无失败、回退或重跑，参数与优化器状态留RAM。
+
+- **STRONG：当前原始α尺度、coupled-WD的P0/P1/P2迁移均未达到主性能目标。** selected Test Macro AUC，ML A/F=.775190/.779039，C0/C1/C2=.557814/.602752/.637816；KR A/F=.671907/.676523，C0/C1/C2=.572765/.623796/.619789。所有C相对A均0/5 seed正向，六格均值全部下降、Macro LL全部升高。两数据Validation组合门均未触发，PUB+EMA轨迹0。
+- **STRONG：更新空间相对真实同α梯度控制有独立轨迹增量。** C0/C1/C2−G0/G1/G2的Test Macro AUC，ML=+.030275/+.077394/+.118074，KR=+.049397/+.105126/+.098194，六个比较均5/5正向且六格均值全正。G在E50的宏AUC接近.5，这一控制自身的排序退化须进入解释；相对G的合格与相对A/F的未合格分别保留。
+- **拓扑条件性。** C1−C0在ML/KR为+.044938/+.051031，均5/5正向。C2−C1为ML+.035064（4/5，按均值/逐格门合格、LL升高）、KR−.004007（1/5，LL下降）；局部拓扑没有跨数据集重复优势。
+- **STRONG机械观察，MEDIUM因果解释。** 数据方向满足Gα=1/α，刷新时范数约√任务数。coupled-WD公共差分在首步显著改变实际效用；ML C1五seed首步30格实际效用均负、S探针BCE均上升。S晚期实际/同状态自然Adam候选范数比，C1/C2为ML.0394/.0310，KR.00206/.00186。原始半径、动态α下的正则/数据比例与性能损失仍待分离。
+- **诊断与研究边界。** actual utility对负cell BCE排序的seed平均Spearman约.04–.17，排序对应证据WEAK。同步S探针ML50窗/seed、KR5窗/seed，统计单位为seed。域人数与采样固定；各格相对A均下降，未出现均值上的小域改善/大域下降补偿，不以规模构造困难度。
+
+**当前决定。** 当前三种PUB迁移不晋级，保留固定EMA F为内部强对照。PUB作为优化方法候选记录。下一项有判别力的设计是A/C1/G1统一WD=0的两数据五seed配对，与本轮原WD条件比较，区分正则交互和原始更新半径解释；该新矩阵需单独设计执行。
+
+[完整分析报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)；[全部逐seed端点/状态hash](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/ENDPOINTS.csv)；[配对均值/SD/95%CI](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/PAIRED.csv)；[机制诊断](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/DIAGNOSTIC_SEEDS.csv)。六格AUC/LL与Macro/Traffic/Pooled已回填指标总台账。A/F的同seed身份保持，独立统计单位仍为五个seed。
+
+---
+
 ## 2026-11-04 最新跨分支实证整合（优先于下方11/02历史裁定）
 
 **本轮范围和合并截止。** 原11/02总裁定已整合EXP052–EXP060九组结果，本轮只新增11/02–03补充分支、11/03条件信息及真实历史实验、11/03五seed补全（11/04发布）、11/04 A+B统一发表模型及CP组合、11/04 Gaussian域覆盖及MovieLens既有来源核验。原始报告仍留源分支、本文只归档结论；性能总台账中11/03五seed数字原已存在，新增11/04发表模型/CP及KR G-D0/G-D02完整六格指标。不重复计算同轨迹的多个估计器、E10/E50或重命名别名。

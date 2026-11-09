@@ -29,6 +29,22 @@
 
 
 
+## 2026-11-09 PUB-MDMT：完整五seed迁移与同α控制
+
+**协议与完成量。** FULLTRAIN_NATURAL80_10_10，M3oE fixed1，Clean自然人口，ML/KR各seeds2022–2026；50epoch、batch40960、lr.01、coupled Adam。完成18组数值校准、40条2epoch频率比较、70条正式轨迹（3500epoch、120750次更新），A轨迹同步维护F。固定共同solver niter100/tol1e-4/ridge1e-8、α频率10。正式训练无失败、回退或重跑，参数与优化器状态留RAM。
+
+- **STRONG：当前原始α尺度、coupled-WD的P0/P1/P2迁移均未达到主性能目标。** selected Test Macro AUC，ML A/F=.775190/.779039，C0/C1/C2=.557814/.602752/.637816；KR A/F=.671907/.676523，C0/C1/C2=.572765/.623796/.619789。所有C相对A均0/5 seed正向，六格均值全部下降、Macro LL全部升高。两数据Validation组合门均未触发，PUB+EMA轨迹0。
+- **STRONG：更新空间相对真实同α梯度控制有独立轨迹增量。** C0/C1/C2−G0/G1/G2的Test Macro AUC，ML=+.030275/+.077394/+.118074，KR=+.049397/+.105126/+.098194，六个比较均5/5正向且六格均值全正。G在E50的宏AUC接近.5，这一控制自身的排序退化须进入解释；相对G的合格与相对A/F的未合格分别保留。
+- **拓扑条件性。** C1−C0在ML/KR为+.044938/+.051031，均5/5正向。C2−C1为ML+.035064（4/5，按均值/逐格门合格、LL升高）、KR−.004007（1/5，LL下降）；局部拓扑没有跨数据集重复优势。
+- **STRONG机械观察，MEDIUM因果解释。** 数据方向满足Gα=1/α，刷新时范数约√任务数。coupled-WD公共差分在首步显著改变实际效用；ML C1五seed首步30格实际效用均负、S探针BCE均上升。S晚期实际/同状态自然Adam候选范数比，C1/C2为ML.0394/.0310，KR.00206/.00186。原始半径、动态α下的正则/数据比例与性能损失仍待分离。
+- **诊断与研究边界。** actual utility对负cell BCE排序的seed平均Spearman约.04–.17，排序对应证据WEAK。同步S探针ML50窗/seed、KR5窗/seed，统计单位为seed。域人数与采样固定；各格相对A均下降，未出现均值上的小域改善/大域下降补偿，不以规模构造困难度。
+
+**当前决定。** 当前三种PUB迁移不晋级，保留固定EMA F为内部强对照。PUB作为优化方法候选记录。下一项有判别力的设计是A/C1/G1统一WD=0的两数据五seed配对，与本轮原WD条件比较，区分正则交互和原始更新半径解释；该新矩阵需单独设计执行。
+
+[完整分析报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)；[全部逐seed端点/状态hash](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/ENDPOINTS.csv)；[配对均值/SD/95%CI](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/PAIRED.csv)；[机制诊断](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/DIAGNOSTIC_SEEDS.csv)。六格AUC/LL与Macro/Traffic/Pooled已回填指标总台账。A/F的同seed身份保持，独立统计单位仍为五个seed。
+
+---
+
 ## 2026-11-08 最新 AI Handoff：11/05 AUG_HISTORY 与 11/06 EMA_MECHANISM
 
 **范围与去重。** 本次覆盖11/02–11/08的实验分支。**固定研究边界：小域不是困难域。** 不得把域大小当作困难度代理，不设计或解释任何实验来证明或否定这一判断。样本支持、正例稀疏和训练曝光如需研究，必须作为各自独立、可直接观测的变量处理，不映射成域难度。 11/02–04的GATS02、EMA02V2、PAIR/ECCM、条件信息/真实历史、Overnight A+B及Gaussian覆盖，已在本文件11/04 Handoff和Global Summary中完成结论整合；本轮不重复计数或重跑。11/03五seed补全报告已经存在于main。新增实证集中在11/05 AUG_HISTORY和11/06 EMA_MECHANISM；本次将八份核心主报告归档到main的research_reports目录，原始CSV/JSON、图像、运行产物和实现代码仍留在来源分支，没有合并代码。
