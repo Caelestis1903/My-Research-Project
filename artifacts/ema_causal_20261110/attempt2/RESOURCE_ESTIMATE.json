@@ -1,0 +1,23 @@
+{
+  "implementation_hash": "4411eec43005a8e432f0de81d426c08a30f09960e84f7b1302e92b29ae4212e5",
+  "calibrations": [
+    {
+      "dataset": "kuairand",
+      "training_observer_worker_seconds": 23108.94185014986,
+      "causal_worker_seconds_upper": 24838.445587047026,
+      "active_recovery_payload_bound": 492002568
+    },
+    {
+      "dataset": "movielens",
+      "training_observer_worker_seconds": 8198.310725047486,
+      "causal_worker_seconds_upper": 13611.41321260482,
+      "active_recovery_payload_bound": 160403512
+    }
+  ],
+  "payload_cap_bytes": 4294967296,
+  "observation_cap_bytes": 2147483648,
+  "estimated_total_worker_seconds_upper": 69757.11137484919,
+  "causal_formula_per_seed": "180 core + 34 mixed cut + 12 fusion delete + 8 path integrals + 40 endpoint pairs; ten jobs per dataset",
+  "resource_rule": "per-device memory and power below 85%; host RAM below 90%; active snapshot/worker/transaction payload included",
+  "state_budget": "one condition block of anchors, three FP32 endpoints per job"
+}

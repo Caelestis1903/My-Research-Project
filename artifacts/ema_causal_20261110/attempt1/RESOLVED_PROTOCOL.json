@@ -1,0 +1,2047 @@
+{
+  "identity": {
+    "study_id": "EMA_CAUSAL_20261110",
+    "source_commit": "ffa3de067fcda5a1293af83a465d741e069493f1",
+    "plan_commit": "5cf92af0d3a8ed77688762616248166b9b68266d",
+    "plan_hash": "8599767580360ea343337abedf5451e0782279e477ea48efb8f5ea7c11f965d3",
+    "plan_files": {
+      "00_EXECUTION_RUNBOOK.md": "4fd8f8b4457ee9d825dbbbcbabb20937d850c112966fa3189d4dbd61aacec5e3",
+      "01_RESEARCH_CONTEXT.md": "b4684914dfeab12ecab66f2b8ff43e4b685ce50a0aaf7823683b440563c2de58",
+      "02_THEORY_AND_HYPOTHESES.md": "a65417e153557ddaa8ca2c82a4c692a562e6ff7888a0a6eb713f610910abb088",
+      "03_CAUSAL_EXPERIMENT_DESIGN.md": "794d48948ab14b7af2ccc7892d738b81d6222fce4da926d303447e64d992d00f",
+      "04_EXPERIMENT_MATRIX.md": "3fcaa28396e501d1bc317bd877a893d20d72304963b3a218c227d77c150b791a",
+      "05_IMPLEMENTATION_SPEC.md": "aca919fb58e9059e73d4b02048bdb08671220caad3114159cb2cb4b5b172d05d",
+      "06_SCHEDULER_AND_RESOURCES.md": "75dcca3d34bdbc95b121fb10b2e1853c1138d1bd97cabdf1996451d9e01f0b8d",
+      "07_METRICS_AND_STATISTICS.md": "fc955e58c498fe4b60bb145e0d3d38b1a9759fc0fd7c0fcbf08881f724c9e18b",
+      "08_ANALYSIS_AND_DECISION.md": "7b66c43364c81e8fe76324b2bf3ecd502c0dabb6ebc871ad7138e47d81ddb805",
+      "09_CODEX_TASKS.md": "c2a36837f06992f471c0326ee2983ef6984e4644f4a923c7655adf09d5ccf072",
+      "10_SOURCE_EVIDENCE.md": "1b36985d5a78a9f6a91915a2c8a93fa57b4f8b196b8976eee38c8467ac8d789b",
+      "11_PLAN_REVIEW.md": "b4fabe23152aff7bf3eb535c17462a67fd3547937e08ee7d2e2012d94e7ad483",
+      "CODER_IMPLEMENTATION_REPORT.md": "8dcd8f46efb131193e81a7ed8def43495fd1dca05f5b3904a59e73f9ea4af39b",
+      "DESIGN_SPECIFICATION.md": "8b34a7047e7e366fac461cf55c08a9b3ffe1295726547e3c606fef5893a8dfb5",
+      "REVIEW_REPORT.md": "96064299772a35c482a8598e2cec2ff67569a55ce461eb09956687a6bbdfcd46"
+    },
+    "implementation_hash": "575fb1c9bc7f87e900bf56007e3fb21728c92e4e95756c68965313a5818d8b36"
+  },
+  "configs": {
+    "movielens": {
+      "source": {
+        "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+        "loader_setting": "natural",
+        "split_seed": 2022,
+        "train_domain_counts": [
+          155949,
+          318599,
+          325619
+        ],
+        "split_rows": {
+          "train": 800167,
+          "validation": 100021,
+          "test": 100021
+        },
+        "steps_per_epoch": 20,
+        "total_optimizer_steps": 1000,
+        "augmented_domain": 0,
+        "perturbable_sparse_fields": [
+          "user_id",
+          "movie_id",
+          "gender",
+          "occupation",
+          "zip",
+          "cate_id"
+        ],
+        "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+        "array_hashes": {
+          "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+          "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+          "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+          "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+          "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+          "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+        },
+        "split_row_fingerprints": {
+          "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+          "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+          "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+        },
+        "split_row_id_hashes": {
+          "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+          "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+          "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+        },
+        "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+        "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+      },
+      "dataset": "movielens",
+      "batch_size": 40960,
+      "eval_batch_size": 40960,
+      "epochs": 50,
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "kappa": 0.05,
+      "rho": 0.9828205985452511,
+      "weight_decay": 0.0001,
+      "steps_per_epoch": 20,
+      "parameter_count": 773470,
+      "lambda_aug": 0.5,
+      "target_domain": 0,
+      "rho_by_physical_shadow": {
+        "F": 0.9828205985452511
+      },
+      "aliases": {}
+    },
+    "kuairand": {
+      "source": {
+        "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+        "loader_setting": "natural",
+        "split_seed": 2022,
+        "train_domain_counts": [
+          172782,
+          1743898,
+          89452
+        ],
+        "split_rows": {
+          "train": 2006132,
+          "validation": 250767,
+          "test": 250767
+        },
+        "steps_per_epoch": 49,
+        "total_optimizer_steps": 2450,
+        "augmented_domain": 2,
+        "perturbable_sparse_fields": [
+          "user_active_degree",
+          "is_live_streamer",
+          "is_video_author",
+          "follow_user_num_range",
+          "fans_user_num_range",
+          "friend_user_num_range",
+          "register_days_range",
+          "onehot_feat0",
+          "onehot_feat1",
+          "onehot_feat2",
+          "onehot_feat3",
+          "onehot_feat4",
+          "onehot_feat5",
+          "onehot_feat6",
+          "onehot_feat7",
+          "onehot_feat8",
+          "onehot_feat9",
+          "onehot_feat10",
+          "onehot_feat11",
+          "onehot_feat12",
+          "onehot_feat13",
+          "onehot_feat14",
+          "onehot_feat15",
+          "onehot_feat16",
+          "onehot_feat17",
+          "video_type",
+          "upload_dt",
+          "upload_type",
+          "server_width",
+          "server_height",
+          "music_type",
+          "tag",
+          "counts"
+        ],
+        "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+        "array_hashes": {
+          "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+          "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+          "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+          "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+          "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+          "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+        },
+        "split_row_fingerprints": {
+          "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+          "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+          "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+        },
+        "split_row_id_hashes": {
+          "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+          "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+          "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+        },
+        "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+        "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+      },
+      "dataset": "kuairand",
+      "batch_size": 40960,
+      "eval_batch_size": 40960,
+      "epochs": 50,
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "kappa": 0.1,
+      "rho": 0.995,
+      "weight_decay": 1e-05,
+      "steps_per_epoch": 49,
+      "parameter_count": 1614254,
+      "lambda_aug": 0.5,
+      "target_domain": 0,
+      "rho_by_physical_shadow": {
+        "F": 0.995
+      },
+      "aliases": {}
+    }
+  },
+  "jobs": [
+    {
+      "dataset": "movielens",
+      "objective": "clean",
+      "seed": 2022,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__clean__seed2022",
+      "online_trajectory_id": "31db885e5deaf699cff1c45bcf905fb984169aa20c416f7c1a1005a0e71671bf"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "clean",
+      "seed": 2023,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__clean__seed2023",
+      "online_trajectory_id": "521ef35127822f0240824bb04bf49334715855429ac7d4b5cea67d579e7b1661"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "clean",
+      "seed": 2024,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__clean__seed2024",
+      "online_trajectory_id": "0ab3b9fe6241fd0986e7053f04a3032ed7951c86628e96b84ece96b718c54132"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "clean",
+      "seed": 2025,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__clean__seed2025",
+      "online_trajectory_id": "c562490cde1b82e812fb4d5bf8aef44eddf6ed37b25b31bff9006eceb1c1e5ca"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "clean",
+      "seed": 2026,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__clean__seed2026",
+      "online_trajectory_id": "1552302b550d14d6665649fa4d2deb9bb865cdb789b597a75897048c34df5110"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "clean",
+      "seed": 2022,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__clean__seed2022",
+      "online_trajectory_id": "5b9d2d5ef62d748fdfe769209920c13f677f7a8b4f2b00199ddd6b8cb2eeb475"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "clean",
+      "seed": 2023,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__clean__seed2023",
+      "online_trajectory_id": "2b9945b32879aa45ddfe740f980ce9d19914151e1adef05937d9b6cbef424b66"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "clean",
+      "seed": 2024,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__clean__seed2024",
+      "online_trajectory_id": "88b78d81b57ceb479f1de37bd1e21e8652723293ca53887ef00b08adc43c8be2"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "clean",
+      "seed": 2025,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__clean__seed2025",
+      "online_trajectory_id": "43b855e6af50b6115d0a73c65642dd7d8b65c4a2d0384378b6c3eb0b7e01e76e"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "clean",
+      "seed": 2026,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__clean__seed2026",
+      "online_trajectory_id": "89fb956b5e5a16291d3fa4cbfefdd6706028be1eb5b70053d3e3338dd732becf"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "gaussian_d0",
+      "seed": 2022,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__gaussian_d0__seed2022",
+      "online_trajectory_id": "a988b08042deb45e3879fd85693b453a840378de2a0456ab9c776f2c6de23025"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "gaussian_d0",
+      "seed": 2023,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__gaussian_d0__seed2023",
+      "online_trajectory_id": "48a96afa54c4787ddf6097b5ec95a178d2335d8dc393fb324972fae0c76277ce"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "gaussian_d0",
+      "seed": 2024,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__gaussian_d0__seed2024",
+      "online_trajectory_id": "d74c778a120ee2cd00701016dbe3d59541ec90d7531d1c5b4a6614aa6facf4e5"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "gaussian_d0",
+      "seed": 2025,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__gaussian_d0__seed2025",
+      "online_trajectory_id": "d23e03989f352981603001b17b43b1725abac0b9e47da74563da41e16fb5d769"
+    },
+    {
+      "dataset": "movielens",
+      "objective": "gaussian_d0",
+      "seed": 2026,
+      "epochs": 50,
+      "steps_per_epoch": 20,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            155949,
+            318599,
+            325619
+          ],
+          "split_rows": {
+            "train": 800167,
+            "validation": 100021,
+            "test": 100021
+          },
+          "steps_per_epoch": 20,
+          "total_optimizer_steps": 1000,
+          "augmented_domain": 0,
+          "perturbable_sparse_fields": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id"
+          ],
+          "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+          "array_hashes": {
+            "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+            "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+            "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+            "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+            "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+            "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+          },
+          "split_row_fingerprints": {
+            "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7",
+            "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+            "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+          },
+          "split_row_id_hashes": {
+            "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf",
+            "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+            "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+          },
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e"
+        },
+        "dataset": "movielens",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.05,
+        "rho": 0.9828205985452511,
+        "weight_decay": 0.0001,
+        "steps_per_epoch": 20,
+        "parameter_count": 773470,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.9828205985452511
+        },
+        "aliases": {}
+      },
+      "job_id": "movielens__gaussian_d0__seed2026",
+      "online_trajectory_id": "97fee076d3b034608bb2825ff55e7f6ec2466ec14228ee5c19353b8f42755807"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "gaussian_d0",
+      "seed": 2022,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__gaussian_d0__seed2022",
+      "online_trajectory_id": "c37d7c4a28f3db879169ca4c255650eee15dd2cfbbc8f6378b8568ccbbe5a5b9"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "gaussian_d0",
+      "seed": 2023,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__gaussian_d0__seed2023",
+      "online_trajectory_id": "71cdfb0a6c9cac184d9c90a4847d4c7ef4254fd6f56431d241fd86f5911084d6"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "gaussian_d0",
+      "seed": 2024,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__gaussian_d0__seed2024",
+      "online_trajectory_id": "fcb4d082fd4065024bb617fcf08701c9b713118798c5620767c3474cfa1fddd4"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "gaussian_d0",
+      "seed": 2025,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__gaussian_d0__seed2025",
+      "online_trajectory_id": "8aa5e840b400299711e30ee252f39ac61550367da2309f5efdd28e0fc9471a7c"
+    },
+    {
+      "dataset": "kuairand",
+      "objective": "gaussian_d0",
+      "seed": 2026,
+      "epochs": 50,
+      "steps_per_epoch": 49,
+      "config": {
+        "source": {
+          "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+          "loader_setting": "natural",
+          "split_seed": 2022,
+          "train_domain_counts": [
+            172782,
+            1743898,
+            89452
+          ],
+          "split_rows": {
+            "train": 2006132,
+            "validation": 250767,
+            "test": 250767
+          },
+          "steps_per_epoch": 49,
+          "total_optimizer_steps": 2450,
+          "augmented_domain": 2,
+          "perturbable_sparse_fields": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts"
+          ],
+          "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+          "array_hashes": {
+            "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+            "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+            "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+            "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+            "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+            "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+          },
+          "split_row_fingerprints": {
+            "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+            "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+            "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+          },
+          "split_row_id_hashes": {
+            "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+            "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+            "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+          },
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "dataset": "kuairand",
+        "batch_size": 40960,
+        "eval_batch_size": 40960,
+        "epochs": 50,
+        "lr": 0.01,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "kappa": 0.1,
+        "rho": 0.995,
+        "weight_decay": 1e-05,
+        "steps_per_epoch": 49,
+        "parameter_count": 1614254,
+        "lambda_aug": 0.5,
+        "target_domain": 0,
+        "rho_by_physical_shadow": {
+          "F": 0.995
+        },
+        "aliases": {}
+      },
+      "job_id": "kuairand__gaussian_d0__seed2026",
+      "online_trajectory_id": "9b069adb1dba01e9b7b6dfa83afa789888241d6b874d3dc2950fb4503719065b"
+    }
+  ]
+}

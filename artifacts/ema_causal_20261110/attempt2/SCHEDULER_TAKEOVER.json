@@ -1,0 +1,189 @@
+{
+  "scientific_hash": "4411eec43005a8e432f0de81d426c08a30f09960e84f7b1302e92b29ae4212e5",
+  "prepared_sha256": "741df1a95597f516add9ea505006dd1de72947bb24b87d859b8223d1f692a82e",
+  "supervisor_sha256": "f22601d6af5014095db2e001bcc35af8589580744d564e986bb917dfaaad9dc0",
+  "amendment_sha256": "150ea1ac24c1fbd1c7b756d2d4d204bc318665e6bc45bb2b1efa686e37fe226d",
+  "old_controller": {
+    "pid": 1014311,
+    "start": "10948746",
+    "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+  },
+  "old_argv": [
+    "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "-m",
+    "experiments.ema_causal_20261110.run",
+    "run",
+    "--plan-dir",
+    "research_plans/26-11-10_ema_causal_attribution",
+    "--out",
+    "artifacts/ema_causal_20261110/attempt2",
+    "--devices",
+    "0",
+    "1",
+    "--max-workers",
+    "5"
+  ],
+  "new_controller": {
+    "pid": 1072556,
+    "start": "11544571",
+    "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+  },
+  "guardian": {
+    "pid": 1014402,
+    "start": "10949401",
+    "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+  },
+  "boundary_sha256": "2d88325762316b792cb1ca9d98debcadd6d1c7a4e7db9aaefa3aa320b2d2cab3",
+  "snapshot": {
+    "status": {
+      "pid": 1014402,
+      "guardian_rss_bytes": 2431586304,
+      "peak_guardian_ram_bytes": 2778525696,
+      "payload_bytes": 46408200,
+      "blocks": [
+        "movielens__clean"
+      ],
+      "jobs": {
+        "movielens__clean__seed2022": {
+          "status": "FINALIZED",
+          "epoch": 50,
+          "launches": 1,
+          "worker": null
+        },
+        "movielens__clean__seed2023": {
+          "status": "FINALIZED",
+          "epoch": 50,
+          "launches": 1,
+          "worker": null
+        },
+        "movielens__clean__seed2024": {
+          "status": "FINALIZED",
+          "epoch": 50,
+          "launches": 1,
+          "worker": null
+        },
+        "movielens__clean__seed2025": {
+          "status": "FINALIZED",
+          "epoch": 50,
+          "launches": 1,
+          "worker": null
+        },
+        "movielens__clean__seed2026": {
+          "status": "FINALIZED",
+          "epoch": 50,
+          "launches": 1,
+          "worker": null
+        }
+      }
+    },
+    "workers": {
+      "kuairand__clean__seed2022": {
+        "identity": {
+          "pid": 1080795,
+          "start": "11631240",
+          "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+        },
+        "argv": [
+          "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+          "-m",
+          "experiments.ema_causal_20261110.run",
+          "_worker",
+          "--out",
+          "/home/xzf/Code/phase0-3_ema_causal_20261110/artifacts/ema_causal_20261110/attempt2",
+          "--key",
+          "kuairand__clean__seed2022",
+          "--device",
+          "cuda:0"
+        ]
+      }
+    },
+    "finalizers": [],
+    "controllers": [],
+    "active": [
+      "kuairand__clean__seed2022"
+    ],
+    "pending_registration": [
+      "kuairand__clean__seed2022"
+    ],
+    "action": "worker",
+    "key": "kuairand__clean__seed2023",
+    "block": "kuairand__clean",
+    "device": 0,
+    "reason": "admitted",
+    "eligible": [
+      0,
+      1
+    ],
+    "payload": {
+      "terms": {
+        "guardian_actual": 46408200,
+        "replaced_guardian_parameter_lower_bound": 0,
+        "future_retained": 627599904,
+        "worker_state": 1039410576,
+        "ipc_and_old_commit": 2782466896,
+        "pending_anchor": 163356992,
+        "finalizer_row": 0,
+        "finalizer_scratch": 0
+      },
+      "total": 4659242568,
+      "cap": 5368709120,
+      "stage_peaks": {
+        "kuairand__clean__seed2023": {
+          "epoch": 39,
+          "stage": "commit",
+          "history_events": 19,
+          "terms": {
+            "future_retained": 313799952,
+            "worker_state": 519705288,
+            "ipc_and_old_commit": 1391233448,
+            "pending_anchor": 81678496
+          },
+          "total": 2306417184,
+          "serialized_host_bytes": 1099455312,
+          "guardian_resident_and_worker": 1224070208,
+          "guardian_incoming": 468049160
+        },
+        "kuairand__clean__seed2022": {
+          "epoch": 39,
+          "stage": "commit",
+          "history_events": 19,
+          "terms": {
+            "future_retained": 313799952,
+            "worker_state": 519705288,
+            "ipc_and_old_commit": 1391233448,
+            "pending_anchor": 81678496
+          },
+          "total": 2306417184,
+          "serialized_host_bytes": 1099455312,
+          "guardian_resident_and_worker": 1224070208,
+          "guardian_incoming": 468049160
+        }
+      },
+      "guardian_predicate": {
+        "total": 2988425840,
+        "cap": 4294967296,
+        "base": 46408200,
+        "other_worker_resident_bounds": {
+          "kuairand__clean__seed2023": 1249898272,
+          "kuairand__clean__seed2022": 1249898272
+        },
+        "commit_totals": {
+          "kuairand__clean__seed2023": 2988425840,
+          "kuairand__clean__seed2022": 2988425840
+        }
+      },
+      "existing_peak_active_bytes": {
+        "kuairand__clean__seed2023": 492002568,
+        "kuairand__clean__seed2022": 492002568
+      }
+    },
+    "host": {
+      "total": 67181834240,
+      "used": 36016607232
+    },
+    "serialized_host_reservation": 2198910624,
+    "extra_host_rss_reservation": 8959228640,
+    "observed_process_rss": 392003584
+  },
+  "time": 1794302410.1556606
+}
