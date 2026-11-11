@@ -1,0 +1,46 @@
+# Independent implementation review
+
+Verdict: **PASS**. Blocking issues remaining: **none**.
+
+Reviewed implementation SHA-256: `0414855b2013aafca98d09b953e072e364201104422559cae0b65d6d8148524e`, computed independently using `protocol.implementation_identity()` after the final coder reports. This review compares the DESIGN SPECIFICATION, authoritative plan 04/09/12–14, both CODER implementation reports, and actual new package source. The reviewer did not implement the algorithms.
+
+The implementation preserves source model/loss/Adam/F semantics, five seeds and natural populations. A patches the actual native displacement before F and retains the optimizer state; B captures actual F with the specified sparse clock; C fits only P_A and applies previous-epoch coefficients to shared-history states. KD uses the actual teacher-epoch parent F, fresh Adam, paired original rows and the registered controls. Full-population source metrics, strict earliest checkpoint selection, complete A prefixes and student e0 are present. Validation chooses configurations; new Test loading requires the global freeze and live frozen endpoints.
+
+The controller implements required parents and MATCH shorts, conditional RAW/continuation/AB/KD/Gaussian stages, five-seed barriers, numeric gates, bounded recovery, final endpoint freeze, comparisons and release. Model/optimizer/history/selected packets remain in RAM. Resource forecasts include distinct current bests, independent E20 prefixes, anchors, sparse histories, incoming objects, active worker closure, prior Clean/Gaussian endpoints and named conditional-phase bounds. Independently recomputed single-worker bounds are ML 1.430160/1.732586 GiB and KR 3.896492/4.612907 GiB for guardian/physical tensors. Per-card admission and additional-worker closure reservations preserve the 4/7 GiB constraints.
+
+Concrete review findings corrected before this verdict:
+
+- C readouts initially matched H without scope and could be overwritten by all-parameter B states; scope matching and a focused test now enforce S.
+- Streamed selection and callable endpoint mixing used different CPU/GPU arithmetic; both now share the same FP32 arithmetic, with bitwise score equivalence checked.
+- Restore cloned optimizer state to protect immutable CPU snapshots.
+- A cost/timing classification, MATCH/RAW ties, single-s C freezing and infeasible KD configurations now follow the declared decisions.
+- Gaussian-parent Clean students retain their distinct condition and matched parent controls; formal decisions include completed conditions, and AB selected/E50 interactions are exported separately.
+- Resource accounting now includes full immutable worker closures, retained previous-dataset endpoints, transient epoch readouts and conditional lifecycle bounds; unused prefixes/teacher initializer references are released after their consumers.
+
+The combined focused test suite passed **16 tests in 11.87 seconds**, as recorded by the execution coder; source/math, packet/selection, gate boundaries, storage/recovery and independent GPU admission tests were inspected. The final hash and resource calculation were independently recomputed. No unrelated regression suite or expanded experiment grid was requested.
+
+Next required stage: runner performs both real-data GPU smokes, binds those receipts to this implementation hash, then executes the prescribed study. Smoke must confirm complete-epoch source equivalence, real A/KD steps, all registered readouts, recovery and measured resource use. This review contains no research-effectiveness conclusion.
+
+## Smoke startup revision
+
+PASS retained for implementation `20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6`. Independently inspected the narrow change: `torch.cuda.set_device(device)` now precedes the peak-memory reset. The original smoke stopped before model execution because the device context was not initialized. The coder's fresh-process device/reset check passed. Scientific operators and the 16-test evidence are unchanged; the runner can refresh the unstarted attempt identities and rerun smoke.
+
+## Admission-only runtime revision
+
+PASS for external adapter `experiments/ema_next_admission_20261111.py`, SHA-256 `07a2348ecf269c8a6843351a2721fd9e6e6788a4636b5cc11e7aef1ffbcb2de4`. The five delayed worker allocations exposed a dispatch reservation gap. The adapter scans exact-attempt worker PID/start/job/device identities, reserves missing or growing CUDA allocations, retains observed process-overhead highwater, counts pending processes for host/tensor admission, and prevents same-job redispatch before guardian registration. Two focused tests cover missing GPU readings, growing allocations, persistent reservations and pending-job duplication. Scientific package hash stays `20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6`; existing trajectories and smoke evidence remain valid. Only the controller is replaced, adopting existing workers.
+
+## Parent-cohort admission revision
+
+PASS for adapter `81a9ab3b90c5c875e2631288bb4eb71fb7335f44a1c86921d9835f0bc55f5daa`, reviewed against preserved `07a2348e` source and exact diff. Parent-only same-dataset cohorts reserve measured retained guardian payload B plus each active/pending/proposed parent's full future immutable closure C and live state L. Guardian bound is B+n(C+2L+metadata)+I; physical bound additionally includes n(C+L+5 FP32 model copies+metadata)+I, including an explicit extra incoming IPC copy. No current payload is subtracted. Mixed/nonparent cohorts or undiscovered registered workers retain the previous admission. Four focused tests pass, including pending workers, unchanged frozen full-five forecast, retained payload accumulation and n4/n5 boundaries. For the declared prior ML bound, n4 is 3.840593/6.876994 GiB guardian/physical; n5 is 4.617144/8.369960 GiB and is rejected. Existing per-card GPU reservations and all limits remain in force. Scientific hash remains `20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6`.
+
+## Frozen-decision reentry revision
+
+PASS for adapter `3b2e089e89356fabc0012fb81a13f36f16c81df12e732aa7bf22a83735ce501e`. Independently recomputed ML PARENT_BC from committed parent curves: raw Python comparison differs, but complete JSON-normalized content is exactly equal to the frozen file `f982a211b8af213c454c5ee8f4d4a966046cbcbc07b5ecb7a98dbabdd9b6fd15`. The difference is integer seed keys becoming JSON string keys. The shared runtime writer now compares JSON values, leaves equal existing file bytes/mtime untouched and rejects actual value changes. The focused test checks roundtrip equality and rejection of a 1e-8 metric change. No frozen scientific decision or package source is altered. Existing workers and guardian can be adopted on resume.
+
+## Audited prior-block parent baseline revision
+
+PASS for adapter `60e76abc3231c9846d3c97ac2d8d894a98f1df8b527f5c5eb1c398fae3bf6e84`. Independently verified the live baseline receipt `5c2a5639e5f55ccac8417f1ac7ae81ac1a4a5ecab1f2cefca8b7deeefbd8cf35` against the exact attempt, unchanged scientific hash, guardian PID/start/boot, frozen ML completion hash and first KR admission record hash/time/job. That record had no workers and retained 288103704 bytes. The restricted initial Clean-parent path reserves B+d(C+metadata)+n(C+2L+metadata)+I, counting completed parents separately and active/pending/proposed parents in n; completed rows with still-live processes are counted only in n. Physical reservation retains the additional worker/export closures and incoming I. Nonapplicable or unverifiable contexts fall back to the previous conservative formula; actual-payload floors remain. Independently recomputed guardian/physical GiB: d0/n4 3.545261/6.581662; d0/n5 4.321812/8.074628 (rejected); d3/n2 3.780591/5.384162; d4/n1 3.600184/4.487340. Seven focused tests cover these boundaries, pending/completed counts, receipt tampering and fallback. No process operation, scientific-result interpretation or scientific-code change occurred in this review.
+
+## Clean A cohort admission revision
+
+PASS for adapter `1755e97d6bc087d555f48145cb3bc3c5a0c70b60afa5bfb263b678ae82efc346`. Reviewed the exact prior-source diff and actual A fork/export graph: at most O/F plus one registered B readout, no C or retained anchors, selected at most 5P, prefix at most 4P, live optimizer/online/F 4P, and sparse history at most 6P. The 19P total is covered by E=20 FP32 model vectors+32MiB. Guardian B+(2n+1)E retains all measured payload B, including completed E20 branches; physical B+(4n+1)E+nD additionally covers full parent-closure fetch D and concurrent copies. Pending and proposed workers count in n. Clean short/continuation scope and original P/step/rho/menu/history checks constrain use; Gaussian/KD/mixed or unrecognized contexts retain earlier admission. E35 release and E20 retention affect measured B without speculative subtraction. Nine focused tests cover admission boundaries, retained/released payload and fallback. Independent live read-only check gave n2, B1444716224, guardian2258189984 and physical4380791536 bytes; package hash remains `20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6`. No process operation or research-result analysis was performed.

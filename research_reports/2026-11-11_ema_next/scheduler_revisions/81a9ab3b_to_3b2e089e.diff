@@ -1,0 +1,35 @@
+--- admission_81a9ab3b.py
++++ experiments/ema_next_admission_20261111.py
+@@ -14,6 +14,15 @@
+ ORIGINAL_ADMIT=scheduler.admit
+ ORIGINAL_GPU_STATE=scheduler.gpu_state
+ MODULE='experiments.ema_next_20261111.run'
++
++
++def gate_write(out,dataset,name,value):
++    path=Path(out)/'decisions'/dataset/(name+'.json')
++    canonical=json.loads(json.dumps(value,allow_nan=False))
++    if path.exists():
++        if read_json(path)!=canonical:raise ValueError('Frozen decision changed '+dataset+'/'+name)
++        return
++    write_json(path,value)
+ 
+ 
+ def option(args,name):
+@@ -148,7 +157,7 @@
+     receipt=dict(kind='SCHEDULER_ONLY_REVISION',scientific_hash=expected,adapter_path=str(Path(__file__).resolve()),adapter_sha256=sha_file(__file__),
+         previous_controller=(process_identity(args.previous_controller) or dict(pid=args.previous_controller)) if args.previous_controller else read_json(out/'SCHEDULER_PREVIOUS_CONTROLLER.json'),
+         new_controller=process_identity(os.getpid()),adopted_workers=workers,time=time.time(),
+-        cause='Pending CUDA reservations plus parent-only cohort tensor forecasts; full-five-seed prepare and scientific package unchanged.',
++        cause='Pending CUDA reservations, parent cohort tensor forecasts and JSON-equivalent frozen-decision reentry; scientific package unchanged.',
+         initial_observation=dict(worker_process_MiB=1346,worker_allocated_peak_MiB=934.89404296875,ML_smoke_allocated_peak_bytes=1048753664))
+     gpus,processes=gpu_inventory(args.devices)
+     _,_,admission.highwater,_=reservations(prepared,workers,gpus,processes,admission.highwater)
+@@ -157,6 +166,7 @@
+         previous=read_json(out/'SCHEDULER_REVISION.json');write_json(out/f'SCHEDULER_REVISION_{previous["new_controller"]["pid"]}.json',previous)
+     write_json(out/'SCHEDULER_REVISION.json',receipt)
+     scheduler.admit=admission
++    scheduler.gate_write=gate_write
+     return scheduler.execute(out,args.devices)
+ 
+ if __name__=='__main__':main()

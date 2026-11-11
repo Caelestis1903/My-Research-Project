@@ -1,0 +1,99 @@
+--- admission_3b2e089e.py
++++ experiments/ema_next_admission_20261111.py
+@@ -9,11 +9,12 @@
+ from experiments.ema_next_20261111 import scheduler
+ from experiments.ema_next_20261111.protocol import implementation_identity
+ from experiments.ema_next_20261111.state import request,process_identity,alive
+-from experiments.overnight_ab_20261103.state import read_json,write_json,sha_file
++from experiments.overnight_ab_20261103.state import read_json,write_json,sha_file,digest
+ 
+ ORIGINAL_ADMIT=scheduler.admit
+ ORIGINAL_GPU_STATE=scheduler.gpu_state
+ MODULE='experiments.ema_next_20261111.run'
++BASELINE_PATH=Path(__file__).resolve().parents[1]/'research_reports/2026-11-11_ema_next/scheduler_revisions/KR_PARENT_BASELINE.json'
+ 
+ 
+ def gate_write(out,dataset,name,value):
+@@ -48,7 +49,7 @@
+             rss=int(next(s.split()[1] for s in (p/'status').read_text().splitlines() if s.startswith('VmRSS:')))*1024
+             epochs=sorted((out/'runs'/key/'epochs').glob('E*.json'));peak=0
+             if epochs:peak=read_json(epochs[-1]).get('cost',{}).get('gpu_peak_allocated',0)
+-            workers.append(dict(identity=identity,key=key,device=int(device.split(':')[1]),dataset=job['dataset'],family=job['family'],rss_bytes=rss,allocated_peak_bytes=peak))
++            workers.append(dict(identity=identity,key=key,device=int(device.split(':')[1]),dataset=job['dataset'],family=job['family'],objective=job['objective'],rss_bytes=rss,allocated_peak_bytes=peak))
+         except (FileNotFoundError,ProcessLookupError,PermissionError,StopIteration):continue
+     return workers
+ 
+@@ -90,7 +91,32 @@
+     return adjusted,reserve,highwater,entries
+ 
+ 
+-def parent_cohort_forecast(prepared,status,job,workers,active_count):
++def verified_parent_baseline(out,prepared,status,job,workers):
++    if job.get('dataset')!='kuairand' or job.get('family')!='PARENT' or job.get('objective')!='clean':return None
++    if not BASELINE_PATH.exists():return None
++    proof=read_json(BASELINE_PATH);out=Path(out).resolve()
++    if str(out)!=proof['attempt'] or prepared['identity']['implementation_hash']!=proof['scientific_hash']:return None
++    if status.get('pid')!=proof['guardian_owner']['pid'] or process_identity(status['pid'])!=proof['guardian_owner']:return None
++    complete=out/'decisions'/proof['previous_dataset']/'DATASET_COMPLETE.json'
++    if not complete.exists() or sha_file(complete)!=proof['previous_complete_sha256']:return None
++    if any(w['dataset']!='kuairand' or w.get('family')!='PARENT' or w.get('objective')!='clean' for w in workers):return None
++    worker_keys={w['key'] for w in workers}
++    for key,row in status.get('jobs',{}).items():
++        j=row['job']
++        if j['dataset']=='kuairand':
++            if j['family']!='PARENT' or j['objective']!='clean' or row['status'] not in ('PENDING','RUNNING','COMPLETE'):return None
++            if row['status']!='COMPLETE' and key not in worker_keys and key!=job['job_id']:return None
++        elif j['dataset']!=proof['previous_dataset'] or row['status'] not in ('COMPLETE','RELEASED'):return None
++    with (out/'RESOURCE_ADMISSION.jsonl').open() as stream:
++        first=next((r for line in stream if (r:=json.loads(line))['job_id'].startswith('P.C.kuairand.')),None)
++    if first is None or digest(first)!=proof['first_admission_sha256']:return None
++    if first['job_id']!=proof['first_job_id'] or first['time']!=proof['first_admission_time']:return None
++    if first['reason']!='ADMITTED' or first['worker_reservations'] or first['discovered_worker_count']!=0:return None
++    if first['parent_cohort']['retained_payload_bytes']!=proof['payload_bytes']:return None
++    return dict(proof,receipt_sha256=sha_file(BASELINE_PATH))
++
++
++def parent_cohort_forecast(prepared,status,job,workers,active_count,baseline=None):
+     ds=job['dataset']
+     if job.get('family')!='PARENT' or active_count>len(workers):return None
+     if any(w.get('family')!='PARENT' or w['dataset']!=ds for w in workers):return None
+@@ -99,12 +125,15 @@
+     C=4*sum(sum(layout[k].values()) for k in ('best','prefix','anchors'))
+     L=4*layout['active'];metadata=(1<<20)+200*prepared['groups'][ds]['runtime_buffer_bytes']
+     I=L+4*(12*P+3*S)+metadata;B=status['payload_bytes'];n=len(workers)+1
+-    # Retain all actual payload, including active rows; reserve each cohort's entire future closure.
+-    guardian=B+n*(C+2*L+metadata)+I
++    done=0
++    if baseline is not None:
++        B=baseline['payload_bytes'];worker_keys={w['key'] for w in workers}
++        done=sum(r['job']['dataset']==ds and r['status']=='COMPLETE' and key not in worker_keys for key,r in status['jobs'].items())
++    guardian=B+done*(C+metadata)+n*(C+2*L+metadata)+I
+     physical=guardian+n*(C+L+5*4*P+metadata)+I
+-    return dict(dataset=ds,cohort_count=n,retained_payload_bytes=B,immutable_closure_bytes=C,live_bytes=L,
++    return dict(dataset=ds,cohort_count=n,completed_parent_count=done,retained_payload_bytes=B,actual_payload_bytes=status['payload_bytes'],baseline=baseline,immutable_closure_bytes=C,live_bytes=L,
+         metadata_bytes=metadata,incoming_bytes=I,guardian_predicate=guardian,physical_tensor_bytes=physical,
+-        guardian_formula='B+n*(C+2L+metadata)+I',physical_formula='G+n*(C+L+5*FP32P+metadata)+I')
++        guardian_formula='B+d*(C+metadata)+n*(C+2L+metadata)+I',physical_formula='G+n*(C+L+5*FP32P+metadata)+I')
+ 
+ 
+ class Admission:
+@@ -128,7 +157,8 @@
+         if mem['MemTotal']-mem['MemAvailable']+pending_host+host_each>=.9*mem['MemTotal']:
+             return None,dict(details,job_id=job['job_id'],reason='host_90pct_with_pending_processes',pending_host_bytes=pending_host)
+         resolved=dict(prepared,calibration={d:dict(c,gpu_peak_bytes=reserve[d]) for d,c in prepared['calibration'].items()})
+-        cohort=parent_cohort_forecast(prepared,status,job,workers,active_count)
++        baseline=verified_parent_baseline(self.out,prepared,status,job,workers)
++        cohort=parent_cohort_forecast(prepared,status,job,workers,active_count,baseline)
+         if cohort is not None:
+             ds=job['dataset'];estimate=prepared['resource_estimate'];datasets=dict(estimate['datasets'])
+             datasets[ds]=dict(datasets[ds],peak=cohort)
+@@ -157,7 +187,8 @@
+     receipt=dict(kind='SCHEDULER_ONLY_REVISION',scientific_hash=expected,adapter_path=str(Path(__file__).resolve()),adapter_sha256=sha_file(__file__),
+         previous_controller=(process_identity(args.previous_controller) or dict(pid=args.previous_controller)) if args.previous_controller else read_json(out/'SCHEDULER_PREVIOUS_CONTROLLER.json'),
+         new_controller=process_identity(os.getpid()),adopted_workers=workers,time=time.time(),
+-        cause='Pending CUDA reservations, parent cohort tensor forecasts and JSON-equivalent frozen-decision reentry; scientific package unchanged.',
++        cause='Pending CUDA reservations, audited KR prior-block baseline with completed/active cohort bounds, and JSON-equivalent decision reentry; scientific package unchanged.',
++        baseline_receipt_sha256=sha_file(BASELINE_PATH),
+         initial_observation=dict(worker_process_MiB=1346,worker_allocated_peak_MiB=934.89404296875,ML_smoke_allocated_peak_bytes=1048753664))
+     gpus,processes=gpu_inventory(args.devices)
+     _,_,admission.highwater,_=reservations(prepared,workers,gpus,processes,admission.highwater)

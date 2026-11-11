@@ -1,0 +1,33 @@
+{
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "adapter_sha256": "1755e97d6bc087d555f48145cb3bc3c5a0c70b60afa5bfb263b678ae82efc346",
+  "scientific_hash": "20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6",
+  "reviewer": "/root/reviewer",
+  "scope": "Admission-only external adapter, including parent-only cohort forecast with explicit extra IPC incoming copy; full-five prepare, caps and scientific package unchanged.",
+  "tests_passed": 9,
+  "parent_cohort_guardian_formula": "B+d*(C+metadata)+n*(C+2L+metadata)+I",
+  "parent_cohort_physical_formula": "G+n*(C+L+5*FP32P+metadata)+I",
+  "reentry_review": {
+    "verdict": "PASS",
+    "full_frozen_decision_json_equality": true,
+    "frozen_decision_sha256": "f982a211b8af213c454c5ee8f4d4a966046cbcbc07b5ecb7a98dbabdd9b6fd15",
+    "focused_test_passed": 1,
+    "true_changed_values_rejected": true
+  },
+  "parent_baseline_review": {
+    "verdict": "PASS",
+    "receipt_sha256": "5c2a5639e5f55ccac8417f1ac7ae81ac1a4a5ecab1f2cefca8b7deeefbd8cf35",
+    "payload_bytes": 288103704,
+    "live_binding_verified": true,
+    "scope": "Initial KuaiRand Clean parent phase only; history-bound prior-block payload plus complete-parent and live-cohort bounds. Original measured-payload floors and all GPU/host/tensor limits preserved."
+  },
+  "a_cohort_review": {
+    "verdict": "PASS",
+    "guardian_formula": "B+(2n+1)E",
+    "physical_formula": "B+(4n+1)E+nD",
+    "E": "20 FP32 model vectors + 32 MiB",
+    "D": "full parent immutable closure plus live snapshot",
+    "scope": "Clean A_MATCH/A_RAW registered short or E26 continuation only; all actual retained payload included; other/mixed/unsupported paths fall back."
+  }
+}

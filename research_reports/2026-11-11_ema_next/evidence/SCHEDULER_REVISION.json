@@ -1,0 +1,157 @@
+{
+  "kind": "SCHEDULER_ONLY_REVISION",
+  "scientific_hash": "20ccc69b2421efd690bb363db405f198b991cd6efe03ccb912298c1ee4b784b6",
+  "adapter_path": "/home/xzf/Code/phase0-3_ema_next_20261111/experiments/ema_next_admission_20261111.py",
+  "adapter_sha256": "1755e97d6bc087d555f48145cb3bc3c5a0c70b60afa5bfb263b678ae82efc346",
+  "previous_controller": {
+    "pid": 1946919
+  },
+  "new_controller": {
+    "pid": 2008006,
+    "start": "21017968",
+    "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+  },
+  "adopted_workers": [
+    {
+      "identity": {
+        "pid": 2003393,
+        "start": "20996381",
+        "boot": "3a551a5e-2e99-476c-b157-243189667d3f"
+      },
+      "key": "A.M.kuairand.2025.e35.a1",
+      "device": 1,
+      "dataset": "kuairand",
+      "family": "A_MATCH",
+      "objective": "clean",
+      "job": {
+        "dataset": "kuairand",
+        "seed": 2025,
+        "family": "A_MATCH",
+        "objective": "clean",
+        "start_epoch": 35,
+        "end_epoch": 41,
+        "parent_id": "P.C.kuairand.2025",
+        "direction_alpha": 1.0,
+        "anchor": 35,
+        "frozen_B": {
+          "id": "B_H277_all_logit",
+          "family": "B_SPLIT",
+          "H": 277,
+          "scope": "all",
+          "mode": "logit",
+          "forwards": 2
+        },
+        "config": {
+          "source": {
+            "raw_path_default": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+            "loader_setting": "natural",
+            "split_seed": 2022,
+            "train_domain_counts": [
+              172782,
+              1743898,
+              89452
+            ],
+            "split_rows": {
+              "train": 2006132,
+              "validation": 250767,
+              "test": 250767
+            },
+            "steps_per_epoch": 49,
+            "total_optimizer_steps": 2450,
+            "augmented_domain": 2,
+            "perturbable_sparse_fields": [
+              "user_active_degree",
+              "is_live_streamer",
+              "is_video_author",
+              "follow_user_num_range",
+              "fans_user_num_range",
+              "friend_user_num_range",
+              "register_days_range",
+              "onehot_feat0",
+              "onehot_feat1",
+              "onehot_feat2",
+              "onehot_feat3",
+              "onehot_feat4",
+              "onehot_feat5",
+              "onehot_feat6",
+              "onehot_feat7",
+              "onehot_feat8",
+              "onehot_feat9",
+              "onehot_feat10",
+              "onehot_feat11",
+              "onehot_feat12",
+              "onehot_feat13",
+              "onehot_feat14",
+              "onehot_feat15",
+              "onehot_feat16",
+              "onehot_feat17",
+              "video_type",
+              "upload_dt",
+              "upload_type",
+              "server_width",
+              "server_height",
+              "music_type",
+              "tag",
+              "counts"
+            ],
+            "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+            "array_hashes": {
+              "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+              "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+              "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+              "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+              "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+              "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+            },
+            "split_row_fingerprints": {
+              "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057",
+              "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+              "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+            },
+            "split_row_id_hashes": {
+              "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e",
+              "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+              "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+            },
+            "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+            "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+          },
+          "dataset": "kuairand",
+          "batch_size": 40960,
+          "eval_batch_size": 40960,
+          "epochs": 50,
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "kappa": 0.1,
+          "rho": 0.995,
+          "weight_decay": 1e-05,
+          "steps_per_epoch": 49,
+          "parameter_count": 1614254,
+          "lambda_aug": 0.5,
+          "target_domain": 0,
+          "rho_by_physical_shadow": {
+            "F": 0.995
+          },
+          "aliases": {}
+        },
+        "config_hash": "84ee9ed4f46a275571a5d7f4b3c86a43b4fb1e2aef4c167529dc934dd9c7cd22",
+        "job_id": "A.M.kuairand.2025.e35.a1",
+        "steps_per_epoch": 49
+      },
+      "rss_bytes": 2315857920,
+      "allocated_peak_bytes": 1085247488
+    }
+  ],
+  "time": 1794396279.8203528,
+  "cause": "Pending CUDA reservations, audited parent baseline, bounded Clean A cohort forecasts, and JSON-equivalent decision reentry; scientific package unchanged.",
+  "baseline_receipt_sha256": "5c2a5639e5f55ccac8417f1ac7ae81ac1a4a5ecab1f2cefca8b7deeefbd8cf35",
+  "initial_observation": {
+    "worker_process_MiB": 1346,
+    "worker_allocated_peak_MiB": 934.89404296875,
+    "ML_smoke_allocated_peak_bytes": 1048753664
+  }
+}

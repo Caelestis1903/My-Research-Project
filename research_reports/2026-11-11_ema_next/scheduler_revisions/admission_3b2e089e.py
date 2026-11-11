@@ -1,0 +1,172 @@
+"""Admission-only adapter for the active EMA study; scientific package stays pinned."""
+import argparse
+import copy
+import json
+import os
+from pathlib import Path
+import subprocess
+import time
+from experiments.ema_next_20261111 import scheduler
+from experiments.ema_next_20261111.protocol import implementation_identity
+from experiments.ema_next_20261111.state import request,process_identity,alive
+from experiments.overnight_ab_20261103.state import read_json,write_json,sha_file
+
+ORIGINAL_ADMIT=scheduler.admit
+ORIGINAL_GPU_STATE=scheduler.gpu_state
+MODULE='experiments.ema_next_20261111.run'
+
+
+def gate_write(out,dataset,name,value):
+    path=Path(out)/'decisions'/dataset/(name+'.json')
+    canonical=json.loads(json.dumps(value,allow_nan=False))
+    if path.exists():
+        if read_json(path)!=canonical:raise ValueError('Frozen decision changed '+dataset+'/'+name)
+        return
+    write_json(path,value)
+
+
+def option(args,name):
+    return args[args.index(name)+1] if name in args and args.index(name)+1<len(args) else None
+
+
+def worker_inventory(out):
+    out=Path(out).resolve();workers=[]
+    for p in Path('/proc').iterdir():
+        if not p.name.isdigit():continue
+        try:
+            args=(p/'cmdline').read_bytes().decode().split('\0')[:-1]
+            if '-m' not in args:continue
+            i=args.index('-m')
+            if args[i+1:i+3]!=[MODULE,'_worker']:continue
+            value=option(args,'--out')
+            if value is None or (p/'cwd').resolve().joinpath(value).resolve()!=out:continue
+            identity=process_identity(int(p.name))
+            if not identity:continue
+            key=option(args,'--key');device=option(args,'--device')
+            if not key or not device or not device.startswith('cuda:'):raise ValueError('Attempt worker has no job/device identity')
+            job=read_json(out/'runs'/key/'JOB.json')
+            rss=int(next(s.split()[1] for s in (p/'status').read_text().splitlines() if s.startswith('VmRSS:')))*1024
+            epochs=sorted((out/'runs'/key/'epochs').glob('E*.json'));peak=0
+            if epochs:peak=read_json(epochs[-1]).get('cost',{}).get('gpu_peak_allocated',0)
+            workers.append(dict(identity=identity,key=key,device=int(device.split(':')[1]),dataset=job['dataset'],family=job['family'],rss_bytes=rss,allocated_peak_bytes=peak))
+        except (FileNotFoundError,ProcessLookupError,PermissionError,StopIteration):continue
+    return workers
+
+
+def gpu_inventory(devices):
+    raw=subprocess.check_output(['nvidia-smi','--query-gpu=index,uuid,memory.total,memory.used,power.draw,power.limit','--format=csv,noheader,nounits'],text=True)
+    gpus=[];uuids={}
+    for line in raw.splitlines():
+        v=[x.strip() for x in line.split(',')];index=int(v[0]);uuids[v[1]]=index
+        if index in devices:gpus.append(dict(index=index,total=float(v[2])*2**20,used=float(v[3])*2**20,power=float(v[4]),power_limit=float(v[5])))
+    raw=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,gpu_uuid,used_memory','--format=csv,noheader,nounits'],text=True)
+    processes={}
+    for line in raw.splitlines():
+        v=[x.strip() for x in line.split(',')]
+        if len(v)!=3:continue
+        try:processes[(int(v[0]),uuids[v[1]])]=float(v[2])*2**20
+        except (KeyError,ValueError):continue
+    return gpus,processes
+
+
+def reservations(prepared,workers,gpus,process_memory,highwater):
+    highwater=copy.deepcopy(highwater);highwater.setdefault('process_bytes',{});highwater.setdefault('device_process_bytes',{});highwater.setdefault('nonallocated_overhead_bytes',0)
+    for w in workers:
+        used=process_memory.get((w['identity']['pid'],w['device']))
+        if used is None:continue
+        ds=w['dataset'];dk=f'{w["device"]}:{ds}'
+        highwater['process_bytes'][ds]=max(highwater['process_bytes'].get(ds,0),used)
+        highwater['device_process_bytes'][dk]=max(highwater['device_process_bytes'].get(dk,0),used)
+        if w['allocated_peak_bytes']:
+            highwater['nonallocated_overhead_bytes']=max(highwater['nonallocated_overhead_bytes'],used-w['allocated_peak_bytes'])
+    reserve={ds:max(c['gpu_peak_bytes']+highwater['nonallocated_overhead_bytes'],highwater['process_bytes'].get(ds,0)) for ds,c in prepared['calibration'].items()}
+    adjusted=[dict(g,pending_worker_bytes=0.) for g in gpus];by_device={g['index']:g for g in adjusted};entries=[]
+    for w in workers:
+        used=process_memory.get((w['identity']['pid'],w['device']))
+        deficit=max(reserve[w['dataset']]-(used or 0),0)
+        if w['device'] in by_device:by_device[w['device']]['pending_worker_bytes']+=deficit
+        entries.append(dict(w,observed_gpu_bytes=used,reserved_gpu_bytes=reserve[w['dataset']],unallocated_reservation_bytes=deficit))
+    for g in adjusted:g['used_observed']=g['used'];g['used']+=g['pending_worker_bytes']
+    return adjusted,reserve,highwater,entries
+
+
+def parent_cohort_forecast(prepared,status,job,workers,active_count):
+    ds=job['dataset']
+    if job.get('family')!='PARENT' or active_count>len(workers):return None
+    if any(w.get('family')!='PARENT' or w['dataset']!=ds for w in workers):return None
+    layout=prepared['resource_estimate']['datasets'][ds]['layout_elements']
+    P=job['config']['parameter_count'];S=prepared['manifest']['datasets'][ds]['shared_parameter_count']
+    C=4*sum(sum(layout[k].values()) for k in ('best','prefix','anchors'))
+    L=4*layout['active'];metadata=(1<<20)+200*prepared['groups'][ds]['runtime_buffer_bytes']
+    I=L+4*(12*P+3*S)+metadata;B=status['payload_bytes'];n=len(workers)+1
+    # Retain all actual payload, including active rows; reserve each cohort's entire future closure.
+    guardian=B+n*(C+2*L+metadata)+I
+    physical=guardian+n*(C+L+5*4*P+metadata)+I
+    return dict(dataset=ds,cohort_count=n,retained_payload_bytes=B,immutable_closure_bytes=C,live_bytes=L,
+        metadata_bytes=metadata,incoming_bytes=I,guardian_predicate=guardian,physical_tensor_bytes=physical,
+        guardian_formula='B+n*(C+2L+metadata)+I',physical_formula='G+n*(C+L+5*FP32P+metadata)+I')
+
+
+class Admission:
+    def __init__(self,out,persist=True):
+        self.out=Path(out).resolve();self.path=self.out/'SCHEDULER_ADMISSION_HIGHWATER.json';self.persist=persist
+        self.highwater=read_json(self.path) if self.path.exists() else {}
+
+    def __call__(self,prepared,status,job,devices,active_count):
+        workers=worker_inventory(self.out);gpus,processes=gpu_inventory(devices)
+        adjusted,reserve,updated,entries=reservations(prepared,workers,gpus,processes,self.highwater)
+        if self.persist and updated!=self.highwater:write_json(self.path,updated)
+        self.highwater=updated
+        details=dict(worker_reservations=entries,gpu_adjusted=adjusted,candidate_gpu_reserve=reserve[job['dataset']],adapter_sha256=sha_file(__file__))
+        if any(w['key']==job['job_id'] for w in workers):return None,dict(details,job_id=job['job_id'],reason='same_job_pending_or_running')
+        if not updated.get('nonallocated_overhead_bytes'):
+            return None,dict(details,job_id=job['job_id'],reason='waiting_for_measured_CUDA_overhead')
+        # Count process identities before guardian registration and before CUDA allocation.
+        count=max(active_count,len(workers));P=job['config']['parameter_count'];host_each=(2<<30)+4*((20*P*4)+(32<<20))
+        pending_host=sum(max(host_each-w['rss_bytes'],0) for w in workers)
+        mem={s.split(':')[0]:int(s.split()[1])*1024 for s in Path('/proc/meminfo').read_text().splitlines()}
+        if mem['MemTotal']-mem['MemAvailable']+pending_host+host_each>=.9*mem['MemTotal']:
+            return None,dict(details,job_id=job['job_id'],reason='host_90pct_with_pending_processes',pending_host_bytes=pending_host)
+        resolved=dict(prepared,calibration={d:dict(c,gpu_peak_bytes=reserve[d]) for d,c in prepared['calibration'].items()})
+        cohort=parent_cohort_forecast(prepared,status,job,workers,active_count)
+        if cohort is not None:
+            ds=job['dataset'];estimate=prepared['resource_estimate'];datasets=dict(estimate['datasets'])
+            datasets[ds]=dict(datasets[ds],peak=cohort)
+            resolved['resource_estimate']=dict(estimate,datasets=datasets)
+            count=0  # Cohort already includes every discovered process and the proposed worker.
+            details['parent_cohort']=cohort
+        scheduler.gpu_state=lambda _:adjusted
+        try:device,receipt=ORIGINAL_ADMIT(resolved,status,job,devices,count)
+        finally:scheduler.gpu_state=ORIGINAL_GPU_STATE
+        receipt.update(details,discovered_worker_count=len(workers),pending_host_bytes=pending_host)
+        return device,receipt
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--out',required=True,type=Path);parser.add_argument('--devices',type=int,nargs='+',default=[0,1]);parser.add_argument('--inspect',action='store_true');parser.add_argument('--previous-controller',type=int)
+    args=parser.parse_args();out=args.out.resolve();prepared=read_json(out/'PREPARED.json')
+    expected=prepared['identity']['implementation_hash']
+    if implementation_identity()['sha256']!=expected:raise ValueError('Scientific package differs from frozen implementation')
+    for ds in prepared['manifest']['dataset_order']:prepared.setdefault('calibration',{})[ds]=read_json(out/f'SMOKE_{ds.upper()}.json')
+    admission=Admission(out,persist=not args.inspect);workers=worker_inventory(out)
+    if args.inspect:
+        gpus,processes=gpu_inventory(args.devices);adjusted,reserve,highwater,entries=reservations(prepared,workers,gpus,processes,admission.highwater)
+        print(json.dumps(dict(scientific_hash=expected,adapter_sha256=sha_file(__file__),workers=entries,gpus=adjusted,reserve=reserve,highwater=highwater),indent=2));return
+    review=read_json(out/'SCHEDULER_ADMISSION_REVIEW.json')
+    if review.get('verdict')!='PASS' or review.get('adapter_sha256')!=sha_file(__file__) or review.get('scientific_hash')!=expected:raise ValueError('Hash-bound admission review PASS required')
+    receipt=dict(kind='SCHEDULER_ONLY_REVISION',scientific_hash=expected,adapter_path=str(Path(__file__).resolve()),adapter_sha256=sha_file(__file__),
+        previous_controller=(process_identity(args.previous_controller) or dict(pid=args.previous_controller)) if args.previous_controller else read_json(out/'SCHEDULER_PREVIOUS_CONTROLLER.json'),
+        new_controller=process_identity(os.getpid()),adopted_workers=workers,time=time.time(),
+        cause='Pending CUDA reservations, parent cohort tensor forecasts and JSON-equivalent frozen-decision reentry; scientific package unchanged.',
+        initial_observation=dict(worker_process_MiB=1346,worker_allocated_peak_MiB=934.89404296875,ML_smoke_allocated_peak_bytes=1048753664))
+    gpus,processes=gpu_inventory(args.devices)
+    _,_,admission.highwater,_=reservations(prepared,workers,gpus,processes,admission.highwater)
+    write_json(admission.path,admission.highwater)
+    if (out/'SCHEDULER_REVISION.json').exists():
+        previous=read_json(out/'SCHEDULER_REVISION.json');write_json(out/f'SCHEDULER_REVISION_{previous["new_controller"]["pid"]}.json',previous)
+    write_json(out/'SCHEDULER_REVISION.json',receipt)
+    scheduler.admit=admission
+    scheduler.gate_write=gate_write
+    return scheduler.execute(out,args.devices)
+
+if __name__=='__main__':main()

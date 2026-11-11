@@ -1,0 +1,3098 @@
+{
+  "panels": {
+    "movielens": {
+      "2022": {
+        "P_A": {
+          "path": "panels/movielens/seed2022/P_A.npz",
+          "sha256": "e9b0540b45c9f3ff48dcf32e307ab98c2b0d19cfbef8cea11c5b9d5aaf1c69d5",
+          "panel_hash": "afd341f1bcca2cec13675f1b2e12eca2ab72fcfcaf97b7552968807cea756c2f",
+          "pair_hash": "17e5e69c2eb090beb26b8f540770f2490acd2bac8492e30b19cf9e6ad571f64d",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2022,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "72402a6ecfb95ed8794f8ec9283671cadae2998c3c60c8ab8d1a5d958e8ec5e0",
+              "rank_row_ids": "72402a6ecfb95ed8794f8ec9283671cadae2998c3c60c8ab8d1a5d958e8ec5e0",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "17e5e69c2eb090beb26b8f540770f2490acd2bac8492e30b19cf9e6ad571f64d",
+              "natural_indices": "3b715197fedeccc5b5fa271bdad909cb400fd33b57f26d5f3b07c7cba8ec789b",
+              "natural_row_ids": "3b715197fedeccc5b5fa271bdad909cb400fd33b57f26d5f3b07c7cba8ec789b",
+              "natural_y": "96280e9650b6d46b18da6d5f9e0479071575a212830f50ed1bb7daa8618105fc"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/movielens/seed2022/P_B.npz",
+          "sha256": "165cfc823701194ede758abf03648d2bfb7f58db41c54b2c4cae278616d3a771",
+          "panel_hash": "89e13300bfd0a6d0ae0f63d432acc215921da67c3d95fecfb7433c2e75f066f9",
+          "pair_hash": "45088627dfb21db6e05bba4604984f9bb3a30a95ba08b482abd1ab2039a4d035",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2022,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "0460b96920fb7cccbcee808e68b9bd9724704b56b1c10bc7e2efaea630e5792f",
+              "rank_row_ids": "0460b96920fb7cccbcee808e68b9bd9724704b56b1c10bc7e2efaea630e5792f",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "45088627dfb21db6e05bba4604984f9bb3a30a95ba08b482abd1ab2039a4d035",
+              "natural_indices": "0b0915bf14b726e354231b2598b32fa1ed8cb3be7815a6b0bb2d67b86d1747f9",
+              "natural_row_ids": "0b0915bf14b726e354231b2598b32fa1ed8cb3be7815a6b0bb2d67b86d1747f9",
+              "natural_y": "8ee6b9a2686db484f90cd2237f69f0244ae77123cf4b99cedaa7e6f4f3e52874"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/movielens/seed2022/V_mech.npz",
+          "sha256": "f412dc093c65f2c06ee6af3a4a9b959aa0eb77cb82922183978b16ee4dd39ac8",
+          "panel_hash": "beabdeca89dbb9a2284812738ddc13d8216602cef8377d8a11e9cb7c8b1fa085",
+          "pair_hash": "a325b541193dd8a0e36c8821331dcd8b213a48520c39def2edb75c34a73b5a6e",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2022,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "ccd40f9a1993570134b0c675ac464ba5cec27efd6467add13bfc39e720b37ffd",
+              "row_ids": "7b803fc1b292dc5115bb09bc1819e9f3da5b30d582392bafa5791f9a182b2728",
+              "y": "07c354643cceeceb23c5e6095f59bffc19628d0904d01170dfc9074b44d9c4fa",
+              "validation_row_side": "e92fe8040b5faf671b5fcd8cc84f29157fa8ac1af6ddadd634c04f7122f00b25",
+              "pairs": "a325b541193dd8a0e36c8821331dcd8b213a48520c39def2edb75c34a73b5a6e",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            4096,
+            4096,
+            4096
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2023": {
+        "P_A": {
+          "path": "panels/movielens/seed2023/P_A.npz",
+          "sha256": "c154e15eb64d25fcf8e0220e7b62706bd209badf2c381d2e9bef89ac39224884",
+          "panel_hash": "a83563d900ca96e00b29876631239b8ed0c458f7e669867686ee8f4be64c3091",
+          "pair_hash": "db379c5d0e5b3ae54d61a1649e32c85e7953def9f64185c0ecf09bcec96ad663",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2023,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "97757d4787435a1364fda48cc560c915e8fbfb42d5015ecee51f3c92147a755a",
+              "rank_row_ids": "97757d4787435a1364fda48cc560c915e8fbfb42d5015ecee51f3c92147a755a",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "db379c5d0e5b3ae54d61a1649e32c85e7953def9f64185c0ecf09bcec96ad663",
+              "natural_indices": "c33cc9d03f02a1d6256b9459d3ddfe504002f703d20f48100308d5c32cd6172b",
+              "natural_row_ids": "c33cc9d03f02a1d6256b9459d3ddfe504002f703d20f48100308d5c32cd6172b",
+              "natural_y": "7bd55b9342dd69d2d211b553e74d4e0145b937ef969d46bcc8fa5256c6377917"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/movielens/seed2023/P_B.npz",
+          "sha256": "20e031e1fedddcb9b9658885c177e4bb6513d303d87b30efbf5f3b0214b38f8f",
+          "panel_hash": "eddf7d63cc49953abf4254829385d11a5e757e223c6e6855acebeb433983b584",
+          "pair_hash": "fb0cdcdb028477e2303a546672b23ba1efd17cb67e6cefcd1a9478739d35a714",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2023,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "58e7adf9497613f6d2a126e31ed8ebaac63acf788cb03cf0a2518d9a44076d69",
+              "rank_row_ids": "58e7adf9497613f6d2a126e31ed8ebaac63acf788cb03cf0a2518d9a44076d69",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "fb0cdcdb028477e2303a546672b23ba1efd17cb67e6cefcd1a9478739d35a714",
+              "natural_indices": "208fabb3356b486fab6da9f5934bbcae9cbcfe6fe91a416f8af6a94c17b33279",
+              "natural_row_ids": "208fabb3356b486fab6da9f5934bbcae9cbcfe6fe91a416f8af6a94c17b33279",
+              "natural_y": "e9fc6bbcff695c42f620eb3d4276f538cfe73af9bd981084c7d3267cf8db4200"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/movielens/seed2023/V_mech.npz",
+          "sha256": "53370fd6c8dcaf88599af7105178ad779b3abf5477974d0368d8dca5ba2e3a67",
+          "panel_hash": "a51e42ba26f59015aeda6ac5e91141b7071d32b45bec735a0c2cadadb40f3606",
+          "pair_hash": "40685b00bff9d83c1d469a5407929b3e9befb2f0455c0c6fb3256128dce7c940",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2023,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "9e34f1bb88c90772beb2df1b23aa0ebc8591666498a51482d322c671b0c63b17",
+              "row_ids": "c82a18f2babb55141fa67ccc4ffc8d3cc5faecaa0112ac6b70d347051b76a7f2",
+              "y": "b4154b779dc4a0dc895158e8e2d024c65218463a5054b3bace9b62191068622a",
+              "validation_row_side": "a9a9127e78ddd7a238eb5e69cd065ca3a5afdce64efa30f83b82610445ffc57f",
+              "pairs": "40685b00bff9d83c1d469a5407929b3e9befb2f0455c0c6fb3256128dce7c940",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            4096,
+            4096,
+            4096
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2024": {
+        "P_A": {
+          "path": "panels/movielens/seed2024/P_A.npz",
+          "sha256": "f594aeff9f0b5cb311af2ed2d29b5c1ad8fbeefc0574a2afd6a60ac4a222efd6",
+          "panel_hash": "791a43c809d8ded82565149260200dcd6a5fbd69328d9c3265638a24c145c580",
+          "pair_hash": "acf174e72330abaf57eca8f2fada10e71b98734ff26e792881f51f277425996c",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2024,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "c8828f4e2c5459e343c4dc9c82ef910b43ce3bd9bcd41779528f9b71054e9b25",
+              "rank_row_ids": "c8828f4e2c5459e343c4dc9c82ef910b43ce3bd9bcd41779528f9b71054e9b25",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "acf174e72330abaf57eca8f2fada10e71b98734ff26e792881f51f277425996c",
+              "natural_indices": "26e4175cbde30bca583f6388666518d65de0eae33fb2f49a4455228004a8b46b",
+              "natural_row_ids": "26e4175cbde30bca583f6388666518d65de0eae33fb2f49a4455228004a8b46b",
+              "natural_y": "4dcb6967d113858caf80bfe15e19d44b0fccfae48fdaa7c769dfdd39f843190e"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/movielens/seed2024/P_B.npz",
+          "sha256": "a72b5efc4c0b5394fa5be7c17de07b2933c0f2d51b2a857a7fb77107d771c2c5",
+          "panel_hash": "2fa5165be23cfa24dfe3e4f105ed817f06f5a31e727142c6f0a6926a5b54645b",
+          "pair_hash": "5c50b5934da604251fad8ce6345ff5814f4d491364f541650d1ed6ebd99e1589",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2024,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "48cbf0d7eb96a6bebf621c78e4fb280e8b3e35eb85edb3574cdff8d2dd126fbb",
+              "rank_row_ids": "48cbf0d7eb96a6bebf621c78e4fb280e8b3e35eb85edb3574cdff8d2dd126fbb",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "5c50b5934da604251fad8ce6345ff5814f4d491364f541650d1ed6ebd99e1589",
+              "natural_indices": "4ecd2c030d8ec47fdde479520d14a3b3bfcc3097dc7fdc4e43b557987a163c07",
+              "natural_row_ids": "4ecd2c030d8ec47fdde479520d14a3b3bfcc3097dc7fdc4e43b557987a163c07",
+              "natural_y": "ff2501c69a4ad5c34f183d0a86bd22e49a8cbfeccaa7aa2ad86eb11906ac2e47"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/movielens/seed2024/V_mech.npz",
+          "sha256": "58acd6de13f35cef3400952fbeef15e0f1ba73f02102d9427092f28f600f76f0",
+          "panel_hash": "874aae397888881099e3b4e3ed57f9ec4314293a14e1344291260cf82d709506",
+          "pair_hash": "480712a16e49b143bfedab7a0cd37733698ad85955b5b954da54b4ff2527d740",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2024,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "309a91d84569adfbcacb2a9ca26b4fe4623e6de522bb4a2ac770e5e646991cd4",
+              "row_ids": "384e774b088e9ef18c223284d7696d029adf10d7c62d1ed864a510f5d14beeef",
+              "y": "bf98ca9023f2f3fb55f8a8308db4821dc668fa7f2db27bbbbe2ad54111a0df37",
+              "validation_row_side": "06fd5f64e0c7ab406fcd31557268576fcd2a4e254a21cc938fa23c38d1409e48",
+              "pairs": "480712a16e49b143bfedab7a0cd37733698ad85955b5b954da54b4ff2527d740",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            4096,
+            4096,
+            4096
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2025": {
+        "P_A": {
+          "path": "panels/movielens/seed2025/P_A.npz",
+          "sha256": "e7413f3330fb77e07bc0bf3136470239c8ba7264d759bedf3681869b07b8c476",
+          "panel_hash": "82b7087ce5b80772e40be7a703fa20e34f4f72e71ef44db790688753b6de41d6",
+          "pair_hash": "c4a4069db3dbf051976368e13f991fe10dd41bb6643c9cf05000216e3e3ce82f",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2025,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "8565fd5eb437d26f1b8e6ae48f2ef9614f0e3a6356479928ccb8f77a649e87d9",
+              "rank_row_ids": "8565fd5eb437d26f1b8e6ae48f2ef9614f0e3a6356479928ccb8f77a649e87d9",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "c4a4069db3dbf051976368e13f991fe10dd41bb6643c9cf05000216e3e3ce82f",
+              "natural_indices": "43b6cd3e5819a6f7226ffc5e3bcab68bb9f199cb2a9cc97833e468d59f3713d6",
+              "natural_row_ids": "43b6cd3e5819a6f7226ffc5e3bcab68bb9f199cb2a9cc97833e468d59f3713d6",
+              "natural_y": "486375aae27e591700eeb8c6d1c7d8d586290ac1231d84ced3f7c0ccc7b5ddf4"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/movielens/seed2025/P_B.npz",
+          "sha256": "b84cd53a7c7c676c742f0dedea603f88fd1d20649ab33fcea0f9ccdae181bdfa",
+          "panel_hash": "0200664d90b788c35c6ac2d3ab403e09e73cfdd160c3e9d4e782806f580b16d4",
+          "pair_hash": "0f991471d0f40d6c61d80b5378485fef3cf99287a083231abeda6c7677fb03b9",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2025,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "9331238203310e597dd8376e9e6fb06c04d0ab9441b89a3ec6434894c6c8de7e",
+              "rank_row_ids": "9331238203310e597dd8376e9e6fb06c04d0ab9441b89a3ec6434894c6c8de7e",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "0f991471d0f40d6c61d80b5378485fef3cf99287a083231abeda6c7677fb03b9",
+              "natural_indices": "844a700b5389b272df18760bfb3cd66971b776521786f78f443a4e8a97533c1c",
+              "natural_row_ids": "844a700b5389b272df18760bfb3cd66971b776521786f78f443a4e8a97533c1c",
+              "natural_y": "5599880df4d548ab89a448c4ad29f2d8c4b6f7aabb0d81135918cdadab8fbfad"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/movielens/seed2025/V_mech.npz",
+          "sha256": "ef8f6bdd4b02ac7ab967fc051d6e0ed8cac04602ffb240af01607278cbf107b5",
+          "panel_hash": "bacae086b4f8368e3d25054aa8fdd4250b8aded7e7524657e385f1f260c0afb5",
+          "pair_hash": "1d0a208e3a3ab8b573f7192acce13d186f90948f30be2789804177f0c9db1d3d",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2025,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "cd7fd7512f7bd26d8846e48130390aaf8757f3bf11f668484af9a299256874f3",
+              "row_ids": "13bea30b70374ba49ff6751342581a8991dc8b2ae71759da615688d01ab1832b",
+              "y": "ab7fafe0a23354c23b03e18798b88f4d5a360332ce2e98736a0a59aac46bccd2",
+              "validation_row_side": "2248decab1644869d79e75d43b3c14b9275c1f56c05cf4d79ed0e3420ce93587",
+              "pairs": "1d0a208e3a3ab8b573f7192acce13d186f90948f30be2789804177f0c9db1d3d",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            4096,
+            4096,
+            4096
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2026": {
+        "P_A": {
+          "path": "panels/movielens/seed2026/P_A.npz",
+          "sha256": "bd4132639c0fd0f19f1766390ca214f2289e29785ed3d5c8c2c4a9d06819561b",
+          "panel_hash": "77abdebd2c127719b20845d5dca5139cdf470bb8992792191266ee28feaca88f",
+          "pair_hash": "0db6c9d0069ed7adaaf685e5f6c531df1091b38889e288b3fc58a3546f964991",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2026,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "8b841b49f0be1eef545862f134c12ee4beed24cdcf36b1960b51eb007f5688ae",
+              "rank_row_ids": "8b841b49f0be1eef545862f134c12ee4beed24cdcf36b1960b51eb007f5688ae",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "0db6c9d0069ed7adaaf685e5f6c531df1091b38889e288b3fc58a3546f964991",
+              "natural_indices": "11486cfed89ce65c5ddc5926a90e920eb18694d5026101a5d1ea897d5337aa75",
+              "natural_row_ids": "11486cfed89ce65c5ddc5926a90e920eb18694d5026101a5d1ea897d5337aa75",
+              "natural_y": "ee15e623d8df5624b8d70ecf4a51b9719d704982549a8543b4c3cfcff024d1a5"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/movielens/seed2026/P_B.npz",
+          "sha256": "50f125264dccaaf2178cd75d74bd1b368cc187a8afc0f8eda8b4983670641815",
+          "panel_hash": "80e2b9d23aa8f48500df21367cd8b5254e49904c936da28a1764b9f3fc15bce5",
+          "pair_hash": "c6e58f6351d72c38e70cc4eb9299e6eec850ad2c960da9e2e862f6e4ae1d2bde",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2026,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "004b96feae3e6a70cae5560beb0ea816d4d21355a476d9a8db949713faba99bc",
+              "rank_row_ids": "004b96feae3e6a70cae5560beb0ea816d4d21355a476d9a8db949713faba99bc",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "c6e58f6351d72c38e70cc4eb9299e6eec850ad2c960da9e2e862f6e4ae1d2bde",
+              "natural_indices": "6c8da975577467f51984a9d4841ca9ee43c43b6d7cc98a1a969c922d78a35d9c",
+              "natural_row_ids": "6c8da975577467f51984a9d4841ca9ee43c43b6d7cc98a1a969c922d78a35d9c",
+              "natural_y": "8fe9b6d75a145803fce24a811177ad1da3fd4e145df9fcc0cd3ea67bbd21ab5d"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/movielens/seed2026/V_mech.npz",
+          "sha256": "dfb74a5ea423a2ce26aa09c7284cb74d177becd0ec1b74455d37a7782de55fe9",
+          "panel_hash": "2aca322c321e1a13339d6bfd353b36fc08a2dbd97ecb1ab019172c229886c6a2",
+          "pair_hash": "f3b7e53bc66f4e841b6bad31e300d73618fe710bee14b8d61c10ee90525187d7",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "movielens",
+            "seed": 2026,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "3046450262318e72a537f278258f5203175dac1a2abc29e553e7addf9a08da08",
+              "row_ids": "dfc2c897c5417c2f6a1d5374c6882756321ec008a29471643962911d77bce433",
+              "y": "df46a47ebb25a2ebf6191849d20e6872dc7522ec63266f0b340a44fe415511ec",
+              "validation_row_side": "510b1f1abc5a2528c572f840f56fa106b744486e2497d15a17f84560a08d81ad",
+              "pairs": "f3b7e53bc66f4e841b6bad31e300d73618fe710bee14b8d61c10ee90525187d7",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            4096,
+            4096,
+            4096
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      }
+    },
+    "kuairand": {
+      "2022": {
+        "P_A": {
+          "path": "panels/kuairand/seed2022/P_A.npz",
+          "sha256": "4aaa51bb8b38287c9a2c4db758d523c303c52dce3bcff2451875446ecd21b34c",
+          "panel_hash": "2e1324d26961171fd163df70976a9379ab076be4ce0ab8671ca1958e12ff54e3",
+          "pair_hash": "262b22c8b30f5490c4b78a362575c77f809c646a0ef578c4fb7f33666cec7359",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2022,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "f2e640c0a1cc95fb96f356110ce9fd46a547e48f606627bcbee1afec9d4af815",
+              "rank_row_ids": "f2e640c0a1cc95fb96f356110ce9fd46a547e48f606627bcbee1afec9d4af815",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "262b22c8b30f5490c4b78a362575c77f809c646a0ef578c4fb7f33666cec7359",
+              "natural_indices": "38dd1185fd9adab02e5418e7aee3415017b944b1e304caa23def9c337092ee79",
+              "natural_row_ids": "38dd1185fd9adab02e5418e7aee3415017b944b1e304caa23def9c337092ee79",
+              "natural_y": "5fd14924286c03fc57595174b9d8cf6bd6440fed69e6ae7659f4a8cde981388f"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/kuairand/seed2022/P_B.npz",
+          "sha256": "0e0bd2bba27ea763cf1ef976412104da3f64db154ee33c60e36f76dcc6892d4e",
+          "panel_hash": "5e3a125c5a7c2dddc6ee69951910cc12b62c5a8e7388a06da0fe047d442cff8e",
+          "pair_hash": "84f8c485f6233f63b8461a2c4435a5aa95ed3a1daec159dd473d065561a942f4",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2022,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "3c494171b1658fe5acf522a52c2b5f039686daa5185696c652a81659f5bcbfb2",
+              "rank_row_ids": "3c494171b1658fe5acf522a52c2b5f039686daa5185696c652a81659f5bcbfb2",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "84f8c485f6233f63b8461a2c4435a5aa95ed3a1daec159dd473d065561a942f4",
+              "natural_indices": "79159606f6269c45280703fa72a1ca9e736d3a5fa8f0fccc5ad5e77d5f9dfccd",
+              "natural_row_ids": "79159606f6269c45280703fa72a1ca9e736d3a5fa8f0fccc5ad5e77d5f9dfccd",
+              "natural_y": "5749f9838f7f91c44ea7182da6e1cbb89903746fa0871b66b8fb313a4c1e0f28"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/kuairand/seed2022/V_mech.npz",
+          "sha256": "6642eddd27cc7fbf4ff75a6c9de164cdb9339cd37f3a2e4c3289c5ef573fbea6",
+          "panel_hash": "62b10d5ef5e3cec24c96d722e2e178231861cc576ce13cb6ba591ad72d564dc2",
+          "pair_hash": "bc4af413c460e40d1308b2c43a1dc3f6a0def77de476f8bff3e3cbbe1c689846",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2022,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "d498a4219875ab95521e841e76a53b9dd51f15a0f630a568f6ac5a003dbe45b7",
+              "row_ids": "4c6d4a0832e1f1c15a8cd9fa017fc045a3f46911feeaf479d34a66110ae9b83b",
+              "y": "8472f6d716fa770dac5ea8e6dbcec50e2c196c86b4c297fdb20c8d5c75db6a09",
+              "validation_row_side": "dfe8e056c75e104883cbb391894dc4d811c57a8f564e00543c848349e3387eb0",
+              "pairs": "bc4af413c460e40d1308b2c43a1dc3f6a0def77de476f8bff3e3cbbe1c689846",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            2692,
+            4096,
+            1843
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2023": {
+        "P_A": {
+          "path": "panels/kuairand/seed2023/P_A.npz",
+          "sha256": "ac2b7ca15a930e56d8e42ac470b0f623739376f0108564749f366d5241c95de6",
+          "panel_hash": "ca9972464b9179a7f3cd8a5a84d2b68e3f513e65e38505828e6dd4f47099c3b4",
+          "pair_hash": "70bd47d23b751cead49055859070be4e342a482735b59e5eca23a118f875ee48",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2023,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "118c8f0df6a7ca8d9d9216d63637f7bb49de1e99754adf8142dc51537c07c188",
+              "rank_row_ids": "118c8f0df6a7ca8d9d9216d63637f7bb49de1e99754adf8142dc51537c07c188",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "70bd47d23b751cead49055859070be4e342a482735b59e5eca23a118f875ee48",
+              "natural_indices": "a022ed88f92c1439c0d9ef6004e3a2afd4f833de24307cb66cf95744c9c30668",
+              "natural_row_ids": "a022ed88f92c1439c0d9ef6004e3a2afd4f833de24307cb66cf95744c9c30668",
+              "natural_y": "b179aefbf68bd21ca8d1d61ef2661cc0a797966668985538fb3b6518049441fc"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/kuairand/seed2023/P_B.npz",
+          "sha256": "e675d313e715c64d4d425a3663d0ff96b7741bfaf66413e714b341db39fe4d9f",
+          "panel_hash": "e68dbd8a08ec2da12ecbaabbb781526485e6dcbefb6475ee76275917d087731c",
+          "pair_hash": "3af5c27aa035048bcdd8b0c612a6e7998ba5453972258adf77c10a32937c6d51",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2023,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "3da6df6a82f4d301d1d956df07759b24a84100aa6fbfd19aca254d0b722d244f",
+              "rank_row_ids": "3da6df6a82f4d301d1d956df07759b24a84100aa6fbfd19aca254d0b722d244f",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "3af5c27aa035048bcdd8b0c612a6e7998ba5453972258adf77c10a32937c6d51",
+              "natural_indices": "995519cbf3668356966a3fe553f42a22abeb080c25a647215659de1671dc2261",
+              "natural_row_ids": "995519cbf3668356966a3fe553f42a22abeb080c25a647215659de1671dc2261",
+              "natural_y": "ee0c50cf5e019af0534a1f82bcb5277c4eaabfd382748a15ac9b17ddf380c3d5"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/kuairand/seed2023/V_mech.npz",
+          "sha256": "187c6483adeadcc8a311c59bf762c8b49234d4dc03658a09d8f84e1210610279",
+          "panel_hash": "931fb576b064fc5e67a034340f5226cc2e95a30e1e626df648c014fe625428bc",
+          "pair_hash": "6e352b8e5eb49e56cb9a54f9436f2ee579e4b062fbe65c118711953b97baf0e2",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2023,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "7605f93287c5d917f37c2d5bb0de360b6211dbb282dbeb6cb51d3b77241f07e8",
+              "row_ids": "99fdf43e391cb0f5c18ff9ef6a5869cc2739c36276d24895497a1d8da5c56eb0",
+              "y": "22ae55f08d31f28363e384a08e43eeecb33eb18dfb3a7c7b66ec0760369dd7e8",
+              "validation_row_side": "b1de6f3298977fbe65379ca60a0ed8a4e2f7814796655a4307ced569c9e18d1e",
+              "pairs": "6e352b8e5eb49e56cb9a54f9436f2ee579e4b062fbe65c118711953b97baf0e2",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            2692,
+            4096,
+            1843
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2024": {
+        "P_A": {
+          "path": "panels/kuairand/seed2024/P_A.npz",
+          "sha256": "7ba1e3795c055caed335d115f36e8677a6bf838ed906e250d6c64004b6b62bff",
+          "panel_hash": "90081672734935abb64ddf48b2b41c16e3a72929fb7e51717154d526e9ee3413",
+          "pair_hash": "8bfc64e4f117d0c20cf6e863cab3cc7bf9106123dbf732d97bcbb921e3aeffdb",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2024,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "9a4d3959a16a8eeb8e4cd0f23b37175fd2b7a7910575c25aa6655dcbb1fcb667",
+              "rank_row_ids": "9a4d3959a16a8eeb8e4cd0f23b37175fd2b7a7910575c25aa6655dcbb1fcb667",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "8bfc64e4f117d0c20cf6e863cab3cc7bf9106123dbf732d97bcbb921e3aeffdb",
+              "natural_indices": "ec07988e7c4da9528849f5cc7ee44bbab9f5086dd20f2af52a27730ff1829707",
+              "natural_row_ids": "ec07988e7c4da9528849f5cc7ee44bbab9f5086dd20f2af52a27730ff1829707",
+              "natural_y": "84713f7c0695de03367f24a4a5ed49c14deab714f12ec152d179492e7642e815"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/kuairand/seed2024/P_B.npz",
+          "sha256": "236d328c5838bbc19b5418a857c716a67f9899494ef9c6d0e3e7f0d3c49f7ed1",
+          "panel_hash": "6b71cb1ffc1003849cf5d513ff3bad69469a3d063c58aa5f1bbef2771b89612c",
+          "pair_hash": "ae12569e95654c71a00d62632fd41ecd7cd631f51cb8a6ab582e4248f802a0f3",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2024,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "b857cf2d5105664d54c8a5d6da572a4d7f2e77de06b7c695346c8b74674470c4",
+              "rank_row_ids": "b857cf2d5105664d54c8a5d6da572a4d7f2e77de06b7c695346c8b74674470c4",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "ae12569e95654c71a00d62632fd41ecd7cd631f51cb8a6ab582e4248f802a0f3",
+              "natural_indices": "05d45472f6ec6c857d8007fb3017d13485a39e523a269fffbd5ed2f1bab2aa2f",
+              "natural_row_ids": "05d45472f6ec6c857d8007fb3017d13485a39e523a269fffbd5ed2f1bab2aa2f",
+              "natural_y": "f95b587664bb03b013899a5aa95df6f056ed2efe90cde669a21ae7e2705d70b9"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/kuairand/seed2024/V_mech.npz",
+          "sha256": "34fa39068ce6f888d8778e2a548efb7e851015401f1c784312aaf36102742fdd",
+          "panel_hash": "344a53717a0b2f5507d7c5201dabe721b0a0f5f2ced7363b6c5085fc9ca92b80",
+          "pair_hash": "baf2365cd7ce6a69a38c4d11d519aa0be4bfea3cda765c32188aacc81cf5c4cd",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2024,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "699d373b60e21ce9ede3bcc07ae2bc036d1be07cb613f2894ba901b6bd6b74b0",
+              "row_ids": "f65a68c550c2088b60fba08c74d5e2283179ffe1082436a68b6b784cd51ea436",
+              "y": "51e62232fe5794ac8963f3189a89a50770be74e05f9ea8aafba8358d736f0ee3",
+              "validation_row_side": "1eddcef6e772c08c7d88dd6c03a407962439022e64c5f13d8e54a9f115e6a17c",
+              "pairs": "baf2365cd7ce6a69a38c4d11d519aa0be4bfea3cda765c32188aacc81cf5c4cd",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            2692,
+            4096,
+            1843
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2025": {
+        "P_A": {
+          "path": "panels/kuairand/seed2025/P_A.npz",
+          "sha256": "59a02377a1f9a6abe7c2552bb4636db28dcd8f1f1adb8fd03f4edb0650d373f9",
+          "panel_hash": "98f901eeba39569b9ba31d0b786747d8d9e917c5a63f7cc1ab1b1471799884f3",
+          "pair_hash": "16b6f5907dd00848370e393dc639023d8fd9b8d529e502e009a8065bef5d8067",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2025,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "69f3e9523f554e83a1ffb6a4af1ed1576b6f4218381f64caf81e39385d484e47",
+              "rank_row_ids": "69f3e9523f554e83a1ffb6a4af1ed1576b6f4218381f64caf81e39385d484e47",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "16b6f5907dd00848370e393dc639023d8fd9b8d529e502e009a8065bef5d8067",
+              "natural_indices": "b99c6023a1018f4f9741b9af9bcd98a2e79840b908a6a8f6eb7f04ba6b7f5799",
+              "natural_row_ids": "b99c6023a1018f4f9741b9af9bcd98a2e79840b908a6a8f6eb7f04ba6b7f5799",
+              "natural_y": "7eb1774ad549436daf3edfb360d2fac402ea8cf7b598feb07929e60e5b2cf711"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/kuairand/seed2025/P_B.npz",
+          "sha256": "ef627febf995e07a257e788f165ff24e400eb685212533d543e3119d81fb4101",
+          "panel_hash": "e54d8a94381a1227abd3ad0f2c24369a9110f15efcda521d72535a713c9963e6",
+          "pair_hash": "b2a4b20c85896ca33ae2b9816fd6a4bd2bc1da43113551cbdbd7c81cea3af0d5",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2025,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "ec3c87353e20a5afcf08f75c5903b0c6d8b04c5fb622226a7a3a59cb16c467db",
+              "rank_row_ids": "ec3c87353e20a5afcf08f75c5903b0c6d8b04c5fb622226a7a3a59cb16c467db",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "b2a4b20c85896ca33ae2b9816fd6a4bd2bc1da43113551cbdbd7c81cea3af0d5",
+              "natural_indices": "5a76c02b029891723136adf866ccbc4ef50c6777d648042ab9b2f3e020bd672c",
+              "natural_row_ids": "5a76c02b029891723136adf866ccbc4ef50c6777d648042ab9b2f3e020bd672c",
+              "natural_y": "42f6774172a460b0ce10b3fd90a0b9588267c61472d7e3cf2e17f127c07bd253"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/kuairand/seed2025/V_mech.npz",
+          "sha256": "e77cb3a9e9194f1129ff806301bd15754be5b7f9652d9b8d29170f53495b7584",
+          "panel_hash": "b5d4dbb79366de3a6bed36136e7b14a46bf50d490b2fa8cf482f4a9c72bb34ef",
+          "pair_hash": "eadeffa81c0b2f0bbb39a51d79d28ff508cdfa6187d8410c112d99f0fb272b45",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2025,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "5b27a99ba6803c5d3cb343ea8f3ce479480fe878a010f9ec9d284dc51644c228",
+              "row_ids": "9e700db7c0d6b3f5e030928bd2b2dbaf17bbb4caf806935bb33e8a607a5f1bd9",
+              "y": "2cf7d925cabf573805467fb1c8501ecdbac5632e98be3351ffbe297e75fb48e2",
+              "validation_row_side": "0356131efe277f31d3393f20b4add49f3848a5124f78603a0d0bd5ae8844bc60",
+              "pairs": "eadeffa81c0b2f0bbb39a51d79d28ff508cdfa6187d8410c112d99f0fb272b45",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            2692,
+            4096,
+            1843
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      },
+      "2026": {
+        "P_A": {
+          "path": "panels/kuairand/seed2026/P_A.npz",
+          "sha256": "8d827a0637825019b07877acb0f7bedb51e467d70d1fa3a1bfcd4d4a2a37bc08",
+          "panel_hash": "c897503130df8800d1f423b6d5c9b8fd8bfc0c8557472fac4a92220e052d9885",
+          "pair_hash": "3faaa49b640e1ab4c71ce48c83fbdfb9ba2d1c071cc4334e6090b0188438db7f",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2026,
+            "panel_id": "P_A",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "fdfb218c98870a2e0492700ef44ee286f61f92fe9d33714dbe144e5259441464",
+              "rank_row_ids": "fdfb218c98870a2e0492700ef44ee286f61f92fe9d33714dbe144e5259441464",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "3faaa49b640e1ab4c71ce48c83fbdfb9ba2d1c071cc4334e6090b0188438db7f",
+              "natural_indices": "768f4af69f69aab6f350d38fd6b3dd1d79a0fc17760bcfaf69e53c5f6127a211",
+              "natural_row_ids": "768f4af69f69aab6f350d38fd6b3dd1d79a0fc17760bcfaf69e53c5f6127a211",
+              "natural_y": "376065d3e94f3d689e9f09f1f3191024af954393426cf6d6c1404d86dfd4c47e"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "P_B": {
+          "path": "panels/kuairand/seed2026/P_B.npz",
+          "sha256": "c8fde1a844cd70039d96b7be557a4e8bdbe80d4b9258bb84758d267522bef254",
+          "panel_hash": "647cfe550f00abd32a6f322e69d1c6c9d21f80f1d1880eada1d18e1dad8bd061",
+          "pair_hash": "16a192d1c9754469d2f379cfc77b34287d11f1e68cbd836414b79312dc2bb15b",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2026,
+            "panel_id": "P_B",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "rank_indices": "d43e22e62c2942239741cdd5c129d97b3b4e9c01034ac0965f71c899c1c3ff28",
+              "rank_row_ids": "d43e22e62c2942239741cdd5c129d97b3b4e9c01034ac0965f71c899c1c3ff28",
+              "rank_y": "754337516237a8745f151f3b24700dd9716aff5277d7c62e7b9c4cd58f227c14",
+              "rank_pairs": "16a192d1c9754469d2f379cfc77b34287d11f1e68cbd836414b79312dc2bb15b",
+              "natural_indices": "1837c797b605705c49b5a55ab2101d843d22523475a7ffea95d96c4db8e3d7c2",
+              "natural_row_ids": "1837c797b605705c49b5a55ab2101d843d22523475a7ffea95d96c4db8e3d7c2",
+              "natural_y": "a84f34ba8ceec9ff4d7d3f2c11741f240bb86f4d33a8d0261ff6121f03094f72"
+            }
+          },
+          "arrays": {
+            "rank_indices": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_row_ids": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "rank_y": {
+              "shape": [
+                6,
+                512
+              ],
+              "dtype": "float32"
+            },
+            "rank_pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "natural_indices": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_row_ids": {
+              "shape": [
+                3,
+                512
+              ],
+              "dtype": "int64"
+            },
+            "natural_y": {
+              "shape": [
+                3,
+                512,
+                2
+              ],
+              "dtype": "float32"
+            }
+          }
+        },
+        "V_mech": {
+          "path": "panels/kuairand/seed2026/V_mech.npz",
+          "sha256": "60da6a46b5fb1a15824325f1046076c755a10f326df3ab06fcce4aafdf77845b",
+          "panel_hash": "46f24d809a381bf5e1f24b96b12d6ba74541a183341022d59f5a92d11c0c3b78",
+          "pair_hash": "01344735d7f409bdcf65670a7380fb712a31adb8bfab0e5ac58fb570f74eca5a",
+          "identity": {
+            "schema_version": "1.0",
+            "namespace": "EMA_MECHANISM_20261106",
+            "dataset": "kuairand",
+            "seed": 2026,
+            "panel_id": "V_mech",
+            "spec": {
+              "train_panels": [
+                "P_A",
+                "P_B"
+              ],
+              "train_panels_row_disjoint": true,
+              "probe_rows_remain_in_online_training": true,
+              "rank_positive_per_cell": 256,
+              "rank_negative_per_cell": 256,
+              "rank_pairs_per_cell": 4096,
+              "rank_pairs_sampling": "uniform without replacement from positive_negative Cartesian product",
+              "natural_rows_per_train_domain": 512,
+              "validation_natural_rows_per_domain": 4096,
+              "validation_row_cap_rule": "min(4096, available domain population)",
+              "validation_pairs_per_cell_for_temporal_stat": 4096,
+              "validation_pair_fallback": "all available pairs if fewer; missing class => NA",
+              "train_panel_quota_shortfall": "engineering data-identity diagnostic; do not pad or resample after seeing predictions",
+              "fixed_across_epochs_readouts_groups": true,
+              "same_panel_ids_for_clean_gaussian_same_seed": true,
+              "validation_row_folds": [
+                "V_A",
+                "V_B"
+              ],
+              "validation_row_fold_seed_independent": true,
+              "missing_class_auc": null,
+              "missing_class_status": "NA_SINGLE_CLASS",
+              "labels_pairs_rowids_saved_once": true
+            },
+            "arrays": {
+              "indices": "c19e3f929df5c771912cb24c8376a85b35b8c0a60d41ebfed236ec71a116e398",
+              "row_ids": "0548d7bfee29f1216a7f9bd62464579a0860f3d76c47ff2a2bbe3b7c988111d9",
+              "y": "bdda0928c4a8e69e80b645b20dc7f66d846b2e6e1e2ed81bc01a7fd608d2d8e9",
+              "validation_row_side": "4d03020633971e3c3179cf1cb44cb29a765efcdfe5e03b0ddb030551b74d5737",
+              "pairs": "01344735d7f409bdcf65670a7380fb712a31adb8bfab0e5ac58fb570f74eca5a",
+              "pair_counts": "1e116cee4bab1f70d4c624c01d879546e7b726fbb57c049d76c33992c5c77f92"
+            }
+          },
+          "arrays": {
+            "indices": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "row_ids": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int64"
+            },
+            "y": {
+              "shape": [
+                3,
+                4096,
+                2
+              ],
+              "dtype": "float32"
+            },
+            "validation_row_side": {
+              "shape": [
+                3,
+                4096
+              ],
+              "dtype": "int8"
+            },
+            "pairs": {
+              "shape": [
+                6,
+                4096,
+                2
+              ],
+              "dtype": "int32"
+            },
+            "pair_counts": {
+              "shape": [
+                6
+              ],
+              "dtype": "int32"
+            }
+          },
+          "valid_mask_rule": "valid_mask=(indices>=0)",
+          "actual_count": [
+            2692,
+            4096,
+            1843
+          ],
+          "representation_version": "validation_masked_cap_v1"
+        }
+      }
+    }
+  }
+}
