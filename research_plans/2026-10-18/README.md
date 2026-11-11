@@ -4,6 +4,8 @@
 
 ## 文件
 
+- [execution/FINAL_REPORT.md](./execution/FINAL_REPORT.md)：**已完成的六方向首轮实际研究**；包含四种子冻结头新拟合、固定 checkpoint 测量、全部正负证据与停止判定。[执行索引](./execution/README.md) / [复现](./execution/REPRODUCE.md)。
+
 - [MDMT_FRONTIER_RESEARCH_REPORT.md](./MDMT_FRONTIER_RESEARCH_REPORT.md)：完整研究报告。包含仓库证据与反例、论文批判、六个候选方案、三个重点方案的数学设计、必要实验决策树、参考文献 60 项及出处。此文件由同日 39 页研究报告转为适合 GitHub 阅读的 Markdown，保留正文、表格、公式与文献链接。
 - [START_RESEARCH_PROMPT.md](./START_RESEARCH_PROMPT.md)：面向 Codex/研究执行代理的**可直接复制**的启动指令；要求六个方向全部进行实质性尝试。
 - [DIRECTION_TRACKER.md](./DIRECTION_TRACKER.md)：六方向完成标准与研究结论登记模板。
