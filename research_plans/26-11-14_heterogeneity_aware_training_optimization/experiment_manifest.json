@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "26-11-14_heterogeneity_aware_training_optimization",
+  "status": "PLANNING_ONLY",
+  "repository": "Caelestis1903/My-Research-Project",
+  "base_branch": "main",
+  "base_commit": "01979f6588935f713029b2b5e04557de9b8c153f",
+  "scope": "heterogeneity-aware training optimization only",
+  "model": "M3oE fixed1",
+  "datasets": ["MovieLens", "KuaiRand"],
+  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "primary_metric": "validation-six-cell-macro-AUC-selected-test-macro-AUC",
+  "cell_auc_floor_delta": -0.001,
+  "macro_auc_gain_gate": 0.003,
+  "checkpoint_selection": "earliest strict maximum of validation six-cell Macro AUC",
+  "routes": {
+    "A": {
+      "name": "DT-PGNA",
+      "role": "primary",
+      "status": "NOT_IMPLEMENTED",
+      "pair_budget_per_domain_task": 128,
+      "alpha_candidates": [0.01, 0.03, 0.05],
+      "lambda_aug_initial": 0.25,
+      "projection": "I - J^T (J J^T + lambda_J I)^-1 J"
+    },
+    "B": {
+      "name": "TGA",
+      "role": "fallback_and_control",
+      "status": "NOT_IMPLEMENTED",
+      "pair_budget_per_domain_task": 128,
+      "alpha_candidates": [0.01, 0.03, 0.05],
+      "lambda_aug_initial": 0.25,
+      "projection": "disabled"
+    }
+  },
+  "controls": [
+    "clean-online",
+    "clean-fixed-EMA",
+    "Gaussian-D0-fixed-EMA",
+    "matched-random-direction",
+    "matched-isotropic-Gaussian"
+  ],
+  "phases": [
+    {"id": 0, "name": "source_and_semantic_audit", "gate": "verified-forward-graph-and-clean-path-equivalence"},
+    {"id": 1, "name": "correctness_and_gpu_smoke", "gate": "all-unit-and-smoke-tests-pass"},
+    {"id": 2, "name": "five-seed-pilot", "gate": "valid-numerics-and-validation-ranking-risk"},
+    {"id": 3, "name": "lightweight-hpo", "gate": "five-seed-validation-selection"},
+    {"id": 4, "name": "frozen-confirmation", "gate": "no-config-changes-after-freeze"},
+    {"id": 5, "name": "independent-review-and-report", "gate": "identity-and-statistics-reconciled"}
+  ],
+  "test_policy": "no test evaluation until configuration and checkpoint rules are frozen",
+  "not_allowed": [
+    "selective-knowledge-sharing",
+    "expert-or-gate-architecture-changes",
+    "domain-size-as-difficulty-proxy",
+    "reopening-PAIR-only-label-condition",
+    "generic-PCGrad-or-ECCM-relabeling",
+    "dynamic-EMA-as-main-contribution"
+  ]
+}
