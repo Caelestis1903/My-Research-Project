@@ -1,0 +1,149 @@
+{
+  "schema_version": "1.1",
+  "plan_id": "26-11-14_heterogeneity_aware_training_optimization",
+  "status": "PLANNING_ONLY",
+  "supersedes": "experiment_manifest.json for Codex execution; original retained unchanged for provenance",
+  "repository": "Caelestis1903/My-Research-Project",
+  "base_branch": "main",
+  "reviewed_main_commit": "c27d7f91d210046ccab42d4b31ceaeadcceb96c9",
+  "scope": "heterogeneity-aware training optimization only",
+  "model": "M3oE fixed1",
+  "datasets": [
+    "MovieLens",
+    "KuaiRand"
+  ],
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "epochs": 50,
+  "primary_metric": "validation-six-cell-macro-AUC-selected-test-macro-AUC",
+  "cell_auc_floor_delta": -0.001,
+  "macro_auc_gain_gate": 0.003,
+  "checkpoint_selection": "earliest strict maximum of validation six-cell Macro AUC",
+  "optimizer": "inherited Adam, unchanged",
+  "ema": "fixed EMA internal control only; report candidate total gain vs clean and incremental gain vs fixed EMA separately",
+  "routes": {
+    "A": {
+      "name": "DT-PGNA",
+      "role": "primary-research-candidate",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "within-domain target-task positive-negative pairs",
+      "projection": "exact rank-one orthogonal projection for two tasks: q=g_t-(dot(g_o,g_t)/dot(g_o,g_o))*g_o when other-task gradient norm exceeds numerical threshold; otherwise q=g_t",
+      "pair_cap": "c=min(1,abs(clean_target_margin)/(abs(first_order_margin_change)+epsilon)); skip near-zero margin or change",
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "pair_budget_per_domain_task": 128,
+      "lambda_aug_initial": 0.25
+    },
+    "B": {
+      "name": "TGA-Pair",
+      "role": "projection-ablation-control",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "same pair sampler as A",
+      "projection": "disabled",
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "pair_budget_per_domain_task": 128,
+      "lambda_aug_initial": 0.25
+    },
+    "C": {
+      "name": "TGA-Example",
+      "role": "simpler-task-adversarial-alternative",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "per-example target-task BCE gradient; no positive-negative pair and no pair-margin cap",
+      "projection": "disabled",
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "augmented_rows_matched_to_pair_routes": true,
+      "lambda_aug_initial": 0.25
+    }
+  },
+  "controls": [
+    "clean-online",
+    "clean-fixed-EMA",
+    "Gaussian-D0-fixed-EMA-if-source-identity-matches",
+    "matched-random-direction",
+    "matched-isotropic-Gaussian"
+  ],
+  "stages": [
+    {
+      "id": 0,
+      "name": "source_semantic_and_exact_projection_audit",
+      "gate": "verified-current-main-forward-graph-clean-path-equivalence-and-finite-difference-projection-tests"
+    },
+    {
+      "id": 1,
+      "name": "five-seed-validation-pilot",
+      "arms": [
+        "clean",
+        "TGA-Pair",
+        "DT-PGNA",
+        "TGA-Example",
+        "matched-random",
+        "matched-Gaussian"
+      ],
+      "gate": "correctness-valid-numerics-and-actual-validation-six-cell-macro-AUC; no proxy-only gate; test sealed"
+    },
+    {
+      "id": 2,
+      "name": "lightweight-alpha-search",
+      "gate": "only-if-stage-1-validation-evidence-justifies-continuation; search best two routes using all five seeds; validation-only selection"
+    },
+    {
+      "id": 3,
+      "name": "frozen-five-seed-confirmation",
+      "gate": "freeze route-alpha-code-data-objective-and-selection-before-test"
+    },
+    {
+      "id": 4,
+      "name": "targeted-ablation",
+      "gate": "only-if-DT-PGNA-has-independent-validation-and-confirmation-increment-over-TGA-Pair-and-TGA-Example"
+    },
+    {
+      "id": 5,
+      "name": "independent-review-and-report",
+      "gate": "source-data-config-checkpoint-statistics-cost-and-test-identities-reconciled"
+    }
+  ],
+  "statistics": {
+    "independent_unit": "seed",
+    "report": [
+      "mean",
+      "sample_SD",
+      "paired_95_percent_CI",
+      "positive_seed_count",
+      "six_cell_AUC",
+      "six_cell_LogLoss",
+      "Macro_AUC",
+      "Macro_LogLoss",
+      "traffic",
+      "pooled"
+    ],
+    "all_seeds_must_be_positive": false,
+    "test_after_freeze_only": true,
+    "validation_proxy_only_gate": false
+  },
+  "forbidden": [
+    "selective-knowledge-sharing",
+    "expert-or-gate-architecture-changes",
+    "domain-size-as-difficulty-proxy",
+    "reopening-PAIR-only-label-condition",
+    "generic-PCGrad-or-ECCM-relabeling",
+    "dynamic-EMA-as-main-contribution",
+    "using-gradient-statistics-as-substitute-for-AUC",
+    "using-one-seed-or-fewer-than-five-seeds-for-performance-rejection"
+  ]
+}
