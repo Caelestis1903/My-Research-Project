@@ -107,3 +107,20 @@ If triggered, compare one soft trust-region penalty on the non-target task outpu
 - The current assumption that a separately averaged auxiliary BCE can be added at lambda=.25 without changing natural task/domain weights is false in general; actual weights depend on M and selected-cell counts.
 - Uniform lambda across all cells is a design choice, not an established optimum. Avoid six free lambdas; start with one global mixture coefficient.
 - Pair sampling is not inherently more aligned with AUC than per-example BCE; compare it, then prefer the simpler natural-row objective if performance is comparable.
+
+## 9. Task-specific perturbation definition for Stage 2
+
+For task t and row i, let z_it be the pre-sigmoid task logit and e_i the inserted embedding. The per-row BCE sensitivity is:
+
+g_it = grad_e BCE(sigmoid(z_it), y_it)
+     = (sigmoid(z_it) - y_it) * grad_e z_it.
+
+The initial adversarial ascent view is:
+
+delta_it = alpha * RMS(e_i) * g_it / (||g_it||_2 + epsilon)
+
+with delta_it=0 for a numerically zero direction. This locally increases the target-task BCE before the model is trained on the correct label at the perturbed view. It is a robustness-training construction, not a direct ranking-margin improvement rule.
+
+The perturbation is detached before the augmented training forward. Training gradients flow through the model on the perturbed input, but not through the construction of delta (first-order method; no second-order derivatives). The ordinary source gate-detach behavior remains unchanged in parameter training. If the numerical model function's Jacobian requires reconnecting a detached gate input, do so only in a temporary sensitivity probe and remove hooks in finally blocks.
+
+For NDP-A, compute a task-specific view for each row-task entry. The task-t BCE is evaluated on e_i+delta_it; the other task's BCE is evaluated on its own view e_i+delta_i,other. Never apply task t's view to both task losses in the first version.
