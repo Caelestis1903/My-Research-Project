@@ -1,0 +1,233 @@
+{
+  "schema_version": "1.2",
+  "plan_id": "26-11-14_heterogeneity_aware_training_optimization",
+  "status": "PLANNING_ONLY_NOT_IMPLEMENTED_NOT_RUN",
+  "repository": "Caelestis1903/My-Research-Project",
+  "branch": "main",
+  "reviewed_main_commit": "bcb7e2e61d1524a7efab2cb059f47fe042ec16b7",
+  "audit_scope": "main_only_no_remote_research_branch_queries",
+  "supersedes": [
+    "experiment_manifest.json",
+    "experiment_manifest_v2.json"
+  ],
+  "scope": "heterogeneity-aware training optimization only; no selective sharing or architecture changes",
+  "model": "M3oE fixed1",
+  "datasets": [
+    "MovieLens",
+    "KuaiRand"
+  ],
+  "domains": 3,
+  "tasks": 2,
+  "epochs": 50,
+  "batch_size": 40960,
+  "optimizer": "inherited Adam unchanged",
+  "natural_sampling": true,
+  "checkpoint_selection": "earliest strict maximum of validation six-cell Macro AUC",
+  "formal_seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "development_hpo_seeds": [
+    2027,
+    2028,
+    2029,
+    2030,
+    2031
+  ],
+  "primary_metric": "validation-six-cell-macro-AUC-selected-test-six-cell-macro-AUC",
+  "formal_gates": {
+    "mean_paired_macro_auc_gain_min": 0.003,
+    "each_cell_mean_auc_delta_min": -0.001,
+    "require_all_seeds_positive": false,
+    "report": [
+      "mean",
+      "sample_SD",
+      "paired_95_percent_CI",
+      "positive_seed_count"
+    ],
+    "independent_unit": "seed",
+    "logloss_independent": true
+  },
+  "ema": {
+    "role": "fixed internal control only",
+    "compare_total_gain_vs_clean": true,
+    "compare_incremental_gain_vs_clean_fixed_ema": true,
+    "change_ema_recursion": false
+  },
+  "routes": {
+    "A": {
+      "name": "DT-PGNA",
+      "role": "primary_candidate",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "within-domain target-task positive-negative pairs; other-task labels unconstrained",
+      "target_gradient": "per-example gradient of target pre-sigmoid logit w.r.t. shared input embedding",
+      "other_task_constraint": "exact rank-one orthogonal projection onto nullspace of other-task logit gradient",
+      "projection": "q = g_t - (dot(g_o,g_t)/dot(g_o,g_o))*g_o; if ||g_o||^2 <= numerical threshold use q=g_t",
+      "perturbation": "positive: -alpha*RMS(e)*q/(||q||+eps); negative: +alpha*RMS(e)*q/(||q||+eps)",
+      "pair_cap": "c=min(1,abs(clean_margin)/(abs(first_order_margin_change)+eps)); skip near-zero margin or change; no tunable kappa or margin floor",
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "pair_budget_per_domain_task": 128,
+      "lambda_aug": 0.25
+    },
+    "B": {
+      "name": "TGA-Pair",
+      "role": "projection_ablation_control",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "same pairs and pair cap as DT-PGNA",
+      "projection": "disabled",
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "pair_budget_per_domain_task": 128,
+      "lambda_aug": 0.25
+    },
+    "C": {
+      "name": "TGA-Example",
+      "role": "simpler_task_adversarial_alternative",
+      "status": "NOT_IMPLEMENTED",
+      "sampling": "per-example target-task BCE gradient; no positive-negative pair and no pair cap",
+      "projection": "disabled",
+      "augmented_rows_matched_to_pair_routes": true,
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "lambda_aug": 0.25
+    }
+  },
+  "controls": [
+    "clean-online",
+    "clean-fixed-EMA",
+    "matched-random-direction",
+    "matched-isotropic-Gaussian",
+    "Gaussian-D0-fixed-EMA-only-if-source-identity-matches"
+  ],
+  "stages": [
+    {
+      "id": 0,
+      "name": "main_source_semantic_and_protocol_audit",
+      "seeds": [],
+      "gate": "verified-current-main-forward-graph-data-protocol-and-clean-path-equivalence"
+    },
+    {
+      "id": 1,
+      "name": "cpu_unit_tests_and_two_dataset_gpu_smoke",
+      "seeds": [],
+      "gate": "engineering_correctness_only_no_scientific_performance_claim"
+    },
+    {
+      "id": 2,
+      "name": "five_seed_development_pilot",
+      "seeds": [
+        2027,
+        2028,
+        2029,
+        2030,
+        2031
+      ],
+      "arms": [
+        "clean",
+        "TGA-Pair",
+        "DT-PGNA",
+        "TGA-Example",
+        "matched-random",
+        "matched-Gaussian"
+      ],
+      "test_access": false,
+      "gate": "validation-only-route-selection-and-feasibility-no-final-performance-rejection"
+    },
+    {
+      "id": 3,
+      "name": "bounded_hpo",
+      "seeds": [
+        2027,
+        2028,
+        2029,
+        2030,
+        2031
+      ],
+      "alpha_candidates": [
+        0.01,
+        0.03,
+        0.05
+      ],
+      "max_routes": 2,
+      "metric": "validation-six-cell-macro-AUC",
+      "test_access": false,
+      "gate": "freeze-best-configs-using-all-five-development-seeds"
+    },
+    {
+      "id": 4,
+      "name": "formal_five_seed_confirmation",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "test_access": false,
+      "gate": "route-code-config-data-and-checkpoint-selection-frozen"
+    },
+    {
+      "id": 5,
+      "name": "post_freeze_test_evaluation",
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "test_access": true,
+      "gate": "only-after-stage-4-freeze"
+    },
+    {
+      "id": 6,
+      "name": "targeted_ablation_and_independent_review",
+      "seeds": [],
+      "gate": "only-if-primary-candidate-shows-incremental-value-over-B-and-C"
+    }
+  ],
+  "required_metrics": [
+    "six_cell_AUC",
+    "six_cell_LogLoss",
+    "Macro_AUC",
+    "Macro_LogLoss",
+    "Traffic_AUC",
+    "Traffic_LogLoss",
+    "Pooled_AUC",
+    "Pooled_LogLoss",
+    "online_readout",
+    "fixed_EMA_readout",
+    "runtime",
+    "peak_memory",
+    "pair_count",
+    "skip_rate",
+    "non_target_logit_drift",
+    "first_order_projection_residual"
+  ],
+  "forbidden": [
+    "selective-knowledge-sharing",
+    "expert-gate-or-fusion-architecture-changes",
+    "domain-size-as-difficulty-proxy",
+    "experiment-to-prove-or-disprove-small-domain-not-difficult-domain",
+    "reopening-label-match-only-PAIR",
+    "generic-PCGrad-or-ECCM-relabeling",
+    "generic-gradient-magnitude-balancing",
+    "adaptive-EMA-as-main-contribution",
+    "test-set-HPO",
+    "less-than-five-seed-performance-rejection",
+    "attributing-fixed-EMA-gain-to-new-route"
+  ]
+}
