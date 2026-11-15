@@ -42,3 +42,14 @@
 ## 5. Decision
 
 The plan is suitable for a bounded implementation pilot, not yet a confirmed paper method. The critical go/no-go is whether DT-PGNA provides measurable incremental AUC over TGA and matched generic perturbations at acceptable cost. This can be decided with the planned five-seed stages.
+
+
+## Current-task review supplement (2026-11-15)
+
+- Current audit scope is main-only, documented in 01_REPOSITORY_AUDIT.md and 16_CURRENT_MAIN_AUDIT_AND_EXECUTION_REFINEMENT.md. The previous branch inventory in the historical refinement file is not part of this task's audit.
+- The current main model wrapper/reference and PAIR implementation were inspected directly. The proposed intervention object is the input embedding, not parameter gradients or pairwise loss.
+- The initial same-other-task-label PAIR proposal is explicitly excluded as duplicate.
+- The two-task exact projection replaces the earlier damped projection; lambda_J is removed.
+- TGA-Example is included as the simpler adversarial augmentation comparator because target-logit gradient perturbation and per-example BCE adversarial perturbation are directionally equivalent up to the BCE scalar/sign, after normalization.
+- HPO and formal confirmation now use disjoint five-seed pools.
+- The remaining material risks are: measured wall-time/peak-memory cost, actual nonlinear non-target-logit drift, and whether DT-PGNA adds AUC beyond TGA-Example and matched generic perturbations. These are decision-relevant and belong in the planned pilot/confirmation; no additional speculative experiment is required at planning time.
