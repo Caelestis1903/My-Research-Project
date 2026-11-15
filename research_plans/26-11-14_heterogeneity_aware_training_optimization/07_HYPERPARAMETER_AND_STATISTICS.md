@@ -39,3 +39,10 @@ Separate:
 4. augmentation increment vs Gaussian/random matched controls.
 
 Do not attribute fixed EMA's existing gain to DT-PGNA. Report online and EMA shadow independently. Macro AUC gate and per-cell protection must both pass.
+
+
+## Binding HPO/confirmation separation (2026-11-15)
+
+Do not use seeds 2022–2026 for HPO. Use development seeds 2027–2031 for the five-seed pilot and bounded validation-only alpha search. The formal confirmation set is seeds 2022–2026 and is not accessed until the route, alpha, pair policy, cap, objective normalization, code and data identities are frozen. HPO and formal confirmation are separate stages and separate seed pools.
+
+The alpha candidate set remains {0.01, 0.03, 0.05}. K=128 and lambda_aug=0.25 remain fixed initially. No lambda_J search is permitted because the exact two-task rank-one projection removes that parameter. Pair-cap and numerical tolerances are frozen correctness settings, not performance hyperparameters.
