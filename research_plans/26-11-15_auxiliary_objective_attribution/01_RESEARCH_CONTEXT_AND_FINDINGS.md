@@ -61,3 +61,35 @@ With 6 cells × up to 256 rows, the selected auxiliary set can be a small fracti
 ## 6. Research boundary
 
 The plan retains the fixed boundary that small domain is not difficult domain. No experiment, hypothesis or analysis is designed to prove or disprove it. Domain counts and label rates may be reported descriptively as properties of the natural population, not as difficulty labels.
+
+
+## 7. Historical research evidence table
+
+| Historical line | Intervention and evidence | Accepted conclusion | Constraint for this plan |
+|---|---|---|---|
+| PAIR/ECCM (11/02) | Within-domain target-task positive/negative boundary sampling; limited early two-seed comparisons and later supplements | Label-conditioned pair construction is already explored; small-sample outcomes remain conditional | Do not rename label matching or ECCM as a new contribution |
+| Conditional information / label donor (11/03) | Cross-task label donor and mixed conditional sampling; early signals followed by five-seed completion | Complete-stack gains included fixed EMA; independent component gains over fixed EMA were not uniform | Any new component must show increment over clean fixed EMA |
+| Five-seed completion (11/04) | ML/KR full five-seed comparisons for C/H/P01 and Gaussian combinations | Some full systems beat ordinary online; that does not identify the incremental contribution of each component | Separate total system gain from component gain |
+| Gaussian domain coverage (11/04) | Different domain coverage under Gaussian augmentation | MovieLens Gaussian+EMA can beat published M3oE; KuaiRand coverage variants did not beat strongest published model | Gaussian is a dataset-conditional matched control |
+| GATS / parameter-gradient work | Parameter-space gradient transformations, projection and magnitude adjustment | Related gradient operations are not unexplored; generic gradient balancing did not establish a stable new route | Current plan intervenes on input embedding views and objective weighting, not parameter-gradient surgery |
+| Adaptive EMA / PUB (11/09) | Multiple adaptive EMA and PUB-transfer variants | Tested variants did not establish a stable independent ranking improvement under their tested protocols | Do not reopen these lines |
+| Fixed EMA attribution (11/10) | Parameter-group and historical-window attribution | Shared parameters, especially embedding, carry most of the measured fixed-EMA AUC gain; this is a background control result | Keep fixed EMA fixed; do not attribute its benefit to this proposal |
+| EMA feedback/readout (11/11) | Multi-step feedback and two-state historical readout | Single-step local signal did not reliably transfer to repeated feedback; prediction-time readout gains were small/conditional | Avoid another proxy-to-action mechanism without direct AUC value |
+| Task-sensitive embedding views (11/15) | DT-PGNA, TGA-Pair, TGA-Example with target-only auxiliary BCE | Current alpha=.03/K=128/lambda=.25 configurations had no validation continuation signal; auxiliary-objective effect remains confounded with perturbation | First run Z-PAIR and Z-EXAMPLE |
+
+## 8. Directly relevant literature and novelty boundary
+
+The existing 26-11-14 critical review identifies the following neighbors; they should be retained in Codex's literature note rather than rediscovered or described as absent:
+- CROSSGRAD (ICLR 2018): domain-guided cross-gradient input perturbation. It establishes gradient-guided input augmentation as a known mechanism.
+- Rep-MTL (ICCV 2025): representation-level task saliency and sample-wise cross-task saliency alignment. It is a close multi-task representation optimization neighbor, but not the same per-row target-logit Jacobian perturbation with a non-target nullspace constraint.
+- DTME-MTL (ICCV 2025): token-space gradient conflict analysis and token manipulation. It establishes active representation-space conflict handling in MTL.
+- SALARec (Expert Systems with Applications, 2026): preference-aware adversarial item-embedding perturbation for sequential recommendation. Adversarial embedding augmentation in recommendation is established, though its task/objective differs.
+- SAF, M3oE, MMFI and PMTRec remain relevant MDMT/multi-task recommendation context in the main literature records.
+
+The potential distinction is not "first gradient-guided augmentation" or "first adversarial embedding perturbation." The candidate distinction is a carefully normalized task-specific view objective under natural row/task weights, with direct measurement of cross-task effects. Similar prior work narrows the claim but does not automatically invalidate a useful MDMTRec application. If the resulting method is simply ordinary FGSM plus a BCE weight, describe it accurately and do not overclaim method novelty.
+
+## 9. Repository context precedence
+
+The 26-11-14 manifest contains a 2027–2031 development/HPO pool. That is superseded for this task by the explicit higher-priority requirement: all performance comparisons and HPO use exactly 2022–2026. Reusing those seeds does not constitute independent unseen-seed confirmation.
+
+The 26-11-15 branch's report is a validation pilot. Its "NO_CONTINUATION_SIGNAL" means the predeclared validation continuation gate did not trigger; it is not a Test-based formal rejection.
