@@ -77,3 +77,7 @@ The report must directly answer:
 7. Is strict cross-task projection needed, or is a simpler unprotected method preferable?
 8. What is the next single experiment?
 9. What result stops the current branch?
+
+## 7. Published-model comparison boundary
+
+The only formal published-model baseline candidates inherited from main are M3oE (SIGIR 2024), HyperGate (WWW 2025 Companion) and AutoIFS (WSDM 2026). Confirm the exact paper publication record, code adaptation, data population/split and checkpoint protocol before using a model as the strongest applicable baseline. Internal CLEAN, fixed EMA, Z-PAIR, Z-EXAMPLE, B, C, RANDOM, GAUSSIAN and NDP variants are controls/candidates, never published baselines. If raw seed endpoints for a published model are unavailable, do not fabricate paired seed-level intervals.
