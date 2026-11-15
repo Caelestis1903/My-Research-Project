@@ -78,3 +78,16 @@ The clean model cost remains unchanged. Augmented forward cost is approximately 
 - AUC does not improve over matched Gaussian/random controls: stop route.
 - AUC improves but non-target cells violate the six-cell protection rule: not eligible for promotion.
 - LogLoss worsens: report separately; do not reinterpret it as AUC failure.
+
+
+## Binding refinement — exact two-task projection (2026-11-15)
+
+For the current two-task platform, replace the damped projection above with the exact rank-one projection specified in 15_CRITICAL_REVIEW_AND_REFINEMENT.md and 16_CURRENT_MAIN_AUDIT_AND_EXECUTION_REFINEMENT.md:
+
+\[
+q_t=g_t-\frac{g_o^\top g_t}{g_o^\top g_o}g_o
+\]
+
+when the other-task gradient squared norm exceeds the frozen numerical threshold; otherwise q_t=g_t. There is no lambda_J hyperparameter in the current two-task experiment. If q_t is numerically near zero, skip rather than amplify. A future T>2 generalization is out of scope.
+
+For pair-directed routes, use the exact executable pair cap in section 5 of 15_CRITICAL_REVIEW_AND_REFINEMENT.md. Do not add kappa or margin-floor hyperparameters. The original pairwise objective remains excluded: the pair defines the perturbation, while the augmented target examples are supervised with the original BCE labels.
