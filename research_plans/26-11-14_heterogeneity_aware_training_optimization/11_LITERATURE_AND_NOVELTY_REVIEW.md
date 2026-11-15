@@ -32,3 +32,20 @@ Not a contribution:
 ## 4. Literature decision
 
 The current search identifies relevant adjacent work but does not establish exhaustive novelty. SAF, DTME-MTL, MMFI and CROSSGRAD have public code links; SALARec and PMTRec code/publication status remain unverified here. Before paper submission, compare full PDFs and source implementations, especially SAF, DTME-MTL and SALARec, and verify whether any contains a mathematically equivalent output-preserving projection. If an equivalent method exists, narrow the contribution to recommendation-specific pair construction and empirical mechanism, or stop claiming method-level novelty. Similar work is not an automatic reason to discard the route; actual mechanism overlap determines the decision.
+
+
+## 5. Main-task literature refresh (2026-11-15)
+
+The following primary sources sharpen the novelty boundary. They do not establish that DT-PGNA is equivalent to any one of them.
+
+- **D3: A Methodological Exploration of Domain Division, Modeling, and Balance in Multi-Domain Recommendations**, AAAI 2024. It explicitly studies domain modeling and domain balance, including optimization-level loss adaptation. It is relevant prior art for domain-aware training/optimization; DT-PGNA must not claim domain-aware optimization as a broad first.
+- **Measure Domain's Gap: A Similar Domain Selection Principle for Multi-Domain Recommendation**, KDD 2025. It studies domain similarity and transfer selection. It is relevant to domain-conditional recommendation but focuses on cross-domain transfer selection, not per-example target-logit nullspace perturbation.
+- **Stable and Adaptive Fusion for Multi-domain Multi-task Recommendation (SAF)**, AAAI 2026. It uses weighted HSIC, learned sample weights and adaptive feature/expert gating. This is the closest recent MDMT paper in the current search for stable feature learning and sample reweighting. DT-PGNA differs in the training-time adversarial view and explicit non-target-logit Jacobian constraint; do not overstate the gap without full-paper comparison.
+- **MMFI**, ACM TKDD 2024, conditions feature-interaction importance on scenario-task pairs. It changes feature-interaction modeling, not the proposed input perturbation.
+- **DTME-MTL**, ICCV 2025, manipulates token representations using task-conflict information. This establishes active representation-space MTL optimization prior art. DT-PGNA's possible distinction is the exact per-sample logit-Jacobian nullspace operation and target-only BCE training view.
+- **Rep-MTL**, ICCV 2025, uses representation-level task saliency and cross-task saliency alignment. It is a close MTL representation-level neighbor and must be compared against the full mathematical definition.
+- **SALARec**, Expert Systems with Applications (2026), uses preference-aware adversarial perturbation of item embeddings for sequential recommendation. It establishes recommendation-side adversarial embedding augmentation as prior art; the candidate distinction is multi-domain multi-task output preservation, not adversarial embeddings alone.
+- **CROSSGRAD**, ICLR 2018, uses domain-guided cross-gradient input perturbation. Generic gradient-guided input augmentation is therefore not novel.
+- **Virtual Adversarial Training**, TPAMI 2019, provides a general local-smoothness/adversarial perturbation precedent. DT-PGNA should be framed as supervised, target-task-specific augmentation with an explicit other-task output constraint, not as a new general adversarial-training principle.
+
+The search found relevant primary sources but is not an exhaustive novelty search. Before a paper claim, compare the complete SAF, DTME-MTL, Rep-MTL and SALARec papers and code where available. If an equivalent per-sample cross-task logit-nullspace perturbation already exists, narrow the contribution to the specific recommendation task construction and empirical evidence or stop claiming method-level novelty. Similarity alone is not a reason to discard the route.
