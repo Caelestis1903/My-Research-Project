@@ -1,0 +1,102 @@
+{
+  "verdict": "PASS",
+  "stage": "STAGE2_FINAL_EVIDENCE_AND_COMPLETE_EXPERIMENT",
+  "reviewer_independent_of_coder": true,
+  "blocking_issues": [],
+  "non_blocking_issues": [],
+  "source_hash": "831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b",
+  "stage1_source_hash": "a78bce2f713cf62f9af32548b50bc360b134420ff9ed6ac6990dca22d76a2ad0",
+  "artifact_sha256": {
+    "STAGE2_DECISION.json": "6aed83948d70c40b0f048b38712eee082d83dc22eb9eb50e55759ea7c344426b",
+    "FINAL_DECISION.json": "c6ca7eb3b1f758570b74cb07cf302bdee3a47ad786252f0900dceec7f1a364c1",
+    "COMPLETION.json": "2abd6f0faec7fded4ec9a65883e0a2447112e29f6391686d47062fdfd039b187",
+    "REPORT.md": "4100b8ee0f97cf1f66cca888be9f8f1297b5d7b52c676995a418f9ede02a463a",
+    "STAGE2_EVIDENCE.json": "14e2fbdcb05d695d87d8bd90ec25a467a95783d5f5418075d133c462c2d63600"
+  },
+  "stage1_decision_sha256": "5845910e92cd37a97725dca86878c077546e8dca5a465b818f06549a68f652c1",
+  "stage2_implementation_review_sha256": "68b27fdeda3f3689d01d016f60e36500116700ca8527351ceb6f8c1adab7d3a7",
+  "run_identity": {
+    "stage2_new_trajectories": 10,
+    "stage2_reused_clean": 10,
+    "stage2_new_epochs": 500,
+    "stage2_epoch_records": 1000,
+    "stage2_optimizer_updates": 17250,
+    "stage2_ema_updates": 17250,
+    "selected_readouts_verified": 40,
+    "loader_dataset_seed_epoch_keys_verified": 500,
+    "new_log_files_sha256_verified": 500,
+    "new_log_bytes": 30292308,
+    "provenance_and_source_files_verified": 67,
+    "failures": 0,
+    "test_accessed": false
+  },
+  "complete_experiment": {
+    "new_trajectories": 50,
+    "reused_clean_trajectories": 10,
+    "unique_trajectories": 60,
+    "new_epochs": 2500,
+    "new_optimizer_updates": 86250,
+    "new_ema_updates": 86250,
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "statistical_unit": "training_seed",
+    "clean_shared_between_stages_counted_once": true
+  },
+  "numerical_review": {
+    "paired_summary_rows_verified": 792,
+    "paired_seed_rows_verified": 3960,
+    "endpoint_rows": 160,
+    "max_csv_roundtrip_error": 1.721713049906981e-16,
+    "phase_contrasts_verified": 36,
+    "cell_label_seed_weight_rows_verified": 120,
+    "all_natural_batch_audit_rows_verified": 17250,
+    "entries_each_batch": "2 * actual B",
+    "weight_mass_each_batch": 1.0,
+    "maximum_stratum_mass_error": 0.0,
+    "zero_direction_entries_observed": 0,
+    "task_diagnostic_scope": "All entry-weighted means and maxima; recorded batch quantile means named explicitly; first-batch subset separate"
+  },
+  "scientific_decision": {
+    "status": "COMPLETED_PREDECLARED_STOP",
+    "stop_supported": true,
+    "primary_readout": "selected validation fixed-EMA six-cell Macro AUC",
+    "reference": "CLEAN fixed EMA and validated zero counterpart",
+    "primary_mean_delta": {
+      "movielens": -0.00010125623089,
+      "kuairand": -0.0057753193903106
+    },
+    "primary_positive_seeds": {
+      "movielens": 1,
+      "kuairand": 0
+    },
+    "stop_rule": "Stage2 design section10.1: both complete five-seed dataset means are non-positive",
+    "no_additional_ci_or_all_seed_gate": true,
+    "online_total_ema_logloss_cell_stage_counterevidence_disclosed": true,
+    "published_model_test_acceptance_claim": false,
+    "evidence_grades_appropriate": true
+  },
+  "subsequent_stages": {
+    "hpo": "NOT_TRIGGERED",
+    "frozen_test": "NOT_TRIGGERED",
+    "mechanism_ablation": "NOT_TRIGGERED",
+    "additional_experiment_run": false
+  },
+  "links": {
+    "local_markdown_targets_verified": 48,
+    "missing_local_targets": [],
+    "external_github_report_and_directories_verified": 4
+  },
+  "figures": {
+    "stage1_plots": "Previously inspected and unchanged",
+    "stage2_validation_curves": "Inspected; readable axes/legend/mean and SD curves match data",
+    "stage2_paired_cells": "Inspected; dataset/metric/cell labels, signed deltas, zero line and 95% t intervals readable and match data"
+  },
+  "metadata_edits": "Only independent_review blocks of STAGE2_DECISION, FINAL_DECISION, COMPLETION and COMPLETION.workflow.stage2_evidence_review were filled; scientific fields and Stage1 frozen files unchanged",
+  "reused_evidence": "Previously completed implementation/source/run/log/paired checks reused; no new experiment, repeated engineering suite, or Stage1 large trace scan",
+  "final_handoff": "Scientific/local deliverables pass; orchestrator may release this task RAM guardians and publish reviewed code/report to main"
+}

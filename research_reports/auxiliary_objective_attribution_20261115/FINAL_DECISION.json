@@ -1,0 +1,34 @@
+{
+  "status": "EXPERIMENT_COMPLETED_PREDECLARED_STOP",
+  "new_trajectories": 50,
+  "reused_clean_trajectories": 10,
+  "unique_analyzed_trajectories": 60,
+  "new_epochs": 2500,
+  "new_optimizer_updates": 86250,
+  "new_ema_updates": 86250,
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "stage0": "PASS",
+  "stage1": "ADVANCE_NDP_A",
+  "stage1_decision_file": "decision.json",
+  "stage1_decision_sha256": "5845910e92cd37a97725dca86878c077546e8dca5a465b818f06549a68f652c1",
+  "stage2": "STOP_CURRENT_TASK_VIEW_AUGMENTATION",
+  "stage2_decision_file": "STAGE2_DECISION.json",
+  "test_accessed": false,
+  "subsequent_stages": "NOT_TRIGGERED",
+  "reason": "Both five-seed means of selected validation fixed-EMA Macro AUC NDP-A minus CLEAN are non-positive; Stage2 design section10 condition1 is met. CIs and seed direction counts are descriptive, not extra vetoes.",
+  "independent_review": {
+    "verdict": "PASS",
+    "file": "STAGE2_FINAL_REVIEW.json",
+    "blocking_issues": []
+  }
+}

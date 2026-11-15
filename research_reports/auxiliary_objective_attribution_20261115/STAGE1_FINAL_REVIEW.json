@@ -1,0 +1,98 @@
+{
+  "verdict": "PASS",
+  "stage": "STAGE1_EVIDENCE_AND_ADVANCEMENT",
+  "reviewer_independent_of_coder": true,
+  "source_hash": "a78bce2f713cf62f9af32548b50bc360b134420ff9ed6ac6990dca22d76a2ad0",
+  "decision_hash": "5845910e92cd37a97725dca86878c077546e8dca5a465b818f06549a68f652c1",
+  "analysis_hash": "b5bdfe9387a3d0068daa1c6eca4f39236aa0474ebf4bdfc1404cb374220d2568",
+  "evidence_hash": "1687fdc42543bff98e35d71e8554f5346611391c29536d5b16c430d8939da4db",
+  "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+  "blocking_issues": [],
+  "resolved_issues": [
+    {
+      "id": "R1",
+      "kind": "metadata",
+      "issue": "decision used SHA256 of selection text while run_manifest/config used JSON-string digest",
+      "resolution": "decision.selection_hash now equals run_manifest selection_hash; analysis revision record and analysis_hash updated",
+      "training_or_metric_change": false
+    }
+  ],
+  "run_identity": {
+    "new_trajectories": 40,
+    "reused_clean_trajectories": 10,
+    "new_epochs": 2000,
+    "total_epoch_records": 2500,
+    "optimizer_updates": 69000,
+    "ema_updates": 69000,
+    "selected_readouts_verified": 100,
+    "data_manifests_verified": 40,
+    "loader_dataset_seed_epoch_keys_verified": 500,
+    "support_log_files_sha256_verified": 2000,
+    "support_log_bytes": 5774198156,
+    "failed_attempts": 0,
+    "test_accessed": false
+  },
+  "statistics": {
+    "statistical_unit": "training_seed",
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "paired_summary_rows_verified": 4752,
+    "paired_seed_rows_verified": 23760,
+    "endpoint_rows": 400,
+    "max_csv_roundtrip_error": 1.6664187391102203e-16,
+    "phase_contrasts_verified": 216,
+    "cell_label_seed_weight_rows_verified": 480,
+    "training_and_first_batch_rows_each": 2000,
+    "first_batch_gradient_diagnostics_all_nonmissing": true,
+    "first_batches_per_seed": 50,
+    "weight_denominator": "actual 1000/2450 minibatches per trajectory",
+    "B_over_M": "ratio of totals, not mean per-batch ratio"
+  },
+  "support": {
+    "candidate_equal_all_paired_batches": true,
+    "paired_batches": 34500,
+    "example_accepted_support_exact_both_datasets": true,
+    "pair_symmetric_difference_entries": {
+      "movielens": 18,
+      "kuairand": 874
+    },
+    "pair_mean_jaccard": {
+      "movielens": 0.99999765625,
+      "kuairand": 0.9999535247221097
+    },
+    "pair_min_jaccard": {
+      "movielens": 0.9986979166666666,
+      "kuairand": 0.9908854166666666
+    }
+  },
+  "scientific_review": {
+    "auxiliary_construction_degradation_evidence": "STRONG",
+    "perturbation_increment_evidence": "WEAK",
+    "current_B_C_or_zero_arms_beat_clean": false,
+    "formal_algorithm_success_claim": false,
+    "stage2_advance_supported": true,
+    "stage2_method": "NDP-A",
+    "alpha": 0.03,
+    "mixture_lambda": 0.25,
+    "planned_new_runs": 10,
+    "reason": "MovieLens C-Z-EXAMPLE has positive five-seed mean (+0.0003520797889775), 4/5 positive seeds and 5/6 positive cell means with exact accepted support; measured weighting shifts identify the natural-weight objective contrast. KuaiRand selected mean is negative and phase/selection reversals are disclosed. Plan permits this single falsification experiment without a CI-excludes-zero or all-seeds-positive veto.",
+    "stage2_requires_new_design_implementation_review_and_smoke": true
+  },
+  "figures": {
+    "validation_curves": "Inspected: readable dataset axes, arm legend and five-seed mean/SD curves",
+    "paired_contrasts": "Inspected: readable dataset/metric labels, zero line, signed deltas and 95% t intervals"
+  },
+  "reused_prior_evidence": "Implementation checks and completed source/run/log hash checks reused without rerunning engineering tests or recompressing/decompressing all training logs",
+  "not_triggered": [
+    "NDP-B",
+    "bounded_HPO",
+    "frozen_Test_evaluation",
+    "mechanism_ablation",
+    "projection"
+  ]
+}

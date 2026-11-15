@@ -1,0 +1,74 @@
+{
+  "source_hash": "a67f446902642f0ce777ac7736474b00a1400902184ccf0d461581ace1b9a491",
+  "git_commit": "bf36e454adc2d0c569218a7993834f6d56cfc97f",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "seed_override": "User: only 2022-2026; development and confirmation reuse seeds",
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "pilot_arms": [
+    "CLEAN",
+    "A",
+    "B",
+    "C",
+    "RANDOM",
+    "GAUSSIAN"
+  ],
+  "pilot_alpha": 0.03,
+  "epochs": 50,
+  "batch_size": 40960,
+  "pair_budget": 128,
+  "lambda_aug": 0.25,
+  "hpo_alphas": [
+    0.01,
+    0.03,
+    0.05
+  ],
+  "max_hpo_routes": 2,
+  "clean_loss": "mean over rows and both tasks of probability BCE",
+  "selection": "earliest strict maximum of validation six-cell Macro AUC; independent online and EMA",
+  "test_access": "after frozen configuration only",
+  "model_storage": "RAM_ONLY",
+  "design_sha256": "4f0f15e33141cd347d5a0e6f7dcd6aa8c80b70f842a5b93a6cefc546f31f0cd2",
+  "configs": {
+    "movielens": {
+      "dataset": "movielens",
+      "arm": "A",
+      "alpha": 0.03,
+      "pair_budget": 128,
+      "lambda_aug": 0.25,
+      "epochs": 50,
+      "batch_size": 40960,
+      "lr": 0.01,
+      "weight_decay": 0.0001,
+      "rho": 0.9828205985452511,
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "clean_loss": "mean_probability_BCE",
+      "auxiliary_loss": "2_mean_target_probability_BCE"
+    },
+    "kuairand": {
+      "dataset": "kuairand",
+      "arm": "A",
+      "alpha": 0.03,
+      "pair_budget": 128,
+      "lambda_aug": 0.25,
+      "epochs": 50,
+      "batch_size": 40960,
+      "lr": 0.01,
+      "weight_decay": 1e-05,
+      "rho": 0.995,
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "clean_loss": "mean_probability_BCE",
+      "auxiliary_loss": "2_mean_target_probability_BCE"
+    }
+  }
+}

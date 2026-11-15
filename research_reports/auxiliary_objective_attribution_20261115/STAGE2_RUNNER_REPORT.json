@@ -1,0 +1,103 @@
+{
+  "experiment_id": "auxiliary_objective_attribution_20261115_stage2_ndp_a",
+  "stage": "STAGE2",
+  "run_status": "COMPLETE",
+  "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.auxiliary_objective_attribution_20261115.stage2.runner stage2 --attempt artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1 --review research_reports/auxiliary_objective_attribution_20261115/STAGE2_IMPLEMENTATION_REVIEW.json --devices 0,1",
+  "tables_command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.auxiliary_objective_attribution_20261115.stage2.runner tables --attempt artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1",
+  "start_time_utc": "2026-11-15T10:21:34.723766+00:00",
+  "end_time_utc": "2026-11-15T11:43:52.596843+00:00",
+  "elapsed_seconds": 4937.869162230985,
+  "git_commit": "e5738e52294f064c23a9b953fe74abb84de713df",
+  "reviewed_source_hash": "831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b",
+  "review": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_IMPLEMENTATION_REVIEW.json",
+  "config": {
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "arm": "NDP-A",
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "epochs_per_trajectory": 50,
+    "batch_size": 40960,
+    "alpha": 0.03,
+    "mixture_lambda": 0.25,
+    "new_trajectories": 10,
+    "reused_clean_trajectories": 10,
+    "trajectories_in_export": 20,
+    "optimizer_updates": 17250,
+    "ema_updates": 17250,
+    "test_accessed": false,
+    "model_storage": "RAM_ONLY"
+  },
+  "config_manifest": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/run_manifest.json",
+  "matrix_counts": {
+    "movielens/seed_2022": 1,
+    "movielens/seed_2023": 1,
+    "movielens/seed_2024": 1,
+    "movielens/seed_2025": 1,
+    "movielens/seed_2026": 1,
+    "kuairand/seed_2022": 1,
+    "kuairand/seed_2023": 1,
+    "kuairand/seed_2024": 1,
+    "kuairand/seed_2025": 1,
+    "kuairand/seed_2026": 1
+  },
+  "status_counts": {
+    "complete_new": 10,
+    "reused_clean": 10,
+    "failed": 0,
+    "pending": 0,
+    "active": 0
+  },
+  "updates_verified_from_result_json": {
+    "optimizer_updates": 17250,
+    "ema_updates": 17250,
+    "epochs": 500
+  },
+  "raw_resource_accounting": {
+    "new_worker_seconds": {
+      "sum": 23459.112680824124,
+      "max": 3983.2806020670105,
+      "mean": 2345.9112680824123
+    },
+    "data_load_seconds": {
+      "sum": 49.26571485516615,
+      "max": 29.090441831969656,
+      "mean": 4.926571485516615
+    },
+    "peak_allocated_bytes_max": 2919604224.0,
+    "peak_reserved_bytes_max": 3019898880.0,
+    "final_host_ram_fraction": 0.25176841709286446,
+    "scheduler_admission_limits": {
+      "per_device_memory_fraction_max": 0.85,
+      "per_device_power_fraction_max": 0.85,
+      "host_ram_fraction_max": 0.9
+    }
+  },
+  "raw_metrics_and_tables": {
+    "ENDPOINTS.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/ENDPOINTS.csv",
+    "VALIDATION_CURVES.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/VALIDATION_CURVES.csv",
+    "SUMMARY.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/SUMMARY.csv",
+    "PAIRED_SEEDS.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SEEDS.csv",
+    "PAIRED_SUMMARY.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SUMMARY.csv",
+    "WEIGHTS.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/WEIGHTS.csv",
+    "COSTS.csv": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/COSTS.csv"
+  },
+  "result_jsons": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/*/result.json",
+  "worker_logs": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/launch_logs/",
+  "epoch_commit_ledger": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/epoch_commit_ledger.jsonl",
+  "progress_file": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/progress.json",
+  "runtime_errors": [],
+  "failed_runs": [],
+  "retries": [],
+  "missing_runs": [],
+  "test_accessed": false,
+  "ram_guardian": "retained; no release/shutdown command issued",
+  "worktree_state": "HEAD e5738e52294f064c23a9b953fe74abb84de713df; Stage2 run artifacts and reports are untracked/generated outputs."
+}

@@ -1,0 +1,107 @@
+{
+  "stage": "STAGE2",
+  "source_hash": "831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b",
+  "git_commit": "e5738e52294f064c23a9b953fe74abb84de713df",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "arms": [
+    "NDP-A"
+  ],
+  "new_trajectories": 10,
+  "reused_clean_trajectories": 10,
+  "epochs": 50,
+  "batch_size": 40960,
+  "optimizer_updates": 17250,
+  "ema_updates": 17250,
+  "configs": {
+    "movielens": {
+      "dataset": "movielens",
+      "arm": "NDP-A",
+      "alpha": 0.03,
+      "mixture_lambda": 0.25,
+      "epochs": 50,
+      "batch_size": 40960,
+      "precision": "float32",
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.0001,
+      "rho": 0.9828205985452511,
+      "objective": "natural_row_task_convex_view_mixture_v1",
+      "support": "all_2B_entries_including_zero_directions",
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+      "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+    },
+    "kuairand": {
+      "dataset": "kuairand",
+      "arm": "NDP-A",
+      "alpha": 0.03,
+      "mixture_lambda": 0.25,
+      "epochs": 50,
+      "batch_size": 40960,
+      "precision": "float32",
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 1e-05,
+      "rho": 0.995,
+      "objective": "natural_row_task_convex_view_mixture_v1",
+      "support": "all_2B_entries_including_zero_directions",
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+      "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+    }
+  },
+  "cache_dir": "/home/xzf/Code/phase0-3-20261115/artifacts/heterogeneity_aware_20261115/attempt1/data_cache",
+  "selection": "earliest strict maximum of validation six-cell Macro AUC; independent online and EMA",
+  "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+  "model_storage": "RAM_ONLY",
+  "test_accessed": false,
+  "timing_scope": "CUDA synchronized wall time for probe, delta construction, and forwards/ledger/backward/Adam/EMA; validation separately",
+  "provenance": [
+    {
+      "path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_DESIGN_SPECIFICATION.md",
+      "sha256": "4515b91dcd3f214486a2d8f28a2dd5614f534f5afb2c7401d18fa54dad9cc620"
+    },
+    {
+      "path": "research_reports/auxiliary_objective_attribution_20261115/decision.json",
+      "sha256": "5845910e92cd37a97725dca86878c077546e8dca5a465b818f06549a68f652c1"
+    },
+    {
+      "path": "research_reports/auxiliary_objective_attribution_20261115/STAGE1_FINAL_REVIEW.json",
+      "sha256": "e544d2558be1f015452ccf0de048000025ee4f9b93e95490c5dcf219c1391e36"
+    },
+    {
+      "path": "artifacts/auxiliary_objective_attribution_20261115/attempt1/source_receipt.json",
+      "sha256": "b9476473df51fa8f288c02c2de67f4095b2c85f0ca38e0b406029a2fd017d263"
+    },
+    {
+      "path": "artifacts/auxiliary_objective_attribution_20261115/attempt1/tables/SUPPORT_SUMMARY.csv",
+      "sha256": "4d44e841a278e890726898a6c7a25f6b14d94e01810ef327cc43901c5459becc"
+    },
+    {
+      "path": "artifacts/auxiliary_objective_attribution_20261115/attempt1/tables/WEIGHTS.csv",
+      "sha256": "fb251cb3ebf39d54df4df03289fda3b7f1644f91cb1acfa61eef56ff7653ce69"
+    }
+  ],
+  "stage1_final_decision_sha256": "5845910e92cd37a97725dca86878c077546e8dca5a465b818f06549a68f652c1",
+  "stage1_final_review_sha256": "e544d2558be1f015452ccf0de048000025ee4f9b93e95490c5dcf219c1391e36"
+}

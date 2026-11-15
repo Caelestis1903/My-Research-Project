@@ -1,0 +1,32 @@
+{
+  "verdict": "PASS WITH FIXES",
+  "blocking_issues": [],
+  "source_hash": "a67f446902642f0ce777ac7736474b00a1400902184ccf0d461581ace1b9a491",
+  "resolved_issues": [
+    {
+      "id": "R1",
+      "classification": "Relevant",
+      "path": "experiments/heterogeneity_aware_20261115/run.py",
+      "resolution": "Small-batch same-coefficient FP64 finite difference at step1e-5, plus original FP32 sensitivity comparison; full-batch training remains FP32."
+    }
+  ],
+  "evidence": {
+    "initial_review": {
+      "verdict": "FAIL",
+      "source_hash": "fa4db1090ec06d35dc205f412afa6b3e58880b629fb71c6f3be199fccdbff50e",
+      "movielens_cpu_fd": "PASS",
+      "kuairand_cpu_fd": "FAIL",
+      "kuairand_max_absolute_error": 0.0078092217445373535,
+      "kuairand_max_relative_error": 0.026143359020352364
+    },
+    "corrected_actual_source_check_sensitivity_cpu": {
+      "movielens": "PASS",
+      "kuairand": "PASS",
+      "movielens_fd_max_absolute_error": 3.50265e-11,
+      "kuairand_fd_max_absolute_error": 2.95627e-11,
+      "movielens_fp32_gradient_max_absolute_error": 2.60029e-7,
+      "kuairand_fp32_gradient_max_absolute_error": 5.18891e-7,
+      "test_predictions_or_metrics_accessed": false
+    }
+  }
+}
