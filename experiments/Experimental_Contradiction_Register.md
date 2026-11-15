@@ -340,4 +340,28 @@
 - **A/B:** ML TG−A0+EMA selected test宏AUC−0.002418（0/2正），共同E50却+0.000376（2/2）；KR selected和E50仍退化。
 - **Classification:** **CHECKPOINT SPECIFICITY**；不能用E50后期小幅正值替换冻结selected主裁定，不否认阶段性现象。E069。
 
-**最新判断原则：** 相同数据/目标/算法/选点/评价人口的可比性优先；真实相反的metric和阶段效应必须并列，不将不一致机械判成研究失败，也不把历史反例反复包装成新问题。
+### C052 — 训练面板Fast−Slow方向持续性 vs 验证侧动作价值接近零
+- **A/B:** 11/09 A0中KR-G训练面板P_A→P_B方向一致率0.96，验证侧0.60；C_persist的P_B和验证ΔAUC均负，C_carry虽有面板正值但相对统一Fast的验证增量约0。
+- **Classification:** **TRAINING-PANEL PERSISTENCE ≠ FUTURE VALIDATION ACTION VALUE**；A0没有新训练/Test，不称完整模型失败。E070。
+
+### C053 — PUB候选相对同α G控制大幅改善 vs 相对正常A/F没有收益
+- **A/B:** P0/P1/P2相对A均未过门；G控制本身E50宏AUC接近0.5，使C−G差值偏离正常算法对照。
+- **Classification:** **CONTROL DEGENERATION / COMPARATOR IDENTITY**；保留更新空间相对G的差值，但不将其当作正式算法收益。E071。
+
+### C054 — current-preconditioned单步局部正向 vs 六轮真实反馈使F下降
+- **A/B:** 同状态同范数单步干预约+0.00032至+0.00041 AUC；11/11 A_MATCH六轮反馈在ML/KR均使F受损。
+- **Classification:** **ONE-STEP INTERVENTION ≠ CLOSED-LOOP TRAINING EFFECT**；单步局部机制和长期递推必须分开评价。E074、E076。
+
+### C055 — MovieLens两态B验证AUC增量 vs Test新增AUC接近零
+- **A/B:** ML Clean两态B验证ΔAUC +0.00040544，Test相对F仅+0.00003113且区间跨0；Gaussian验证增量+0.00023892，Test +0.00009666且区间跨0。LogLoss Test两组均稳定下降。
+- **Classification:** **VALIDATION RANKING GAIN / TEST RANKING GAIN / LOGLOSS ARE DISTINCT ESTIMANDS**；保留LL收益，不把它包装为AUC增量或校准证据。E077。
+
+### C056 — KuaiRand B_SHARED验证候选 vs Test未复现及最强发表基线未通过
+- **A/B:** B_SHARED验证有正均值，但Test相对F为Clean−0.00013886、Gaussian−0.00169040；相对HyperGate/AutoIFS未过正式AUC门。另一个H277两态读出Test有+0.00069911诊断信号。
+- **Classification:** **CANDIDATE SELECTION / FROZEN TEST / BASELINE IDENTITY**；B_SHARED与B_H277不是同一读出，不能混为一个结果。E077。
+
+### C057 — LogLoss稳定改善 vs AUC没有新增排序增量
+- **A/B:** ML两态B的Test LogLoss两条件均五seed改善且区间低于0，但AUC增量区间跨0。
+- **Classification:** **PROBABILITY LOSS VS RANKING**；没有直接校准诊断，不将LogLoss改善解释为已证明校准。E077。
+
+**最新判断原则：****最新判断原则：** 相同数据/目标/算法/选点/评价人口的可比性优先；真实相反的metric和阶段效应必须并列，不将不一致机械判成研究失败，也不把历史反例反复包装成新问题。

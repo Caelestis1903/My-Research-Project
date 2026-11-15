@@ -29,6 +29,58 @@
 
 
 
+## 2026-11-15 最新 AI Handoff：11/09–11/11 EMA 研究整合
+
+**分支审计与合并范围。** 本轮检查了45个远端分支及其相对main的提交差异。较早分支的研究结论已在既有Global Summary、Evidence Ledger和历史索引中体现；11/09 PUB-MDMT的主要结论已存在于main。此次补入此前缺失的11/09 EMA_ADAPTIVE A0、11/10 EMA因果归因和11/11 EMA下一阶段结果。只合并研究结论与上下文，不复制来源分支的报告、代码、计划、原始CSV/JSON或运行工件。
+
+### 11/09 EMA_ADAPTIVE A0：训练方向持续性没有转化为可执行动作增量
+
+- 复用11/07的20条真实轨迹（MovieLens/KuaiRand × Clean/Gaussian D0 × seeds2022–2026）；本轮新增训练、Adam更新、GPU训练时间和Test访问均为0。
+- KR Gaussian主范围GLOBAL中，训练面板P_A到P_B的Fast−Slow方向一致率为0.96，但验证侧方向率为0.60，晚期Pearson/Spearman接近0。C_persist的P_B未来ΔAUC为−0.000421092±0.000109264，验证侧为−0.000103584±0.000169881；预测误差变化没有改变动作。
+- C_carry的P_B ΔAUC为+0.000445201±0.000224756，验证侧为+0.000101319±0.000244342；相对统一Fast动作的验证增量仅−0.000000478。TASK0/TASK1静态政策在所有留出折均选择Fast，task-specific相对uniform增量精确为0。
+- **裁定：A0=NO_ACTIONABLE_SIGNAL。** A1、闭环B和正式评价C均NOT_TRIGGERED；本轮不是完整自适应模型训练或Test失败，不能据此否定所有未来反馈策略。
+
+来源：[11/09 EMA_ADAPTIVE FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
+
+### 11/09 PUB-MDMT：沿用main已有的五seed迁移结论
+
+- 原始α尺度、coupled-WD设置下的P0/P1/P2均未达到主性能目标；相对A的Test Macro AUC全部0/5 seed正向，六格均值下降且Macro LogLoss升高。
+- C相对同α G控制的较大正差不能直接解释为算法收益，因为G本身在E50的宏AUC接近0.5。应保留“相对G有更新空间增量”和“相对正常A/F没有性能收益”两层不同结论。
+- 当前三种迁移不晋级，固定EMA F继续作为内部强对照。WD=0的A/C1/G1配对只是报告提出的后续建议，未在本轮完成。
+
+来源：[11/09 PUB-MDMT FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)。
+
+### 11/10 EMA_CAUSAL_ATTRIBUTION：固定EMA收益主要来自共享参数与历史互补
+
+- 4条件（ML/KR × Clean/Gaussian D0）、5 seeds（2022–2026），20条正式轨迹、1000 epoch、34,500次Adam更新。F−O的selected Test Macro AUC分别为ML-C +0.003848845、KR-C +0.004616399、ML-G +0.003856802、KR-G +0.007766927；LogLoss差依次为+0.001248644、−0.001225342、+0.005334282、+0.000327687（正值表示F损失更高）。
+- **参数组归因：** 删除共享参数S使晚期验证AUC下降约0.00376–0.00436；删除非共享N的效应接近0。S内部，删除EMBED下降约0.00187–0.00303，删除STAR_SKIP下降约0.00050–0.00165，EXPERT删除效应接近0。当前证据支持共享参数是固定EMA收益的主要承载位置，不支持把收益归于专有参数普遍更需要平滑。
+- **历史时间归因：** 删除recent造成约0.00456–0.00499的AUC损失，删除old造成约0.00079–0.00252损失；EMBED的recent×old交互在四个条件下均为正。较早历史单独读出并不总是有益，但与近期状态组合时提供额外价值。
+- **预测函数归因：** q_logit/q_probability历史预测组合在固定验证面板上相对F提高约0.00067–0.00264 AUC，并降低LL，五seed均正；但没有独立选点完整Test比较，不能将其升级为新算法或宣称参数平均被唯一证明。
+- **训练来源：** 同状态同范数current-preconditioned单步干预带来约+0.00032至+0.00041的局部AUC变化；momentum_isotropic替代则约−0.011至−0.013。前者保留Adam坐标预调节，不能解释成普通动量方向本身有益。该单步干预尚未反馈进入后续训练。
+- **自适应空间：** H1（旧指标遗漏来源）和H2（信息可用但rho不可执行）均不是当前主解释；H3（固定F已捕获当前可利用收益）获条件性支持。Gaussian×EMA晚期交互区间跨0，不支持统一协同规则。
+
+来源：[11/10 EMA causal attribution FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### 11/11 EMA_NEXT：单步收益没有转化为反馈收益，两态历史读出保留有限候选
+
+- 本轮95个job、1415 epoch、46,280次Adam更新，使用既有五seed池2022–2026；发表模型端点复用既有五seed记录，不新增基线训练。
+- **A：真实反馈方向。** MovieLens的alpha=0.5/1.0使F验证AUC分别−0.00064031/−0.00177519，正向seed均0/5；KuaiRand分别−0.00254234/−0.00085929，正向seed均1/5。部分online读出为正不改变F持续受损的结论。RAW、完整A续训和AB未触发。当前A_MATCH反馈版本停止；不能外推为所有梯度/动量反馈都无效。
+- **B：两态历史读出。** MovieLens Clean/Gaussian两态B相对F的Test ΔAUC仅+0.00003113/+0.00009666，95%区间均跨0；Test ΔLogLoss为−0.00375756/−0.00271183，两个区间均低于0。即概率损失改善较稳定，但没有形成新增排序收益。
+- KuaiRand冻结主候选B_SHARED相对F的Clean/Gaussian Test ΔAUC为−0.00013886/−0.00169040，未形成增量；另一个两态B_H277诊断读出在Clean Test为+0.00069911、5/5正向，但95%区间下界为−0.00000416，属于值得复核的中等强度候选，不是正式晋级结果。
+- **正式发表模型对比：** MovieLens两态B在Clean/Gaussian均通过M3oE、HyperGate、AutoIFS；KuaiRand B_SHARED虽超过M3oE，但未超过HyperGate和AutoIFS。因此当前没有跨两个数据集均胜最强发表基线的统一候选。B相对发表模型的总收益包含固定EMA F已有收益，不能归因成B的新增贡献。
+- **C与KD：** 四种cell系数规则均为NO_FUTURE_SIGNAL；ML蒸馏只保留部分教师收益，独立AUC增量未形成晋级，KR蒸馏未触发。
+
+来源：[11/11 EMA next FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### 当前研究决策
+
+1. 固定EMA的selected AUC收益及其共享参数/历史互补来源已得到更具体的支持，不再重复开展“EMA是否有效”的基础验证。
+2. 当前PUB P0/P1/P2、A_MATCH反馈和C类cell动作规则按各自测试版本停止；不得扩大成对全部PUB、全部反馈或全部自适应EMA的否定。
+3. 两态B只保留为有限候选。若继续，优先以新的五seed对照F、两态B和B_SHARED，冻结H/scope/mode，不再扩大搜索；同时分别评价AUC和LogLoss。
+4. 固定研究边界：小域不是困难域；本轮不围绕该结论设计实验或进行假设性分析。
+
+---
+
 ## 2026-11-09 PUB-MDMT：完整五seed迁移与同α控制
 
 **协议与完成量。** FULLTRAIN_NATURAL80_10_10，M3oE fixed1，Clean自然人口，ML/KR各seeds2022–2026；50epoch、batch40960、lr.01、coupled Adam。完成18组数值校准、40条2epoch频率比较、70条正式轨迹（3500epoch、120750次更新），A轨迹同步维护F。固定共同solver niter100/tol1e-4/ridge1e-8、α频率10。正式训练无失败、回退或重跑，参数与优化器状态留RAM。

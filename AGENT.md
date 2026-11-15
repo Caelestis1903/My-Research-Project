@@ -7,16 +7,18 @@
 > **重要：本项目当前研究协议与上游 M3oE 不完全相同。V1/V2 有意移除原 M3oE 的可学习融合权重及 AutoML/DARTS 权重搜索/附加优化路径。此移除是后续实验的刻意控制条件，不是 bug、遗漏或需要恢复的功能。**
 
 
-## 2026-11-02 研究结论优先级（后于本文原V1/V2工作约定）
+## 2026-11-15 研究结论优先级（覆盖11/02旧摘要）
 
-**本文件原有V1/V2、旧基线及实验约定主要属于历史架构和实现记录，并不涵盖后续所有实验的最新科研结论。** Codex开始规划、实现或评价新方法时，按顺序读取 [最新AI上下文](EXP_AI_CONTEXT.md)、[截至11-02的全局结论](experiments/Experimental_Global_Summary.md)、[实验索引EXP052–EXP060](experiments/Experimental_Experiment_Index.md)和[证据E058–E069](experiments/Experimental_Evidence_Ledger.md)。10-26及更早的研究结论在相应数据/目标条件下保留，不用新的一轮实验从零反复检验已接受的结果。
+**本文件原有V1/V2、旧基线及实验约定主要属于历史架构和实现记录，不涵盖后续全部科研结论。** Codex开始规划、实现或评价新方法时，按顺序读取[最新AI上下文](EXP_AI_CONTEXT.md)、[全局研究结论](experiments/Experimental_Global_Summary.md)、[稳定事实](experiments/Experimental_Stable_Findings.md)、[开放问题](experiments/Experimental_Open_Questions.md)、[实验索引EXP061–EXP064](experiments/Experimental_Experiment_Index.md)、[证据E070–E078](experiments/Experimental_Evidence_Ledger.md)和[性能总台账](MDMT_ALGORITHM_METRICS_LEDGER.md)。10-26及更早的结论仍在各自条件下有效，不得因新分支而重新从零验证。
 
-- **已有可信强参考：** 固定参数EMA非反馈shadow在ML两组五seed的selected test宏AUC有+0.004399/+0.003849配对提升（均5/5），KR +0.004616（4/5）；ML同期LL有代价。不要将普通参数EMA误写成已经改动在线Adam一阶矩或融合增强梯度的新公式。
-- **已完成而非待执行：** 10-29 HyperGate/AutoIFS正式五seed基线；10-31 loss_scale/NR-Gauss；11-01 L2、IID2/ANTI2、SAD、AIG；11-02 GATS B1/B2/B3/C2及EMA02V2 J/F/TG/AG。已测新增模块没有稳定胜过其指定强EMA/同预算控制；B2开发期正值已在留出seed/统一test形成更明确的版本性NO_PROMOTION。
-- **后续研究应关注：** 域×任务的具体特征或任务标签需求如何生成增强信号、梯度如何使用，以及它们如何真正改变动量/时间递推或更新状态。只改输入梯度视图、保留原EMA更新不变，不能自动宣称“数据增强＋梯度＋动量三结合”的机制性创新。
-- **研究状态不误判：** NO_PROMOTION只限已测版本，NOT_TRIGGERED没有正式结果；来源可读、EMA排序收益、D历史套件阳性与复杂新方法无增量可以并存。模型/数据/评价指标不相同不可跨分支硬排名；不能把重复seed或历史test记为新独立确认。
-
-本轮只更新main的全局结论与读者导航，未把未合并分支的代码、报告、训练工件或研究方案合入本分支。
+- **固定EMA仍是强内部参照。** 11/10因果归因显示，当前M3oE fixed1设置下EMA收益主要由共享参数S承担，尤其是EMBED；非共享参数N删除效应接近零。近期与较早历史存在正交互，不能将收益简单归结为“只需要最近参数”或“全部参数等价”。
+- **11/09 EMA自适应A0没有产生可执行增量。** A0只复用既有轨迹做训练面板/验证侧诊断，没有新训练、完整模型Test或新独立seed；A1/B/C均未触发。不能把它写成完整自适应EMA算法的Test失败。
+- **11/09 PUB迁移当前版本不晋级。** P0/P1/P2在原始尺度、coupled-WD设置下均未胜A/F；C相对退化的同α G控制的差异不能替代与正常基线比较。WD=0后续矩阵仅为当时建议，不得写成已完成实验。
+- **11/10机制归因与11/11反馈实验必须联合阅读。** 同状态同范数的current-preconditioned单步干预有小幅局部正值，但六轮反馈A在MovieLens和KuaiRand均使F下降；不能把单步收益外推为持续训练收益。当前C类未来动作规则也未通过。
+- **11/11两态历史读出是有限候选，不是已接受的通用新算法。** MovieLens两态B相对F的Test AUC增量接近零，但LogLoss稳定下降；KuaiRand两态B诊断AUC约+0.000699、5/5正向，95%区间下界略低于零。冻结主候选B_SHARED未胜HyperGate。后续若继续，只应对固定两态B与F/B_SHARED做新的五seed判别，不扩成无边界超参搜索。
+- **AUC与LogLoss分别裁定。** 不用LogLoss改善替代AUC晋级，也不以AUC收益掩盖概率损失代价；正式基线仍限已发表模型，固定EMA及其他自研变体均为内部对照。
+- **研究边界固定：小域不是困难域。** 不得把域大小作为困难度代理，也不得设计实验或进行假设性分析来证明/否定这一结论；其他可直接观测变量应独立定义和讨论。
+- **本次合并只更新研究结论与上下文索引。** 原始报告、代码、训练工件、数据和研究计划继续保留在来源分支，不复制到main。
 
 ---
 ## 0. Codex 最高优先级规则
@@ -25,7 +27,7 @@
 2. 必须区分：上游 M3oE baseline、当前固定实验底座、V1 DBO-inspired reweighting、V2 gradient magnitude balancing，以及真正的代码 bug。
 3. **不得恢复被有意移除的 `_weight_*` 可学习融合权重、AutoML/DARTS 权重搜索或其附加 optimizer/update。** 如果需要研究这些机制，必须作为独立 baseline/ablation 显式启用。
 4. 任何训练语义改变都必须明确记录：loss、domain/task 聚合方式、optimizer、参数归属、batch size、seed、数据 split、checkpoint、软件/CUDA/PyTorch 版本。
-5. 不得把“稀缺域”自动等同于“困难域”，也不得预设某种权重、梯度修正或 Adam 历史状态一定有益。
+5. **小域不是困难域。** 不得把域大小作为困难度代理，不得设计实验或进行假设性分析来证明或否定这一结论。其他可直接观测变量必须独立定义；同时不得预设某种权重、梯度修正或 Adam 历史状态一定有益。
 6. 未实际运行的 AUC、logloss、收敛速度、显存和稳定性一律标为“未测”。科研结论必须由当前代码、当前数据和当前实验支持。
 7. 修改前先检查 `git status`、当前 commit 和实际模块路径。不要覆盖既有实验结果或 checkpoint。
 

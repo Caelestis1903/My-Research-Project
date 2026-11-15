@@ -225,4 +225,30 @@
 - **Status:** STOP_THESE_VIEW_VERSIONS；CONFIRMATION/W1_NOT_TRIGGERED。
 - **Retained:** ML F1只是条件线索，不能把当前视图梯度直接当动量式优化融合完成。
 
+## 2026-11-15 新增当前版本停止项（D034–D037）
+
+### D034 — EMA_ADAPTIVE A0当前训练面板预测器与静态任务动作
+- **Current version:** C_persist、C_carry和TASK0/TASK1静态政策。
+- **Why stop:** 训练面板方向持续性未迁移为验证动作价值；C_persist未来面板与验证侧均负，C_carry相对统一Fast的验证增量近零，task策略退化为统一Fast。
+- **Scope:** A0仅复用既有轨迹，无新增训练或Test；A1/B/C未触发。停止当前预测/动作规则，不是完整自适应EMA算法失败。
+- **Evidence:** E070；[11/09报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
+
+### D035 — PUB-MDMT当前原始尺度P0/P1/P2 coupled-WD迁移
+- **Current version:** P0/P1/P2与同α G控制。
+- **Why stop:** 三种迁移相对A均未形成Test AUC正向seed，Macro AUC/LogLoss均不满足晋级要求；G控制本身退化，不能用C−G作为算法成功依据。
+- **Scope:** 仅停止当前原始尺度/coupled-WD版本；报告建议的WD=0矩阵未执行，其他PUB参数化不在本停止结论内。
+- **Evidence:** E071；[11/09 PUB报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)。
+
+### D036 — A_MATCH当前current-preconditioned方向的六轮反馈版本
+- **Current version:** alpha=0.5/1.0的短反馈A_MATCH。
+- **Why stop:** ML与KR两个强度均使F的验证AUC下降；online局部正值没有转化为F持续收益。
+- **Scope:** RAW、完整A续训和AB未触发；停止当前A_MATCH版本，不外推为所有梯度/动量反馈无效。
+- **Evidence:** E076；[11/11 EMA_NEXT报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### D037 — 当前C类cell系数/未来动作规则
+- **Current version:** 11/10 C_design/C_simple及11/11四种cell预测系数规则。
+- **Why stop:** 11/10可见训练信号没有超过固定F的实际动作增量；11/11四种cell规则均NO_FUTURE_SIGNAL。
+- **Scope:** 不再重复同类规则网格；只有提出会改变真实参数时间递推且可能改变研究决策的新信息机制时才重开。
+- **Evidence:** E075、E078；[11/10报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)、[11/11报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
 **不是死路的结论：** 固定EMA选点排序的已测收益；原历史D套件在其协议内的正效应；来源读取/群体差异的有界事实。当前版本停线不推导全部梯度、增强、动量或共享思想不成立。

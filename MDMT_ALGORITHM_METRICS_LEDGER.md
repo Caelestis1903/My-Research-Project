@@ -1,6 +1,6 @@
 # MDMT 算法性能总台账（AUC / LogLoss）
 
-> 更新：2026-11-08。保留原110条历史记录及11/03五seed补全、11/04发表模型/CP/Gaussian覆盖；新增11/05 AUG_HISTORY的96条配置×数据集×端点记录，以及11/06 EMA_MECHANISM四条件×online/F共8行selected Test绝对指标。五seed均为2022–2026；online与F是同轨迹读出，不增加独立seed。
+> 更新：2026-11-15。保留历史绝对指标及既有协议分组；补入11/09 PUB迁移索引、11/10固定EMA因果归因和11/11两态历史读出的selected Test宏指标。11/09 A0仅为复用轨迹的诊断，没有新训练/Test，不增加性能行。五seed均为2022–2026；同轨迹online/F/影子读出不增加独立seed。
 >
 > **正式Baseline仅可使用已发表论文中的模型**。自研M、H、C_MIX、PAIR、ECCM、SAD、AIG、EMA改造、调参变体等只列为**研究方法/组件/内部消融控制**，不可自行升级为“论文基线”。正式比较须在一致的数据与训练/选模协议下重新评估；不同来源表格的绝对指标**不得直接排名**。
 
@@ -22,6 +22,12 @@
 | AutoIFS | [WSDM 2026, DOI:10.1145/3773966.3777992](https://doi.org/10.1145/3773966.3777992) | 适配后的模型，不能直接声称复现了原论文的严格指标 |
 
 ## 已回填性能矩阵
+
+### 11/09 EMA_ADAPTIVE A0：诊断性读出（不进入Test性能矩阵）
+
+**协议身份：** A0复用11/07既有20条轨迹，五seed池2022–2026；新增正式训练0条、Adam更新0次、Test访问0次。该分支只有训练面板与验证侧预测/动作诊断，没有可登记的selected Test绝对AUC/LogLoss，因此不创建算法性能行。C_persist的P_B ΔAUC为−0.000421092±0.000109264，验证侧为−0.000103584±0.000169881；C_carry的P_B为+0.000445201±0.000224756、验证侧为+0.000101319±0.000244342，但相对统一Fast动作的验证增量仅−0.000000478。A0裁定NO_ACTIONABLE_SIGNAL；A1/B/C未触发。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
 
 ### 11/09 PUB-MDMT：原始尺度更新空间迁移与真实同α梯度控制（五seed）
 
@@ -59,6 +65,55 @@ C1−C0在两数据均有重复收益。C2−C1的ML宏AUC+.035064、逐格通�
 [完整报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)；[Validation/Test selected/E10/E50与全部状态hash](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/ENDPOINTS.csv)；[全部配对原值](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/SEED_PAIRS.csv)；[均值/SD/95%CI](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/PAIRED.csv)；[逐seed六格附表](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/NUMERICAL_TABLES.md)；[机制与覆盖](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/MECHANISM_PAIRS.csv)。
 
 ---
+
+### 11/10 EMA_CAUSAL_ATTRIBUTION：固定EMA机制复核与因果归因（五seed）
+
+**协议身份：** 4条件（ML/KR × Clean/Gaussian D0）、每条件seed2022–2026、20条正式轨迹、1000 epoch、34,500次Adam更新。下表为本轮selected Test的F−O复核；与11/06同一seed池和协议，不作为新的外部样本人口。
+
+| 条件 | n | F−O Macro AUC | F−O Macro LogLoss |
+|---|---:|---:|---:|
+| ML Clean | 5 | +0.003848845 | +0.001248644 |
+| KR Clean | 5 | +0.004616399 | −0.001225342 |
+| ML Gaussian D0 | 5 | +0.003856802 | +0.005334282 |
+| KR Gaussian D0 | 5 | +0.007766927 | +0.000327687 |
+
+正LogLoss差表示F的LogLoss更高。参数/时间消融是机制归因，不另建算法绝对性能行：删除共享S的晚期验证AUC损失为+0.0037572至+0.0043627；删除N约−0.0001632至+0.0001580；删除EMBED +0.0018738至+0.0030311；删除STAR_SKIP +0.0005041至+0.0016471；删除EXPERT接近0。删除recent损失+0.0045636至+0.0049918，删除old损失+0.0007898至+0.0025160；EMBED recent×old交互四条件均为正。
+
+固定验证面板上的q_logit/q_probability组合相对F提高约+0.0006661至+0.0026413 AUC、同时降低LogLoss；没有独立选点完整Test，不登记为可晋级算法。current-preconditioned单步方向局部增益约+0.0003183至+0.0004076，momentum_isotropic替代约−0.0111386至−0.0127663；这些属于同状态方向诊断，不是完整训练算法结果。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### 11/11 EMA_NEXT：两态历史读出的selected Test宏指标（五seed）
+
+**协议身份：** 五seed池2022–2026；95个job、1415 epoch、46,280次Adam更新。发表模型端点复用既有记录，不新增基线训练。以下为selected Test Macro AUC / LogLoss；六格逐seed端点保留在来源分支压缩端点表，不从宏指标反推或补造。
+
+| 数据集/条件 | 冻结候选 | n | 候选Test Macro AUC / LL | F Test Macro AUC / LL | O Test Macro AUC / LL |
+|---|---|---:|---:|---:|---:|
+| ML Clean | B_H40_all_logit | 5 | 0.77906964 / 0.49238200 | 0.77903851 / 0.49613956 | 0.77518967 / 0.49489092 |
+| ML Gaussian D0 | B_H40_all_logit | 5 | 0.77945326 / 0.49311043 | 0.77935660 / 0.49582227 | 0.77549980 / 0.49048798 |
+| KR Clean | B_SHARED | 5 | 0.67638413 / 0.43569164 | 0.67652300 / 0.43594666 | 0.67190660 / 0.43717200 |
+| KR Gaussian D0 | B_SHARED | 5 | 0.67748978 / 0.43478968 | 0.67918018 / 0.43551785 | 0.67141325 / 0.43519017 |
+
+| 候选−同条件F | Test ΔMacro AUC [95% CI] | 正向seed | Test ΔMacro LogLoss [95% CI] |
+|---|---:|---:|---:|
+| ML Clean 两态B | +0.00003113 [−0.00077027,+0.00083254] | 3/5 | −0.00375756 [−0.00627633,−0.00123880] |
+| ML Gaussian 两态B | +0.00009666 [−0.00045591,+0.00064922] | 4/5 | −0.00271183 [−0.00517072,−0.00025294] |
+| KR Clean B_SHARED | −0.00013886 [−0.00268706,+0.00240934] | 3/5 | −0.00025502 [−0.00356439,+0.00305435] |
+| KR Gaussian B_SHARED | −0.00169040 [−0.00447632,+0.00109551] | 1/5 | −0.00072818 [−0.00246452,+0.00100816] |
+| KR Clean 两态B_H277（诊断） | +0.00069911 [−0.00000416,+0.00140238] | 5/5 | −0.00074549 [−0.00169601,+0.00020504] |
+
+**正式发表模型对照ΔMacro AUC：**
+
+| 数据集/条件 | 候选 | 对M3oE | 对HyperGate | 对AutoIFS | 裁定 |
+|---|---|---:|---:|---:|---|
+| ML Clean | B_H40_all_logit | +0.00387998 | +0.00765789 | +0.00664506 | 三个对照均通过 |
+| ML Gaussian D0 | B_H40_all_logit | +0.00426359 | +0.00804150 | +0.00702867 | 三个对照均通过 |
+| KR Clean | B_SHARED | +0.00447754 | −0.00572842 | −0.00221287 | 仅M3oE通过 |
+| KR Gaussian D0 | B_SHARED | +0.00558318 | −0.00462278 | −0.00110723 | 仅M3oE通过 |
+
+MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARED未胜F，B_H277诊断读出只保留小幅AUC候选。不得将候选相对发表模型的总收益归因成B的独立增量，也不得把LogLoss改善解释为已证明校准。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
 
 ### 11/06 EMA_MECHANISM：固定 EMA 收益机制与未来动作价值（五seed）
 

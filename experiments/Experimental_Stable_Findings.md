@@ -311,6 +311,48 @@
 - **Source:** [EMA_MECHANISM最终报告](../research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)。
 - **Strength:** MEDIUM（当前四条件和阶段）；不外推为通用Gaussian×EMA协同。
 
+## 2026-11-15 新增稳定事实（SF049–SF056）
+
+### SF049 — EMA_ADAPTIVE A0没有找到可执行的未来动作增量
+- **Finding:** 复用既有20条轨迹、没有新增训练或Test。KR Gaussian训练面板的Fast−Slow方向持续性高于晚期验证侧；C_persist未来P_B和验证侧均为负，C_carry虽有面板正值但相对统一Fast的验证动作增量约为0，静态任务策略全部退化为统一动作。
+- **Evidence IDs:** E070；**Strength:** STRONG（本轮面板/动作读出）；**Boundary:** A0不是完整闭环训练，A1/B/C未触发，不能写成完整自适应算法Test失败。
+- **Source:** [11/09 EMA_ADAPTIVE](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
+
+### SF050 — PUB-MDMT当前P0/P1/P2迁移未胜固定EMA或普通模型参照
+- **Finding:** 原始α尺度、coupled-WD下C0/C1/C2相对A均0/5 seed正向，六格均值下降且Macro LogLoss升高。C相对同α G控制有较大正差，但G的E50宏AUC接近0.5，不能把该差值当作正常性能晋级。
+- **Evidence IDs:** E071；**Strength:** STRONG（当前配置/协议）；**Boundary:** 仅停止当前迁移版本，WD=0建议未执行，不否定所有PUB变体。
+- **Source:** [11/09 PUB-MDMT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)。
+
+### SF051 — 固定EMA收益主要由共享参数S承担
+- **Finding:** 删除S使四条件晚期验证AUC下降约0.00376–0.00436；删除N效应接近0。S内部EMBED删除效应最大（约0.00187–0.00303），STAR_SKIP次之，EXPERT接近0。
+- **Evidence IDs:** E072；**Strength:** STRONG（当前M3oE fixed1与四个已测条件）；**Boundary:** 不外推为所有MDMT模型或所有共享结构的普遍参数规律。
+- **Source:** [11/10 EMA因果归因](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### SF052 — 近期与较早历史存在互补，历史预测组合可复现部分排序收益
+- **Finding:** 删除recent的AUC损失约0.00456–0.00499，删除old损失约0.00079–0.00252；EMBED的recent×old交互四条件均为正。q_logit/q_probability组合在固定验证面板上增加约0.00067–0.00264 AUC并降低LL，但没有独立Test选点。
+- **Evidence IDs:** E073；**Strength:** STRONG（固定面板归因）；**Boundary:** 不将非线性模型收益拆成可加的唯一参数份额，也不将面板读出升级为算法Test收益。
+- **Source:** [11/10 EMA因果归因](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### SF053 — 单步current-preconditioned收益没有自动转化为持续反馈收益
+- **Finding:** 同状态同范数current-preconditioned单步干预约+0.00032至+0.00041 AUC；momentum_isotropic替代约−0.011至−0.013。11/11六轮A_MATCH反馈使F在ML/KR的两个强度下均下降。
+- **Evidence IDs:** E074、E076；**Strength:** STRONG（当前方向定义与反馈窗口）；**Boundary:** 停止当前A_MATCH反馈版本，不推导所有梯度/动量反馈无效。
+- **Source:** [11/10因果归因](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)、[11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### SF054 — 当前自适应EMA预测器与cell动作规则未产生稳定动作增量
+- **Finding:** 11/09 A0的C_persist/C_carry和静态task政策未胜统一Fast；11/10 H1/H2不是当前主解释、H3仅条件性支持；11/11四种cell系数规则均NO_FUTURE_SIGNAL。
+- **Evidence IDs:** E070、E075、E078；**Strength:** MEDIUM（已测预测器/动作空间）；**Boundary:** 只停止已测规则，不表示所有训练期信号均不可用。
+- **Source:** [11/09 A0](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)、[11/10归因](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)、[11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### SF055 — 两态历史读出在ML主要改善LogLoss，在KR保留一个小幅AUC诊断信号
+- **Finding:** ML Clean/Gaussian两态B相对F的Test ΔAUC仅+0.00003113/+0.00009666（区间跨0），LogLoss分别改善−0.00375756/−0.00271183（区间低于0）。KR主候选B_SHARED相对F没有AUC增量；KR Clean两态B_H277诊断读出+0.00069911、5/5正向，95%区间下界−0.00000416。
+- **Evidence IDs:** E077；**Strength:** STRONG（ML LogLoss差）；MEDIUM（KR两态B诊断AUC）；**Boundary:** 不把ML LL改善解释为已证明校准，也不把KR诊断结果当作正式晋级。
+- **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### SF056 — 两态B没有形成跨数据集均胜最强发表基线的统一方法
+- **Finding:** MovieLens两态B在Clean/Gaussian下通过M3oE、HyperGate、AutoIFS；KuaiRand B_SHARED只超过M3oE，未超过HyperGate和AutoIFS。完整方案相对发表模型的收益包含固定EMA F已有收益，不能归因成B的独立增量。
+- **Evidence IDs:** E077；**Strength:** STRONG（本轮冻结Test和既定基线门）；**Boundary:** 不否定KR两态B_H277的小幅诊断信号，后者仍需单独复核。
+- **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
 **研究结论采用：** 固定EMA的排序收益作为已接受的强内部参照；当前B/A/C自适应候选不晋级。完整配置总收益与新增组件增量分开；未来自适应设计必须提供跨seed的未来收益预测证据，并实际改变参数时间递推。AUC与LogLoss分别报告，所有结论限定于对应数据、模型、seed和选点协议。
 
 

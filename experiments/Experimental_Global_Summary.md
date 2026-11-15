@@ -26,7 +26,17 @@
 ---
 
 
-## 2026-11-09 PUB-MDMT：完整五seed迁移与同α控制
+## 2026-11-15 最新跨分支整合（11/09–11/11）
+
+### 11/09 EMA_ADAPTIVE A0：训练方向持续，但没有可执行动作增量
+
+本轮复用11/07的20条轨迹（ML/KR × Clean/Gaussian D0 × seeds2022–2026），新增训练、Adam更新和Test访问均为0。KR Gaussian主范围GLOBAL的Fast−Slow训练面板方向一致率为0.96，但验证侧为0.60，晚期相关性接近0。C_persist的P_B未来ΔAUC为−0.000421092±0.000109264，验证侧为−0.000103584±0.000169881；C_carry的P_B为+0.000445201±0.000224756、验证侧为+0.000101319±0.000244342，但相对统一Fast动作的验证增量仅−0.000000478。TASK0/TASK1静态政策全部退化为统一Fast，task−uniform增量精确为0。
+
+**裁定：A0=NO_ACTIONABLE_SIGNAL。** A1、闭环B和正式评价C均NOT_TRIGGERED。本轮是训练面板/验证侧预测诊断，不是完整自适应模型的训练或Test失败。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
+
+### 11/09 PUB-MDMT：完整五seed迁移与同α控制
 
 **协议与完成量。** FULLTRAIN_NATURAL80_10_10，M3oE fixed1，Clean自然人口，ML/KR各seeds2022–2026；50epoch、batch40960、lr.01、coupled Adam。完成18组数值校准、40条2epoch频率比较、70条正式轨迹（3500epoch、120750次更新），A轨迹同步维护F。固定共同solver niter100/tol1e-4/ridge1e-8、α频率10。正式训练无失败、回退或重跑，参数与优化器状态留RAM。
 
@@ -39,6 +49,46 @@
 **当前决定。** 当前三种PUB迁移不晋级，保留固定EMA F为内部强对照。PUB作为优化方法候选记录。下一项有判别力的设计是A/C1/G1统一WD=0的两数据五seed配对，与本轮原WD条件比较，区分正则交互和原始更新半径解释；该新矩阵需单独设计执行。
 
 [完整分析报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)；[全部逐seed端点/状态hash](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/ENDPOINTS.csv)；[配对均值/SD/95%CI](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/PAIRED.csv)；[机制诊断](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/artifacts/pub_mdmt_20261109/attempt1/tables/DIAGNOSTIC_SEEDS.csv)。六格AUC/LL与Macro/Traffic/Pooled已回填指标总台账。A/F的同seed身份保持，独立统计单位仍为五个seed。
+
+### 11/10 EMA_CAUSAL_ATTRIBUTION：固定EMA收益来源的参数与时间归因
+
+4条件、5 seeds，共20条正式轨迹、1000 epoch和34,500次Adam更新。F−O selected Test Macro AUC为ML-C +0.003848845、KR-C +0.004616399、ML-G +0.003856802、KR-G +0.007766927；对应LogLoss差为+0.001248644、−0.001225342、+0.005334282、+0.000327687（正值表示F损失更高）。
+
+| 删除项 | ML-C | KR-C | ML-G | KR-G |
+|---|---:|---:|---:|---:|
+| 共享参数S | +0.0040052 | +0.0043627 | +0.0037572 | +0.0042313 |
+| 非共享参数N | −0.0001144 | −0.0001632 | −0.0001518 | +0.0001580 |
+| EMBED | +0.0029602 | +0.0018738 | +0.0030311 | +0.0024302 |
+| STAR_SKIP | +0.0006165 | +0.0014707 | +0.0005041 | +0.0016471 |
+| EXPERT | −0.0000482 | +0.0003747 | −0.0000309 | −0.0002263 |
+| recent | +0.0048642 | +0.0049918 | +0.0045636 | +0.0046705 |
+| old | +0.0007898 | +0.0017536 | +0.0008662 | +0.0025160 |
+
+删除共享S和recent会损失主要排序收益；N删除效应接近0。EMBED的recent×old交互在四条件下均为正，说明历史作用存在互补，不能简单将EMA收益拆成互相独立的参数份额。q_logit/q_probability预测组合在固定验证面板上相对F增加约+0.00067至+0.00264 AUC、同时降低LL，但没有独立选点完整Test，不构成新算法晋级。
+
+同状态同范数current-preconditioned单步干预带来约+0.00032至+0.00041局部AUC变化；momentum_isotropic替代约−0.011至−0.013。前者保留Adam坐标预调节，不能归因于纯一阶动量。H1/H2不是当前主解释，H3得到条件性支持；Gaussian×EMA晚期交互区间跨0，不支持统一协同。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### 11/11 EMA_NEXT：反馈方向、两态历史读出与动作策略
+
+A_MATCH短反馈在ML alpha=0.5/1.0下F验证AUC分别−0.00064031/−0.00177519；KR分别−0.00254234/−0.00085929。单步current-preconditioned的局部正值没有延续到六轮反馈，当前A版本停止。
+
+MovieLens两态B相对F的Test ΔAUC为Clean +0.00003113、Gaussian +0.00009666，95%区间均跨0；LogLoss分别改善−0.00375756和−0.00271183，区间均低于0。KuaiRand冻结主候选B_SHARED相对F的Test ΔAUC为Clean −0.00013886、Gaussian −0.00169040；另一个两态B_H277诊断读出Clean Test +0.00069911、5/5正向，但95%区间下界−0.00000416，保留为候选而非晋级结果。
+
+MovieLens两态B对三个发表模型均通过当前AUC门；KuaiRand B_SHARED只超过M3oE，未超过HyperGate和AutoIFS。因此不存在跨数据集均胜最强发表基线的统一算法。四种cell系数规则均NO_FUTURE_SIGNAL；ML蒸馏保留部分教师收益但没有足够独立AUC增量，KR蒸馏未触发。
+
+[来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### 11/09–11/11跨研究裁定
+
+- 固定EMA F继续作为强内部参照；其收益主要由共享参数S承担，近期与较早历史存在互补。
+- 当前自适应预测器/动作规则没有形成稳定的Test排序增量；已测A_MATCH和C类规则按当前版本停止。
+- 两态B的概率损失改善与排序增量必须分开。ML新增AUC近零、LL改善；KR两态诊断有小幅正值但区间下界接近0，值得一次有界新seed判别。
+- PUB迁移、A_MATCH反馈、C动作策略的当前版本停止，不推导全部相关研究方向无效。
+- 本轮没有合并任何来源分支的实现代码、原始报告文件或训练工件。
+
+---
 
 ---
 

@@ -106,7 +106,7 @@
 
 ## 2026-10-27—2026-11-02 新增已执行索引 EXP052–EXP060
 
-**索引累计为60条研究阶段/审计条目**（不是60个独立样本、算法或训练方法）。EXP001–EXP051原编号和历史计数保留。后续分支中的同名报告副本、RAM缓存基线、已有seed复用及失败重试不重复登记；计划/未触发后续阶段不假装有正式结果。
+**索引累计为64条研究阶段/审计条目**（不是60个独立样本、算法或训练方法）。EXP001–EXP051原编号和历史计数保留。后续分支中的同名报告副本、RAM缓存基线、已有seed复用及失败重试不重复登记；计划/未触发后续阶段不假装有正式结果。
 
 | ID | 实验日期/来源 | 完成工作、重复单位及对照 | 主要结果/最终状态 |
 | --- | --- | --- | --- |
@@ -121,3 +121,15 @@
 | EXP060 | 11-02；26-11-02_v2 | EMA02V2：A0/A1/J0/J1/F0/F1/RG/AG/TG，两自然集×2开发seed；36正式训练、144统一测试端点 | ML F1弱测试信号不足门，KR TG/AG损害明显；确认/W1未触发；[原报告](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md) |
 
 **统一去重：** 本次只新登记9组各自具有独立问题/实际实验活动的源报告。EXP058/059/060的A0、A1、EMA及早期GA31模型可能有数值重建、重用或相同seed池，**不把九个报告视为九次独立人口复现**。10-29的V-LL选点基线与后期GA31的validation-AUC选点、训练数据角色不同，严禁跨表绝对排名。
+
+## 2026-11-09—2026-11-11 新增研究阶段索引 EXP061–EXP064
+
+**索引累计为64条研究阶段/审计条目**（不是64个独立样本、算法或训练方法）。11/09 A0复用旧轨迹，11/10与11/11使用既有seed池2022–2026；不得将不同读出或同一seed池的多轮机制分析相加为新的独立人口。
+
+| ID | 实验日期/来源 | 完成工作、重复单位及对照 | 主要结果/最终状态 |
+|---|---|---|---|
+| EXP061 | 11-09；26-11-09 EMA_ADAPTIVE A0 | 复用11/07的20条轨迹；0新增训练、0 Adam更新、0 Test访问；训练面板/验证侧预测与动作审计 | C_persist未迁移为正验证增量，C_carry相对统一Fast近零，静态task策略退化为Fast；A0=NO_ACTIONABLE_SIGNAL，A1/B/C未触发；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md) |
+| EXP062 | 11-09；26-11-09_v2 PUB-MDMT | 两数据×P0/P1/P2及同α G控制；70条正式轨迹、3500 epoch、120750 Adam更新，五seed | 当前P0/P1/P2未胜A/F；G控制接近退化，C−G不能替代正常基线比较；当前迁移不晋级；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md) |
+| EXP063 | 11-10；26-11-11 EMA_CAUSAL_ATTRIBUTION | ML/KR×Clean/Gaussian四条件、20条正式轨迹、1000 epoch、34500 Adam更新，五seed；共享/非共享参数、时间窗口、函数与方向干预 | 固定EMA收益主要来自共享S/EMBED；recent×old互补；预测组合在固定面板有收益但无独立Test；当前自适应菜单无稳定动作增量；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md) |
+| EXP064 | 11-11；26-11-11 EMA_NEXT | 95个job、1415 epoch、46280 Adam更新；五seed；A反馈、B两态读出、C条件动作、KD | A_MATCH反馈损害F；ML两态B主要改善LL、无新增AUC；KR B_H277保留小幅诊断AUC信号；C无future signal，KD未形成独立AUC晋级；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md) |
+

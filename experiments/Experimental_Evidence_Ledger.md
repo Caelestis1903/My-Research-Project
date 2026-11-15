@@ -717,4 +717,58 @@
 - **Strength / Scope:** MEDIUM KR版本伤害，WEAK ML F1边际收益；2seed。
 - **Source:** [EMA02V2](https://github.com/Caelestis1903/My-Research-Project/blob/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27/research_reports/2026-11-02_ema_view_design_v2/REPORT.md)；EXP060。
 
-**所有新增证据共同的边界：** 这些测试多次使用同一历史划分、既有seed池及参考轨迹。五seed是训练随机性，不是新外部样本/用户/时间窗口。强简单对照未被超越时可以作具体版本STOP；不能把已证明的其他现象归零。
+### E070 — EMA_ADAPTIVE A0训练面板方向持续性没有转化为验证动作增量
+- **Observation:** 复用20条既有轨迹，0新增训练/Adam/Test。KR-G主面板Fast−Slow方向一致率0.96，验证侧0.60；C_persist的P_B与验证ΔAUC均为负，C_carry相对统一Fast的验证增量约为0，task静态政策退化为统一Fast。
+- **Decision:** A0=NO_ACTIONABLE_SIGNAL；A1/B/C未触发。不能写成完整自适应模型Test失败。
+- **Strength / Scope:** STRONG（本轮训练面板/动作诊断）；不增加独立seed。
+- **Source:** [11/09 EMA_ADAPTIVE](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
+
+### E071 — PUB-MDMT当前P0/P1/P2原始尺度迁移未胜正常A/F参照
+- **Observation:** 70条正式轨迹、五seed；P0/P1/P2相对A的Test Macro AUC均0/5正向，六格均值下降且LogLoss升高。C相对同α G控制有较大差值，但G自身E50宏AUC接近0.5。
+- **Decision:** 当前coupled-WD迁移版本不晋级；G退化使C−G不能作为正常性能证据。WD=0后续矩阵未执行。
+- **Strength / Scope:** STRONG（当前配置/协议）；不否定其他PUB参数化。
+- **Source:** [11/09 PUB-MDMT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09_v2/research_reports/2026-11-09_pub_mdmt/FINAL_REPORT.md)。
+
+### E072 — 固定EMA收益主要由共享参数S承担，N删除效应接近零
+- **Observation:** 四条件删除S的晚期验证AUC损失+0.0037572至+0.0043627；删除N为−0.0001632至+0.0001580。S内部EMBED删除损失+0.0018738至+0.0030311，STAR_SKIP次之，EXPERT接近0。
+- **Decision:** 当前M3oE fixed1的EMA收益主要定位在共享参数，不能将其归因成专有参数普遍更需要EMA。
+- **Strength / Scope:** STRONG（四条件、五seed机制归因）；不自动外推到其他模型。
+- **Source:** [11/10 EMA causal attribution](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### E073 — recent与old存在正交互，历史预测组合重现部分固定面板排序收益
+- **Observation:** 删除recent损失+0.0045636至+0.0049918，删除old损失+0.0007898至+0.0025160；EMBED recent×old交互四条件均正。q_logit/q_probability相对F在固定验证面板提高+0.0006661至+0.0026413 AUC并降低LL。
+- **Decision:** 近期历史是主要贡献，较早历史存在组合价值；预测组合是机制解释之一，不是独立Test算法晋级。
+- **Strength / Scope:** STRONG（固定面板/窗口归因）；q无独立选点Test。
+- **Source:** [11/10 EMA causal attribution](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### E074 — Adam坐标预调节影响单步方向收益，不能把结果归结为纯动量
+- **Observation:** current-preconditioned同状态同范数干预约+0.0003183至+0.0004076 AUC；momentum_isotropic约−0.0111386至−0.0127663，后者区间均低于0。
+- **Decision:** 保留“当前Adam坐标预调节是局部正向作用的重要条件”；单步诊断不等于完整反馈算法。
+- **Strength / Scope:** STRONG（当前方向/范数控制）；仅Clean条件触发。
+- **Source:** [11/10 EMA causal attribution](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### E075 — H1/H2不是当前自适应EMA失败的主解释，H3仅条件性支持
+- **Observation:** 机制/rho菜单存在标签侧oracle空间，但可见训练信号未产生可部署动作增量；rho7的static、C_design、C_simple多次退化为单一动作，四条件H2匹配未触发。Gaussian×EMA晚期交互区间跨0。
+- **Decision:** 不再扩展同类预测器/动作规则网格；H3仅在当前已测动作空间下条件性支持，不宣称所有自适应空间耗尽。
+- **Strength / Scope:** MEDIUM；训练可见信号和动作空间受本轮定义限制。
+- **Source:** [11/10 EMA causal attribution](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
+
+### E076 — A_MATCH单步方向反馈在六轮训练中使F受损
+- **Observation:** ML alpha=.5/1.0的F验证ΔAUC为−0.00064031/−0.00177519；KR为−0.00254234/−0.00085929。RAW、完整A续训与AB未触发。
+- **Decision:** 停止当前A_MATCH反馈版本；不把未触发分支记为阴性，也不外推为全部方向反馈无效。
+- **Strength / Scope:** STRONG（本轮强度、启动点和六轮窗口）。
+- **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### E077 — 两态B的Test增量表现为数据集/指标条件性结果
+- **Observation:** ML两态B−F Test ΔAUC +0.00003113/+0.00009666，区间跨0；LogLoss −0.00375756/−0.00271183，区间低于0。KR B_SHARED−F为−0.00013886/−0.00169040；KR Clean两态B_H277诊断+0.00069911、5/5正向，95%区间下界−0.00000416。
+- **Decision:** ML主要保留LogLoss收益；KR H277只保留为中等强度候选。正式发表模型比较中ML通过三基线，KR B_SHARED未通过HyperGate/AutoIFS。
+- **Strength / Scope:** STRONG（ML LogLoss和正式基线裁定）；MEDIUM（KR H277小幅诊断AUC）。
+- **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+### E078 — 当前cell动作策略无未来信号，KD未形成独立AUC晋级
+- **Observation:** 四种cell系数规则均NO_FUTURE_SIGNAL；ML蒸馏学生相对父F的AUC +0.00015231但区间跨0，KR蒸馏未触发。
+- **Decision:** 停止当前C规则；KD仅为部分教师收益压缩，不晋级为独立排序方法。
+- **Strength / Scope:** MEDIUM；KD的ML结果不代表所有历史软标签方法失败。
+- **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
+
+**所有新增证据共同的边界：****所有新增证据共同的边界：** 这些测试多次使用同一历史划分、既有seed池及参考轨迹。五seed是训练随机性，不是新外部样本/用户/时间窗口。强简单对照未被超越时可以作具体版本STOP；不能把已证明的其他现象归零。

@@ -442,4 +442,34 @@
 - **Status:** FALSIFIED_AS_EXECUTION_STATUS。
 - **Allowed Claim:** 已有当前适配协议内的强模型实测对照；不可称原作者参数完全核实或GA31协议下严格排名。
 
-**总体演化：** 已建立的EMA排序正效应与旧共享/样本重加权局部事实不因新候选不晋级而被归零。新的研究问题是怎样让域×任务信息在增强/梯度之外进入真实更新或动量递推，以及怎样相对强EMA得到独立净收益；不重跑被当前实验已经裁定的相同假说。
+### H048 — PUB原始尺度P0/P1/P2迁移可在当前coupled-WD设置中带来独立AUC收益
+- **Evidence:** E071；C0/C1/C2相对A的Test Macro AUC均0/5正向，六格均值下降且LL升高；同α G控制本身退化。
+- **Status:** FALSIFIED_FOR_TESTED_P0_P1_P2.
+- **Allowed Claim:** 当前原始尺度/coupled-WD版本不晋级；不能据此否定其他PUB参数化或未执行的WD=0版本。
+
+### H049 — 固定EMA的主要排序收益由非共享参数N承担
+- **Evidence:** E072；删除共享S损失约0.00376–0.00436，删除N效应接近0。
+- **Status:** FALSIFIED_FOR_CURRENT_FIXED1_CONDITIONS.
+- **Allowed Claim:** 当前四条件下共享S是主要收益承载位置；不外推到其他模型结构。
+
+### H050 — 近期历史单独足以解释固定EMA全部收益，较早历史没有组合价值
+- **Evidence:** E073；recent删除损失较大，old删除也有正损失，EMBED recent×old交互四条件均为正。
+- **Status:** FALSIFIED_AS_A_COMPLETE_EXPLANATION.
+- **Allowed Claim:** recent是主要来源；old单独效应较弱/条件性，但与recent组合有额外作用，不能简单剔除。
+
+### H051 — 同状态单步current-preconditioned方向收益可以转化为持续反馈训练收益
+- **Evidence:** E074、E076；单步局部AUC小幅正向，六轮A_MATCH反馈却在ML/KR均使F下降。
+- **Status:** FALSIFIED_FOR_TESTED_A_MATCH_FEEDBACK.
+- **Allowed Claim:** 单步方向诊断和训练轨迹反馈是不同估计对象；停止当前反馈版本，不否定所有新递推设计。
+
+### H052 — 当前训练面板预测器和cell系数规则能够产生未来动作价值
+- **Evidence:** E070、E075、E078；A0未形成可执行动作增量，11/10可见策略未超F，11/11四种cell规则NO_FUTURE_SIGNAL。
+- **Status:** WEAKENED_IN_TESTED_SIGNAL_AND_ACTION_SPACES.
+- **Allowed Claim:** 当前规则不再扩展同类网格；不推导所有训练期信号均无用。
+
+### H053 — 两态历史读出在两个数据集都能提供稳定的独立Test AUC增量
+- **Evidence:** E077；ML两态B相对F的AUC增量近零、区间跨0；KR主候选B_SHARED未胜F，H277诊断读出有小幅正值但区间下界略低于0。
+- **Status:** NOT_SUPPORTED_AS_A_CROSS_DATASET_CLAIM.
+- **Allowed Claim:** 保留ML LogLoss收益和KR H277诊断候选，需新seed判别；不将相对发表模型的总收益归因成B的独立增量。
+
+**总体演化：****总体演化：** 已建立的EMA排序正效应与旧共享/样本重加权局部事实不因新候选不晋级而被归零。新的研究问题是怎样让域×任务信息在增强/梯度之外进入真实更新或动量递推，以及怎样相对强EMA得到独立净收益；不重跑被当前实验已经裁定的相同假说。
