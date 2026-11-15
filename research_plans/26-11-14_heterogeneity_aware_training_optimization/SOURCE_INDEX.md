@@ -41,3 +41,9 @@
 - Virtual Adversarial Training, TPAMI 2019, DOI 10.1109/TPAMI.2018.2858821 — https://doi.org/10.1109/TPAMI.2018.2858821
 
 Literature status and novelty boundaries are discussed in 11_LITERATURE_AND_NOVELTY_REVIEW.md and 15_CRITICAL_REVIEW_AND_REFINEMENT.md. The references establish adjacent concepts, not method equivalence.
+
+
+## Final governing plan documents
+- Current main-only audit and execution refinement: 16_CURRENT_MAIN_AUDIT_AND_EXECUTION_REFINEMENT.md
+- Final consistency review: 17_FINAL_CONSISTENCY_REVIEW.md
+- Current machine-readable execution contract: experiment_manifest_v3.json
