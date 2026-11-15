@@ -52,3 +52,8 @@ The code must ensure one clean model update and one EMA update per batch. Do not
 ## Rejection
 
 If projected gradients are nearly zero or projection does not improve over TGA at matched norm, do not keep projection merely because it looks more MDMT-specific.
+
+
+## Binding exact-projection correction
+
+For the current two-task model, use the exact rank-one formula in 16_CURRENT_MAIN_AUDIT_AND_EXECUTION_REFINEMENT.md, not the earlier damped matrix solve shown above. There is no lambda_J. Skip near-zero projected gradients; do not fall back to random noise. Use the fully specified first-order pair cap in 15_CRITICAL_REVIEW_AND_REFINEMENT.md.
