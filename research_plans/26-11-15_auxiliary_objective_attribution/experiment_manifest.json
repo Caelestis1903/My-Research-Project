@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0",
+  "plan_id": "26-11-15_auxiliary_objective_attribution",
+  "status": "PLANNING_ONLY_NOT_IMPLEMENTED_NOT_RUN",
+  "repository": "Caelestis1903/My-Research-Project",
+  "target_branch": "main",
+  "target_directory": "research_plans/26-11-15_auxiliary_objective_attribution",
+  "research_scope": "heterogeneity-aware training optimization; auxiliary objective attribution and natural-distribution-preserving task augmentation",
+  "source_pilot": {
+    "branch": "26-11-15",
+    "implementation_commit": "bf36e454adc2d0c569218a7993834f6d56cfc97f",
+    "source_sha256": "a67f446902642f0ce777ac7736474b00a1400902184ccf0d461581ace1b9a491",
+    "report": "research_reports/2026-11-15_heterogeneity_aware/REPORT.md",
+    "scientific_decision": "NO_CONTINUATION_SIGNAL",
+    "test_accessed": false
+  },
+  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "seed_policy": {
+    "only_allowed_seeds": true,
+    "all_scientific_comparisons_use_all_five": true,
+    "no_development_or_confirmation_substitute_pool": true,
+    "reused_seed_confirmation_is_not_independent_seed_confirmation": true
+  },
+  "platform": {
+    "datasets": ["MovieLens", "KuaiRand"],
+    "model": "M3oE fixed1",
+    "domains": 3,
+    "tasks": 2,
+    "epochs": 50,
+    "batch_size": 40960,
+    "optimizer": "inherited Adam",
+    "learning_rate": 0.01,
+    "betas": [0.9, 0.999],
+    "epsilon": 1e-8,
+    "weight_decay": {
+      "MovieLens": 0.0001,
+      "KuaiRand": 0.00001
+    },
+    "ema": {
+      "type": "fixed",
+      "MovieLens_rho": 0.9828205985452511,
+      "KuaiRand_rho": 0.995,
+      "role": "internal reference only"
+    },
+    "sampling": "natural row population",
+    "checkpoint_selection": "earliest strict maximum of validation six-cell Macro AUC; online and EMA independently",
+    "test_policy": "sealed until code, config, data and selection are frozen"
+  },
+  "stage_1": {
+    "arms": ["CLEAN", "B", "C", "Z-PAIR", "Z-EXAMPLE"],
+    "new_arms": ["Z-PAIR", "Z-EXAMPLE"],
+    "datasets": ["MovieLens", "KuaiRand"],
+    "seeds": [2022, 2023, 2024, 2025, 2026],
+    "epochs": 50,
+    "new_runs_planned": 20,
+    "reuse_allowed_only_after_exact_identity_check": true,
+    "comparisons": [
+      "Z-PAIR - CLEAN",
+      "Z-EXAMPLE - CLEAN",
+      "B - Z-PAIR",
+      "C - Z-EXAMPLE",
+      "Z-PAIR - Z-EXAMPLE"
+    ],
+    "test_accessed": false,
+    "hpo": "NOT_TRIGGERED"
+  },
+  "stage_2": {
+    "status": "CONDITIONAL_NOT_AUTHORIZED",
+    "candidate": "NDP-A natural-batch task-specific convex view mixture",
+    "alternative": "NDP-B subset augmentation with Horvitz-Thompson correction",
+    "initial_lambda": 0.25,
+    "projection": "disabled initially",
+    "runs": "conditional; all five seeds"
+  },
+  "stage_3": {
+    "status": "CONDITIONAL_NOT_AUTHORIZED",
+    "lambda_candidates": [0.1, 0.25, 0.5],
+    "alpha_candidates_if_triggered": [0.01, 0.03, 0.05],
+    "five_seed_per_candidate": true
+  },
+  "formal_gates": {
+    "primary_metric": "test six-cell Macro AUC",
+    "mean_paired_macro_auc_gain_min": 0.003,
+    "each_cell_mean_auc_delta_min": -0.001,
+    "all_seeds_positive_required": false,
+    "logloss_evaluated_independently": true,
+    "report": ["mean", "sample_sd", "paired_95_percent_t_interval", "positive_seed_count"],
+    "independent_statistical_unit": "training seed"
+  },
+  "forbidden": [
+    "seeds_2027_to_2031_or_any_substitute_seed_pool",
+    "small_domain_as_difficulty_proxy",
+    "experiments_to_prove_or_disprove_small_domain_not_difficult_domain",
+    "selective_knowledge_sharing",
+    "expert_gate_or_architecture_changes",
+    "PAIR_ECCM_reopening",
+    "generic_PCGrad_or_gradient_magnitude_balancing",
+    "dynamic_EMA_or_PUB_migration",
+    "test_set_hyperparameter_selection",
+    "crediting_fixed_EMA_gain_to_new_component",
+    "single_seed_or_partial_seed_performance_rejection"
+  ]
+}
