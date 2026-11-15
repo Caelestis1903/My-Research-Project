@@ -1,7 +1,7 @@
 # Experimental Evidence Ledger
 
 
-> **2026-11-02最新入口：** 已增补10-27—11-02的9组已执行实验或基线；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。旧日期的“当前”、索引总数及计划属于历史快照。新增内容只是一套带固定提交溯源的结论和证据登记，不复制分支代码或研究报告。
+> **2026-11-15最新入口：** 已增补E070–E078，承接11/09 A0、11/09 PUB-MDMT、11/10 EMA因果归因和11/11 EMA_NEXT。证据条目记录的是研究证据组，不等于新增独立seed或外部样本；最新判断见[Global Summary](Experimental_Global_Summary.md)。
 
 > **2026-10-26 总证据增量：** 历史 E001–E043 保持原编号与观测；后文新增 E044–E057（N18/N19/CM19、自然比例审计、重加权/调幅、10-24/25/26方法）。10-09的STRONG/MEDIUM/WEAK计数表仅是旧快照，**不得把新增证据默认加为“更多独立seed”**。总研究结论、后期修订和原始阶段路径以 [2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md) 为准；RCF-v1仍为设计，非实验效果证据。
 

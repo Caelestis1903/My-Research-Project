@@ -1,7 +1,7 @@
 # Experimental Stable Findings
 
 
-> **2026-11-02 最新结论：** 历史条目保留原日期和当时证据强度；新结论见下方追加条目及 [Global Summary](Experimental_Global_Summary.md)。不把旧日期的“最新决定”覆盖新的正式实验，也不重复登记相同seed或未触发阶段。
+> **2026-11-15 最新结论：** 历史条目保留原日期和当时证据强度；最新新增SF049–SF056，统一判断见[Global Summary](Experimental_Global_Summary.md)。不把旧日期的“最新决定”覆盖新的正式实验，也不重复登记相同seed或未触发阶段。
 
 > **2026-10-26增量：** 原SF001–SF020保留在各自历史估计对象和数据人口内。新增SF021–SF028，区分事实、局部反例和方法独有性；[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前统一结论。此处“稳定”表示可在限定协议内复述，不暗示新用户/时间窗口的普适性。
 

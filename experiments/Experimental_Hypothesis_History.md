@@ -1,7 +1,7 @@
 # Experimental Hypothesis History
 
 
-> **2026-11-02 最新修订：** 历史假说/反例的原始文字和状态作为当日快照保留；新增条目承接10-27—11-02的已完成实验，当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将假说清单解释为研究者曾经认可的错误先验。
+> **2026-11-15 最新修订：** 历史假说/反例原文和适用边界继续保留；新增H048–H053承接11/09–11/11的已完成研究。当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将假说清单解释为研究者曾经认可的错误先验。
 
 > **2026-10-26 假设更新：** H001–H032是截至10-18的研究假说/竞争解释清单，**不是用户曾经持有的信念清单**。新增H033–H040承接后期自然人口、梯度/共享、RHD/LPS/DFD和RCF设计。旧状态计数是历史截面，不重新汇总为“目前否定了多少科研方向”；以[跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为当前裁定。
 

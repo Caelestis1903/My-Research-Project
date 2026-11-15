@@ -1,7 +1,7 @@
 # Experimental Experiment Index
 
 
-> **2026-11-02最新入口：** 已增补10-27—11-02的9组已执行实验或基线；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。旧日期的“当前”、索引总数及计划属于历史快照。新增内容只是一套带固定提交溯源的结论和证据登记，不复制分支代码或研究报告。
+> **2026-11-15最新入口：** 已增补10-27—11-11的13组研究阶段/审计条目（EXP052–EXP064）；最新研究判断见[Global Summary](Experimental_Global_Summary.md)。累计64条索引不是64组独立训练；本轮新增内容只登记研究结论和证据，不复制分支代码或研究报告。
 
 > **2026-10-26 当前索引入口：** 历史 EXP001–EXP042 原编号保留，下面10-18“合计42条”的数字是当时截面。现追加 EXP043–EXP051 **9个不同研究阶段/审计索引**，当前合计 **51条索引**（含历史未运行/评价only），**不是51组独立训练或51项算法创新**。最新时间线/归因以[2026-10-26跨阶段总报告](Experimental_Branch_Synthesis_20261026.md)为准；所有原始文件来自 [history_experiments](../history_experiments/README.md)；最新RCF-v1仅为设计，**不登记为已执行EXP**。
 

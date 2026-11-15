@@ -1,7 +1,7 @@
 # Experimental Contradiction Register
 
 
-> **2026-11-02 最新修订：** 历史假说/反例的原始文字和状态作为当日快照保留；新增条目承接10-27—11-02的已完成实验，当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将假说清单解释为研究者曾经认可的错误先验。
+> **2026-11-15 最新修订：** 历史矛盾/反例原文和适用边界继续保留；新增C052–C057承接11/09–11/11的跨报告差异。当前总体结论见[Global Summary](Experimental_Global_Summary.md)、[Evidence Ledger](Experimental_Evidence_Ledger.md)。不要将矛盾登记解释为所有相关研究方向已被否定。
 
 > **2026-10-26 增量入口：** C001–C034是截至10-18的历史矛盾；新补C035–C042。各组须区分**同一估计对象真正矛盾**与**不同数据人口、训练目标、测试角色、比较臂或时钟的表面冲突**，并以 [当前跨轮综合](Experimental_Branch_Synthesis_20261026.md) 核对。不能为追求一致而覆盖原始负结果。
 

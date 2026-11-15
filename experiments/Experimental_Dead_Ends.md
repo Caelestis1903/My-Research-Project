@@ -1,7 +1,7 @@
 # Experimental Dead Ends / Closed Threads
 
 
-> **2026-11-02 最新结论：** 历史条目保留原日期和当时证据强度；新结论见下方追加条目及 [Global Summary](Experimental_Global_Summary.md)。不把旧日期的“最新决定”覆盖新的正式实验，也不重复登记相同seed或未触发阶段。
+> **2026-11-15 最新结论：** 历史条目保留原日期和当时证据强度；新增D034–D037仅停止11/09–11/11中已测试的具体版本，不扩大为对PUB、梯度反馈或自适应EMA整个方向的否定。最新判断见[Global Summary](Experimental_Global_Summary.md)。
 
 > **2026-10-26更新：** 早期D001–D018保留为**具体过强主张或当时版本**的停止记录，非对动量、梯度、增强或差异化共享学科方向的永久否决。追加D019–D024；其对应的新可区分问题见 [Open Questions](Experimental_Open_Questions.md)、[2026-10-26总报告](Experimental_Branch_Synthesis_20261026.md)。
 
