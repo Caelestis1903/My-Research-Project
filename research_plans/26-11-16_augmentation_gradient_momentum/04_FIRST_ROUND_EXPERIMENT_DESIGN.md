@@ -1,34 +1,45 @@
 # First-Round Design — Task-View Gradient Residual Momentum (TV-GRM)
 
-Let (L_c) be source clean sample-mean probability BCE over natural (2B) row-task entries. Let (L_v) be the mean of two task-specific target BCE view losses, each normalized over all B rows. Use audited NDP-A task-view construction; no pair sampling, reweighting or extra loss mass.
+## Candidate update
 
-Compute at identical (	heta_t):
-[
-g_c=\nabla_\theta L_c,\quad g_v=\nabla_\theta L_v,\quad r=g_v-g_c.
-]
-Preserve coupled weight decay once in clean Adam:
-[
-g_c^{wd}=g_c+\lambda_{wd}\theta,quad
-m_t^c=\beta_1m_{t-1}^c+(1-\beta_1)g_{c,t}^{wd},
-]
-[
-v_t^c=\beta_2v_{t-1}^c+(1-\beta_2)(g_{c,t}^{wd})^2,quad
-q_t=\beta_1q_{t-1}+(1-\beta_1)r_t.
-]
-No WD in q. Apply bias correction with one step count:
-[
-u_c=\hat m_t^c/(\sqrt{\hat v_t^c}+\epsilon),quad
-u_r=\hat q_t/(\sqrt{\hat v_t^c}+\epsilon).
-]
-Global cap and update:
-[
-s_t=\min(1,\gamma\|u_c\|_2/(\|u_r\|_2+\epsilon)),quad
-\Delta\theta_t=-\eta(u_c+s_tu_r).
-]
-Cap is global over trainable parameters, not domain-specific. Gamma values .05/.10/.20. SHUFFLE uses deterministic parameter-space Rademacher vector matched to (|r_t|_2), same q/preconditioner/cap at gamma=.10.
+Let L_c be source clean sample-mean probability BCE over natural 2B row-task entries. Let L_v be the mean of the two task-specific target BCE view losses, each normalized over all B rows. Use audited NDP-A task-view construction; no pair sampling, reweighting or extra loss mass.
 
-Training order: same initialization/RNG as CLEAN; compute clean and view gradients at same parameters; update clean m/v and residual q; one parameter update; one after-Adam EMA update. No second optimizer or microbatch update.
+Compute both gradients at identical theta_t:
 
-Preserve source grad=None semantics: if clean Adam state is undefined for a parameter, do not create residual-only update. Weight decay is never applied to residual. Gamma=0 must reproduce source clean Adam model/optimizer/EMA/RNG/loader states across multiple steps and resume.
+```text
+g_c = grad_theta L_c
+g_v = grad_theta L_v
+r   = g_v - g_c
+```
 
-This is not Adam on a weighted loss: ordinary mixture updates both moments from combined gradient; TV-GRM keeps v tied to clean objective and stores view-minus-clean separately. Primary contrast is selected fixed-EMA validation Macro AUC vs CLEAN fixed EMA. Also report online and total vs CLEAN-online.
+Preserve source coupled weight decay exactly once in the clean Adam gradient:
+
+```text
+g_c_wd = g_c + weight_decay * theta
+m_c[t] = beta1 * m_c[t-1] + (1-beta1) * g_c_wd
+v_c[t] = beta2 * v_c[t-1] + (1-beta2) * square(g_c_wd)
+q[t]   = beta1 * q[t-1] + (1-beta1) * r
+```
+
+There is no weight decay in q. Apply bias correction using one consistent step counter:
+
+```text
+u_c = mhat_c / (sqrt(vhat_c) + eps)
+u_r = qhat   / (sqrt(vhat_c) + eps)
+s   = min(1, gamma * norm2(u_c) / (norm2(u_r) + eps))
+delta_theta = -lr * (u_c + s * u_r)
+```
+
+The cap is global across trainable parameters, not domain-specific. Gamma values are .05/.10/.20. SHUFFLE uses a deterministic parameter-space Rademacher vector matched to norm2(r), then the same q/preconditioner/cap at gamma=.10.
+
+## Training order
+
+Same initialization/RNG as CLEAN. Compute clean and view gradients at the same parameters; update clean m/v and residual q; apply exactly one parameter update; then one after-Adam EMA update. No second optimizer or microbatch update.
+
+## Critical implementation conditions
+
+Preserve source grad=None semantics: if clean Adam state is undefined for a parameter, do not create a residual-only update. Weight decay is never applied to residual. Gamma=0 must reproduce source clean Adam model/optimizer/EMA/RNG/loader states across multiple steps and resume.
+
+## Distinction from NDP-A
+
+Adam on a weighted clean/view loss updates both moments from the combined gradient. TV-GRM keeps v_c tied to the clean objective and stores view-minus-clean separately. This changes the optimizer recurrence, not just the loss weight. Primary contrast is selected fixed-EMA validation Macro AUC vs CLEAN fixed EMA. Also report online and total vs CLEAN-online.
