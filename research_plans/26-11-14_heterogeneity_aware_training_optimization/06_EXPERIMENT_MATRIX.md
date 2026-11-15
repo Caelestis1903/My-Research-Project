@@ -64,3 +64,13 @@ Only if DT-PGNA passes:
 - K pair budget sensitivity (64 vs 128 vs 256) only if cost or skip rate changes the decision.
 
 No all-factor factorial grid. No domain-size stratification. Do not infer difficulty from sample counts.
+
+
+## Binding seed-pool and stage correction (2026-11-15)
+
+The development/HPO and formal-confirmation pools are disjoint:
+- Development pilot and HPO: seeds 2027–2031 (five seeds), validation only, Test sealed.
+- Formal confirmation: seeds 2022–2026 (five untouched seeds), frozen configuration and code.
+- Test evaluation: after formal config/checkpoint rules are frozen only.
+
+The three route identities are DT-PGNA (A), TGA-Pair (B), and TGA-Example (C), as defined in 15_CRITICAL_REVIEW_AND_REFINEMENT.md and manifest v3. Stage 1 development pilot includes all three routes and matched random/Gaussian controls. Stage 2 HPO may select at most two routes, using all five development seeds. Stage 3 formal confirmation uses the separate five-seed pool. This correction supersedes the earlier schedule that reused 2022–2026 for both pilot/HPO and confirmation.
