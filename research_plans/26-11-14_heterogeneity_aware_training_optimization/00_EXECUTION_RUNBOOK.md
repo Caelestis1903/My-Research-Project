@@ -51,3 +51,14 @@ The pairwise loss itself is not added. The base objective remains the repository
 Create immutable run_manifest.json and source_receipt.json; unit/smoke reports; HPO selection record and frozen config; per-seed validation curves and selected checkpoint records; six-cell AUC/LogLoss and macro/traffic/pooled summaries; online and fixed-EMA results; perturbation norm, target-margin change, non-target-logit drift, pair counts, wall-time and peak-memory diagnostics; paired five-seed statistics and machine-readable decision JSON; final report with NOT_TRIGGERED / BLOCKED / FAILED / COMPLETED distinctions.
 
 No algorithm implementation or training is authorized by this planning commit.
+
+
+## Binding current-task updates
+
+The canonical current-task main-only audit is 01_REPOSITORY_AUDIT.md; the current-task execution refinement is 16_CURRENT_MAIN_AUDIT_AND_EXECUTION_REFINEMENT.md; the machine-readable execution source is experiment_manifest_v3.json. These supersede older branch-audit scope statements, the original two-route-only manifest, and the seed reuse schedule in earlier planning versions.
+
+Use three route identities: A=DT-PGNA, B=TGA-Pair, C=TGA-Example. Run matched random-direction and isotropic Gaussian controls. Keep the test set sealed throughout development and HPO.
+
+HPO/development seeds are 2027–2031. Formal confirmation seeds are 2022–2026. Do not use the formal seed pool to select alpha or route. HPO must use all five development seeds; formal confirmation must use all five untouched formal seeds. The formal Test result is only read after configuration, code, data identity and checkpoint-selection rules are frozen.
+
+The existing folder and its prior files were inspected before updating. This is an additive refinement; historical reports, experiment code and the project-wide metrics ledger are not modified by this planning task.
