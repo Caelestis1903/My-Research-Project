@@ -1,3 +1,5 @@
 # Repository Audit — canonical document pointer
 
-The full audit is maintained in [01_REPOSITORY_AUDIT.md](01_REPOSITORY_AUDIT.md), which includes the 46-branch inventory, branch tip SHAs and timestamps, main comparison, relevant report/source map, and audit limitations. This pointer is retained because the initial audit stage used the 00_REPOSITORY_AUDIT.md filename; the final plan structure uses 01_REPOSITORY_AUDIT.md as the canonical location.
+The canonical audit for the current task is maintained in 01_REPOSITORY_AUDIT.md. It records the current main commit, the required main context files and blob SHAs, directly inspected main implementation files, and the main-only audit boundary.
+
+The earlier 2026-11-14 cross-branch inventory is retained only as a historical record inside 15_CRITICAL_REVIEW_AND_REFINEMENT.md. It was not re-run or extended in this task. The user explicitly restricted the current audit to main, so no remote research branches were queried.
