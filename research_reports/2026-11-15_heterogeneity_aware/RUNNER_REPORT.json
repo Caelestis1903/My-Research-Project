@@ -1,0 +1,91 @@
+{
+  "experiment_id": "heterogeneity_aware_20261115",
+  "attempt": "artifacts/heterogeneity_aware_20261115/attempt1",
+  "execution": {
+    "status": "COMPLETE",
+    "stage": "PILOT",
+    "completed_trajectories": 60,
+    "total_trajectories": 60,
+    "failed_trajectories": 0,
+    "missing_trajectories": 0,
+    "total_epochs": 3000,
+    "batch_updates": 103500,
+    "optimizer_updates": 103500,
+    "ema_updates": 103500,
+    "wall_time_seconds": 5674.28845836292,
+    "test_accessed": false
+  },
+  "source": {
+    "git_branch": "26-11-15",
+    "git_commit": "bf36e454adc2d0c569218a7993834f6d56cfc97f",
+    "source_hash": "a67f446902642f0ce777ac7736474b00a1400902184ccf0d461581ace1b9a491",
+    "review_verdict": "PASS WITH FIXES",
+    "review_blocking_issues": 0
+  },
+  "configuration": {
+    "datasets": ["movielens", "kuairand"],
+    "arms": ["CLEAN", "A", "B", "C", "RANDOM", "GAUSSIAN"],
+    "seeds": [2022, 2023, 2024, 2025, 2026],
+    "runs_per_dataset_arm": 5,
+    "alpha": 0.03,
+    "pair_budget": 128,
+    "lambda_aug": 0.25,
+    "batch_size": 40960,
+    "epochs": 50,
+    "learning_rate": 0.01,
+    "weight_decay": {
+      "movielens": 0.0001,
+      "kuairand": 0.00001
+    },
+    "fixed_ema_rho": {
+      "movielens": 0.9828205985452511,
+      "kuairand": 0.995
+    },
+    "clean_loss": "mean_probability_BCE",
+    "training_precision": "FP32"
+  },
+  "raw_metrics": {
+    "table_export_status": "COMPLETE",
+    "exported_endpoints": 360,
+    "metrics": [
+      "per-cell AUC and LogLoss for all six domain-task cells",
+      "Macro, sample-weighted-cell, per-domain, per-task, and pooled metrics",
+      "online and fixed-EMA validation endpoints including epochs 10 and 50 and selected epochs",
+      "per-run cost and paired-seed exports"
+    ],
+    "files": {
+      "endpoints": "artifacts/heterogeneity_aware_20261115/attempt1/tables/ENDPOINTS.csv",
+      "summary": "artifacts/heterogeneity_aware_20261115/attempt1/tables/SUMMARY.csv",
+      "paired_seeds": "artifacts/heterogeneity_aware_20261115/attempt1/tables/PAIRED_SEEDS.csv",
+      "paired_summary": "artifacts/heterogeneity_aware_20261115/attempt1/tables/PAIRED_SUMMARY.csv",
+      "costs": "artifacts/heterogeneity_aware_20261115/attempt1/tables/COSTS.csv"
+    },
+    "csv_rows_including_header": {
+      "ENDPOINTS.csv": 361,
+      "SUMMARY.csv": 2377,
+      "PAIRED_SEEDS.csv": 23431,
+      "PAIRED_SUMMARY.csv": 4687,
+      "COSTS.csv": 61
+    }
+  },
+  "logs": {
+    "attempt_progress": "artifacts/heterogeneity_aware_20261115/attempt1/progress.json",
+    "run_manifest": "artifacts/heterogeneity_aware_20261115/attempt1/run_manifest.json",
+    "source_receipt": "artifacts/heterogeneity_aware_20261115/attempt1/source_receipt.json",
+    "smoke_report": "artifacts/heterogeneity_aware_20261115/attempt1/SMOKE_REPORT.json",
+    "per_run_logs": "artifacts/heterogeneity_aware_20261115/attempt1/runs/<key>/attempt1/",
+    "epoch_commit_ledger": "artifacts/heterogeneity_aware_20261115/attempt1/epoch_commit_ledger.jsonl",
+    "dispatch_manifest": "artifacts/heterogeneity_aware_20261115/attempt1/dispatches/PILOT.json"
+  },
+  "runtime_errors": {
+    "worker_failure_files": 0,
+    "reported_worker_failures": 0,
+    "note": "A pre-run status probe returned FileNotFoundError for guardian.json before a GPU stage had started; it was not a training run failure."
+  },
+  "later_stages": {
+    "decision": "NOT_RUN_BY_RUNNER",
+    "hpo": "NOT_RUN",
+    "test_evaluation": "NOT_RUN",
+    "guardian_released": false
+  }
+}
