@@ -1,5 +1,9 @@
 # Experimental Experiment Index
 
+## EXP-TVGRM-20261116
+
+完整首轮：50新增+20历史控制，seeds2022–2026，50epochs/40960/FP32，86250次新增Adam/EMA更新。候选NO_CONTINUATION_SIGNAL；ML γ=.20局部WEAK正，跨数据集无champion。Test/HPO未触发。协议与结果：[REPORT](../../research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)、[DECISION](../../research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json)、[raw](../../artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv)。旧后台编排退出后当前会话接管；换编排不新增训练计数。
+
 整理日期：2026-10-09。此索引覆盖可见的历史实验分析报告、S0–S8 正式阶段、补充数据集运行和后续轨迹重分析。每个 `EXP` 对应一个实验组；实现说明、审查报告、失败重试和纯同矩阵再分析不另计。若对保存状态执行新的选择规则或参数交换评估，则单独登记，并明确其不是独立训练复现。
 
 ## 范围与去重规则

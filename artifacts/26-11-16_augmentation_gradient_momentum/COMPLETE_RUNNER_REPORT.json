@@ -1,0 +1,428 @@
+{
+  "report_type": "raw_runner_export_completion",
+  "experiment_id": "26-11-16_augmentation_gradient_momentum",
+  "attempt": "attempt1",
+  "started_at_utc": "2026-11-15T23:33:09.597443+00:00",
+  "completed_at_utc": "2026-11-15T23:33:15.731081+00:00",
+  "git": {
+    "head": "dda38ec8212d6b0c239b8db5ccf0e6ec8f207f11",
+    "branch": null,
+    "status_short": "## HEAD (no branch)\n M EXP_AI_CONTEXT.md\n M artifacts/26-11-16_augmentation_gradient_momentum/AUTONOMOUS_STATE.json\n M research_context/experiments/Experimental_Evidence_Ledger.md\n M research_plans/26-11-16_augmentation_gradient_momentum/00_EXECUTION_RUNBOOK.md\n M research_plans/26-11-16_augmentation_gradient_momentum/01_RESEARCH_CONTEXT.md\n M research_plans/26-11-16_augmentation_gradient_momentum/02_HISTORICAL_EVIDENCE_LEDGER.md\n M research_plans/26-11-16_augmentation_gradient_momentum/03_RESEARCH_QUESTIONS.md\n M research_plans/26-11-16_augmentation_gradient_momentum/04_FIRST_ROUND_EXPERIMENT_DESIGN.md\n M research_plans/26-11-16_augmentation_gradient_momentum/05_EXPERIMENT_MATRIX.md\n M research_plans/26-11-16_augmentation_gradient_momentum/06_GRADIENT_AND_MOMENTUM_DIAGNOSTICS.md\n M research_plans/26-11-16_augmentation_gradient_momentum/07_HYPERPARAMETER_AND_STATISTICS.md\n M research_plans/26-11-16_augmentation_gradient_momentum/08_CODEX_IMPLEMENTATION_SPEC.md\n M research_plans/26-11-16_augmentation_gradient_momentum/09_SCHEDULER_AND_RESOURCES.md\n M research_plans/26-11-16_augmentation_gradient_momentum/10_REPORT_TEMPLATE.md\n M research_plans/26-11-16_augmentation_gradient_momentum/11_AUTONOMOUS_ORCHESTRATION.md\n M research_plans/26-11-16_augmentation_gradient_momentum/12_ASTRA_RESEARCH_PROMPT.md\n M research_plans/26-11-16_augmentation_gradient_momentum/13_AGENT_HANDOFF_PROTOCOL.md\n M research_plans/26-11-16_augmentation_gradient_momentum/experiment_manifest.json\n?? AGENTS.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/CODER_ALGORITHM_REPORT.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/CODER_ORCHESTRATION_REPORT.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/DESIGN_SPECIFICATION.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/IMPLEMENTATION_REVIEW.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/IMPLEMENTATION_REVIEW.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/NDP_A_HANDOFF_EVIDENCE.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/PREFLIGHT_RECEIPT.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/RESUME_AUDIT.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/RUN_STAGE_STARTED.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/SMOKE_RUNNER_REPORT.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/SMOKE_RUNNER_REPORT.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/SMOKE_SIGNOFF.json\n?? artifacts/26-11-16_augmentation_gradient_momentum/SMOKE_SIGNOFF.md\n?? artifacts/26-11-16_augmentation_gradient_momentum/attempt1/\n?? artifacts/26-11-16_augmentation_gradient_momentum/control_recovery/\n?? artifacts/26-11-16_augmentation_gradient_momentum/driver.lock\n?? artifacts/26-11-16_augmentation_gradient_momentum/driver.log\n?? artifacts/26-11-16_augmentation_gradient_momentum/driver_logs/\n?? artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/\n?? artifacts/26-11-16_augmentation_gradient_momentum/state.lock\n?? buchong.md\n?? experiments/conditional_information_momentum_20261102_v3/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__pycache__/\n?? experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__pycache__/\n?? experiments/task_view_gradient_residual_momentum_20261116/\n?? start.md\n"
+  },
+  "review": {
+    "path": "artifacts/26-11-16_augmentation_gradient_momentum/IMPLEMENTATION_REVIEW.json",
+    "verdict": "PASS WITH FIXES",
+    "blocking_issues": [],
+    "sha256": "011a4e0ff68ef7abc0179275e61365754ad95ab39af41fcc3dc0a871ba53cb98",
+    "require_smoke_validation": true
+  },
+  "source": {
+    "aggregate_sha256": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+    "required_sha256": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+    "autonomous_py_sha256": "19bbb5e075a3928997ba6118da9e420f27609554615556bc25c97a2cc0f819fc",
+    "runner_py_sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa",
+    "design_sha256": "67fdebf500e80611de2f0600e0847bf0697774bcb0fa107571154b1524fff338"
+  },
+  "config": {
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "arms": [
+      "TV-GRM-005",
+      "TV-GRM-010",
+      "TV-GRM-020",
+      "TV-GRM-SHUFFLE-010",
+      "TV-GRM-INSTANT-010"
+    ],
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "epochs": 50,
+    "batch_size": 40960,
+    "precision": "float32",
+    "optimizer_updates_expected": 86250,
+    "ema_updates_expected": 86250,
+    "optimizer": "torch_Adam_clean_coupled_WD",
+    "model": "M3oE_fixed1",
+    "selection": "earliest strict maximum of validation six-cell Macro AUC; independent online and EMA",
+    "model_storage": "RAM_ONLY",
+    "test_accessed": false,
+    "per_dataset_arm": {
+      "movielens": {
+        "TV-GRM-005": {
+          "dataset": "movielens",
+          "arm": "TV-GRM-005",
+          "gamma": 0.05,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 0.0001,
+          "rho": 0.9828205985452511,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-010": {
+          "dataset": "movielens",
+          "arm": "TV-GRM-010",
+          "gamma": 0.1,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 0.0001,
+          "rho": 0.9828205985452511,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-020": {
+          "dataset": "movielens",
+          "arm": "TV-GRM-020",
+          "gamma": 0.2,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 0.0001,
+          "rho": 0.9828205985452511,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-SHUFFLE-010": {
+          "dataset": "movielens",
+          "arm": "TV-GRM-SHUFFLE-010",
+          "gamma": 0.1,
+          "residual_mode": "shuffle",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 0.0001,
+          "rho": 0.9828205985452511,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-INSTANT-010": {
+          "dataset": "movielens",
+          "arm": "TV-GRM-INSTANT-010",
+          "gamma": 0.1,
+          "residual_mode": "instant",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 0.0001,
+          "rho": 0.9828205985452511,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        }
+      },
+      "kuairand": {
+        "TV-GRM-005": {
+          "dataset": "kuairand",
+          "arm": "TV-GRM-005",
+          "gamma": 0.05,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 1e-05,
+          "rho": 0.995,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-010": {
+          "dataset": "kuairand",
+          "arm": "TV-GRM-010",
+          "gamma": 0.1,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 1e-05,
+          "rho": 0.995,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-020": {
+          "dataset": "kuairand",
+          "arm": "TV-GRM-020",
+          "gamma": 0.2,
+          "residual_mode": "momentum",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 1e-05,
+          "rho": 0.995,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-SHUFFLE-010": {
+          "dataset": "kuairand",
+          "arm": "TV-GRM-SHUFFLE-010",
+          "gamma": 0.1,
+          "residual_mode": "shuffle",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 1e-05,
+          "rho": 0.995,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        },
+        "TV-GRM-INSTANT-010": {
+          "dataset": "kuairand",
+          "arm": "TV-GRM-INSTANT-010",
+          "gamma": 0.1,
+          "residual_mode": "instant",
+          "alpha": 0.03,
+          "epochs": 50,
+          "batch_size": 40960,
+          "precision": "float32",
+          "lr": 0.01,
+          "betas": [
+            0.9,
+            0.999
+          ],
+          "eps": 1e-08,
+          "weight_decay": 1e-05,
+          "rho": 0.995,
+          "model": "M3oE_fixed1",
+          "optimizer": "torch_Adam_clean_coupled_WD",
+          "cap": "global_preconditioned_residual_update",
+          "support": "natural_all_2B_entries",
+          "gate_training_detached": true,
+          "probe_gate_full_derivative": true,
+          "data_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+          "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+        }
+      }
+    }
+  },
+  "run_status": {
+    "attempt_status": "COMPLETE",
+    "new_runs_expected": 50,
+    "new_runs_complete": 50,
+    "reused_control_runs": 20,
+    "reused_control_entries": 20,
+    "total_exported_trajectories": 70,
+    "failed": [],
+    "pending": 0,
+    "active": [],
+    "new_epoch_records": 2500,
+    "reused_epoch_records": 1000,
+    "optimizer_updates": 86250,
+    "ema_updates": 86250,
+    "missing_runs": [],
+    "test_accessed": false
+  },
+  "export_command": {
+    "argv": [
+      "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+      "-m",
+      "experiments.task_view_gradient_residual_momentum_20261116.runner",
+      "tables",
+      "--attempt",
+      "artifacts/26-11-16_augmentation_gradient_momentum/attempt1"
+    ],
+    "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+    "exit_code": 0,
+    "cli_stdout_json": {
+      "status": "COMPLETE",
+      "trajectories": 70,
+      "new_trajectories": 50,
+      "endpoints": 560,
+      "directory": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables",
+      "test_accessed": false
+    },
+    "stdout_log": "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/tables.stdout.log",
+    "stdout_sha256": "4e561a4c5c7ef570fb727717e7e388de563eb9438ee2ce75166d98cb4f57af78",
+    "stderr_log": "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/tables.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtime_error": null
+  },
+  "raw_tables": [
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/CANDIDATE_RANKING.csv",
+      "rows": 3,
+      "sha256": "99b900cdafdc756b889c563b52ef0ffd053e05da1f1bd252a6492dac6568d812",
+      "bytes": 303
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/COSTS.csv",
+      "rows": 70,
+      "sha256": "def9c964efcbad25ad8356a36420e9b6985259946fa8b721a06e45543744a0e4",
+      "bytes": 11528
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv",
+      "rows": 560,
+      "sha256": "2f5aec229f18f00cccd37a280b917e0d2cb6b41bf25f32eeda83daccc91f55f9",
+      "bytes": 485305
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/GRADIENT_DIAGNOSTICS.csv",
+      "rows": 250,
+      "sha256": "3a76ed8cb717c6f3ad23a6eb8475e8dfc32578e78bafa4e719b88f482d945f79",
+      "bytes": 2000999
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SEEDS.csv",
+      "rows": 38280,
+      "sha256": "e0365eb86f74f20d6fcd788f53906b8ae1ffec6bfea5343623f37f31004403db",
+      "bytes": 3727433
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SUMMARY.csv",
+      "rows": 7656,
+      "sha256": "36fadfd50b3969506fd067345036a1b2ef1b2308858245f75643de864f1ad3bd",
+      "bytes": 1222655
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/SUMMARY.csv",
+      "rows": 3696,
+      "sha256": "67e82fbb98f1ebc6d3ed1505c15d7428638611a0d58238db2f13a4eac1c9b204",
+      "bytes": 349978
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/VALIDATION_CURVES.csv",
+      "rows": 7000,
+      "sha256": "4b6be3c120a277668229bad38911aedc3bccb40a776302a0e83218ff3107535c",
+      "bytes": 5821987
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/WEIGHTS.csv",
+      "rows": 36000,
+      "sha256": "f9bc6c2c8ddba64f60a9504057fd491f398d2931cc63827a6078956289579f0c",
+      "bytes": 5652154
+    }
+  ],
+  "metrics_scope": "Raw validation endpoints, validation curves, paired seed deltas/summaries, costs, weights, gradient diagnostics, and candidate ranking are in the listed CSVs; no Test metrics.",
+  "prior_execution_events": [
+    {
+      "event": "outer driver exited at 00:26 after reconnect warning; CLI exit code was 0 and turn completed",
+      "disposition": "retired; not restarted",
+      "source": "user-provided execution context"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # Experimental Open Questions
 
+## 2026-11-16 / OQ-TVGRM — 完整首轮后的未解问题
+
+1. 定向任务视图梯度相对等实际注入norm随机方向的AUC均值为正，但两个数据集CI都跨零；什么信息能在CLEAN+固定EMA之外提供排序增量？需要自然支持、同源五seed、匹配读出下的可否证比较。
+2. KR相对NDP-A恢复损失，同时改变clean二阶矩路由、残差历史与实际幅度；三者各自贡献尚未分离。INSTANT比较跨数据集方向相反，不能预设额外动量有效。
+3. 同阶段晚期正值、selected近零/负值、Traffic/Pooled正而Macro负并存；新机制应如何保留可迁移信息而不只改变过拟合阶段或格间分配？以selected主口径裁定，阶段/聚合诊断单列。
+
+已知：ML γ=.20仅WEAK局部正信号；预设全非正NO-GO条件未触发，首轮NO_CONTINUATION_SIGNAL，无可升级champion。后续fresh Astra须同时读取[完整TV-GRM报告](../../research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)和NDP-A全报告/原数表。人口只作协议元数据，不作为困难度代理。执行仅限当前会话、新上下文子智能体，Test封存。
+
 本清单只保留已有实验没有回答的问题。每条说明需要什么证据类型；不提出具体算法或下一阶段实验方案。
 
 ## OQ001 — Sample 在更极端域比例下是否存在 selected minority-domain performance gap？

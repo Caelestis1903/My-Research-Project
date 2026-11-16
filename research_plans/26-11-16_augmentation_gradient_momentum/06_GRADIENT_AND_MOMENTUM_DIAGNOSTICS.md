@@ -1,7 +1,7 @@
 # Gradient and Momentum Diagnostics
 
-At fixed early/mid/late steps (epochs 1,10,25,40,50), record clean/view/residual norms, residual-clean cosine, clean Adam m/v norms, q norm, preconditioned update norms before/after cap, cap activation, parameter delta, EMA delta, and parameter-group summaries where source mapping is exact.
+Each batch: actual B/row-order hash, clean/view loss and denominators, natural support, active/None counts, complete parameter/EMA update counts, cap coefficient/activation, ||u_c||/||u_r||/||b||/||lr*b||. SHUFFLE also logs its OWN post-preconditioner/post-cap target norm, applied norm, relative error and independent random key; zero target requires exact zero.
 
-Use deterministic fixed batches for expensive decomposition; do not retain full gradients every batch. Verify same theta/support/normalization, task-specific target loss, detached deltas, no probe parameter gradients, no double WD, no residual-only grad=None update, one parameter and EMA update per batch, gamma=0 equivalence and SHUFFLE norm match.
+At fixed batches in epochs1/10/25/40/50 record g_c/g_v/r/q/m/v norms, cosine, per-parameter step range and exact source-group summaries. INSTANT logs current residual with no q history, and cap/amplitude changes. No full gradient/tensor disk snapshots.
 
-Cosines/norms/state magnitudes are diagnostics, never AUC substitutes. Mechanism claims require paired five-seed endpoint evidence.
+Verify same-theta data gradients, all-row natural normalization, target-only loss, delta detach with trainable embedding, no probe parameter .grad, WD once, current clean None skip/zero-tensor update/re-entry per-parameter n_p, one complete parameter transaction then one EMA/RAM commit, gamma0 source equality and correct SHUFFLE norm domain. Norms/cosines are diagnostics, never AUC substitutes.

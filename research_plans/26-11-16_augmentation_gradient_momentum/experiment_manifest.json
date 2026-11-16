@@ -1,24 +1,149 @@
 {
-  "plan_id":"26-11-16_augmentation_gradient_momentum",
-  "status":"PLANNING_ONLY",
-  "target_branch":"main",
-  "base_main_commit":"d129783e6226dd7cbf023f7b67d3d6617eafb597",
-  "research_line":["data augmentation","gradient information","momentum-style optimization"],
-  "candidate":"TV-GRM",
-  "recurrence":"clean Adam m/v from clean gradient plus coupled WD; separate beta1 EMA q of view-minus-clean gradient; precondition q with clean v; globally cap residual update norm at gamma times clean update norm",
-  "gamma":[0.05,0.1,0.2],
-  "random_control":"parameter-space Rademacher direction matched to residual norm, gamma=0.1",
-  "datasets":["movielens","kuairand"],
-  "model":"M3oE fixed1",
-  "seeds":[2022,2023,2024,2025,2026],
-  "epochs":50,
-  "batch_size":40960,
-  "precision":"float32",
-  "validation_selection":"earliest strict maximum of six-cell Macro AUC; online and EMA independent",
-  "test_access":false,
-  "new_trajectories":40,
-  "arms":["TV-GRM-005","TV-GRM-010","TV-GRM-020","TV-GRM-SHUFFLE-010"],
-  "historical_references":["CLEAN","NDP-A"],
-  "publication_gate":{"test_macro_auc_gain":0.003,"minimum_cell_mean_delta":-0.001},
-  "forbidden":["small-domain difficulty analysis","domain size as difficulty proxy","repeat stopped algorithms without materially different math","architecture changes","Test HPO","seed substitution","reduced epochs/batch"]
+  "current_session_policy": {
+    "priority": "HIGHEST_PRIORITY_USER_POLICY_20261116; overrides older driver/session/handoff fields retained below as historical provenance",
+    "orchestrator": "original foreground orchestrator in this conversation; sole child dispatcher",
+    "stage_sequence": [
+      "DESIGN",
+      "IMPLEMENT",
+      "distinct REVIEW",
+      "current-conversation RUN",
+      "ANALYZE",
+      "fresh native Astra",
+      "next plan"
+    ],
+    "native_child": {
+      "per_subtask": "fresh",
+      "fork_context": false,
+      "distinct_coder_reviewer": true,
+      "close_on_completion": true,
+      "resume_or_reuse": false,
+      "handoffs": "explicit files/reports only; no inherited conversation context"
+    },
+    "forbidden": [
+      "independent/headless/background Codex sessions",
+      "codex exec/resume/fork",
+      "tmux/nohup/systemd",
+      "autonomous.py start/run/recover",
+      "new background agent/driver"
+    ],
+    "concurrent_mechanical_training": "only supervised by a runner in the current conversation",
+    "ram_guardian": "existing guardian remains storage; preserve live states and frozen source identities",
+    "first_round_completed_trajectories": 50,
+    "retired_driver": {
+      "previous_status": "PAUSED",
+      "cause": "recovered reconnect warning treated as fatal",
+      "action": "retired; preserve source/receipts; do not repair or restart"
+    },
+    "caps": "max_cycles=null; max_astra_cycles=null; max_experiments=null; no hidden total/revision cap",
+    "stop_controls": "check both workspaces before dispatch; safe atomic completion and final summary on explicit user stop",
+    "test_policy": "sealed until explicit USER_STOPPED + final freeze + existing eligible selected-RAM verification gate; no Test in ACTIVE/PAUSED/candidate outcomes"
+  },
+  "plan_id": "26-11-16_augmentation_gradient_momentum",
+  "status": "DESIGN_COMPLETE_IMPLEMENTING",
+  "target_branch": "main",
+  "base_main_commit": "dda38ec8212d6b0c239b8db5ccf0e6ec8f207f11",
+  "research_line": [
+    "data augmentation",
+    "gradient information",
+    "momentum-style optimization"
+  ],
+  "candidate": "TV-GRM",
+  "recurrence": "clean Adam m/v from clean gradient plus coupled WD; separate beta1 EMA q of view-minus-clean gradient; precondition q with clean v; globally cap residual update norm at gamma times clean update norm",
+  "gamma": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "random_control": "Own-state actual preconditioned/capped residual parameter update norm R; Rademacher b_shuffle=R*xi/sqrt(N), exact zero branch; no further q/preconditioner/cap",
+  "datasets": [
+    "movielens",
+    "kuairand"
+  ],
+  "model": "M3oE fixed1",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "epochs": 50,
+  "batch_size": 40960,
+  "precision": "float32",
+  "validation_selection": "earliest strict maximum of six-cell Macro AUC; online and EMA independent",
+  "test_access": false,
+  "new_trajectories": 50,
+  "arms": [
+    "TV-GRM-005",
+    "TV-GRM-010",
+    "TV-GRM-020",
+    "TV-GRM-SHUFFLE-010",
+    "TV-GRM-INSTANT-010"
+  ],
+  "historical_references": [
+    "CLEAN",
+    "NDP-A"
+  ],
+  "publication_gate": {
+    "test_macro_auc_gain": 0.003,
+    "minimum_cell_mean_delta": -0.001
+  },
+  "forbidden": [
+    "small-domain difficulty analysis",
+    "domain size as difficulty proxy",
+    "repeat stopped algorithms without materially different math",
+    "architecture changes",
+    "Test HPO",
+    "seed substitution",
+    "reduced epochs/batch"
+  ],
+  "design_specification": "artifacts/26-11-16_augmentation_gradient_momentum/DESIGN_SPECIFICATION.md",
+  "preflight_receipt": "artifacts/26-11-16_augmentation_gradient_momentum/PREFLIGHT_RECEIPT.json",
+  "residual_history_ablation": "TV-GRM-INSTANT-010 uses current r instead of qhat; clean Adam beta1/beta2 unchanged",
+  "per_parameter_step": "Source Adam step n_p increments only for current clean non-None gradient; skip None even with historical state; zero tensor active",
+  "detached_views": "embedding_theta(x)+delta.detach(); embedding remains differentiable, target-only loss over all B",
+  "new_epochs": 2500,
+  "new_parameter_updates": 86250,
+  "new_ema_updates": 86250,
+  "steps_per_epoch": {
+    "movielens": 20,
+    "kuairand": 49
+  },
+  "steps_per_trajectory": {
+    "movielens": 1000,
+    "kuairand": 2450
+  },
+  "new_runs_per_dataset": {
+    "movielens": 25,
+    "kuairand": 25
+  },
+  "max_cycles": null,
+  "max_astra_cycles": null,
+  "max_experiments": null,
+  "normal_termination": [
+    "USER_STOPPED"
+  ],
+  "manual_stop_requested": false,
+  "manual_stop_sentinel": "artifacts/26-11-16_augmentation_gradient_momentum/STOP_AUTONOMOUS",
+  "control_workspaces": [
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+    "/home/xzf/Code/phase0-3"
+  ],
+  "test_policy": "USER_STOPPED and final freeze complete and eligible full five-seed selected RAM verified live; no Test in ACTIVE/PAUSED or autonomous cycles",
+  "candidate_no_go_action": "REPORT_CONTEXT_THEN_FRESH_NATIVE_ASTRA",
+  "astra_stop_action": "REJECT_CANDIDATE_CONTEXT_THEN_FRESH_NATIVE_ASTRA",
+  "technical_failure_action": "PAUSED_WITH_EXACT_ERROR_AND_RECOVERABLE_NEXT_ACTION",
+  "parent": {
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh",
+    "cli": "codex exec --json; subsequent codex exec resume EXACT_THREAD_ID"
+  },
+  "astra": {
+    "model": "gpt-6-astra",
+    "effort": "xhigh",
+    "dispatch": "native independent child inside parent; depth1/no fork; actual metadata recorded"
+  },
+  "context_open_questions": "research_context/experiments/Experimental_Open_Questions.md",
+  "context_publication": "actual verified remote original main commit before Astra; one specific transport retry or connected GitHub expected-head tree/commit/update_ref, else PAUSED",
+  "ram_retention": "current recovery/selection staging plus one champion configuration x both datasets x five seeds; retain --arm then release rejected/displaced keys; no disk models"
 }

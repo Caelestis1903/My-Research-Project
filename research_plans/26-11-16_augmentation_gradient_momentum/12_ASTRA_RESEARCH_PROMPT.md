@@ -1,11 +1,13 @@
-# Astra Exhigh Independent Research Prompt
+# Fresh native Astra research prompt
 
-You are a fresh independent research subagent using `6-Astra-exhigh` at XHigh. No parent transcript is inherited. Research/plan authoring only; do not edit training source or run experiments.
+You are an independent native gpt-6-astra/xhigh child inside the persistent gpt-6.1-sol parent, depth1, no fork or inherited transcript. Research and plan authoring only; no training. Read local start.md GB18030/buchong.md and honor stop controls in BOTH execution and original control workspaces before dispatching any child.
 
-Read current main HEAD, AGENT.md, EXP_AI_CONTEXT.md, Global Summary, Stable Findings, Open Questions, Experiment Index, Evidence Ledger, metrics ledger, PROJECT_ARCHITECTURE.md, current-cycle report, raw endpoints, paired results, diagnostics, costs, manifests and relevant historical reports.
+Read exact current published main and EXP_AI_CONTEXT.md, research_context/experiments/Experimental_Open_Questions.md, Evidence Ledger plus active experiments/Experimental_* summaries/index, metrics ledger and architecture. Read NDP-A FULL REPORT.md and all raw/review/manifest/selection/weight/cost pointers and hashes listed in 02. Read the current-cycle FULL report, raw endpoints/paired seeds/curves/diagnostics/costs and actual updated context commit. Parent passes paths/hash receipts, not its transcript.
 
-Explore >=3 materially distinct mechanisms spanning data/view construction, gradient decomposition/combination, and Adam/momentum recurrence. Do not restrict exploration to TV-GRM or latest outcome. For each candidate provide motivation, evidence, objective/full recurrence, information flow, complexity, failure modes, falsifiable experiment, nonexistent-assumption audit, stronger/simpler alternative, literature/novelty, five-seed execution matrix and resource budget.
+Explore >=3 materially distinct mechanisms spanning views, gradient processing and optimizer/momentum recurrence. For each: motivation, evidence/contradictions, objective/full recurrence and information flow, complexity/resources, assumptions vs unverified hypotheses, simpler/stronger alternatives, failure/falsification, novelty/literature and complete five-seed matrix. No relabeling NDP-A/DT-PGNA/TGA/PAIR/PCGrad/ECCM/PUB/A_MATCH/adaptive EMA without materially different math. Do not infer difficulty from domain size.
 
-Do not repeat NDP-A, DT-PGNA, TGA, PAIR, PCGrad, ECCM, generic magnitude balancing, PUB, A_MATCH or adaptive EMA unless mathematically materially different and explicitly distinguished. Never use domain size as difficulty proxy or investigate the fixed boundary that small domain is not difficult domain.
+Output under research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_XX/:
+RESEARCH_EXPLORATION.md, ALGORITHM_DESIGNS.md, LITERATURE_AND_NOVELTY.md, CRITICAL_REVIEW.md, CODEX_EXECUTION_PLAN.md, EXPERIMENT_MANIFEST.json.
+Return exact paths/hashes, chosen mechanism and blockers. Parent performs hard completeness and orchestrates new design/coder/independent review/run/analyze.
 
-Deliver RESEARCH_EXPLORATION.md, ALGORITHM_DESIGNS.md, LITERATURE_AND_NOVELTY.md, CRITICAL_REVIEW.md, CODEX_EXECUTION_PLAN.md and EXPERIMENT_MANIFEST.json under `research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_XX/`. Return exact paths, commit SHA, chosen mechanism and blockers. Do not train.
+STOP rejects current candidate; parent records reason/context and launches fresh Astra. REVISE fixes requirements with no fixed revision count. Technical BLOCKED => PAUSED/recover. max_cycles/max_astra_cycles/max_experiments are null. Only user manual stop normally terminates. Keep Test sealed throughout research.

@@ -1,18 +1,18 @@
 # Experiment Matrix
 
-Stage 0: read-only identity audit and Astra capability preflight; no training.
-Stage 1: CPU correctness + real full-batch GPU smoke on ML/KR; no performance claims.
-Stage 2, all seeds 2022–2026, 50 epochs:
+Completed DESIGN and preflight PASS -> coder/basic CPU checks -> different reviewer static/CPU review -> runner real full-batch smoke -> any needed reviewer smoke signoff -> frozen formal matrix -> main analysis.
 
-| Arm | gamma | Datasets | New runs |
-|---|---:|---|---:|
-| TV-GRM-005 | .05 | ML/KR | 10 |
-| TV-GRM-010 | .10 | ML/KR | 10 |
-| TV-GRM-020 | .20 | ML/KR | 10 |
-| TV-GRM-SHUFFLE | .10 | ML/KR | 10 |
-| CLEAN | 0 | ML/KR | 0 if exact reuse |
-| NDP-A | historical direct-mixture context | ML/KR | 0; do not rerun |
+| Arm | gamma | ML new runs | KR new runs |
+|---|---:|---:|---:|
+| TV-GRM-005 | .05 | 5 | 5 |
+| TV-GRM-010 | .10 | 5 | 5 |
+| TV-GRM-020 | .20 | 5 | 5 |
+| TV-GRM-SHUFFLE-010 | .10 | 5 | 5 |
+| TV-GRM-INSTANT-010 | .10 | 5 | 5 |
+| CLEAN / NDP-A | historical identity reuse | 0 | 0 |
 
-Total 40 new full trajectories (2 datasets × 4 arms × 5 seeds). Historical references are not independent confirmation.
+Exactly seeds2022–2026, 50epochs each. 50 new trajectories, 2500epochs, 86250 complete parameter/EMA updates. CLEAN and NDP-A each ten historical trajectories, not new independent confirmation. Fix a concrete identity mismatch; do not silently add reference retraining.
 
-Gamma search is already included in five-seed matrix. No broad alpha/lambda search. Test only after candidate/config/source/data/selection freeze. If no candidate has positive validation Macro AUC mean and is not dominated by SHUFFLE/NDP-A, Test stays sealed. Ablations only if a positive AUC candidate exists and a specific mechanism uncertainty could change the claim.
+Both controls are mandatory, not conditional on a positive preliminary result. All three gamma configurations complete five seeds; no1–4 seed scientific screen. Gamma=.10 is the predeclared control anchor; winning another gamma does not inherit .10 mechanism evidence. No broad alpha/lambda/beta/rho search or extra crossed control grid.
+
+All gammas nonpositive on both datasets => this version NO-GO -> report/context -> fresh Astra. Positive mean preserves a candidate; CI crossing zero or non-unanimous seeds is not an extra veto. Test opens only after USER_STOPPED, final freeze and eligible complete selected RAM. It never opens at candidate PASS or a within-cycle freeze.

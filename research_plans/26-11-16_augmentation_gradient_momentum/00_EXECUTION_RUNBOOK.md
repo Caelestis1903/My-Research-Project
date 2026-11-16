@@ -1,25 +1,32 @@
 # Autonomous Research Runbook — TV-GRM
 
-**Status:** PLANNING_ONLY / NOT_IMPLEMENTED / NOT_RUN. Target main. Plan date 2026-11-16.
+## Highest-priority current-conversation policy — 2026-11-16
 
-## Decision
-The original task's auxiliary-objective attribution and natural task-view experiments are already complete on current main. Do not rerun them. The next experiment tests a distinct optimizer-state route: compute the task-view minus clean gradient residual, accumulate it in a separate first-moment state, and inject it through the clean Adam second-moment preconditioner under a global update-norm cap. This is a candidate hypothesis, not an accepted algorithm.
+This user policy overrides older driver, session-lifecycle and handoff instructions below. Preserve historical experiment details, scientific gates and source provenance.
 
-## Preflight before any implementation/training
-1. Read all main context/source files in 01_RESEARCH_CONTEXT.md.
-2. Record current main HEAD, clean worktree, exact source/data/config hashes and NDP-A/CLEAN identities.
-3. Confirm NDP-A/CLEAN evidence is audited; do not rerun.
-4. Test native Codex Subagent capability: independent child context, actual `6-Astra-exhigh`, XHigh effort, specified repository reads.
-5. Parent must be `6.1-sol-exhigh` (or exact runtime equivalent); record actual metadata.
-6. If independent context/model/effort cannot be verified, set `AGENT_DISPATCH_BLOCKED` and stop before formal training. Do not simulate Astra using parent or a separate ChatGPT session.
+- The original foreground orchestrator alone controls DESIGN -> IMPLEMENT -> distinct REVIEW -> current-conversation RUN -> ANALYZE -> fresh native Astra -> next plan. All tasks and agents stay under the current conversation; only that orchestrator dispatches children.
+- Each subtask gets a fresh native child with explicit `fork_context=false`. Coder and reviewer are distinct. Close each child on completion; never resume or reuse it. Handoffs use explicit files/reports only, without inherited conversation context.
+- Independent/headless/background Codex sessions, `codex exec/resume/fork`, `tmux`, `nohup`, `systemd`, and `autonomous.py start/run/recover` are forbidden. Create no background agent/driver. The original 50/50 trajectories are complete; the old driver was PAUSED after treating a recovered reconnect warning as fatal and is retired. Preserve its source/receipts; do not repair or restart it.
+- Concurrent mechanical training is permitted only under supervision of a runner in the current conversation. Keep the existing RAM guardian as storage; preserve live states and frozen source identities. No detached AI session or replacement guardian/driver.
+- `max_cycles=null`, `max_astra_cycles=null`, `max_experiments=null`; no hidden total/revision cap. Only explicit USER_STOPPED normally terminates; candidate NO-GO/Astra STOP leads through report/context to fresh research, while technical failures PAUSE.
+- Check both workspaces' stop controls before dispatch. On user stop, finish/checkpoint the atomic operation safely and produce the final summary. Test stays sealed until explicit user stop + final freeze + the existing eligible selected-RAM verification gate; ACTIVE/PAUSED/candidate outcomes never open Test.
 
-## First Codex round
-Read-only audit → isolated implementation → CPU tests → full-batch GPU smoke on both datasets → independent review → frozen five-seed matrix → validation-only analysis → report/main-context update/commit. Reuse CLEAN/NDP-A only after exact identity checks.
+## Preserved protocol and historical provenance
 
-## Autonomous cycle
-After report, review and main-context commit, automatically launch a fresh Astra child. Astra reads current main, full report, raw paired results and diagnostics; explores at least three distinct mechanisms; writes a complete Codex plan under cycle_01; returns to parent. Parent checks hard completeness only. PASS launches next experiment; REVISE returns once; STOP/BLOCKED recorded. Maximum two Astra-driven cycles after initial round. No user confirmation inside the loop. Pro exits after this initial plan and never participates again.
+Status: DESIGN COMPLETE; IMPLEMENTATION in progress. Independent review, smoke and formal training pending. Source main: dda38ec8212d6b0c239b8db5ccf0e6ec8f207f11. Approved definition: artifacts/26-11-16_augmentation_gradient_momentum/DESIGN_SPECIFICATION.md.
 
-## Invariants
-MovieLens + KuaiRand; M3oE fixed1; 3 domains × 2 tasks; natural sampling; 50 epochs; batch 40960; FP32; seeds exactly 2022–2026; validation six-cell Macro AUC earliest strict max, online/EMA independently selected; AUC primary, LogLoss separate; Test sealed until freeze. **Small domain is not difficult domain**; no experiment/analysis about this boundary. No architecture/gate/expert/fusion/selective-sharing/data-split changes.
+NDP-A is complete and must not be rerun. TV-GRM tests a distinct optimizer route: clean Adam m/v plus a separately accumulated view-minus-clean first moment, preconditioned by clean v and globally bounded.
 
-`NOT_TRIGGERED`, `ENGINEERING_BLOCKED`, `NO_CONTINUATION_SIGNAL` and `PASS` must remain distinct. Failure of TV-GRM does not terminate the research line.
+Read AGENTS.md, start.md (GB18030), buchong.md and the approved design. PREFLIGHT_RECEIPT.json is PASS: parent gpt-6.1-sol/xhigh; independent native gpt-6-astra/xhigh. Use that receipt, not another capability pilot. A concrete later dispatch failure is PAUSED/AGENT_DISPATCH_BLOCKED with a recoverable next_action.
+
+First round: completed DESIGN -> coder/basic CPU checks -> different reviewer static/CPU REVIEW -> luna-runner real full-batch SMOKE -> needed reviewer smoke signoff -> frozen formal RUN -> main ANALYZE -> full report and substantive main-context publication. Resume hash-valid completed receipts; do not duplicate completed work. Five arms × two datasets × five seeds = 50 new trajectories/2500 epochs/86250 complete updates. Historical CLEAN/NDP-A each reuse ten trajectories.
+
+The stdlib autonomous.py driver detaches from the terminal, starts installed codex exec --json as gpt-6.1-sol/xhigh, records actual thread.started.thread_id and resumes exactly that parent across completed turns. Astra is a fresh native child inside this parent, never a separate exec. The parent launches after independent review; this coder stage does not start it.
+
+Every full report -> actual main-context publication -> fresh Astra >=3 mechanisms/six artifacts -> parent plan completeness -> next DESIGN/coder/different reviewer/runner/main ANALYZE. max_cycles=null; max_astra_cycles=null; max_experiments=null. REVISE fixes missing elements; candidate NO-GO/NO_CONTINUATION_SIGNAL and Astra STOP lead to fresh research. Technical failures PAUSE with diagnostics. Only USER_STOPPED normally terminates.
+
+Check manual_stop_requested and STOP_AUTONOMOUS under artifacts/26-11-16_augmentation_gradient_momentum in BOTH execution workspace and original control /home/xzf/Code/phase0-3 before every driver resume and child dispatch. Finish the current complete parameter/EMA/RAM transaction; retain eligible selected RAM and write final summary. Test requires USER_STOPPED + final freeze + valid eligible five-seed selected RAM, and remains sealed in all autonomous cycles.
+
+Keep natural data, M3oE fixed1, 3 domains × 2 tasks, seeds exactly2022–2026, 50epochs/batch40960/FP32. Online/EMA independently select earliest strict six-cell validation Macro AUC maximum; loss is judged separately. Domain size is not difficulty. No architecture, gate, fusion, sampling or split changes.
+
+Main publication uses the original repository's current main, preserving target main and expected remote head. Initial pinned-HEAD dry-run hit a gnutls_handshake transport error; it was not an auth result. After the real reviewed report/context commit, retry that specific transport once, or use the connected GitHub tree/commit/update_ref tools with expected head. Verify remote main contains the context commit before Astra handoff. Otherwise PAUSED with the exact error. No new branch, credentials or global config changes.

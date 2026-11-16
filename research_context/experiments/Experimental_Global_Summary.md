@@ -1,5 +1,11 @@
 # Experimental Global Summary
 
+## 2026-11-16 最新：TV-GRM完整五seed
+
+50条新增轨迹、20条历史内部控制已经完成。TV-GRM没有形成相对CLEAN fixed EMA的跨数据集增量（MEDIUM）；ML γ=.20有+.000154、3/5正、CI跨零的WEAK信号，不能抹去。预设全非正NO-GO条件未触发；γ=.10按跨数据集平均排序第一但两数据集增量都负，不升级champion，状态为NO_CONTINUATION_SIGNAL。KR相对NDP-A恢复+.005609、5/5正，不等于胜CLEAN或单独识别clean二阶矩的作用。
+
+旧后台driver误暂停导致未自动分析，已按用户新规退役。当前会话负责无次数上限循环；子智能体必须全新独立上下文，完成即关闭，不用独立/后台Codex会话。Test保持封存。完整证据：[REPORT](../../research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)、[DECISION](../../research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json)、[原始数表](../../artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv)。以下是原历史总结。
+
 整理截止：2026-10-09。本总结把已复核的实验事实与未验证的解释分开；证据强度和适用范围以 [Evidence Ledger](Experimental_Evidence_Ledger.md)、[Hypothesis History](Experimental_Hypothesis_History.md) 及 [Open Questions](Experimental_Open_Questions.md) 为准。
 
 ## Q1 — 目前最强的实验事实是什么？

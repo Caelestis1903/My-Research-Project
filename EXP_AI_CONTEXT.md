@@ -1,5 +1,90 @@
 # EXP_AI_CONTEXT.md
 
+## 2026-11-16 最新交接：TV-GRM完整50条与当前会话编排
+
+最新用户规则：禁止独立/后台Codex会话。当前原始会话 `01a1dfb8-605b-7430-8462-5fd3da0b048f` 编排全部后续工作；每个子任务仅新建不继承对话历史的native子智能体，完成即关闭，禁止恢复或复用已完成上下文。旧driver已退役，不得执行其start/run/recover入口。外循环次数仍不限，Test仍封存。
+
+TV-GRM首轮50/50条、2500epochs、86250次参数及EMA更新完成，复用CLEAN/NDP-A各10条历史轨迹。训练源码、自然人口/划分、batch40960/FP32/50epochs及seeds2022–2026未改。旧外层00:26将已恢复的重连事件误判为失败；机械调度继续完成50条，但未自动进入ANALYZE/Astra。本会话已收回结果、状态和后续派发。
+
+**NO_CONTINUATION_SIGNAL；不升级champion。** 三种γ相对CLEAN fixed-EMA的selected验证Macro AUC：ML −.000328815/−.000062272/+.000153992；KR −.000226846/−.000166450/−.001310579。ML γ=.20为3/5正、CI跨零，LL为5/5下降；不能写成所有γ全部非正。预设全非正NO-GO条件未触发。跨数据集等权排序第一γ=.10在两数据集均负，按既定条件不保留为champion；不追加γ/半径救援搜索。
+
+证据：跨数据集未形成增量MEDIUM；ML γ=.20局部排序信号WEAK；γ=.10相对NDP-A在KR +.005608869、5/5正、CI下界+.000165为MEDIUM，但仍未胜CLEAN。相对SHUFFLE的AUC正均值在两数据集CI都跨零；残差历史相对INSTANT在ML负/KR正，机制必要性WEAK。KR Traffic/Pooled正而Macro负、E50正而selected负，下一研究必须保持聚合/阶段/选点口径分离。
+
+必读完整新证据：[REPORT](research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)、[DECISION](research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json)、[逐seed与六格附录](research_reports/task_view_gradient_residual_momentum_20261116/NUMERICAL_APPENDIX.md)、[原始CSV](artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv)、[全部配对CSV](artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SEEDS.csv)、[完整runner收据](artifacts/26-11-16_augmentation_gradient_momentum/COMPLETE_RUNNER_REPORT.json)。fresh Astra同时必须读取下节NDP-A全报告与原始证据，探索至少三种数学上不同的机制，不重命名已停止方法。
+
+## 2026-11-16 NDP-A 完整报告整合与后续交接
+
+来源主提交 `dda38ec8212d6b0c239b8db5ccf0e6ec8f207f11`。本节是TV-GRM开始前对已完成报告及原数表的历史整合；TV-GRM完成状态见前节。主上下文的当前问题入口是 [research_context/experiments/Experimental_Open_Questions.md](research_context/experiments/Experimental_Open_Questions.md)，同时读取活跃的 experiments/Experimental_* 台账。原固定来源的 experiments/Experimental_Open_Questions.md 保留为 provenance。
+
+完整报告：[辅助目标归因与自然权重任务视图实验 REPORT](research_reports/auxiliary_objective_attribution_20261115/REPORT.md)。其 Stage1/Stage2 设计、实现报告、独立审查、运行、分析均已完成；最终 STAGE2_FINAL_REVIEW=PASS。该报告保留原停止决定；后续无限自主研究单独按新设计执行。
+
+**已完成的归因链。** Stage1零扰动 Z-PAIR/Z-EXAMPLE 相对 CLEAN EMA 的 ML AUC差为 −.001547/−.001995、KR为 −.019672/−.009075，四组均0/5正、六格均值均负；对应完整B/C损失为ML−.001353/−.001643、KR−.021557/−.009188。旧目标 clean_mean+.25*(2*selected_target_mean) 的总质量可达1.5，辅助entry相对clean系数B/M；KR pair d0t1正例额外质量约23.4倍。报告将“零扰动已重现主要损失”标为 **STRONG**。ML C−Z-EXAMPLE +.000352（4/5、CI跨零）与KR−.000113、共同阶段的不同方向仅为条件信号。
+
+**自然权重修正已实际执行。** NDP-A为 `.75*Lc+.25*Lv`，alpha=.03，全自然2B row-task支持，各entry总质量1/(2B)、每task质量.5；自身task的detached BCE上升视图只计入自身task BCE。无pair、投影、删除、标签平衡或额外辅助均值。17250批/500epoch的支持与质量核验通过，两task实际zero fraction均0。零扰动canonical分支与源CLEAN model/Adam/EMA状态完全相等。失败不能再次只归因于旧辅助质量。
+
+协议：ML/KR自然80/10/10、train-only预处理，M3oE fixed1、3域×2task、50epochs、batch40960含尾批、FP32、单coupled Adam lr=.01/betas(.9,.999)/eps1e-8，WD=1e-4/1e-5；固定EMA rho=.9828205985452511/.995，每完整更新后一次。seeds2022–2026；online/EMA各自按验证六格Macro AUC最早严格最大值选点。以下差均为NDP-A−匹配CLEAN，直接摘录PAIRED_SUMMARY，positive表示差>0（LL改善方向为负）：
+
+| dataset | readout (matching CLEAN) | metric | mean delta | sample SD | 95%CI low | 95%CI high | positive/5 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| movielens | online | macro_auc | 0.0003596281922459976 | 0.0003389650983237074 | -6.12525510432364e-05 | 0.0007805089355352316 | 4 |
+| movielens | online | macro_logloss | -0.003262381566519412 | 0.0034348117074397095 | -0.007527263442662348 | 0.0010025003096235238 | 1 |
+| movielens | fixed_ema | macro_auc | -0.00010125623089003443 | 0.00015432457599940365 | -0.0002928754936862186 | 9.036303190614973e-05 | 1 |
+| movielens | fixed_ema | macro_logloss | 0.0005525617140499817 | 0.0016105285511687955 | -0.0014471735302468418 | 0.0025522969583468055 | 3 |
+| kuairand | online | macro_auc | -0.0047047355928163895 | 0.0065726744144198445 | -0.012865788475899241 | 0.0034563172902664623 | 1 |
+| kuairand | online | macro_logloss | 0.0002793124392843294 | 0.00478909935842365 | -0.00566713959258365 | 0.00622576447115231 | 3 |
+| kuairand | fixed_ema | macro_auc | -0.005775319390310641 | 0.005840882198466539 | -0.013027732259106332 | 0.0014770934784850507 | 0 |
+| kuairand | fixed_ema | macro_logloss | -0.00021251808859878984 | 0.0006440510312879568 | -0.001012213036855102 | 0.0005871768596575224 | 2 |
+
+主fixed-EMA AUC的完整逐seed差，摘录PAIRED_SEEDS：
+
+| dataset | seed | fixed-EMA Macro AUC delta |
+| --- | --- | --- |
+| movielens | 2022 | -0.00019687452246808235 |
+| movielens | 2023 | -9.082879296729018e-05 |
+| movielens | 2024 | 0.00013126801036011937 |
+| movielens | 2025 | -0.0002776157276597191 |
+| movielens | 2026 | -7.223012171519994e-05 |
+| kuairand | 2022 | -0.002636182762293604 |
+| kuairand | 2023 | -0.014723547581037666 |
+| kuairand | 2024 | -0.008675324264014073 |
+| kuairand | 2025 | -0.0011010492101627412 |
+| kuairand | 2026 | -0.001740493134045118 |
+
+六格selected fixed-EMA差，完整绝对端点/SD/CI另见原CSV：
+
+| dataset | cell | fixed-EMA AUC delta | unscaled LogLoss delta |
+| --- | --- | --- | --- |
+| movielens | d0t0 | -0.00023964773055868972 | 0.001740552492141556 |
+| movielens | d0t1 | 0.000292984933021323 | -0.0006638195308486528 |
+| movielens | d1t0 | -0.0002490510466360396 | 0.000654548832986257 |
+| movielens | d1t1 | -8.145773176335692e-05 | -5.993959737777832e-05 |
+| movielens | d2t0 | 7.011899961109069e-05 | 0.0015031109185938973 |
+| movielens | d2t1 | -0.0004004848090145785 | 0.0001409171688046995 |
+| kuairand | d0t0 | -0.017958850070473643 | 0.0031638846763871963 |
+| kuairand | d0t1 | -0.02142450447283244 | 0.0020631015848080582 |
+| kuairand | d1t0 | -0.0013111940927715837 | 0.0003311400174928703 |
+| kuairand | d1t1 | -0.001692365515870531 | 0.0006347801920241758 |
+| kuairand | d2t0 | 0.005083339363678019 | -0.004438665923657492 |
+| kuairand | d2t1 | 0.0026516584464065128 | -0.0030293490786474477 |
+
+**原报告的矛盾与解释。** ML online AUC +.000359628（4/5）没有叠加为fixed-EMA收益；完整NDP-A EMA对CLEAN online为+.002895193，但CLEAN EMA自身已有+.002996。ML早/中/晚期EMA差−.001094/+.000013/+.000308，selected仍负；KR为−.000113/−.004439/−.006087，中晚期五seed均负。NDP-A平均选点ML E21.8/KR E36.2，CLEAN E22.2/E40.4。报告的ML新增排序信号为 **WEAK**；KR退化及格间取舍为 **MEDIUM**。KR task0/task1 AUC差−.004729/−.006822，均0/5正，Traffic/Pooled−.001658/−.001438、worst-cell−.006763；微小负LL均值按预设规则保留，但不能替代AUC。
+
+自然train域人口ML155949/318599/325619、KR172782/1743898/89452。KR d2t0五seed改善，d0t0五seed下降；另一个较小域d0损失最大。报告未支持“域大小是主解释”，也未将大小用作困难度。竞争解释包括旧目标重权、BCE扰动方向与排序不匹配、跨task变化、EMA效果重叠；后三项尚未独立隔离。报告提出的判别方向是同自然支持/凸混合/半径下真实与随机方向对照，该后续矩阵在历史实验中未触发。
+
+**原结果裁定。** 两数据五seed主AUC均值都不为正，历史NDP-A alpha=.03/lambda=.25停止；HPO、alpha搜索、NDP-B、Test、投影与额外消融均NOT_TRIGGERED。没有加CI排零或全部seed同向门。Stage1+Stage2新增50轨迹/2500epoch/86250参数及EMA更新，复用10 CLEAN；Stage2自身新增10轨迹/500epoch/17250更新。复用同一seed轨迹不新增独立确认。Stage1/2训练墙钟5296.97/4937.87秒，worker16.0033/6.5164小时；原状态在RAM guardian，无磁盘模型。
+
+**完整证据交接。** 服务器证据根 `/home/xzf/Code/phase0-3_auxiliary_20261115`；相对路径与仓库一致：
+
+- 报告目录 `research_reports/auxiliary_objective_attribution_20261115/`：完整REPORT.md、STAGE1_ANALYSIS.md、STAGE2_DESIGN_SPECIFICATION.md、STAGE2_FINAL_REVIEW.json/.md、STAGE2_DECISION.json、STAGE2_RUNNER_REPORT.json、SOURCE_MAP.md、STAGE2_NUMERICAL_APPENDIX.md、STAGE2_GENERATED_TABLES.md、STAGE2_EVIDENCE.json。
+- 原值目录 `artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/`：[ENDPOINTS.csv](artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/ENDPOINTS.csv)、[PAIRED_SEEDS.csv](artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SEEDS.csv)、[PAIRED_SUMMARY.csv](artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SUMMARY.csv)、VALIDATION_CURVES.csv、WEIGHTS.csv、COSTS.csv；run_manifest.json、source_receipt.json、movielens_data_manifest.json、kuairand_data_manifest.json、zero_counterpart_receipt.json、reused_clean_index.json。
+- 运行原件 `runs/*/result.json`、`runs/*/attempt*/epoch_*.json`、epoch_commit_ledger.jsonl、launch_logs；报告tables/STAGE2_BATCH_AUDIT.csv和STAGE2_FIRST_BATCH_DIAGNOSTICS.csv。逐entry历史大日志按epoch记录的路径/hash读取。
+- 全报告SHA256 `4100b8ee0f97cf1f66cca888be9f8f1297b5d7b52c676995a418f9ede02a463a`；ENDPOINTS(160行) `22ddfcf68be74e3f54fdf9b4e3f2a17fcbdac5a48b2c1cee95824c950a538908`；PAIRED_SEEDS(3960行) `8b3212f00080c097e9166ce13f749566ceba3cc04b6d1da7421924382e42caf6`，与PREFLIGHT收据一致。
+- Stage2 source SHA256 `831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b`；selection `c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89`。
+
+下一轮TV-GRM按已批准设计比较整体梯度路由、post-cap实际残差更新norm匹配SHUFFLE及INSTANT残差历史删除；其首轮50新轨迹预算与历史50条分别计数。每次fresh native Astra必须收到本节引用的完整NDP-A报告/原数表及最新轮完整报告/原证据、实质更新并已发布的main上下文。每轮NO-GO或Astra STOP均转新研究；只有USER_STOPPED正常终止。所有自主轮Test封存，人工停止+最终freeze+有效完整selected RAM后才允许独立最终评价。
+
+---
+
 ## 2026-11-03 新增最高优先级：正式基线只允许已发表论文模型；统一算法指标台账
 
 > **研究者强制指令，后续一切设计、实验、代码与论文报告优先执行。** 本条与紧随其后的“五seed/AUC/LogLoss”新规则共同适用；覆盖下文历史报告中将本项目自研算法、无增强+固定EMA、当前最优候选等称为“基线”的惯例。历史文件中的原称谓保留为当时的研究术语，不表示今后获准作为正式论文baseline。

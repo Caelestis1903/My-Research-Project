@@ -1,0 +1,116 @@
+{
+  "verdict": "PASS",
+  "formal_matrix_allowed": true,
+  "blocking_issues": [],
+  "reviewed_at_utc": "2026-11-15T15:54:30.433400+00:00",
+  "source_hash": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+  "design_sha256": "67fdebf500e80611de2f0600e0847bf0697774bcb0fa107571154b1524fff338",
+  "cpu_checks_passed": true,
+  "cpu_evidence": "Inherited from existing independent implementation review; not rerun",
+  "protocol_smoke_gate": "protocol.validate_attempt(attempt, review_path, require_smoke=True)",
+  "protocol_smoke_gate_passed": true,
+  "artifact_sha256": {
+    "artifacts/26-11-16_augmentation_gradient_momentum/DESIGN_SPECIFICATION.md": "67fdebf500e80611de2f0600e0847bf0697774bcb0fa107571154b1524fff338",
+    "artifacts/26-11-16_augmentation_gradient_momentum/IMPLEMENTATION_REVIEW.json": "011a4e0ff68ef7abc0179275e61365754ad95ab39af41fcc3dc0a871ba53cb98",
+    "artifacts/26-11-16_augmentation_gradient_momentum/SMOKE_RUNNER_REPORT.json": "081cfbfc070dc911f1849f0ca38029d16cbff4b0f4506dd5088d07500c510681",
+    "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/SMOKE_REPORT.json": "e4ff1f7488cadb34f1202ab39cd91713b5b17502e59e5faeaf0b9d842301da00",
+    "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/run_manifest.json": "6f63570d04db5915c515f3dce1c25d80018a8710a7e6368331e00258dfa5071f",
+    "artifacts/26-11-16_augmentation_gradient_momentum/attempt1/source_receipt.json": "6a1cb887362a80128088bb45c9ee535123c8b584b5270fdf1bc89cd9dd8827d4",
+    "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/prepare.stdout.log": "10b8ab91b621862c21b736e3377065f9490147c5679ba9f9b9b3c165c722b1b4",
+    "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/prepare.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/smoke.stdout.log": "b874384acc268a41e2bfa93326a9efd55d437fa2457c3b466fc925e49e1c1d60",
+    "artifacts/26-11-16_augmentation_gradient_momentum/runner_logs/smoke.stderr.log": "5984751c593304892fee61ca96fac046579f5e38a00f4ea7311b3e709ca979f3"
+  },
+  "smoke_configuration": {
+    "smoke_seed": 2022,
+    "device": "cuda:1",
+    "batch_size": 40960,
+    "precision": "float32",
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "branches": [
+      "SOURCE-CLEAN",
+      "GAMMA0",
+      "TV-GRM-010",
+      "TV-GRM-SHUFFLE-010",
+      "TV-GRM-INSTANT-010"
+    ],
+    "one_step_per_branch": true,
+    "model": "M3oE_fixed1",
+    "learning_rate": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "weight_decay_by_dataset": {
+      "movielens": 0.0001,
+      "kuairand": 1e-05
+    },
+    "TV-GRM-010": {
+      "gamma": 0.1,
+      "residual_mode": "momentum"
+    },
+    "TV-GRM-SHUFFLE-010": {
+      "gamma": 0.1,
+      "residual_mode": "shuffle"
+    },
+    "TV-GRM-INSTANT-010": {
+      "gamma": 0.1,
+      "residual_mode": "instant"
+    },
+    "formal_training_started": false,
+    "checkpoint_or_model_files_written": false,
+    "test_accessed": false
+  },
+  "datasets": [
+    {
+      "dataset": "movielens",
+      "branches": 5,
+      "rows_per_branch": 40960,
+      "optimizer_updates": 5,
+      "ema_updates": 5,
+      "gamma0_state_equality": true,
+      "all_numeric_records_finite": true,
+      "shuffle_relative_error": 4.111813035706533e-09,
+      "peak_reserved_bytes": 2749366272,
+      "host_admission_bytes": 1759142616
+    },
+    {
+      "dataset": "kuairand",
+      "branches": 5,
+      "rows_per_branch": 40960,
+      "optimizer_updates": 5,
+      "ema_updates": 5,
+      "gamma0_state_equality": true,
+      "all_numeric_records_finite": true,
+      "shuffle_relative_error": 3.111310442062587e-08,
+      "peak_reserved_bytes": 3336568832,
+      "host_admission_bytes": 2366192920
+    }
+  ],
+  "formal_matrix": {
+    "new_trajectories": 50,
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "epochs": 50,
+    "batch_size": 40960,
+    "precision": "float32",
+    "optimizer_updates": 86250,
+    "ema_updates": 86250
+  },
+  "manual_stop_requested": false,
+  "test_accessed": false,
+  "reviewer_reran_tests": false,
+  "reviewer_reran_smoke": false,
+  "reviewer_started_formal_training": false,
+  "reviewer_started_driver": false,
+  "reviewer_committed_or_pushed": false
+}
