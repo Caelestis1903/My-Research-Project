@@ -1,5 +1,9 @@
 # Experimental Stable Findings
 
+## SF-AXISEVEN-C01 — 当前even-view设置的局部退化与域间反向
+
+完整五seed、M3oE fixed1、自然ML/KR、50epochs/40960/FP32中，AXIS-EVEN未形成selected EMA Macro AUC增量。ML task0及最小d0均5/5负且各自描述性CI不跨零（MEDIUM）；KR d0负/d2正的域均值与最大d1近零并存，d2域LL五seed均降低。该模式不支持统一的小域改善/大域下降。KR IID2均值正但仅2/5正、CI跨零（WEAK）。证据与边界见[E-AXISEVEN-C01](Experimental_Evidence_Ledger.md)及[完整报告](../../research_reports/task_axis_even_views_20261116/REPORT.md)。
+
 以下是当前可安全复述的保守结论。每条都限定数据集、objective、模型、训练阶段或 checkpoint；已知例外列在同一条中。强度按阶段报告证据与后续反证综合判断。
 
 ## SF001 — 已测 Sample + SD reference 下未发现普遍 practical residual NT

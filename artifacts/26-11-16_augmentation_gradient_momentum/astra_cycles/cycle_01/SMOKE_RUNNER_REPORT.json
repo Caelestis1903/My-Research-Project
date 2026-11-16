@@ -1,0 +1,207 @@
+{
+  "report_type": "EXPERIMENT EXECUTION REPORT \u2014 GPU SMOKE ONLY",
+  "experiment_id": "26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01",
+  "git": {
+    "head": "c4dc36bd38bd4f7a2a3319377a8289ba8185532d",
+    "worktree": "detached HEAD; dirty; no source edits made by smoke runner"
+  },
+  "config": {
+    "review_verdict": "PASS",
+    "review_source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "command": "python -B -u -m experiments.task_axis_even_views_20261116.runner smoke --review <IMPLEMENTATION_REVIEW_R1.json> --device cuda:1",
+    "device": "cuda:1 (NVIDIA GeForce RTX 3090)",
+    "precision": "FP32",
+    "batch_rows": 40960,
+    "scope": "one reviewed smoke step per dataset and arm; full batch plus exact full/tail source-identity checks",
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "arms": [
+      "AXIS-EVEN",
+      "AXIS-IID2",
+      "ISOTROPIC-EVEN"
+    ],
+    "seed": 2022
+  },
+  "seeds": [
+    2022
+  ],
+  "run_status": "PASS",
+  "raw_metrics": {
+    "movielens": {
+      "identity_checks": {
+        "status": "PASS",
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "observations": [
+          {
+            "slice": "full",
+            "rows": 40960,
+            "null_source_exact": true,
+            "one_sided_source_exact": true
+          },
+          {
+            "slice": "tail",
+            "rows": 21927,
+            "null_source_exact": true,
+            "one_sided_source_exact": true
+          }
+        ]
+      },
+      "arms": [
+        {
+          "arm": "AXIS-EVEN",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.913642376079224,
+          "loss": 0.6957956552505493,
+          "clean_loss": 0.6957953572273254,
+          "view_loss": 0.695796549320221,
+          "peak_allocated_bytes": 4028229632,
+          "peak_reserved_bytes": 4133486592,
+          "power_before_watts": 29.78,
+          "peak_board_power_watts": 125.21,
+          "power_increment_watts": 95.42999999999999,
+          "power_samples": 8
+        },
+        {
+          "arm": "AXIS-IID2",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.5660155279329047,
+          "loss": 0.6957963705062866,
+          "clean_loss": 0.6957953572273254,
+          "view_loss": 0.6957994699478149,
+          "peak_allocated_bytes": 4066142208,
+          "peak_reserved_bytes": 4162846720,
+          "power_before_watts": 157.24,
+          "peak_board_power_watts": 195.61,
+          "power_increment_watts": 38.370000000000005,
+          "power_samples": 5
+        },
+        {
+          "arm": "ISOTROPIC-EVEN",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.5789655429543927,
+          "loss": 0.6957953572273254,
+          "clean_loss": 0.6957953572273254,
+          "view_loss": 0.6957953572273254,
+          "peak_allocated_bytes": 4066142208,
+          "peak_reserved_bytes": 4162846720,
+          "power_before_watts": 195.61,
+          "peak_board_power_watts": 195.61,
+          "power_increment_watts": 0.0,
+          "power_samples": 5
+        }
+      ],
+      "peak_reserved_bytes_dataset": 4162846720,
+      "peak_host_rss_bytes": 1781243904,
+      "snapshot_bytes": 18573836,
+      "host_admission_bytes": 1836965412
+    },
+    "kuairand": {
+      "identity_checks": {
+        "status": "PASS",
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "observations": [
+          {
+            "slice": "full",
+            "rows": 40960,
+            "null_source_exact": true,
+            "one_sided_source_exact": true
+          },
+          {
+            "slice": "tail",
+            "rows": 40052,
+            "null_source_exact": true,
+            "one_sided_source_exact": true
+          }
+        ]
+      },
+      "arms": [
+        {
+          "arm": "AXIS-EVEN",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.6678262000204995,
+          "loss": 0.7191649079322815,
+          "clean_loss": 0.7191649079322815,
+          "view_loss": 0.7191649079322815,
+          "peak_allocated_bytes": 4743774208,
+          "peak_reserved_bytes": 5012193280,
+          "power_before_watts": 162.15,
+          "peak_board_power_watts": 162.15,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        },
+        {
+          "arm": "AXIS-IID2",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.6930987760424614,
+          "loss": 0.7191649675369263,
+          "clean_loss": 0.7191649079322815,
+          "view_loss": 0.7191649675369263,
+          "peak_allocated_bytes": 4922294272,
+          "peak_reserved_bytes": 5192548352,
+          "power_before_watts": 206.31,
+          "peak_board_power_watts": 206.31,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        },
+        {
+          "arm": "ISOTROPIC-EVEN",
+          "rows": 40960,
+          "precision": "float32",
+          "seconds": 0.6528859590180218,
+          "loss": 0.7191649675369263,
+          "clean_loss": 0.7191649079322815,
+          "view_loss": 0.7191649675369263,
+          "peak_allocated_bytes": 4922294272,
+          "peak_reserved_bytes": 5192548352,
+          "power_before_watts": 205.36,
+          "peak_board_power_watts": 205.36,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        }
+      ],
+      "peak_reserved_bytes_dataset": 5192548352,
+      "peak_host_rss_bytes": 2305949696,
+      "snapshot_bytes": 38752760,
+      "host_admission_bytes": 2422207976
+    }
+  },
+  "log_locations": {
+    "complete_smoke_log": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/GPU_SMOKE.log",
+    "raw_smoke_receipt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/SMOKE_REPORT.json",
+    "storage_handoff_receipt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/STORAGE_HANDOFF.json",
+    "handoff_command_log": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/STORAGE_HANDOFF_COMMAND.log"
+  },
+  "runtime_errors": [],
+  "runtime_warnings": [
+    "PyTorch deprecation warning for legacy TF32 control API; smoke completed PASS."
+  ],
+  "missing_runs": {
+    "smoke_runs_missing": [],
+    "formal_matrix": "not run; outside this GPU-smoke-only task"
+  },
+  "storage_handoff": {
+    "owner_pid": 1570727,
+    "owner_tool_session": "59365",
+    "source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+    "retained_states": 0,
+    "retained_bytes": 0,
+    "parent_accepted": true,
+    "parent_acceptance_required_before_runner_context_closure": true,
+    "acceptance_receipt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/PARENT_STORAGE_ACCEPTANCE.json"
+  },
+  "preservation": {
+    "old_inventories_equal_before_after_smoke": true,
+    "historical_guardian_pid_1025015_observed_alive_after_smoke": true,
+    "test_accessed": false
+  }
+}

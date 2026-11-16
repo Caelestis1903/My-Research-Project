@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "NEW_DISTINCT_RESOURCE_1_REVIEWER",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "scope": "RESOURCE-1 correction only; no execution approval",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "issue_counts": {
+    "CRITICAL": 0,
+    "MAJOR": 0,
+    "MINOR": 1
+  },
+  "source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+  "cpu_checks_passed": true,
+  "resource_1_evidence_reuse": {
+    "issue": "RESOURCE-1",
+    "approved": true,
+    "scope": "ONE_PRE_FORMAL_ADMISSION_SUPERSESSION",
+    "original_source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+    "original_receipts": {
+      "source_receipt.json": "76e8ad95e7a93aa2ad4c891c5200063468978236a592ca8098679e532fb8380a",
+      "run_manifest.json": "8b33bb35b9ae0694d12baf6ae5e063bb592050fd4796555ff98d032dc9c9e114",
+      "SMOKE_REPORT.json": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+      "STORAGE_OWNER.json": "7970b5519f6f4ba6b481bd7f6f4a460e455d1e3aba0a40b5bda2ef0714e71b0d",
+      "STORAGE_HANDOFF.json": "24bfa763720d61be8b0ac745fc09e2c586abd1c53d9a69aae17c2e381cb50053",
+      "PARENT_STORAGE_ACCEPTANCE.json": "8494481587b37df8112e39a86b50da0f04f749ff58739b35619a91fa8d176544",
+      "guardian.json": "1d842dc91fb5c9557596228eaa6864fc574e8beb078548ee0c4b1bf6d94d26c9"
+    },
+    "original_smoke_sha256": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+    "source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "unchanged_source_files_sha256": "4683a84b2f16569ccc23ce516891ad1ecd14f13f6e9e94bd39890eeb3aeb3526",
+    "unchanged_functions_sha256": "ec2e926802c6550f069188a7a662cb85d8764a2f3f8bb62391d9464452c3ed9b",
+    "owner": {
+      "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1",
+      "pid": 1570727,
+      "socket": "/tmp/tvgrm-1039-55414b23c046c530.sock",
+      "endpoint_hash": "7ee8919007c33d256e1499f3ca16fbe3fc1978f1353eb91b68efdf38851f6df3",
+      "owner_tool_session": "59365",
+      "source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+      "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+      "ownership": "FOREGROUND_PARENT_CURRENT_CONVERSATION",
+      "test_accessed": false
+    },
+    "power_semantics": "CONSERVATIVE_OBSERVED_BOARD_PEAK_WATTS",
+    "power_budgets_watts": {
+      "movielens": 195.61,
+      "kuairand": 206.31
+    }
+  },
+  "requirement_verification": [
+    {
+      "requirement": "Approved design and scientific invariants",
+      "status": "PASS",
+      "evidence": "Seven design files independently hashed and byte-compared to the pre-fix archive; bundle unchanged. Exactly the three specified files differ among 79 source files. All 76 other files, including core, test_core, tables, package lock and frozen scientific/storage dependencies, are unchanged."
+    },
+    {
+      "requirement": "Power reservation arithmetic and semantics",
+      "status": "PASS",
+      "evidence": "schedule uses max(original dataset increment, all original arm board peaks): MovieLens195.61W and KuaiRand206.31W, labeled CONSERVATIVE_OBSERVED_BOARD_PEAK_WATTS. Original telemetry is unchanged. Focused actual choose_device fixture rejects loaded283/350W and accepts idle20/350W for KR with admissible synthetic memory/host."
+    },
+    {
+      "requirement": "Existing admission behavior preserved",
+      "status": "PASS",
+      "evidence": "choose_device, host admission, pending allocations and actual resampling are unchanged. Strict memory AND power below85%, independent cards, and no arbitrary process cap or scientific budget reduction remain."
+    },
+    {
+      "requirement": "Explicit independent source/evidence supersession",
+      "status": "PASS",
+      "evidence": "check_review remains byte-identical and exact-current-source-specific. resource_1_evidence alone cannot authorize adoption: reviewed_resource_1_receipt requires a fresh exact-source PASS containing the entire matching evidence object. This reviewer explicitly approves that object after independent archive/diff/smoke inspection. Old R1 PASS alone remains insufficient."
+    },
+    {
+      "requirement": "One effective manifest through all affected callers",
+      "status": "PASS",
+      "evidence": "validate_attempt, validate_continuation and require_storage use effective_run_manifest. schedule creates all formal job keys from its current source; worker validation and epoch/source receipts consume the same manifest. The original source remains only the explicit storage-bootstrap and smoke identity. Receipt/review/source/budget tampering or missing supersession is refused."
+    },
+    {
+      "requirement": "Same owner and original receipts preserved",
+      "status": "PASS",
+      "evidence": "Original source/run/smoke/owner/guardian/handoff/parent-acceptance bytes independently compared with the archive and pinned hashes. Owner root/PID1570727/socket/endpoint/session59365 remain bound. New RESOURCE_1_ handoffs expose revised verified source and manifest/receipt hashes while preserving original filenames. No replacement/storage IPC was performed."
+    },
+    {
+      "requirement": "Pre-formal-only adoption and no implicit run approval",
+      "status": "PASS",
+      "evidence": "adopt_resource_1 refuses duplicate receipt, formal artifacts/nonempty output directories, registered keys/retained state/live workers, changed endpoint/session, or manual stop. It checks existing owner only and creates no server. Real supersession/dispatch/progress/launch/commit/completion artifacts are absent; owner liveness and empty RAM inventory are for parent adoption to check."
+    },
+    {
+      "requirement": "Mathematics, shapes, masks, routing, weighting, gradients and baselines",
+      "status": "PASS_BY_VALID_EVIDENCE_REUSE",
+      "evidence": "No change to core, worker, source identity checks or numerical helpers;40 unaffected mixed-module functions independently byte-compared. Original R1 numerical evidence is reused only for those unchanged paths. Independently compared original smoke full/tail signatures for all null arms vs SOURCE-CLEAN and delegated one-sided vs SOURCE-NDP-A on both datasets, including model/optimizer/EMA/gradient/None-mask/counter/RNG/loader signatures; six40960 FP32 arm steps each record one Adam/EMA update. Historical baseline isolation old_before==old_after. No new research conclusion."
+    },
+    {
+      "requirement": "Focused CPU verification",
+      "status": "PASS_WITH_NONBLOCKING_TEST_FINDING",
+      "evidence": "20 focused pytest cases passed in3.39s; independent in-memory optimizer assertion positive/negative condition passed; three changed files compile without bytecode writes. Minor displaced assertion documented separately; no runtime defect found."
+    }
+  ],
+  "bugs_deviations_found": [
+    {
+      "id": "RESOURCE-TEST-1",
+      "severity": "MINOR",
+      "blocking": false,
+      "location": "experiments/task_axis_even_views_20261116/test_recovery.py:345",
+      "summary": "The original epoch50 optimizer-hash assertion was displaced from test_acknowledged_continuation into the negative effective-manifest test, after the expected exception, so it is unreachable.",
+      "impact": "Loss of one persisted test assertion only; runtime worker and optimizer continuation are byte-identical to the accepted source. The other recovery assertions still execute.",
+      "independent_resolution": "Executed the original fixture with that assertion restored in memory only: valid completion passed; deliberate corruption of the returned optimizer hash failed. No source edit or required rerun.",
+      "minimal_correction": "At a future authorized source revision, move the assertion back immediately after the final_hashes online assertion in test_acknowledged_continuation. Not a RESOURCE-1 adoption blocker.",
+      "corrected_in_repository": false
+    }
+  ],
+  "resolved_issues": [
+    {
+      "id": "RESOURCE-1",
+      "original_severity": "MAJOR",
+      "status": "CORRECTED_IN_REVIEWED_SOURCE",
+      "detail": "Conservative board peak reservations plus explicit same-owner reviewed source/evidence supersession."
+    }
+  ],
+  "corrections_made": [],
+  "source_files_modified_by_reviewer": [],
+  "checks": {
+    "focused_cpu": {
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m pytest -q -p no:cacheprovider experiments/task_axis_even_views_20261116/test_recovery.py",
+      "exit_code": 0,
+      "result": "20 passed in 3.39s"
+    },
+    "independent_condition": {
+      "exit_code": 0,
+      "positive": "Epoch50 completion optimizer hash equals acknowledged continuation with displaced assertion restored only in memory.",
+      "negative": "Same assertion rejects deliberately corrupted returned optimizer hash."
+    },
+    "provenance": {
+      "archive_files_verified": 99,
+      "archive_manifest_sha256": "de463c3db17f2b3e36d21da83ba8e2e0db9138eeac7bc334a443c854e41af697",
+      "source_files_verified": 79,
+      "unchanged_source_files": 76,
+      "unchanged_runtime_functions": 40,
+      "design_files": 7,
+      "original_receipts_byteidentical": true,
+      "formal_activity_absent": true
+    },
+    "syntax": "compile() passed for runner.py/protocol.py/test_recovery.py; no bytecode output"
+  },
+  "remaining_risks": [
+    "Observed board peaks are measured conservative admission budgets, not guaranteed future peaks; existing actual monitoring and live admission remain required.",
+    "Existing owner identity was verified from unchanged receipts; no live IPC/liveness/inventory check was performed by this reviewer. Parent adoption must check these.",
+    "One MINOR test-placement issue remains in the frozen test file; the missing assertion was independently checked without modifying source."
+  ],
+  "implementation_safe_for_parent_adoption": true,
+  "safe_to_run": false,
+  "adoption_executed": false,
+  "storage_ipc_performed": false,
+  "formal_run_authorized": false,
+  "run_safety_explanation": "No RESOURCE-1 implementation blocker. Original parent must perform the single reviewed adoption and own the remaining live storage/admission/run gates. This review grants no execution approval.",
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "test_accessed": false,
+      "stop_sentinels": []
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "test_accessed": false,
+      "stop_sentinels": []
+    }
+  ],
+  "test_accessed": false,
+  "not_performed": [
+    "No unchanged test_core/raw-data/broad-suite rerun.",
+    "No GPU query/operation, smoke/formal run, storage IPC/adoption command, owner replacement or agent/session dispatch.",
+    "No source/design/shared-state/history edit, commit or publish."
+  ],
+  "lifecycle": "One task complete; return to original current-conversation parent for permanent closure. Never resume/reuse."
+}

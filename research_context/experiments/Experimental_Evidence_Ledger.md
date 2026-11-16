@@ -1,5 +1,13 @@
 # Experimental Evidence Ledger
 
+## E-AXISEVEN-C01 — 同自然支持的轴向even / IID2 / isotropic比较
+
+M3oE fixed1，2数据集×3臂×5seed，30新+20历史控制；50epochs/40960/FP32，1500新epoch、51750次新Adam/EMA。selected EMA AXIS-EVEN−CLEAN：ML−0.000237520、0/5正、CI[−0.000476287,+0.000001248]；KR−0.003540710、1/5正、CI[−0.011933378,+0.004851958]。NO_CONTINUATION_SIGNAL。稳定增量未建立，MEDIUM；gate触发是STRONG直接事实。
+
+ML task0−0.000570378且5/5负、CI不跨零，Macro LL+0.001264852且5/5变差。KR d0/d1/d2 AUC均值差−0.014842276/−0.000251429/+0.004471575；d2 LL−0.004535039且5/5改善。域规模、身份及基线结构未分离，因果强度WEAK。与NDP-A/isotropic/IID2的六项AUC CI均跨零（机制WEAK）；KR IID2−CLEAN+0.001269552、2/5正、CI跨零仍保留。局部轴向E/O响应较isotropic大，未形成稳定注册排序收益。
+
+[完整报告](../../research_reports/task_axis_even_views_20261116/REPORT.md)、[所有seed/阶段/六格](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/ENDPOINTS.csv)、[配对CI](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/PAIRED_SUMMARY.csv)、[诊断](../../research_reports/task_axis_even_views_20261116/DIAGNOSTIC_MEANS.csv)。单一模型、两个自然数据集、固定参数；历史控制不是新增独立确认。Testfalse；完整恢复/成本见报告。
+
 ## E-TVGRM-20261116 — 自然任务视图残差动量，完整五seed验证
 
 M3oE fixed1，两数据集×五臂×seeds2022–2026，50epochs/batch40960/FP32；50条新增，2500epochs，86250次Adam/EMA更新，Testfalse。CLEAN/NDP-A各10条精确复用，不算独立新确认。原源hash `d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6` 保持不变。

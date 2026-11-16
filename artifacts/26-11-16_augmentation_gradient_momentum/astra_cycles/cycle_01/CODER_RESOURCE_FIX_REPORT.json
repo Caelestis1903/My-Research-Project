@@ -1,0 +1,621 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "CODER_RESOURCE_1",
+  "status": "IMPLEMENTED_PENDING_DISTINCT_REVIEW",
+  "scope": "RESOURCE-1 admission correction and its one pre-formal reviewed source/evidence supersession only",
+  "review_verdict": null,
+  "formal_authorization": false,
+  "adoption_executed": false,
+  "real_receipt_generation_executed": false,
+  "original_source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+  "current_source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+  "original_smoke_sha256": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+  "changes": [
+    {
+      "file": "experiments/task_axis_even_views_20261116/runner.py",
+      "detail": "Schedule consumes max(original dataset increment, all original arm board peaks) via shared helper. Reservation telemetry labels CONSERVATIVE_OBSERVED_BOARD_PEAK_WATTS. require_storage uses the validated effective manifest while retaining the owner's original bootstrap source. Handoff writes RESOURCE_1_ prefixed receipts after adoption and exposes old ownership plus effective source. Adds explicit adopt-resource-1 CLI."
+    },
+    {
+      "file": "experiments/task_axis_even_views_20261116/protocol.py",
+      "detail": "Adds an exact-original-hash-bound RESOURCE-1 evidence checker, prospective reviewed receipt builder and common effective_run_manifest. validate_attempt retains exact-current-source/review/environment/control/smoke validation with explicit reviewed smoke reuse. validate_continuation changes only its manifest lookup. Source manifest enumeration and check_review are unchanged."
+    },
+    {
+      "file": "experiments/task_axis_even_views_20261116/test_recovery.py",
+      "detail": "Extends the sole CPU fixture file with synthetic admission and temporary provenance tests; adds one mocked effective manifest lookup to the original recovery fixture. All IPC and owner operations in tests are mocked."
+    }
+  ],
+  "admission": {
+    "formula": "max(original dataset power_increment_watts, max(original arms[].peak_board_power_watts))",
+    "semantics": "CONSERVATIVE_OBSERVED_BOARD_PEAK_WATTS",
+    "power_budgets_watts": {
+      "movielens": 195.61,
+      "kuairand": 206.31
+    },
+    "raw_fields_rewritten": false,
+    "strict_memory_and_power_below_85_percent_unchanged": true,
+    "host_admission_unchanged": true,
+    "pending_allocations_unchanged": true,
+    "per_device_admission_unchanged": true,
+    "actual_sampling_unchanged": true,
+    "process_cap_added": false,
+    "budget_reductions_added": false
+  },
+  "source_proof": {
+    "changed_files": [
+      {
+        "path": "experiments/task_axis_even_views_20261116/protocol.py",
+        "before_sha256": "333c690253acabbc5dfd25d5e9d3dced99c600e3d4d62a8d4e28c510b564db1e",
+        "after_sha256": "fe0de989a75f114a4ffb42c8854769fe74780966645895b1dacb83c9c8cc90e6"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/runner.py",
+        "before_sha256": "51c881a69b87e72cf7d3d011efb236aab07cc8ea0bd7b6a72cdf3d9a8baa1544",
+        "after_sha256": "33aa7f6af8ba722e6b1069ba51b9d4fc0f5067f545da384011b0a2f63cf3a2a2"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/test_recovery.py",
+        "before_sha256": "cf28fc48f6913418fee8062ea1ddc592418ec30a4b512a3c8d3bbb61bbe1693e",
+        "after_sha256": "79ef90640a59f796aff361462df126c5d0d0255de90a7492dbef621a7af7a64a"
+      }
+    ],
+    "current_source_manifest": {
+      "files": [
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+          "sha256": "decb419a3338b5518b2cf6a8fa03c3d578a8d2287ee34f1a4f27bb6e1c758e91"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/checks.py",
+          "sha256": "b20c7f70b5cd73fadedf188b60acac7684595b2ac23c41cf79f9196db26d94b3"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/core.py",
+          "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+          "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/runner.py",
+          "sha256": "5a0dbe51530119a52f0fe1a2dab443efb06f798f2902165e2c2ca152e78cd322"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+          "sha256": "22b988169286fb9c71313dfe51e01ed4e633d7634770fcb638d02519f29b6888"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+          "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/protocol.py",
+          "sha256": "66ea0d1e6461711c88e2a68ca2ca32ed02e713967f06d680c96f5540816fe731"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/runner.py",
+          "sha256": "4816358701e85892411683250d291592dd2af2bc10784d8a20d0643ad8b00617"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/tables.py",
+          "sha256": "02b57801b9dfff04959172b91d19f153307719c8f3e54bc7db63cfea7239b610"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/stage2/test_core.py",
+          "sha256": "67e151af9338e43d4837346fbadd12d405deffaa29184d0e986d4b5dba6517bb"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/tables.py",
+          "sha256": "3492ffe38352b4098950b2f29493e06369e68cea35ea491a1cb56ed249aba125"
+        },
+        {
+          "path": "experiments/auxiliary_objective_attribution_20261115/test_core.py",
+          "sha256": "088926a39891176ccc5d287bf418f403a6a5411fec1f056469f8d6c2ee844156"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/SOURCE_MANIFEST.json",
+          "sha256": "af2e7590cf8dc424494edd6a77c6d5c524de781b6e87ef025a064b843e252ef0"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py",
+          "sha256": "278d22da232199922f3b70e4735966c61c09d5d4ed800dcf78ed8ffe2e5164eb"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+          "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/objectives.py",
+          "sha256": "9794b3aa5f10370c4b09d9bb040f925334ea47a591516ef0fe3e4caee8ac51d0"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/optimizers.py",
+          "sha256": "b78675f1674df0e2a4690b64d567826f4fcc764b256a5e19878ec1e0e79295e7"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+          "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/run.py",
+          "sha256": "56129eb565487fbf536352c59d1978a09cebf2721f9c46ba7e3f8c66ef27b7b0"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/stage0.py",
+          "sha256": "725a19dffa68573597ce1279d50f149af0eac16d70a67db61b6b1a1773cdb872"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/tests/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/tests/test_semantics.py",
+          "sha256": "6272155542f8f25c5e959809c591d696b93c4890b0bc09aa1644d23ec8ceb202"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+          "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+          "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+          "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/gates.py",
+          "sha256": "990b2606384af6978cc212ed15492314670eefb44616620b92e608ba7fc09d84"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/guardian.py",
+          "sha256": "8fcd484922f62ec777e10606140034578292c61e4feb6b08c7f84864cc5e9208"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/input_probe.py",
+          "sha256": "63f8aaa7b100cb91d725fe2213a21cd747dd5e6abd47d721089300f795ca81a0"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/objectives.py",
+          "sha256": "d8bddc7f8160cc96e1675662630b845aaac37646490eb3ea6e05caa0bb4b82bf"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+          "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/rng.py",
+          "sha256": "48d41cb3cc9df57feaa86d87c1e11c54949a78abce97f027b459bebd34e0961d"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/run.py",
+          "sha256": "0b7fd9b89238bafe867dc43f182b5c40bda5c0fd95188e61b89e9759162de26f"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/stage0.py",
+          "sha256": "e0270deb4406995a5f35d85a480fa3fd6f866f07d0a14e15f6a45828824c11a3"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_core.py",
+          "sha256": "78747519136d4b5f5ad7a1db46b0ce7067e00a4dadf160df1d6e2cacb2437bd9"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_execution.py",
+          "sha256": "c08139513a0143df2110f6144c10cd3493c3d16cf95216b0c8b8df6ba3eab858"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/SOURCE_MANIFEST.json",
+          "sha256": "05337a7cb1a3c2ccd2290c75a65e5de84022328f91d183bd177dbafe1fe59816"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/objectives.py",
+          "sha256": "28eaa19444cb650ca46d28c4e22829771612920add6c27188b828d934ea5479c"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+          "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+          "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+          "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+          "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+          "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+          "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/data.py",
+          "sha256": "1e0c4aab006805490ae81759dbe251f15caa45a73a676de48d675e803bfe451c"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+          "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+          "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+          "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+          "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json",
+          "sha256": "37c2455e63c97c46f72bcedf33a7e01a2c7b14c4e4f2711e64d313f25b4a133c"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_data.py",
+          "sha256": "295d55421eaae4db5f16fc7597d984ca90e72201fb30799c8dadef4c53b65742"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+          "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+          "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+          "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views.py",
+          "sha256": "983f1e35ec1c6ea5b3dae6c7c60855d67f8eb0e688163f64b160dd08ee16f05f"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_ema_field.py",
+          "sha256": "fed4dbdb06da69a318bd1f26aabc223fc564dd5f02b2d94f8caee490f8e353da"
+        },
+        {
+          "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_joint_label.py",
+          "sha256": "8d745faa6372194eeeab030c49647dc3ca27010ca19c76b617238bdd69e45385"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/README.md",
+          "sha256": "e42cdf8847399a1be47d0424f3e4352902a70f94843e2ab19a4c0f63148db083"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/__init__.py",
+          "sha256": "3b160dcb766ccd5c3fcdf34e622d017d5c4f24566a793e8706ace95d5f6cd9e2"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/core.py",
+          "sha256": "9dbed6c1d055ed81f0a2dca8d8aa3a098b48134ea36a896766bd8d853c3afd55"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/protocol.py",
+          "sha256": "fe0de989a75f114a4ffb42c8854769fe74780966645895b1dacb83c9c8cc90e6"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "sha256": "33aa7f6af8ba722e6b1069ba51b9d4fc0f5067f545da384011b0a2f63cf3a2a2"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/tables.py",
+          "sha256": "18b82f270716e8d8264455112f58efddf1dd3dfea588187956188c51a7822501"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/test_core.py",
+          "sha256": "599f05f227a5c7f4ec234a81dd3bff5b9e5659b315e2ede42cad1c72609569ea"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/test_recovery.py",
+          "sha256": "79ef90640a59f796aff361462df126c5d0d0255de90a7492dbef621a7af7a64a"
+        },
+        {
+          "path": "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+          "sha256": "3677d5086fc6263f7c771402890bdfaf2eb3da4b08018924b879122bdae719c5"
+        },
+        {
+          "path": "experiments/task_view_gradient_residual_momentum_20261116/autonomous.py",
+          "sha256": "19bbb5e075a3928997ba6118da9e420f27609554615556bc25c97a2cc0f819fc"
+        },
+        {
+          "path": "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+          "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+        },
+        {
+          "path": "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+          "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+        },
+        {
+          "path": "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+          "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+        },
+        {
+          "path": "requirements-phase0-3.lock",
+          "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+        }
+      ],
+      "sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+      "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+    },
+    "unchanged_source_files": 76,
+    "unchanged_functions": {
+      "runner.py": [
+        "ram_usage",
+        "gpu_status",
+        "interrupted",
+        "install_signals",
+        "parent_alive",
+        "pipe_lost",
+        "storage_status",
+        "attach",
+        "live_worker_pids",
+        "serve",
+        "host_admissible",
+        "choose_device",
+        "add_ledger",
+        "worker",
+        "step_signature",
+        "historical_ndp_step",
+        "one_sided_source_step",
+        "source_identities",
+        "PowerSamples",
+        "smoke",
+        "recover",
+        "release"
+      ],
+      "protocol.py": [
+        "design",
+        "cycle_path",
+        "stop_requested",
+        "request",
+        "source_manifest",
+        "config",
+        "job",
+        "check_review",
+        "dataset_cache",
+        "old_inventory",
+        "assert_old_unchanged",
+        "reference_index",
+        "environment_identity",
+        "prepare",
+        "validate_epoch_state",
+        "epoch_files_for_root",
+        "epoch_files",
+        "results"
+      ]
+    },
+    "unchanged_function_counts": {
+      "runner.py": 22,
+      "protocol.py": 18
+    },
+    "unchanged_source_files_sha256": "4683a84b2f16569ccc23ce516891ad1ecd14f13f6e9e94bd39890eeb3aeb3526",
+    "unchanged_functions_sha256": "ec2e926802c6550f069188a7a662cb85d8764a2f3f8bb62391d9464452c3ed9b",
+    "extra_verification": [
+      "schedule equals original with only budget construction and semantics label substituted",
+      "require_storage equals original with only effective manifest/bootstrap-source lookup substituted",
+      "validate_continuation equals original with only effective manifest lookup substituted",
+      "core.py, test_core.py, worker, recover, frozen serve wrapper, PowerSamples, smoke and all historical/scientific dependencies unchanged"
+    ]
+  },
+  "archive": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/BEFORE_SOURCE_ARCHIVE",
+    "manifest_sha256": "de463c3db17f2b3e36d21da83ba8e2e0db9138eeac7bc334a443c854e41af697",
+    "source_files": 79,
+    "design_files": 7,
+    "total_files": 99,
+    "all_archived_bytes_verified": true,
+    "contents": "Original 79 source files; seven approved design files; nine attempt receipts; prior design/R1/resource-review artifacts. No original overwritten."
+  },
+  "checks": [
+    {
+      "name": "focused CPU tests",
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m pytest -q -p no:cacheprovider experiments/task_axis_even_views_20261116/test_recovery.py",
+      "result": "20 passed in 3.39s",
+      "coverage": [
+        "actual choose_device rejects 283/350 W with KR206.31 W and admits 20/350 W when memory/host permit",
+        "strict memory/power boundary, pending-card exclusion and host rejection",
+        "temporary adoption and common effective manifest accepted by validate_attempt, validate_continuation and require_storage; jobs use current source",
+        "original temporary receipts preserved and handoffs use new filenames",
+        "modified smoke/scientific dependency/worker/owner identity, missing reuse approval and stale review rejected",
+        "dispatch/progress/launch/commit/job/run/live-worker activity prevents temporary adoption",
+        "second adoption, downgraded reservation, modified bound review and missing supersession refused",
+        "original acknowledged-continuation recovery fixture"
+      ]
+    },
+    {
+      "name": "syntax/basic",
+      "result": "compile() passed for the three changed files; no bytecode output"
+    },
+    {
+      "name": "real read-only provenance verification",
+      "result": "Approved design verified; 99 archived files verified; 76 untouched source files and 40 untouched runtime functions/classes verified; original pinned receipts verified. resource_1_evidence read only, no prospective receipt built against the real attempt."
+    }
+  ],
+  "fresh_review_required": {
+    "instruction": "Schema below is a requirement for a distinct fresh review, not a CODER review or approval. Reviewer must independently inspect the design, actual diff, archive and this report, then explicitly approve evidence reuse if warranted.",
+    "suggested_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_RESOURCE.json",
+    "schema": {
+      "verdict": "PASS",
+      "blocking_issues": [],
+      "source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+      "cpu_checks_passed": true,
+      "resource_1_evidence_reuse": {
+        "issue": "RESOURCE-1",
+        "approved": true,
+        "scope": "ONE_PRE_FORMAL_ADMISSION_SUPERSESSION",
+        "original_source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+        "original_receipts": {
+          "source_receipt.json": "76e8ad95e7a93aa2ad4c891c5200063468978236a592ca8098679e532fb8380a",
+          "run_manifest.json": "8b33bb35b9ae0694d12baf6ae5e063bb592050fd4796555ff98d032dc9c9e114",
+          "SMOKE_REPORT.json": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+          "STORAGE_OWNER.json": "7970b5519f6f4ba6b481bd7f6f4a460e455d1e3aba0a40b5bda2ef0714e71b0d",
+          "STORAGE_HANDOFF.json": "24bfa763720d61be8b0ac745fc09e2c586abd1c53d9a69aae17c2e381cb50053",
+          "PARENT_STORAGE_ACCEPTANCE.json": "8494481587b37df8112e39a86b50da0f04f749ff58739b35619a91fa8d176544",
+          "guardian.json": "1d842dc91fb5c9557596228eaa6864fc574e8beb078548ee0c4b1bf6d94d26c9"
+        },
+        "original_smoke_sha256": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+        "source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+        "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+        "unchanged_source_files_sha256": "4683a84b2f16569ccc23ce516891ad1ecd14f13f6e9e94bd39890eeb3aeb3526",
+        "unchanged_functions_sha256": "ec2e926802c6550f069188a7a662cb85d8764a2f3f8bb62391d9464452c3ed9b",
+        "owner": {
+          "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1",
+          "pid": 1570727,
+          "socket": "/tmp/tvgrm-1039-55414b23c046c530.sock",
+          "endpoint_hash": "7ee8919007c33d256e1499f3ca16fbe3fc1978f1353eb91b68efdf38851f6df3",
+          "owner_tool_session": "59365",
+          "source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+          "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+          "ownership": "FOREGROUND_PARENT_CURRENT_CONVERSATION",
+          "test_accessed": false
+        },
+        "power_semantics": "CONSERVATIVE_OBSERVED_BOARD_PEAK_WATTS",
+        "power_budgets_watts": {
+          "movielens": 195.61,
+          "kuairand": 206.31
+        }
+      }
+    },
+    "read_only_binding_expression": "experiments.task_axis_even_views_20261116.protocol.resource_1_evidence(ATTEMPT)",
+    "binding_note": "The approved:true field belongs in the distinct review's resource_1_evidence_reuse object only after independent approval. Top-level source_hash must equal the exact source manifest. The prospective receipt contains the review file hash; review does not reference a future receipt hash, so there is no circular self-hash."
+  },
+  "parent_adoption": {
+    "authorized_executor": "Original current-conversation parent only, after distinct fresh exact-source PASS explicitly approves reuse",
+    "workdir": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+    "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -u -m experiments.task_axis_even_views_20261116.runner adopt-resource-1 --attempt /home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1 --review /home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_RESOURCE.json --owner-session 59365",
+    "not_executed_by_coder": true,
+    "output": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/RESOURCE_1_SUPERSESSION.json",
+    "receipt_schema": {
+      "schema_version": 1,
+      "status": "REVIEWED",
+      "correction": "RESOURCE-1",
+      "evidence_reuse": "Exact fresh review resource_1_evidence_reuse binding",
+      "source_manifest": "Complete exact current source manifest",
+      "run_manifest": "Original run manifest with current source/review, original storage_bootstrap_source_hash/smoke_source_hash, conservative power semantics/budgets",
+      "pre_formal": {
+        "formal_keys": 0,
+        "live_workers": [],
+        "dispatch": false,
+        "progress": false,
+        "commits": false
+      },
+      "test_accessed": false
+    },
+    "preconditions": [
+      "Original source/run/smoke/owner/guardian/handoff/parent-acceptance receipt hashes unchanged",
+      "Exact current-source PASS with complete evidence-reuse binding, unchanged design/dependencies/functions, original environment and historical inventory",
+      "Supersession file absent; no dispatch/progress/launch/commit/exit/completion artifacts; jobs/runs/launch_logs empty",
+      "Same live owner root/PID/socket/endpoint and original parent session, zero registered jobs/retained states/bytes/live workers; no manual stop"
+    ],
+    "owner": {
+      "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1",
+      "pid": 1570727,
+      "socket": "/tmp/tvgrm-1039-55414b23c046c530.sock",
+      "endpoint_hash": "7ee8919007c33d256e1499f3ca16fbe3fc1978f1353eb91b68efdf38851f6df3",
+      "owner_tool_session": "59365",
+      "source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+      "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+      "ownership": "FOREGROUND_PARENT_CURRENT_CONVERSATION",
+      "test_accessed": false
+    },
+    "original_owner_bootstrap_retained": true,
+    "handoff_after_adoption": {
+      "source_hash": "original owner bootstrap source",
+      "source_hash_verified": "current reviewed formal source",
+      "effective_run_manifest_sha256": "digest(effective manifest)",
+      "supersession_receipt_sha256": "sha256 of RESOURCE_1_SUPERSESSION.json",
+      "files": [
+        "RESOURCE_1_STORAGE_HANDOFF.json",
+        "RESOURCE_1_PARENT_STORAGE_ACCEPTANCE.json"
+      ],
+      "original_files_preserved": true
+    },
+    "does_not_grant_formal_execution_approval": true
+  },
+  "formal_artifact_presence": {
+    "RESOURCE_1_SUPERSESSION.json": false,
+    "dispatch.json": false,
+    "progress.json": false,
+    "launch_ledger.jsonl": false,
+    "epoch_commit_ledger.jsonl": false
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "status": "PAUSED",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "test_accessed": false,
+      "stop_sentinels": []
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "status": "PAUSED",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "test_accessed": false,
+      "stop_sentinels": []
+    }
+  ],
+  "original_receipts_verified": true,
+  "not_performed": [
+    "No real source/run/admission supersession receipt generated or adopted",
+    "No real storage IPC, owner process action or liveness query, GPU query, smoke rerun, formal launch, experiment/result analysis, child agent/session, commit or publish",
+    "No shared state, accepted design, scientific source, historical source/history/results or existing guardian write",
+    "No test_core or broad suite rerun; unchanged prior numerical evidence is available for the distinct reviewer to assess"
+  ],
+  "test_accessed": false,
+  "limits": [
+    "Fresh independent review and parent adoption remain outstanding; FORMAL30 remains unstarted.",
+    "Observed board peaks are conservative admission budgets, not measurements of isolated process power or guarantees of future peaks; existing actual monitoring remains in effect.",
+    "Owner identity is verified from unchanged receipts here; its liveness and current empty inventory are checked by the parent-only adoption command."
+  ]
+}
+

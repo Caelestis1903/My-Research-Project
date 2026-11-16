@@ -1,0 +1,1772 @@
+{
+  "schema_version": 1,
+  "cycle_id": "26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01",
+  "created_date": "2026-11-16",
+  "status": "DESIGN_COMPLETE_EXECUTION_GATED",
+  "selected_mechanism": "Task-axis even views: remove the odd-in-perturbation component of NDP-A at fixed radius and natural support",
+  "candidate_ids": [
+    "A_TASK_AXIS_EVEN_VIEWS",
+    "B_CELL_CENTERED_OUTPUT_ERROR",
+    "C_SAME_BATCH_GRADIENT_TRANSPORT"
+  ],
+  "selected_candidate": "A_TASK_AXIS_EVEN_VIEWS",
+  "unselected_candidates_authorized_to_implement": false,
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "sourcebase": {
+    "repository": "Caelestis1903/My-Research-Project",
+    "branch": "main",
+    "published_commit": "c4dc36bd38bd4f7a2a3319377a8289ba8185532d",
+    "published_tree": "bae323bf8c33e8144eaf225633d2fd481f553df8",
+    "publication_status": "REMOTE_MAIN_VERIFIED",
+    "remote_tree_verified": true,
+    "publication_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/PUBLICATION_RECEIPT.json",
+      "sha256": "7f77c799f034118c3885221f88561aa5dea19c59c8939f48b6038cc0766550f3"
+    },
+    "historical_tv_training_git_commit": "dda38ec8212d6b0c239b8db5ccf0e6ec8f207f11",
+    "historical_tv_training_source_sha256": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+    "historical_ndp_training_source_sha256": "831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b",
+    "historical_tv_design_sha256": "67fdebf500e80611de2f0600e0847bf0697774bcb0fa107571154b1524fff338",
+    "frozen_raw_archive_sha256": "c518119da3a50206aa09bfe16c9b5fdd81da1c9cc25b56079f60c337f6a97195",
+    "new_implementation_sha256": null,
+    "new_implementation_status": "NOT_IMPLEMENTED_BY_DESIGN_CHILD",
+    "new_source_identity_required": "Coder records all transitive imports, model/data/config/environment identities; reviewer binds actual source hash before RUN",
+    "design_bundle_hash_rule": "After the six original files plus DESIGN_COMPLETENESS_ADDENDUM.md are finalized, parent SHA-256 hashes the UTF-8 compact JSON array of lexicographically sorted cycle-relative [path,SHA256(file_bytes)] pairs, separators=(comma,colon), no appended newline; value goes in a separate run/review receipt, never in these seven files"
+  },
+  "current_session_policy": {
+    "orchestrator_thread": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+    "orchestration": "CURRENT_CONVERSATION_FOREGROUND_PARENT_ONLY",
+    "child_context": "fresh_native_fork_context_false_file_handoff_only",
+    "fork_context": false,
+    "close_child_on_completion": true,
+    "resume_or_reuse_child": false,
+    "child_delegation": false,
+    "coder_reviewer_distinct": true,
+    "required_stages": [
+      "DESIGN",
+      "IMPLEMENT",
+      "DISTINCT_REVIEW",
+      "CURRENT_CONVERSATION_RUN",
+      "PARENT_ANALYZE",
+      "FRESH_NATIVE_ASTRA"
+    ],
+    "review_pass_condition": "PASS or PASS WITH FIXES, zero remaining blocking issues",
+    "independent_headless_background_codex_sessions": false,
+    "forbidden_commands": [
+      "codex exec",
+      "codex resume",
+      "codex fork",
+      "create_thread",
+      "tmux",
+      "nohup",
+      "systemd",
+      "autonomous.py start",
+      "autonomous.py run",
+      "autonomous.py recover"
+    ],
+    "retired_driver_status": "RETIRED_NEVER_RESTART_OR_REPAIR",
+    "existing_guardian": "PROTECTED_STORAGE_PRESERVE_LIVE_STATES_SOURCE_JOURNAL_AND_RESULT_COLLECTION_NO_NEW_KEYS_OR_MUTATING_REQUESTS",
+    "new_cycle_memory_owner": "USER_AUTHORIZED_MECHANICAL_STORAGE_ONLY_FROZEN_TV_SERVE_AT_NEW_ROOT_PARENT_OWNED_FOREGROUND_TOOL_SESSION_CURRENT_RUNNER_SUPERVISION_NO_AI_OR_DETACHED_LAUNCH",
+    "mechanical_training": "concurrent_only_under_current_conversation_runner_foreground_supervision",
+    "max_cycles": null,
+    "max_astra_cycles": null,
+    "max_experiments": null,
+    "max_revisions": null,
+    "normal_termination": "USER_STOPPED_ONLY",
+    "candidate_no_go_or_astra_stop": "REPORT_CONTEXT_THEN_FRESH_RESEARCH",
+    "technical_failure": "PAUSE_PRESERVE_RAM_RECOVER_WITHOUT_LOWERING_GATES",
+    "check_stop_controls_before_dispatch_and_launch": [
+      "/home/xzf/Code/phase0-3/artifacts/26-11-16_augmentation_gradient_momentum/AUTONOMOUS_STATE.json",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/AUTONOMOUS_STATE.json",
+      "existing STOP_AUTONOMOUS/manual-stop controls in both workspaces"
+    ],
+    "stop_controls_design_observation": {
+      "both_state_status": "ACTIVE",
+      "both_stage": "DESIGN_RESEARCH",
+      "manual_stop_requested": false,
+      "test_accessed": false,
+      "stop_sentinel_found": false
+    },
+    "test_policy": "SEALED THROUGH ALL AUTONOMOUS CYCLES; only manual USER_STOPPED plus final freeze plus existing eligible full-five-seed selected-RAM verification gate",
+    "test_accessed": false,
+    "no_disk_model_optimizer_or_checkpoint": true
+  },
+  "environment": {
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "conda_environment": "phase0-3-env",
+    "python_version": "3.13.5",
+    "torch_version": "2.9.0+cu126",
+    "package_lock_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/requirements-phase0-3.lock",
+      "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+    },
+    "cuda_matmul_tf32": false,
+    "cudnn_tf32": false,
+    "cudnn_benchmark": false,
+    "torch_cpu_threads": 1,
+    "autocast": false,
+    "verify_gpu_visibility_before_run": true
+  },
+  "model": {
+    "name": "M3oE_fixed1",
+    "domain_num": 3,
+    "task_num": 2,
+    "embedding_dim": 16,
+    "fcn_dims": [
+      512,
+      256,
+      256,
+      64
+    ],
+    "expert_num": 4,
+    "exp_d": 1,
+    "exp_t": 1,
+    "bal_d": 1,
+    "bal_t": 1,
+    "architecture_gates_experts_fusion_sharing": "UNCHANGED",
+    "training_gate_input_detach": true,
+    "probe_only_full_gate_derivatives": true,
+    "parameter_order": "source model.named_parameters() order",
+    "new_parameters": 0
+  },
+  "datasets": {
+    "movielens": {
+      "manifest_receipt": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/movielens_data_manifest.json",
+        "sha256": "ff08266b540323b22085477de554f63aa044bb62fbd284f76d25c7d602f434dd"
+      },
+      "identity": {
+        "dataset": "movielens",
+        "split_id": "original",
+        "raw_path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+        "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+        "array_hashes": {
+          "test_x": "2fef4db06b4f2ea2fc24c1ff0a1d9ee0b69efafe150bbbd66d62832e1bf0b438",
+          "test_y": "9f6031971626fb097b1cdd9841330a669e5448e1f1fabd3bc5deec9ef299d3cd",
+          "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+          "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+          "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+          "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+        },
+        "split_row_fingerprints": {
+          "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+          "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+          "test": "c29ac98bc6cba18d459fe2c91e2b9252091908e05d9e11f369c31d3a220144e7"
+        },
+        "split_row_id_hashes": {
+          "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+          "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4",
+          "test": "b9ff6de1e3a6f0f601d6843f1be66d40ee292681e3a91688c87ad3b818382ddf"
+        },
+        "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+        "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+        "features": {
+          "dataset": "movielens",
+          "columns": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "age",
+            "occupation",
+            "zip",
+            "cate_id",
+            "domain_indicator"
+          ],
+          "dense_columns": [
+            "age"
+          ],
+          "sparse_columns": [
+            "user_id",
+            "movie_id",
+            "gender",
+            "occupation",
+            "zip",
+            "cate_id",
+            "domain_indicator"
+          ],
+          "vocab_sizes": {
+            "user_id": 5401,
+            "movie_id": 3663,
+            "gender": 3,
+            "occupation": 22,
+            "zip": 3201,
+            "cate_id": 19,
+            "domain_indicator": 3
+          },
+          "embedding_dim": 16,
+          "domain_column": "domain_indicator",
+          "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+          "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+          "oov_index": 0
+        },
+        "train_domain_counts": [
+          155949,
+          318599,
+          325619
+        ],
+        "split_rows": {
+          "train": 800167,
+          "validation": 100021,
+          "test": 100021
+        },
+        "train_joint_labels": {
+          "0": {
+            "10": 50879,
+            "11": 36615,
+            "00": 68455,
+            "01": 0
+          },
+          "1": {
+            "10": 109297,
+            "11": 70158,
+            "00": 139144,
+            "01": 0
+          },
+          "2": {
+            "10": 118064,
+            "11": 78007,
+            "00": 129548,
+            "01": 0
+          }
+        },
+        "preprocessing_fit": "train_only",
+        "test_metrics_accessed": false
+      }
+    },
+    "kuairand": {
+      "manifest_receipt": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/kuairand_data_manifest.json",
+        "sha256": "764be976ab43103a6a2ee10385aa15b5be02f1e18acd081203ac02970e1debc0"
+      },
+      "identity": {
+        "dataset": "kuairand",
+        "split_id": "original",
+        "raw_path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+        "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+        "array_hashes": {
+          "test_x": "6e090d9628c54042208e090fd5bda546577f6d8470725df9cbdff8bc8b96f91b",
+          "test_y": "065a31a7ffe9da9547f0f72086e984c4177803008d7641ae75719a285bb05745",
+          "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+          "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+          "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+          "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+        },
+        "split_row_fingerprints": {
+          "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+          "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+          "test": "6f5c25cfa2e38d8842c0a6c00131e12d2bbeaef89dfbb7d834d6b81736238057"
+        },
+        "split_row_id_hashes": {
+          "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+          "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd",
+          "test": "05985c4068faf12439837e3b4400ad7715049d5f074a721b380af414f1cfa58e"
+        },
+        "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+        "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "features": {
+          "dataset": "kuairand",
+          "columns": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts",
+            "domain_indicator"
+          ],
+          "dense_columns": [],
+          "sparse_columns": [
+            "user_active_degree",
+            "is_live_streamer",
+            "is_video_author",
+            "follow_user_num_range",
+            "fans_user_num_range",
+            "friend_user_num_range",
+            "register_days_range",
+            "onehot_feat0",
+            "onehot_feat1",
+            "onehot_feat2",
+            "onehot_feat3",
+            "onehot_feat4",
+            "onehot_feat5",
+            "onehot_feat6",
+            "onehot_feat7",
+            "onehot_feat8",
+            "onehot_feat9",
+            "onehot_feat10",
+            "onehot_feat11",
+            "onehot_feat12",
+            "onehot_feat13",
+            "onehot_feat14",
+            "onehot_feat15",
+            "onehot_feat16",
+            "onehot_feat17",
+            "video_type",
+            "upload_dt",
+            "upload_type",
+            "server_width",
+            "server_height",
+            "music_type",
+            "tag",
+            "counts",
+            "domain_indicator"
+          ],
+          "vocab_sizes": {
+            "user_active_degree": 10,
+            "is_live_streamer": 3,
+            "is_video_author": 3,
+            "follow_user_num_range": 9,
+            "fans_user_num_range": 10,
+            "friend_user_num_range": 8,
+            "register_days_range": 9,
+            "onehot_feat0": 3,
+            "onehot_feat1": 8,
+            "onehot_feat2": 50,
+            "onehot_feat3": 1461,
+            "onehot_feat4": 17,
+            "onehot_feat5": 35,
+            "onehot_feat6": 4,
+            "onehot_feat7": 119,
+            "onehot_feat8": 455,
+            "onehot_feat9": 8,
+            "onehot_feat10": 6,
+            "onehot_feat11": 6,
+            "onehot_feat12": 4,
+            "onehot_feat13": 4,
+            "onehot_feat14": 4,
+            "onehot_feat15": 4,
+            "onehot_feat16": 4,
+            "onehot_feat17": 4,
+            "video_type": 4,
+            "upload_dt": 4,
+            "upload_type": 15,
+            "server_width": 157,
+            "server_height": 121,
+            "music_type": 7,
+            "tag": 112,
+            "counts": 126,
+            "domain_indicator": 3
+          },
+          "embedding_dim": 16,
+          "domain_column": "domain_indicator",
+          "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+          "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+          "oov_index": 0
+        },
+        "train_domain_counts": [
+          172782,
+          1743898,
+          89452
+        ],
+        "split_rows": {
+          "train": 2006132,
+          "validation": 250767,
+          "test": 250767
+        },
+        "train_joint_labels": {
+          "0": {
+            "10": 8583,
+            "11": 7121,
+            "00": 157078,
+            "01": 0
+          },
+          "1": {
+            "10": 213014,
+            "11": 445887,
+            "00": 1084301,
+            "01": 696
+          },
+          "2": {
+            "10": 11890,
+            "11": 43290,
+            "00": 34195,
+            "01": 77
+          }
+        },
+        "preprocessing_fit": "train_only",
+        "test_metrics_accessed": false
+      }
+    }
+  },
+  "data_policy": {
+    "natural_populations": true,
+    "split": "original",
+    "preprocessing_fit": "train_only",
+    "resampling": false,
+    "synthetic_domains": false,
+    "size_as_difficulty_proxy": false,
+    "cache_dir": "/home/xzf/Code/phase0-3-20261115/artifacts/heterogeneity_aware_20261115/attempt1/data_cache",
+    "test_identities_are_provenance_metadata_only": true
+  },
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "configs": {
+    "movielens": {
+      "model": "M3oE_fixed1",
+      "epochs": 50,
+      "batch_size": 40960,
+      "drop_last": false,
+      "precision": "float32",
+      "alpha": 0.03,
+      "mixture_lambda": 0.25,
+      "clean_mass": 0.75,
+      "replica_masses": [
+        0.125,
+        0.125
+      ],
+      "support": "natural_all_original_2B_row_task_entries",
+      "optimizer": "torch.optim.Adam",
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-8,
+      "weight_decay": 0.0001,
+      "decoupled_weight_decay": false,
+      "foreach": false,
+      "fused": false,
+      "amsgrad": false,
+      "gradient_clipping": false,
+      "ema_rho": 0.9828205985452511,
+      "ema_updates_per_adam_update": 1,
+      "parameter_counter": "increment_only_when_grad_is_not_None",
+      "grad_none": "skip_parameter_update_weight_decay_moments_and_step",
+      "explicit_zero_grad": "active_with_weight_decay_and_step",
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "steps_per_epoch": 20,
+      "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+      "source_data_config_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4"
+    },
+    "kuairand": {
+      "model": "M3oE_fixed1",
+      "epochs": 50,
+      "batch_size": 40960,
+      "drop_last": false,
+      "precision": "float32",
+      "alpha": 0.03,
+      "mixture_lambda": 0.25,
+      "clean_mass": 0.75,
+      "replica_masses": [
+        0.125,
+        0.125
+      ],
+      "support": "natural_all_original_2B_row_task_entries",
+      "optimizer": "torch.optim.Adam",
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-8,
+      "weight_decay": 0.00001,
+      "decoupled_weight_decay": false,
+      "foreach": false,
+      "fused": false,
+      "amsgrad": false,
+      "gradient_clipping": false,
+      "ema_rho": 0.995,
+      "ema_updates_per_adam_update": 1,
+      "parameter_counter": "increment_only_when_grad_is_not_None",
+      "grad_none": "skip_parameter_update_weight_decay_moments_and_step",
+      "explicit_zero_grad": "active_with_weight_decay_and_step",
+      "gate_training_detached": true,
+      "probe_gate_full_derivative": true,
+      "steps_per_epoch": 49,
+      "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+      "source_data_config_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5"
+    }
+  },
+  "algorithm": {
+    "objective": "L=.75*Lc+.125*Lreplica1+.125*Lreplica2; each Lreplica averages all original 2B target losses",
+    "probe": "exact frozen NDP-A make_views(alpha=.03)",
+    "delta": "detach(.03*rms(e)*(sigmoid(z_t)-y_t)*J_t/(norm((sigmoid(z_t)-y_t)*J_t)+1e-12)); zero unless direction_norm>1e-10 and embedding_rms>1e-12",
+    "arms": {
+      "AXIS-EVEN": {
+        "replicas": [
+          "+delta",
+          "-delta"
+        ],
+        "property": "removes exact odd finite-difference component at frozen theta and delta"
+      },
+      "AXIS-IID2": {
+        "replicas": [
+          "s1*delta",
+          "s2*delta"
+        ],
+        "signs": "independent +/-1 per row/task/replica",
+        "property": "same conditional expected objective as AXIS-EVEN"
+      },
+      "ISOTROPIC-EVEN": {
+        "replicas": [
+          "+u",
+          "-u"
+        ],
+        "u": "norm(delta)*q/norm(q), q Gaussian",
+        "zero_q_fallback": "first coordinate unit vector with inherited norm",
+        "property": "matches actual row-task input norm only"
+      }
+    },
+    "forward_order": [
+      "clean",
+      "task0_replica1",
+      "task0_replica2",
+      "task1_replica1",
+      "task1_replica2"
+    ],
+    "loss_arithmetic": [
+      "a_tj=mean_probability_BCE_for_target_task",
+      "R1=.5*(a_01+a_11)",
+      "R2=.5*(a_02+a_12)",
+      "V=.5*(R1+R2)",
+      "total=.75*C+.25*V"
+    ],
+    "zero_delta_branch": "exact source CLEAN path, one backward/Adam/EMA",
+    "backwards_per_batch": 1,
+    "adam_steps_per_batch": 1,
+    "ema_steps_per_batch": 1,
+    "higher_order_derivatives": false,
+    "residual_momentum_channel": false,
+    "post_adam_injection": false,
+    "update_cap": false,
+    "rng": {
+      "version": "axis_even_v1",
+      "key_fields": [
+        "axis_even_v1",
+        "dataset",
+        "seed",
+        "epoch",
+        "batch",
+        "task",
+        "stream"
+      ],
+      "encoding": "UTF-8 fields joined by |, no spaces or trailing newline; integers decimal",
+      "seed_derivation": "SHA256 first8 bytes unsigned little-endian",
+      "streams": [
+        "sign1",
+        "sign2",
+        "isotropic"
+      ],
+      "generator": "private torch.Generator(device=x.device)",
+      "sign_draw": "torch.randint(0,2,(B,1),dtype=int64); cast (2*s-1) to FP32",
+      "isotropic_draw": "torch.randn(delta.shape,dtype=FP32)",
+      "global_rng_consumption": false,
+      "loader_rng": "private CPU Generator seeded once seed+11000; randperm(N) once per epoch",
+      "epoch_batch_index_base": 1
+    }
+  },
+  "budget": {
+    "new_trajectories": 30,
+    "new_epochs": 1500,
+    "new_adam_updates": 51750,
+    "new_ema_updates": 51750,
+    "reused_clean_trajectories": 10,
+    "reused_ndp_trajectories": 10,
+    "total_unique_trajectories_in_analysis": 50,
+    "formal_matrix": [
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-EVEN",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-IID2",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-EVEN",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-IID2",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2022,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-EVEN",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-IID2",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-EVEN",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-IID2",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2023,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-EVEN",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-IID2",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-EVEN",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-IID2",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2024,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-EVEN",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-IID2",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-EVEN",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-IID2",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2025,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-EVEN",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "AXIS-IID2",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "movielens",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 1000,
+        "ema_updates": 1000
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-EVEN",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "AXIS-IID2",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "ISOTROPIC-EVEN",
+        "seed": 2026,
+        "epochs": 50,
+        "optimizer_updates": 2450,
+        "ema_updates": 2450
+      }
+    ],
+    "additional_hpo_trajectories": 0,
+    "extra_confirmation_trajectories": 0,
+    "smoke": "first2022 full40960 train batch per new arm/dataset, plus direct identity and tail checks; discard states; no smoke epochs or validation tuning",
+    "matrix_change_requires": "parent revised DESIGN, fresh coder and distinct reviewer; no silent control reruns"
+  },
+  "controls": {
+    "type": "internal_source_matched_controls_not_new_published_model_baselines",
+    "index_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/reused_reference_index.json",
+      "sha256": "e1e59cee038ac1e1e695edf01dd1e89c6446099e2ee7b5e9422dd3966562c753"
+    },
+    "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+    "ndp_source_hash": "831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b",
+    "twenty_exact_result_hashes_verified_during_design": true,
+    "entries": [
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2026,
+        "key": "1432b833db52960d6aa61a26a714fce67fe8cc2de8537ce417c00446c5c0e0b3",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/1432b833db52960d6aa61a26a714fce67fe8cc2de8537ce417c00446c5c0e0b3/result.json",
+        "result_sha256": "eb53717a48f6bc2582eba11f6a83fe16d374ebec13d2e44ad20c00b8725d76a2"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2026,
+        "key": "2198fd14beff14038d552ef3fab9895827abbef56d7ab1b7320f35785ae97b75",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2198fd14beff14038d552ef3fab9895827abbef56d7ab1b7320f35785ae97b75/result.json",
+        "result_sha256": "c325310cbc2baa16a09f1e133fa07917aa07d0c8476677c2f857b5f728313c5a"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2025,
+        "key": "229281c7a3046fb2313dc0bfb6a1ae4af72c92f6490f046cd30ae949b0c37503",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/229281c7a3046fb2313dc0bfb6a1ae4af72c92f6490f046cd30ae949b0c37503/result.json",
+        "result_sha256": "63034a19f76dad47ab79bb2ac772d47cd4e50ea3a4bfb6e1026d768a8407e9ab"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2023,
+        "key": "2c3b07d21a9467c61a5294a924f2f0ec88aa189a0e762417b0f503e31e9cfe92",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2c3b07d21a9467c61a5294a924f2f0ec88aa189a0e762417b0f503e31e9cfe92/result.json",
+        "result_sha256": "0ee1ead87a1cf022253c3b0b0a6f768280c9995413a3821cabfca2b933243557"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2022,
+        "key": "2da620259ce8d365a99aefeda4128e029e2ace4c9e73b171f3c2211590e9b5c4",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2da620259ce8d365a99aefeda4128e029e2ace4c9e73b171f3c2211590e9b5c4/result.json",
+        "result_sha256": "2a6f2e79de27cc25202bd0064d4a65c9268532a2a120438a6e0dbd61080d9925"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2024,
+        "key": "3d666c380a6efce6a625fc560bcb198147e3c5cf0b651f65db66e5a6bc966e0f",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/3d666c380a6efce6a625fc560bcb198147e3c5cf0b651f65db66e5a6bc966e0f/result.json",
+        "result_sha256": "4f26aefcbc1ae92520c04f75dafe122ece03af443d0ef963b5f945671d94cc2a"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2024,
+        "key": "53e97f38bce97f276d4c317468d344a980d203de340fd8ed775d44453e2e2629",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/53e97f38bce97f276d4c317468d344a980d203de340fd8ed775d44453e2e2629/result.json",
+        "result_sha256": "884a415e92912a1a0b6febb297bc978856e054639ff3746f6ea7ad44a1a19d3f"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2022,
+        "key": "7fe8d77af81ad31d7239c64616ac7bfc5b6ad14f984d7e948a84938f8b85476e",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/7fe8d77af81ad31d7239c64616ac7bfc5b6ad14f984d7e948a84938f8b85476e/result.json",
+        "result_sha256": "04c82403a7fb7cfcfd5985d6d505415ad047a01c7860ed4b124ffb7f33a01136"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2025,
+        "key": "afc56ec112cdb7ceb8d102ecb071d617d35167f75a13e4289f1044166fe80086",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/afc56ec112cdb7ceb8d102ecb071d617d35167f75a13e4289f1044166fe80086/result.json",
+        "result_sha256": "e9c9df0fe1fb50aa92966799e45c447e9649abd0062114401e708927662e584e"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2023,
+        "key": "f096edbc453bea52a2d7401a2c6323afbf222482ae185056e53c27ebe65f2974",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/f096edbc453bea52a2d7401a2c6323afbf222482ae185056e53c27ebe65f2974/result.json",
+        "result_sha256": "396a04a129c00eea13bde8fbd252a72ce01348268166df6014aee5d949f15071"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "seed": 2026,
+        "key": "06c9569cf8cad50523042d23ea8dd24e385700c9b9673083e7ffe1f048bd0324",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/06c9569cf8cad50523042d23ea8dd24e385700c9b9673083e7ffe1f048bd0324/result.json",
+        "result_sha256": "f2a2f0973c3b9f69d01bed45069768872a89b433c3cd825b93157806dd30d562"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "seed": 2024,
+        "key": "408e189b8623389db776169c3877ae168d70be46d926a9ac24d8a64b9bf27f3c",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/408e189b8623389db776169c3877ae168d70be46d926a9ac24d8a64b9bf27f3c/result.json",
+        "result_sha256": "9a429f68fe40b32895d37b8c6675cb7b33ce9d1f81c374f5963f465a7a5c07df"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "seed": 2025,
+        "key": "40f0ef0b7b1dfb7ea533dd6f9186998cf036a29acff175da065d676531d39c6d",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/40f0ef0b7b1dfb7ea533dd6f9186998cf036a29acff175da065d676531d39c6d/result.json",
+        "result_sha256": "53be18f4b978f7785087d9c620456406ef1720f4700db842bd2a70bfe5785efb"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "seed": 2023,
+        "key": "653f38c8a18c721df444ee72f33c21a18d57817813f4fe7b5d66c0fb83a811a8",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/653f38c8a18c721df444ee72f33c21a18d57817813f4fe7b5d66c0fb83a811a8/result.json",
+        "result_sha256": "e4469260ff9abe532ce959b6eae526edf9db062ba47ff140009b2ae8b18bef39"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "seed": 2023,
+        "key": "6b3c08ea86eaf7db07de2bb7bb02bb8d85839300594c07fe6fea36f866251b75",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/6b3c08ea86eaf7db07de2bb7bb02bb8d85839300594c07fe6fea36f866251b75/result.json",
+        "result_sha256": "9c79f303432b3967322e3a070a3a432f78fdf4fb2c630a68c2ffb527b8828459"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "seed": 2026,
+        "key": "964c9136dc38976800f973ae2066dc4974244e35380f8be2e4951f0b02712201",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/964c9136dc38976800f973ae2066dc4974244e35380f8be2e4951f0b02712201/result.json",
+        "result_sha256": "0ea4d90502902ca6b60521802259a680825d059481f08b8344fe99722b3e1cfe"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "seed": 2022,
+        "key": "b205a87c7fa350c56d2f1714d6854b3d7d06c3d8017ab8c471edf0e39fd0ed20",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/b205a87c7fa350c56d2f1714d6854b3d7d06c3d8017ab8c471edf0e39fd0ed20/result.json",
+        "result_sha256": "dd0c749287719c614be67ef276137b12ccdba467ae89da191f2e0479f7c6f654"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "seed": 2025,
+        "key": "cc7752d00b30d1816db2943a82c11276699818add08f90ad97f0ee593650fbd5",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/cc7752d00b30d1816db2943a82c11276699818add08f90ad97f0ee593650fbd5/result.json",
+        "result_sha256": "5b135519b3602b1f380e782d46b5532ec8a63fe0167cf99a00af27b60bcb100e"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "seed": 2024,
+        "key": "f41d7bc87c5675e75f2061b695564d60897497f5e320379ea124ea02df8f15ee",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/f41d7bc87c5675e75f2061b695564d60897497f5e320379ea124ea02df8f15ee/result.json",
+        "result_sha256": "8de3569eaeb85ffd6d69fc44d8446bc261c97af1ed3534f99c881bb37ee1c116"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "seed": 2022,
+        "key": "fa57be3d1c8aa562913bf675972b0acd70f4906901c2152939a47bd2b58d60be",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/fa57be3d1c8aa562913bf675972b0acd70f4906901c2152939a47bd2b58d60be/result.json",
+        "result_sha256": "d1967c3c7b508705f9985c9a7fa7cb091c524e7abce762cdaa54421da05edfbb"
+      }
+    ],
+    "reuse_condition": "exact config/source/environment/data/model/Adam/EMA/selection/support identity and unchanged delegated null/one-sided paths; verify .grad None/counters/model/moments/EMA",
+    "reuse_failure": "PAUSE; revised design with source-matched controls required"
+  },
+  "comparisons": {
+    "primary": {
+      "candidate": "AXIS-EVEN",
+      "control": "CLEAN",
+      "endpoint": "selected",
+      "kind": "fixed_ema",
+      "split": "validation",
+      "metric": "six_cell_macro_auc",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ]
+    },
+    "mechanism": [
+      {
+        "candidate": "AXIS-EVEN",
+        "control": "NDP-A",
+        "hypothesis": "remove harmful odd objective component"
+      },
+      {
+        "candidate": "AXIS-EVEN",
+        "control": "ISOTROPIC-EVEN",
+        "hypothesis": "task-axis information adds value beyond equal input norm"
+      },
+      {
+        "candidate": "AXIS-EVEN",
+        "control": "AXIS-IID2",
+        "hypothesis": "antithetic sampling gives endpoint advantage at same conditional expected objective"
+      }
+    ],
+    "selection": "earliest strict maximum of validation six-cell Macro AUC; independent online and EMA",
+    "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+    "fixed_epoch_secondary": [
+      10,
+      30,
+      50
+    ],
+    "diagnostic_epochs_first_batch_only": [
+      1,
+      10,
+      25,
+      40,
+      50
+    ],
+    "secondary_metrics": [
+      "macro_logloss",
+      "six_cell_auc",
+      "six_cell_logloss",
+      "per_domain",
+      "per_task",
+      "worst_cell_auc",
+      "traffic_weighted_cell_auc",
+      "pooled_auc",
+      "selected_epoch",
+      "cost"
+    ],
+    "statistical_unit": "seed",
+    "n": 5,
+    "paired": true,
+    "ci": "descriptive mean +/-2.7764451051977987*sample_sd/sqrt(5)",
+    "auc_direction": "positive_better",
+    "logloss_direction": "negative_better",
+    "auc_logloss_separate": true,
+    "diagnostic_batches_are_independent_samples": false,
+    "multiple_comparison_significance_claim": false,
+    "domain_population": "descriptive only; compare actual CLEAN cell AUC/LL, never size proxy",
+    "control_winner_auto_promotion": false
+  },
+  "candidate_outcome_gates": {
+    "both_primary_dataset_means_nonpositive": "NO_CONTINUATION_SIGNAL",
+    "one_positive_one_nonpositive": "MIXED_SIGNAL_PRESERVE_CONTRADICTION",
+    "both_positive": "PROVISIONAL_CROSS_DATASET_SIGNAL_NOT_TEST_OR_CHAMPION",
+    "all_outcomes": "parent scientific analysis then fresh native Astra; no automatic HPO/confirmation",
+    "test_access_enabled_by_any_candidate_outcome": false
+  },
+  "costs": {
+    "source_table_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/COSTS.csv",
+      "sha256": "def9c964efcbad25ad8356a36420e9b6985259946fa8b721a06e45543744a0e4"
+    },
+    "measured_historical_costs": [
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "trajectories": 5,
+        "mean_worker_seconds": 1155.5687927452614,
+        "max_worker_seconds": 1494.4304871030618,
+        "max_peak_reserved_bytes": 1317011456,
+        "max_peak_allocated_bytes": 1078304768
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NDP-A",
+        "trajectories": 5,
+        "mean_worker_seconds": 3362.97547754182,
+        "max_worker_seconds": 3983.2806020670105,
+        "max_peak_reserved_bytes": 3019898880,
+        "max_peak_allocated_bytes": 2919604224
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "TV-GRM-005",
+        "trajectories": 5,
+        "mean_worker_seconds": 3893.2370377455836,
+        "max_worker_seconds": 5023.4177538519725,
+        "max_peak_reserved_bytes": 3347054592,
+        "max_peak_allocated_bytes": 2927546368
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "TV-GRM-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 4210.148065892397,
+        "max_worker_seconds": 5174.928620863939,
+        "max_peak_reserved_bytes": 3347054592,
+        "max_peak_allocated_bytes": 2927546368
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "TV-GRM-020",
+        "trajectories": 5,
+        "mean_worker_seconds": 3740.8493863175854,
+        "max_worker_seconds": 5045.063328622957,
+        "max_peak_reserved_bytes": 3347054592,
+        "max_peak_allocated_bytes": 2927546368
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "TV-GRM-INSTANT-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 4115.188926113793,
+        "max_worker_seconds": 5062.203537456924,
+        "max_peak_reserved_bytes": 3342860288,
+        "max_peak_allocated_bytes": 2920013824
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "TV-GRM-SHUFFLE-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 4587.336124943756,
+        "max_worker_seconds": 5205.940028548939,
+        "max_peak_reserved_bytes": 3347054592,
+        "max_peak_allocated_bytes": 2927546368
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "trajectories": 5,
+        "mean_worker_seconds": 407.7384877269622,
+        "max_worker_seconds": 454.52128385799006,
+        "max_peak_reserved_bytes": 1050673152,
+        "max_peak_allocated_bytes": 977082368
+      },
+      {
+        "dataset": "movielens",
+        "arm": "NDP-A",
+        "trajectories": 5,
+        "mean_worker_seconds": 1328.8470586230046,
+        "max_worker_seconds": 1436.9301530879457,
+        "max_peak_reserved_bytes": 2527068160,
+        "max_peak_allocated_bytes": 2507098112
+      },
+      {
+        "dataset": "movielens",
+        "arm": "TV-GRM-005",
+        "trajectories": 5,
+        "mean_worker_seconds": 1308.3853030725616,
+        "max_worker_seconds": 1487.211269575986,
+        "max_peak_reserved_bytes": 2766143488,
+        "max_peak_allocated_bytes": 2509639680
+      },
+      {
+        "dataset": "movielens",
+        "arm": "TV-GRM-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 1167.88804210159,
+        "max_worker_seconds": 1227.083168715937,
+        "max_peak_reserved_bytes": 2766143488,
+        "max_peak_allocated_bytes": 2509639680
+      },
+      {
+        "dataset": "movielens",
+        "arm": "TV-GRM-020",
+        "trajectories": 5,
+        "mean_worker_seconds": 1461.568917800812,
+        "max_worker_seconds": 1556.8557677580975,
+        "max_peak_reserved_bytes": 2766143488,
+        "max_peak_allocated_bytes": 2509639680
+      },
+      {
+        "dataset": "movielens",
+        "arm": "TV-GRM-INSTANT-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 1358.626474781218,
+        "max_worker_seconds": 1542.0039246160304,
+        "max_peak_reserved_bytes": 2757754880,
+        "max_peak_allocated_bytes": 2506524672
+      },
+      {
+        "dataset": "movielens",
+        "arm": "TV-GRM-SHUFFLE-010",
+        "trajectories": 5,
+        "mean_worker_seconds": 1353.8715993809978,
+        "max_worker_seconds": 1712.6572981659556,
+        "max_peak_reserved_bytes": 2766143488,
+        "max_peak_allocated_bytes": 2509639680
+      }
+    ],
+    "selected_matrix_estimated_worker_hours": {
+      "lower_planning_point": 19.549260567353436,
+      "upper_planning_point": 32.58210094558906,
+      "not_measured_bounds": true
+    },
+    "estimation_method": "three ten-trajectory NDP-A blocks; five vs three training forwards gives upper planning point; overhead/contention and diagnostics not measured",
+    "initial_gpu_reservation_bytes": {
+      "movielens": 4831838208,
+      "kuairand": 5905580032
+    },
+    "initial_reservations_replaced_by_smoke": true,
+    "new_candidate_throughput_measured": false,
+    "new_candidate_memory_measured": false,
+    "worker_hours_not_elapsed_wall_hours": true
+  },
+  "runtime": {
+    "gpus": "two shared RTX3090 devices",
+    "gpu_used_plus_pending_reserved_memory_fraction_strictly_less_than": 0.85,
+    "gpu_power_admission_fraction_strictly_less_than": 0.85,
+    "host_used_plus_pending_and_transient_ram_fraction_strictly_less_than": 0.9,
+    "process_count_cap": null,
+    "admit_additional_workers_per_individual_card_when_safe": true,
+    "storage": "RAM_ONLY",
+    "guardian": "new isolated artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/guardian.json; credentials remain there and are not copied into manifest",
+    "guardian_launch_allowed": true,
+    "guardian_launch_scope": "Reviewed RUN only: original parent owns persistent foreground tool process calling unchanged task_view_gradient_residual_momentum_20261116.runner.serve(new_cycle_attempt); current native runner supervises; no ensure_guardian, detached session, AI or old guardian replacement/restart",
+    "guardian_serve_source_sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa",
+    "guardian_live_status_checked_by_design_child": false,
+    "guardian_client_operations": [
+      "status",
+      "register",
+      "allocated",
+      "commit",
+      "complete",
+      "get",
+      "roundtrip",
+      "paused",
+      "failed",
+      "recover",
+      "release",
+      "shutdown"
+    ],
+    "guardian_operation_scope": "New-root endpoint only; recover only after all recorded workers are dead and both controls permit it; shutdown only after zero retained states and zero live workers; no old mutating requests",
+    "guardian_new_key_namespace": "cycle_id in hashed full job identity",
+    "guardian_legacy_journal": "No append; require exact whole old journal byte length/hash equality before and after new-cycle operations",
+    "guardian_old_result_keys": "No new mirrors or keys; exact old sorted result path/hash inventory stays unchanged, preserving 50 local plus 20 reused inputs to old tables.export",
+    "guardian_new_output_root": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1; all new journal, recovery ledger, metrics and results here",
+    "new_export_collection": "exactly 30 new-cycle local results plus immutable 20-control index; never old tables.export",
+    "epoch_paths_sent_to_guardian": "absolute new-cycle paths",
+    "snapshot_boundary": "epoch_after_validation_and_acknowledged_RAM_commit",
+    "completed_state": "selected online/EMA only; release designated discarded cycle keys after parent analysis",
+    "memory_owner_handoff": "Parent accepts live root/PID/tool-session/key/hash/retained-byte ownership receipt before each runner closes permanently; fresh runners reattach under current-conversation supervision; inability to preserve owned process PAUSES with no detached fallback",
+    "memory_owner_shutdown": "Only new owners with no retained states or live workers; incumbent/eligible selected states and every old owner remain protected",
+    "unbounded_discarded_history": false,
+    "old_live_states_protected": true,
+    "mechanical_workers": "current runner-supervised foreground tool processes; parent owns persistent isolated RAM process across fresh runner handoffs; no detached AI/driver/storage launcher"
+  },
+  "pending_execution_gates": [
+    "parent hard-completeness acceptance of seven-file bundle including verified DT-PGNA/TGA non-equivalence addendum",
+    "new implementation and transitive source manifest",
+    "distinct reviewer PASS or PASS WITH FIXES with zero blockers",
+    "both workspace stop controls clear at each dispatch",
+    "twenty exact-control identity proof",
+    "isolated new-root frozen-serve owner live/compatible with parent-owned handoff; exact whole old journal and result collection unchanged",
+    "GPU memory/power and host RAM admission",
+    "reviewed full-batch correctness smoke",
+    "full30 trajectory raw evidence before scientific decision"
+  ],
+  "hard_completeness_findings": {
+    "algorithm_formula_or_hyperparameter_gap": false,
+    "new_implementation_and_review_absent": true,
+    "live_guardian_and_resource_readiness_unverified": true,
+    "dt_pgna_tga_exact_historical_equivalence_unresolved": false,
+    "dt_pgna_tga_local_audit_verdict": "MATERIALLY_DIFFERENT: accepted selected one-sided pair/example extra BCE mass1.5 with projection/caps versus natural full-support mass1 same-input even pair; exact pilot source/commit receipt verified in addendum",
+    "historical_storage_contamination_resolved_in_design": true,
+    "storage_resolution": "Reuse existing audited TV serve(attempt) at isolated cycle root in parent-owned supervised mechanical tool process; no old journal append/new-key mirror",
+    "novelty_claim_authorized": false,
+    "if_additional_history_duplicates_selected_math": "parent rejects redundancy before implementation and requests fresh research; no formula/budget workaround",
+    "if_any_run_gate_fails": "TECHNICAL_PAUSE_NO_DRIVER_OR_GUARDIAN_RESTART"
+  },
+  "preserved_current_evidence": {
+    "new_tv_trajectories": 50,
+    "new_tv_epochs": 2500,
+    "new_tv_adam_ema_updates_each": 86250,
+    "reused_historical_controls": 20,
+    "scientific_review": "PASS_ZERO_BLOCKERS",
+    "test_accessed": false,
+    "tv_gamma_values": [
+      0.05,
+      0.1,
+      0.2
+    ],
+    "selected_ema_auc_delta_vs_clean": {
+      "movielens": [
+        -0.000328815,
+        -0.000062272,
+        0.000153992
+      ],
+      "kuairand": [
+        -0.000226846,
+        -0.00016645,
+        -0.001310579
+      ]
+    },
+    "decision": "NO_CONTINUATION_SIGNAL_NO_CHAMPION",
+    "all_gamma_all_dataset_nonpositive_gate": false,
+    "ml_gamma020": "WEAK AUC positive3of5 CI crosses0; LL improves5of5",
+    "kr_gamma010_vs_ndp_auc": 0.005608869,
+    "clean_residual_cosine_semantics": "DATA_GRADIENT_NOT_ADAM_UPDATE_DIRECTION",
+    "extra_hpo_or_confirmation_runs": 0
+  },
+  "source_receipts": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/AGENTS.md",
+      "sha256": "9233057974eccc444b51932d00b072c000394f31fa01a12add7209dac16ce077"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/buchong.md",
+      "sha256": "0597492448ef6cc3bef4f653e2dacee3f2a3d733df54bbc18bad9b93d51a1f3d"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/AGENT.md",
+      "sha256": "fd81aebf8cab2633a908480248e3aa13033ceccd1e47d8242fb1cd8e5896b8c6"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/EXP_AI_CONTEXT.md",
+      "sha256": "7d54a9445e44287d022274d05903df80f6704665c05c9979e9910de9eb3ab8ee"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/MDMT_ALGORITHM_METRICS_LEDGER.md",
+      "sha256": "6ea4e223e3c055404c9c1592b49429b0403362eccc8f6dc2f0f71842b29c4478"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/PROJECT_ARCHITECTURE.md",
+      "sha256": "9b5e3119be30c0f16130d2402a488fa0720220d4f5adbcfbe9e6abdf907ff1ec"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/requirements-phase0-3.lock",
+      "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Global_Summary.md",
+      "sha256": "938ce0d2e1ba8e81d50ee86a354232b2c9ebeed8a74a7bedb0bab2d75b22d041"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Stable_Findings.md",
+      "sha256": "85c6a909dd63b57c6700285aa455fdaf39a144532c069d5a8b38a9dea3338a43"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Open_Questions.md",
+      "sha256": "c67da1a0a7025edda4047688d731977a66158f8846636651f705055dddc3e368"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Experiment_Index.md",
+      "sha256": "27d463e4032878e34bafbe141a9f64d0114549e7a69c6890eb18f1567737f12f"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Evidence_Ledger.md",
+      "sha256": "cc110026c68644d09c1e75fb6882707cb62fafddb19ccbad98d989302a77f47e"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Dead_Ends.md",
+      "sha256": "7ecde72539dacf5144c95e492828858ca211dbbe389913ea836f9219ba74b0d5"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Contradiction_Register.md",
+      "sha256": "67713ae11ee83e6776161a4ee8bbc53139edfcf9524b7469c5f368533edd1676"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md",
+      "sha256": "55c41fe46ef57414354d7b1d7dc2decbd9e5eb8c93778ab8a25f7d80567280c3"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json",
+      "sha256": "4f7b5ebd29967559bdae2ee8e77cd455611945da62a25ab88b20d659097054cc"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/NUMERICAL_APPENDIX.md",
+      "sha256": "17799f600d7d618f2ac6b5c60d10049fdb477ecd29cd0df4f13b75f678101df2"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/FINAL_EVIDENCE_REVIEW.json",
+      "sha256": "e0400b4fb0d6b1b6fdfa0e5a28ec3c29663f6137e5b52eea153aad68f4f6705d"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/auxiliary_objective_attribution_20261115/REPORT.md",
+      "sha256": "4100b8ee0f97cf1f66cca888be9f8f1297b5d7b52c676995a418f9ede02a463a"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/auxiliary_objective_attribution_20261115/STAGE2_DESIGN_SPECIFICATION.md",
+      "sha256": "4515b91dcd3f214486a2d8f28a2dd5614f534f5afb2c7401d18fa54dad9cc620"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/auxiliary_objective_attribution_20261115/STAGE2_DECISION.json",
+      "sha256": "6aed83948d70c40b0f048b38712eee082d83dc22eb9eb50e55759ea7c344426b"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/auxiliary_objective_attribution_20261115/STAGE2_FINAL_REVIEW.json",
+      "sha256": "8b27087a959b2b1e3ee78e8d09df1f88da534d75be4243a58d5e08b891f5d912"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/CURRENT_SESSION_POLICY_CODER_REPORT.md",
+      "sha256": "13442f5b5ee8290b36c2e18e9d8f124b97c8d6504da34fe2a31285fa4de618c2"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/CURRENT_SESSION_POLICY_REVIEW.md",
+      "sha256": "fd5f089c69f4416ce0c8911ffc7e77b098e2b9f8ca6e9cfbb3806ba92d578c22"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/PUBLICATION_RECEIPT.json",
+      "sha256": "7f77c799f034118c3885221f88561aa5dea19c59c8939f48b6038cc0766550f3"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/NDP_A_HANDOFF_EVIDENCE.json",
+      "sha256": "9b43ce4a96d12b428d8c174e0e10c2782b25d803517b7c1457993300d63b297e"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/COMPLETE_RUNNER_REPORT.json",
+      "sha256": "c7cf16dd78f46686821e6f0ba52a2b8b34745ef772d3dc1ad1e94fea09606481"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/run_manifest.json",
+      "sha256": "6f63570d04db5915c515f3dce1c25d80018a8710a7e6368331e00258dfa5071f"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/source_receipt.json",
+      "sha256": "6a1cb887362a80128088bb45c9ee535123c8b584b5270fdf1bc89cd9dd8827d4"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/reused_reference_index.json",
+      "sha256": "e1e59cee038ac1e1e695edf01dd1e89c6446099e2ee7b5e9422dd3966562c753"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/SMOKE_REPORT.json",
+      "sha256": "e4ff1f7488cadb34f1202ab39cd91713b5b17502e59e5faeaf0b9d842301da00"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv",
+      "sha256": "2f5aec229f18f00cccd37a280b917e0d2cb6b41bf25f32eeda83daccc91f55f9"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SEEDS.csv",
+      "sha256": "e0365eb86f74f20d6fcd788f53906b8ae1ffec6bfea5343623f37f31004403db"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SUMMARY.csv",
+      "sha256": "36fadfd50b3969506fd067345036a1b2ef1b2308858245f75643de864f1ad3bd"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/GRADIENT_DIAGNOSTICS.csv",
+      "sha256": "3a76ed8cb717c6f3ad23a6eb8475e8dfc32578e78bafa4e719b88f482d945f79"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/COSTS.csv",
+      "sha256": "def9c964efcbad25ad8356a36420e9b6985259946fa8b721a06e45543744a0e4"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/CANDIDATE_RANKING.csv",
+      "sha256": "99b900cdafdc756b889c563b52ef0ffd053e05da1f1bd252a6492dac6568d812"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/auxiliary_objective_attribution_20261115/core.py",
+      "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+      "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/core.py",
+      "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+      "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+    }
+  ],
+  "ndp_handoff_evidence": {
+    "dossier_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/NDP_A_HANDOFF_EVIDENCE.json",
+      "sha256": "9b43ce4a96d12b428d8c174e0e10c2782b25d803517b7c1457993300d63b297e"
+    },
+    "evidence_root": "/home/xzf/Code/phase0-3_auxiliary_20261115",
+    "files": [
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/REPORT.md",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/REPORT.md",
+        "bytes": 20276,
+        "sha256": "4100b8ee0f97cf1f66cca888be9f8f1297b5d7b52c676995a418f9ede02a463a"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/STAGE2_DESIGN_SPECIFICATION.md",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_DESIGN_SPECIFICATION.md",
+        "bytes": 15836,
+        "sha256": "4515b91dcd3f214486a2d8f28a2dd5614f534f5afb2c7401d18fa54dad9cc620"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/STAGE2_FINAL_REVIEW.json",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_FINAL_REVIEW.json",
+        "bytes": 4481,
+        "sha256": "8b27087a959b2b1e3ee78e8d09df1f88da534d75be4243a58d5e08b891f5d912"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/STAGE2_FINAL_REVIEW.md",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_FINAL_REVIEW.md",
+        "bytes": 4846,
+        "sha256": "5dc1ddea4bbfd390c348a33c54c5e637e3ea7b19b8da69fc564d2b4e0ba32043"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/STAGE2_DECISION.json",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_DECISION.json",
+        "bytes": 333111,
+        "sha256": "6aed83948d70c40b0f048b38712eee082d83dc22eb9eb50e55759ea7c344426b"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/STAGE2_RUNNER_REPORT.json",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/STAGE2_RUNNER_REPORT.json",
+        "bytes": 4487,
+        "sha256": "546dda350ca0deba798407313d7e5c575ee4dca5e977295d0fbe819fd4fd55a8"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/SOURCE_MAP.md",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/SOURCE_MAP.md",
+        "bytes": 2798,
+        "sha256": "84338f0963076e87b5f2771c197a849fc8a5874fade44dc7e48c9281b4121f2c"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/run_manifest.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/run_manifest.json",
+        "bytes": 3848,
+        "sha256": "6a80ab8acb8528770a3c1484a824916810993221447641ca193931d813cd640e"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/source_receipt.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/source_receipt.json",
+        "bytes": 13981,
+        "sha256": "fa408141393cd23a0e5cbe7129ea22abc8359e55122fb4e49f64bd8c1fc08034"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/movielens_data_manifest.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/movielens_data_manifest.json",
+        "bytes": 2826,
+        "sha256": "ff08266b540323b22085477de554f63aa044bb62fbd284f76d25c7d602f434dd"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/kuairand_data_manifest.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/kuairand_data_manifest.json",
+        "bytes": 4873,
+        "sha256": "764be976ab43103a6a2ee10385aa15b5be02f1e18acd081203ac02970e1debc0"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/zero_counterpart_receipt.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/zero_counterpart_receipt.json",
+        "bytes": 2023,
+        "sha256": "e017bf49d02e738d8a7a0555f48084d6b2369a9cbfea0d194f59c89262ffb40d"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/reused_clean_index.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/reused_clean_index.json",
+        "bytes": 4789,
+        "sha256": "d5eb75e9303e31bd4db897bcd8b9801e9c07551d451b2a867c84d5be7d0ed4c0"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/CPU_CHECKS.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/CPU_CHECKS.json",
+        "bytes": 302,
+        "sha256": "2f460cd229430e92702c1656961bf54f9b35a0dee08044974ca9dadd73b8ae97"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/SMOKE_REPORT.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/SMOKE_REPORT.json",
+        "bytes": 26541,
+        "sha256": "8a0b63d95b691291195a7dbcda543603c591247b8179a6f1cfb8935de4363432"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/epoch_commit_ledger.jsonl",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/epoch_commit_ledger.jsonl",
+        "bytes": 133789,
+        "sha256": "1431d8373f723b902746d8bb3f6a4d21cd2863e41d6e1a64808ac186817492ae"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/ENDPOINTS.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/ENDPOINTS.csv",
+        "bytes": 138312,
+        "sha256": "22ddfcf68be74e3f54fdf9b4e3f2a17fcbdac5a48b2c1cee95824c950a538908"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SEEDS.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SEEDS.csv",
+        "bytes": 347639,
+        "sha256": "8b3212f00080c097e9166ce13f749566ceba3cc04b6d1da7421924382e42caf6"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SUMMARY.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SUMMARY.csv",
+        "bytes": 118916,
+        "sha256": "b3ddd7762559b1dc3e9b9086e562a396542c99ca5f384ad7ae5aa37e61039c86"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/VALIDATION_CURVES.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/VALIDATION_CURVES.csv",
+        "bytes": 1652400,
+        "sha256": "c6bbb844de40b05e7d9eae7d568eab5ae52af867a1b6576926462528ad80e49f"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/WEIGHTS.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/WEIGHTS.csv",
+        "bytes": 1731554,
+        "sha256": "b31919b183132911b3de788726570d27d9e62877aed1806675e659375fa8405e"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/COSTS.csv",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/COSTS.csv",
+        "bytes": 3121,
+        "sha256": "219011ce0b26808f0cc8d4063b8c6c21e289008d4a663a441ed64fa84ec2ff31"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/tables/STAGE2_BATCH_AUDIT.csv",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/tables/STAGE2_BATCH_AUDIT.csv",
+        "bytes": 17774875,
+        "sha256": "5df7f92dfafe4f7af5bd852d84e2179b41abfceda0f0a1d3c4307214003c172a"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/research_reports/auxiliary_objective_attribution_20261115/tables/STAGE2_FIRST_BATCH_DIAGNOSTICS.csv",
+        "relative_path": "research_reports/auxiliary_objective_attribution_20261115/tables/STAGE2_FIRST_BATCH_DIAGNOSTICS.csv",
+        "bytes": 396818,
+        "sha256": "653cff8ef0856bf4e6d7ed5dad6cbcca194634604532a6c94d87dbc60156c8ac"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/06c9569cf8cad50523042d23ea8dd24e385700c9b9673083e7ffe1f048bd0324/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/06c9569cf8cad50523042d23ea8dd24e385700c9b9673083e7ffe1f048bd0324/result.json",
+        "bytes": 18949,
+        "sha256": "f2a2f0973c3b9f69d01bed45069768872a89b433c3cd825b93157806dd30d562"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/408e189b8623389db776169c3877ae168d70be46d926a9ac24d8a64b9bf27f3c/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/408e189b8623389db776169c3877ae168d70be46d926a9ac24d8a64b9bf27f3c/result.json",
+        "bytes": 18898,
+        "sha256": "9a429f68fe40b32895d37b8c6675cb7b33ce9d1f81c374f5963f465a7a5c07df"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/40f0ef0b7b1dfb7ea533dd6f9186998cf036a29acff175da065d676531d39c6d/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/40f0ef0b7b1dfb7ea533dd6f9186998cf036a29acff175da065d676531d39c6d/result.json",
+        "bytes": 18944,
+        "sha256": "53be18f4b978f7785087d9c620456406ef1720f4700db842bd2a70bfe5785efb"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/653f38c8a18c721df444ee72f33c21a18d57817813f4fe7b5d66c0fb83a811a8/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/653f38c8a18c721df444ee72f33c21a18d57817813f4fe7b5d66c0fb83a811a8/result.json",
+        "bytes": 18884,
+        "sha256": "e4469260ff9abe532ce959b6eae526edf9db062ba47ff140009b2ae8b18bef39"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/6b3c08ea86eaf7db07de2bb7bb02bb8d85839300594c07fe6fea36f866251b75/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/6b3c08ea86eaf7db07de2bb7bb02bb8d85839300594c07fe6fea36f866251b75/result.json",
+        "bytes": 18951,
+        "sha256": "9c79f303432b3967322e3a070a3a432f78fdf4fb2c630a68c2ffb527b8828459"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/964c9136dc38976800f973ae2066dc4974244e35380f8be2e4951f0b02712201/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/964c9136dc38976800f973ae2066dc4974244e35380f8be2e4951f0b02712201/result.json",
+        "bytes": 18888,
+        "sha256": "0ea4d90502902ca6b60521802259a680825d059481f08b8344fe99722b3e1cfe"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/b205a87c7fa350c56d2f1714d6854b3d7d06c3d8017ab8c471edf0e39fd0ed20/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/b205a87c7fa350c56d2f1714d6854b3d7d06c3d8017ab8c471edf0e39fd0ed20/result.json",
+        "bytes": 18892,
+        "sha256": "dd0c749287719c614be67ef276137b12ccdba467ae89da191f2e0479f7c6f654"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/cc7752d00b30d1816db2943a82c11276699818add08f90ad97f0ee593650fbd5/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/cc7752d00b30d1816db2943a82c11276699818add08f90ad97f0ee593650fbd5/result.json",
+        "bytes": 18890,
+        "sha256": "5b135519b3602b1f380e782d46b5532ec8a63fe0167cf99a00af27b60bcb100e"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/f41d7bc87c5675e75f2061b695564d60897497f5e320379ea124ea02df8f15ee/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/f41d7bc87c5675e75f2061b695564d60897497f5e320379ea124ea02df8f15ee/result.json",
+        "bytes": 18940,
+        "sha256": "8de3569eaeb85ffd6d69fc44d8446bc261c97af1ed3534f99c881bb37ee1c116"
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/fa57be3d1c8aa562913bf675972b0acd70f4906901c2152939a47bd2b58d60be/result.json",
+        "relative_path": "artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/runs/fa57be3d1c8aa562913bf675972b0acd70f4906901c2152939a47bd2b58d60be/result.json",
+        "bytes": 18944,
+        "sha256": "d1967c3c7b508705f9985c9a7fa7cb091c524e7abce762cdaa54421da05edfbb"
+      }
+    ],
+    "file_count": 34,
+    "all_file_hashes_verified_during_design": true
+  },
+  "literature_urls": [
+    "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bishop-tikhonov-nc-95.pdf",
+    "https://proceedings.mlr.press/v97/ren19b.html",
+    "https://arxiv.org/abs/1704.03976",
+    "https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123460613.pdf",
+    "https://openaccess.thecvf.com/content/CVPR2023/papers/Senushkin_Independent_Component_Alignment_for_Multi-Task_Learning_CVPR_2023_paper.pdf",
+    "https://papers.nips.cc/paper/2021/hash/9d27fdf2477ffbff837d73ef7ae23db9-Abstract.html",
+    "https://github.com/Cranial-XIX/CAGrad",
+    "https://proceedings.neurips.cc/paper/2019/hash/b8002139cdde66b87638f7f91d169d96-Abstract.html",
+    "https://arxiv.org/html/1905.10018v2",
+    "https://github.com/juntang-zhuang/Adabelief-Optimizer",
+    "https://docs.pytorch.org/docs/2.9/generated/torch.optim.Adam.html"
+  ],
+  "design_completeness_addendum": {
+    "path": "DESIGN_COMPLETENESS_ADDENDUM.md",
+    "designer_verdict": "PASS_IMPLEMENTABLE_DESIGN_PARENT_HARD_COMPLETENESS_GATE_PENDING",
+    "scope": "Historical equivalence and storage isolation only; overrides older unresolved-history and shared-guardian-write statements in original Astra files",
+    "pilot_implementation_commit": "bf36e454adc2d0c569218a7993834f6d56cfc97f",
+    "pilot_training_source_sha256": "a67f446902642f0ce777ac7736474b00a1400902184ccf0d461581ace1b9a491",
+    "pilot_all_59_receipt_files_verified": true,
+    "global_novelty_clearance_claimed": false,
+    "runtime_executed_or_live_owner_checked": false,
+    "scientific_formulas_matrix_budgets_baselines_changed": false
+  },
+  "deliverables": [
+    "RESEARCH_EXPLORATION.md",
+    "ALGORITHM_DESIGNS.md",
+    "LITERATURE_AND_NOVELTY.md",
+    "CRITICAL_REVIEW.md",
+    "CODEX_EXECUTION_PLAN.md",
+    "EXPERIMENT_MANIFEST.json",
+    "DESIGN_COMPLETENESS_ADDENDUM.md"
+  ],
+  "design_child_actions": {
+    "implementation": false,
+    "training": false,
+    "test": false,
+    "historical_source_edit": false,
+    "root_context_or_state_edit": false,
+    "commit": false,
+    "push": false,
+    "delegation": false
+  }
+}
+

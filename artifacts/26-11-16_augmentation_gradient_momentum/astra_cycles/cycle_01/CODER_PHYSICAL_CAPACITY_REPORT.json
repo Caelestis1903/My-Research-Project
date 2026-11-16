@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "CODER",
+  "status": "IMPLEMENTED_AWAITING_DISTINCT_REVIEW",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "scope": "Actual CUDA OOM physical-capacity correction to the existing foreground admission overlay and focused CPU fixture only",
+  "files_changed": [
+    "orchestration/task_axis_even_views_current_utilization_20261116.py",
+    "orchestration/test_task_axis_even_views_current_utilization_20261116.py"
+  ],
+  "files_added": [
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_PHYSICAL_CAPACITY_REPORT.md",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_PHYSICAL_CAPACITY_REPORT.json",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/BEFORE_PHYSICAL_CAPACITY_ARCHIVE/orchestration/task_axis_even_views_current_utilization_20261116.py",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/BEFORE_PHYSICAL_CAPACITY_ARCHIVE/orchestration/test_task_axis_even_views_current_utilization_20261116.py"
+  ],
+  "execution_policy_binding": {
+    "overlay_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/orchestration/task_axis_even_views_current_utilization_20261116.py",
+    "overlay_sha256": "b7eeba76d21727b596897eec84e0e5766c01e8a41fba832c1036d38bdf7c6f3f",
+    "policy_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CURRENT_UTILIZATION_POLICY.md",
+    "policy_sha256": "82557bd34428f1fc814a92dbdb05ef20254c1d606c34985379f646ad29e4aae2",
+    "capacity_correction_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/PHYSICAL_CAPACITY_CORRECTION.md",
+    "capacity_correction_sha256": "3a051f809e2301f906c477e97261ce546f34c92d5f1b47afe3d56712866121ca",
+    "capacity_measurements_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/PHYSICAL_CAPACITY_MEASUREMENTS.json",
+    "capacity_measurements_sha256": "aa78e32ed82fccc38632793b9b5680c303fa8f6468daa95cd7d62109e2572ce5",
+    "worker_source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "admission": {
+      "name": "CURRENT_UTILIZATION_AND_PHYSICAL_CAPACITY",
+      "predicate": "current_gpu_memory/total < 0.85 AND current_gpu_power/limit < 0.85 AND current_host_ram < 0.90",
+      "physical_capacity_predicate": "current_gpu_memory_bytes + incoming_torch_peak_bytes + full_process_correction_bytes <= cuda_usable_total_bytes",
+      "full_process_correction_bytes": 352321536,
+      "cuda_usable_total_bytes": {
+        "0": 25307578368,
+        "1": 25307578368
+      },
+      "independent_cards": true,
+      "pending_allocation_ack": true,
+      "resample_after_launch": true,
+      "projected_85_percent_gates": false,
+      "predicted_power": false,
+      "active_worker_cap": null
+    }
+  },
+  "fixture_sha256": "baa0d97e7332c70c0038ac5abab88b55199756981556845420105ad33fd9b590",
+  "implementation": {
+    "current_utilization": "Unchanged strict current GPU memory/total <0.85 AND current GPU power/limit <0.85, current host RAM <0.90; each requested card independent.",
+    "physical_capacity": "current NVML occupancy bytes + incoming frozen torch peak bytes + 352321536 <= measured CUDA-usable total bytes for that card",
+    "correction_derivation": "max(ML full4515168256-smoke4162846720, KR full5540675584-smoke5192548352) = max(336MiB,332MiB) = 336MiB. Uses only the recorded universal measured maximum, with no invented cushion.",
+    "incoming_peak": "Frozen schedule starts from the dataset smoke peak and increases it from real active-worker peaks; the overlay uses the incoming value on every admission call.",
+    "smoke_based_full_process_need_mib": {
+      "movielens": 4306,
+      "kuairand": 5288
+    },
+    "completed_peak_based_full_process_need_mib": {
+      "movielens": 4326,
+      "kuairand": 5304
+    },
+    "universal_correction_limit": "The measured universal maximum is 4MiB above KR's observed full-minus-smoke delta; with completed peaks it is 20MiB above the measured 316MiB non-torch component. This is the specified simple measured correction, not a new margin.",
+    "unused_inputs": [
+      "power_watts including historical195.61/206.31W",
+      "host_bytes"
+    ],
+    "pending_and_resampling": "Existing frozen per-card allocation ACK guard and resampling remain in place; no process-count cap or requirement that both cards fit.",
+    "runtime_binding": "The measured profile is loaded once for runtime use. policy_binding asserts the current measurements file parses to that exact loaded profile and binds its SHA256, correction SHA256, overlay SHA256, old policy SHA256, frozen source and design. Profile worker_source_hash must match the frozen source.",
+    "labels": "CURRENT_UTILIZATION_AND_PHYSICAL_CAPACITY exposes both distinct predicates, usable totals and measured correction. Current outputs rename reservations to worker_resource_estimates because torch bytes now feed physical fit; old power/host estimates still do not gate admission.",
+    "recovery": "No frozen recovery/continuation code or scientific algorithm was changed."
+  },
+  "checks": {
+    "focused_cpu": {
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m pytest -q -p no:cacheprovider orchestration/test_task_axis_even_views_current_utilization_20261116.py",
+      "exit_code": 0,
+      "result": "29 passed in 1.09s",
+      "cases": [
+        "Original8522MiB/24576MiB,265.76W/350W,RAM15% admits with smoke KR peak and even arbitrarily large predicted power/host bytes; historical projected frozen gate rejects.",
+        "OOM predecessor GPU1 current19118MiB,280W/350W,RAM33% rejects KR5288MiB need against usable24135.1875MiB and allows ML4306MiB.",
+        "Usable physical capacity minus1byte and exact equality admit; plus1byte rejects, despite all current85% gates passing.",
+        "Incoming real peak4968MiB rejects where smoke4952MiB exactly fits.",
+        "Current GPU85% and host90% equal/excess boundaries reject; independent cards, physical-fit rejection on one card and pending ACKs retain the other card's independent decision.",
+        "Repeated mocked current samples show no process-count cap and subsequent power excursions block.",
+        "Wrong overlay/policy/worker/correction/measurements/admission review bindings, old current-utilization reviewer role, blockers and non-independent attestations reject.",
+        "A measurements file inconsistent with loaded runtime profile rejects.",
+        "Stop/pause/live-worker preflight appends no receipt; mocked RUN appends behind an existing historical line, binds correction and measurements, labels outputs and restores patched functions."
+      ]
+    },
+    "frozen_source": {
+      "before": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "after": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "file_count": 79,
+      "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+      "overlay_and_fixture_outside_aggregate": true
+    },
+    "byte_exact_archive": {
+      "created_before_edit": true,
+      "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/BEFORE_PHYSICAL_CAPACITY_ARCHIVE",
+      "files": {
+        "orchestration/task_axis_even_views_current_utilization_20261116.py": "b5c71d81bf48f3bc5075ca40624a336a7be554789e7cbe1efe2cc30ace2a0b9e",
+        "orchestration/test_task_axis_even_views_current_utilization_20261116.py": "49dc43c4b23c9a16db73b4408b332f529a1fde83d3826115d71d85391c1bcec0"
+      }
+    },
+    "history": {
+      "execution_receipt_records_before": 1,
+      "execution_receipt_records_after": 1,
+      "execution_receipt_sha256_before": "50bf6a6efdaa4b40673d9d5ef8116acffe69f2fc0f0c1df1d3bf569105cb0200",
+      "execution_receipt_sha256_after": "50bf6a6efdaa4b40673d9d5ef8116acffe69f2fc0f0c1df1d3bf569105cb0200",
+      "first_line_sha256_before": "50bf6a6efdaa4b40673d9d5ef8116acffe69f2fc0f0c1df1d3bf569105cb0200",
+      "first_line_sha256_after": "50bf6a6efdaa4b40673d9d5ef8116acffe69f2fc0f0c1df1d3bf569105cb0200",
+      "old_overlay_hash_remains_valid_history": true,
+      "written_by_coder": false
+    },
+    "storage_owner": {
+      "pid": 1570727,
+      "owner_tool_session": "59365",
+      "sha256": "7970b5519f6f4ba6b481bd7f6f4a460e455d1e3aba0a40b5bda2ef0714e71b0d",
+      "unchanged": true,
+      "live_ipc_checked": false
+    },
+    "worker_review": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_RESOURCE.json",
+      "sha256": "a6b5e138827fdf55cc71c1a59873f2ae31e7aa3d8e665a918d9e0f96f9f6b3e5",
+      "unchanged": true
+    },
+    "stop_requested": false
+  },
+  "required_fresh_overlay_review": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_PHYSICAL_CAPACITY.json",
+    "verdict": "PASS or PASS WITH FIXES, with all blocking issues corrected",
+    "blocking_issues": [],
+    "role": "NEW_DISTINCT_PHYSICAL_CAPACITY_REVIEWER",
+    "independent_of_coder": true,
+    "reviewer_agent_id": "Actual fresh native child ID supplied by original parent; parent verifies distinct fork_context=false lifecycle",
+    "cpu_checks_passed": true,
+    "execution_policy": "Must equal execution_policy_binding in this report exactly",
+    "inspect": [
+      "User specification and highest-priority AGENTS.md policy",
+      "PHYSICAL_CAPACITY_CORRECTION.md and PHYSICAL_CAPACITY_MEASUREMENTS.json",
+      "Actual overlay, archived previous bytes, focused fixture and this coder report"
+    ],
+    "worker_review_required_unchanged": true,
+    "old_current_utilization_review_valid_for_history_only": true,
+    "no_coder_self_review": true
+  },
+  "execution_policy_receipt": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/CURRENT_UTILIZATION_EXECUTION_POLICY.jsonl",
+    "written_by_coder": false,
+    "future_behavior": "The reviewed overlay appends a new record after existing preflight and before frozen schedule, preserving the original record and binding overlay/correction/measurement source hashes, both review paths/hashes, reviewer ID, frozen worker/design, owner and policy predicates."
+  },
+  "parent_handoff": {
+    "reported_quiescent_inventory": {
+      "complete": 16,
+      "ack_paused": 7,
+      "failed_epoch0_no_ack_no_state": 1,
+      "never_started": 6
+    },
+    "inventory_source": "Parent handoff in task; no IPC inventory query by coder",
+    "next_steps": "Original parent permanently closes this coder and uses a distinct fresh native reviewer. After PASS, original parent recovers failed key3ab9dab5e7347854f7c4956e31a5e1073e908ee35d930559e4f11acc7112cb9f first, then validates/recovers seven ACK-paused keys via existing protocol, then dispatches a fresh native runner for14 unfinished trajectories. Existing epoch0/stateNone/noACK recovery remains explicitly supported. Preserve all physical-attempt costs and16 COMPLETE trajectories.",
+    "workdir": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+    "run_command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m orchestration.task_axis_even_views_current_utilization_20261116 run --devices 0,1 --review artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_PHYSICAL_CAPACITY.json --worker-review artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_RESOURCE.json",
+    "run_command_executed": false,
+    "prerequisites": "Fresh exact-binding distinct review; original parent performs existing same-owner recovery and checks both workspace stop controls. Do not manually clear PAUSE_TRAINING or replace/release owner."
+  },
+  "not_performed": [
+    "No GPU queries, GPU operations, IPC, actual scheduler/training run, recovery, start/stop or owner release.",
+    "No frozen79-file source/design/source receipts/run manifest/smoke/review/policy receipt edits; no broad suite or scientific analysis.",
+    "No Test, disk models, shared-state writes, agents/background AI, commits or publishing."
+  ],
+  "ready_for_independent_review": true,
+  "run_executed": false,
+  "test_accessed": false,
+  "lifecycle": "Task complete; return to original parent for permanent closure. Never resume or reuse this coder."
+}

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "CODER",
+  "status": "IMPLEMENTED_AWAITING_DISTINCT_REVIEW",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "scope": "Separately reviewed CURRENT_UTILIZATION scheduler overlay only",
+  "files_owned": [
+    "orchestration/task_axis_even_views_current_utilization_20261116.py",
+    "orchestration/test_task_axis_even_views_current_utilization_20261116.py",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CURRENT_UTILIZATION_REPORT.md",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CURRENT_UTILIZATION_REPORT.json"
+  ],
+  "execution_policy_binding": {
+    "overlay_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/orchestration/task_axis_even_views_current_utilization_20261116.py",
+    "overlay_sha256": "b5c71d81bf48f3bc5075ca40624a336a7be554789e7cbe1efe2cc30ace2a0b9e",
+    "policy_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CURRENT_UTILIZATION_POLICY.md",
+    "policy_sha256": "82557bd34428f1fc814a92dbdb05ef20254c1d606c34985379f646ad29e4aae2",
+    "worker_source_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "admission": {
+      "name": "CURRENT_UTILIZATION",
+      "predicate": "current_gpu_memory/total < 0.85 AND current_gpu_power/limit < 0.85 AND current_host_ram < 0.90",
+      "independent_cards": true,
+      "pending_allocation_ack": true,
+      "resample_after_launch": true,
+      "predictive_reservations": false,
+      "active_worker_cap": null
+    }
+  },
+  "fixture_sha256": "49dc43c4b23c9a16db73b4408b332f529a1fde83d3826115d71d85391c1bcec0",
+  "frozen_source_proof": {
+    "before": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "after": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "file_count": 79,
+    "overlay_and_fixture_outside_aggregate": true,
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "original_receipts_unchanged": true,
+    "resource_1_supersession_sha256": "b214b1a45564acd29b47824d7fb6b96d7c59c8f0c4ce311b19800bd8f91bb0d1",
+    "resource_1_supersession_unchanged": true,
+    "owner_receipt": {
+      "owner_tool_session": "59365",
+      "pid": 1570727,
+      "sha256": "7970b5519f6f4ba6b481bd7f6f4a460e455d1e3aba0a40b5bda2ef0714e71b0d",
+      "unchanged": true
+    },
+    "live_owner_ipc_checked": false
+  },
+  "behavior": [
+    "Admission ignores all supplied predicted GPU bytes, watts and host bytes; samples current host RAM and uses current GPU rows.",
+    "Each card is independent; memory/total and power/limit must both be strictly below 0.85; current host RAM must be strictly below 0.90.",
+    "Frozen schedule retains its per-card pending allocation ACK guard, resampling after each launch, owned worker pipes, existing job keys and continuation; no active-worker count cap.",
+    "Only scheduler-local choose_device and progress/completion write_json are temporarily overridden; subprocess worker module and scientific source are unchanged.",
+    "Fresh overlay review binds exact separate overlay bytes, policy bytes, frozen worker aggregate and admission semantics; existing scientific review remains a separate required worker gate.",
+    "At a future authorized RUN, append CURRENT_UTILIZATION_EXECUTION_POLICY.jsonl after preflight and before schedule; bind both review file hashes, reviewer native ID, owner, scheduler PID and timestamp.",
+    "Progress, raw completion JSON and returned summary expose CURRENT_UTILIZATION plus receipt path/record digest; old reservations appear only as historical_non_admission_reservations in those outputs."
+  ],
+  "checks": {
+    "focused_cpu": {
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m pytest -q -p no:cacheprovider orchestration/test_task_axis_even_views_current_utilization_20261116.py",
+      "exit_code": 0,
+      "result": "20 passed in 1.26s",
+      "cases": [
+        "8522/24576 MiB, 265.76/350 W, host RAM 15% admits; original projected 5 GiB/195.61 W path rejects.",
+        "195.61 W, 206.31 W and arbitrarily large predicted budgets do not affect new admission.",
+        "Either GPU resource at or above 85% rejects; host RAM at or above 90% rejects.",
+        "Independent cards, pending allocation ACK blocking and eligibility after unblocking.",
+        "100 consecutive admissible calls show no overlay process-count cap; a new measured power excursion blocks the next call.",
+        "Wrong overlay/policy/worker binding, original review role, blocking issue and non-independent attestation reject.",
+        "Stop, PAUSE_TRAINING and live-worker preflight failures append no policy receipt.",
+        "Mocked scheduler sees receipt before entry, repeated entry appends records, progress/completion labels and receipt digests match, overrides restore."
+      ]
+    },
+    "cli_help": {
+      "exit_code": 0,
+      "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m orchestration.task_axis_even_views_current_utilization_20261116 --help",
+      "commands_supported": [
+        "run"
+      ]
+    },
+    "syntax": "compile passed; no bytecode written",
+    "frozen_source_manifest": "Unchanged exact 79-file aggregate before and after; original receipt pins and RESOURCE_1_SUPERSESSION hash verified.",
+    "stop_controls": [
+      {
+        "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "sentinels": []
+      },
+      {
+        "workspace": "/home/xzf/Code/phase0-3",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "sentinels": []
+      }
+    ]
+  },
+  "required_fresh_overlay_review": {
+    "verdict": "PASS or PASS WITH FIXES; all blocking issues corrected",
+    "blocking_issues": [],
+    "role": "NEW_DISTINCT_CURRENT_UTILIZATION_REVIEWER",
+    "independent_of_coder": true,
+    "reviewer_agent_id": "Actual fresh native child ID supplied by original parent",
+    "cpu_checks_passed": true,
+    "execution_policy": "Must equal execution_policy_binding in this report exactly",
+    "distinction": "Runtime checks the role, distinctness attestation and native ID field. Original parent verifies actual distinct fresh native reviewer lifecycle. No coder self-review is provided."
+  },
+  "execution_policy_receipt": {
+    "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/CURRENT_UTILIZATION_EXECUTION_POLICY.jsonl",
+    "exists_at_coder_completion": false,
+    "written_by_coder": false,
+    "append_timing": "Future authorized overlay RUN only, after all preflight checks and before frozen schedule"
+  },
+  "parent_switch": {
+    "setup": "cd /home/xzf/Code/phase0-3_tvg_rm_20261116\nworker_review=artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_RESOURCE.json\noverlay_review=artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_CURRENT_UTILIZATION.json",
+    "prerequisites": "Fresh distinct native reviewer inspects policy, overlay, fixture and coder report and supplies matching review JSON; original parent authorizes safe switch. Existing training continues until then.",
+    "ordered_steps": [
+      {
+        "actor": "Existing native runner Avicenna",
+        "action": "Confirm foreground session 64836 still owns scheduler 1634516, then quiesce; keep supervising until the scheduler returns PAUSED and every owned worker has joined after its epoch/RAM ACK.",
+        "command": "kill -TERM 1634516",
+        "executed": false
+      },
+      {
+        "actor": "Existing native runner Avicenna",
+        "action": "Emit same-owner numeric RAM handoff using frozen command. Original historical handoff files remain preserved by the frozen RESOURCE_1_ handoff path.",
+        "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m experiments.task_axis_even_views_20261116.runner handoff --owner-session 59365",
+        "executed": false
+      },
+      {
+        "actor": "Original parent",
+        "action": "Accept handoff and verify original owner foreground session 59365 remains live, then permanently close Avicenna; never resume/reuse the child.",
+        "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m experiments.task_axis_even_views_20261116.runner accept-handoff --owner-session 59365",
+        "executed": false
+      },
+      {
+        "actor": "Original parent",
+        "action": "Inspect current keys/statuses. If PAUSE_TRAINING remains, use existing recover for each unfinished quiesced key; bind ACK_KEY to a returned unfinished key, never a COMPLETE key. Recover FAILED/RUNNING records before PAUSED records if any. Existing recovery validates exact acknowledged state and clears PAUSE_TRAINING when eligible; never remove marker manually.",
+        "commands": [
+          "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m experiments.task_axis_even_views_20261116.runner status",
+          "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m experiments.task_axis_even_views_20261116.runner recover --key \"$ACK_KEY\" --review \"$worker_review\""
+        ],
+        "executed": false
+      },
+      {
+        "actor": "Fresh native runner dispatched only by original parent with fork_context=false",
+        "action": "Launch entrypoint in supervised current-conversation foreground tool session. Keep the original owner. Frozen scheduler skips COMPLETE keys and continues unfinished keys with the same identities; do not replay complete trajectories.",
+        "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m orchestration.task_axis_even_views_current_utilization_20261116 run --devices 0,1 --review \"$overlay_review\" --worker-review \"$worker_review\"",
+        "executed": false
+      }
+    ]
+  },
+  "not_performed": [
+    "No GPU query/operation, storage IPC, switch/adoption/recovery or actual policy receipt write.",
+    "No worker training, smoke, Test access, model/checkpoint disk output or scientific analysis.",
+    "No frozen package/design/receipt/handoff/old historical artifact/shared-state edit.",
+    "No broad suite/old core rerun, archive copy, new agent/background session, commit or publish."
+  ],
+  "ready_for_independent_review": true,
+  "run_executed": false,
+  "test_accessed": false,
+  "lifecycle": "Return to original parent for permanent child closure at completion; never resume/reuse."
+}

@@ -1,0 +1,336 @@
+{
+  "date": "2026-11-16",
+  "role": "FRESH_CODER_CORE",
+  "status": "IMPLEMENTATION_COMPLETE_PENDING_DISTINCT_REVIEW",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "orchestrator_thread": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+  "design_approval_path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/DESIGN_APPROVAL.json",
+  "normative_specifications": [
+    "CODEX_EXECUTION_PLAN.md",
+    "DESIGN_COMPLETENESS_ADDENDUM.md"
+  ],
+  "changed_files": [
+    "experiments/task_axis_even_views_20261116/__init__.py",
+    "experiments/task_axis_even_views_20261116/core.py",
+    "experiments/task_axis_even_views_20261116/test_core.py",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CORE_REPORT.md",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CORE_REPORT.json"
+  ],
+  "code_sha256": [
+    {
+      "path": "experiments/task_axis_even_views_20261116/__init__.py",
+      "sha256": "3b160dcb766ccd5c3fcdf34e622d017d5c4f24566a793e8706ace95d5f6cd9e2"
+    },
+    {
+      "path": "experiments/task_axis_even_views_20261116/core.py",
+      "sha256": "9dbed6c1d055ed81f0a2dca8d8aa3a098b48134ea36a896766bd8d853c3afd55"
+    },
+    {
+      "path": "experiments/task_axis_even_views_20261116/test_core.py",
+      "sha256": "599f05f227a5c7f4ec234a81dd3bff5b9e5659b315e2ede42cad1c72609569ea"
+    }
+  ],
+  "implemented_arms": [
+    "AXIS-EVEN",
+    "AXIS-IID2",
+    "ISOTROPIC-EVEN"
+  ],
+  "api": {
+    "signature": "train_step(model, optimizer, ema, x, y, config, context)",
+    "config_required": [
+      "arm",
+      "alpha",
+      "mixture_lambda",
+      "rho"
+    ],
+    "fixed_values": {
+      "alpha": 0.03,
+      "mixture_lambda": 0.25
+    },
+    "context_required": [
+      "dataset",
+      "seed",
+      "epoch",
+      "batch"
+    ],
+    "epoch_batch_index_base": 1,
+    "context_optional": {
+      "row_order_hash": "Passed through unchanged; None if absent",
+      "diagnose": "Boolean; runner schedules first batch of epochs 1,10,25,40,50"
+    },
+    "return_fields": [
+      "loss",
+      "clean_loss",
+      "view_loss",
+      "replica_losses",
+      "task_view_losses",
+      "zero_delta_canonical",
+      "ledger",
+      "diagnostics",
+      "row_order_hash",
+      "optimizer_updates",
+      "ema_updates",
+      "probe_seconds",
+      "construction_seconds",
+      "training_seconds",
+      "seconds"
+    ],
+    "replica_losses": "{R1: float, R2: float}; both C in canonical branch",
+    "task_view_losses": "{task0: [a01,a02], task1: [a11,a12]}; each item is None in canonical branch",
+    "support_ledger": "B, entries=denominator=2B, clean_entries, replica_entries[2B,2B], clean_entry_coefficient=.75/(2B), replica_entry_coefficients=[.125/(2B),.125/(2B)], total_entry_coefficient, clean/replica/total/task weight masses, actual_clean/replica_entry_coefficients, zero_delta_canonical, cells",
+    "ledger_cells": "d{domain}t{task}y{label}: count,clean_count,replica_counts,natural_weight_mass,clean_weight_mass,replica_weight_masses,total_weight_mass",
+    "canonical_ledger": "Conceptual .75/.125/.125 mass retained; actual clean coefficient is 1/(2B), actual replica coefficients zero",
+    "diagnostics": "probe (unchanged source task0/task1 info), replicas (task0/task1 construction info), rng_key_version, view_rng_draws_skipped, rng_streams",
+    "scheduled_diagnostics": "replicas task info: input_radius source summary, input_norm_relative_error, IID2 sign_duplication_fraction. Even arms: E/O loss finite differences. gradient: total_data_gradient_norm,none_parameters,parameter_step_min,parameter_step_max,actual_update_l2_norm",
+    "helpers": {
+      "private_generator": "(device,context,task,stream) -> private torch.Generator",
+      "make_replicas": "(deltas,arm,context) -> (task-major [(d01,d02),(d11,d12)], JSON-safe construction info)",
+      "losses": "(model,x,y,replicas,canonical=False) -> (total,clean,view,(R1,R2),task_losses_or_None); tensors remain local to caller",
+      "support_ledger": "(x,y,canonical=False) -> JSON-safe natural support/mass record",
+      "norm": "(tensors) -> detached FP64 reduction L2 scalar"
+    },
+    "extra_persistent_state": [],
+    "returns_tensors": false,
+    "updates_per_call": {
+      "backward": 1,
+      "optimizer": 1,
+      "ema": 1
+    }
+  },
+  "implementation": {
+    "probe": "Unchanged source stage2 make_views(model,x,y,.03), detached full-support deltas; no parameter .grad from probe",
+    "perturbation_site": "Frozen forward embedding output; ordinary embedding remains trainable, original domain routing and training gate detach preserved",
+    "training_forward_order": [
+      "clean",
+      "task0_replica1",
+      "task0_replica2",
+      "task1_replica1",
+      "task1_replica2"
+    ],
+    "objective": "R1=.5*(a01+a11); R2=.5*(a02+a12); V=.5*(R1+R2); total=.75*C+.25*V",
+    "all_zero": "Clean loss directly, no view draws/forwards; exact clean gradients/Adam/EMA",
+    "rng": "axis_even_v1|dataset|decimal_seed|decimal_epoch|decimal_batch|decimal_task|stream; first eight SHA256 bytes unsigned little-endian; private device generator; sign1/sign2/isotropic; no arm/GPU-index field",
+    "isotropic": "Inherited per-row/task delta L2 radius, Gaussian-normalized axis, exact-zero q first-coordinate fallback without resampling",
+    "optimizer": "Caller-supplied audited source Adam; one step, coupled WD once, grad None untouched, no secondary update/counter/momentum state",
+    "ema": "Frozen source update_ema once after Adam",
+    "diagnostics": "Loss E/O only; data-gradient and actual detached parameter displacement norms with FP64 scalar reductions, no probe/view derivatives into train"
+  },
+  "checks": {
+    "direct_cpu": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.task_axis_even_views_20261116.test_core",
+      "exit_code": 0,
+      "status": "PASS",
+      "groups": 4,
+      "group_names": [
+        "mass/support/target/zero/tail, four-forward order, even reversal, exact four-sign-pair expectation, trainable embedding and detached perturbation",
+        "literal keyed SHA256 streams, reproducibility/global+loader RNG invariance, isotropic norm and exact-zero Gaussian fallback",
+        "source Adam None versus explicit zero, parameter counters/re-entry, coupled WD once, source EMA once/buffer copy",
+        "canonical full/tail exact source gradient masks/tensors/model/moments/counters/EMA, each registered arm exact target-only step, one Adam+EMA call, frozen helper hashes, JSON-safe records"
+      ],
+      "isotropic_input_norm_max_relative_error": 1.6109599698665988e-7,
+      "isotropic_input_norm_relative_error_limit": 0.000001,
+      "observed_warning": "Frozen setup emits the installed torch TF32 API deprecation warning; setup was not modified"
+    },
+    "syntax": {
+      "status": "PASS",
+      "method": "compile(source_text,path,'exec') for the three owned Python files; no bytecode artifact"
+    },
+    "old_training_source_hash_unchanged": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+    "design_bundle_verified": true
+  },
+  "environment": {
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "python": "3.13.5",
+    "torch": "2.9.0+cu126",
+    "check_device": "cpu",
+    "new_dependencies": []
+  },
+  "transitive_local_import_hashes_scope": "Local Python sources loaded by core, the four CPU fixture groups, and the read-only frozen source-manifest audit. Installed packages are covered by the project environment; other coder's modules were not imported.",
+  "transitive_local_import_hashes": [
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+      "sha256": "decb419a3338b5518b2cf6a8fa03c3d578a8d2287ee34f1a4f27bb6e1c758e91"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/checks.py",
+      "sha256": "b20c7f70b5cd73fadedf188b60acac7684595b2ac23c41cf79f9196db26d94b3"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/core.py",
+      "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+      "sha256": "22b988169286fb9c71313dfe51e01ed4e633d7634770fcb638d02519f29b6888"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+      "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/test_core.py",
+      "sha256": "088926a39891176ccc5d287bf418f403a6a5411fec1f056469f8d6c2ee844156"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+      "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+      "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+      "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+      "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+      "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+      "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+      "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+      "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+      "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+      "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+      "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+      "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+      "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+      "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+      "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+      "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+      "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+      "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+      "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+    },
+    {
+      "path": "experiments/task_axis_even_views_20261116/__init__.py",
+      "sha256": "3b160dcb766ccd5c3fcdf34e622d017d5c4f24566a793e8706ace95d5f6cd9e2"
+    },
+    {
+      "path": "experiments/task_axis_even_views_20261116/core.py",
+      "sha256": "9dbed6c1d055ed81f0a2dca8d8aa3a098b48134ea36a896766bd8d853c3afd55"
+    },
+    {
+      "path": "experiments/task_axis_even_views_20261116/test_core.py",
+      "sha256": "599f05f227a5c7f4ec234a81dd3bff5b9e5659b315e2ede42cad1c72609569ea"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+      "sha256": "3677d5086fc6263f7c771402890bdfaf2eb3da4b08018924b879122bdae719c5"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+      "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+      "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+    }
+  ],
+  "stop_controls_observed": {
+    "workspaces": [
+      "/home/xzf/Code/phase0-3",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116"
+    ],
+    "status": "ACTIVE",
+    "current_stage": "IMPLEMENT",
+    "manual_stop_requested": false,
+    "stop_sentinel_found": false,
+    "test_accessed": false
+  },
+  "implementation_blockers": [],
+  "required_next_gates": [
+    "Other coder completes protocol/runner/tables integration",
+    "Distinct fresh reviewer inspects approved design, actual code and both coder reports",
+    "Runner-only reviewed GPU full-batch and tail/source identity smoke; historical reuse/storage/admission gates before formal matrix"
+  ],
+  "not_performed": [
+    "Independent implementation review",
+    "GPU smoke or formal execution",
+    "Validation/Test access or research-result analysis",
+    "Model/optimizer/checkpoint files",
+    "Storage owner or driver launch/IPC/state mutation",
+    "Agent/subsession dispatch",
+    "Commit/push"
+  ],
+  "ownership": "Only the five listed owned files were written. Concurrent edits, historical frozen code and driver/guardian state were not reverted or changed.",
+  "lifecycle": "Return this report to parent, which closes this fresh child permanently; no resume or reuse."
+}

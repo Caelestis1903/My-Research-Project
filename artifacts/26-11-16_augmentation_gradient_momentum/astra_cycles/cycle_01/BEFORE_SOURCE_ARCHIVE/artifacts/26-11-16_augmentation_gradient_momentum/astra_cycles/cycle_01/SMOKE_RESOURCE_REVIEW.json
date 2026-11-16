@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "INDEPENDENT_SMOKE_RESOURCE_REVIEWER",
+  "verdict": "FAIL",
+  "scope": "Actual smoke resource admission only; prior scientific implementation acceptance unchanged",
+  "source_hash": "2ee2bdddb67861e65449cb3577c1d835f13395000a90b4ac101508c855f7b1a1",
+  "actual_smoke_sha256": "4d50a42e5a56e0c2df2392b18ae40cec8768714f4315b63c6148efe7113521f1",
+  "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+  "source_files_verified": 79,
+  "blocking_issues": [
+    {
+      "id": "RESOURCE-1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "summary": "Zero KuaiRand board-draw difference is not a transferable process-power reservation; formal admission is not cleared.",
+      "locations": [
+        "experiments/task_axis_even_views_20261116/runner.py:550-560",
+        "experiments/task_axis_even_views_20261116/runner.py:330-332",
+        "experiments/task_axis_even_views_20261116/runner.py:149-160",
+        "experiments/task_axis_even_views_20261116/runner.py:394-396"
+      ],
+      "evidence": "All three KuaiRand arms have first_sample==maximum (162.15,206.31,205.36 W), so dataset reservation is 0 W. The sampler measures board draw around one step after model/input allocation, without an isolated idle baseline. schedule passes the zero unchanged to choose_device.",
+      "impact": "On a memory-admissible card drawing 257-283 W with a 350 W limit, current power+0 remains below 297.5 W, allowing a new KuaiRand worker without budgeting its added load. This is a demonstrated projection defect, not evidence that an actual post-launch threshold breach occurred.",
+      "actual_guard_limit": "Fresh board samples and the same power predicate can stop later admissions when observed power reaches the threshold; they do not validate or repair the reservation for the already admitted worker. schedule updates memory reservations from worker peaks, but never updates power reservations from worker peaks."
+    }
+  ],
+  "issue_counts": {
+    "CRITICAL": 0,
+    "MAJOR": 1,
+    "MINOR": 0
+  },
+  "findings": [
+    {
+      "id": "E1",
+      "classification": "VERIFIED",
+      "detail": "All 79 receipted source files match actual bytes; canonical source aggregate reproduces the accepted source_hash. R1 remains accepted static/CPU evidence, with actual resource readiness explicitly deferred."
+    },
+    {
+      "id": "E2",
+      "classification": "VERIFIED",
+      "detail": "Six recorded FP32 full40960 steps each have one Adam and one EMA update. Full/tail null signatures equal SOURCE-CLEAN and delegated one-sided signatures equal SOURCE-NDP-A, independently compared in the JSON. Tails: MovieLens21927, KuaiRand40052. old_before equals old_after exactly. These correctness facts remain valid; this review ran no GPU work."
+    },
+    {
+      "id": "E3",
+      "classification": "VERIFIED",
+      "detail": "Execution plan section8 requires independent projected AND actual power/memory below85%, measured reservations and post-launch sampling. choose_device has the correct strict conjunction and arithmetic, but its power operand is not a supported incremental estimate for KuaiRand."
+    },
+    {
+      "id": "E4",
+      "classification": "VERIFIED",
+      "detail": "Executed only the actual AST-extracted choose_device with mocked host admission and synthetic sufficient memory. At283/350 W it admits reservation0; it rejects95.43 and206.31 W. No GPU query or training was executed."
+    },
+    {
+      "id": "E5",
+      "classification": "LIMITED_EVIDENCE",
+      "detail": "Recorded board maxima are below297.5 W; no actual power excursion is established. Sensor lag, preceding-arm activity and other workloads are possible explanations for high first samples, not proven causes. The supplied recent external-card loads were not remeasured."
+    },
+    {
+      "id": "E6",
+      "classification": "VERIFIED",
+      "detail": "STORAGE_OWNER receipt identifies foreground session59365, PID1570727 and accepted bootstrap source. No dispatch.json, launch_ledger.jsonl, progress.json or epoch_commit_ledger.jsonl exists. No formal start is evidenced. Both stop controls read ACTIVE/manual_stop=false/Test=false with absent sentinels. No storage request or shared-state mutation was made."
+    }
+  ],
+  "minimal_action": {
+    "required_behavior": "Do not use zero from this subtraction as a transferable power estimate. At the reservation consumer, use an explicitly labeled conservative measured board-power budget from the retained evidence, rather than inventing a watt floor or claiming a calibrated process increment.",
+    "smallest_arithmetic_change": "runner.py::schedule reservation construction: power=max(existing dataset increment, maximum peak_board_power_watts across that dataset arms). This gives MovieLens195.61 W and KuaiRand206.31 W. Keep choose_device strict memory AND power<.85, pending-card handling and actual resampling unchanged. No PowerSamples/smoke rerun or scientific/core/FP32 change is required for this bounded correction.",
+    "numeric_effect": "For KuaiRand, supplied GPU0 load257-283 W projects463.31-489.31 W and fails. Supplied idle GPU1 load13-20 W projects219.31-226.31 W and passes the power predicate; actual memory/host and live power still determine admission. MovieLens uses195.61 W, also excluding that loaded GPU0. These are conservative observed-power reservations, not a proof of all future peaks.",
+    "affected_implementation_files": {
+      "experiments/task_axis_even_views_20261116/runner.py": [
+        "schedule: consume conservative budget",
+        "require_storage: check effective formal-job source while retaining original owner bootstrap identity",
+        "handoff: report both retained owner identity and effective verified source; preserve existing parent acceptance"
+      ],
+      "experiments/task_axis_even_views_20261116/protocol.py": [
+        "validate_attempt: explicitly validate appended source/review/smoke-reuse binding rather than requiring old receipt hash to equal changed source",
+        "validate_continuation: use the same validated effective formal manifest as scheduler/worker",
+        "minimal shared manifest resolution used by the above and require_storage; retain check_review/source_manifest exact-current-source checks"
+      ]
+    },
+    "provenance_requirement": "Any runner edit changes the79-file aggregate. Current validate_attempt rejects that against immutable run_manifest; check_review rejects an old review for revised source. An arithmetic edit alone is therefore not runnable. After a fresh coder and distinct review, append one explicit superseding run/source/admission receipt binding old receipts and actual smoke SHA256, revised aggregate and fresh PASS review, unchanged design/scientific dependency hashes, conservative budgets, and SAME owner root/endpoint/PID/session. Preserve original source_receipt, run_manifest, STORAGE_OWNER, R1 and SMOKE_REPORT bytes. Formal jobs/epoch/results use the revised actual source through a common effective-manifest read; owner bootstrap source stays honestly recorded as2ee2. Do not weaken source equality globally, relabel old smoke as new execution, or restart/re-attach under a replacement owner. The frozen serve implementation is unchanged; retaining its live process does not require changing training math.",
+    "reuse_decision": "YES for the existing numerical full/tail identities and six-step memory/correctness evidence, conditional on a fresh narrow review verifying unchanged scientific/worker numerical paths and an explicit hash-bound reuse receipt. Current validators do NOT automatically permit cross-aggregate reuse. Original0 W remains original evidence, not accepted reservation. Reuse is not itself formal-run authorization.",
+    "not_required": [
+      "new algorithm/design",
+      "new smoke or GPU operation in this review",
+      "broad regression loops",
+      "replacement owner",
+      "rewriting original receipts"
+    ],
+    "current_action": "Keep FORMAL30 unstarted; return this concrete blocker to original parent for fresh coder/distinct review. This child implements nothing."
+  },
+  "measured_power_summary": {
+    "movielens": {
+      "dataset_increment_watts": 95.42999999999999,
+      "conservative_board_peak_watts": 195.61,
+      "arms": [
+        {
+          "arm": "AXIS-EVEN",
+          "power_before_watts": 29.78,
+          "peak_board_power_watts": 125.21,
+          "power_increment_watts": 95.42999999999999,
+          "power_samples": 8
+        },
+        {
+          "arm": "AXIS-IID2",
+          "power_before_watts": 157.24,
+          "peak_board_power_watts": 195.61,
+          "power_increment_watts": 38.370000000000005,
+          "power_samples": 5
+        },
+        {
+          "arm": "ISOTROPIC-EVEN",
+          "power_before_watts": 195.61,
+          "peak_board_power_watts": 195.61,
+          "power_increment_watts": 0.0,
+          "power_samples": 5
+        }
+      ]
+    },
+    "kuairand": {
+      "dataset_increment_watts": 0.0,
+      "conservative_board_peak_watts": 206.31,
+      "arms": [
+        {
+          "arm": "AXIS-EVEN",
+          "power_before_watts": 162.15,
+          "peak_board_power_watts": 162.15,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        },
+        {
+          "arm": "AXIS-IID2",
+          "power_before_watts": 206.31,
+          "peak_board_power_watts": 206.31,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        },
+        {
+          "arm": "ISOTROPIC-EVEN",
+          "power_before_watts": 205.36,
+          "peak_board_power_watts": 205.36,
+          "power_increment_watts": 0.0,
+          "power_samples": 6
+        }
+      ]
+    }
+  },
+  "corrections_made": [],
+  "formal30_safe_to_run": false,
+  "formal30_started": false,
+  "test_accessed": false,
+  "limitations": "No GPU operation, source/design change, smoke rerun, new calibration, storage IPC/liveness revalidation, shared-state change, agent/session dispatch, commit or publication. Only the two requested review artifacts are written. Parent closes this fresh reviewer permanently."
+}

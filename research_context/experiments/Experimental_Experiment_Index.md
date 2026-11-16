@@ -1,5 +1,9 @@
 # Experimental Experiment Index
 
+## EXP-AXISEVEN-C01-20261116
+
+完整30新增+20历史控制，2数据集×3臂×seeds2022–2026，1500epoch/51750次新更新，50epochs/40960/FP32。注册候选AXIS-EVEN为NO_CONTINUATION_SIGNAL：ML−0.000237520、KR−0.003540710（selected EMA Macro AUC相对CLEAN），不升级控制为champion。39个物理attempt中8暂停/1OOM均保留，不另计为实验组或新增科学重复。Test封存。[REPORT](../../research_reports/task_axis_even_views_20261116/REPORT.md)、[DECISION](../../research_reports/task_axis_even_views_20261116/DECISION.json)、[原始CSV](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/ENDPOINTS.csv)。
+
 ## EXP-TVGRM-20261116
 
 完整首轮：50新增+20历史控制，seeds2022–2026，50epochs/40960/FP32，86250次新增Adam/EMA更新。候选NO_CONTINUATION_SIGNAL；ML γ=.20局部WEAK正，跨数据集无champion。Test/HPO未触发。协议与结果：[REPORT](../../research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)、[DECISION](../../research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json)、[raw](../../artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/ENDPOINTS.csv)。旧后台编排退出后当前会话接管；换编排不新增训练计数。

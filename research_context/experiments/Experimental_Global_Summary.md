@@ -1,5 +1,11 @@
 # Experimental Global Summary
 
+## 2026-11-16 最新：Task-axis even views / cycle01
+
+30新轨迹和20精确历史控制完整。注册AXIS-EVEN相对CLEAN的selected EMA Macro AUC：ML−0.000237520（5/5负），KR−0.003540710（4/5负）；均值区间均跨零。NO_CONTINUATION_SIGNAL条件触发，继续fresh研究，无champion/Test。缺乏稳定增量证据MEDIUM；ML损失及task0退化需保留。KR IID2控制+0.001269552但2/5正、CI跨零，为WEAK条件反例，不能把全部新臂写成全非正。
+
+ML最小域d0较好基线仍下降；KR两个较小域d0/d2一负一正，最大d1近零。当前数据不支持单一规模解释或统一小域/大域交换。odd移除、task-axis信息、antithetic配对的终点机制优势均未稳定建立；局部E/O几何差异与最终AUC增量分开。完整证据：[REPORT](../../research_reports/task_axis_even_views_20261116/REPORT.md)、[DECISION](../../research_reports/task_axis_even_views_20261116/DECISION.json)、[数表](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/ENDPOINTS.csv)。
+
 ## 2026-11-16 最新：TV-GRM完整五seed
 
 50条新增轨迹、20条历史内部控制已经完成。TV-GRM没有形成相对CLEAN fixed EMA的跨数据集增量（MEDIUM）；ML γ=.20有+.000154、3/5正、CI跨零的WEAK信号，不能抹去。预设全非正NO-GO条件未触发；γ=.10按跨数据集平均排序第一但两数据集增量都负，不升级champion，状态为NO_CONTINUATION_SIGNAL。KR相对NDP-A恢复+.005609、5/5正，不等于胜CLEAN或单独识别clean二阶矩的作用。

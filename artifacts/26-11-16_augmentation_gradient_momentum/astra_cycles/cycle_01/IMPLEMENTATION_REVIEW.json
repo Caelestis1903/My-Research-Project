@@ -1,0 +1,880 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-16",
+  "role": "FRESH_INDEPENDENT_REVIEWER",
+  "orchestration": "CURRENT_CONVERSATION_ONLY",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "verdict": "FAIL",
+  "stage": "STATIC_CPU_IMPLEMENTATION_REVIEW",
+  "source_hash": null,
+  "inspected_source_hash": "4690be03973b1f9da4173ffd436cd09a49c4e27c75fd40f1c719b535f338c881",
+  "source_authorized_for_run": false,
+  "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+  "cpu_checks_passed": false,
+  "positive_core_cpu_checks_passed": true,
+  "blocking_issues": [
+    {
+      "id": "R1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "title": "Continuation RAM state is not verified against its acknowledged epoch before recovery, attachment, or load",
+      "requirement": "DESIGN_COMPLETENESS_ADDENDUM.md §10.4 requires liveness/source/state-hash checks before reattachment; §7.3 and CODEX_EXECUTION_PLAN.md §9 require verified RAM epoch-boundary continuation.",
+      "locations": [
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "line": 78,
+          "detail": "attach checks endpoint/source receipt but does not validate retained continuation state"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "line": 108,
+          "detail": "handoff verifies selected hashes only for COMPLETE records; unfinished snapshots receive no comparison to acknowledged epoch hashes"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "line": 199,
+          "detail": "worker checks job/initial hash, then loads model/EMA/Adam/loader/RNG directly"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "line": 586,
+          "detail": "recover checks state epoch/job only, then permits recovery or clears PAUSE_TRAINING"
+        },
+        {
+          "path": "experiments/task_axis_even_views_20261116/runner.py",
+          "line": 253,
+          "detail": "Existing epoch records already contain model/EMA/optimizer/RNG/loader/selected hashes, counts, step and source/bundle identities"
+        }
+      ],
+      "observed": "No continuation check reads the matching RAM_COMMITTED epoch record or compares its stored hashes/counters with the returned RAM state. A source/job/epoch match alone therefore does not establish state identity.",
+      "negative_fixture": {
+        "execution": "Read-only CPU invocation of actual recover() with validated outer prerequisites stubbed; frozen IPC and Path.unlink mocked; no owner, GPU or actual filesystem mutation.",
+        "supplied": "PAUSED epoch=1 with matching job/epoch, changed model tensor, global_step=-1, counts=-1 versus owner counts=20, and missing continuation components",
+        "result": {
+          "status": "RECOVERY_READY",
+          "key": "fixture",
+          "epoch": 1,
+          "test_accessed": false
+        },
+        "state_digest_calls": 0,
+        "pause_clear_requested": true,
+        "interpretation": "Recovery can declare an invalid snapshot ready. The worker likewise lacks the required hash comparison for otherwise loadable altered tensors; missing components may fail later, which does not satisfy verified recovery."
+      },
+      "impact": "The required reattachment/continuation proof is absent; loadable altered model/moment/RNG/selection state could continue under the same frozen identity. This is an implementation gate failure, not evidence that existing RAM has been corrupted.",
+      "minimal_fix": [
+        "Reuse the cycle-local RAM_COMMITTED ledger to locate the acknowledged epoch_file for the key/epoch; do not select an uncommitted numeric file by latest glob alone.",
+        "Before accepting or loading an unfinished snapshot, compare model, EMA, optimizer, global RNG, loader and selected-model digests with existing recorded hashes; verify epoch/global_step/counts, job/source/design and selected metadata against the acknowledged records.",
+        "Apply this check before clearing a technical pause/recovering and before any continuation load; cover unfinished-state reattachment/handoff as required, without changing frozen serve or the research algorithm.",
+        "Use one focused CPU negative/positive fixture: changed state or counters must reject without clearing pause or sending recover; an exact acknowledged snapshot, including epoch 50 finalization, must remain valid."
+      ],
+      "disposition": "Uncorrected. Return to original parent for a NEW fresh coder, followed by a NEW distinct review. Do not reuse closed coder/reviewer contexts."
+    }
+  ],
+  "issue_counts": {
+    "CRITICAL": 0,
+    "MAJOR": 1,
+    "MINOR": 0
+  },
+  "requirement_verification": [
+    {
+      "id": "D1",
+      "requirement": "Approved seven-file design, overrides, exact candidate and constants",
+      "status": "PASS",
+      "evidence": "Bundle independently recomputed as f682…9754 and DESIGN_APPROVAL PASS; only AXIS-EVEN, AXIS-IID2, ISOTROPIC-EVEN; alpha=.03, mixture=.25."
+    },
+    {
+      "id": "D2",
+      "requirement": "Exact 30 trajectories / 1500 epochs / 51750 Adam and EMA updates; FP32 40960 and seeds 2022–2026",
+      "status": "PASS_STATIC",
+      "evidence": "Scheduler Cartesian product and worker epoch range match the manifest; actual tails retained; per-trajectory and total update assertions. Formal execution not performed."
+    },
+    {
+      "id": "D3",
+      "requirement": "Frozen NDP-A probe and source embedding/routing/gate semantics",
+      "status": "PASS",
+      "evidence": "Unchanged make_views/forward/sensitivity hashes verified; full-support detached deltas, original x routing, trainable ordinary embeddings, training gate detach and probe-only full derivatives."
+    },
+    {
+      "id": "D4",
+      "requirement": "Natural full-2B support and .75/.125/.125 coefficient mass including zeros and tails",
+      "status": "PASS",
+      "evidence": "Actual core and CPU ledger checks preserve every row-task and task mass .5; no selected-subset or population balancing."
+    },
+    {
+      "id": "D5",
+      "requirement": "Exact target-only objective, prescribed four view forwards and one backward",
+      "status": "PASS",
+      "evidence": "a_tj=BCE(view[:,t],y[:,t]); R1=.5*(a01+a11), R2=.5*(a02+a12), V=.5*(R1+R2), total=.75*C+.25*V. Required order and actual-step state equality fixtures pass."
+    },
+    {
+      "id": "D6",
+      "requirement": "Even/IID2 expectation and actual input-norm isotropic control",
+      "status": "PASS",
+      "evidence": "Exact four-sign-pair expectation fixture and reversal symmetry pass; independent row/task/replica signs; Gaussian radius inheritance and registered zero-q fallback. Measured norm error 1.6109599698665988e-7 <=1e-6."
+    },
+    {
+      "id": "D7",
+      "requirement": "Keyed private view RNG and private source loader",
+      "status": "PASS",
+      "evidence": "Literal UTF-8 SHA256 key, unsigned little-endian seed, registered streams/draw shapes and no arm/GPU field verified. Global/loader RNG invariance passes CPU checks. Runner loader seeded once seed+11000."
+    },
+    {
+      "id": "D8",
+      "requirement": "All-zero exact CLEAN identity, source Adam None/zero/counter/WD and EMA once",
+      "status": "PASS",
+      "evidence": "Canonical full/tail source gradients, None masks, model/moments/counters/EMA match exactly. Source activity and coupled decay fixture passes; one Adam and source EMA call per actual arm."
+    },
+    {
+      "id": "D9",
+      "requirement": "Exact historical CLEAN/NDP-A controls and baseline preservation",
+      "status": "PASS_READ_ONLY",
+      "evidence": "20 pinned controls, 10 paired initial hashes, 500 epoch orders and frozen source dependencies pass. d443 baseline unchanged; all 50 old result files equal frozen archive; 9 tables match completion hashes; whole journals/results/index unchanged during review."
+    },
+    {
+      "id": "D10",
+      "requirement": "Cycle-root frozen serve/request, BytesIO-only RAM and protected old storage",
+      "status": "PASS_STATIC",
+      "evidence": "Only new-root request wrapper; unmodified frozen serve import/call; no new-path ensure_guardian/driver/detached launch. Root routing mocked checks pass. No real owner/IPC was started."
+    },
+    {
+      "id": "D11",
+      "requirement": "Verified continuation and retained-state identity before reattachment",
+      "status": "FAIL",
+      "blocking_issue": "R1",
+      "evidence": "Endpoint/job/epoch checks exist; required continuation tensor/counter/metadata comparisons against acknowledged epoch records do not."
+    },
+    {
+      "id": "D12",
+      "requirement": "Parent-owned storage lifecycle and explicit handoff/release",
+      "status": "PASS_STATIC_RUNTIME_PENDING",
+      "evidence": "Distinct endpoint/session receipts, COMPLETE selected hash/compaction checks and explicit cycle-only release/shutdown gates present. Actual parent-owned tool-session survival and acceptance are RUN gates, not established here."
+    },
+    {
+      "id": "D13",
+      "requirement": "Owned scheduler worker pipes/signals, both stop roots, no heartbeat TTL or process-count cap",
+      "status": "PASS_STATIC",
+      "evidence": "Popen uses owned stdin PIPE/PID and no detach; EOF/actual parent loss/signals pause at atomic boundary; both manual-stop controls read; short resource polling has no lease expiry or worker-count cap."
+    },
+    {
+      "id": "D14",
+      "requirement": "Per-card memory AND power <85%, host <90% including pending/snapshots",
+      "status": "PASS_STATIC_AND_FOCUSED_CPU",
+      "evidence": "Focused independent-card rejection/admission, pending and host checks pass. Actual measured reservations/power and headroom remain smoke/RUN gates."
+    },
+    {
+      "id": "D15",
+      "requirement": "Batch/epoch logs, validation-only selection, full raw metrics and registered seed contrasts",
+      "status": "PASS_STATIC",
+      "evidence": "Required diagnostics schedule, hashes/costs/support logs, strict-greater independent online/EMA selection and E10/E30/E50 implemented. Export requires 30+20 exact coverage; n=5, ddof1 and exact CI multiplier; no ranking or scientific conclusion."
+    },
+    {
+      "id": "D16",
+      "requirement": "Current-source review/smoke gate and Test sealed",
+      "status": "PASS_STATIC_NOT_AUTHORIZED",
+      "evidence": "check_review requires accepted verdict, empty blockers, current source, approved bundle and cpu_checks_passed=true. Smoke requires both datasets/all arms/full and tail source identities. This FAIL authorizes neither storage bootstrap nor GPU smoke/formal execution. No Test evaluation path or reviewer Test access."
+    }
+  ],
+  "corrections_made": [],
+  "source_files_modified_by_reviewer": [],
+  "review_artifacts_owned": [
+    "IMPLEMENTATION_REVIEW.md",
+    "IMPLEMENTATION_REVIEW.json"
+  ],
+  "checks": {
+    "four_core_cpu_fixture_groups": "PASS; independently executed once",
+    "source_canonical_and_registered_step_identity": "PASS on focused CPU fixtures",
+    "isotropic_input_norm_max_relative_error": 1.6109599698665988e-7,
+    "resource_and_root_routing_mock_checks": "PASS; no real IPC",
+    "recovery_negative_fixture": "FAIL: inconsistent state accepted as RECOVERY_READY; pause clear requested",
+    "code_hashes_match_both_final_coder_reports": true,
+    "inspected_source_file_count": 78,
+    "historical_control_results": 20,
+    "paired_initial_hashes": 10,
+    "epoch_order_hashes": 500,
+    "old_training_source_hash": "d443b9a7d5732e799e4c19859c719d9871afdea15bbf4f700a5070ed8db05de6",
+    "old_result_files_match_frozen_archive": 50,
+    "old_tables_match_completion_receipt": 9,
+    "old_journals_results_and_control_index_unchanged_during_review": true,
+    "source_hash_recomputed_only_after_both_final_reports": true
+  },
+  "input_reports": [
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/DESIGN_APPROVAL.json",
+      "sha256": "1465238d29480b042e77b40a21ce616abc0c7229dceef87697fe8ac1ee584bbd"
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CORE_REPORT.md",
+      "sha256": "765a304027125bae81c8e668883291354baae7e68263c0ccda2414050d77d0b5"
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_CORE_REPORT.json",
+      "sha256": "2a394d389a429f5c1e340c55564279d75d212fe9a85541bf11ba889495894ede"
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_RUNNER_REPORT.md",
+      "sha256": "d8ace308e7951fcf1386e0e6dc99d17e176ad5eda8a372e3f34be0e44562c0d8"
+    },
+    {
+      "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODER_RUNNER_REPORT.json",
+      "sha256": "7c6d00f4017c23b6d16701fd0ce1fc0afb8c94ef5ef72060689bed255d69a2ec"
+    }
+  ],
+  "design_files": [
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/ALGORITHM_DESIGNS.md",
+      "sha256": "ce61ef40ced246a08c022922477db00e38e00b113d9a4eda80b0b5544195c5ab"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODEX_EXECUTION_PLAN.md",
+      "sha256": "3f80e8593c8ad76387eb2f822e9f1504b672314040c2bb6cf91958f345ecdab9"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CRITICAL_REVIEW.md",
+      "sha256": "33c8eba31fa1daf71326133926204974cac1a54e9eed96e3411a80d35907f517"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/DESIGN_COMPLETENESS_ADDENDUM.md",
+      "sha256": "02103fac5407c4d00161a87e155e3908b2c21203dc240947cc24ebd90ca8ce86"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/EXPERIMENT_MANIFEST.json",
+      "sha256": "0754dda460cae9402a0056ee24b6de7154a43559229dee92c17e7cd3557823d8"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/LITERATURE_AND_NOVELTY.md",
+      "sha256": "84847620c3cb71e2ee8609decca6faefcd3178d62835cc7586459b3d191750e1"
+    },
+    {
+      "path": "research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/RESEARCH_EXPLORATION.md",
+      "sha256": "b8d05286d9f1e55476a3453e11b63ad5f0815a4c24936fb4c370b13e042d97dc"
+    }
+  ],
+  "inspected_source_manifest": {
+    "files": [
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+        "sha256": "decb419a3338b5518b2cf6a8fa03c3d578a8d2287ee34f1a4f27bb6e1c758e91"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/checks.py",
+        "sha256": "b20c7f70b5cd73fadedf188b60acac7684595b2ac23c41cf79f9196db26d94b3"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/core.py",
+        "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+        "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/runner.py",
+        "sha256": "5a0dbe51530119a52f0fe1a2dab443efb06f798f2902165e2c2ca152e78cd322"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+        "sha256": "22b988169286fb9c71313dfe51e01ed4e633d7634770fcb638d02519f29b6888"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+        "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/protocol.py",
+        "sha256": "66ea0d1e6461711c88e2a68ca2ca32ed02e713967f06d680c96f5540816fe731"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/runner.py",
+        "sha256": "4816358701e85892411683250d291592dd2af2bc10784d8a20d0643ad8b00617"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/tables.py",
+        "sha256": "02b57801b9dfff04959172b91d19f153307719c8f3e54bc7db63cfea7239b610"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/test_core.py",
+        "sha256": "67e151af9338e43d4837346fbadd12d405deffaa29184d0e986d4b5dba6517bb"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/tables.py",
+        "sha256": "3492ffe38352b4098950b2f29493e06369e68cea35ea491a1cb56ed249aba125"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/test_core.py",
+        "sha256": "088926a39891176ccc5d287bf418f403a6a5411fec1f056469f8d6c2ee844156"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/SOURCE_MANIFEST.json",
+        "sha256": "af2e7590cf8dc424494edd6a77c6d5c524de781b6e87ef025a064b843e252ef0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py",
+        "sha256": "278d22da232199922f3b70e4735966c61c09d5d4ed800dcf78ed8ffe2e5164eb"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+        "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/objectives.py",
+        "sha256": "9794b3aa5f10370c4b09d9bb040f925334ea47a591516ef0fe3e4caee8ac51d0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/optimizers.py",
+        "sha256": "b78675f1674df0e2a4690b64d567826f4fcc764b256a5e19878ec1e0e79295e7"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+        "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/run.py",
+        "sha256": "56129eb565487fbf536352c59d1978a09cebf2721f9c46ba7e3f8c66ef27b7b0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/stage0.py",
+        "sha256": "725a19dffa68573597ce1279d50f149af0eac16d70a67db61b6b1a1773cdb872"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/tests/test_semantics.py",
+        "sha256": "6272155542f8f25c5e959809c591d696b93c4890b0bc09aa1644d23ec8ceb202"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+        "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+        "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+        "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/gates.py",
+        "sha256": "990b2606384af6978cc212ed15492314670eefb44616620b92e608ba7fc09d84"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/guardian.py",
+        "sha256": "8fcd484922f62ec777e10606140034578292c61e4feb6b08c7f84864cc5e9208"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/input_probe.py",
+        "sha256": "63f8aaa7b100cb91d725fe2213a21cd747dd5e6abd47d721089300f795ca81a0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/objectives.py",
+        "sha256": "d8bddc7f8160cc96e1675662630b845aaac37646490eb3ea6e05caa0bb4b82bf"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+        "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/rng.py",
+        "sha256": "48d41cb3cc9df57feaa86d87c1e11c54949a78abce97f027b459bebd34e0961d"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/run.py",
+        "sha256": "0b7fd9b89238bafe867dc43f182b5c40bda5c0fd95188e61b89e9759162de26f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/stage0.py",
+        "sha256": "e0270deb4406995a5f35d85a480fa3fd6f866f07d0a14e15f6a45828824c11a3"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_core.py",
+        "sha256": "78747519136d4b5f5ad7a1db46b0ce7067e00a4dadf160df1d6e2cacb2437bd9"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_execution.py",
+        "sha256": "c08139513a0143df2110f6144c10cd3493c3d16cf95216b0c8b8df6ba3eab858"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/SOURCE_MANIFEST.json",
+        "sha256": "05337a7cb1a3c2ccd2290c75a65e5de84022328f91d183bd177dbafe1fe59816"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/objectives.py",
+        "sha256": "28eaa19444cb650ca46d28c4e22829771612920add6c27188b828d934ea5479c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+        "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+        "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+        "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+        "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+        "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+        "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/data.py",
+        "sha256": "1e0c4aab006805490ae81759dbe251f15caa45a73a676de48d675e803bfe451c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+        "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+        "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+        "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+        "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json",
+        "sha256": "37c2455e63c97c46f72bcedf33a7e01a2c7b14c4e4f2711e64d313f25b4a133c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_data.py",
+        "sha256": "295d55421eaae4db5f16fc7597d984ca90e72201fb30799c8dadef4c53b65742"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+        "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+        "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+        "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views.py",
+        "sha256": "983f1e35ec1c6ea5b3dae6c7c60855d67f8eb0e688163f64b160dd08ee16f05f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_ema_field.py",
+        "sha256": "fed4dbdb06da69a318bd1f26aabc223fc564dd5f02b2d94f8caee490f8e353da"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_joint_label.py",
+        "sha256": "8d745faa6372194eeeab030c49647dc3ca27010ca19c76b617238bdd69e45385"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/README.md",
+        "sha256": "e42cdf8847399a1be47d0424f3e4352902a70f94843e2ab19a4c0f63148db083"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/__init__.py",
+        "sha256": "3b160dcb766ccd5c3fcdf34e622d017d5c4f24566a793e8706ace95d5f6cd9e2"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/core.py",
+        "sha256": "9dbed6c1d055ed81f0a2dca8d8aa3a098b48134ea36a896766bd8d853c3afd55"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/protocol.py",
+        "sha256": "44c2ba996fa8a534d6cbda34533f24b1241aef98a8875e3911b64ff60a9eeb2d"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/runner.py",
+        "sha256": "e2fa08e02dc8e517df82708b2606eb672f9392443e1d0f2f450712abd246d608"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/tables.py",
+        "sha256": "18b82f270716e8d8264455112f58efddf1dd3dfea588187956188c51a7822501"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/test_core.py",
+        "sha256": "599f05f227a5c7f4ec234a81dd3bff5b9e5659b315e2ede42cad1c72609569ea"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+        "sha256": "3677d5086fc6263f7c771402890bdfaf2eb3da4b08018924b879122bdae719c5"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/autonomous.py",
+        "sha256": "19bbb5e075a3928997ba6118da9e420f27609554615556bc25c97a2cc0f819fc"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+        "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+        "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+        "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+      },
+      {
+        "path": "requirements-phase0-3.lock",
+        "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+      }
+    ],
+    "sha256": "4690be03973b1f9da4173ffd436cd09a49c4e27c75fd40f1c719b535f338c881",
+    "design_bundle_sha256": "f682ad676b8a2a84b21ebb3fd63aef41348ee49f45d838a9cbca2af2b10e9754",
+    "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89"
+  },
+  "preserved_old_inventory": {
+    "roots": [
+      {
+        "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1",
+        "journal": {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/epoch_commit_ledger.jsonl",
+          "bytes": 668923,
+          "sha256": "0e5cf8ea072f93d8c2120164a9ceeafe1e3b924ffa7f1c3e28ecf864c90cfe53"
+        },
+        "results": [
+          [
+            "runs/15a8889293929f4e6ea00a2e33e3e2e48b92c3d5b7cce69bcd34457958cbdcae/result.json",
+            "c19f391e5bf3e25f0012709beab57a6befc619dae1b8da9667d746a1c0b48076"
+          ],
+          [
+            "runs/1b105d5b951823eef44a8703bfec5539769736967ea0228044b4b6128b716f96/result.json",
+            "054de5745549831a56796285b930be7b5b6483f3d17875ffda25c12ac19dfe85"
+          ],
+          [
+            "runs/1b5cd3398161e4cb4636b2b0cc36ed0d1d352f26da33a9221083be4ba93dd5d4/result.json",
+            "7e1412a030f2308fbb78bd02cbbc5bcb9de469356c62541f024b622aa06f68be"
+          ],
+          [
+            "runs/1d3fff2915d23b7317bca1fc939fc06a640a68e78c08af648f20424d90390195/result.json",
+            "ba75a9dfa9ebd2bdf551844050323513d62c5c4afd4ca345f754b56b35f47dd8"
+          ],
+          [
+            "runs/264bb5782eb0091ad81952989ef417aef1776561184e81e8f0dd54b87291fb8a/result.json",
+            "910d1af6fd4349001dfa78ad906f7aa0caa83cd8478b2a8afc6a22fdfc6cd3f3"
+          ],
+          [
+            "runs/277686e670c443c698023899e0e1f346ec21ce5b0cbe098c2dd7aae9d693f613/result.json",
+            "9e573bc1698b3e7282789269707cb93b46385dd06cf62266ac09f39bc6fcd67a"
+          ],
+          [
+            "runs/27aaffbb4e867b34af6a8ec0a3f3c49a7f58a1db0658f5852bcbbe7b1865266a/result.json",
+            "6ecf9a0636d62e5d25ab796b15f334afdb48aaa5377032ae793d134fa89e480b"
+          ],
+          [
+            "runs/3a352cf88b308b881cc82ba8c1f6838cf3c4d326ceed1a2471f326079bebcef4/result.json",
+            "034da141e5db3b01ab8aa707ed3e5a4d876f708a81897606149f01ad9e00c6a7"
+          ],
+          [
+            "runs/3aef7f0177347da09913f7310eee8ffcd0fc1fcae047f486c8ad2a03d9e19ab8/result.json",
+            "ed69c6c2e2e52b6f21f8076f0e10e890f417be1b290a7a83909d105ada5f49f4"
+          ],
+          [
+            "runs/3ec3eb37eec8bfca42384027d25a759ec0c9088e1f69fcce9ee1888a052ebce0/result.json",
+            "95f858dc6266b5247d55712a5b925d0a1571a27a64da4ae31cc122b251ded555"
+          ],
+          [
+            "runs/49b970e88fd536a7bccbc2f368af68df1504c6a0bc3e4a0556bb62aefb5fb380/result.json",
+            "d06750be8cd864d8328fd1e48140e33396b81d80d61b12f5b1a379fe7c7f08cb"
+          ],
+          [
+            "runs/4d78bffdd032cc7819b04947cf23c87dc326012b78434ad45bd7daa0d2cb0909/result.json",
+            "e841e72efedb783b62ec02408853a32a3c2fc1b18e213dff516b5ec51f30d4f3"
+          ],
+          [
+            "runs/5321c8bbc6a5b357679679677d4bbb62dd9c529308db4001bb3a14eac9f9545f/result.json",
+            "4bcb436ea95475bb30c16bcc9e258e6102e4eba68142c4c6e3252e7efa349ee8"
+          ],
+          [
+            "runs/57fc68b0e790be4cf31cea532ad70967c46b7b8e1e972a2ef6008aa3db7a7316/result.json",
+            "0ec7460f76978cba5e718a1044562b8cdecdaa9f55794a3cfc05498c87240160"
+          ],
+          [
+            "runs/5d180af27ad95be5282462350f8cb1001e10ca829fda9be96c70466ef3a9b0f2/result.json",
+            "8485106174c037e28646a1ff759bffcffa4fd28fc4d7c275940cd4b8746a6645"
+          ],
+          [
+            "runs/63c6f49e7698fe6cfd528cfca1f6464fc6950bb199cccd3b6c29ebe67c717ee5/result.json",
+            "45a9eddc8065ebec4b283a191437be63386eb25ade7eb83d1bef8655238e4e46"
+          ],
+          [
+            "runs/68d11ec109a5338e45864d3b9e154c1b77bd40f4f55097b815ef43621b8dbcc3/result.json",
+            "8c5eb0ce32d25de7756235d6099606c5631ac4cb080a793f48381bfe804e3334"
+          ],
+          [
+            "runs/6eda1659a9332c9c5dfc4e872baef06f7b064c3ff879b491e8a259364488c0f3/result.json",
+            "b63969ab3c11fdd0e7255334900f23019ae1f7b8f8acf9cb0b1fbeb6887d5216"
+          ],
+          [
+            "runs/6f5d6f265ad10a9829288e4b2085241352ff784ba848f0317101a0c4c57e1a5a/result.json",
+            "fd0bbbd5deb722e00aea9009a84d514bef715a523d3bdeb0b8e561dc09b34972"
+          ],
+          [
+            "runs/7053b2fe3376b919b939ac543864cd513a4514319a7d49e8d04db3a831e4e41e/result.json",
+            "ba862f10b29a218f22fe56a712236aa352476355ae041d8698617d880a6c3bcf"
+          ],
+          [
+            "runs/7cfc7a3d32dd4a45bc7ff3b5340e45305cff8c22ddaf5e9a8d0858ac9e5042ae/result.json",
+            "83588d7d770894f73474b75c7eb29b11db09dd99c37933419aa9ad6d009a37eb"
+          ],
+          [
+            "runs/7d1b25568cbc422f2c41e7291fa84ae033f0f0ffd0cd5e7449f691faabbc97a2/result.json",
+            "e2c8b3d3a1f63b6d5f3af74a31edc7c06b9201b86f854ec2e7dc2c39419f5c80"
+          ],
+          [
+            "runs/7ea54de97c6c5f1582cb9a2374113c000a94ccc8646807c518f0643cb76fd9e6/result.json",
+            "a9b6c2f5438550ca0a492555c8bb4f6dae4f2ce32053599d99a0803dc1133915"
+          ],
+          [
+            "runs/85f5fdd55b2ae11c0b3cd0a696ff1bfc269ae973b9cb69cb4bf712a4a88fb18e/result.json",
+            "ab9e1a1b1b8ab0d6ff969003524b93dad9390f7c3d71bb44913d4bb534dc5df9"
+          ],
+          [
+            "runs/9031b991af473d1a1ea6b601cab216bdcab137b7db2e5c91347fb38d2f34f3cc/result.json",
+            "eb55eec92cd6a5e0d516353132c9525567f20c9900e9b24e13ee6c8400652c65"
+          ],
+          [
+            "runs/93a0aa11d2585cac6ecea5ecd8c17d98422c0231d5ba5d070f4f6712d6285486/result.json",
+            "27571e0efc7a5a5a3ae50b5919176cde81297792d7f376e04fc365a465e8c867"
+          ],
+          [
+            "runs/9c064f9ece2d33d006efb17a57df8a9c45a5ba85d8ac41d162c346d4ac579e77/result.json",
+            "7f3e742235ae99b56ffb74b42f6b10555d1277c58feeea686d775caf22f9d9f7"
+          ],
+          [
+            "runs/9c746037bd50f6e4116185620ccb4326ee55b7d12dc7348c4d5765cefba3e04e/result.json",
+            "eb8ac58786de88025e0d986543a1b63c48deb91d220a6f6f0e224ff1b87eb76d"
+          ],
+          [
+            "runs/9c83e82a3128042b7a55901274350a7fefb9f7bce24d770fc0d12b7cbf1608a5/result.json",
+            "60aa69c092cd11631ab16533c8a3ca99b8abc4dc24570e91ad848a72d21470c0"
+          ],
+          [
+            "runs/a33e68d46dc4633126d15272b312d246910cfedf18bfc7672b59b1531d1ca8b5/result.json",
+            "fae752a2508b77178fdf3eb6746e29cb7b78c5782e340e57af261c5ba3d78eac"
+          ],
+          [
+            "runs/a6b12879c00cad0ba830c97e93405d4a88f2e7adf0fda0b8536c27f29d9f2fec/result.json",
+            "60a23d45af2944a6285ee49ef1c3ef293c56b0b74fea87118c880b32f9486f39"
+          ],
+          [
+            "runs/a76f4452978b4b47901caf042095491d559e572b05eeeba4b48873481114d5ef/result.json",
+            "592a87d01021e4f05d55a12e09a0e9009da7f6b85811f25eb6e002a973a53a13"
+          ],
+          [
+            "runs/abbe60df1473b29643ad8b90bb5e5347d2879549428336da19165ae0f7cea9a1/result.json",
+            "9d2753d918cbde1d6d640c93007fac2620b880bc6b400af366fcc2a291d5b365"
+          ],
+          [
+            "runs/abf9335deea7542e5f9d46e8beffe6458c46a044ffe3edcd1e14cd1358fd0f76/result.json",
+            "237bc56fba99b26a5e75d06d72b97e6b943a1c9700f6e2c4cb0d0ace34ae84ec"
+          ],
+          [
+            "runs/af0e475a568a951b8e88a8fcca927f553792a6c743b6b8a256c17e860636d54d/result.json",
+            "64bf2841b2f7bf763e4be7f6d276edecd4e195a345b4d38b725b0be3b7982824"
+          ],
+          [
+            "runs/ba40b3d37e84efa6f89c79196490284cbc620752931321cdd50911dfaf68b0cb/result.json",
+            "6e5fcc7a022b91ff183c6ac6787d5c787079f36c707aad51ac1b929f1cc92525"
+          ],
+          [
+            "runs/bef6709c77e0db9ac0872e836d6182f90dd1d898ffc5b705dfe93ef3e98d7547/result.json",
+            "cdde289e3ae16a27fa383e331d2adf12826d6fc91d5365a281922eb74470d427"
+          ],
+          [
+            "runs/c04d0bf7cb70c9429dbb8b40585adb233c21627b409b645064ff0ff431d0f677/result.json",
+            "114c16caee8a1cf64ae2adbb4e46d66f893662cd47e476249ca4750eaf629a98"
+          ],
+          [
+            "runs/c25016e954a8730a47b0126877c95acd1978379983e6b6afd63cc9eea538876f/result.json",
+            "bbe92570a73162bc1baf2557ab8a76f189468b7a62c73a78b5183fc7dfb52dff"
+          ],
+          [
+            "runs/c2565f3313af4215578d04b69f3fe2d371667d7a973b45308b5d90fbb0a67004/result.json",
+            "439adab77705be2127f5bfd3890216fb5739e05b9d001f1e7085acfb8e732083"
+          ],
+          [
+            "runs/c39f96886e03aef766382f622d1d1867e5e7d171f7d1138501185365e69f84ce/result.json",
+            "557a352947949195e62cbbde461d3732b7aa00fb3e90cb6cb0f62424c13735b2"
+          ],
+          [
+            "runs/d1b12e08507a5f61346cc16188d86f3d5eac7f68c2cfd2c7a9a2a6a9048952ab/result.json",
+            "293e95e5d82e68944da7b5c239bdd866bdbd7414c93d8b99d88074fca4e96835"
+          ],
+          [
+            "runs/d1c2c3b28e7ad81d01b6fabd10ca7f63ba4c29251c164cb41e8f72822e8d2edc/result.json",
+            "9cad12a3cf56ca96a8798ceae8013bb2c043e02a457821497efd2c4360391317"
+          ],
+          [
+            "runs/d35962ec81c972e408a0bdb4d4a0f18977c2404f49ed987f9eb7a2d4cfaa1202/result.json",
+            "54c137dd71f2ab5fdaf7a62f3880a5a70b1bec550e2d71b4a6872327d630454a"
+          ],
+          [
+            "runs/dc5411995bce06499e5a51007afcc6fe5d2daaa8623d6f57d24e7a1b93db2fb9/result.json",
+            "d9ed86a5a88c97265aa385bd832b47cd58be3fb4a6b6b8a3e0ee8bbb9a82b515"
+          ],
+          [
+            "runs/f2994c3f79cafba221946e96dff185b6b94276b7d11267987db76f9d673ded87/result.json",
+            "aa35b73adae4e548e6b8330af5532ca9b32a85c48552caa3ec6e97e0bfcd7a55"
+          ],
+          [
+            "runs/f2a88b29f58659586fd71dd6aa303a8bb9eb9ec07071b126ec9ccac826b9a1e4/result.json",
+            "b28f198a2736ddb0bdd2586597c1acc65f749701cf55e2a2f6a25de6a6e1a61c"
+          ],
+          [
+            "runs/f3b0acbe9910ce77fdf8621b9a099c5fbf403430cb3ed248eb2da10ff1473b32/result.json",
+            "cc3468c2a3faddf2d142c5c1d74371afe377e5349101ba1bb90783e7f7135ba8"
+          ],
+          [
+            "runs/fbfab01640931d42d59ea713d2f737062c5626c35e800fbaae9ce4659b783980/result.json",
+            "fa6c8f3afb37426ac16b5a449a45e13e963bf43717d8edaead93641b32100897"
+          ],
+          [
+            "runs/fd783ce8e7c770b7446b0e9d2da91f88d208a1921b68e241ccd98070ea51d789/result.json",
+            "90318068ba76b5c59de499baa2bcd2bcac84f7a052bd045fda9de45cdd8445cd"
+          ]
+        ]
+      },
+      {
+        "root": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1",
+        "journal": {
+          "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/epoch_commit_ledger.jsonl",
+          "bytes": 133789,
+          "sha256": "1431d8373f723b902746d8bb3f6a4d21cd2863e41d6e1a64808ac186817492ae"
+        },
+        "results": [
+          [
+            "runs/06c9569cf8cad50523042d23ea8dd24e385700c9b9673083e7ffe1f048bd0324/result.json",
+            "f2a2f0973c3b9f69d01bed45069768872a89b433c3cd825b93157806dd30d562"
+          ],
+          [
+            "runs/408e189b8623389db776169c3877ae168d70be46d926a9ac24d8a64b9bf27f3c/result.json",
+            "9a429f68fe40b32895d37b8c6675cb7b33ce9d1f81c374f5963f465a7a5c07df"
+          ],
+          [
+            "runs/40f0ef0b7b1dfb7ea533dd6f9186998cf036a29acff175da065d676531d39c6d/result.json",
+            "53be18f4b978f7785087d9c620456406ef1720f4700db842bd2a70bfe5785efb"
+          ],
+          [
+            "runs/653f38c8a18c721df444ee72f33c21a18d57817813f4fe7b5d66c0fb83a811a8/result.json",
+            "e4469260ff9abe532ce959b6eae526edf9db062ba47ff140009b2ae8b18bef39"
+          ],
+          [
+            "runs/6b3c08ea86eaf7db07de2bb7bb02bb8d85839300594c07fe6fea36f866251b75/result.json",
+            "9c79f303432b3967322e3a070a3a432f78fdf4fb2c630a68c2ffb527b8828459"
+          ],
+          [
+            "runs/964c9136dc38976800f973ae2066dc4974244e35380f8be2e4951f0b02712201/result.json",
+            "0ea4d90502902ca6b60521802259a680825d059481f08b8344fe99722b3e1cfe"
+          ],
+          [
+            "runs/b205a87c7fa350c56d2f1714d6854b3d7d06c3d8017ab8c471edf0e39fd0ed20/result.json",
+            "dd0c749287719c614be67ef276137b12ccdba467ae89da191f2e0479f7c6f654"
+          ],
+          [
+            "runs/cc7752d00b30d1816db2943a82c11276699818add08f90ad97f0ee593650fbd5/result.json",
+            "5b135519b3602b1f380e782d46b5532ec8a63fe0167cf99a00af27b60bcb100e"
+          ],
+          [
+            "runs/f41d7bc87c5675e75f2061b695564d60897497f5e320379ea124ea02df8f15ee/result.json",
+            "8de3569eaeb85ffd6d69fc44d8446bc261c97af1ed3534f99c881bb37ee1c116"
+          ],
+          [
+            "runs/fa57be3d1c8aa562913bf675972b0acd70f4906901c2152939a47bd2b58d60be/result.json",
+            "d1967c3c7b508705f9985c9a7fa7cb091c524e7abce762cdaa54421da05edfbb"
+          ]
+        ]
+      }
+    ],
+    "controls_index_sha256": "e1e59cee038ac1e1e695edf01dd1e89c6446099e2ee7b5e9422dd3966562c753"
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "state": {
+        "status": "ACTIVE",
+        "current_stage": "IMPLEMENT",
+        "manual_stop_requested": false,
+        "test_accessed": false
+      }
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "state": {
+        "status": "ACTIVE",
+        "current_stage": "IMPLEMENT",
+        "manual_stop_requested": false,
+        "test_accessed": false
+      }
+    }
+  ],
+  "remaining_run_gates": [
+    "Fresh coder correction of R1 and a fresh distinct accepted implementation review with final source binding.",
+    "Actual raw/cache/environment preparation under accepted review; no cache/data loading was performed by reviewer.",
+    "Original parent-owned isolated foreground RAM owner, live endpoint and verified cross-agent ownership handoff/lifecycle.",
+    "Current-source runner-only both-dataset/all-arm 40960 FP32 smoke and exact full/tail CLEAN/NDP-A source identities, plus measured resource admission.",
+    "Unchanged exact formal matrix and complete raw evidence; Test remains sealed."
+  ],
+  "safe_to_run": false,
+  "storage_bootstrap_authorized": false,
+  "gpu_smoke_authorized": false,
+  "formal_run_authorized": false,
+  "test_accessed": false,
+  "not_performed": [
+    "Source fixes",
+    "GPU smoke/training",
+    "Validation or Test forwards",
+    "Real storage IPC or owner launch",
+    "Disk model/optimizer/tensor checkpoint writes",
+    "Subagents or independent/background Codex sessions",
+    "Retired driver actions",
+    "Commit/push",
+    "Broad regression suite"
+  ],
+  "lifecycle": "Return this one review to original parent, then permanently close this context. Any correction and next review use new fresh children."
+}

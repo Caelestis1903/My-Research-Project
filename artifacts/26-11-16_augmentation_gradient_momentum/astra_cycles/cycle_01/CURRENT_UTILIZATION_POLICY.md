@@ -1,0 +1,9 @@
+# User concurrency correction — 2026-11-16
+
+start.md line33: 每个GPU设备应当尽可能多并发训练进程，当单张显卡同时满足显存和功耗不足上限85%时，就并发新的训练进程，不要求两张显卡同时满足要求。此外需要满足电脑运行内存RAM的使用率不能超过90%。
+
+The user explicitly reaffirmed this rule during cycle01 RUN. Admission uses each card's CURRENT measured memory/total <.85 AND CURRENT measured power/limit <.85, and current host RAM <.90. Do not add predicted worker watts or GPU peak bytes to this predicate. Admit one startup at a time per card, wait for its existing real allocation ACK, re-sample, and continue whenever admissible. No active-worker count cap and no requirement that both cards fit simultaneously.
+
+This overrides only the projected resource admission in the frozen execution plan and RESOURCE-1 review. Preserve those historical bytes. It does not change the scientific design, frozen79-file worker source6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1, optimizer, numerical protocol, job keys, existing results or ACK-boundary continuation. Implement the corrected admission as a small separately reviewed foreground scheduler entrypoint outside that frozen package; record its exact source/policy/review hashes and the frozen worker identity. No generic source migration or new scientific experiment.
+
+Existing training continues while the correction is coded/reviewed. Once ready, the current native runner quiesces at an acknowledged epoch boundary, hands the SAME live owner to the original parent, and closes permanently after parent acceptance. A fresh native runner resumes only unfinished keys under the reviewed entrypoint; complete trajectories are never replayed. Owner59365/PID1570727, private socket and retained tensors remain live. All AI/tasks stay within this conversation; no detached scheduler/session/AI driver. No Test or model files on disk.

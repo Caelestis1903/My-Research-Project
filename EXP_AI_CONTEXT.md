@@ -1,5 +1,15 @@
 # EXP_AI_CONTEXT.md
 
+## 2026-11-16 最新交接：cycle01 task-axis even views完整30条
+
+AXIS-EVEN / AXIS-IID2 / ISOTROPIC-EVEN两数据集×seeds2022–2026全部完成，每条50epochs/40960/FP32，共1500epoch、51750次Adam/EMA；20条CLEAN/NDP-A历史控制精确复用。注册候选AXIS-EVEN的selected fixed-EMA Macro AUC相对CLEAN：ML−0.000237520（0/5正，CI[−0.000476287,+0.000001248]）；KR−0.003540710（1/5正，CI[−0.011933378,+0.004851958]）。两主均值非正条件触发，NO_CONTINUATION_SIGNAL；不HPO/确认、不升级champion，进入fresh Astra研究，Test封存。
+
+ML的LL+0.001264852且5/5更差，task0 AUC−0.000570378且5/5负；最小d0基线最高却下降最多。KR的d0/d1/d2 AUC差分别−0.014842276/−0.000251429/+0.004471575；两个较小域反向，最大域近零，不能概括成小域改善/大域下降。域规模的独立因果证据WEAK。相对NDP-A/匹配norm isotropic/IID2的六项AUC CI均跨零；配对优于IID2的均值预测两数据集均未满足。KR IID2−CLEAN仍有+0.001269552、2/5正、CI跨零的WEAK反例，保留但不更换注册候选。
+
+[E-AXISEVEN-C01完整报告](research_reports/task_axis_even_views_20261116/REPORT.md)及其数值附录、PRIMARY_PAIRED/DOMAIN_TASK_PAIRED、原始CSV是下一研究入口；必须同时读取下方TV-GRM与NDP-A全报告。最需区分的是条件期望相同的even/IID2为何产生不同轨迹：均值正则、梯度噪声/Adam路径、读出/阶段及域/task结构仍竞争。
+
+原训练源码6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1未改。39个物理attempt含30完成、8安全暂停、1首epoch前OOM失败；失败后7条ACK轨迹及epoch0失败项按审查规则恢复，最终30/30完整。累计62771.077 worker-seconds，无缺失terminal cost。并发已改正为start.md当前实测显存/功耗<85%、RAM<90%逐卡准入，并校验新增进程能装入实测CUDA可用容量；不加195/206W预测功耗或固定进程数上限。全部编排仍在原会话，fresh独立上下文、完成即关闭；禁止旧driver/独立后台会话，循环次数不限。
+
 ## 2026-11-16 最新交接：TV-GRM完整50条与当前会话编排
 
 最新用户规则：禁止独立/后台Codex会话。当前原始会话 `01a1dfb8-605b-7430-8462-5fd3da0b048f` 编排全部后续工作；每个子任务仅新建不继承对话历史的native子智能体，完成即关闭，禁止恢复或复用已完成上下文。旧driver已退役，不得执行其start/run/recover入口。外循环次数仍不限，Test仍封存。

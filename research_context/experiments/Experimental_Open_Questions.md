@@ -1,5 +1,14 @@
 # Experimental Open Questions
 
+## 2026-11-16 / OQ-AXISEVEN-C01 — 完整even-view比较后的未解问题
+
+1. 同状态下AXIS-EVEN/IID2条件期望目标相同，端点却不同；差异由均值正则、有限梯度噪声/Adam路径还是选点与seed方差主导？KR IID2正均值仅2/5、CI跨零，现有端点未分离这些解释。需要共同状态梯度均值/方差与预算对齐路径干预证据。
+2. KR两个较小域d0/d2为何反向，而最大域近零？ML最小域基线最高却退化，task0退化较一致。域规模、标签/特征结构、task和训练阶段的作用仍未独立识别；需要能排除规模单因解释的域/task证据。
+3. 轴向局部E/O损失响应显著高于匹配norm isotropic，为什么没有稳定CLEAN之外的selected EMA排序增量？去odd相对NDP-A的恢复只在KR均值为正、两数据集均仅2/5正，不能指定单一损失来源。
+4. Online/EMA、Macro/Traffic/Pooled与共同epoch的相反方向如何与泛化机制区分？注册主结果保持NO_CONTINUATION_SIGNAL，局部正值和LL收益仍需分别保留。
+
+依据：[E-AXISEVEN-C01报告](../../research_reports/task_axis_even_views_20261116/REPORT.md)、[原始配对](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/PAIRED_SEEDS.csv)。下一fresh Astra同时读取TV-GRM/NDP-A历史；不预设curriculum、动量有效或小域更难。
+
 ## 2026-11-16 / OQ-TVGRM — 完整首轮后的未解问题
 
 1. 定向任务视图梯度相对等实际注入norm随机方向的AUC均值为正，但两个数据集CI都跨零；什么信息能在CLEAN+固定EMA之外提供排序增量？需要自然支持、同源五seed、匹配读出下的可否证比较。
