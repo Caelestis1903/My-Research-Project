@@ -1,5 +1,15 @@
 # Experimental Evidence Ledger
 
+## E-NQR-C03 — 等十epoch早晚NQR暴露的证伪比较
+
+EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。
+
+ML EARLY−constant selected AUC+.000003472、CI跨0，LL−.003069812且5/5降低、CI全负（MEDIUM）：停止后40epoch干预改变损失，未恢复选中排序。LATE ML五seed选中状态/epoch等于其干预前CLEAN最优，属于已注册选择下界，不能作为时序有效证据。E50 EARLY−LATE AUC均值ML online/EMA−.000139590/−.000750982，KR+.001469902/−.000934445，四个CI全跨0（时序机制WEAK）；KR LATE−CLEAN选中EMA+.000738140，2正3零、CI跨0，为控制的WEAK条件信号，不升级候选。EARLY E10与C2常数轨迹完全相同，不算独立重复。
+
+ML task0 AUC−.000408706、4/5负、CI略低于0，延续rank敏感性（MEDIUM），但LL均值已反向改善、CI跨0；不能声称重复了完整rank/loss联合成本。KR d0/d1/d2 ΔAUC−.003499683/−.001043873/+.004337717，全部CI跨0；两个较小域反向，无统一小域收益/大域下降，规模因果WEAK。KR pooled LL均值+.000520874与Macro LL负值相反，均不确定。先验/机会权重、ranking梯度、早期Adam/参数路径与EMA历史仍竞争。
+
+数值门槛/前缀身份事实STRONG，ML重复rank成本和相对常数暴露的LL恢复MEDIUM，KR方向/时序机制/规模因果WEAK。[完整报告](../../research_reports/nqr_temporal_exposure_20261116/REPORT.md)、[所有seed/CI](../../research_reports/nqr_temporal_exposure_20261116/ALL_PAIRED_SUMMARY.csv)、[原数表/12分片](../../research_reports/nqr_temporal_exposure_20261116/DATA_AVAILABILITY.md)；source94=a7666566be5790a0e97613d11c37792122a4028f72716669f52be1ceffe99002，design7=fe784adac9005f29b230e019b5e0fcd9c98dc842c1ac4ebe12849ba90512f3bb。
+
 ## E-NQR-C02 — 自然二次排序与两个配套损失控制
 
 - 协议：M3oE fixed1，ML/KR自然人口，seeds2022–2026、50epochs/40960/FP32、online/EMA独立选点；30条新增、10条CLEAN复用，1500epoch/51750新更新。

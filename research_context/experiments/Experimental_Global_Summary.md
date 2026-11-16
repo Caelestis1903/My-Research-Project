@@ -1,5 +1,15 @@
 # Experimental Global Summary
 
+## 2026-11-16 最新：Temporal NQR / NQR-C03
+
+EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。
+
+ML EARLY−constant selected AUC+.000003472、CI跨0，LL−.003069812且5/5降低、CI全负（MEDIUM）：停止后40epoch干预改变损失，未恢复选中排序。LATE ML五seed选中状态/epoch等于其干预前CLEAN最优，属于已注册选择下界，不能作为时序有效证据。E50 EARLY−LATE AUC均值ML online/EMA−.000139590/−.000750982，KR+.001469902/−.000934445，四个CI全跨0（时序机制WEAK）；KR LATE−CLEAN选中EMA+.000738140，2正3零、CI跨0，为控制的WEAK条件信号，不升级候选。EARLY E10与C2常数轨迹完全相同，不算独立重复。
+
+ML task0 AUC−.000408706、4/5负、CI略低于0，延续rank敏感性（MEDIUM），但LL均值已反向改善、CI跨0；不能声称重复了完整rank/loss联合成本。KR d0/d1/d2 ΔAUC−.003499683/−.001043873/+.004337717，全部CI跨0；两个较小域反向，无统一小域收益/大域下降，规模因果WEAK。KR pooled LL均值+.000520874与Macro LL负值相反，均不确定。先验/机会权重、ranking梯度、早期Adam/参数路径与EMA历史仍竞争。
+
+[完整报告](../../research_reports/nqr_temporal_exposure_20261116/REPORT.md)、[所有seed/CI](../../research_reports/nqr_temporal_exposure_20261116/ALL_PAIRED_SUMMARY.csv)、[原数表/12分片](../../research_reports/nqr_temporal_exposure_20261116/DATA_AVAILABILITY.md)。执行全在原会话：fresh独立native上下文、完成即关闭；20实际CUDA并发，两卡各10，全部逐卡当前85%显存/85%功耗、RAM90%及实测物理容量准入。旧luna-runner角色写死4seed，未启动即关闭并保存NOT STARTED；改用fresh gpt-6-luna/high native执行上下文完成5seed，源码/设计/全局角色配置未改，后续RUN沿用5seed兼容上下文。RAM owner2097722/session61982保留20对状态191017920B，parent已验证40hash；旧owner受保护。实际发布/远端main核验后继续fresh Astra Cycle04；max_cycles/max_astra_cycles/max_experiments均null，候选拒绝不终止外循环。
+
 ## 2026-11-16 最新：Natural quadratic ranking / NQR-C02
 
 30新增+10精确CLEAN复用完整；NQR selected EMA−CLEAN Macro AUC：ML−0.000343517（0/5正，CI全负），KR−0.000328734（2/5正，CI跨0）。NO_CONTINUATION_SIGNAL，无champion/Test。三个新臂两数据集主均值全负；两个机制对照的四个AUC区间都跨0。固定设置缺乏增量的证据MEDIUM，KR方向与机制归因WEAK。

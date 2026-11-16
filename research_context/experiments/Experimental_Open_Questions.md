@@ -1,5 +1,14 @@
 # Experimental Open Questions
 
+## 2026-11-16 / OQ-NQR-C03 — 早期排序成本与损失恢复的分离
+
+1. 关闭后40epoch NQR使ML selected LL相对常数暴露5/5改善，却几乎不改变AUC缺口：自然class/opportunity完成权重、真实ranking梯度与早期Adam/参数路径分别贡献什么？下一设计需能排除竞争解释，不能只改暴露epoch寻找正值。
+2. LATE ML选中相等来自干预前最优状态；E50时序四个AUC CI跨0，KR online/EMA均值反向。如何在固定选点规则下分离状态选择、EMA历史与真正训练阶段效应？不能把前缀保底或EARLY E10身份算作新收益/新重复。
+3. KR EARLY主均值近零但3正2负且区间宽，两个较小域反向，池化LL又与Macro反向；先验/机会结构、共享task与规模如何独立区分？无规模因果裁定。
+4. C1/C2的ML task0 rank成本延续，LL联合退化却未延续；哪种目标/优化干预能在CLEAN+EMA之外增加排序信息，同时满足六格保护？保留TVgamma.20、C1-IID2和C3-LATE-KR弱条件反例。
+
+[完整报告](../../research_reports/nqr_temporal_exposure_20261116/REPORT.md)、[所有seed/CI](../../research_reports/nqr_temporal_exposure_20261116/ALL_PAIRED_SUMMARY.csv)、[原数表/12分片](../../research_reports/nqr_temporal_exposure_20261116/DATA_AVAILABILITY.md)。下一fresh Astra同时读取全历史，探索至少三种数学上不同机制；outer loop无限，Test封存。
+
 ## 2026-11-16 / OQ-NQR-C02 — 排序替换损失后的阶段与权重问题
 
 1. ML E10 EMA AUC五seed改善、selected五seed下降：瞬时优化路径、阶段依赖还是总干预剂量解释该反转？需要等暴露的时序干预与完整50epoch匹配选点证据，不能从早期正值推定curriculum有效。

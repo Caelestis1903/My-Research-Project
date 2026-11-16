@@ -1,0 +1,1375 @@
+{
+  "core": {
+    "status": "PASS",
+    "checks": {
+      "check_schedules_and_validation": {
+        "status": "PASS",
+        "schedule_values": 100,
+        "rejected_train_inputs": 61,
+        "mutation_before_rejection": false
+      },
+      "check_frozen_and_clean_identity": {
+        "status": "PASS",
+        "cases": 8,
+        "updates_per_route": 2,
+        "exact_state_gradients_activity_rng_loader": true,
+        "initial_and_populated_Adam": true,
+        "diagnose_on_off": true
+      },
+      "check_boundaries_and_activity": {
+        "status": "PASS",
+        "boundaries": [
+          {
+            "arm": "NQR-EARLY10",
+            "virtual_epochs": [
+              10,
+              11
+            ],
+            "actual_steps": 4,
+            "phase_counters": {
+              "active_updates": 2,
+              "off_updates": 2,
+              "off_rows": 14,
+              "active_task_entries": 28,
+              "nonzero_opportunity_updates": 2,
+              "active_rows": 14,
+              "lambda_update_sum": 0.5,
+              "off_task_entries": 28
+            }
+          },
+          {
+            "arm": "NQR-LATE10",
+            "virtual_epochs": [
+              40,
+              41
+            ],
+            "actual_steps": 4,
+            "phase_counters": {
+              "active_updates": 2,
+              "off_updates": 2,
+              "off_rows": 14,
+              "active_task_entries": 28,
+              "nonzero_opportunity_updates": 2,
+              "active_rows": 14,
+              "lambda_update_sum": 0.5,
+              "off_task_entries": 28
+            }
+          }
+        ],
+        "no_optimizer_ema_rng_loader_reset": true,
+        "None_skips_Adam": true,
+        "explicit_zero_remains_active": true
+      },
+      "check_support_tails_and_nulls": {
+        "status": "PASS",
+        "cases": [
+          {
+            "dataset": "movielens",
+            "B": 1,
+            "phase": "on",
+            "branch": "all_single_class"
+          },
+          {
+            "dataset": "movielens",
+            "B": 1,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 3,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 3,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 7,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 7,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 21927,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 21927,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "kuairand",
+            "B": 40052,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "kuairand",
+            "B": 40052,
+            "phase": "off",
+            "branch": "lambda_zero"
+          }
+        ],
+        "synthetic_None_row_ids": true,
+        "mass_rounding_atol": 1e-15
+      }
+    },
+    "frozen_evidence": {
+      "status": "PASS",
+      "frozen_C2_files": 87,
+      "frozen_C2_sha256": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+      "frozen_C1_files": 79,
+      "frozen_C1_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "reused_proofs": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_CPU_CHECKS.json",
+          "sha256": "36cbf7f016769daa8eb5166a6c1595cc6b2ca375944a9bc40a2c09f06eb310a7",
+          "reused": true
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/R1_CPU_CHECKS.json",
+          "sha256": "2711118f9df32174bec330190a124c5c97b5099439af427446635ade6b1ec5de",
+          "reused": true
+        }
+      ],
+      "literal_QR_suite_rerun": false
+    }
+  },
+  "integration": {
+    "status": "PASS",
+    "config_combinations": 4,
+    "new_absolute_root": true,
+    "formal_clock_arithmetic_cases": 36,
+    "admission": {
+      "status": "PASS",
+      "fixtures": 13,
+      "gpu_queries": 0,
+      "ipc_calls": 0,
+      "semantics": "independent_current85_host90_physical100_pending_ack_resample"
+    },
+    "populated_boundary_restores": [
+      {
+        "status": "PASS",
+        "arm": "NQR-EARLY10",
+        "actual_steps": 4,
+        "commit_steps": [
+          2,
+          4
+        ],
+        "virtual_epochs": [
+          10,
+          11
+        ],
+        "populated_Adam_restore_routes": 2,
+        "saved_state_unchanged": true,
+        "optimizer_step_and_moments_storage_disjoint": true,
+        "BytesIO_roundtrip": true,
+        "next_update_order_rng_ema_phase_activity_exact": true
+      },
+      {
+        "status": "PASS",
+        "arm": "NQR-LATE10",
+        "actual_steps": 4,
+        "commit_steps": [
+          2,
+          4
+        ],
+        "virtual_epochs": [
+          40,
+          41
+        ],
+        "populated_Adam_restore_routes": 2,
+        "saved_state_unchanged": true,
+        "optimizer_step_and_moments_storage_disjoint": true,
+        "BytesIO_roundtrip": true,
+        "next_update_order_rng_ema_phase_activity_exact": true
+      }
+    ],
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "test_accessed": false
+  },
+  "reference_index_counts": {
+    "entries": 20,
+    "epochs": 1000,
+    "initial_hashes": 10,
+    "epoch_order_hashes": 500
+  },
+  "status": "INTEGRATED_CPU_PASS_REVIEW_PENDING",
+  "seconds": 0.850634922971949,
+  "old_inventory_unchanged": true,
+  "gpu_queries": 0,
+  "ipc_calls": 0,
+  "test_accessed": false,
+  "design_bundle_sha256": "fe784adac9005f29b230e019b5e0fcd9c98dc842c1ac4ebe12849ba90512f3bb",
+  "source_hash": "a7666566be5790a0e97613d11c37792122a4028f72716669f52be1ceffe99002",
+  "source_file_count": 94,
+  "source_identity": {
+    "files": [
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+        "sha256": "decb419a3338b5518b2cf6a8fa03c3d578a8d2287ee34f1a4f27bb6e1c758e91"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/checks.py",
+        "sha256": "b20c7f70b5cd73fadedf188b60acac7684595b2ac23c41cf79f9196db26d94b3"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/core.py",
+        "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+        "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/runner.py",
+        "sha256": "5a0dbe51530119a52f0fe1a2dab443efb06f798f2902165e2c2ca152e78cd322"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+        "sha256": "22b988169286fb9c71313dfe51e01ed4e633d7634770fcb638d02519f29b6888"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+        "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/protocol.py",
+        "sha256": "66ea0d1e6461711c88e2a68ca2ca32ed02e713967f06d680c96f5540816fe731"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/runner.py",
+        "sha256": "4816358701e85892411683250d291592dd2af2bc10784d8a20d0643ad8b00617"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/tables.py",
+        "sha256": "02b57801b9dfff04959172b91d19f153307719c8f3e54bc7db63cfea7239b610"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/stage2/test_core.py",
+        "sha256": "67e151af9338e43d4837346fbadd12d405deffaa29184d0e986d4b5dba6517bb"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/tables.py",
+        "sha256": "3492ffe38352b4098950b2f29493e06369e68cea35ea491a1cb56ed249aba125"
+      },
+      {
+        "path": "experiments/auxiliary_objective_attribution_20261115/test_core.py",
+        "sha256": "088926a39891176ccc5d287bf418f403a6a5411fec1f056469f8d6c2ee844156"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/SOURCE_MANIFEST.json",
+        "sha256": "af2e7590cf8dc424494edd6a77c6d5c524de781b6e87ef025a064b843e252ef0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py",
+        "sha256": "278d22da232199922f3b70e4735966c61c09d5d4ed800dcf78ed8ffe2e5164eb"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+        "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/objectives.py",
+        "sha256": "9794b3aa5f10370c4b09d9bb040f925334ea47a591516ef0fe3e4caee8ac51d0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/optimizers.py",
+        "sha256": "b78675f1674df0e2a4690b64d567826f4fcc764b256a5e19878ec1e0e79295e7"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+        "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/run.py",
+        "sha256": "56129eb565487fbf536352c59d1978a09cebf2721f9c46ba7e3f8c66ef27b7b0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/stage0.py",
+        "sha256": "725a19dffa68573597ce1279d50f149af0eac16d70a67db61b6b1a1773cdb872"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/tests/test_semantics.py",
+        "sha256": "6272155542f8f25c5e959809c591d696b93c4890b0bc09aa1644d23ec8ceb202"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+        "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+        "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+        "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/gates.py",
+        "sha256": "990b2606384af6978cc212ed15492314670eefb44616620b92e608ba7fc09d84"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/guardian.py",
+        "sha256": "8fcd484922f62ec777e10606140034578292c61e4feb6b08c7f84864cc5e9208"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/input_probe.py",
+        "sha256": "63f8aaa7b100cb91d725fe2213a21cd747dd5e6abd47d721089300f795ca81a0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/objectives.py",
+        "sha256": "d8bddc7f8160cc96e1675662630b845aaac37646490eb3ea6e05caa0bb4b82bf"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+        "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/rng.py",
+        "sha256": "48d41cb3cc9df57feaa86d87c1e11c54949a78abce97f027b459bebd34e0961d"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/run.py",
+        "sha256": "0b7fd9b89238bafe867dc43f182b5c40bda5c0fd95188e61b89e9759162de26f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/stage0.py",
+        "sha256": "e0270deb4406995a5f35d85a480fa3fd6f866f07d0a14e15f6a45828824c11a3"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_core.py",
+        "sha256": "78747519136d4b5f5ad7a1db46b0ce7067e00a4dadf160df1d6e2cacb2437bd9"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_execution.py",
+        "sha256": "c08139513a0143df2110f6144c10cd3493c3d16cf95216b0c8b8df6ba3eab858"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/SOURCE_MANIFEST.json",
+        "sha256": "05337a7cb1a3c2ccd2290c75a65e5de84022328f91d183bd177dbafe1fe59816"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/objectives.py",
+        "sha256": "28eaa19444cb650ca46d28c4e22829771612920add6c27188b828d934ea5479c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+        "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+        "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+        "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+        "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+        "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+        "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/data.py",
+        "sha256": "1e0c4aab006805490ae81759dbe251f15caa45a73a676de48d675e803bfe451c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+        "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+        "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+        "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+        "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json",
+        "sha256": "37c2455e63c97c46f72bcedf33a7e01a2c7b14c4e4f2711e64d313f25b4a133c"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_data.py",
+        "sha256": "295d55421eaae4db5f16fc7597d984ca90e72201fb30799c8dadef4c53b65742"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+        "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+        "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+        "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views.py",
+        "sha256": "983f1e35ec1c6ea5b3dae6c7c60855d67f8eb0e688163f64b160dd08ee16f05f"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_ema_field.py",
+        "sha256": "fed4dbdb06da69a318bd1f26aabc223fc564dd5f02b2d94f8caee490f8e353da"
+      },
+      {
+        "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_joint_label.py",
+        "sha256": "8d745faa6372194eeeab030c49647dc3ca27010ca19c76b617238bdd69e45385"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/README.md",
+        "sha256": "feecfa4607790ce3efc6d0c84e78cc53198c57f4376704d2dfce9be68b76787a"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/__init__.py",
+        "sha256": "e7ad848721bb9d870c46b7b281b03eced9c21fee2c5eb71eba48a9c9d5ceb6ad"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/checks.py",
+        "sha256": "c112f09f381f1d86332fc321f0daa842278acb18614f182ca2132421255e1372"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/core.py",
+        "sha256": "0050c411a7a627cf54363097473770d8ef24900e8848acd00594a99f0862fb0b"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+        "sha256": "bbd7eaabd310387a9cc9fc3c2ae22a695a191b8161c8777a7ab5dcc14ff49829"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+        "sha256": "ae64f060a3fffcf907c9579a95b11f16ac0cbeabbe5231ec07575f07b101d832"
+      },
+      {
+        "path": "experiments/natural_quadratic_ranking_20261116/tables.py",
+        "sha256": "7d1aac79c36003540ef4ddbfac3a431821da8f70d00c5cad3fb63807c10cc056"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/README.md",
+        "sha256": "11a419eb5812b76040b230e836fb180aa1f336a1111c1de43f1c6f866b05c10b"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/__init__.py",
+        "sha256": "0740474419393ac1702d19d5793b6c2ed379c80b74f1498d9c34a09f49f31250"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/checks.py",
+        "sha256": "1c18a2d0ab51548842bc3994e4ad92b0ff271e4dd27e62f10ba62bf3d4c55959"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/core.py",
+        "sha256": "89f6f9342ab1d1663c9b34984ba5fa0859bff7409322a33a1b39875267b2565c"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/protocol.py",
+        "sha256": "9c6a5fecc3881714d9b9d5e9a6c6578ae6dd76d9b4dd26f769e1c98d93821f3e"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/runner.py",
+        "sha256": "c50f11b2fa06a5eece35d1106d02f2d58459097242d2a44eec3f004446b68eb1"
+      },
+      {
+        "path": "experiments/nqr_temporal_exposure_20261116/tables.py",
+        "sha256": "c6e117875f6e8195c62ef91df232863afd2711d5134b1641be9ce8d8e9d3f7fc"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/README.md",
+        "sha256": "e42cdf8847399a1be47d0424f3e4352902a70f94843e2ab19a4c0f63148db083"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/__init__.py",
+        "sha256": "3b160dcb766ccd5c3fcdf34e622d017d5c4f24566a793e8706ace95d5f6cd9e2"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/core.py",
+        "sha256": "9dbed6c1d055ed81f0a2dca8d8aa3a098b48134ea36a896766bd8d853c3afd55"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/protocol.py",
+        "sha256": "fe0de989a75f114a4ffb42c8854769fe74780966645895b1dacb83c9c8cc90e6"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/runner.py",
+        "sha256": "33aa7f6af8ba722e6b1069ba51b9d4fc0f5067f545da384011b0a2f63cf3a2a2"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/tables.py",
+        "sha256": "18b82f270716e8d8264455112f58efddf1dd3dfea588187956188c51a7822501"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/test_core.py",
+        "sha256": "599f05f227a5c7f4ec234a81dd3bff5b9e5659b315e2ede42cad1c72609569ea"
+      },
+      {
+        "path": "experiments/task_axis_even_views_20261116/test_recovery.py",
+        "sha256": "79ef90640a59f796aff361462df126c5d0d0255de90a7492dbef621a7af7a64a"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+        "sha256": "3677d5086fc6263f7c771402890bdfaf2eb3da4b08018924b879122bdae719c5"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/autonomous.py",
+        "sha256": "19bbb5e075a3928997ba6118da9e420f27609554615556bc25c97a2cc0f819fc"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+        "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+        "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+        "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+      },
+      {
+        "path": "experiments/task_view_gradient_residual_momentum_20261116/tables.py",
+        "sha256": "d45c89dd79620d2cb2e16412107d9b383fa69f00cfe48dd4fc742f829fc13715"
+      },
+      {
+        "path": "requirements-phase0-3.lock",
+        "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+      }
+    ],
+    "sha256": "a7666566be5790a0e97613d11c37792122a4028f72716669f52be1ceffe99002",
+    "design_bundle_sha256": "fe784adac9005f29b230e019b5e0fcd9c98dc842c1ac4ebe12849ba90512f3bb",
+    "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+    "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "protected_c2_source_sha256": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+    "frozen_c2_count": 87,
+    "source_operator": "experiments.natural_quadratic_ranking_20261116.core.train_step",
+    "source_operator_sha256": "0050c411a7a627cf54363097473770d8ef24900e8848acd00594a99f0862fb0b",
+    "new_package_files": [
+      "__init__.py",
+      "core.py",
+      "checks.py",
+      "protocol.py",
+      "runner.py",
+      "tables.py",
+      "README.md"
+    ],
+    "additional_files": []
+  },
+  "new_full_source_frozen": false,
+  "syntax_files": 6,
+  "all_seven_files_present": true,
+  "both_reports_integrated": true,
+  "source_files": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/__init__.py",
+      "sha256": "0740474419393ac1702d19d5793b6c2ed379c80b74f1498d9c34a09f49f31250"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/core.py",
+      "sha256": "89f6f9342ab1d1663c9b34984ba5fa0859bff7409322a33a1b39875267b2565c"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/checks.py",
+      "sha256": "1c18a2d0ab51548842bc3994e4ad92b0ff271e4dd27e62f10ba62bf3d4c55959"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/protocol.py",
+      "sha256": "9c6a5fecc3881714d9b9d5e9a6c6578ae6dd76d9b4dd26f769e1c98d93821f3e"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/runner.py",
+      "sha256": "c50f11b2fa06a5eece35d1106d02f2d58459097242d2a44eec3f004446b68eb1"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/tables.py",
+      "sha256": "c6e117875f6e8195c62ef91df232863afd2711d5134b1641be9ce8d8e9d3f7fc"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/README.md",
+      "sha256": "11a419eb5812b76040b230e836fb180aa1f336a1111c1de43f1c6f866b05c10b"
+    }
+  ],
+  "export_fixture": {
+    "status": "PASS",
+    "synthetic_endpoint_rows": 400,
+    "synthetic_paired_rows": 1500,
+    "synthetic_summary_rows": 300,
+    "comparisons": 5,
+    "LL_negative_favorable": true,
+    "source_ledger_and_diagnostic_csv_schemas": true
+  },
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.nqr_temporal_exposure_20261116.checks",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": "core PASS; runtime PASS; no literal old QR suite rerun"
+    }
+  ],
+  "protected_inventory": {
+    "tree_files": 136,
+    "trees_sha256": "020eb08172103f44b30fe35b812a7b96937624de140f84a118c8f714b53bdf88",
+    "roots": [
+      {
+        "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1",
+        "journals": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/epoch_commit_ledger.jsonl",
+            "bytes": 668923,
+            "sha256": "0e5cf8ea072f93d8c2120164a9ceeafe1e3b924ffa7f1c3e28ecf864c90cfe53"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/recovery_ledger.jsonl",
+            "bytes": null,
+            "sha256": null
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/guardian.json",
+            "bytes": 156,
+            "sha256": "4db750930bdb7abb9fcad293a6c3473fb067ed491d9fc42d91ad8db323729db4"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/STORAGE_OWNER.json",
+            "bytes": null,
+            "sha256": null
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/STORAGE_HANDOFF.json",
+            "bytes": null,
+            "sha256": null
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/PARENT_STORAGE_ACCEPTANCE.json",
+            "bytes": null,
+            "sha256": null
+          }
+        ],
+        "results": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/15a8889293929f4e6ea00a2e33e3e2e48b92c3d5b7cce69bcd34457958cbdcae/result.json",
+            "bytes": 19090,
+            "sha256": "c19f391e5bf3e25f0012709beab57a6befc619dae1b8da9667d746a1c0b48076"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/1b105d5b951823eef44a8703bfec5539769736967ea0228044b4b6128b716f96/result.json",
+            "bytes": 19101,
+            "sha256": "054de5745549831a56796285b930be7b5b6483f3d17875ffda25c12ac19dfe85"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/1b5cd3398161e4cb4636b2b0cc36ed0d1d352f26da33a9221083be4ba93dd5d4/result.json",
+            "bytes": 19102,
+            "sha256": "7e1412a030f2308fbb78bd02cbbc5bcb9de469356c62541f024b622aa06f68be"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/1d3fff2915d23b7317bca1fc939fc06a640a68e78c08af648f20424d90390195/result.json",
+            "bytes": 19172,
+            "sha256": "ba75a9dfa9ebd2bdf551844050323513d62c5c4afd4ca345f754b56b35f47dd8"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/264bb5782eb0091ad81952989ef417aef1776561184e81e8f0dd54b87291fb8a/result.json",
+            "bytes": 19163,
+            "sha256": "910d1af6fd4349001dfa78ad906f7aa0caa83cd8478b2a8afc6a22fdfc6cd3f3"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/277686e670c443c698023899e0e1f346ec21ce5b0cbe098c2dd7aae9d693f613/result.json",
+            "bytes": 19092,
+            "sha256": "9e573bc1698b3e7282789269707cb93b46385dd06cf62266ac09f39bc6fcd67a"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/27aaffbb4e867b34af6a8ec0a3f3c49a7f58a1db0658f5852bcbbe7b1865266a/result.json",
+            "bytes": 19157,
+            "sha256": "6ecf9a0636d62e5d25ab796b15f334afdb48aaa5377032ae793d134fa89e480b"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/3a352cf88b308b881cc82ba8c1f6838cf3c4d326ceed1a2471f326079bebcef4/result.json",
+            "bytes": 19145,
+            "sha256": "034da141e5db3b01ab8aa707ed3e5a4d876f708a81897606149f01ad9e00c6a7"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/3aef7f0177347da09913f7310eee8ffcd0fc1fcae047f486c8ad2a03d9e19ab8/result.json",
+            "bytes": 19083,
+            "sha256": "ed69c6c2e2e52b6f21f8076f0e10e890f417be1b290a7a83909d105ada5f49f4"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/3ec3eb37eec8bfca42384027d25a759ec0c9088e1f69fcce9ee1888a052ebce0/result.json",
+            "bytes": 19146,
+            "sha256": "95f858dc6266b5247d55712a5b925d0a1571a27a64da4ae31cc122b251ded555"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/49b970e88fd536a7bccbc2f368af68df1504c6a0bc3e4a0556bb62aefb5fb380/result.json",
+            "bytes": 19154,
+            "sha256": "d06750be8cd864d8328fd1e48140e33396b81d80d61b12f5b1a379fe7c7f08cb"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/4d78bffdd032cc7819b04947cf23c87dc326012b78434ad45bd7daa0d2cb0909/result.json",
+            "bytes": 19149,
+            "sha256": "e841e72efedb783b62ec02408853a32a3c2fc1b18e213dff516b5ec51f30d4f3"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/5321c8bbc6a5b357679679677d4bbb62dd9c529308db4001bb3a14eac9f9545f/result.json",
+            "bytes": 19152,
+            "sha256": "4bcb436ea95475bb30c16bcc9e258e6102e4eba68142c4c6e3252e7efa349ee8"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/57fc68b0e790be4cf31cea532ad70967c46b7b8e1e972a2ef6008aa3db7a7316/result.json",
+            "bytes": 19094,
+            "sha256": "0ec7460f76978cba5e718a1044562b8cdecdaa9f55794a3cfc05498c87240160"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/5d180af27ad95be5282462350f8cb1001e10ca829fda9be96c70466ef3a9b0f2/result.json",
+            "bytes": 19157,
+            "sha256": "8485106174c037e28646a1ff759bffcffa4fd28fc4d7c275940cd4b8746a6645"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/63c6f49e7698fe6cfd528cfca1f6464fc6950bb199cccd3b6c29ebe67c717ee5/result.json",
+            "bytes": 19098,
+            "sha256": "45a9eddc8065ebec4b283a191437be63386eb25ade7eb83d1bef8655238e4e46"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/68d11ec109a5338e45864d3b9e154c1b77bd40f4f55097b815ef43621b8dbcc3/result.json",
+            "bytes": 19099,
+            "sha256": "8c5eb0ce32d25de7756235d6099606c5631ac4cb080a793f48381bfe804e3334"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/6eda1659a9332c9c5dfc4e872baef06f7b064c3ff879b491e8a259364488c0f3/result.json",
+            "bytes": 19157,
+            "sha256": "b63969ab3c11fdd0e7255334900f23019ae1f7b8f8acf9cb0b1fbeb6887d5216"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/6f5d6f265ad10a9829288e4b2085241352ff784ba848f0317101a0c4c57e1a5a/result.json",
+            "bytes": 19149,
+            "sha256": "fd0bbbd5deb722e00aea9009a84d514bef715a523d3bdeb0b8e561dc09b34972"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/7053b2fe3376b919b939ac543864cd513a4514319a7d49e8d04db3a831e4e41e/result.json",
+            "bytes": 19101,
+            "sha256": "ba862f10b29a218f22fe56a712236aa352476355ae041d8698617d880a6c3bcf"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/7cfc7a3d32dd4a45bc7ff3b5340e45305cff8c22ddaf5e9a8d0858ac9e5042ae/result.json",
+            "bytes": 19153,
+            "sha256": "83588d7d770894f73474b75c7eb29b11db09dd99c37933419aa9ad6d009a37eb"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/7d1b25568cbc422f2c41e7291fa84ae033f0f0ffd0cd5e7449f691faabbc97a2/result.json",
+            "bytes": 19099,
+            "sha256": "e2c8b3d3a1f63b6d5f3af74a31edc7c06b9201b86f854ec2e7dc2c39419f5c80"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/7ea54de97c6c5f1582cb9a2374113c000a94ccc8646807c518f0643cb76fd9e6/result.json",
+            "bytes": 19099,
+            "sha256": "a9b6c2f5438550ca0a492555c8bb4f6dae4f2ce32053599d99a0803dc1133915"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/85f5fdd55b2ae11c0b3cd0a696ff1bfc269ae973b9cb69cb4bf712a4a88fb18e/result.json",
+            "bytes": 19154,
+            "sha256": "ab9e1a1b1b8ab0d6ff969003524b93dad9390f7c3d71bb44913d4bb534dc5df9"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/9031b991af473d1a1ea6b601cab216bdcab137b7db2e5c91347fb38d2f34f3cc/result.json",
+            "bytes": 19154,
+            "sha256": "eb55eec92cd6a5e0d516353132c9525567f20c9900e9b24e13ee6c8400652c65"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/93a0aa11d2585cac6ecea5ecd8c17d98422c0231d5ba5d070f4f6712d6285486/result.json",
+            "bytes": 19100,
+            "sha256": "27571e0efc7a5a5a3ae50b5919176cde81297792d7f376e04fc365a465e8c867"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/9c064f9ece2d33d006efb17a57df8a9c45a5ba85d8ac41d162c346d4ac579e77/result.json",
+            "bytes": 19096,
+            "sha256": "7f3e742235ae99b56ffb74b42f6b10555d1277c58feeea686d775caf22f9d9f7"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/9c746037bd50f6e4116185620ccb4326ee55b7d12dc7348c4d5765cefba3e04e/result.json",
+            "bytes": 19163,
+            "sha256": "eb8ac58786de88025e0d986543a1b63c48deb91d220a6f6f0e224ff1b87eb76d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/9c83e82a3128042b7a55901274350a7fefb9f7bce24d770fc0d12b7cbf1608a5/result.json",
+            "bytes": 19164,
+            "sha256": "60aa69c092cd11631ab16533c8a3ca99b8abc4dc24570e91ad848a72d21470c0"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/a33e68d46dc4633126d15272b312d246910cfedf18bfc7672b59b1531d1ca8b5/result.json",
+            "bytes": 19108,
+            "sha256": "fae752a2508b77178fdf3eb6746e29cb7b78c5782e340e57af261c5ba3d78eac"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/a6b12879c00cad0ba830c97e93405d4a88f2e7adf0fda0b8536c27f29d9f2fec/result.json",
+            "bytes": 19106,
+            "sha256": "60a23d45af2944a6285ee49ef1c3ef293c56b0b74fea87118c880b32f9486f39"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/a76f4452978b4b47901caf042095491d559e572b05eeeba4b48873481114d5ef/result.json",
+            "bytes": 19091,
+            "sha256": "592a87d01021e4f05d55a12e09a0e9009da7f6b85811f25eb6e002a973a53a13"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/abbe60df1473b29643ad8b90bb5e5347d2879549428336da19165ae0f7cea9a1/result.json",
+            "bytes": 19102,
+            "sha256": "9d2753d918cbde1d6d640c93007fac2620b880bc6b400af366fcc2a291d5b365"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/abf9335deea7542e5f9d46e8beffe6458c46a044ffe3edcd1e14cd1358fd0f76/result.json",
+            "bytes": 19095,
+            "sha256": "237bc56fba99b26a5e75d06d72b97e6b943a1c9700f6e2c4cb0d0ace34ae84ec"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/af0e475a568a951b8e88a8fcca927f553792a6c743b6b8a256c17e860636d54d/result.json",
+            "bytes": 19164,
+            "sha256": "64bf2841b2f7bf763e4be7f6d276edecd4e195a345b4d38b725b0be3b7982824"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/ba40b3d37e84efa6f89c79196490284cbc620752931321cdd50911dfaf68b0cb/result.json",
+            "bytes": 19151,
+            "sha256": "6e5fcc7a022b91ff183c6ac6787d5c787079f36c707aad51ac1b929f1cc92525"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/bef6709c77e0db9ac0872e836d6182f90dd1d898ffc5b705dfe93ef3e98d7547/result.json",
+            "bytes": 19104,
+            "sha256": "cdde289e3ae16a27fa383e331d2adf12826d6fc91d5365a281922eb74470d427"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/c04d0bf7cb70c9429dbb8b40585adb233c21627b409b645064ff0ff431d0f677/result.json",
+            "bytes": 19083,
+            "sha256": "114c16caee8a1cf64ae2adbb4e46d66f893662cd47e476249ca4750eaf629a98"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/c25016e954a8730a47b0126877c95acd1978379983e6b6afd63cc9eea538876f/result.json",
+            "bytes": 19099,
+            "sha256": "bbe92570a73162bc1baf2557ab8a76f189468b7a62c73a78b5183fc7dfb52dff"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/c2565f3313af4215578d04b69f3fe2d371667d7a973b45308b5d90fbb0a67004/result.json",
+            "bytes": 19113,
+            "sha256": "439adab77705be2127f5bfd3890216fb5739e05b9d001f1e7085acfb8e732083"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/c39f96886e03aef766382f622d1d1867e5e7d171f7d1138501185365e69f84ce/result.json",
+            "bytes": 19148,
+            "sha256": "557a352947949195e62cbbde461d3732b7aa00fb3e90cb6cb0f62424c13735b2"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/d1b12e08507a5f61346cc16188d86f3d5eac7f68c2cfd2c7a9a2a6a9048952ab/result.json",
+            "bytes": 19154,
+            "sha256": "293e95e5d82e68944da7b5c239bdd866bdbd7414c93d8b99d88074fca4e96835"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/d1c2c3b28e7ad81d01b6fabd10ca7f63ba4c29251c164cb41e8f72822e8d2edc/result.json",
+            "bytes": 19159,
+            "sha256": "9cad12a3cf56ca96a8798ceae8013bb2c043e02a457821497efd2c4360391317"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/d35962ec81c972e408a0bdb4d4a0f18977c2404f49ed987f9eb7a2d4cfaa1202/result.json",
+            "bytes": 19153,
+            "sha256": "54c137dd71f2ab5fdaf7a62f3880a5a70b1bec550e2d71b4a6872327d630454a"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/dc5411995bce06499e5a51007afcc6fe5d2daaa8623d6f57d24e7a1b93db2fb9/result.json",
+            "bytes": 19150,
+            "sha256": "d9ed86a5a88c97265aa385bd832b47cd58be3fb4a6b6b8a3e0ee8bbb9a82b515"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/f2994c3f79cafba221946e96dff185b6b94276b7d11267987db76f9d673ded87/result.json",
+            "bytes": 19150,
+            "sha256": "aa35b73adae4e548e6b8330af5532ca9b32a85c48552caa3ec6e97e0bfcd7a55"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/f2a88b29f58659586fd71dd6aa303a8bb9eb9ec07071b126ec9ccac826b9a1e4/result.json",
+            "bytes": 19101,
+            "sha256": "b28f198a2736ddb0bdd2586597c1acc65f749701cf55e2a2f6a25de6a6e1a61c"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/f3b0acbe9910ce77fdf8621b9a099c5fbf403430cb3ed248eb2da10ff1473b32/result.json",
+            "bytes": 19090,
+            "sha256": "cc3468c2a3faddf2d142c5c1d74371afe377e5349101ba1bb90783e7f7135ba8"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/fbfab01640931d42d59ea713d2f737062c5626c35e800fbaae9ce4659b783980/result.json",
+            "bytes": 19085,
+            "sha256": "fa6c8f3afb37426ac16b5a449a45e13e963bf43717d8edaead93641b32100897"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/runs/fd783ce8e7c770b7446b0e9d2da91f88d208a1921b68e241ccd98070ea51d789/result.json",
+            "bytes": 19146,
+            "sha256": "90318068ba76b5c59de499baa2bcd2bcac84f7a052bd045fda9de45cdd8445cd"
+          }
+        ]
+      },
+      {
+        "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1",
+        "journals": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/epoch_commit_ledger.jsonl",
+            "bytes": 582805,
+            "sha256": "c6ddbca4d88fe8db7ad432fb98433929ef5edaaf1cb78ef130ce65d02e9d914a"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/recovery_ledger.jsonl",
+            "bytes": 158,
+            "sha256": "f5aff3f9e66950e783e81c17cdf2653ad8fa8e44e76171ee6dbe27dedb6fa7a1"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/guardian.json",
+            "bytes": 156,
+            "sha256": "1d842dc91fb5c9557596228eaa6864fc574e8beb078548ee0c4b1bf6d94d26c9"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/STORAGE_OWNER.json",
+            "bytes": 590,
+            "sha256": "7970b5519f6f4ba6b481bd7f6f4a460e455d1e3aba0a40b5bda2ef0714e71b0d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/STORAGE_HANDOFF.json",
+            "bytes": 13949,
+            "sha256": "24bfa763720d61be8b0ac745fc09e2c586abd1c53d9a69aae17c2e381cb50053"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/PARENT_STORAGE_ACCEPTANCE.json",
+            "bytes": 13950,
+            "sha256": "8494481587b37df8112e39a86b50da0f04f749ff58739b35619a91fa8d176544"
+          }
+        ],
+        "results": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/01aa611437e56ab0a60ac0bb992b99125dd05dd6ec7a44509e6e04e83e17a841/result.json",
+            "bytes": 19859,
+            "sha256": "683fd44f5600e7c7d69c973f88af73dceaff687c87a1f97274801194e16f501f"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/0d91e6dd41402349ba929b3c7876fc966f1996a69aedac96e38db0c639835c6a/result.json",
+            "bytes": 19871,
+            "sha256": "d0674ebaa3061765e1053d08af45e1040897d01016abff266bb6e5efce954bad"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/1d7ac0aea9a35de78ec4ac58ed12affcf4811098493f2e8a14348d9c27f51811/result.json",
+            "bytes": 19931,
+            "sha256": "123575a9bf8e12b1ef7b8829e62731e5debab0a7a2761991ef7abe9e3b24cb2b"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/217cfec8268b2631e75bcfefa91c00440e7869bca0c718878d7f81444115e292/result.json",
+            "bytes": 19891,
+            "sha256": "5487f10b02e9a54e1837a26e8464e6d72d04b51386a0696c7b0a94b443893d33"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/2c87f98fd4f07a7fec14c2f1f2682ec7d47a80ca3b8ea77c75ed7e935a6f0f60/result.json",
+            "bytes": 19881,
+            "sha256": "b312311c636f64944cdc0d6009e09eb3873757b9e8b934fa4b360bca44ea17c0"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/315b2f631a9d128ec2429d408644ab5070d6f42c08ef9c26eded3d60f59b512c/result.json",
+            "bytes": 19922,
+            "sha256": "2160f45e048eaa44d27ce4fa0ae04a8d91a7a0d66c2999693389c3654d5122a0"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/3a45e24dbcee542164e829e1b83fe44e2aa69d10d5369271d68b8e9b7eda8802/result.json",
+            "bytes": 19883,
+            "sha256": "1b475f399d20b42ad0ede227062c8ce6a08041cbcf89b03ab4e4340a93f1cf3d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/3a91a8718c67668d2356be8900ab7d2ea42138c480ce3b4948a7f5538baea10e/result.json",
+            "bytes": 19932,
+            "sha256": "3c5597498ac2cbc8a4eee6d77ddc94c4c6e505980042d8d22c77d824fe8f876d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/3ab9dab5e7347854f7c4956e31a5e1073e908ee35d930559e4f11acc7112cb9f/result.json",
+            "bytes": 19878,
+            "sha256": "5eed57ea88e2daef1362a92096d73f8a2fd59c98633baaebe9865ae136cd7617"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/3e1a1ac7143357f9987a4263ba0fa3bee50cee72c5b2437d81ab4aa8feb59a3b/result.json",
+            "bytes": 19943,
+            "sha256": "e5cb4886d047df99e14bfbe3b43c0803bbceff39c0ec44751af2188a3eefbd78"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/413e85e410f2a8f23442a62d90f210aaa15eb8c8b13dd8f3b902ba41b3e3814b/result.json",
+            "bytes": 19935,
+            "sha256": "7dd6e550fc123b69333ae4ed1f415971d5475d2639256dd63bd49256066aa787"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/5bcf9044e17f63b2d6cff56b00c02cdc030d9b5b21b741d8ac9c3f4ccbd3860a/result.json",
+            "bytes": 19946,
+            "sha256": "5df9d8f9974cdcd04aa15736c588ceb84e5c1a0cc69bb1f4b2cf6fbe4b8a13f6"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/64736e46b18b740b6a93ae50fd1d93f361839a23ad2c4d79f6381e1bfd93f9c6/result.json",
+            "bytes": 19886,
+            "sha256": "8fcbd8d32a4faf5b7b5875ed68507cc483ebd5496f11e1ebe64883a951df244e"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/81635bb9d97423da4ddd0447b1b78a4936bc4ed75928c159ac6964b6f72cdc89/result.json",
+            "bytes": 19930,
+            "sha256": "9532911ce2d7c1b57cb74dc3ee780bf3197e73d6a7fecbf8586fd6a809e04ec4"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/846e1697b1628a8494df9d844e9e5e39a1ecdbbe7869150746e9d133f3eec536/result.json",
+            "bytes": 19867,
+            "sha256": "0e890d3250910726b1e033f5b28613d96998417c6c0b9596ed7435dd9325ea5d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/8b1008ef65ffe408d27bfc6a5e5c449d805e10cedc0c1ce7593dca0296bdec05/result.json",
+            "bytes": 19919,
+            "sha256": "83751224d7d405fc8979b6eccb48a65849150d5728f35b234bc50da41dd2809c"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/a513c98a7a2d2b8a5b3a8070bac8d18f82b30964264b97510d7efaa3f1806d12/result.json",
+            "bytes": 19941,
+            "sha256": "bdf400d02417e127eea5a438627f1fdec7e6aef31c7ed76d09d2e03247795ff6"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/aeb5a142be458c4dfc9a7f83dd02333426e8886615f0a5da4c6bcb4ebf3efb48/result.json",
+            "bytes": 19937,
+            "sha256": "7081a61f02bbeb23c01505e1d99a7e244af295f3b1e0b1aa498e6d6922ddb5cd"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/b4dfa126baadd6e3cc319254b93c4086c51564be3900a5d5026d7fa428de7be0/result.json",
+            "bytes": 19934,
+            "sha256": "497dda58e3a763391bb75a04c4bb276f529bbe1221df6faf030241a622264ba8"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/bebe8a6493bf9f80d171b957643077fc0380e50d22a2adb3d809ec6921e3fb0c/result.json",
+            "bytes": 19856,
+            "sha256": "589c25f73b0e17382d07f208a890cef2a59cb16031f729a8faf340b1622553e2"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/c3c05eecd570fce7a2e92e59cf34c32223d988c403956e99e7b964ae9504fcd7/result.json",
+            "bytes": 19868,
+            "sha256": "4c9a347493aabff3d43aa3c0f698ce6f8d8320c9cc742ba4bcd2765514080e4c"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/c73c47a85ca0a71d32fdad9445c8750dc8d84f4206fca94de11cf99aee0e5cce/result.json",
+            "bytes": 19871,
+            "sha256": "c09661262529378b81372673d3383dd7fa357227c8c7a5cac294d2ce8f29b3b1"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/c908069b3a97fdcbfc7d4d5d3f655a02c8a3fff3c5c2b4d4a7e7e660c610a51b/result.json",
+            "bytes": 19869,
+            "sha256": "30ba45fa47e60a8145811374426f18493f99656457aa57a827ccc154a75bb9f0"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/cad1ba4d38346d79971ba41410c32c46a15c2a4b124698d7035ca7ff62a8d3b7/result.json",
+            "bytes": 19875,
+            "sha256": "5865cd055c631b1fa1b3af94fdb629fd1fb11a6896d090d75f452d7c8deb6ef9"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/de2ab87a2dba6dacbc72e0c65fc088c74a69b0ded49518702ed61cdd52b56b8c/result.json",
+            "bytes": 19940,
+            "sha256": "ae3747e83ec077a2cceaf58f41dd4db21053c319c9ded37999fd61d9f56bef65"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/e213e35101e323eed8a6b58bb7c2a4cd4b0d74e8591d3a384c4452a9e4d0cf07/result.json",
+            "bytes": 19958,
+            "sha256": "aab1a19b751706c4677ba040746db63cc3287cbf3492aa37bacd2bd9486e7f7d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/e78fbf598f7fa95f6199fbd62f327657b3bf2fc56fb21799a6fd78fee4642f8a/result.json",
+            "bytes": 19942,
+            "sha256": "f61335f08c080a62d90e3b91a38f6e6157b6ae8a91b26d9416dceb9aa5e5ea5b"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/ed6c089385139c9bc06f19eb33c91c8cbe86631aecb5737941b45ac51e6bae9b/result.json",
+            "bytes": 19877,
+            "sha256": "cfe87d0be14c6e504ea67032d5bd2e2d534c6fd03de35cf9889611b41e22f957"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/f22554849efd8ad5846c23fe9a1c925f684aacc8203f9d38e7b08fc325c165be/result.json",
+            "bytes": 19860,
+            "sha256": "be552c41e658bed3ae20ec0f4282902cdb21dc0df1d7932573b2a43c92c72c36"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/runs/fa92a79586c7fc47b71b387f0aa34dbbc04bfbea7c81e947db150cd7e087f3c6/result.json",
+            "bytes": 19933,
+            "sha256": "32a77ff11fe15195a2b8d4ffbe70e1a2668641bb56e3093350be0cc7d543efcf"
+          }
+        ]
+      },
+      {
+        "root": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1",
+        "journals": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/epoch_commit_ledger.jsonl",
+            "bytes": 585164,
+            "sha256": "a266ff50248553b3c98a44f69881f2286b3a129ffdaeb0c45080226f845db91f"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/recovery_ledger.jsonl",
+            "bytes": null,
+            "sha256": null
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/guardian.json",
+            "bytes": 156,
+            "sha256": "6332b4864d914a1b67469a1fdf34b932e4b4aa2c5d7b0845b85684934174b900"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/STORAGE_OWNER.json",
+            "bytes": 770,
+            "sha256": "82022ca0868a8cb403590f771339c913951917fb8bda7b1f6f64bd36f70ed749"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/STORAGE_HANDOFF.json",
+            "bytes": 796928,
+            "sha256": "7298062ca5b0aa18007c67b4a59c5f54d2fba8845f3f2b7fbe12a85a65863c57"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/PARENT_STORAGE_ACCEPTANCE.json",
+            "bytes": 13683,
+            "sha256": "155f2a70ec4e6d41cef6bfa07ac6defb2d26bf0c03e6facd5439c75ca71dee13"
+          }
+        ],
+        "results": [
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/1a6a7d3a8c7047d1b5cb172d7d4abb9af8137dc87d5f0c4e58570c7ab5b7d01a/result.json",
+            "bytes": 20846,
+            "sha256": "6f54741f87edbd3737b6bb03bc5a05b920aaa478973aa9030145aa3a63c11b2d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/28208caa4f79e67cd88e65ef8573f4b684d18cb3568c97cb1589ccdb3cfd8bd6/result.json",
+            "bytes": 20862,
+            "sha256": "ffe52f4f3706a59b2348eb76c7c8d6f8d932e70f47fbbd21def37e7238bddc49"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/2a04207e69953300563934dc613b0429113651e4deea808274dce8c815763d24/result.json",
+            "bytes": 20891,
+            "sha256": "32b54f7552013c8da30d6479df4f466ca3189bdd4943b72c13e0e90e8ca4dccc"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/2e7ddd288a0dd56fe15577ac9abddd3f9325894ef3b9a012a87036894cb46dcc/result.json",
+            "bytes": 20821,
+            "sha256": "9c2c699638b9833ffcca80fad9b831ba35d0ad55a2789b88e2320010d95efc2b"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/3656c86357dfb00f33030ea1c9e280ea5840b685d93e9819e6a10540ba5df96e/result.json",
+            "bytes": 20784,
+            "sha256": "45717afab0f58b72b5456baf7758b0eae398e6e7e96081d4830c9c7de652a2d7"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/43a1451c7f7fa7983877b86fc7f2609485b224c547910aa4925febc289aad961/result.json",
+            "bytes": 20793,
+            "sha256": "6281af628c964d1d7f6d226a90f49147614d4cec1ec92b852b786a0bb3a94182"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/514e24b2010da7f0902a783b8b573f191372977121c102680d7ebb5908dbaab2/result.json",
+            "bytes": 20883,
+            "sha256": "e2063b118296ebd46551b50c60c55ceb172d2767e66cc95718482c4e152798d6"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/5416e95cd334053750bbdeae75b569c36433c568fefd813f396d86601443eacf/result.json",
+            "bytes": 20819,
+            "sha256": "84ab8f9f69751c62c51c5a199e8ad63fcc51c09f2096dd998cc9268fe044ca49"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/665854dbd054ef8102fc1c350202b037c1480b3d1319b9602a971761ff297293/result.json",
+            "bytes": 20809,
+            "sha256": "ce5305244c2ea2b604cab4552923f526fc1f53b12a82dae4cc8983d47a9c5be3"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/6eeb99287fde76a89213be0237c8f0b4161805c812c8f3c0ae641c8beec576d7/result.json",
+            "bytes": 20814,
+            "sha256": "9793023cb37536c6de912c9448fe4aadf5ddef7e7e1ab6665af66e84762ba8fb"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/748b57af2d1517ff0b8ba7531dde9421d6814cdf78572bc7f52f0ab9a54eef8c/result.json",
+            "bytes": 20816,
+            "sha256": "3d147cbd0eecf5b92af6fee80963506393bb274dfaba7b2e4f3b5b2ffaaf5ead"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/7e57d78ca7fd2b1a6925d6a243c208fbfc96e14204036b8706282909c2532e70/result.json",
+            "bytes": 20865,
+            "sha256": "7aa7ca52345ecf518eaa6733340d1e5a434eca333ab78be058dfffc43cec90c6"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/8356509f5758d272d55264d52fa5809673673588bf174ce1650e1acc7462448d/result.json",
+            "bytes": 20853,
+            "sha256": "6bcf9af1f2e9f9c8fc6e1f00ad5666381e72fffc3ac5a45ac9ec08814efaf7b9"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/86f4d5020b05162b8870b67b7b22b82ca3502fc264359e0b56cf3f4eddecddec/result.json",
+            "bytes": 20843,
+            "sha256": "be43406c07c6d8024eefd7f9937bece7623608c1afe0617bdd9aa7f48fb5de7c"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/88c88bb63cdfc7185a678aef87ec8b7a56b8cebe4d8046c94cab39db700a14b1/result.json",
+            "bytes": 20885,
+            "sha256": "ce0cd937f34cdb8f51e2640a88475f8564291c94a9f64b46d036745e4467561f"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/90ca73b90cbf25e47d2459b6df7e9f5efba78e24093c467638a60f9cadc4217d/result.json",
+            "bytes": 20824,
+            "sha256": "8e1695bab9dee17b004ed484b143fc1f779dac8566ec5ff2a065f6b48d284925"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/93cdd8389544cf839cdaac032f3bcf4583d0e4c402f35a99de03db09b6f4e59f/result.json",
+            "bytes": 20814,
+            "sha256": "510a6d14e1e9ce61efdfd536f6045cb106979bbc5ac98f10ee3f1d052e063e2c"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/aae2a2ce0e457b6908ddb053cef4d580d6d9cf920d48ccaa02d860a17984a1fc/result.json",
+            "bytes": 20861,
+            "sha256": "4e9bbc31be33163a2f41b1f24824550c2df2e3a84f51657a481fc51de5f0353d"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/b65ed270a4da135f725fb2c288440113334edffb47be9da75b5b481650aa5244/result.json",
+            "bytes": 20807,
+            "sha256": "f07557a3f1b547016e9654aa05e586ce89d266077f5e401bc0faebe05e85dbcb"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/ba5f6b90192e63b23587d1f76f77a6e2d8c5aeb81ed20f3dcbd1a51f775d197f/result.json",
+            "bytes": 20882,
+            "sha256": "ac10020e73e8427c3c92df823137bc3429d0bf6cf07767716031c36f5f91b56b"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/c222542b035c838262bac798eec09b941bd0ca0b979ed1cba05bbc95393220a7/result.json",
+            "bytes": 20812,
+            "sha256": "ee847c3929fd38f6535d47511ea922b8959990d3c5e274de73c757eecb2a4eb7"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/c78d8bcafc94fec89f5bb5ab833b56f9f96115c6afd7470ba0226777537bf8c0/result.json",
+            "bytes": 20858,
+            "sha256": "bcb1f72b96900f0739d9de0aa1f42afa99ca57976cfbeb7c31f7fa15c74402f6"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/c89566dd1c44b87c216f1a2e1bde75f96ba5a12f2bcaf63e70a0b55e62f06291/result.json",
+            "bytes": 20809,
+            "sha256": "39af5d60b04d7c24f66ac22484f1224b3dac7205cc8be87458b71647f0653f50"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/d32dc6ce3651b485a6a78f2da2f4b3104d76246c9ab03b400c099311101261b7/result.json",
+            "bytes": 20814,
+            "sha256": "4a0726d5cd7b3aa133960ccb32caeb90a23119ce5e7b7c110f91a1f13e7ca2ee"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/de548d1fff81967958bc6878979721d4869e2c041ab8d7727d7cee0c4e42286b/result.json",
+            "bytes": 20857,
+            "sha256": "afbc9f3f517403f6e3efd7702b76298df9ead9dba1636f9efd323edcf93dc395"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/e1c1637300d9b5eb790a4aab69c5a2538609fe301ef520c7cebc40d98f10f099/result.json",
+            "bytes": 20860,
+            "sha256": "5d3afdafe41f3053d7e69d71eb1c4932490b4f05a3de8509838d79b1e519ed6f"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/e290c17422edf0d0db3a9eac30c522e85644ba47188a3c5f8304faada1b7c67b/result.json",
+            "bytes": 20860,
+            "sha256": "818131c231901eace4552b1f55e58de2932afde8cc304930b05614592d67bcb9"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/e7ab657cddc44576f643c170523dc8aceeb3ea6fa3ca722e9a9425aa1ccd2cc1/result.json",
+            "bytes": 20876,
+            "sha256": "bc4314fa31fe6dc108ade4d3c4e1e3c6cbf6efbede01f5e11887d890a0b49330"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/e9b717e175a5e5f22a2f2306c9bbca8ff559a392e9a99fa94183d0769474379d/result.json",
+            "bytes": 20817,
+            "sha256": "99b12c887e952dce162a27137514f37bff4edb79b640527b10fc63c89737ab0a"
+          },
+          {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1/runs/eada76e12496dfa679e50ef1c67cddb26656ddbbcbbbf7c6d0c4f12e6685f1c9/result.json",
+            "bytes": 20841,
+            "sha256": "536d7a73ebebc7b125f7709c551c6b8e42c4a926ed12ab15fe99538a27207043"
+          }
+        ]
+      }
+    ],
+    "old_inventory_unchanged": true
+  },
+  "pending_gates": [
+    "distinct implementation review",
+    "parent foreground new RAM owner",
+    "four real GPU/RAM smoke cases",
+    "distinct resource signoff",
+    "formal20 supervised run and parent storage acceptance"
+  ],
+  "supplemental_checks": [
+    {
+      "execution": "inline project-Python CPU fixture",
+      "exit_code": 0,
+      "operations": [
+        "protocol.reference_index(): 20 explicit controls, 1000 epochs, 10 initial and 500 order hashes",
+        "tables.paired_tables(): 400 synthetic endpoint rows, 1500 metric pairs, 300 summaries, five comparisons, both streams, five endpoints",
+        "source-returned cell ledger/diagnostics written to StringIO CSV with exporter field lists",
+        "compile() of all six new Python files in memory"
+      ]
+    },
+    {
+      "execution": "inline project-Python final receipt writer",
+      "exit_code": 0,
+      "operations": [
+        "checks.check_runtime_contracts()",
+        "protocol.source_manifest(): byte-only identity, no frozen source receipt",
+        "before/after protocol.old_inventory() equality, including 136 protected-tree files and old numeric journals/result inventories",
+        "protocol.stop_requested(): false for both workspace controls"
+      ]
+    }
+  ],
+  "changed_paths": [
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/protocol.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/runner.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/tables.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/README.md",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/RUNTIME_IMPLEMENTATION_REPORT.md",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/RUNTIME_CPU_CHECKS.json"
+  ]
+}

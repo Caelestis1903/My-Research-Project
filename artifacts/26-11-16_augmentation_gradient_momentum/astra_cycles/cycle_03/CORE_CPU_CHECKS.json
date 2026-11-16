@@ -1,0 +1,323 @@
+{
+  "report_type": "CODER CORE CPU CHECKS",
+  "stage": "IMPLEMENT",
+  "status": "CORE_CPU_PASS_INTEGRATION_PENDING",
+  "coder_id": "01a1e4bb-52a5-7142-97be-15c25dfbe75e",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "design_acceptance": "COMPLETE_APPROVED_FOR_IMPLEMENTATION",
+  "design_bundle_sha256": "fe784adac9005f29b230e019b5e0fcd9c98dc842c1ac4ebe12849ba90512f3bb",
+  "changed_paths": [
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/__init__.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/core.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/checks.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/CORE_IMPLEMENTATION_REPORT.md",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/CORE_CPU_CHECKS.json"
+  ],
+  "source_files": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/__init__.py",
+      "sha256": "0740474419393ac1702d19d5793b6c2ed379c80b74f1498d9c34a09f49f31250",
+      "lines": 1
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/core.py",
+      "sha256": "89f6f9342ab1d1663c9b34984ba5fa0859bff7409322a33a1b39875267b2565c",
+      "lines": 86
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116/checks.py",
+      "sha256": "1c18a2d0ab51548842bc3994e4ad92b0ff271e4dd27e62f10ba62bf3d4c55959",
+      "lines": 489
+    }
+  ],
+  "new_full_source_frozen": false,
+  "commands": [
+    {
+      "id": "C1",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport json\nfrom experiments.nqr_temporal_exposure_20261116 import checks\nprint(json.dumps(checks.run_checks(),indent=2,allow_nan=False))\nPY",
+      "exit_code": 1,
+      "result": "All four core check functions completed; receipt validation failed because historical CORE_CPU_CHECKS.status is CORE_CPU_PASS_INTEGRATION_PENDING, not PASS. Corrected new receipt reader to require that exact historical status and PASS in each recorded core group. No frozen file changed."
+    },
+    {
+      "id": "C2",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport json\nfrom experiments.nqr_temporal_exposure_20261116 import checks\nprint(json.dumps(checks.run_checks(),indent=2,allow_nan=False))\nPY",
+      "exit_code": 0,
+      "result": "PASS for all four core groups and byte-bound frozen evidence; results below. Appending lazy runtime functions does not change these core checks."
+    },
+    {
+      "id": "C3",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport json\nfrom experiments.nqr_temporal_exposure_20261116 import checks\nprint(json.dumps(checks.check_support_tails_and_nulls(),indent=2,allow_nan=False))\nPY",
+      "exit_code": 0,
+      "result": "PASS after tightening the local scalar mass check to absolute 1e-15; exact state/gradient comparisons unchanged."
+    },
+    {
+      "id": "C4",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport hashlib,json,pathlib\nK=pathlib.Path('/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/nqr_temporal_exposure_20261116')\nrows=[]\nfor name in ('__init__.py','core.py','checks.py'):\n p=K/name;compile(p.read_text(),str(p),'exec');rows.append(dict(path=str(p),sha256=hashlib.sha256(p.read_bytes()).hexdigest(),lines=len(p.read_text().splitlines())))\nprint(json.dumps(dict(status='PASS',syntax_files=rows)))\nPY",
+      "exit_code": 0,
+      "result": "PASS: three owned source files compiled in memory; no bytecode written."
+    }
+  ],
+  "final_core_results": {
+    "status": "PASS",
+    "checks": {
+      "check_schedules_and_validation": {
+        "status": "PASS",
+        "schedule_values": 100,
+        "rejected_train_inputs": 61,
+        "mutation_before_rejection": false
+      },
+      "check_frozen_and_clean_identity": {
+        "status": "PASS",
+        "cases": 8,
+        "updates_per_route": 2,
+        "exact_state_gradients_activity_rng_loader": true,
+        "initial_and_populated_Adam": true,
+        "diagnose_on_off": true
+      },
+      "check_boundaries_and_activity": {
+        "status": "PASS",
+        "boundaries": [
+          {
+            "arm": "NQR-EARLY10",
+            "virtual_epochs": [
+              10,
+              11
+            ],
+            "actual_steps": 4,
+            "phase_counters": {
+              "active_task_entries": 28,
+              "off_updates": 2,
+              "off_task_entries": 28,
+              "lambda_update_sum": 0.5,
+              "active_updates": 2,
+              "off_rows": 14,
+              "nonzero_opportunity_updates": 2,
+              "active_rows": 14
+            }
+          },
+          {
+            "arm": "NQR-LATE10",
+            "virtual_epochs": [
+              40,
+              41
+            ],
+            "actual_steps": 4,
+            "phase_counters": {
+              "active_task_entries": 28,
+              "off_updates": 2,
+              "off_task_entries": 28,
+              "lambda_update_sum": 0.5,
+              "active_updates": 2,
+              "off_rows": 14,
+              "nonzero_opportunity_updates": 2,
+              "active_rows": 14
+            }
+          }
+        ],
+        "no_optimizer_ema_rng_loader_reset": true,
+        "None_skips_Adam": true,
+        "explicit_zero_remains_active": true
+      },
+      "check_support_tails_and_nulls": {
+        "status": "PASS",
+        "cases": [
+          {
+            "dataset": "movielens",
+            "B": 1,
+            "phase": "on",
+            "branch": "all_single_class"
+          },
+          {
+            "dataset": "movielens",
+            "B": 1,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 3,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 3,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 7,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 7,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "movielens",
+            "B": 21927,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "movielens",
+            "B": 21927,
+            "phase": "off",
+            "branch": "lambda_zero"
+          },
+          {
+            "dataset": "kuairand",
+            "B": 40052,
+            "phase": "on",
+            "branch": "ordinary"
+          },
+          {
+            "dataset": "kuairand",
+            "B": 40052,
+            "phase": "off",
+            "branch": "lambda_zero"
+          }
+        ],
+        "synthetic_None_row_ids": true,
+        "mass_rounding_atol": 1e-15
+      }
+    },
+    "frozen_evidence": {
+      "status": "PASS",
+      "frozen_C2_files": 87,
+      "frozen_C2_sha256": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+      "frozen_C1_files": 79,
+      "frozen_C1_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "reused_proofs": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_CPU_CHECKS.json",
+          "sha256": "36cbf7f016769daa8eb5166a6c1595cc6b2ca375944a9bc40a2c09f06eb310a7",
+          "reused": true
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/R1_CPU_CHECKS.json",
+          "sha256": "2711118f9df32174bec330190a124c5c97b5099439af427446635ade6b1ec5de",
+          "reused": true
+        }
+      ],
+      "literal_QR_suite_rerun": false
+    }
+  },
+  "protected_source": {
+    "status": "PASS",
+    "before": {
+      "natural_quadratic_ranking_20261116": {
+        "files": 7,
+        "sha256": "1eee1b2778e816fe3bb0c62e1a9923df5ec866bc92faad150885e50ae222ac52"
+      },
+      "task_axis_even_views_20261116": {
+        "files": 8,
+        "sha256": "0464f734154f7eb00985aa8cad9ca459b3a3dc5a63a9e22225bd90064bcf3be3"
+      },
+      "auxiliary_objective_attribution_20261115": {
+        "files": 26,
+        "sha256": "b58cfca7368125abc762d8cee23c0ee85843f0343ffb8f4aeaa59ecd7f2c1aad"
+      },
+      "conditional_information_momentum_20261102_v3": {
+        "files": 78,
+        "sha256": "6abefb0d85a268c362f9e265a6d8472ccd0eed9461a0fc45eb87c46d9559dc7f"
+      },
+      "task_view_gradient_residual_momentum_20261116": {
+        "files": 17,
+        "sha256": "54ddd42965eefd602396d2fc754aa13e29c0ba484137ac7cb88d896275c77498"
+      }
+    },
+    "after": {
+      "natural_quadratic_ranking_20261116": {
+        "files": 7,
+        "sha256": "1eee1b2778e816fe3bb0c62e1a9923df5ec866bc92faad150885e50ae222ac52"
+      },
+      "task_axis_even_views_20261116": {
+        "files": 8,
+        "sha256": "0464f734154f7eb00985aa8cad9ca459b3a3dc5a63a9e22225bd90064bcf3be3"
+      },
+      "auxiliary_objective_attribution_20261115": {
+        "files": 26,
+        "sha256": "b58cfca7368125abc762d8cee23c0ee85843f0343ffb8f4aeaa59ecd7f2c1aad"
+      },
+      "conditional_information_momentum_20261102_v3": {
+        "files": 78,
+        "sha256": "6abefb0d85a268c362f9e265a6d8472ccd0eed9461a0fc45eb87c46d9559dc7f"
+      },
+      "task_view_gradient_residual_momentum_20261116": {
+        "files": 17,
+        "sha256": "54ddd42965eefd602396d2fc754aa13e29c0ba484137ac7cb88d896275c77498"
+      }
+    },
+    "tree_membership_includes_existing_pycache": true
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "sentinels": [
+        false,
+        false
+      ]
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "sentinels": [
+        false,
+        false
+      ]
+    }
+  ],
+  "integration": {
+    "status": "PENDING_RUNTIME_CODER_FINAL_FILES_AND_REPORT",
+    "executed": false,
+    "missing_source_files": [
+      "README.md"
+    ],
+    "runtime_report_exists": false,
+    "entry_point": "experiments.nqr_temporal_exposure_20261116.checks.check_runtime_contracts",
+    "implemented_checks": [
+      "four dataset/arm config identities",
+      "new absolute root and old-root/path rejection",
+      "36 pure formal clock arithmetic fixtures, without trained-state claims",
+      "13 pure current85/host90/physical100 admission fixtures",
+      "two engineering virtual boundary fixtures with actual 2->3 steps and 2/4 commit counts",
+      "populated Adam deep-copy restore, two independent restored routes, step/moment storage isolation, unchanged saved state",
+      "BytesIO-only roundtrip and exact suffix model/EMA/Adam/activity/RNG/loader/phase identity"
+    ],
+    "required_next_action": "Runtime coder finishes README.md and RUNTIME_IMPLEMENTATION_REPORT.md. Parent integrates both coder reports, runs the package checks CLI (or run_checks plus check_runtime_contracts), obtains source receipt only once all seven files and both reports are integrated, then dispatches a fresh distinct reviewer.",
+    "future_integrated_command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.nqr_temporal_exposure_20261116.checks",
+    "future_integrated_cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116"
+  },
+  "constraints": {
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "owner_contact": false,
+    "source_manifest_generators_called": false,
+    "research_training": false,
+    "research_analysis": false,
+    "test_accessed": false,
+    "tensor_files_written": 0,
+    "descendants_spawned": 0,
+    "git_or_publication": false,
+    "old_source_edits": false,
+    "other_coder_files_edited": false,
+    "max_cycles": null,
+    "max_astra_cycles": null,
+    "max_experiments": null
+  },
+  "handoff": "Core coder complete. Parent closes this native context permanently; no reuse/resume. Code review, parent foreground owner, four actual GPU smoke cases and distinct resource signoff remain parent gates."
+}

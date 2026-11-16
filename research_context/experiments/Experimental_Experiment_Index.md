@@ -1,5 +1,13 @@
 # Experimental Experiment Index
 
+## EXP-NQR-C03-20261116 — Temporal NQR，完整五seed
+
+EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。
+
+ML EARLY−constant selected AUC+.000003472、CI跨0，LL−.003069812且5/5降低、CI全负（MEDIUM）：停止后40epoch干预改变损失，未恢复选中排序。LATE ML五seed选中状态/epoch等于其干预前CLEAN最优，属于已注册选择下界，不能作为时序有效证据。E50 EARLY−LATE AUC均值ML online/EMA−.000139590/−.000750982，KR+.001469902/−.000934445，四个CI全跨0（时序机制WEAK）；KR LATE−CLEAN选中EMA+.000738140，2正3零、CI跨0，为控制的WEAK条件信号，不升级候选。EARLY E10与C2常数轨迹完全相同，不算独立重复。
+
+[完整报告](../../research_reports/nqr_temporal_exposure_20261116/REPORT.md)、[所有seed/CI](../../research_reports/nqr_temporal_exposure_20261116/ALL_PAIRED_SUMMARY.csv)、[原数表/12分片](../../research_reports/nqr_temporal_exposure_20261116/DATA_AVAILABILITY.md)；1000新epoch、34500新batch、207000weights、66000statistics，工程smoke4例/40physical calls不计科学重复。旧角色未启动和新上下文执行均保留，不另算实验。原会话循环继续。
+
 ## EXP-NQR-C02-20261116 — Natural quadratic ranking，完整五seed
 
 ML/KR × NQR-025/BRIER-OPPORTUNITY-025/MEAN-GAP-025 × seeds2022–2026，M3oE fixed1，自然数据、50epochs/40960/FP32；30新增、10精确CLEAN历史轨迹复用，1500epochs/51750新Adam+EMA更新。候选NO_CONTINUATION_SIGNAL；三新臂两数据集selected EMA AUC均值均负，ML E10正/selected负及KR大域/pool LL改善分列。无champion/Test/HPO。原会话26并发CUDA观察、0失败；编码R1与6smoke不另计实验。来源：[REPORT](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[DECISION](../../research_reports/natural_quadratic_ranking_20261116/DECISION.json)、[完整数值archive](../../research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)。后续fresh研究循环不限次数。

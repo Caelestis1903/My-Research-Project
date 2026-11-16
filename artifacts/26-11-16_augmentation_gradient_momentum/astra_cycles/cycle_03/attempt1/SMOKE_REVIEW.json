@@ -1,0 +1,867 @@
+{
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "reviewer_id": "01a1e4df-7912-74c0-aae2-617db683a32c",
+  "source_hash": "a7666566be5790a0e97613d11c37792122a4028f72716669f52be1ceffe99002",
+  "design_bundle_sha256": "fe784adac9005f29b230e019b5e0fcd9c98dc842c1ac4ebe12849ba90512f3bb",
+  "smoke_sha256": "e8ed6a57ac475e0cfa9c74fb4f0478bcaf0725ec6a24ab09aaae510c05105525",
+  "resource_checks_passed": true,
+  "cross_arm_device_compatibility_passed": true,
+  "evidence": {
+    "report_title": "REVIEW REPORT",
+    "scope": "Independent Cycle03 resource/smoke signoff only",
+    "reviewed_at_utc": "2026-11-16T15:04:32.450759+00:00",
+    "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+    "code_review": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/IMPLEMENTATION_REVIEW.json",
+      "verdict": "PASS",
+      "reviewer_id": "01a1e4d0-9b08-71c1-9d03-78f5263b7cb9",
+      "coder_ids": [
+        "01a1e4bb-52a5-7142-97be-15c25dfbe75e",
+        "01a1e4bb-52b3-7833-a030-933eba357cac"
+      ]
+    },
+    "requirement_verification": [
+      {
+        "id": "R1",
+        "requirement": "Current policy, independent reviewer and immutable source/design",
+        "status": "PASS",
+        "verification": "Read W/O AGENTS, both GB18030 start.md files, buchong and current runbook; existing code PASS and both coder reports. Recomputed 94-source closure and seven-file design; exact supplied identities. Actual validate_attempt verifies environment,20 formal jobs,20 reused controls and all1000 historical epoch hashes. Reviewer is distinct from both coders."
+      },
+      {
+        "id": "R2",
+        "requirement": "Exactly four own cases and opposite arm/device coverage",
+        "status": "PASS",
+        "verification": "Dataset x arm, seed2022, FP32; MovieLens EARLY/GPU0 and LATE/GPU1; KuaiRand EARLY/GPU1 and LATE/GPU0. Every case covers lambdas0/.25, full40960 and true tail21927/40052; no additional smoke case."
+      },
+      {
+        "id": "R3",
+        "requirement": "Virtual clock, populated transition and honest physical counts",
+        "status": "PASS",
+        "verification": "Actual steps1..4 and engineering commits1/2 at steps2/4; virtual10->11 or40->41. All107 ML/134 KR observed parameter Adam counters are2 then4; diagnostic counters follow actual steps1..4. Eight journal+epoch+ACK pairs reconcile; physical attempts6+4 calls/case, totaling40; zero scientific epochs or selected evidence."
+      },
+      {
+        "id": "R4",
+        "requirement": "Source equivalence, diagnostic neutrality and populated recovery",
+        "status": "PASS",
+        "verification": "Read actual smoke implementation assertions and four per-step reference entries/case. Diagnosed adapter state/activity/RNG/loader/loss/ledger matches isolated direct frozen C2 calls; populated saved baseline hashes and optimizer storage isolation checked in execution. RAM commit/get/hash, pause/reregister, deep restore and exact uninterrupted suffix/validation comparisons passed; raw continuation hashes and ACK file hashes agree. No new numerical implementation or gradient path."
+      },
+      {
+        "id": "R5",
+        "requirement": "Measured full-process residency and phase coverage",
+        "status": "PASS",
+        "verification": "Independently reconciled477 raw PID samples with all profile phase sample counts and full-residency peaks; every required phase has at least2 samples. Four diagnosed on/off full/tail phases, lazy first Adam, online/EMA validation, CPU copy/BytesIO, RAM transport and recovery present. Measured full NVML, allocated/reserved, host/RSS, CUDA-usable total and overhead are source/design/PID bound. Incoming ML1384120320/KR1749024768 bytes; no historical KR1658847232 substitution."
+      },
+      {
+        "id": "R6",
+        "requirement": "Cross-arm/device compatibility and compatible maxima",
+        "status": "PASS",
+        "verification": "Both cards recorded NVIDIA GeForce RTX3090,compute8.6,CUDA-usable25307578368B and NVML total25769803776B. Both lambdas and all required phases present for each arm on its assigned card; each dataset measured on both cards. All four measured non-Torch maxima329252864B. Dataset profiles agree across arm/device. Actual measured_profile returns own compatible maxima for all eight dataset/arm/device combinations and carries larger compatible live observations. Overhead is added only to reserved, never again to full-process peak."
+      },
+      {
+        "id": "R7",
+        "requirement": "Independent current85/host90 plus physical usable100 admission",
+        "status": "PASS",
+        "verification": "Traced actual admission/Profile/formal queue: current memory/NVML total<.85 and current power/limit<.85, host<.90, per-card pending-allocation guard, current used+incoming full-process<=CUDA-usable total. Physical equality allowed;85/90 equality blocked. No forecast power, projected85 memory, projected90 host, worker-count cap or both-card coupling. Own profiles required for formal work; deterministic KuaiRand-first queue. Existing pure fixture source includes C1 physical-capacity predecessor, equality, pending guard, independent other card and profile growth."
+      },
+      {
+        "id": "R8",
+        "requirement": "Actual allocation ACK and startup/allocation resampling",
+        "status": "PASS",
+        "verification": "All16 admission rows reconcile: four eligible independent admissions, four startup resamples, four post-allocation resamples and four case-exit resamples. Every ACK follows actual first full train step/lazy Adam/EMA; post-ACK sample occurs after ACK timestamp. Formal scheduler independently re-samples current card/host at every admission and after startup/allocation."
+      },
+      {
+        "id": "R9",
+        "requirement": "Parent supervision, RAM release, protected baselines and sealed Test",
+        "status": "PASS",
+        "verification": "Parent acceptance binds exact source/design/smoke, all four worker PIDs dead and retained states0 after permitted engineering release. Read-only /proc confirms workers dead and protected owner2097722 alive; owner foreground session61982/original parent match. Current protected136-file tree and old journal/result inventories equal before/after smoke. All eight records are engineering only; Test false throughout. No tensor/checkpoint/archive paths under N; reviewer performs no IPC or owner operation."
+      },
+      {
+        "id": "R10",
+        "requirement": "Actual formal smoke-signoff consumer",
+        "status": "PASS",
+        "verification": "Consumer schema and all require_smoke=True assertions independently inspected; exact SHA-bound signoff is checked through actual validate_attempt after report write."
+      }
+    ],
+    "bugs_deviations": [],
+    "severity_counts": {
+      "CRITICAL": 0,
+      "MAJOR": 0,
+      "MINOR": 0
+    },
+    "corrections_made": [],
+    "cases": [
+      {
+        "key": "32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc",
+        "dataset": "movielens",
+        "arm": "NQR-EARLY10",
+        "device": 0,
+        "pid": 2099307,
+        "worker_dead": true,
+        "case_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/case.json",
+        "virtual_epochs": [
+          10,
+          11
+        ],
+        "actual_steps": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "engineering_commit_steps": [
+          2,
+          4
+        ],
+        "physical_attempt_calls": [
+          6,
+          4
+        ],
+        "scientific_epochs_completed": 0,
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "effective_lambdas": [
+          0.0,
+          0.25
+        ],
+        "raw_sample_count": 92,
+        "phase_sample_counts": {
+          "allocation": 1,
+          "on_full_diagnostic": 7,
+          "direct_c2_on_full": 5,
+          "on_tail_diagnostic": 3,
+          "direct_c2_on_tail": 4,
+          "validation_online": 14,
+          "validation_fixed_ema": 14,
+          "cpu_snapshot_serialization": 7,
+          "ram_roundtrip": 12,
+          "off_full": 4,
+          "off_tail": 3,
+          "recovery": 2,
+          "off_full_diagnostic": 4,
+          "direct_c2_off_full": 5,
+          "off_tail_diagnostic": 3,
+          "direct_c2_off_tail": 4
+        },
+        "full_process_peak_bytes": 1384120320,
+        "torch_reserved_peak_bytes": 1054867456,
+        "torch_allocated_peak_bytes": 980197376,
+        "measured_non_torch_bytes": 329252864,
+        "incoming_full_process_bytes": 1384120320,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        },
+        "host_peak_fraction": 0.16526853887816684,
+        "peak_host_rss_bytes": 1748398080,
+        "physical_costs": {
+          "optimizer_updates": 10,
+          "ema_updates": 10,
+          "ordinary_forwards": 10,
+          "scalar_backwards": 10,
+          "failed_training_batches": 0
+        },
+        "transfers": [
+          {
+            "serialization_seconds": 0.008070201962254941,
+            "serialization_bytes": 12555467,
+            "ipc_get_verify_seconds": 0.08161137695424259,
+            "transport_warning_reconciled": null
+          },
+          {
+            "serialization_seconds": 0.008493129978887737,
+            "serialization_bytes": 12555467,
+            "ipc_get_verify_seconds": 0.08032577601261437,
+            "transport_warning_reconciled": null
+          }
+        ]
+      },
+      {
+        "key": "1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff",
+        "dataset": "movielens",
+        "arm": "NQR-LATE10",
+        "device": 1,
+        "pid": 2099420,
+        "worker_dead": true,
+        "case_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/case.json",
+        "virtual_epochs": [
+          40,
+          41
+        ],
+        "actual_steps": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "engineering_commit_steps": [
+          2,
+          4
+        ],
+        "physical_attempt_calls": [
+          6,
+          4
+        ],
+        "scientific_epochs_completed": 0,
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "effective_lambdas": [
+          0.0,
+          0.25
+        ],
+        "raw_sample_count": 101,
+        "phase_sample_counts": {
+          "allocation": 1,
+          "off_full_diagnostic": 7,
+          "direct_c2_off_full": 5,
+          "off_tail_diagnostic": 4,
+          "direct_c2_off_tail": 4,
+          "validation_online": 17,
+          "validation_fixed_ema": 16,
+          "cpu_snapshot_serialization": 8,
+          "ram_roundtrip": 11,
+          "on_full": 5,
+          "on_tail": 3,
+          "recovery": 3,
+          "on_full_diagnostic": 4,
+          "direct_c2_on_full": 5,
+          "on_tail_diagnostic": 4,
+          "direct_c2_on_tail": 4
+        },
+        "full_process_peak_bytes": 1384120320,
+        "torch_reserved_peak_bytes": 1054867456,
+        "torch_allocated_peak_bytes": 980197376,
+        "measured_non_torch_bytes": 329252864,
+        "incoming_full_process_bytes": 1384120320,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        },
+        "host_peak_fraction": 0.16578409157766993,
+        "peak_host_rss_bytes": 1743704064,
+        "physical_costs": {
+          "optimizer_updates": 10,
+          "ema_updates": 10,
+          "ordinary_forwards": 10,
+          "scalar_backwards": 10,
+          "failed_training_batches": 0
+        },
+        "transfers": [
+          {
+            "serialization_seconds": 0.008302366943098605,
+            "serialization_bytes": 12555467,
+            "ipc_get_verify_seconds": 0.07838296890258789,
+            "transport_warning_reconciled": null
+          },
+          {
+            "serialization_seconds": 0.008383780950680375,
+            "serialization_bytes": 12555467,
+            "ipc_get_verify_seconds": 0.07903863000683486,
+            "transport_warning_reconciled": null
+          }
+        ]
+      },
+      {
+        "key": "eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538",
+        "dataset": "kuairand",
+        "arm": "NQR-EARLY10",
+        "device": 1,
+        "pid": 2099530,
+        "worker_dead": true,
+        "case_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/case.json",
+        "virtual_epochs": [
+          10,
+          11
+        ],
+        "actual_steps": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "engineering_commit_steps": [
+          2,
+          4
+        ],
+        "physical_attempt_calls": [
+          6,
+          4
+        ],
+        "scientific_epochs_completed": 0,
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "effective_lambdas": [
+          0.0,
+          0.25
+        ],
+        "raw_sample_count": 153,
+        "phase_sample_counts": {
+          "allocation": 1,
+          "on_full_diagnostic": 9,
+          "direct_c2_on_full": 6,
+          "on_tail_diagnostic": 5,
+          "direct_c2_on_tail": 6,
+          "validation_online": 33,
+          "validation_fixed_ema": 34,
+          "cpu_snapshot_serialization": 9,
+          "ram_roundtrip": 15,
+          "off_full": 4,
+          "off_tail": 5,
+          "recovery": 3,
+          "off_full_diagnostic": 6,
+          "direct_c2_off_full": 6,
+          "off_tail_diagnostic": 5,
+          "direct_c2_off_tail": 6
+        },
+        "full_process_peak_bytes": 1749024768,
+        "torch_reserved_peak_bytes": 1419771904,
+        "torch_allocated_peak_bytes": 1086363648,
+        "measured_non_torch_bytes": 329252864,
+        "incoming_full_process_bytes": 1749024768,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        },
+        "host_peak_fraction": 0.17328917561867396,
+        "peak_host_rss_bytes": 2189139968,
+        "physical_costs": {
+          "optimizer_updates": 10,
+          "ema_updates": 10,
+          "ordinary_forwards": 10,
+          "scalar_backwards": 10,
+          "failed_training_batches": 0
+        },
+        "transfers": [
+          {
+            "serialization_seconds": 0.017199553083628416,
+            "serialization_bytes": 26048637,
+            "ipc_get_verify_seconds": 0.12403234699741006,
+            "transport_warning_reconciled": null
+          },
+          {
+            "serialization_seconds": 0.01782315701711923,
+            "serialization_bytes": 26048637,
+            "ipc_get_verify_seconds": 0.12463482795283198,
+            "transport_warning_reconciled": null
+          }
+        ]
+      },
+      {
+        "key": "3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10",
+        "dataset": "kuairand",
+        "arm": "NQR-LATE10",
+        "device": 0,
+        "pid": 2099656,
+        "worker_dead": true,
+        "case_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/case.json",
+        "virtual_epochs": [
+          40,
+          41
+        ],
+        "actual_steps": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "engineering_commit_steps": [
+          2,
+          4
+        ],
+        "physical_attempt_calls": [
+          6,
+          4
+        ],
+        "scientific_epochs_completed": 0,
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "effective_lambdas": [
+          0.0,
+          0.25
+        ],
+        "raw_sample_count": 131,
+        "phase_sample_counts": {
+          "allocation": 1,
+          "off_full_diagnostic": 7,
+          "direct_c2_off_full": 6,
+          "off_tail_diagnostic": 5,
+          "direct_c2_off_tail": 5,
+          "validation_online": 27,
+          "validation_fixed_ema": 27,
+          "cpu_snapshot_serialization": 9,
+          "ram_roundtrip": 14,
+          "on_full": 4,
+          "on_tail": 4,
+          "recovery": 3,
+          "on_full_diagnostic": 5,
+          "direct_c2_on_full": 5,
+          "on_tail_diagnostic": 4,
+          "direct_c2_on_tail": 5
+        },
+        "full_process_peak_bytes": 1749024768,
+        "torch_reserved_peak_bytes": 1419771904,
+        "torch_allocated_peak_bytes": 1086363648,
+        "measured_non_torch_bytes": 329252864,
+        "incoming_full_process_bytes": 1749024768,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        },
+        "host_peak_fraction": 0.17319406419350536,
+        "peak_host_rss_bytes": 2163908608,
+        "physical_costs": {
+          "optimizer_updates": 10,
+          "ema_updates": 10,
+          "ordinary_forwards": 10,
+          "scalar_backwards": 10,
+          "failed_training_batches": 0
+        },
+        "transfers": [
+          {
+            "serialization_seconds": 0.01752593193668872,
+            "serialization_bytes": 26048637,
+            "ipc_get_verify_seconds": 0.12098580703604966,
+            "transport_warning_reconciled": null
+          },
+          {
+            "serialization_seconds": 0.017155569978058338,
+            "serialization_bytes": 26048573,
+            "ipc_get_verify_seconds": 0.12625499302521348,
+            "transport_warning_reconciled": null
+          }
+        ]
+      }
+    ],
+    "resource_policy": {
+      "current_gpu_memory_fraction_strictly_below": 0.85,
+      "current_gpu_power_fraction_strictly_below": 0.85,
+      "current_host_ram_fraction_strictly_below": 0.9,
+      "physical_fit": "current_used_bytes + max(compatible full_process_peak_bytes, compatible torch_reserved_peak_bytes + measured_non_torch_bytes, subsequent larger compatible live observations) <= measured CUDA-usable total bytes",
+      "cuda_usable_total_bytes": 25307578368,
+      "nvml_total_bytes": 25769803776,
+      "incoming_full_process_bytes": {
+        "movielens": 1384120320,
+        "kuairand": 1749024768
+      },
+      "independent_cards": true,
+      "pending_first_allocation_ack_guard": true,
+      "startup_and_allocation_resample": true,
+      "power_forecast": false,
+      "projected85_memory": false,
+      "projected90_host": false,
+      "worker_count_cap": false,
+      "card_coupling": false,
+      "queue_order": "KuaiRand first; seed then arm"
+    },
+    "supervision": {
+      "parent_acceptance_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/PARENT_SMOKE_SUPERVISION_ACCEPTANCE.json",
+      "status": "ACCEPTED",
+      "owner_pid": 2097722,
+      "owner_session": "61982",
+      "owner_alive_read_only_proc": true,
+      "all_smoke_workers_dead": true,
+      "engineering_retained_states": 0,
+      "owner_contact_by_reviewer": false
+    },
+    "verification_totals": {
+      "source_files": 94,
+      "protected_tree_files": 136,
+      "raw_resource_samples": 477,
+      "engineering_epoch_records": 8,
+      "ack_files": 8,
+      "journal_rows": 8,
+      "admission_rows": 16,
+      "physical_train_calls": 40,
+      "logical_engineering_steps": 16,
+      "engineering_commits": 8,
+      "scientific_epochs_completed": 0
+    },
+    "remaining_risks": [
+      "Formal supervision must continue fresh admission measurements and carry forward larger compatible full-process observations; hardware/profile mismatch or actual OOM follows the existing technical PAUSE gate."
+    ],
+    "safe_to_run": {
+      "formal_cycle03_resource_smoke_gate_cleared": true,
+      "conditions": "Existing current-conversation supervision, storage/source/design/data identity gates, fresh independent admission and sealed Test remain enforced."
+    },
+    "actual_consumer_validation": {
+      "call": "protocol.validate_attempt(ATTEMPT, require_smoke=True)",
+      "status": "PASS"
+    },
+    "reviewer_actions": {
+      "source_edits": false,
+      "design_edits": false,
+      "smoke_rerun": false,
+      "cpu_suite_rerun": false,
+      "gpu_queries": 0,
+      "gpu_work": false,
+      "ipc_calls": 0,
+      "owner_contact": false,
+      "test_accessed": false,
+      "tensor_path_writes": 0,
+      "git_history_rootstate_edits": false,
+      "descendants": 0,
+      "allowed_outputs_only": true
+    },
+    "input_receipts": [
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/C3_SMOKE_RUNNER_REPORT.json",
+        "sha256": "d077d896a91e598799de8b5c0f778210c0f159ead41cdb91d9347123dcaa423c",
+        "bytes": 14751
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/C3_SMOKE_RUNNER_REPORT.md",
+        "sha256": "895efe456b94f7716b2912930888b35c6c0b06c7a6b05d70c5c61a5f4cab55a5",
+        "bytes": 4871
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/CORE_IMPLEMENTATION_REPORT.md",
+        "sha256": "ba720b97b3872c6e6172adaaf415906d4183919b303fc129f9aa8c7b8f8e4680",
+        "bytes": 6900
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/IMPLEMENTATION_REVIEW.json",
+        "sha256": "8d1fae19276a86ebcdf514bb444c76d0560ec04db9496757185c693ff5098760",
+        "bytes": 49802
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/PARENT_SMOKE_SUPERVISION_ACCEPTANCE.json",
+        "sha256": "cd2a744e1808ce9f0d11f35efd51c9c157f3defcad8488a5fb119a53ca5aacbb",
+        "bytes": 1555
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/RUNTIME_IMPLEMENTATION_REPORT.md",
+        "sha256": "18d29b78d5f90f1d61c6825e73389963591a4be89de6b928014e43d217dcc981",
+        "bytes": 12646
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/OLD_INVENTORY_AFTER_SMOKE.json",
+        "sha256": "c85e86da4ef1152fcad347e29321fbedcb98fee937c640f15449b8081d16f798",
+        "bytes": 75220
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/OLD_INVENTORY_BEFORE.json",
+        "sha256": "c85e86da4ef1152fcad347e29321fbedcb98fee937c640f15449b8081d16f798",
+        "bytes": 75220
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/SMOKE_REPORT.json",
+        "sha256": "e8ed6a57ac475e0cfa9c74fb4f0478bcaf0725ec6a24ab09aaae510c05105525",
+        "bytes": 89539
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/STORAGE_OWNER.json",
+        "sha256": "ba2724fa7d46085043d2dc2569dbfbddbff8745e5718703bb0a49ef464b83b90",
+        "bytes": 770
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/epoch_commit_ledger.jsonl",
+        "sha256": "64650763ae234cbdb35fa037ede408431b390cb7cc8f3df612290f2c167ed166",
+        "bytes": 3100
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/run_manifest.json",
+        "sha256": "c2fd19fcf697a3fe02ad894b29d88a9220c5886626a8afb45d31f0080441393a",
+        "bytes": 44976
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/ack_01.json",
+        "sha256": "51128cf27eedb24fc2558cc3b63b0ec8b9f725e5402d1b3967e86537488f26b8",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/allocation_ack.json",
+        "sha256": "b07b8047411b039b369985147eced5cd34f67c2fec58d566dc44a8ac59f90cc5",
+        "bytes": 260
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/epoch_01.json",
+        "sha256": "1c2f704c1e6d4a72e38e6d45fa8bc4608568044238b94566dbdd3b5ae6aaee44",
+        "bytes": 47663
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/physical_attempt.json",
+        "sha256": "c8fc4be7a78c9fe7142656c398b1d3e329c9db887005269feb97b2bf344b225e",
+        "bytes": 13251
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/resource_profile.json",
+        "sha256": "a330ce4ed41885210fa5c1c9390bab4e8d838b726e09c9b3e7a9fbb7d4c81ae0",
+        "bytes": 12294
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt1/resource_samples.jsonl",
+        "sha256": "d4fabb776f577a65d4b2ebeb741553c7d87e774c9808e9385bea8674faa96757",
+        "bytes": 38747
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt2/ack_02.json",
+        "sha256": "11e3e5e0fa80d1ed2edf984c2fb699001d9265cb779ff73a8c1b29f828c9d2e4",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt2/epoch_02.json",
+        "sha256": "02fad709b91465bf239a9c11a0200616164c6da26fe57392380b03d1891d654d",
+        "bytes": 80609
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt2/physical_attempt.json",
+        "sha256": "1deaac156618140f48ff64bdaea3b73101d38333c9d1af2e18e34cc6b6fe42c2",
+        "bytes": 18112
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt2/resource_profile.json",
+        "sha256": "49949ce97801c84dedc354d2a46a2e6c2a7b21eb3a4c107c9277270543b188d4",
+        "bytes": 15972
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/attempt2/resource_samples.jsonl",
+        "sha256": "1446f75390a9582e0ad05fe816b40bb7437a50bd43dac959ed1d781b5159077d",
+        "bytes": 24423
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/ack_01.json",
+        "sha256": "b452cb7f4fa8557cb1a8be561711ce21e328b2d80a51e844200c3a32bef5c593",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/allocation_ack.json",
+        "sha256": "e055920641db41d24bc5052421ebb978752fb2e2301c96c2d8758f723e990b5e",
+        "bytes": 260
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/epoch_01.json",
+        "sha256": "e318d815bc0d29f5f2ec66e87786b42ab577d974e0ac7be2c897d3766f1b89d7",
+        "bytes": 49975
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/physical_attempt.json",
+        "sha256": "854bc18bce57ac418f0f7a64457e18e9023adb50f005761ae12af3defa92cf0c",
+        "bytes": 13232
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/resource_profile.json",
+        "sha256": "4b61dbba9b6f0b17479d908eee92efd104099274d45cb40c4b3bd9e883989f29",
+        "bytes": 12274
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt1/resource_samples.jsonl",
+        "sha256": "2ffcfb2a349ba32fa12ab0f342a3123097a41cd95292d47e25456bcd82c52aab",
+        "bytes": 34953
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt2/ack_02.json",
+        "sha256": "02117ef05c142dd5ac11f53a51bce0b817a8c4da653492a54db4bd55e66d32ea",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt2/epoch_02.json",
+        "sha256": "a2b31a34e2ed48a874658cb88df0146db9f5f34a286c82e6f5faabb73571eb06",
+        "bytes": 80614
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt2/physical_attempt.json",
+        "sha256": "ee31e3fcb52c07a08b6ff2e91eb30e332b8121062c5f4ee3cf563eca6f417ffe",
+        "bytes": 18116
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt2/resource_profile.json",
+        "sha256": "c923a43825f2bcef8d63b23e5b3877ddfbadbf45d5458650ceaf384ddef42901",
+        "bytes": 15980
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/attempt2/resource_samples.jsonl",
+        "sha256": "627dd203f4d7ead074dbf969a4c6544b208acbdaaf0946cfc1f7cae996726528",
+        "bytes": 22547
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/ack_01.json",
+        "sha256": "60296347b11299fb95ee70809a67c734fa662d27eff77431d9017d36cb9b75bd",
+        "bytes": 1023
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/allocation_ack.json",
+        "sha256": "77f4fd46a6035cdb74c127154469500a70cd318b25ea8fd30487739ac1564b36",
+        "bytes": 260
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/epoch_01.json",
+        "sha256": "88d91022d61371b83080fb3d361aec9b2ddbffe634242d695a8f92e4d5b904b2",
+        "bytes": 52513
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/physical_attempt.json",
+        "sha256": "86af2ca69d48cc24e9efd112e0e7f48230c930eb8b263fd82122ea4a0a0a9d11",
+        "bytes": 13251
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/resource_profile.json",
+        "sha256": "ed70cb4d7ab775255aa82364a2703c970c3afae11bf72dc65f236b54c6f1b86f",
+        "bytes": 12297
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt1/resource_samples.jsonl",
+        "sha256": "dd72457aea294b718a79e46c6e51545d5c3add0e28fc16cd571c4f8ab7a3ef51",
+        "bytes": 50628
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt2/ack_02.json",
+        "sha256": "37b1aa75e5560cff93d666b77588accb653ce68a630f6a00a97aa8ba819dfe4f",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt2/epoch_02.json",
+        "sha256": "e39bd09c7064d98456eea6845294adc5b6d0fb26c0bb7451ca897f4870822ae3",
+        "bytes": 88046
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt2/physical_attempt.json",
+        "sha256": "ca336ae7f162deb4e89bd7d1ec9f161f496f5bf20cd27a6c4a80e8f51582f01f",
+        "bytes": 18130
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt2/resource_profile.json",
+        "sha256": "57f3e95ac7b4946869d147952e28e2575c2c7be7b1dc2644b1ca100a38edd32a",
+        "bytes": 15989
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/attempt2/resource_samples.jsonl",
+        "sha256": "d1ae4c69d60207b217c788bd34a2d71e6fe0be7f5f5bc1965081bb9e72dceb5e",
+        "bytes": 31311
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/ack_01.json",
+        "sha256": "ec4dcf7a1dceb615f93f99cdbeb18e67b794e1168ca9cf8d103a8aa70e6e35c6",
+        "bytes": 1024
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/allocation_ack.json",
+        "sha256": "af7db47658bf4a2507ddc9a1e35e245928628f2992bf42a653f884a842c942b8",
+        "bytes": 260
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/epoch_01.json",
+        "sha256": "601fcac329bfa17c5e599f88c89b67db5e1d6346f6ab689e802d77439de621a8",
+        "bytes": 54836
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/physical_attempt.json",
+        "sha256": "8f78d3e7b39c072aa0a4aaae7eddc15e3a45ad5e5b116c0eac0926514f18c86d",
+        "bytes": 13239
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/resource_profile.json",
+        "sha256": "0df404a2642d4ec1c16323a423607b27d6d731c810411be4a4cee7556923f4af",
+        "bytes": 12284
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt1/resource_samples.jsonl",
+        "sha256": "e502cd143da6c2efbb6f7114488dadd14050af9b0336211f0093023187a8a9e2",
+        "bytes": 58767
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt2/ack_02.json",
+        "sha256": "84ca2d7173d2885cca0edac97ac113bddf3475d0c4730ce8ca8e6fb6683a9b72",
+        "bytes": 1023
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt2/epoch_02.json",
+        "sha256": "1b754e3b4b6ed75f10bd43cf557dc71fee31dadc94ee8c95d57575cac7a2dcc5",
+        "bytes": 88067
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt2/physical_attempt.json",
+        "sha256": "64b889cbeaa07d5f08e9a45ed46ea5cf34a94c4af42a93d2f62e6a17238e2704",
+        "bytes": 18124
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt2/resource_profile.json",
+        "sha256": "a858d47e8eb4470c1f814699822578b4a1265bff665cd7bea29f7036f01fad2b",
+        "bytes": 15984
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/runs/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/attempt2/resource_samples.jsonl",
+        "sha256": "42ccc351109a96c1067b8b4f1d90ed9316b3653fe79645902dbdafc6686ebc2c",
+        "bytes": 36967
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/case.json",
+        "sha256": "700682315d502b1a55977b80a801a307895874b69b900ce656737a56750060fe",
+        "bytes": 19902
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/job.json",
+        "sha256": "938a337ed8a864687456fc35ea8e278fc9af56931fe89d2b2b3aecdc57868276",
+        "bytes": 1648
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/1d8b48d7bfe726502316b8b627ff2dfb171fa9a74e766f42330df78bbae9f7ff/worker.log",
+        "sha256": "1274ca429495efd3e4852684856ec4b83fcea4d93d1da82c8f47009c3f64fa0f",
+        "bytes": 15853
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/case.json",
+        "sha256": "40fc3fddcc41227a0fcd51f027d834f3cbbacf91873bcc4424f7ddd7ee28effe",
+        "bytes": 19913
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/job.json",
+        "sha256": "98138871b9b5ccf2717df5780eebb4675cd193653cfa447fe8b44f1e53901312",
+        "bytes": 1650
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/32928b102f2e5cf30e5bdde0c0db36c7b3887a6c4cdaf430fc908b57fa05d6dc/worker.log",
+        "sha256": "0ad9f6b2044b1d754c8ce0b64797d1911fbae9cc5926dccda323c3613b597cca",
+        "bytes": 15864
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/case.json",
+        "sha256": "00abcb1ea2e81ac395f46f2d7040ee2e252973ae71f3acf5525fc5ee6f4bba07",
+        "bytes": 19918
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/job.json",
+        "sha256": "c8b429ddda7c267a1e62e13552bb42cb829e96ebe7772a82bac9b016b799a9b8",
+        "bytes": 1632
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/3390db6e8523252657a8d5ba5d8d831dc712bd672845deab65fdfe760f8add10/worker.log",
+        "sha256": "3b1e848ba5ef1d58928c48a03811e1bdd103e480e98dee43b199ee8e51ee3ffe",
+        "bytes": 15869
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/case.json",
+        "sha256": "507bd7b648b2bb5a90086264ee25ce8042f45b78ef3beff67bfafa907d214526",
+        "bytes": 19913
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/job.json",
+        "sha256": "29692e129101f422d053909f958d148d10c677ca002321174361ba461dc3169f",
+        "bytes": 1634
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke/eb6ee4622dda384514cd76095e3092d5604eda1026d9fdc1dfdc1fc5d6db3538/worker.log",
+        "sha256": "3ab486e91a0979a9af49376ab625293d4cb1e8630323f5c714f5d1f71806a441",
+        "bytes": 15864
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/smoke_admission.jsonl",
+        "sha256": "55355e6d537858da4c2051244ab886a8afdaf8018817e6223797f4976a3fd5a6",
+        "bytes": 5094
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/attempt1/source_receipt.json",
+        "sha256": "85b10a334cb109553f954d77639afad690aa6bca8207a65d4347f32ab2034938",
+        "bytes": 19131
+      }
+    ],
+    "lifecycle": "Return file handoff to original parent; parent permanently closes reviewer context. No reuse or resume."
+  }
+}
