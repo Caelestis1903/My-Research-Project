@@ -1,0 +1,154 @@
+{
+  "status": "PASS",
+  "purpose": "engineering_smoke",
+  "key": "fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039",
+  "dataset": "movielens",
+  "arm": "BRIER-OPPORTUNITY-025",
+  "seed": 2022,
+  "device": 1,
+  "full_rows": 40960,
+  "tail_rows": 21927,
+  "precision": "float32",
+  "identities": [
+    [
+      "diagnostic_on_off",
+      "lambda_zero",
+      "all_single_class"
+    ],
+    [
+      "diagnostic_on_off",
+      "lambda_zero",
+      "all_single_class"
+    ]
+  ],
+  "recovery_verified": true,
+  "continuation_hash": "abd0808865094e3718602ae50e5968cac21d6b5c2038d53b07bef09ac207d4c6",
+  "selected_hashes": {
+    "online": "378b3a854a2f8f0545315b7a12ec16d55bb523eae192d907dae07f9f03e4abac",
+    "fixed_ema": "9b9187d7bfbc8f8ff5d850645a5bb22d94057bd5c136c9ca1396a93962d22634"
+  },
+  "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+  "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+  "profile": {
+    "dataset": "movielens",
+    "arm": "BRIER-OPPORTUNITY-025",
+    "device": 1,
+    "pid": 1946547,
+    "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+    "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+    "hardware": {
+      "name": "NVIDIA GeForce RTX 3090",
+      "major": 8,
+      "minor": 6,
+      "cuda_usable_bytes": 25307578368
+    },
+    "full_process_peak_bytes": 1377828864,
+    "torch_reserved_peak_bytes": 1048576000,
+    "torch_allocated_peak_bytes": 973770752,
+    "non_torch_bytes": 329252864,
+    "context_measured": true,
+    "host_peak_fraction": 0.1483271820832024,
+    "peak_host_rss_bytes": 1694883840,
+    "phases": {
+      "allocation": {
+        "samples": 1,
+        "full_process_peak_bytes": 272629760,
+        "torch_reserved_peak_bytes": 6291456,
+        "torch_allocated_peak_bytes": 6230016
+      },
+      "full_identity": {
+        "samples": 18,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 776835584
+      },
+      "full_diagnostic": {
+        "samples": 4,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 775732736
+      },
+      "tail_identity": {
+        "samples": 12,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 431951360
+      },
+      "tail_diagnostic": {
+        "samples": 3,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 435174912
+      },
+      "validation_online": {
+        "samples": 6,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 180127744
+      },
+      "validation_fixed_ema": {
+        "samples": 5,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 180127744
+      },
+      "cpu_snapshot_serialization": {
+        "samples": 3,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 33662976
+      },
+      "ram_roundtrip": {
+        "samples": 5,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 33662976
+      },
+      "recovery": {
+        "samples": 4,
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 33662976
+      }
+    },
+    "measured": true,
+    "latest": {
+      "time": 1794829329.176606,
+      "full_process_bytes": 1377828864,
+      "torch_reserved_bytes": 1048576000,
+      "torch_allocated_bytes": 33662976,
+      "host_ram_fraction": 0.14784473547592136,
+      "host_rss_bytes": 1694883840
+    },
+    "incoming_bytes": 1377828864
+  },
+  "costs": {
+    "training_seconds": 1.2497846459737048,
+    "evaluation_seconds": 0.35867991391569376,
+    "diagnostic_seconds": 0.6582384880166501,
+    "diagnostic_steps": 8,
+    "diagnostic_seconds_semantics": "inclusive_diagnosed_step_subset_of_training_seconds",
+    "serialization_seconds": 0.012361745000816882,
+    "transfer_seconds": 0.09829840098973364,
+    "serialization_bytes": 18801119,
+    "ordinary_forwards": 14,
+    "scalar_backwards": 14,
+    "evaluation_forwards": 6,
+    "evaluation_rows": 200042,
+    "optimizer_updates": 14,
+    "ema_updates": 14,
+    "attempted_training_batches": 14,
+    "failed_training_seconds": 0.0,
+    "failed_training_batches": 0,
+    "unmeasured_transfer_transactions": 0,
+    "ordinary_forwards_semantics": "successful_step_returns_failed_batch_calls_unmeasured"
+  },
+  "transfer": {
+    "serialization_seconds": 0.012361745000816882,
+    "serialization_bytes": 18801119,
+    "ipc_get_verify_seconds": 0.09829840098973364,
+    "transport_warning_reconciled": null
+  },
+  "seconds": 2.94565892603714,
+  "test_accessed": false
+}

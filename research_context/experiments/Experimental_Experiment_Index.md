@@ -1,5 +1,10 @@
 # Experimental Experiment Index
 
+## EXP-NQR-C02-20261116 — Natural quadratic ranking，完整五seed
+
+ML/KR × NQR-025/BRIER-OPPORTUNITY-025/MEAN-GAP-025 × seeds2022–2026，M3oE fixed1，自然数据、50epochs/40960/FP32；30新增、10精确CLEAN历史轨迹复用，1500epochs/51750新Adam+EMA更新。候选NO_CONTINUATION_SIGNAL；三新臂两数据集selected EMA AUC均值均负，ML E10正/selected负及KR大域/pool LL改善分列。无champion/Test/HPO。原会话26并发CUDA观察、0失败；编码R1与6smoke不另计实验。来源：[REPORT](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[DECISION](../../research_reports/natural_quadratic_ranking_20261116/DECISION.json)、[完整数值archive](../../research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)。后续fresh研究循环不限次数。
+
+
 ## EXP-AXISEVEN-C01-20261116
 
 完整30新增+20历史控制，2数据集×3臂×seeds2022–2026，1500epoch/51750次新更新，50epochs/40960/FP32。注册候选AXIS-EVEN为NO_CONTINUATION_SIGNAL：ML−0.000237520、KR−0.003540710（selected EMA Macro AUC相对CLEAN），不升级控制为champion。39个物理attempt中8暂停/1OOM均保留，不另计为实验组或新增科学重复。Test封存。[REPORT](../../research_reports/task_axis_even_views_20261116/REPORT.md)、[DECISION](../../research_reports/task_axis_even_views_20261116/DECISION.json)、[原始CSV](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/ENDPOINTS.csv)。

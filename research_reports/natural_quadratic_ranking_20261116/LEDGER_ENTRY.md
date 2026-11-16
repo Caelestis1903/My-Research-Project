@@ -1,0 +1,7 @@
+# E-NQR-C02 / EXP-NQR-C02-20261116
+
+Completed30 new natural M3oE trajectories and reused10 exact CLEAN controls, seeds2022–2026,50epochs/40960/FP32. Primary NQR selected EMA−CLEAN AUC: ML−.000343516900 (0/5 positive,95% interval[−.000547121638,−.000139912161]); KR−.000328734160 (2/5,[−.006717218884,+.006059750565]). LL means+.002141260733/−.001022030305, both intervals cross0. Registered NO_CONTINUATION_SIGNAL, no champion/final eligibility/Test.
+
+Retain stage/aggregation contradictions: ML E10 AUC+.001151311 (5/5) then selected−.000343517 (5/5 negative); KR d1 LL−.006196973 and pooled LL−.006051198, both5/5 lower, while primary Macro AUC mean is negative. Four candidate-versus-control AUC intervals cross0. ML NQR−MEAN-GAP LL−.002033597 (4/5 lower,interval below0) remains worse than CLEAN. ML task0 decline repeats C1; two smaller KR domains have opposite AUC means. Size-causal explanation WEAK; no unified small-gain/large-harm pattern.
+
+Gate numerical fact STRONG; fixed ML negative increment and local task0/d1 loss responses MEDIUM; KR AUC direction/mechanisms/size causality WEAK. Report, code/design hashes, all-seed appendix, raw member/part hashes, resource audit and retained RAM acceptance accompany this entry. Observed26 CUDA workers,30 completed physical attempts,0 failures;1500 epochs/51750 useful updates. Outer current-conversation loop continues through publication to fresh Astra.

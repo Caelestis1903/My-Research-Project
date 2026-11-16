@@ -1,0 +1,1286 @@
+{
+  "schema_version": 1,
+  "cycle_id": "cycle_02",
+  "date": "2026-11-16",
+  "status": "RESEARCH_COMPLETE_PENDING_FRESH_FORMAL_DESIGN_IMPLEMENTATION_DISTINCT_REVIEW_AND_SMOKE",
+  "research_verdict": "PROCEED_TO_FORMAL_DESIGN",
+  "selected_candidate": "NQR-025",
+  "candidate_efficacy_evidence": "WEAK_UNTESTED",
+  "global_novelty_claim": false,
+  "local_non_equivalence": "SUPPORTED_FOR_AUDITED_PAIR_DTPGNA_TGA_NDP_TV_C1_SOURCES",
+  "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "plan_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02",
+  "future_package": "experiments/natural_quadratic_ranking_20261116",
+  "future_attempt": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/attempt1",
+  "future_report": "research_reports/natural_quadratic_ranking_20261116",
+  "sourcebase": {
+    "repository": "Caelestis1903/My-Research-Project",
+    "branch": "main",
+    "commit": "556b4ae354fa1465c0bd33f1744eec8d93c59dd2",
+    "tree": "6b235aab0f3b4e760ec17b611c0881efa8788edc",
+    "publication_status": "REMOTE_MAIN_VERIFIED_IN_SUPPLIED_RECEIPT",
+    "publication_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/PUBLICATION_RECEIPT.json",
+      "sha256": "08b43b369414893ef0d10dd78ab6ac15559ca28df23d8e1932dbb0d0a37bb8a7",
+      "bytes": 81008
+    },
+    "local_HEAD_verified": true,
+    "new_remote_query_by_this_child": false,
+    "protected_current_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "protected_current_c1_file_count": 79,
+    "protected_current_c1_aggregate_recomputed_without_imports": true,
+    "historical_bootstrap_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/source_receipt.json",
+      "sha256": "76e8ad95e7a93aa2ad4c891c5200063468978236a592ca8098679e532fb8380a",
+      "bytes": 16010
+    },
+    "historical_supersession_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/RESOURCE_1_SUPERSESSION.json",
+      "sha256": "b214b1a45564acd29b47824d7fb6b96d7c59c8f0c4ce311b19800bd8f91bb0d1",
+      "bytes": 22707
+    },
+    "new_implementation_sha256": null,
+    "new_implementation_exists": false,
+    "bundle_hash_rule": "Parent hashes compact sorted cycle-relative [path,sha256(filebytes)] JSON after adding formal-design files; write hash in later receipt, never recursively inside input bundle"
+  },
+  "session_policy": {
+    "orchestrator": "ORIGINAL_FOREGROUND_PARENT_ONLY",
+    "current_conversation_only": true,
+    "fresh_native_children": true,
+    "fork_context": false,
+    "close_on_completion": true,
+    "reuse_or_resume_child": false,
+    "file_handoffs_only": true,
+    "child_spawning_by_research_child": false,
+    "stages": [
+      "DESIGN",
+      "IMPLEMENT",
+      "DISTINCT_REVIEW",
+      "RUN",
+      "PARENT_ANALYZE",
+      "PUBLICATION_GATE",
+      "FRESH_ASTRA",
+      "NEXT_PLAN"
+    ],
+    "max_cycles": null,
+    "max_astra_cycles": null,
+    "max_experiments": null,
+    "normal_termination": "USER_STOPPED",
+    "candidate_stop_terminates_parent": false,
+    "technical_failure": "PAUSE",
+    "forbidden": [
+      "independent/headless/background AI",
+      "codex exec/resume/fork",
+      "tmux",
+      "nohup",
+      "systemd",
+      "autonomous.py start/run/recover",
+      "background agent/driver",
+      "old guardian restart/replacement"
+    ],
+    "stop_roots": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum",
+      "/home/xzf/Code/phase0-3/artifacts/26-11-16_augmentation_gradient_momentum"
+    ],
+    "stop_predicate": "manual_stop_requested true OR STOP_AUTONOMOUS exists in either root",
+    "stop_checked_by_child": "both false/absent when read; parent must reread before dispatch",
+    "test_while_active_or_paused": false,
+    "future_test_gate": [
+      "explicit USER_STOPPED",
+      "final freeze",
+      "existing eligible retained full-five-seed selected-RAM verification"
+    ],
+    "live_owner_status_verified_by_child": false
+  },
+  "environment": {
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "conda_environment": "phase0-3-env",
+    "python_version": "3.13.5",
+    "torch_version": "2.9.0+cu126",
+    "package_lock_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/requirements-phase0-3.lock",
+      "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+    },
+    "cuda_matmul_tf32": false,
+    "cudnn_tf32": false,
+    "cudnn_benchmark": false,
+    "torch_cpu_threads": 1,
+    "autocast": false,
+    "verify_gpu_visibility_before_run": true,
+    "write_bytecode": false
+  },
+  "model": {
+    "name": "M3oE_fixed1",
+    "domain_num": 3,
+    "task_num": 2,
+    "embedding_dim": 16,
+    "fcn_dims": [
+      512,
+      256,
+      256,
+      64
+    ],
+    "expert_num": 4,
+    "exp_d": 1,
+    "exp_t": 1,
+    "bal_d": 1,
+    "bal_t": 1,
+    "architecture_gates_experts_fusion_sharing": "UNCHANGED",
+    "training_gate_input_detach": true,
+    "probe_only_full_gate_derivatives": false,
+    "parameter_order": "source model.named_parameters() order",
+    "new_parameters": 0,
+    "probe_calls": 0
+  },
+  "data_policy": {
+    "population": "original_natural",
+    "resampling": false,
+    "class_or_domain_balancing": false,
+    "new_splits": false,
+    "new_labels": false,
+    "cache_readonly": "/home/xzf/Code/phase0-3-20261115/artifacts/heterogeneity_aware_20261115/attempt1/data_cache",
+    "test_metrics_or_inference": false,
+    "recorded_test_fingerprints_are_metadata_only": true
+  },
+  "datasets": {
+    "movielens": {
+      "recorded_data_manifest": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/movielens_data_manifest.json",
+        "sha256": "ff08266b540323b22085477de554f63aa044bb62fbd284f76d25c7d602f434dd",
+        "bytes": 2826
+      },
+      "split_id": "original",
+      "raw_path": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "array_hashes_train_validation": {
+        "train_x": "d2919282eba0e16475546a0ca7cb03c4dd859f530ca78bbf5a31a590b1c36cb1",
+        "train_y": "ad22072413d8a2f39325291b7154ab808195f574090a2156879331d71ab22094",
+        "val_x": "c677ffb04ca7a0fc03d4152e500c87216c4da37b87b153ad6488528c38b02779",
+        "val_y": "b310bae9a55dcf37fe77afd9aeb55fa445f767120439cd9901d9b06011ce2cd1"
+      },
+      "split_row_fingerprints_train_validation": {
+        "train": "3524e8f34c5ad86cae8ea298e95454e5d64c75f378ee9e03259e46f0ec93f154",
+        "validation": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6"
+      },
+      "split_row_id_hashes_train_validation": {
+        "train": "a58f8ea1c284adad7bde05e3811c4055ba85db95613523048f613a220f93bcfe",
+        "validation": "3cf4c7b1d5dab7ef3ef8d6783faecde7f580337bcdbe4e9c3af37fe1813bbea4"
+      },
+      "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+      "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+      "features": {
+        "dataset": "movielens",
+        "columns": [
+          "user_id",
+          "movie_id",
+          "gender",
+          "age",
+          "occupation",
+          "zip",
+          "cate_id",
+          "domain_indicator"
+        ],
+        "dense_columns": [
+          "age"
+        ],
+        "sparse_columns": [
+          "user_id",
+          "movie_id",
+          "gender",
+          "occupation",
+          "zip",
+          "cate_id",
+          "domain_indicator"
+        ],
+        "vocab_sizes": {
+          "user_id": 5401,
+          "movie_id": 3663,
+          "gender": 3,
+          "occupation": 22,
+          "zip": 3201,
+          "cate_id": 19,
+          "domain_indicator": 3
+        },
+        "embedding_dim": 16,
+        "domain_column": "domain_indicator",
+        "encoder_hash": "05ab58ef6b9baf0589a3a476789006d8cc1b5c10eba53f1934c0c42d755f9e6b",
+        "scaler_hash": "b73c4a08a40b2059f892c72edc6f659baf2acdd430b6ca1a50068bcd0dde1c1e",
+        "oov_index": 0
+      },
+      "train_rows": 800167,
+      "validation_rows": 100021,
+      "train_domain_counts": [
+        155949,
+        318599,
+        325619
+      ],
+      "train_joint_labels": {
+        "0": {
+          "10": 50879,
+          "11": 36615,
+          "00": 68455,
+          "01": 0
+        },
+        "1": {
+          "10": 109297,
+          "11": 70158,
+          "00": 139144,
+          "01": 0
+        },
+        "2": {
+          "10": 118064,
+          "11": 78007,
+          "00": 129548,
+          "01": 0
+        }
+      },
+      "preprocessing_fit": "train_only",
+      "source_data_config_hash": "6b3e19cc32a3939000de15d8f8923b3407aef0bbb068b5b2dfa06f09fe25d8b4",
+      "steps_per_epoch": 20,
+      "tail_rows": 21927,
+      "updates_per_trajectory": 1000,
+      "weight_decay": 0.0001,
+      "ema_rho": 0.9828205985452511
+    },
+    "kuairand": {
+      "recorded_data_manifest": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/kuairand_data_manifest.json",
+        "sha256": "764be976ab43103a6a2ee10385aa15b5be02f1e18acd081203ac02970e1debc0",
+        "bytes": 4873
+      },
+      "split_id": "original",
+      "raw_path": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "array_hashes_train_validation": {
+        "train_x": "ad562a0708316156dff5734a67fc0512ba1831c48c2436e9dee633c41288fa1a",
+        "train_y": "48a4db0faa150b89fb84634c4326deecef36178993d414916aff3507a7b4d024",
+        "val_x": "27cd0279622a61e8314211e360f4902e3deac0c56ee0886a64bea621be0ab952",
+        "val_y": "550cd056aaf891d63f835c38dea7a4ed580985e33036d577a18404ee531b0b0e"
+      },
+      "split_row_fingerprints_train_validation": {
+        "train": "d2855a27bbfb88e6e391e6b235b47dc3e5f01c51018cc0324f43c4464ac9c479",
+        "validation": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d"
+      },
+      "split_row_id_hashes_train_validation": {
+        "train": "e296205c2df6a61dd3108a0eefeec00904616ac07c8ce65253e9e7008c180d20",
+        "validation": "02b8690eb5184db4e4cd60c41f6c5156df4c068b0dbdd03cf368d73f139bc8bd"
+      },
+      "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+      "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "features": {
+        "dataset": "kuairand",
+        "columns": [
+          "user_active_degree",
+          "is_live_streamer",
+          "is_video_author",
+          "follow_user_num_range",
+          "fans_user_num_range",
+          "friend_user_num_range",
+          "register_days_range",
+          "onehot_feat0",
+          "onehot_feat1",
+          "onehot_feat2",
+          "onehot_feat3",
+          "onehot_feat4",
+          "onehot_feat5",
+          "onehot_feat6",
+          "onehot_feat7",
+          "onehot_feat8",
+          "onehot_feat9",
+          "onehot_feat10",
+          "onehot_feat11",
+          "onehot_feat12",
+          "onehot_feat13",
+          "onehot_feat14",
+          "onehot_feat15",
+          "onehot_feat16",
+          "onehot_feat17",
+          "video_type",
+          "upload_dt",
+          "upload_type",
+          "server_width",
+          "server_height",
+          "music_type",
+          "tag",
+          "counts",
+          "domain_indicator"
+        ],
+        "dense_columns": [],
+        "sparse_columns": [
+          "user_active_degree",
+          "is_live_streamer",
+          "is_video_author",
+          "follow_user_num_range",
+          "fans_user_num_range",
+          "friend_user_num_range",
+          "register_days_range",
+          "onehot_feat0",
+          "onehot_feat1",
+          "onehot_feat2",
+          "onehot_feat3",
+          "onehot_feat4",
+          "onehot_feat5",
+          "onehot_feat6",
+          "onehot_feat7",
+          "onehot_feat8",
+          "onehot_feat9",
+          "onehot_feat10",
+          "onehot_feat11",
+          "onehot_feat12",
+          "onehot_feat13",
+          "onehot_feat14",
+          "onehot_feat15",
+          "onehot_feat16",
+          "onehot_feat17",
+          "video_type",
+          "upload_dt",
+          "upload_type",
+          "server_width",
+          "server_height",
+          "music_type",
+          "tag",
+          "counts",
+          "domain_indicator"
+        ],
+        "vocab_sizes": {
+          "user_active_degree": 10,
+          "is_live_streamer": 3,
+          "is_video_author": 3,
+          "follow_user_num_range": 9,
+          "fans_user_num_range": 10,
+          "friend_user_num_range": 8,
+          "register_days_range": 9,
+          "onehot_feat0": 3,
+          "onehot_feat1": 8,
+          "onehot_feat2": 50,
+          "onehot_feat3": 1461,
+          "onehot_feat4": 17,
+          "onehot_feat5": 35,
+          "onehot_feat6": 4,
+          "onehot_feat7": 119,
+          "onehot_feat8": 455,
+          "onehot_feat9": 8,
+          "onehot_feat10": 6,
+          "onehot_feat11": 6,
+          "onehot_feat12": 4,
+          "onehot_feat13": 4,
+          "onehot_feat14": 4,
+          "onehot_feat15": 4,
+          "onehot_feat16": 4,
+          "onehot_feat17": 4,
+          "video_type": 4,
+          "upload_dt": 4,
+          "upload_type": 15,
+          "server_width": 157,
+          "server_height": 121,
+          "music_type": 7,
+          "tag": 112,
+          "counts": 126,
+          "domain_indicator": 3
+        },
+        "embedding_dim": 16,
+        "domain_column": "domain_indicator",
+        "encoder_hash": "58ff742e14eabc33ed001ad6ec2e4f74c6be375ab4b2a68028277b7b9bb3e33a",
+        "scaler_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "oov_index": 0
+      },
+      "train_rows": 2006132,
+      "validation_rows": 250767,
+      "train_domain_counts": [
+        172782,
+        1743898,
+        89452
+      ],
+      "train_joint_labels": {
+        "0": {
+          "10": 8583,
+          "11": 7121,
+          "00": 157078,
+          "01": 0
+        },
+        "1": {
+          "10": 213014,
+          "11": 445887,
+          "00": 1084301,
+          "01": 696
+        },
+        "2": {
+          "10": 11890,
+          "11": 43290,
+          "00": 34195,
+          "01": 77
+        }
+      },
+      "preprocessing_fit": "train_only",
+      "source_data_config_hash": "111a5b18fe3038257dd2581e5a43997d6533c73e4084aa66c2f10d96c4ff0db5",
+      "steps_per_epoch": 49,
+      "tail_rows": 40052,
+      "updates_per_trajectory": 2450,
+      "weight_decay": 1e-05,
+      "ema_rho": 0.995
+    }
+  },
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "training": {
+    "epochs": 50,
+    "batch_size": 40960,
+    "drop_last": false,
+    "precision": "float32",
+    "lr": 0.01,
+    "optimizer": "torch.optim.Adam",
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "coupled_weight_decay": true,
+    "foreach": false,
+    "fused": false,
+    "amsgrad": false,
+    "gradient_clipping": false,
+    "warmup": false,
+    "scheduler": false,
+    "early_stopping": false,
+    "new_parameters": 0,
+    "extra_persistent_optimizer_tensors": 0,
+    "optimizer_updates_per_batch": 1,
+    "ema_updates_per_batch": 1,
+    "ema_initialization": "exact_copy",
+    "ema_buffer_rule": "copy_source_buffers",
+    "ema_bias_correction": false,
+    "none_gradient_rule": "skip decay moments counter and parameter update",
+    "zero_gradient_rule": "active ordinary Adam decay moments and counter"
+  },
+  "loader_rng": {
+    "source_setup_once": true,
+    "private_cpu_generator_seed": "seed+11000",
+    "epoch_order": "one torch.randperm(N,generator=loader) per epoch",
+    "candidate_rng_draws": 0,
+    "probe_rng_draws": 0,
+    "initial_hashes_reference": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/reused_reference_index.json",
+      "sha256": "e9799fe2c6f761ea506c16733be9a8a94969d166e8b661920343e36c51769a18",
+      "bytes": 58816
+    },
+    "initial_hash_count": 10,
+    "epoch_order_hash_count": 500,
+    "require_every_seed_epoch_order_identity": true,
+    "tails": "use actual B in all coefficients"
+  },
+  "algorithm": {
+    "specification": "ALGORITHM_DESIGNS.md sections A1-A8",
+    "prediction_shape": "[B,2]",
+    "input_shape": "[F,B]",
+    "domain_indicator": "x[-1]",
+    "domain_ids": [
+      0,
+      1,
+      2
+    ],
+    "task_ids": [
+      0,
+      1
+    ],
+    "label_values": [
+      0,
+      1
+    ],
+    "mixture_lambda": 0.25,
+    "probability_margin": 1.0,
+    "clean_coefficient": 0.75,
+    "completed_risk_coefficient": 0.25,
+    "C": "source probability BCE mean over 2B entries",
+    "cell_weight": "n/(2B)",
+    "class_priors": "pi_a=n_a/n",
+    "mu": "class mean of source probabilities, differentiable",
+    "variance": "mean((p-mu)^2), population divisor n_a, centered FP32, no detach",
+    "same_label_component": "S=pi_1^2*mean_BCE_1 + pi_0^2*mean_BCE_0",
+    "opposite_opportunity": "2*pi_1*pi_0",
+    "Q_R": ".5*((1-mu_1+mu_0)^2+v_1+v_0)",
+    "Q_B": "(1-mu_1)^2+mu_0^2+v_1+v_0",
+    "Q_M": ".5*(1-mu_1+mu_0)^2",
+    "objective": "L=.75*C+.25*sum_cells[n/(2B)*(S+2*pi_1*pi_0*Q_arm)]",
+    "conceptual_pair_measure": "uniform n^2 ordered within-domain pairs including self; same labels use mean of two BCE values; opposite labels oriented positive-first",
+    "explicit_BCE_row_coefficient": "(.75+.25*pi_class)/(2B)",
+    "cell_BCE_mass": "w*(.75+.25*(pi_1^2+pi_0^2))",
+    "cell_opposite_loss_mass": "w*.25*2*pi_1*pi_0",
+    "total_coefficient_budget": 1.0,
+    "per_task_coefficient_budget": 0.5,
+    "gradient_norm_or_effective_regularization_matched_to_clean": false,
+    "all_state_gradient_norm_match_between_controls": false,
+    "reference_point_match": "q_R=q_B=.5 and first score derivatives=(-1,+1) when both scores=.5",
+    "exact_contrasts": {
+      "R_minus_M": ".5*(v_1+v_0)",
+      "B_minus_R": ".5*((1-mu_1-mu_0)^2+v_1+v_0)"
+    },
+    "empty_domain": "zero contribution without empty mean",
+    "missing_class": "cell mean BCE, no artificial pairs",
+    "singleton_class": "variance zero",
+    "all_cells_single_class": "direct source_clean_step before candidate forward",
+    "lambda_zero": "direct source_clean_step before candidate forward",
+    "empty_batch": "technical error",
+    "new_clamp_or_epsilon_in_loss": false,
+    "matrix_of_all_pairs": false,
+    "inverse_prior_weighting": false,
+    "ordinary_gate_detach": true,
+    "full_derivative_probe": false,
+    "view_forwards": 0,
+    "ordinary_forwards_per_step": 1,
+    "scalar_parameter_backwards_per_step": 1,
+    "training_arithmetic": "float32",
+    "detached_diagnostic_reductions_may_use_float64": true,
+    "nonfinite_policy": "technical PAUSE preserving last valid RAM transaction; no scientific kill",
+    "clean_reference_gradient_identity": "For all p_it=.5, every arm has dL/dp_it=(1-2*y_it)/B for any class proportions; not an all-state match"
+  },
+  "arms": [
+    {
+      "id": "NQR-025",
+      "role": "candidate",
+      "Q": "Q_R",
+      "lambda": 0.25
+    },
+    {
+      "id": "BRIER-OPPORTUNITY-025",
+      "role": "matched_pointwise_squared_error_control",
+      "Q": "Q_B",
+      "lambda": 0.25,
+      "eligible_for_posthoc_promotion": false
+    },
+    {
+      "id": "MEAN-GAP-025",
+      "role": "exact_variance_penalty_ablation",
+      "Q": "Q_M",
+      "lambda": 0.25,
+      "eligible_for_posthoc_promotion": false
+    }
+  ],
+  "unselected_alternatives": [
+    {
+      "id": "B",
+      "family": "VAT_prediction_distribution_KL",
+      "implementation_authorized": false
+    },
+    {
+      "id": "C",
+      "family": "SAM_parameter_neighborhood_risk",
+      "implementation_authorized": false
+    }
+  ],
+  "budget": {
+    "new_arms": 3,
+    "datasets": 2,
+    "seeds_per_config": 5,
+    "new_trajectories": 30,
+    "new_epochs": 1500,
+    "new_parameter_updates": 51750,
+    "new_ema_updates": 51750,
+    "reused_clean_trajectories": 10,
+    "table_trajectories": 40,
+    "endpoints_per_trajectory": 8,
+    "endpoint_rows": 320,
+    "scientific_early_kill_before_five_complete_seeds": false,
+    "hpo_configs": 0,
+    "smoke_included_in_efficacy": false,
+    "budget_is_not_outer_cycle_cap": true
+  },
+  "controls": {
+    "type": "internal_source_matched_not_published_models",
+    "index_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/reused_reference_index.json",
+      "sha256": "e9799fe2c6f761ea506c16733be9a8a94969d166e8b661920343e36c51769a18",
+      "bytes": 58816
+    },
+    "selection_hash": "c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89",
+    "entries": [
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2022,
+        "key": "7fe8d77af81ad31d7239c64616ac7bfc5b6ad14f984d7e948a84938f8b85476e",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/7fe8d77af81ad31d7239c64616ac7bfc5b6ad14f984d7e948a84938f8b85476e/result.json",
+        "result_sha256": "04c82403a7fb7cfcfd5985d6d505415ad047a01c7860ed4b124ffb7f33a01136"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2023,
+        "key": "f096edbc453bea52a2d7401a2c6323afbf222482ae185056e53c27ebe65f2974",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/f096edbc453bea52a2d7401a2c6323afbf222482ae185056e53c27ebe65f2974/result.json",
+        "result_sha256": "396a04a129c00eea13bde8fbd252a72ce01348268166df6014aee5d949f15071"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2024,
+        "key": "3d666c380a6efce6a625fc560bcb198147e3c5cf0b651f65db66e5a6bc966e0f",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/3d666c380a6efce6a625fc560bcb198147e3c5cf0b651f65db66e5a6bc966e0f/result.json",
+        "result_sha256": "4f26aefcbc1ae92520c04f75dafe122ece03af443d0ef963b5f945671d94cc2a"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2025,
+        "key": "afc56ec112cdb7ceb8d102ecb071d617d35167f75a13e4289f1044166fe80086",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/afc56ec112cdb7ceb8d102ecb071d617d35167f75a13e4289f1044166fe80086/result.json",
+        "result_sha256": "e9c9df0fe1fb50aa92966799e45c447e9649abd0062114401e708927662e584e"
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "CLEAN",
+        "seed": 2026,
+        "key": "2198fd14beff14038d552ef3fab9895827abbef56d7ab1b7320f35785ae97b75",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2198fd14beff14038d552ef3fab9895827abbef56d7ab1b7320f35785ae97b75/result.json",
+        "result_sha256": "c325310cbc2baa16a09f1e133fa07917aa07d0c8476677c2f857b5f728313c5a"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2022,
+        "key": "2da620259ce8d365a99aefeda4128e029e2ace4c9e73b171f3c2211590e9b5c4",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2da620259ce8d365a99aefeda4128e029e2ace4c9e73b171f3c2211590e9b5c4/result.json",
+        "result_sha256": "2a6f2e79de27cc25202bd0064d4a65c9268532a2a120438a6e0dbd61080d9925"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2023,
+        "key": "2c3b07d21a9467c61a5294a924f2f0ec88aa189a0e762417b0f503e31e9cfe92",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/2c3b07d21a9467c61a5294a924f2f0ec88aa189a0e762417b0f503e31e9cfe92/result.json",
+        "result_sha256": "0ee1ead87a1cf022253c3b0b0a6f768280c9995413a3821cabfca2b933243557"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2024,
+        "key": "53e97f38bce97f276d4c317468d344a980d203de340fd8ed775d44453e2e2629",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/53e97f38bce97f276d4c317468d344a980d203de340fd8ed775d44453e2e2629/result.json",
+        "result_sha256": "884a415e92912a1a0b6febb297bc978856e054639ff3746f6ea7ad44a1a19d3f"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2025,
+        "key": "229281c7a3046fb2313dc0bfb6a1ae4af72c92f6490f046cd30ae949b0c37503",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/229281c7a3046fb2313dc0bfb6a1ae4af72c92f6490f046cd30ae949b0c37503/result.json",
+        "result_sha256": "63034a19f76dad47ab79bb2ac772d47cd4e50ea3a4bfb6e1026d768a8407e9ab"
+      },
+      {
+        "dataset": "movielens",
+        "arm": "CLEAN",
+        "seed": 2026,
+        "key": "1432b833db52960d6aa61a26a714fce67fe8cc2de8537ce417c00446c5c0e0b3",
+        "result_path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/reused/artifacts/heterogeneity_aware_20261115/attempt1/runs/1432b833db52960d6aa61a26a714fce67fe8cc2de8537ce417c00446c5c0e0b3/result.json",
+        "result_sha256": "eb53717a48f6bc2582eba11f6a83fe16d374ebec13d2e44ad20c00b8725d76a2"
+      }
+    ],
+    "clean_result_hashes_checked_by_child": 10,
+    "all_historical_control_result_hashes_checked_by_child": 20,
+    "raw_reuse_not_RAM_eligibility": true,
+    "run_stage_identity_gate_required": true,
+    "on_identity_failure": "TECHNICAL_PAUSE_NO_SILENT_SUBSTITUTION_OR_EXTRA_RUN"
+  },
+  "selection": {
+    "metric": "validation_six_cell_equal_macro_auc",
+    "rule": "earliest strict maximum over epochs1-50",
+    "independent_estimators": [
+      "online",
+      "fixed_ema"
+    ],
+    "primary_estimator": "fixed_ema",
+    "logloss_at_same_selected_state": true,
+    "common_epochs": [
+      10,
+      30,
+      50
+    ],
+    "test_accessed": false
+  },
+  "comparisons": {
+    "primary_per_dataset": "NQR-025 selected fixed_ema minus CLEAN selected fixed_ema",
+    "mechanisms": [
+      "NQR-025 minus BRIER-OPPORTUNITY-025 selected fixed_ema",
+      "NQR-025 minus MEAN-GAP-025 selected fixed_ema"
+    ],
+    "secondary": [
+      "NQR-025 selected fixed_ema minus CLEAN selected online total difference",
+      "NQR-025 selected online minus CLEAN selected online",
+      "each mechanism control minus CLEAN fixed_ema",
+      "E10/E30/E50 both estimators"
+    ],
+    "report_metrics": [
+      "macro_auc",
+      "macro_logloss",
+      "six_cell_auc",
+      "six_cell_logloss",
+      "domain_macro_auc",
+      "domain_macro_logloss",
+      "task_macro_auc",
+      "task_macro_logloss",
+      "sample_weighted_cell_auc",
+      "sample_weighted_cell_logloss",
+      "pooled_task_mean_auc",
+      "pooled_logloss",
+      "worst_cell_auc",
+      "selected_epoch"
+    ],
+    "no_pooling_datasets_to_hide_harm": true
+  },
+  "statistics": {
+    "unit": "seed",
+    "n": 5,
+    "ddof": 1,
+    "paired_t95_multiplier": 2.7764451051977987,
+    "interval": "descriptive",
+    "report_all_seed_differences": true,
+    "report_sign_counts": true,
+    "ci_positive_required": false,
+    "unanimous_seed_sign_required": false,
+    "evidence_strength_labels": [
+      "STRONG",
+      "MEDIUM",
+      "WEAK"
+    ],
+    "repeat_validation_adaptation_caveat": true
+  },
+  "gates": {
+    "both_primary_dataset_means_nonpositive": "NO_CONTINUATION_SIGNAL_NO_CHAMPION_RETURN_PARENT_RESEARCH",
+    "exactly_one_primary_dataset_mean_positive": "MIXED_DATASET_SIGNAL",
+    "both_positive_below_target": "POSITIVE_VALIDATION_SIGNAL_BELOW_TARGET",
+    "per_named_comparison_auc_target": {
+      "mean_auc_delta_gte": 0.003,
+      "every_six_cell_mean_delta_gte": -0.001,
+      "label": "VALIDATION_SCREEN_AUC_TARGET_AND_CELL_PROTECTION_MET",
+      "final_test_qualification": false
+    },
+    "macro_target_but_cell_failure": "MACRO_TARGET_MET_CELL_PROTECTION_NOT_MET",
+    "logloss_mean_delta_lt": 0.0,
+    "logloss_vetoes_auc": false,
+    "R_minus_B_nonpositive": "RANKING_SPECIFIC_SUPERIORITY_UNSUPPORTED",
+    "R_minus_M_nonpositive": "BENEFICIAL_VARIANCE_COMPRESSION_UNSUPPORTED",
+    "technical_failure": "PAUSE",
+    "candidate_STOP_ends_parent_loop": false
+  },
+  "diagnostics": {
+    "every_batch": [
+      "B",
+      "row_order_hash",
+      "cell_class_counts",
+      "C",
+      "A",
+      "L",
+      "S",
+      "all_three_Q_values",
+      "class_means",
+      "class_population_variances",
+      "explicit_BCE_coefficients",
+      "BCE_and_opposite_component_masses",
+      "task_and_total_coefficient_mass"
+    ],
+    "extra_first_batch_epochs": [
+      1,
+      10,
+      25,
+      40,
+      50
+    ],
+    "extra_fields": [
+      "data_gradient_norm",
+      "actual_parameter_update_norm",
+      "active_None_counts",
+      "Adam_counter_range",
+      "source_prefix_parameter_group_norms"
+    ],
+    "extra_parameter_gradient_probes": 0,
+    "per_example_prediction_dump": false,
+    "extra_state_persistent": false,
+    "direct_clean_branch": "C=A=L plus counts/masses; unobserved class scores/BCE and undefined Q are JSON null, no second forward"
+  },
+  "cost": {
+    "arithmetic_extra": "O(B*T), T=2",
+    "quadratic_pair_matrix": false,
+    "additional_persistent_parameter_state": 0,
+    "historical_clean_reference_worker_hours": 6.5137803353,
+    "reference_is_NQR_measurement": false,
+    "reference_is_upper_bound": false,
+    "new_throughput_measured": false,
+    "new_full_process_memory_measured": false,
+    "include_failed_paused_attempt_costs": true,
+    "worker_and_wall_seconds_separate": true
+  },
+  "runtime": {
+    "admission": "per_card_CURRENT_utilization_AND_physical_fit",
+    "current_memory_fraction_lt": 0.85,
+    "current_measured_power_fraction_lt": 0.85,
+    "current_host_ram_fraction_lt": 0.9,
+    "physical_fit": "current_GPU_used_bytes + incoming_measured_full_process_bytes <= measured_CUDA_usable_total_bytes",
+    "projected_85_memory_gate": false,
+    "predicted_power_gate": false,
+    "projected_90_host_ram_gate": false,
+    "active_worker_cap": null,
+    "both_cards_must_fit": false,
+    "independent_cards": true,
+    "pending_allocation_ACK_per_card": true,
+    "resample_after_real_allocation_ACK": true,
+    "historical_cuda_usable_bytes_per_card": 25307578368,
+    "historical_nvml_total_bytes_per_card": 25769803776,
+    "historical_full_process_bytes": {
+      "movielens": 4515168256,
+      "kuairand": 5540675584
+    },
+    "historical_non_torch_context_bytes": 331350016,
+    "historical_b7_full_minus_smoke_correction_bytes": 352321536,
+    "incoming_profile": "new full-batch/tail/diagnostic/validation/serialization smoke full-process NVML with torch and context accounting; max with later observations; no double counting",
+    "bootstrap_smoke_reference": "C1 full-process evidence and b7 correction only until actual C2 measured profile; not a C2 measurement",
+    "new_profile": null,
+    "algorithm_batch_precision_cuts_for_concurrency": false,
+    "runtime_evidence": [
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/PHYSICAL_CAPACITY_CORRECTION.md",
+        "sha256": "3a051f809e2301f906c477e97261ce546f34c92d5f1b47afe3d56712866121ca",
+        "bytes": 2379
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/PHYSICAL_CAPACITY_MEASUREMENTS.json",
+        "sha256": "aa78e32ed82fccc38632793b9b5680c303fa8f6468daa95cd7d62109e2572ce5",
+        "bytes": 6270
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_PHYSICAL_CAPACITY.md",
+        "sha256": "7465c3a8517ef65fffcb637e0cd22cbca47a62cd66de0f1d14cb569f80494563",
+        "bytes": 5282
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/IMPLEMENTATION_REVIEW_PHYSICAL_CAPACITY.json",
+        "sha256": "d473e176d4286800565a7c572a839c050faef4847df4e6185ceb1892e5ca8d3c",
+        "bytes": 11014
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/orchestration/task_axis_even_views_current_utilization_20261116.py",
+        "sha256": "b7eeba76d21727b596897eec84e0e5766c01e8a41fba832c1036d38bdf7c6f3f",
+        "bytes": 6448
+      }
+    ],
+    "current_capacity_queried_by_child": false
+  },
+  "storage": {
+    "mode": "RAM_ONLY_BytesIO",
+    "new_root_only": true,
+    "server": "frozen TV runner.serve(new_cycle_attempt)",
+    "server_receipt": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa",
+      "bytes": 30271
+    },
+    "launch_owner": "original parent persistent foreground exec after review",
+    "native_runner_supervision_required": true,
+    "background_launcher": false,
+    "old_owners_restart_or_write": false,
+    "old_C1_owner_user_reported": {
+      "session": 59365,
+      "pid": 1570727,
+      "selected_runs": 30,
+      "retained_bytes": 286526880,
+      "contacted_by_this_child": false
+    },
+    "model_optimizer_checkpoint_files_on_disk": false,
+    "new_owner_may_replace_old": false,
+    "snapshot_boundary": "acknowledged epoch after validation; complete parameter/EMA transaction",
+    "snapshot_fields": [
+      "online",
+      "EMA",
+      "Adam_m_v_counters",
+      "RNG",
+      "loader",
+      "epoch",
+      "global_step",
+      "selected_online_EMA",
+      "selected_epochs_metrics",
+      "best_scores",
+      "common_metrics",
+      "counts",
+      "raw_physical_costs"
+    ],
+    "recovery": "same new-root owner last ACK only; all relevant workers dead; no missing-state reconstruction",
+    "epoch0_reinit": "only if no ACK state ever existed and failure recorded",
+    "lost_owner_with_live_states": "TECHNICAL_PAUSE_NO_REPLACEMENT",
+    "complete_retention": "selected online/EMA pairs for all30 until parent analysis/review/acceptance",
+    "handoff_before_child_close": true,
+    "parent_handles_eligible_or_discarded_retention": true,
+    "do_not_shutdown_with_protected_states": true
+  },
+  "required_gates_before_formal_run": [
+    "fresh formal designer completeness",
+    "new coder implementation report",
+    "distinct reviewer PASS or PASS WITH FIXES and zero blockers",
+    "source/model/data/loader/selection/environment identity",
+    "both workspace stop controls clear",
+    "parent-owned isolated foreground RAM owner",
+    "engineering smoke plus source-bound review",
+    "measured full-process physical fit and CURRENT utilization"
+  ],
+  "required_engineering_checks": [
+    "literal pair sum value/gradient versus moments",
+    "variance and Brier contrast identities",
+    "coefficient accounting with absent/singleton/one-class cells and true tails",
+    "bitwise lambda0 CLEAN model/Adam/EMA/RNG identity",
+    "no probe/RNG and ordinary gate detach",
+    "diagnostic-on/off identity",
+    "grad=None and one-step counters",
+    "new-root RAM roundtrip/recovery",
+    "current85-versus-physical-fit admission fixtures",
+    "all-three-arm CLEAN probability-gradient identity at p=.5 for arbitrary class proportions"
+  ],
+  "history_and_policy_receipts": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/AGENTS.md",
+      "sha256": "f122ebf391a61cd84b61a1d8a8bf30c9a2d8c5a76d5cd791254cc9d430c1a9c2",
+      "bytes": 6970
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/buchong.md",
+      "sha256": "0597492448ef6cc3bef4f653e2dacee3f2a3d733df54bbc18bad9b93d51a1f3d",
+      "bytes": 3231
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/EXP_AI_CONTEXT.md",
+      "sha256": "d1613e3344d114cdc55e7c7c0e0b996176f3d09bcd44d3e6183dd798397912ab",
+      "bytes": 102532
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/MDMT_ALGORITHM_METRICS_LEDGER.md",
+      "sha256": "4bdb78b398b9883c6925165b115adde8622cc2f79cd1e700fe9522d969801f8f",
+      "bytes": 140694
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/00_EXECUTION_RUNBOOK.md",
+      "sha256": "edf8cb465dd8bd519b17974044fd9004febb1278f4630f2cfa86f980ec1a3d49",
+      "bytes": 5443
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3/start.md",
+      "sha256": "4cc24efbda0d923af3d6f76306382463beeeb602dfbd31f028279e7fd08f2a6a",
+      "bytes": 5849
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Global_Summary.md",
+      "sha256": "5da84c5bd21d0be8bf566088903f6e2855faf6ac961e142a6e09dfa890b5b0b9",
+      "bytes": 11856
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Evidence_Ledger.md",
+      "sha256": "4c929148b462b6f97bcd78bfa941c152ffdc451f1d8a2421d662582c0c59416c",
+      "bytes": 57887
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Experiment_Index.md",
+      "sha256": "75b1e6c2a6e3eb5798aa871c4b99d41953b0c598de51ae54638b6018a02f879d",
+      "bytes": 19040
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Open_Questions.md",
+      "sha256": "6b5409cefdcb4e058c1a262d0e2ebac2cd94fccfdfe37ee708400b4477891643",
+      "bytes": 11505
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_context/experiments/Experimental_Stable_Findings.md",
+      "sha256": "b123a8e3dcf83dc9287cb1df83544d2375f6e7030dd3693fdf5dedc728c8dca2",
+      "bytes": 8405
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/auxiliary_objective_attribution_20261115/REPORT.md",
+      "sha256": "4100b8ee0f97cf1f66cca888be9f8f1297b5d7b52c676995a418f9ede02a463a",
+      "bytes": 20276
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md",
+      "sha256": "55c41fe46ef57414354d7b1d7dc2decbd9e5eb8c93778ab8a25f7d80567280c3",
+      "bytes": 10624
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/DECISION.json",
+      "sha256": "4f7b5ebd29967559bdae2ee8e77cd455611945da62a25ab88b20d659097054cc",
+      "bytes": 25467
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_view_gradient_residual_momentum_20261116/NUMERICAL_APPENDIX.md",
+      "sha256": "17799f600d7d618f2ac6b5c60d10049fdb477ecd29cd0df4f13b75f678101df2",
+      "bytes": 62781
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/REPORT.md",
+      "sha256": "f1a40e4144b5baccfdab52a46f9d0c781190178a97446d0037459e7d0e9f7a54",
+      "bytes": 12021
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/DECISION.json",
+      "sha256": "fb6536c40b6cb3d3085d096c5caf646de55e889ca33c9cb59ea63f24221dfbcd",
+      "bytes": 12079
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/NUMERICAL_APPENDIX.md",
+      "sha256": "0ff03b3094403f68f46a45a54615fb151013ad87cea19d75101ba9741ea167bf",
+      "bytes": 26921
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/FINAL_EVIDENCE_REVIEW.json",
+      "sha256": "79b57198fe0ae1b1ddfa43d2aff807805a00f8fbcf27cf5db552b6b5e14285f6",
+      "bytes": 7949
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/DOMAIN_TASK_PAIRED.csv",
+      "sha256": "b331cee1b6a7ac561a5a58bc6bd80e9b24aa4262ff2748eb096ac51b49fcefc0",
+      "bytes": 289725
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/task_axis_even_views_20261116/DIAGNOSTIC_MEANS.csv",
+      "sha256": "cc1282de51ecc7a929a9751bca442279e1f0ce65c26271daf5461655b64dc0d5",
+      "bytes": 4968
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/RESEARCH_EXPLORATION.md",
+      "sha256": "b8d05286d9f1e55476a3453e11b63ad5f0815a4c24936fb4c370b13e042d97dc",
+      "bytes": 10517
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/ALGORITHM_DESIGNS.md",
+      "sha256": "ce61ef40ced246a08c022922477db00e38e00b113d9a4eda80b0b5544195c5ab",
+      "bytes": 15179
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/LITERATURE_AND_NOVELTY.md",
+      "sha256": "84847620c3cb71e2ee8609decca6faefcd3178d62835cc7586459b3d191750e1",
+      "bytes": 8366
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CRITICAL_REVIEW.md",
+      "sha256": "33c8eba31fa1daf71326133926204974cac1a54e9eed96e3411a80d35907f517",
+      "bytes": 8456
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/CODEX_EXECUTION_PLAN.md",
+      "sha256": "3f80e8593c8ad76387eb2f822e9f1504b672314040c2bb6cf91958f345ecdab9",
+      "bytes": 24454
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/EXPERIMENT_MANIFEST.json",
+      "sha256": "0754dda460cae9402a0056ee24b6de7154a43559229dee92c17e7cd3557823d8",
+      "bytes": 78760
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/DESIGN_COMPLETENESS_ADDENDUM.md",
+      "sha256": "02103fac5407c4d00161a87e155e3908b2c21203dc240947cc24ebd90ca8ce86",
+      "bytes": 24801
+    }
+  ],
+  "raw_evidence_receipts": [
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/run_manifest.json",
+      "sha256": "33720e7ec56beb57269e9843ecab30610035a907247509e2a542be7ffbd09244",
+      "bytes": 7956
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/source_receipt.json",
+      "sha256": "b9476473df51fa8f288c02c2de67f4095b2c85f0ca38e0b406029a2fd017d263",
+      "bytes": 11987
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/tables/PAIRED_SUMMARY.csv",
+      "sha256": "dc990372f1f55b06b5d9c7aa582876c15af9b98d41390b23e02f4d5bcb91d2d3",
+      "bytes": 708440
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/tables/WEIGHTS.csv",
+      "sha256": "fb251cb3ebf39d54df4df03289fda3b7f1644f91cb1acfa61eef56ff7653ce69",
+      "bytes": 5319706
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/attempt1/tables/COSTS.csv",
+      "sha256": "1f0f95caad4e8a0cfbd49c00b88b09cbd39132804f6e6c50ac3b0c6e1c6dc85e",
+      "bytes": 7879
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/run_manifest.json",
+      "sha256": "6a80ab8acb8528770a3c1484a824916810993221447641ca193931d813cd640e",
+      "bytes": 3848
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/source_receipt.json",
+      "sha256": "fa408141393cd23a0e5cbe7129ea22abc8359e55122fb4e49f64bd8c1fc08034",
+      "bytes": 13981
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/PAIRED_SUMMARY.csv",
+      "sha256": "b3ddd7762559b1dc3e9b9086e562a396542c99ca5f384ad7ae5aa37e61039c86",
+      "bytes": 118916
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/WEIGHTS.csv",
+      "sha256": "b31919b183132911b3de788726570d27d9e62877aed1806675e659375fa8405e",
+      "bytes": 1731554
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_auxiliary_20261115/artifacts/auxiliary_objective_attribution_20261115/stage2_attempt1/tables/COSTS.csv",
+      "sha256": "219011ce0b26808f0cc8d4063b8c6c21e289008d4a663a441ed64fa84ec2ff31",
+      "bytes": 3121
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/SUMMARY.csv",
+      "sha256": "67e82fbb98f1ebc6d3ed1505c15d7428638611a0d58238db2f13a4eac1c9b204",
+      "bytes": 349978
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/PAIRED_SUMMARY.csv",
+      "sha256": "36fadfd50b3969506fd067345036a1b2ef1b2308858245f75643de864f1ad3bd",
+      "bytes": 1222655
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/COSTS.csv",
+      "sha256": "def9c964efcbad25ad8356a36420e9b6985259946fa8b721a06e45543744a0e4",
+      "bytes": 11528
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/WEIGHTS.csv",
+      "sha256": "f9bc6c2c8ddba64f60a9504057fd491f398d2931cc63827a6078956289579f0c",
+      "bytes": 5652154
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/attempt1/tables/GRADIENT_DIAGNOSTICS.csv",
+      "sha256": "3a76ed8cb717c6f3ad23a6eb8475e8dfc32578e78bafa4e719b88f482d945f79",
+      "bytes": 2000999
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/ENDPOINTS.csv",
+      "sha256": "eefe665629940e6e82719027dcd82561c0ba03aca76dabe1bbe4c3d89fe7ef41",
+      "bytes": 345885
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/PAIRED_SUMMARY.csv",
+      "sha256": "cfef426e399f2cde4610a3e9584455bedf8676b02c07477a75c017088aea81c9",
+      "bytes": 404802
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/COSTS.csv",
+      "sha256": "63254ede5baba9825ddd2e51f9d02d0b936876d5da93aff037ccac31b28d68d8",
+      "bytes": 9245
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/PHYSICAL_ATTEMPTS.csv",
+      "sha256": "60a8f8cc8d8c8197d1e0a925c43076ec0445bfae168c5b35cd5bd61c475b726e",
+      "bytes": 4778
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/WEIGHTS.csv",
+      "sha256": "471b061f5e3169ec857fcce744da3fbbd9fbe3cedab5493398bbf7c9b0346585",
+      "bytes": 6208311
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/tables/GRADIENT_DIAGNOSTICS.csv",
+      "sha256": "1e9a5fc0fc3705c080e0a3df9b304bac68dfacc3954ec66058c1fd031c36ccec",
+      "bytes": 350579
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/RAW_RUNS_MANIFEST.json",
+      "sha256": "13e0b9313a631837a4b0f13dd0cb0f534271b7987c25adb9e57436175ced23fb",
+      "bytes": 1141199
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_01/attempt1/CONTROL_ARCHIVE_MAP.json",
+      "sha256": "e8d7868965a973dfd5639f1035526c4e35e569657ea802c7ebdb18bb3c10d40c",
+      "bytes": 12233
+    }
+  ],
+  "audited_dependency_receipts": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe",
+      "bytes": 8426
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/core.py",
+      "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9",
+      "bytes": 9530
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa",
+      "bytes": 30271
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/conditional_information_momentum_20261102_v3/protocol.py",
+      "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191",
+      "bytes": 1954
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/conditional_information_momentum_20261102_v3/objectives.py",
+      "sha256": "9794b3aa5f10370c4b09d9bb040f925334ea47a591516ef0fe3e4caee8ac51d0",
+      "bytes": 3148
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py",
+      "sha256": "278d22da232199922f3b70e4735966c61c09d5d4ed800dcf78ed8ffe2e5164eb",
+      "bytes": 2794
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/conditional_information_momentum_20261102_v3/guardian.py",
+      "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284",
+      "bytes": 6196
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+      "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84",
+      "bytes": 2733
+    }
+  ],
+  "preserved_recent_evidence": {
+    "stage1_zero_view_mass_failure": "STRONG",
+    "stage2_natural_mass_did_not_establish_CLEAN_EMA_gain": true,
+    "TV_all_gamma_all_dataset_nonpositive_gate": false,
+    "TV_ML_gamma020_signal": "WEAK_positive_3of5_CI_crosses_zero",
+    "TV_rank010_both_means_negative": true,
+    "C1_primary_auc_delta": {
+      "movielens": -0.0002375198704481,
+      "kuairand": -0.0035407099806506
+    },
+    "C1_verdict": "NO_CONTINUATION_SIGNAL",
+    "C1_KR_IID2_minus_CLEAN": 0.0012695520191683852,
+    "C1_KR_IID2_strength": "WEAK_2of5_CI_crosses_zero_not_champion",
+    "C1_all_six_mechanism_auc_intervals_cross_zero": true,
+    "domain_size_causal_explanation": "WEAK",
+    "small_gain_large_harm_general_tradeoff_established": false
+  },
+  "literature_urls": [
+    "https://proceedings.neurips.cc/paper_files/paper/2016/file/c52f1bd66cc19d05628bd8bf27af3ad6-Paper.pdf",
+    "https://arxiv.org/abs/2012.03173",
+    "https://arxiv.org/pdf/2012.03173",
+    "https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/ijcai15auc.pdf",
+    "https://ijcai.org/proceedings/2015/137",
+    "https://arxiv.org/abs/1704.03976",
+    "https://arxiv.org/abs/2010.01412"
+  ],
+  "deliverables": [
+    "RESEARCH_EXPLORATION.md",
+    "ALGORITHM_DESIGNS.md",
+    "LITERATURE_AND_NOVELTY.md",
+    "CRITICAL_REVIEW.md",
+    "CODEX_EXECUTION_PLAN.md",
+    "EXPERIMENT_MANIFEST.json"
+  ],
+  "research_child_actions": {
+    "only_six_new_plan_files_written": true,
+    "source_implementation": false,
+    "research_training": false,
+    "GPU_access": false,
+    "IPC_or_guardian_access": false,
+    "Test_access": false,
+    "commits_or_publication": false,
+    "root_or_C1_state_writes": false,
+    "children_spawned": false
+  },
+  "next_action": "Parent fresh designer; complete design before coder; close this research context permanently after handoff"
+}

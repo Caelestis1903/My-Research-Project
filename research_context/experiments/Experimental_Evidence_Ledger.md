@@ -1,5 +1,15 @@
 # Experimental Evidence Ledger
 
+## E-NQR-C02 — 自然二次排序与两个配套损失控制
+
+- 协议：M3oE fixed1，ML/KR自然人口，seeds2022–2026、50epochs/40960/FP32、online/EMA独立选点；30条新增、10条CLEAN复用，1500epoch/51750新更新。
+- 主对比NQR selected EMA−CLEAN：ML ΔAUC−0.000343517，0/5正，CI[−0.000547122,−0.000139912]；KR−0.000328734，2/5正，CI[−0.006717219,+0.006059751]。ΔLL分别+0.002141261（1/5降低）/−0.001022030（3/5降低），区间均跨0。两主均值非正条件真实触发；NO_CONTINUATION_SIGNAL、无champion、Test未访问。
+- 反例/分解：ML E10 EMA AUC+.001151311，5/5正而selected负；KR d1 LL−.006196973、5/5降低，pooled LL−.006051198、5/5降低；Macro AUC负而Traffic/Pooled均值正。NQR−BRIER/MEAN-GAP四个AUC CI均跨0；ML NQR−MEAN-GAP LL−.002033597，4/5降低、CI全负。
+- 域/task：ML task0 AUC−.000416581和LL+.003874856均5/5不利；KR d0/d1/d2 AUC−.006386723/+.000165424/+.005235096。两个较小域反向、最大域AUC近零/LL改善；规模因果WEAK，未见统一小域收益/大域下降。
+- 强度：注册门槛数值事实STRONG；ML主AUC/重复task0成本与KR d1局部LL改善MEDIUM；KR AUC方向、排序/方差机制、规模因果WEAK。源/图/优化器/自然人口/对照/选点身份验证和真实RAM恢复均通过。
+- [完整报告](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[所有seed/state附录](../../research_reports/natural_quadratic_ranking_20261116/NUMERICAL_APPENDIX.md)、[原始archive与哈希](../../research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)、[配对CSV](../../research_reports/natural_quadratic_ranking_20261116/ALL_PAIRED_SEEDS.csv)。本轮30物理attempt全完成、0失败，观测26并发CUDA；修复/复审/smoke为工程步骤，不增加正式seed数。
+
+
 ## E-AXISEVEN-C01 — 同自然支持的轴向even / IID2 / isotropic比较
 
 M3oE fixed1，2数据集×3臂×5seed，30新+20历史控制；50epochs/40960/FP32，1500新epoch、51750次新Adam/EMA。selected EMA AXIS-EVEN−CLEAN：ML−0.000237520、0/5正、CI[−0.000476287,+0.000001248]；KR−0.003540710、1/5正、CI[−0.011933378,+0.004851958]。NO_CONTINUATION_SIGNAL。稳定增量未建立，MEDIUM；gate触发是STRONG直接事实。

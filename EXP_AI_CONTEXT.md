@@ -1,5 +1,16 @@
 # EXP_AI_CONTEXT.md
 
+## 2026-11-16 最新交接：NQR-C02 自然二次排序完整30条
+
+NQR-025 / BRIER-OPPORTUNITY-025 / MEAN-GAP-025 在自然ML/KR、seeds2022–2026、50epochs/40960/FP32、M3oE fixed1上完成30条新增轨迹；10条精确CLEAN历史轨迹复用，1500epoch/51750次Adam和EMA更新，30物理attempt全部完成、0失败。候选NQR-025相对CLEAN的selected fixed-EMA Macro AUC：ML−0.000343517（0/5正，CI[−0.000547122,−0.000139912]）；KR−0.000328734（2/5正，CI[−0.006717219,+0.006059751]）。注册NO_CONTINUATION_SIGNAL成立，无champion，Test封存，继续fresh Astra循环。
+
+主结果之外的证据必须保留：ML E10 EMA AUC+0.001151311，5/5正，区间略高于0，但selected反向；ML task0 AUC−0.000416581且LL+0.003874856，均5/5不利。KR最大d1 LL−0.006196973且5/5改善，pooled LL−0.006051198且5/5改善；selected Macro LL仅3/5改善且CI跨0，Macro AUC均值负而traffic/pooled AUC均值正且CI跨0。阶段/聚合不能替代主口径。NQR相对两个控制的四个AUC CI均跨0（机制WEAK）；ML NQR−MEAN-GAP LL−0.002033597、4/5降低、CI低于0（MEDIUM），仍未胜CLEAN。
+
+KR d0/d1/d2 AUC差−0.006386723/+0.000165424/+0.005235096；两个较小域反向，最大域AUC近零、LL改善，不支持规模主因或统一小域收益/大域受损。KR域间标签先验/机会权重不同，仍与特征/task/基线/训练阶段竞争。下一fresh研究同时读取NQR、AXIS、TV、NDP全报告和原数表，探索至少三种数学不同机制；阶段vs剂量的等暴露干预是待评估问题，不预设curriculum或动量有效。
+
+完整入口：[NQR REPORT](research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[DECISION](research_reports/natural_quadratic_ranking_20261116/DECISION.json)、[数值附录](research_reports/natural_quadratic_ranking_20261116/NUMERICAL_APPENDIX.md)、[原始数据与18分片](research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)。训练source87=ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae，design7=9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4；C1 source79未改。编码阶段恢复别名问题经两行修复、fresh独立复审、6真实GPU/RAM smoke及独立资源签核后才RUN；没有重跑正式轨迹。全部任务在原会话、fresh无继承子上下文、完成关闭；观察到26个并发CUDA worker（15/11），30次启动都符合逐卡当前85%/85%、RAM90%和真实物理容量条件，无预测功耗/固定进程上限。外循环次数不限，RAM选中状态由原parent接管。
+
+
 ## 2026-11-16 最新交接：cycle01 task-axis even views完整30条
 
 AXIS-EVEN / AXIS-IID2 / ISOTROPIC-EVEN两数据集×seeds2022–2026全部完成，每条50epochs/40960/FP32，共1500epoch、51750次Adam/EMA；20条CLEAN/NDP-A历史控制精确复用。注册候选AXIS-EVEN的selected fixed-EMA Macro AUC相对CLEAN：ML−0.000237520（0/5正，CI[−0.000476287,+0.000001248]）；KR−0.003540710（1/5正，CI[−0.011933378,+0.004851958]）。两主均值非正条件触发，NO_CONTINUATION_SIGNAL；不HPO/确认、不升级champion，进入fresh Astra研究，Test封存。

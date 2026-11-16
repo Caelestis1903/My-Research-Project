@@ -1,0 +1,283 @@
+{
+  "report_type": "REVIEW REPORT",
+  "stage": "CODE_REVIEW",
+  "revision": "R1",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "reviewer_id": "01a1e421-e23e-7b72-bd3c-7d4b3bc0a52a",
+  "reviewer_identity_source": "CODEX_THREAD_ID observed in this native child",
+  "coder_ids": [
+    "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+    "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+    "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+  ],
+  "cpu_checks_passed": true,
+  "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+  "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+  "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "source_file_count": 87,
+  "design_file_count": 7,
+  "protected_file_count": 79,
+  "prior_review": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.json",
+    "verdict": "FAIL",
+    "source_hash": "d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0",
+    "preserved": true,
+    "sole_blocker": "R1",
+    "unchanged_region_evidence_reused": true
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "MAJOR",
+      "blocking": false,
+      "status": "RESOLVED_BY_CODER_IN_REVIEWED_SOURCE",
+      "title": "Populated Adam baseline aliasing repaired",
+      "locations": [
+        "runner.py:257",
+        "runner.py:505-526"
+      ],
+      "evidence": "Q1 reverses the one-line cpu_copy change to the exact prior file hash. Q2 invokes actual smoke_identities after one ordinary update; all three comparisons, whole saved baseline immutability, final full-state identity, nonaliasing and restored counter1 pass."
+    }
+  ],
+  "requirements": [
+    {
+      "requirement": "Design and scope",
+      "status": "PASS",
+      "evidence": "All seven accepted design inputs consulted; exactly NQR-025, BRIER-OPPORTUNITY-025 and MEAN-GAP-025 at lambda=.25. No algorithm change in R1.",
+      "locations": "core.py:15-18,67-112; protocol.py:60-71; accepted DESIGN_SPECIFICATION.md 3-10."
+    },
+    {
+      "requirement": "Mathematical formulas and weighting",
+      "status": "PASS",
+      "evidence": "Inspected differentiable centered population variances; S=pi0^2*bbar0+pi1^2*bbar1; selected Q_R/Q_B/Q_M; completed sum n/(2B)*(S+2*pi0*pi1*Q); L=.75C+.25A. Actual B, per-class BCE coefficients, half-task/unit mass and absent/singleton/null semantics agree. Preserved literal-pair/derivative/tail receipts remain applicable.",
+      "locations": "core.py:24-112; checks.py:42-178; CORE_CPU_CHECKS.json final_core_results; prior review requirements 2-4."
+    },
+    {
+      "requirement": "Shapes, masks and routing",
+      "status": "PASS",
+      "evidence": "Source [F,B] x, [B,2] y/p, last-feature domains0-2; masks use original domain and task-specific label. Empty domains skip means; partial one-class cells retain rows. No pair tensor, sampler or new routing.",
+      "locations": "core.py:24-31,67-110,153-186; frozen vendor reference.py:156."
+    },
+    {
+      "requirement": "Gradient paths and source optimizer",
+      "status": "PASS",
+      "evidence": "Ordinary model(x) with source detached gate inputs and trainable gates; score means/variances feed training graph before detached logging. One backward, frozen Adam and EMA; None/zero activity preserved. No probes, gradient substitution, candidate RNG or persistent objective state. Frozen cpu_copy recursively detach/cpu/clone's tensors.",
+      "locations": "core.py:131-198; checks.py:283-362; frozen TV core.py:145-150; auxiliary protocol.py:59-61; vendor_ga31/protocol.py:43-52."
+    },
+    {
+      "requirement": "Direct CLEAN and diagnostic contracts",
+      "status": "PASS",
+      "evidence": "lambda_zero precedes all_single_class and delegates before candidate forward. Source owns the update; C=A=L and unavailable statistics stay null. Diagnostic reductions/clones remain detached. Existing five core groups passed on unchanged core/checks; new actual-helper comparison also passes.",
+      "locations": "core.py:59-64,153-198; checks.py:202-279; Q2."
+    },
+    {
+      "requirement": "R1 populated-Adam restore and smoke identities",
+      "status": "PASS",
+      "evidence": "After one actual ordinary Adam update, actual smoke_identities passed diagnostic_on_off, lambda_zero, all_single_class. Seven unchanged-argument wraps-only restore observations share an immutable saved baseline. Entire final model/Adam/EMA/RNG/loader/activity state hashes equal baseline; step1 restored; step/exp_avg/exp_avg_sq do not alias saved tensors.",
+      "locations": "runner.py:256-258,501-526; Q2 identity output."
+    },
+    {
+      "requirement": "All contributing coders excluded from review",
+      "status": "PASS",
+      "evidence": "check_review accepts three unique contributing coders with actual source_manifest and in-memory review input. Each of the three coder-as-reviewer cases raises AssertionError. All verdict/blocker/CPU/source/design gates remain unchanged. Receipt uses actual native reviewer identity and all three coders.",
+      "locations": "protocol.py:288-294; Q1 minimal-diff proof; Q2 review-binding output."
+    },
+    {
+      "requirement": "CLEAN reuse and baseline preservation",
+      "status": "PASS",
+      "evidence": "R1 changes neither source CLEAN operator nor initialization, Adam/EMA, gate graph or loader. Exactly ten explicit CLEAN controls, ten initialization and500 reference order hashes remain the required references; workers check all1500 arm-epoch orders. Prior independent baseline verification and preserved original CPU provenance retained.",
+      "locations": "protocol.py:235-285; runner.py:395-401,428-430; prior IMPLEMENTATION_REVIEW.json requirements; RUNTIME_CPU_CHECKS.json integrated_cpu_results."
+    },
+    {
+      "requirement": "Budget, loader and selection",
+      "status": "PASS",
+      "evidence": "Seeds2022-2026,50epochs,40960 natural batches with tails21927/40052;30new+10exactCLEAN;1500epochs/51750useful updates. Private seed+11000 loader, one permutation/epoch. Online/EMA independent strict maxima preserve earliest ties and same-state LL/cells; E10/E30/E50 descriptive.",
+      "locations": "protocol.py:60-71,221-232,297-320; runner.py:394-481."
+    },
+    {
+      "requirement": "Data, evaluation and Test seal",
+      "status": "PASS_STATIC",
+      "evidence": "Immutable checked cache/relocated raw identities and source natural validation evaluator retained. No objective LL substitution or undefined-cell averaging. Reviewer did not load datasets or Test. ACTIVE/PAUSED keeps Test sealed; future USER_STOPPED/freeze/eligible-RAM gate remains parent-owned.",
+      "locations": "protocol.py:174-186; runner.py:320-329; accepted design7.2,10-11."
+    },
+    {
+      "requirement": "Source/design closure and historical preservation",
+      "status": "PASS",
+      "evidence": "Independently matched actual87-path closure, accepted7-file bundle and protected79. Same path set as prior FAIL;85 unchanged byte hashes; reversing exactly one replacement in each changed file reproduces prior SHA256. Eleven preserved cycle receipts, including prior FAIL, retain recorded hashes.",
+      "locations": "Q1; PARENT_SOURCE_REVIEW_CANDIDATE.json; PARENT_SOURCE_REVIEW_R1_CANDIDATE.json; R1_CPU_CHECKS.json preservation."
+    },
+    {
+      "requirement": "Admission and capacity",
+      "status": "PASS_STATIC",
+      "evidence": "Independent current GPU memory/power<85%,hostRAM<90%,pending real allocation ACK/resample and physical fit<=100% measured CUDA-usable capacity remain unchanged. No projected85 memory,power forecast,worker cap or card coupling. Full-process/torch+compatible context maximum raised from subsequent observations. Preserved13-fixture receipt reused; no GPU query.",
+      "locations": "runner.py:44-80,121-182,599-610,675-713; RUNTIME_CPU_CHECKS.json final_runtime_results."
+    },
+    {
+      "requirement": "Storage isolation, snapshots and recovery",
+      "status": "PASS_STATIC",
+      "evidence": "Absolute C2 N only; parent alone starts new foreground frozen TV owner after PASS. BytesIO/CPU state only. Numeric epoch precedes commit; get validates full/component hashes; ACK binds epoch bytes. Same-owner restore uses fresh optimizer copy, then loader/RNG. No old owner contact/restart; selected30pairs retained and parent accepts supervision.",
+      "locations": "protocol.py:123-146,364-404; runner.py:185-258,332-374,565-589,644-659,774-797."
+    },
+    {
+      "requirement": "Exports, costs and lifecycle",
+      "status": "PASS_STATIC",
+      "evidence": "Exact manifest30+explicit10 control selection; committed epochs/ACKs only;320endpoints/4000curves/24000cells/51750useful batch assertions; row-weighted losses/null denominators, failed/smoke attempts separate. Technical failures PAUSE; no science conclusion/outer loop or hidden total cap. Both workspace stop controls read clear; dispatch recheck belongs to parent.",
+      "locations": "runner.py:261-317,449-487,613-723; tables.py:41-210; protocol.py:136-142,386-418."
+    },
+    {
+      "requirement": "Subsequent RUN gates",
+      "status": "PASS_STATIC",
+      "evidence": "Code PASS permits parent preparation/new C2 foreground storage and fresh native runner engineering smoke. Formal30 waits for actual six dataset/arm cases with40960/full tails/FP32/diagnostics/eval/RAM/recovery/full-process profiling and separate fresh smoke/resource review.",
+      "locations": "protocol.py:323-361; runner.py:529-610,727-768; accepted design7.4 and acceptance5-7."
+    }
+  ],
+  "corrections_made": [],
+  "corrections_verified": [
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+      "line": 257,
+      "change": "opt.load_state_dict(cpu_copy(state['optimizer']))",
+      "by": "R1 coder",
+      "impact": "Fresh per-restore step and moment tensors preserve saved smoke/continuation state."
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "line": 293,
+      "change": "len(set(r['coder_ids'])) >= 2",
+      "by": "R1 coder",
+      "impact": "Permits all three contributors without revision cap; reviewer remains excluded from every coder ID."
+    }
+  ],
+  "actual_checks": {
+    "source_and_minimal_diff": {
+      "status": "PASS",
+      "reviewer_id": "01a1e421-e23e-7b72-bd3c-7d4b3bc0a52a",
+      "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+      "source_files": 87,
+      "unchanged_files": 85,
+      "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+      "design_files": 7,
+      "protected_hash": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+      "protected_files": 79,
+      "changes": [
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+          "line": 293,
+          "old": "len(set(r['coder_ids'])) == 2",
+          "new": "len(set(r['coder_ids'])) >= 2",
+          "reversed_bytes_match_prior": true,
+          "before_sha256": "8d6b4636b387f5e1d37e4d5f6205a503fa871be98ab2fba5999d74147e116c8f",
+          "after_sha256": "bbd7eaabd310387a9cc9fc3c2ae22a695a191b8161c8777a7ab5dcc14ff49829"
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 257,
+          "old": "opt.load_state_dict(state['optimizer'])",
+          "new": "opt.load_state_dict(cpu_copy(state['optimizer']))",
+          "reversed_bytes_match_prior": true,
+          "before_sha256": "7513265b3ad6755f144595bf057cf38c6107473e9b970982b13e0164f39b5b64",
+          "after_sha256": "ae64f060a3fffcf907c9579a95b11f16ac0cbeabbe5231ec07575f07b101d832"
+        }
+      ],
+      "prior_cycle_files_preserved": 11,
+      "stop_requested": false,
+      "gpu_queries": 0,
+      "ipc_calls": 0
+    },
+    "populated_adam": {
+      "status": "PASS",
+      "fixture": "actual smoke_identities after one ordinary Adam update; wraps-only restore spy",
+      "identities": [
+        "diagnostic_on_off",
+        "lambda_zero",
+        "all_single_class"
+      ],
+      "warmup_updates": 1,
+      "restore_calls": 7,
+      "saved_baseline_before_sha256": "dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c",
+      "saved_baseline_after_sha256": "dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c",
+      "final_full_state_sha256": "dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c",
+      "saved_baseline_immutable": true,
+      "original_step": 1,
+      "restored_step": 1,
+      "optimizer_tensor_nonaliasing": {
+        "step": true,
+        "exp_avg": true,
+        "exp_avg_sq": true
+      },
+      "comparison_batches": 6,
+      "gpu_queries": 0,
+      "ipc_calls": 0,
+      "test_accessed": false
+    },
+    "review_binding": {
+      "status": "PASS",
+      "fixture": "actual check_review, actual source_manifest, in-memory review input only",
+      "three_contributing_coders_accepted": true,
+      "reviewer_equal_to_each_contributor_rejected": [
+        "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+        "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+        "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+      ],
+      "reviewer_id": "01a1e421-e23e-7b72-bd3c-7d4b3bc0a52a",
+      "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+      "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+      "review_fixture_files_written": 0
+    }
+  },
+  "commands": [
+    {
+      "id": "R1Q1",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport hashlib,json,os\nfrom pathlib import Path\nfrom experiments.natural_quadratic_ranking_20261116 import protocol as p\nsha=lambda b:hashlib.sha256(b).hexdigest()\ncanon=lambda v:sha(json.dumps(v,sort_keys=True,separators=(',', ':'),allow_nan=False).encode())\na=p.CYCLE\nold=json.loads((a/'PARENT_SOURCE_REVIEW_CANDIDATE.json').read_text())\nnew=json.loads((a/'PARENT_SOURCE_REVIEW_R1_CANDIDATE.json').read_text())\nprior=json.loads((a/'IMPLEMENTATION_REVIEW.json').read_text())\ns=p.source_manifest(); d=p.design_bundle()\nassert s==new['source_manifest'] and d==old['design_bundle']\nassert s['sha256']=='ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae'\nassert d['sha256']=='9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4'\nassert len(s['files'])==87 and len(d['files'])==7\nassert prior['verdict']=='FAIL' and [b['id'] for b in prior['blocking_issues']]==['R1']\nassert prior['source_hash']==old['source_manifest']['sha256']==new['prior_source_hash']=='d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0'\noldfiles={r['path']:r['sha256'] for r in old['source_manifest']['files']}\nnewfiles={r['path']:r['sha256'] for r in s['files']}\nassert oldfiles.keys()==newfiles.keys()\nchanged=sorted(k for k in oldfiles if oldfiles[k]!=newfiles[k])\nassert changed==['experiments/natural_quadratic_ranking_20261116/protocol.py','experiments/natural_quadratic_ranking_20261116/runner.py']\nreplacements={changed[0]:(b\"len(set(r['coder_ids'])) >= 2\",b\"len(set(r['coder_ids'])) == 2\"),changed[1]:(b\"opt.load_state_dict(cpu_copy(state['optimizer']))\",b\"opt.load_state_dict(state['optimizer'])\")}\ndiffs=[]\nfor path,(current,previous) in replacements.items():\n data=(p.ROOT/path).read_bytes(); assert sha(data)==newfiles[path]\n assert data.count(current)==1\n restored=data.replace(current,previous,1)\n assert sha(restored)==oldfiles[path],path\n line=data[:data.index(current)].count(b'\\n')+1\n compile(data,str(p.ROOT/path),'exec')\n diffs.append(dict(path=path,line=line,old=previous.decode(),new=current.decode(),reversed_bytes_match_prior=True,before_sha256=oldfiles[path],after_sha256=newfiles[path]))\nprotected=json.loads((p.C1/'RESOURCE_1_SUPERSESSION.json').read_text())['source_manifest']['files']\nassert len(protected)==79 and all(sha((p.ROOT/r['path']).read_bytes())==r['sha256'] for r in protected)\nassert canon(protected)==p.PROTECTED=='6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1'\nassert all(newfiles[r['path']]==r['sha256'] for r in protected)\nr1=p.read_json(a/'R1_CPU_CHECKS.json')\nassert all(p.sha_file(p.ROOT/path)==expected for path,expected in r1['preservation']['prior_cycle_files_before_sha256'].items())\nassert new['coder_ids']==['01a1e3f5-7f1c-7ad2-9512-5c86d72c033e','01a1e3f5-7f2c-7262-945c-10b1626cfb40','01a1e41b-a08d-7180-9788-cc62bee1e57e']\nassert os.environ['CODEX_THREAD_ID'] not in new['coder_ids']\nassert not p.stop_requested()\nprint(json.dumps(dict(status='PASS',reviewer_id=os.environ['CODEX_THREAD_ID'],source_hash=s['sha256'],source_files=87,unchanged_files=85,design_bundle_sha256=d['sha256'],design_files=7,protected_hash=p.PROTECTED,protected_files=79,changes=diffs,prior_cycle_files_preserved=11,stop_requested=False,gpu_queries=0,ipc_calls=0)))\nPY",
+      "exit_code": 0,
+      "output": "{\"status\": \"PASS\", \"reviewer_id\": \"01a1e421-e23e-7b72-bd3c-7d4b3bc0a52a\", \"source_hash\": \"ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae\", \"source_files\": 87, \"unchanged_files\": 85, \"design_bundle_sha256\": \"9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4\", \"design_files\": 7, \"protected_hash\": \"6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1\", \"protected_files\": 79, \"changes\": [{\"path\": \"experiments/natural_quadratic_ranking_20261116/protocol.py\", \"line\": 293, \"old\": \"len(set(r['coder_ids'])) == 2\", \"new\": \"len(set(r['coder_ids'])) >= 2\", \"reversed_bytes_match_prior\": true, \"before_sha256\": \"8d6b4636b387f5e1d37e4d5f6205a503fa871be98ab2fba5999d74147e116c8f\", \"after_sha256\": \"bbd7eaabd310387a9cc9fc3c2ae22a695a191b8161c8777a7ab5dcc14ff49829\"}, {\"path\": \"experiments/natural_quadratic_ranking_20261116/runner.py\", \"line\": 257, \"old\": \"opt.load_state_dict(state['optimizer'])\", \"new\": \"opt.load_state_dict(cpu_copy(state['optimizer']))\", \"reversed_bytes_match_prior\": true, \"before_sha256\": \"7513265b3ad6755f144595bf057cf38c6107473e9b970982b13e0164f39b5b64\", \"after_sha256\": \"ae64f060a3fffcf907c9579a95b11f16ac0cbeabbe5231ec07575f07b101d832\"}], \"prior_cycle_files_preserved\": 11, \"stop_requested\": false, \"gpu_queries\": 0, \"ipc_calls\": 0}\n"
+    },
+    {
+      "id": "R1Q2",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport copy,json,os\nfrom unittest.mock import patch\nimport numpy as np\nimport torch\nfrom experiments.natural_quadratic_ranking_20261116 import runner as r,protocol as p\ntorch.set_num_threads(1)\nclass Scores(torch.nn.Module):\n def __init__(self):\n  super().__init__(); self.score=torch.nn.Parameter(torch.tensor([.2,-.3]))\n def forward(self,x): return self.score.sigmoid().expand(x.shape[1],2)\nmodel=Scores(); ema=copy.deepcopy(model).requires_grad_(False)\nc=p.config('movielens',p.ARMS[0]); opt=p.optimizer(model,c)\nx=torch.tensor([[1.,2.,3.,4.],[0.,0.,0.,0.]])\ny=torch.tensor([[0.,1.],[1.,0.],[0.,1.],[1.,0.]])\nloader=torch.Generator().manual_seed(13022); device=torch.device('cpu')\nctx=dict(dataset='movielens',seed=2022,epoch=1,batch=1,global_step=1)\nfirst=r.train_step(model,opt,ema,x,y,c,ctx,np.arange(4),diagnose=False)\nassert first['branch']=='ordinary' and int(opt.state[model.score]['step'])==1\nassert set(opt.state[model.score])=={'step','exp_avg','exp_avg_sq'}\nassert all(opt.state[model.score][k].abs().sum()>0 for k in ('exp_avg','exp_avg_sq'))\nbefore=r.identity_state(model,opt,ema,loader,device); before_hash=r.state_digest(before)\ncosts=r.new_costs(); ctx.update(batch=2,global_step=2)\nwith patch.object(r,'restore',wraps=r.restore) as restore_spy:\n checks=r.smoke_identities(model,opt,ema,loader,device,x,y,np.arange(4),c,ctx,costs)\nassert checks==['diagnostic_on_off','lambda_zero','all_single_class']\nassert restore_spy.call_count==7\nsaved=restore_spy.call_args_list[0].args[4]\nassert all(call.args[4] is saved for call in restore_spy.call_args_list)\nassert r.state_digest(saved)==before_hash\nassert r.state_digest(r.identity_state(model,opt,ema,loader,device))==before_hash\nassert int(opt.state[model.score]['step'])==1\nsaved_state=next(iter(saved['optimizer']['state'].values()))\nnonalias={key:opt.state[model.score][key].data_ptr()!=value.data_ptr() for key,value in saved_state.items()}\nassert all(nonalias.values())\nassert costs['attempted_training_batches']==6\nprint(json.dumps(dict(status='PASS',fixture='actual smoke_identities after one ordinary Adam update; wraps-only restore spy',identities=checks,warmup_updates=1,restore_calls=7,saved_baseline_before_sha256=before_hash,saved_baseline_after_sha256=r.state_digest(saved),final_full_state_sha256=r.state_digest(r.identity_state(model,opt,ema,loader,device)),saved_baseline_immutable=True,original_step=1,restored_step=int(opt.state[model.score]['step']),optimizer_tensor_nonaliasing=nonalias,comparison_batches=costs['attempted_training_batches'],gpu_queries=0,ipc_calls=0,test_accessed=False)))\n\nids=['01a1e3f5-7f1c-7ad2-9512-5c86d72c033e','01a1e3f5-7f2c-7262-945c-10b1626cfb40','01a1e41b-a08d-7180-9788-cc62bee1e57e']\ns=p.source_manifest()\nreview=dict(verdict='PASS',blocking_issues=[],cpu_checks_passed=True,source_hash=s['sha256'],design_bundle_sha256=s['design_bundle_sha256'],reviewer_id=os.environ['CODEX_THREAD_ID'],coder_ids=ids)\nread_actual=p.read_json; sentinel='IN_MEMORY_REVIEW_R1_ONLY'\ndef read_fixture(path): return review if path==sentinel else read_actual(path)\nrejected=[]\nwith patch.object(p,'read_json',side_effect=read_fixture):\n assert p.check_review(sentinel) is review\n for coder_id in ids:\n  review['reviewer_id']=coder_id\n  try: p.check_review(sentinel)\n  except AssertionError: rejected.append(coder_id)\n  else: raise AssertionError('Contributor accepted as reviewer')\nassert rejected==ids\nprint(json.dumps(dict(status='PASS',fixture='actual check_review, actual source_manifest, in-memory review input only',three_contributing_coders_accepted=True,reviewer_equal_to_each_contributor_rejected=rejected,reviewer_id=os.environ['CODEX_THREAD_ID'],source_hash=s['sha256'],design_bundle_sha256=s['design_bundle_sha256'],review_fixture_files_written=0)))\nPY",
+      "exit_code": 0,
+      "output": "{\"status\": \"PASS\", \"fixture\": \"actual smoke_identities after one ordinary Adam update; wraps-only restore spy\", \"identities\": [\"diagnostic_on_off\", \"lambda_zero\", \"all_single_class\"], \"warmup_updates\": 1, \"restore_calls\": 7, \"saved_baseline_before_sha256\": \"dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c\", \"saved_baseline_after_sha256\": \"dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c\", \"final_full_state_sha256\": \"dde4fd34ec7030af2cd0d0c312eacc3d86d515878921bd713ddd32202907fb7c\", \"saved_baseline_immutable\": true, \"original_step\": 1, \"restored_step\": 1, \"optimizer_tensor_nonaliasing\": {\"step\": true, \"exp_avg\": true, \"exp_avg_sq\": true}, \"comparison_batches\": 6, \"gpu_queries\": 0, \"ipc_calls\": 0, \"test_accessed\": false}\n{\"status\": \"PASS\", \"fixture\": \"actual check_review, actual source_manifest, in-memory review input only\", \"three_contributing_coders_accepted\": true, \"reviewer_equal_to_each_contributor_rejected\": [\"01a1e3f5-7f1c-7ad2-9512-5c86d72c033e\", \"01a1e3f5-7f2c-7262-945c-10b1626cfb40\", \"01a1e41b-a08d-7180-9788-cc62bee1e57e\"], \"reviewer_id\": \"01a1e421-e23e-7b72-bd3c-7d4b3bc0a52a\", \"source_hash\": \"ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae\", \"design_bundle_sha256\": \"9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4\", \"review_fixture_files_written\": 0}\n"
+    }
+  ],
+  "registered_coder_cpu_checks": {
+    "evidence": "CORE_CPU_CHECKS.json and RUNTIME_CPU_CHECKS.json plus prior independent IMPLEMENTATION_REVIEW.md/json",
+    "five_core_groups": "PASS_PRESERVED_RECEIPTS_UNCHANGED_CORE_CHECKS",
+    "thirteen_admission_fixtures": "PASS_PRESERVED_RECEIPT_UNCHANGED_ADMISSION",
+    "rerun": false,
+    "reason": "Exact two-line diff impacts optimizer restore and contributor count only; focused checks executed on actual affected functions."
+  },
+  "remaining_risks": [
+    "Actual CUDA full40960/tailFP32 identities, natural evaluation and six-case full-process residency remain RUN-stage measurements.",
+    "New C2 RAM roundtrip/commit/get/restore and separate fresh source-bound smoke/resource review remain required before formal30.",
+    "Live old C1 state eligibility was not queried; original parent retains supervision and preservation responsibility. Test stays sealed."
+  ],
+  "experiments_safe_to_run": true,
+  "engineering_smoke_authorized": true,
+  "formal_run_authorized": false,
+  "run_scope": "CODE_REVIEW PASS permits parent-only new C2 foreground RAM owner and fresh native runner engineering smoke. Formal30 requires actual six-case smoke and separate fresh smoke/resource signoff.",
+  "constraints": {
+    "children_spawned": 0,
+    "source_edits": 0,
+    "design_edits": 0,
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "owner_contacts": 0,
+    "research_training_runs": 0,
+    "synthetic_cpu_updates_only": true,
+    "test_accessed": false,
+    "git_actions": 0,
+    "publication_actions": 0,
+    "root_state_changes": 0,
+    "tensor_or_state_files_written": 0,
+    "prepare_or_manifest_actions": 0,
+    "prior_fail_rewritten": false,
+    "exclusive_writes": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW_R1.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW_R1.json"
+    ]
+  },
+  "next_action": "Parent permanently closes this reviewer, rereads both workspace stop controls before dispatch, prepares and starts the new absolute C2 foreground owner, then dispatches a fresh native runner for the prescribed six-case smoke. Separate fresh smoke/resource review precedes formal30."
+}

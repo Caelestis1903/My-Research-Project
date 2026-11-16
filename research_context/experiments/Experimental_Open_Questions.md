@@ -1,5 +1,15 @@
 # Experimental Open Questions
 
+## 2026-11-16 / OQ-NQR-C02 — 排序替换损失后的阶段与权重问题
+
+1. ML E10 EMA AUC五seed改善、selected五seed下降：瞬时优化路径、阶段依赖还是总干预剂量解释该反转？需要等暴露的时序干预与完整50epoch匹配选点证据，不能从早期正值推定curriculum有效。
+2. 三新臂两数据集主均值均负；去方差后ML AUC几乎不变，但LL较NQR差且4/5一致。均值分离、方差项、共同BCE系数变化和Adam/decay尺度各承担什么作用？四个机制AUC CI跨0，仍缺可分离证据。
+3. KR d0/d2两较小域反向、最大d1 LL五seed改善；d0标签正先验稀少而d2较均衡。自然机会权重、先验/特征/task与规模如何区分？固定人口观察未识别规模因果，不能把小域等同困难域。
+4. KR Macro AUC负而Traffic/Pooled正，早期LL改善强于排序，EMA总效应正而匹配EMA增量负。读出、校准、阶段和选点如何分别影响可迁移增量？
+
+依据：[E-NQR-C02完整报告](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[配对seed及CI](../../research_reports/natural_quadratic_ranking_20261116/ALL_PAIRED_SUMMARY.csv)、[完整数值来源](../../research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)。下一fresh Astra同时读取C1/TV/NDP及较早历史，保留已知条件反例，探索不同机制；本轮无追加救援实验。
+
+
 ## 2026-11-16 / OQ-AXISEVEN-C01 — 完整even-view比较后的未解问题
 
 1. 同状态下AXIS-EVEN/IID2条件期望目标相同，端点却不同；差异由均值正则、有限梯度噪声/Adam路径还是选点与seed方差主导？KR IID2正均值仅2/5、CI跨零，现有端点未分离这些解释。需要共同状态梯度均值/方差与预算对齐路径干预证据。

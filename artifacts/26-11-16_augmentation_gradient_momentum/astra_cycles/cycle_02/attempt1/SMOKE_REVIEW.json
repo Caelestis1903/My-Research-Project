@@ -1,0 +1,811 @@
+{
+  "report_type": "REVIEW REPORT",
+  "stage": "SMOKE_RESOURCE_REVIEW",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "reviewer_id": "01a1e42e-98ce-7313-823f-617ced6126b1",
+  "reviewer_identity_source": "Actual native CODEX_THREAD_ID observed in this child environment",
+  "coder_ids": [
+    "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+    "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+    "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+  ],
+  "runner_id": "01a1e428-7f64-72e3-b49e-854e992baf89",
+  "cpu_checks_passed": true,
+  "cpu_checks_provenance": "Preserved source-bound IMPLEMENTATION_REVIEW_R1.json; no CPU algorithm tests rerun. Field retained for protocol.check_review compatibility.",
+  "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+  "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+  "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "smoke_sha256": "2a00a8c9960467720d095ab775e5d4900a60ce83e72433777cc8d595d11868c9",
+  "resource_checks_passed": true,
+  "review_scope": "Completed six-case actual GPU/RAM evidence and necessary raw execution/admission/storage code paths; original code review unchanged.",
+  "requirements": [
+    {
+      "requirement": "Accepted source/design and independent code-review gate",
+      "result": "PASS",
+      "evidence": "Rehashed actual 87 source files, seven accepted design files and protected C1 79. Aggregates match requested identities. IMPLEMENTATION_REVIEW_R1 PASS/zero blockers byte hash matches immutable manifest. Prior FAIL/R1 two-line repair are preserved context; no algorithm re-review or edits."
+    },
+    {
+      "requirement": "Exact finite engineering matrix, source natural full/tail FP32",
+      "result": "PASS",
+      "evidence": "Exactly two datasets x three approved arms, seed2022, FP32, full40960/tails21927 or40052. Case/job/log/physical/profile copies agree. Actual smoke_case uses source checked natural cache, source setup/model/Adam/EMA, seed+11000 permutation and reference init/row-order assertions. Twelve useful smoke batches have ordinary branch, one forward/backward/Adam/EMA each, zero probes/views/algorithm RNG; step counters1 then2."
+    },
+    {
+      "requirement": "Required full/tail exact state identities, including warmed Adam",
+      "result": "PASS",
+      "evidence": "All six cases record diagnostic_on_off, lambda_zero and all_single_class on both real batch shapes. Inspected actual smoke_identities hashes model/Adam/EMA/RNG/loader/activity after each disposable comparison, restores immutable base using cloned optimizer tensors. Tail starts after useful full update has populated Adam. Final diagnostics counters are2 for all active parameters, matching restored baseline plus one tail update."
+    },
+    {
+      "requirement": "Smoke numeric objective, tensor/mask/gradient and baseline semantics",
+      "result": "PASS",
+      "evidence": "Twelve numeric loss values agree with .75*C+.25*A within FP32 tolerance; actual B and half-task/unit mass are recorded. Ordinary source model, train_step and frozen Adam/evaluator imports match source reviewed in R1; diagnostic scalars do not replace training gradients. Core mathematical/gradient/source tests reuse preserved R1 PASS; no broad repeat."
+    },
+    {
+      "requirement": "Complete natural online/EMA evaluation with Test sealed",
+      "result": "PASS",
+      "evidence": "Actual validation calls frozen evaluate(estimator,bundle.val_x,bundle.val_y,device) independently for online/EMA. All6 epoch records cover100021 ML/250767 KR rows per estimator,3/7 forwards, six defined cells with positive+negative=count and equal-cell macro arithmetic. No objective loss substitution or Test evaluation; all relevant records Test=false."
+    },
+    {
+      "requirement": "Actual RAM commit/get/ACK and recovery equivalence",
+      "result": "PASS",
+      "evidence": "Six RAM_COMMITTED ledger entries bind absolute N epoch paths. Recomputed epoch byte hashes match ACKs; key/attempt/epoch/continuation/source/design/endpoint agree across records. Actual path roundtrips snapshot hash, commits, gets and validates component/whole hashes, pauses/re-registers on same owner, restores model/EMA/Adam then loader/RNG, asserts every hash and next-permutation equality. No receipt relies solely on epoch-only server ACK."
+    },
+    {
+      "requirement": "Storage isolation, release and parent foreground ownership",
+      "result": "PASS",
+      "evidence": "Numeric STORAGE_OWNER and canonical parent acceptance bind N,PID1944719,foreground session52263,source/design,frozen server hash and recomputed endpoint hash. PID remains alive by read-only /proc observation. Source uses N-only requests/CPU clones/BytesIO; no complete call in smoke. Parent accepted supervision and zero retained smoke states/bytes. Allsix actual nested profile PIDs independently dead; no result.json/formal job commit or technical pause marker."
+    },
+    {
+      "requirement": "Full-process profile through required stages",
+      "result": "PASS",
+      "evidence": "Each actual profile has PID-specific NVML,torch allocated/reserved,measured non-torch context,host RAM/RSS and positive samples in allocation/full_identity/full_diagnostic/tail_identity/tail_diagnostic/online validation/EMA validation/CPU snapshot/ram_roundtrip/recovery. Full identity covers lazy Adam; CPU snapshot covers CPU copies, and BytesIO serialization/commit/get occurs within profiled ram_roundtrip. Physical-attempt and worker-log profile copies match saved profile."
+    },
+    {
+      "requirement": "Usable CUDA capacity and compatible other-card reuse",
+      "result": "PASS",
+      "evidence": "C2 raw admission records both cards' CUDA usable25307578368 versus NVML25769803776B, consistent with preserved C1 capacity measurement. GPU1 profiles identify RTX3090,compute8.6,usable25307578368. Inspected formal device_identity measures each requested card; measured_profile matches name/compute/usable total and source/dataset/arm, deliberately excludes GPUindex. CompatibleGPU0 can reuse measuredGPU1 profile after that existing startup comparison; no duplicate GPU0 smoke required."
+    },
+    {
+      "requirement": "Current85/host90 and physical100 admission",
+      "result": "PASS",
+      "evidence": "Recomputed all12 decisions from raw measurements; sixGPU0 rejects solely CURRENT_POWER(302.774\u2013309.083W,limit350W,threshold297.5W); sixGPU1 accepts have currentmemory/power<85%,hostRAM<90%,physical bootstrap fit<=usable100. Six post-case allocation-ACK resamples precede subsequent case starts. Bootstrap4515168256/5544869888B is explicit historical reference; formal uses actual C2 per-arm profiles and subsequent larger observations. Source has no predicted195/206W,projected85memory/projected90RAM,card coupling or worker-count cap."
+    },
+    {
+      "requirement": "Formal resource policy and finite smoke budget",
+      "result": "PASS",
+      "evidence": "Sequential six disposable smoke cases are the accepted engineering budget. Actual run loops both cards independently, uses pending allocation only until ACK then fresh memory/power/host readings, revisits available jobs continually, and uses max(full-process peak,reserved peak+measured context) plus later observations. Maximize worker concurrency allowed by this gate; do not transfer sequential smoke scheduling or count6 as a formal limit."
+    },
+    {
+      "requirement": "Protected history and baselines preserved",
+      "result": "PASS",
+      "evidence": "Before/after complete inventories identical; independently rehashed86 existing nonsecret journal/result files, verified recorded absences and reused-index hash, plus protected79 source. Credential files were not opened. Old C1 PID1570727 is still alive by /proc; its session59365/all30 selected pairs remain protected ownership constraints, with no old IPC or live-state mutation. Original code review remains unchanged."
+    },
+    {
+      "requirement": "Formal30 readiness and lifecycle constraints",
+      "result": "PASS",
+      "evidence": "Manifest fixes30 jobs,seeds2022\u20132026,50epochs,batch40960,FP32,1500epochs/51750 useful Adam+EMA updates,10 exact reused CLEAN. Both workspace stop controls clear when read. Only original parent dispatches fresh current-conversation runner after closing this context; no user reconfirmation needed. Null outer caps,technical PAUSE,USER_STOPPED-only normal termination and sealed Test persist."
+    }
+  ],
+  "findings": [
+    {
+      "id": "ACCEPTANCE_PID_FIELD_HISTORY",
+      "severity": "MINOR",
+      "blocking": false,
+      "status": "RESOLVED_BY_PARENT_BEFORE_REVIEW",
+      "description": "Canonical parent receipt correctly extracts case.profile.pid. Rehashed preserved initial receipt and matched actual six PIDs to profile/physical/log records; all dead. No source/design/smoke-result change."
+    },
+    {
+      "id": "TORCH_TF32_DEPRECATION",
+      "severity": "MINOR",
+      "blocking": false,
+      "status": "INFORMATIONAL",
+      "description": "All six logs contain installed PyTorch old-TF32-setting deprecation warning; no execution error. Frozen FP32 settings retained."
+    }
+  ],
+  "corrections_made": [],
+  "remaining_risks": [
+    "Formal admissions must use contemporaneous per-card/host observations and measured compatible profiles, update larger live peaks, and PAUSE on actual OOM/owner loss or hash mismatch as already implemented.",
+    "RAM storage remains parent-supervised in existing foreground session52263. Preserve old C1 owner/session/states. Test stays sealed until explicit USER_STOPPED+final freeze+existing eligible selected-RAM gate."
+  ],
+  "experiments_safe_to_run": true,
+  "formal_run_gate_ready": true,
+  "formal_run_authorized": true,
+  "formal_run_scope": {
+    "new_trajectories": 30,
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "epochs": 50,
+    "batch_size": 40960,
+    "precision": "float32",
+    "new_epochs": 1500,
+    "useful_parameter_updates": 51750,
+    "useful_ema_updates": 51750,
+    "reused_clean_trajectories": 10,
+    "resource_policy": "independent current memory<85%,current measured power<85%,current hostRAM<90%; pending-allocation ACK/resample; physical fit<=100% measured CUDA-usable capacity using full-process residency",
+    "fixed_worker_cap": null,
+    "smoke_budget_is_formal_worker_cap": false,
+    "max_cycles": null,
+    "max_astra_cycles": null,
+    "max_experiments": null,
+    "test_accessed": false
+  },
+  "actual_evidence_checks": {
+    "status": "PASS",
+    "reviewer_id": "01a1e42e-98ce-7313-823f-617ced6126b1",
+    "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+    "source_files": 87,
+    "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+    "design_files": 7,
+    "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "protected_files": 79,
+    "smoke_sha256": "2a00a8c9960467720d095ab775e5d4900a60ce83e72433777cc8d595d11868c9",
+    "manifest_sha256": "7d7928fafee72303ecc182f52cc9c5248576423ae3a3ee01198c35cf87df6c99",
+    "code_review_sha256": "520d837a008e9eafcbbef9ce0d44621b0253390ab828627b3aa875ba3dcf5788",
+    "acceptance_sha256": "61a8ae20d927a87399ea4c0988573060866fc11f14c6421a5d2ac89071f6e6f8",
+    "initial_acceptance_sha256": "1dd9cd639fb5639830fb0bf9a7ec963b7995dbb5b16bfa12e6629bbf7998f4e9",
+    "old_inventories_equal": true,
+    "old_numeric_and_result_files_rehashed": 86,
+    "old_inventory_sha256": "881f2c0a3757724e915696d891f183541d08acfd73c4b567d87a712e80734b71",
+    "runner_report_paths_rehashed": 18,
+    "admission_sha256": "3cced06c195ce89e62562e93788897aba24f9ff9172fa1f71f62289ed1c468ff",
+    "gpu0_power_w": [
+      304.038,
+      302.774,
+      303.078,
+      307.169,
+      304.488,
+      309.083
+    ],
+    "gpu1_admitted_power_w": [
+      13.597,
+      193.969,
+      172.208,
+      183.713,
+      164.714,
+      175.058
+    ],
+    "owner_pid": 1944719,
+    "owner_session": "52263",
+    "owner_alive": true,
+    "protected_c1_pid": 1570727,
+    "protected_c1_alive": true,
+    "owner_endpoint_hash": "1380dc0a1e538214db6b1fee781e4cdbb305a005eefe42855a271dbcd5998189",
+    "all_workers_dead": true,
+    "smoke_states_released": true,
+    "stop_controls": [
+      {
+        "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "sentinels": [],
+        "state_sha256": "00118c6c1238f317051e77356f17436808411a012b54f463ad961569f18e6557"
+      },
+      {
+        "workspace": "/home/xzf/Code/phase0-3",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "sentinels": [],
+        "state_sha256": "00118c6c1238f317051e77356f17436808411a012b54f463ad961569f18e6557"
+      }
+    ],
+    "cases": [
+      {
+        "dataset": "movielens",
+        "arm": "NQR-025",
+        "key": "d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa",
+        "pid": 1946415,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 100021,
+        "continuation_hash": "41a311abbb6345022552f3867d5e10ae89facd00b3e89e44b65b746dcbb9bca6",
+        "component_hashes": {
+          "model": "d6535a82c88df2a60d000f5d974941f7277859fd6da09fa4e4867710597c1fcc",
+          "ema": "1e5048a16d97e6b49b96f69adc27b1677039bd76f3fe942c32663aea4ca0a963",
+          "optimizer": "f815e546fc3070ff9384f4752992c89d5b4da200e5d542c7268a4b6984902931",
+          "rng": "9f15c3f8f48c3f587719ac41c34ca1877646fa9b0d74173e94127f329be3823a",
+          "loader": "2d6a8c1620474683be517734a80e7218cee6d4152a83514b660c05f17d593ad5"
+        },
+        "selected_hashes": {
+          "online": "d6535a82c88df2a60d000f5d974941f7277859fd6da09fa4e4867710597c1fcc",
+          "fixed_ema": "1e5048a16d97e6b49b96f69adc27b1677039bd76f3fe942c32663aea4ca0a963"
+        },
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 973770752,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1377828864,
+        "host_peak_fraction": 0.14755062168424649,
+        "peak_host_rss_bytes": 1694679040,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 22,
+          "full_diagnostic": 4,
+          "tail_identity": 11,
+          "tail_diagnostic": 3,
+          "validation_online": 6,
+          "validation_fixed_ema": 6,
+          "cpu_snapshot_serialization": 2,
+          "ram_roundtrip": 5,
+          "recovery": 4
+        },
+        "serialization_bytes": 18801119,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      },
+      {
+        "dataset": "movielens",
+        "arm": "BRIER-OPPORTUNITY-025",
+        "key": "fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039",
+        "pid": 1946547,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 100021,
+        "continuation_hash": "abd0808865094e3718602ae50e5968cac21d6b5c2038d53b07bef09ac207d4c6",
+        "component_hashes": {
+          "model": "378b3a854a2f8f0545315b7a12ec16d55bb523eae192d907dae07f9f03e4abac",
+          "ema": "9b9187d7bfbc8f8ff5d850645a5bb22d94057bd5c136c9ca1396a93962d22634",
+          "optimizer": "923780b1a7de6db1b6c498afc74e06e86e9b71d473f66a23f4a20ff8c3b75341",
+          "rng": "9f15c3f8f48c3f587719ac41c34ca1877646fa9b0d74173e94127f329be3823a",
+          "loader": "2d6a8c1620474683be517734a80e7218cee6d4152a83514b660c05f17d593ad5"
+        },
+        "selected_hashes": {
+          "online": "378b3a854a2f8f0545315b7a12ec16d55bb523eae192d907dae07f9f03e4abac",
+          "fixed_ema": "9b9187d7bfbc8f8ff5d850645a5bb22d94057bd5c136c9ca1396a93962d22634"
+        },
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 973770752,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1377828864,
+        "host_peak_fraction": 0.1483271820832024,
+        "peak_host_rss_bytes": 1694883840,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 18,
+          "full_diagnostic": 4,
+          "tail_identity": 12,
+          "tail_diagnostic": 3,
+          "validation_online": 6,
+          "validation_fixed_ema": 5,
+          "cpu_snapshot_serialization": 3,
+          "ram_roundtrip": 5,
+          "recovery": 4
+        },
+        "serialization_bytes": 18801119,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      },
+      {
+        "dataset": "movielens",
+        "arm": "MEAN-GAP-025",
+        "key": "303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9",
+        "pid": 1946652,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 21927,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 100021,
+        "continuation_hash": "c08d779247286e4add9784ed926abdd0d08412e89ad4cd7d9a3dd4a6876b760c",
+        "component_hashes": {
+          "model": "9eebc1e34bf562cb246bd8fb0459dd01352bc1f72cd8c8812f9f9bc7145bac99",
+          "ema": "c9abbb8cfb4ccc01147969752db9e9d0a4b0d0c5fc2b717926241952fede629a",
+          "optimizer": "42e851b42a0626cbdea9b7ea2593ecc01dc0bd9601e40b520532939fb29caba8",
+          "rng": "9f15c3f8f48c3f587719ac41c34ca1877646fa9b0d74173e94127f329be3823a",
+          "loader": "2d6a8c1620474683be517734a80e7218cee6d4152a83514b660c05f17d593ad5"
+        },
+        "selected_hashes": {
+          "online": "9eebc1e34bf562cb246bd8fb0459dd01352bc1f72cd8c8812f9f9bc7145bac99",
+          "fixed_ema": "c9abbb8cfb4ccc01147969752db9e9d0a4b0d0c5fc2b717926241952fede629a"
+        },
+        "full_process_peak_bytes": 1377828864,
+        "torch_reserved_peak_bytes": 1048576000,
+        "torch_allocated_peak_bytes": 973770752,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1377828864,
+        "host_peak_fraction": 0.14858538521498987,
+        "peak_host_rss_bytes": 1702166528,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 18,
+          "full_diagnostic": 4,
+          "tail_identity": 12,
+          "tail_diagnostic": 3,
+          "validation_online": 6,
+          "validation_fixed_ema": 5,
+          "cpu_snapshot_serialization": 3,
+          "ram_roundtrip": 5,
+          "recovery": 4
+        },
+        "serialization_bytes": 18801119,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "NQR-025",
+        "key": "ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1",
+        "pid": 1946754,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 250767,
+        "continuation_hash": "910f81ad877675f33f99201e0b5c561aa3666e6759384b4e228a973b4ce9412b",
+        "component_hashes": {
+          "model": "e2dcd8c19794012a054d6eb60a90b6fd29985e4ac1bd6ab9f046dd41e4e0ff5f",
+          "ema": "f877b25fcced3bd4e61049944b0555afec5da7e701e0ba8ac6083fcc93b03555",
+          "optimizer": "f67f7a2bd6296596094a0c16a17759c304f9d29be42a3689691e6bc87d2b9e36",
+          "rng": "4d8d85611b4eb90767fc1c019465138a4a3d4a59456f3fc7cf49d385bc44d443",
+          "loader": "1fcee27c3ce14f35b0af86e8aba2abb00ce8dcdd1306db2df60c4578e61c7eaa"
+        },
+        "selected_hashes": {
+          "online": "e2dcd8c19794012a054d6eb60a90b6fd29985e4ac1bd6ab9f046dd41e4e0ff5f",
+          "fixed_ema": "f877b25fcced3bd4e61049944b0555afec5da7e701e0ba8ac6083fcc93b03555"
+        },
+        "full_process_peak_bytes": 1648361472,
+        "torch_reserved_peak_bytes": 1319108608,
+        "torch_allocated_peak_bytes": 1076014080,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1648361472,
+        "host_peak_fraction": 0.15530854359715673,
+        "peak_host_rss_bytes": 2098593792,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 23,
+          "full_diagnostic": 4,
+          "tail_identity": 21,
+          "tail_diagnostic": 4,
+          "validation_online": 11,
+          "validation_fixed_ema": 11,
+          "cpu_snapshot_serialization": 3,
+          "ram_roundtrip": 9,
+          "recovery": 6
+        },
+        "serialization_bytes": 39034853,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "BRIER-OPPORTUNITY-025",
+        "key": "775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c",
+        "pid": 1946886,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 250767,
+        "continuation_hash": "e79facbb054cbbdbe7126534dda0e4c8b90862575369c275cc3ae0f6f45af494",
+        "component_hashes": {
+          "model": "5623bd28b9b126c5e3d0efc3519a69e15a77d65511ed35ff8171d75adf3d2181",
+          "ema": "62c272ab921f7005d75d95caef82c7a4d7a0564e80591cbe27e8511405440577",
+          "optimizer": "5628dd6481ed1b12cb0f32c8b864fc77d31862b6f0c09861ee00285b6de54567",
+          "rng": "4d8d85611b4eb90767fc1c019465138a4a3d4a59456f3fc7cf49d385bc44d443",
+          "loader": "1fcee27c3ce14f35b0af86e8aba2abb00ce8dcdd1306db2df60c4578e61c7eaa"
+        },
+        "selected_hashes": {
+          "online": "5623bd28b9b126c5e3d0efc3519a69e15a77d65511ed35ff8171d75adf3d2181",
+          "fixed_ema": "62c272ab921f7005d75d95caef82c7a4d7a0564e80591cbe27e8511405440577"
+        },
+        "full_process_peak_bytes": 1648361472,
+        "torch_reserved_peak_bytes": 1319108608,
+        "torch_allocated_peak_bytes": 1076014080,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1648361472,
+        "host_peak_fraction": 0.1560854698092864,
+        "peak_host_rss_bytes": 2112512000,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 25,
+          "full_diagnostic": 4,
+          "tail_identity": 21,
+          "tail_diagnostic": 4,
+          "validation_online": 11,
+          "validation_fixed_ema": 11,
+          "cpu_snapshot_serialization": 3,
+          "ram_roundtrip": 10,
+          "recovery": 5
+        },
+        "serialization_bytes": 39034917,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      },
+      {
+        "dataset": "kuairand",
+        "arm": "MEAN-GAP-025",
+        "key": "482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85",
+        "pid": 1947036,
+        "device": 1,
+        "full_rows": 40960,
+        "tail_rows": 40052,
+        "parameter_updates_retained": 2,
+        "physical_updates_with_disposable_identities": 14,
+        "parameter_steps": [
+          1,
+          2
+        ],
+        "validation_rows_per_estimator": 250767,
+        "continuation_hash": "a10ffc29ee964822b0a4e6edd5e096b673f38fdf2dd0f430457b51d3a04ba8dd",
+        "component_hashes": {
+          "model": "b26ec5d3f1bde49df850a63ef18bb03e8560ab9c1986f7c5e48e1ccc3f986c7a",
+          "ema": "594f48257aad18ecc1167cad7ca15adbb5e36ce6a2a158c6aa47b4f3b5e0c411",
+          "optimizer": "280c10662ebe2eca9d18b410abf5e6b0545f342116c2873b8e9afc74df56f13a",
+          "rng": "4d8d85611b4eb90767fc1c019465138a4a3d4a59456f3fc7cf49d385bc44d443",
+          "loader": "1fcee27c3ce14f35b0af86e8aba2abb00ce8dcdd1306db2df60c4578e61c7eaa"
+        },
+        "selected_hashes": {
+          "online": "b26ec5d3f1bde49df850a63ef18bb03e8560ab9c1986f7c5e48e1ccc3f986c7a",
+          "fixed_ema": "594f48257aad18ecc1167cad7ca15adbb5e36ce6a2a158c6aa47b4f3b5e0c411"
+        },
+        "full_process_peak_bytes": 1648361472,
+        "torch_reserved_peak_bytes": 1319108608,
+        "torch_allocated_peak_bytes": 1076014080,
+        "non_torch_bytes": 329252864,
+        "incoming_bytes": 1648361472,
+        "host_peak_fraction": 0.15553516485827945,
+        "peak_host_rss_bytes": 2096173056,
+        "phase_samples": {
+          "allocation": 1,
+          "full_identity": 23,
+          "full_diagnostic": 5,
+          "tail_identity": 20,
+          "tail_diagnostic": 5,
+          "validation_online": 11,
+          "validation_fixed_ema": 11,
+          "cpu_snapshot_serialization": 3,
+          "ram_roundtrip": 9,
+          "recovery": 6
+        },
+        "serialization_bytes": 39034853,
+        "hardware": {
+          "name": "NVIDIA GeForce RTX 3090",
+          "major": 8,
+          "minor": 6,
+          "cuda_usable_bytes": 25307578368
+        }
+      }
+    ],
+    "evidence": [
+      {
+        "path": "smoke/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/case.json",
+        "sha256": "9b38b97fbb3c562992e8ae84fa625b47f1b1322a94aed400d0fa27b2b679b316",
+        "bytes": 5110
+      },
+      {
+        "path": "smoke/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/job.json",
+        "sha256": "4852208faa7934dd47ffdd243182e98a93a4141c511694f9fe931287cea04ecf",
+        "bytes": 1367
+      },
+      {
+        "path": "smoke/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/worker.log",
+        "sha256": "9c0c4a2c21b2c9315abf3038d45145a9022c24bd9c0aaa221f5951f2d803de8c",
+        "bytes": 4943
+      },
+      {
+        "path": "runs/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/attempt1/epoch_01.json",
+        "sha256": "b5fc25e2ff606498277737667b7ae053c22733e9482da149e0efd0c598a55299",
+        "bytes": 38489
+      },
+      {
+        "path": "runs/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/attempt1/ack_01.json",
+        "sha256": "32a39cc0c243e2a2b857fa7075ff8dbd8bee6e43174e339e4db07ef4fd086e5c",
+        "bytes": 1024
+      },
+      {
+        "path": "runs/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/attempt1/resource_profile.json",
+        "sha256": "e20165131daff2bf16c780b6116b6d40bd472f814dc85655028bc5fa23d805e8",
+        "bytes": 2867
+      },
+      {
+        "path": "runs/d5462c7028ba902251821fa1d5321d29cabaf9fce5fd39800d0e7c01de67e9fa/attempt1/physical_attempt.json",
+        "sha256": "eaa9b367fa4c6cc40eeaad52c7742dfd5ceb1f05f0233d3f3e8831bbaffddd41",
+        "bytes": 4139
+      },
+      {
+        "path": "smoke/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/case.json",
+        "sha256": "69a78d7fb64e36d25d66e6108c15b8a92d7b27f3a4aafbbb147288ad638dda40",
+        "bytes": 5137
+      },
+      {
+        "path": "smoke/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/job.json",
+        "sha256": "98c13ba0c2cc4903a78567e5c3db8577bf520e76aee5ab47dc72c86e68758a76",
+        "bytes": 1395
+      },
+      {
+        "path": "smoke/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/worker.log",
+        "sha256": "714d30462b213479172badb952ba40ff4c8924c5b2be071f755a19f7447849b9",
+        "bytes": 4970
+      },
+      {
+        "path": "runs/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/attempt1/epoch_01.json",
+        "sha256": "b893b237e4998bc725f615ea36c933b31ddaa14a3cfc924f7ec2182b864a1ce6",
+        "bytes": 38513
+      },
+      {
+        "path": "runs/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/attempt1/ack_01.json",
+        "sha256": "13d1861351120e90fea02765054b5446415afd6c8dcdce747a4e285290219d4e",
+        "bytes": 1024
+      },
+      {
+        "path": "runs/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/attempt1/resource_profile.json",
+        "sha256": "0d56ccd2f4eea4c045be97bd415558012b050e3de5b9c812909630f2035debb0",
+        "bytes": 2881
+      },
+      {
+        "path": "runs/fdc7e2811fe400eae51076f0e59ef98a4fe75fe63cfc582475b99ee8dbf8c039/attempt1/physical_attempt.json",
+        "sha256": "435a95503aec773dfb946a6bbf27fede30684a41c472c9622db03a78d3c75d4e",
+        "bytes": 4155
+      },
+      {
+        "path": "smoke/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/case.json",
+        "sha256": "c66cf14e46addcbeb1ca145fae303cf4d7ab9ccb845723869c7f79cbcd93f656",
+        "bytes": 5122
+      },
+      {
+        "path": "smoke/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/job.json",
+        "sha256": "c3404ae8a44318e58d8c60f220dd374dfa1972c06baf4a1775ceb6a5678648a9",
+        "bytes": 1377
+      },
+      {
+        "path": "smoke/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/worker.log",
+        "sha256": "4c83518f9d00c468a1e0e6223ce09205f5388af157766e8a23757d2153d0ff91",
+        "bytes": 4955
+      },
+      {
+        "path": "runs/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/attempt1/epoch_01.json",
+        "sha256": "22e222f1d959bce3cbdec0e70765ba6c0daf75da5dffd2177229034d6797847d",
+        "bytes": 38508
+      },
+      {
+        "path": "runs/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/attempt1/ack_01.json",
+        "sha256": "4f7c3861314059fe64365d4f07a93f63dee8697d16305421d27992f5be954d2c",
+        "bytes": 1024
+      },
+      {
+        "path": "runs/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/attempt1/resource_profile.json",
+        "sha256": "938f6133a5ac1ad9e70d8d254485fa424243f649a6deae67b160998dce51d327",
+        "bytes": 2873
+      },
+      {
+        "path": "runs/303219b15114886dfcc92ce1d4c634a2289e587c74d958ece5da53a7785313e9/attempt1/physical_attempt.json",
+        "sha256": "3eabbfd6f9c8587b60903b95b55aeb26b1c9c97281fc52898458da36577fbed6",
+        "bytes": 4147
+      },
+      {
+        "path": "smoke/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/case.json",
+        "sha256": "4fbec50e51ffcd2db5502fe3b4997eca87cdc59fef7712f27ed34276a57adcc5",
+        "bytes": 5112
+      },
+      {
+        "path": "smoke/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/job.json",
+        "sha256": "08a326b08310de378147a1a3deaf51b2e154ad4b07757e966264cd60b84ffc2e",
+        "bytes": 1351
+      },
+      {
+        "path": "smoke/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/worker.log",
+        "sha256": "df08909223f7a242a96d8af2066d0540e9f155525567798ceb0d5a731dd877a1",
+        "bytes": 4945
+      },
+      {
+        "path": "runs/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/attempt1/epoch_01.json",
+        "sha256": "9b5a06a6d2751fa5c0a59d08905f86fef8ef5725e7628f4089d782d3aecd2405",
+        "bytes": 41067
+      },
+      {
+        "path": "runs/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/attempt1/ack_01.json",
+        "sha256": "913135825b2863984b27c40aa17003cd261e295fe4d2c13c55a12dbbf87da6f2",
+        "bytes": 1023
+      },
+      {
+        "path": "runs/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/attempt1/resource_profile.json",
+        "sha256": "4f8c0696c96b15d7d712b9536739c90f705001134e73a2cc16088f55b53c5ff3",
+        "bytes": 2873
+      },
+      {
+        "path": "runs/ca3807b4de685be1117ff7b361a8da0f6b87701c6dc7ea376ba6548bac3d76e1/attempt1/physical_attempt.json",
+        "sha256": "6552b3680e984090e7f83ef8bcf9fa505931a3ac79d377c1abda906ef7a11add",
+        "bytes": 4144
+      },
+      {
+        "path": "smoke/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/case.json",
+        "sha256": "d4893c6d381b6c521b1ba3d72a8864957a9ea658ac4547e5bc5096b8d137d218",
+        "bytes": 5143
+      },
+      {
+        "path": "smoke/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/job.json",
+        "sha256": "368ca44031b1712a3970e1b45d63be16b54dd10d052282ed45d3505323768245",
+        "bytes": 1379
+      },
+      {
+        "path": "smoke/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/worker.log",
+        "sha256": "36d70e08c58f7d8d215139827fc865913090c3e5c94d6fc36929ad4c8e956fe0",
+        "bytes": 4976
+      },
+      {
+        "path": "runs/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/attempt1/epoch_01.json",
+        "sha256": "7d57a5b21e2ea6c26f0f5e5b0eda21f4d32700ff8a654de60f6711a454f2dd1d",
+        "bytes": 41106
+      },
+      {
+        "path": "runs/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/attempt1/ack_01.json",
+        "sha256": "13f89067b91595bde41806463e2b6e3d0a4172643f2739f9bccf2905dd57a946",
+        "bytes": 1024
+      },
+      {
+        "path": "runs/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/attempt1/resource_profile.json",
+        "sha256": "78a248d5c22bf4a15dbd426689b4cf5ade7e7de2d65ae13aefcc364312ad782d",
+        "bytes": 2887
+      },
+      {
+        "path": "runs/775557a2f3cc89332bf1f45870818120589a82323e4bae897d919bb1ed95f45c/attempt1/physical_attempt.json",
+        "sha256": "27dcb9a1892aa28191940834562b6bca48375d84321c035d6249496d4e20b8fd",
+        "bytes": 4161
+      },
+      {
+        "path": "smoke/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/case.json",
+        "sha256": "38618a7387d502051076e526b40a9bd60e36d55bd30ca0970d21b7999bd49c9d",
+        "bytes": 5124
+      },
+      {
+        "path": "smoke/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/job.json",
+        "sha256": "f01dfc6f8f30b8b6441b8a0603bf943fed984891c12b1be554d454bfcc017e12",
+        "bytes": 1361
+      },
+      {
+        "path": "smoke/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/worker.log",
+        "sha256": "e5cf3baf1a39bc3a30737cfb9ac30ff49468f0aa5b05d848c4538916e7935e1e",
+        "bytes": 4957
+      },
+      {
+        "path": "runs/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/attempt1/epoch_01.json",
+        "sha256": "f406eed6cdbd222111075023eb1986e192b16031b5130a54cdf83847a6fd5824",
+        "bytes": 41074
+      },
+      {
+        "path": "runs/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/attempt1/ack_01.json",
+        "sha256": "0b5208230505ea3f053d2f5babfd55f95e3f09f9f178ee1b736684dc5aa4d951",
+        "bytes": 1024
+      },
+      {
+        "path": "runs/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/attempt1/resource_profile.json",
+        "sha256": "7cf3897c0c0c404c805f14ec5bb1476a9c360ddc64f75a97390ae9a2869cbe5f",
+        "bytes": 2878
+      },
+      {
+        "path": "runs/482482b5452c1fbafd416d37d3e0d22e5900248dd13e0fbee83014def6251f85/attempt1/physical_attempt.json",
+        "sha256": "f83a6a543badf506fb48a6149e9cfbf7278202647f0067bf84bbd7c389ea80bf",
+        "bytes": 4151
+      }
+    ]
+  },
+  "raw_code_paths": [
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+      "locations": [
+        44,
+        89,
+        121,
+        127,
+        131,
+        185,
+        197,
+        209,
+        221,
+        256,
+        320,
+        332,
+        500,
+        505,
+        530,
+        599,
+        662,
+        726
+      ],
+      "purpose": "Actual NVML profiler/admission/identity/ACK/recovery/smoke and formal reuse paths"
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "locations": [
+        185,
+        330,
+        378
+      ],
+      "purpose": "Protected inventory,require_smoke gate,component validation"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "locations": [
+        59
+      ],
+      "purpose": "Unmodified source Adam factory and frozen setup/model/evaluator imports"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "locations": [
+        62
+      ],
+      "purpose": "Frozen RAM serve register/allocated/commit/get/release contract; server not invoked by reviewer"
+    }
+  ],
+  "constraints": {
+    "exclusive_writes": [
+      "SMOKE_REVIEW.md",
+      "SMOKE_REVIEW.json"
+    ],
+    "source_edits": 0,
+    "new_gpu_queries_or_tests": 0,
+    "ipc_calls": 0,
+    "owner_contacts": 0,
+    "descendants": 0,
+    "research_training_started": false,
+    "test_accessed": false,
+    "git_or_publication": false,
+    "root_state_writes": false,
+    "private_guardian_opened_or_auth_printed": false,
+    "all_existing_changes_preserved": true
+  },
+  "next_action": "Original parent permanently closes this reviewer, rechecks both workspace stop controls, then dispatches fresh native formal runner with fork_context=false/file handoffs under current conversation. Reuse completed smoke and same C2 foreground RAM endpoint; maximize independent-card workers under current85/host90/physical100. Complete formal30, then parent ANALYZE and existing fresh-Astra sequence.",
+  "protocol_validation": {
+    "call": "protocol.validate_attempt(ATTEMPT, ATTEMPT/SMOKE_REVIEW.json, require_smoke=True)",
+    "result": "PASS",
+    "jobs": 30,
+    "useful_parameter_updates": 51750,
+    "test_accessed": false,
+    "gpu_queries": 0,
+    "ipc_calls": 0
+  }
+}

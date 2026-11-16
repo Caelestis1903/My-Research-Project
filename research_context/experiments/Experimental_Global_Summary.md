@@ -1,5 +1,12 @@
 # Experimental Global Summary
 
+## 2026-11-16 最新：Natural quadratic ranking / NQR-C02
+
+30新增+10精确CLEAN复用完整；NQR selected EMA−CLEAN Macro AUC：ML−0.000343517（0/5正，CI全负），KR−0.000328734（2/5正，CI跨0）。NO_CONTINUATION_SIGNAL，无champion/Test。三个新臂两数据集主均值全负；两个机制对照的四个AUC区间都跨0。固定设置缺乏增量的证据MEDIUM，KR方向与机制归因WEAK。
+
+ML E10 AUC五seed正、selected五seed负；task0排序/损失成本与C1重复。KR最大域LL五seed改善，较小d0/d2 AUC反向，Macro与Traffic/Pooled方向相反。规模主因、统一小收益/大损失交换仍无独立支持。完整[报告](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)、[数表/分片](../../research_reports/natural_quadratic_ranking_20261116/DATA_AVAILABILITY.md)、[结论](../../research_reports/natural_quadratic_ranking_20261116/DECISION.json)。本轮26并发CUDA worker、1500epoch/51750更新、0失败；原会话fresh上下文循环继续。
+
+
 ## 2026-11-16 最新：Task-axis even views / cycle01
 
 30新轨迹和20精确历史控制完整。注册AXIS-EVEN相对CLEAN的selected EMA Macro AUC：ML−0.000237520（5/5负），KR−0.003540710（4/5负）；均值区间均跨零。NO_CONTINUATION_SIGNAL条件触发，继续fresh研究，无champion/Test。缺乏稳定增量证据MEDIUM；ML损失及task0退化需保留。KR IID2控制+0.001269552但2/5正、CI跨零，为WEAK条件反例，不能把全部新臂写成全非正。

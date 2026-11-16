@@ -1,0 +1,40 @@
+{
+  "status": "FACTUAL_CORRECTION_READY_FOR_FRESH_REVIEW",
+  "recorded_at_utc": "2026-11-16T13:18:57.857937+00:00",
+  "finding": "Original report reversed positive/negative LL sign counts in two NQR-minus-BRIER rows and incorrectly interpreted one-seed improvement. Corrected to4/5 lower on both datasets and crossing-CI uncertainty.",
+  "scope": "REPORT2LLtablecells+interpretation(F1);REPORTandDATA_AVAILABILITY rowcountclarification(F2). Rawdata,code,decision,contexts,figures,archiveunchanged.",
+  "corrected_report_sha256": "e4aaa707986e1b9deb7d4dbad85bff459671d83615907df408eff6cef0267edb",
+  "preserved_initial_review_sha256": "4e1d2584a92bdc67a54e2b15ec407af585bc196b75bebf419314d26b9cf9f525",
+  "raw_evidence": [
+    {
+      "dataset": "movielens",
+      "lower_seeds": 4,
+      "higher_seeds": 1,
+      "per_seed_delta": {
+        "2022": -0.0005603000325028473,
+        "2023": -0.0009615593967041702,
+        "2024": 0.00212041216944292,
+        "2025": -0.00255627672829406,
+        "2026": -0.001348482256962047
+      }
+    },
+    {
+      "dataset": "kuairand",
+      "lower_seeds": 4,
+      "higher_seeds": 1,
+      "per_seed_delta": {
+        "2022": 0.0008735837122146872,
+        "2023": -0.0002271561767422381,
+        "2024": -0.0031345866486282015,
+        "2025": -0.0005175817530301274,
+        "2026": -0.0054994004184079626
+      }
+    }
+  ],
+  "scientific_decision": "NO_CONTINUATION_SIGNAL",
+  "training_rerun": false,
+  "f1_only_report_sha256": "9af468b73e85798fed481fd9acdbe8b80bcc0d89e9e548a9dc12ef8d610dd9d9",
+  "corrected_data_availability_sha256": "4e6d22994ea00d6eecadb4f850a16bb6877bd8f6d39bbaed487aeb847d4037fa",
+  "minor_inventory_clarification": "F2:310500 WEIGHTS rows and99000 STATISTICS rows nowlistedseparatelyinREPORTandDATA_AVAILABILITY",
+  "updated_at_utc": "2026-11-16T13:19:44.553996+00:00"
+}

@@ -1,0 +1,265 @@
+{
+  "report_type": "CODER FOCUSED CPU CHECKS",
+  "stage": "IMPLEMENT_R1",
+  "status": "PASS",
+  "implementation_status": "R1_IMPLEMENTED_FOCUSED_CPU_PASS_PENDING_DISTINCT_REVIEW",
+  "coder_id": "01a1e41b-a08d-7180-9788-cc62bee1e57e",
+  "coder_ids": [
+    "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+    "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+    "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+  ],
+  "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+  "source_file_count": 87,
+  "prior_failed_source_hash": "d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0",
+  "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+  "design_file_count": 7,
+  "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "protected_file_count": 79,
+  "changes": [
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+      "line": 257,
+      "repair": "Use existing cpu_copy(state['optimizer']) for every restore before opt.load_state_dict; stored baseline remains immutable."
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "line": 293,
+      "repair": "Replace exactly-two contributing coders with >=2; reviewer must remain absent from all coder_ids. All verdict/hash/design/CPU/blocker checks preserved."
+    }
+  ],
+  "changed_source_hashes": [
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "before_sha256": "8d6b4636b387f5e1d37e4d5f6205a503fa871be98ab2fba5999d74147e116c8f",
+      "after_sha256": "bbd7eaabd310387a9cc9fc3c2ae22a695a191b8161c8777a7ab5dcc14ff49829"
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+      "before_sha256": "7513265b3ad6755f144595bf057cf38c6107473e9b970982b13e0164f39b5b64",
+      "after_sha256": "ae64f060a3fffcf907c9579a95b11f16ac0cbeabbe5231ec07575f07b101d832"
+    }
+  ],
+  "focused_checks": {
+    "status": "PASS",
+    "identity": {
+      "status": "PASS",
+      "fixture": "reviewer_Q2_Q3_same_populated_Adam_CPU_fixture",
+      "checks": [
+        "diagnostic_on_off",
+        "lambda_zero",
+        "all_single_class"
+      ],
+      "warmup_updates": 1,
+      "optimizer_tensor_keys": [
+        "exp_avg",
+        "exp_avg_sq",
+        "step"
+      ],
+      "restore_calls": 7,
+      "restore_spy": "wraps actual repaired restore without changing arguments or behavior",
+      "entire_saved_baseline_sha256_before": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+      "entire_saved_baseline_sha256_after": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+      "entire_saved_baseline_unchanged": true,
+      "final_state_sha256": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+      "original_step": 1,
+      "final_restored_step": 1,
+      "saved_optimizer_tensors_do_not_alias_live": {
+        "step": true,
+        "exp_avg": true,
+        "exp_avg_sq": true
+      },
+      "comparison_batches": 6
+    },
+    "review_binding": {
+      "status": "PASS",
+      "three_distinct_coders_accepted": true,
+      "coder_ids": [
+        "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+        "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+        "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+      ],
+      "reviewer_equal_to_each_contributor_rejected": [
+        "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+        "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+        "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+      ],
+      "review_and_hash_stubs": "temporary in-memory mocks only; no review receipt written"
+    },
+    "syntax": {
+      "status": "PASS",
+      "files": [
+        "experiments/natural_quadratic_ranking_20261116/runner.py",
+        "experiments/natural_quadratic_ranking_20261116/protocol.py"
+      ]
+    },
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "test_accessed": false
+  },
+  "commands": [
+    {
+      "id": "Q0",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": "PASS: original candidate87/design7/protected79 and no preexisting R1 output; both stop controls clear.",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport json, os\nfrom experiments.natural_quadratic_ranking_20261116 import protocol as p\ns=p.source_manifest(); d=p.design_bundle(); candidate=p.read_json(p.CYCLE/'PARENT_SOURCE_REVIEW_CANDIDATE.json')\nassert s == candidate['source_manifest']\nassert s['sha256']=='d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0' and len(s['files'])==87\nassert d['sha256']=='9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4' and len(d['files'])==7\nassert not p.stop_requested()\nreports={str(f.relative_to(p.ROOT)):p.sha_file(f) for f in p.CYCLE.iterdir() if f.is_file()}\nfor name in ('R1_IMPLEMENTATION_REPORT.md','R1_CPU_CHECKS.json'): assert not (p.CYCLE/name).exists()\nreview=p.read_json(p.CYCLE/'IMPLEMENTATION_REVIEW.json')\nassert review['verdict']=='FAIL' and review['blocking_issues'][0]['id']=='R1'\nprint(json.dumps(dict(status='PASS',coder_id=os.environ['CODEX_THREAD_ID'],source_manifest=s,design_bundle=d,preserved_cycle_files=reports,stop_requested=False)))\nPY"
+    },
+    {
+      "id": "Q1",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport copy, json, os\nfrom unittest.mock import patch\nimport numpy as np\nimport torch\nfrom experiments.natural_quadratic_ranking_20261116 import runner as r, protocol as p\n\nclass Scores(torch.nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.score = torch.nn.Parameter(torch.tensor([.2,-.3]))\n    def forward(self, x):\n        return self.score.sigmoid().expand(x.shape[1],2)\n\nmodel = Scores()\nema = copy.deepcopy(model).requires_grad_(False)\nc = p.config('movielens',p.ARMS[0])\nopt = p.optimizer(model,c)\nx = torch.tensor([[1.,2.,3.,4.],[0.,0.,0.,0.]])\ny = torch.tensor([[0.,1.],[1.,0.],[0.,1.],[1.,0.]])\nloader = torch.Generator().manual_seed(13022)\ndevice = torch.device('cpu')\nctx = dict(dataset='movielens',seed=2022,epoch=1,batch=2,global_step=2)\nwarmup = r.train_step(model,opt,ema,x,y,c,ctx,np.arange(4),diagnose=False)\nassert warmup['branch'] == 'ordinary'\nassert int(opt.state[model.score]['step']) == 1\nassert set(opt.state[model.score]) == {'step','exp_avg','exp_avg_sq'}\nassert opt.state[model.score]['exp_avg'].abs().sum().item() > 0\nassert opt.state[model.score]['exp_avg_sq'].sum().item() > 0\noriginal = r.identity_state(model,opt,ema,loader,device)\nbefore = r.state_digest(original)\ncosts = r.new_costs()\nwith patch.object(r,'restore',wraps=r.restore) as observed:\n    checks = r.smoke_identities(model,opt,ema,loader,device,x,y,np.arange(4),c,ctx,costs)\nassert checks == ['diagnostic_on_off','lambda_zero','all_single_class']\nassert observed.call_count == 7\nsaved = observed.call_args_list[0].args[4]\nassert all(call.args[4] is saved for call in observed.call_args_list)\nafter = r.state_digest(saved)\nassert before == after\nfinal = r.identity_state(model,opt,ema,loader,device)\nassert r.state_digest(final) == before\nassert int(opt.state[model.score]['step']) == 1\nstate_id = next(iter(saved['optimizer']['state']))\nnon_aliasing = {name:opt.state[model.score][name].data_ptr() != tensor.data_ptr()\n               for name,tensor in saved['optimizer']['state'][state_id].items()}\nassert all(non_aliasing.values())\nassert costs['attempted_training_batches'] == 6\nidentity = dict(status='PASS',fixture='reviewer_Q2_Q3_same_populated_Adam_CPU_fixture',\n    checks=checks,warmup_updates=1,optimizer_tensor_keys=sorted(non_aliasing),restore_calls=7,\n    restore_spy='wraps actual repaired restore without changing arguments or behavior',\n    entire_saved_baseline_sha256_before=before,entire_saved_baseline_sha256_after=after,\n    entire_saved_baseline_unchanged=True,final_state_sha256=r.state_digest(final),\n    original_step=1,final_restored_step=int(opt.state[model.score]['step']),\n    saved_optimizer_tensors_do_not_alias_live=non_aliasing,\n    comparison_batches=costs['attempted_training_batches'])\n\ncoder_ids = ['01a1e3f5-7f1c-7ad2-9512-5c86d72c033e',\n             '01a1e3f5-7f2c-7262-945c-10b1626cfb40',os.environ['CODEX_THREAD_ID']]\nreview = dict(verdict='PASS',blocking_issues=[],cpu_checks_passed=True,\n    source_hash='temporary-in-memory-source-stub',design_bundle_sha256='temporary-in-memory-design-stub',\n    reviewer_id='temporary-independent-fixture-reviewer',coder_ids=coder_ids)\nbinding = dict(sha256=review['source_hash'],design_bundle_sha256=review['design_bundle_sha256'])\nrejections = []\nwith patch.object(p,'read_json',return_value=review), patch.object(p,'source_manifest',return_value=binding):\n    assert p.check_review('in-memory-fixture-only') is review\n    for coder_id in coder_ids:\n        review['reviewer_id'] = coder_id\n        try:\n            p.check_review('in-memory-fixture-only')\n        except AssertionError:\n            rejections.append(coder_id)\n        else:\n            raise AssertionError('A contributing coder was accepted as reviewer')\nassert rejections == coder_ids\nvalidator = dict(status='PASS',three_distinct_coders_accepted=True,coder_ids=coder_ids,\n    reviewer_equal_to_each_contributor_rejected=rejections,\n    review_and_hash_stubs='temporary in-memory mocks only; no review receipt written')\ncompiled = []\nfor name in ('runner.py','protocol.py'):\n    path = p.HERE/name\n    compile(path.read_text(),str(path),'exec')\n    compiled.append(str(path.relative_to(p.ROOT)))\nprint(json.dumps(dict(status='PASS',identity=identity,review_binding=validator,\n    syntax=dict(status='PASS',files=compiled),gpu_queries=0,ipc_calls=0,test_accessed=False)))\nPY",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": {
+        "status": "PASS",
+        "identity": {
+          "status": "PASS",
+          "fixture": "reviewer_Q2_Q3_same_populated_Adam_CPU_fixture",
+          "checks": [
+            "diagnostic_on_off",
+            "lambda_zero",
+            "all_single_class"
+          ],
+          "warmup_updates": 1,
+          "optimizer_tensor_keys": [
+            "exp_avg",
+            "exp_avg_sq",
+            "step"
+          ],
+          "restore_calls": 7,
+          "restore_spy": "wraps actual repaired restore without changing arguments or behavior",
+          "entire_saved_baseline_sha256_before": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+          "entire_saved_baseline_sha256_after": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+          "entire_saved_baseline_unchanged": true,
+          "final_state_sha256": "2ad631b88978821e8cb642d2ba7ad2f455c7f896f733265e85df79beb2fb1a87",
+          "original_step": 1,
+          "final_restored_step": 1,
+          "saved_optimizer_tensors_do_not_alias_live": {
+            "step": true,
+            "exp_avg": true,
+            "exp_avg_sq": true
+          },
+          "comparison_batches": 6
+        },
+        "review_binding": {
+          "status": "PASS",
+          "three_distinct_coders_accepted": true,
+          "coder_ids": [
+            "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+            "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+            "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+          ],
+          "reviewer_equal_to_each_contributor_rejected": [
+            "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+            "01a1e3f5-7f2c-7262-945c-10b1626cfb40",
+            "01a1e41b-a08d-7180-9788-cc62bee1e57e"
+          ],
+          "review_and_hash_stubs": "temporary in-memory mocks only; no review receipt written"
+        },
+        "syntax": {
+          "status": "PASS",
+          "files": [
+            "experiments/natural_quadratic_ranking_20261116/runner.py",
+            "experiments/natural_quadratic_ranking_20261116/protocol.py"
+          ]
+        },
+        "gpu_queries": 0,
+        "ipc_calls": 0,
+        "test_accessed": false
+      }
+    },
+    {
+      "id": "Q2",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport json\nfrom experiments.natural_quadratic_ranking_20261116 import protocol as p\ns=p.source_manifest(); d=p.design_bundle()\nreports={str(f.relative_to(p.ROOT)):p.sha_file(f) for f in p.CYCLE.iterdir() if f.is_file()}\nassert not p.stop_requested()\nprint(json.dumps(dict(status='PASS',source_manifest=s,design_bundle=d,preserved_cycle_files=reports,stop_requested=False)))\nPY",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": {
+        "status": "PASS",
+        "source_hash": "ddaf5d97b676c4c8ba06c40cb2a7aa2209ae27148950b848329e1dc8bb669bae",
+        "source_file_count": 87,
+        "changed_source_files": [
+          "experiments/natural_quadratic_ranking_20261116/protocol.py",
+          "experiments/natural_quadratic_ranking_20261116/runner.py"
+        ],
+        "preserved_cycle_files_unchanged": 11,
+        "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+        "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+        "stop_requested": false
+      }
+    }
+  ],
+  "preservation": {
+    "status": "PASS",
+    "source_files_changed_only": [
+      "experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "experiments/natural_quadratic_ranking_20261116/runner.py"
+    ],
+    "design_bundle_before": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+    "design_bundle_after": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+    "protected_c1_source_before": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "protected_c1_source_after": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+    "prior_cycle_files_before_sha256": {
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_IMPLEMENTATION_REPORT.md": "fe62b323d2e0bcb6b80c0b7aed7c3ae097106950809283c46e35f34de6f28fbe",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/PARENT_SOURCE_REVIEW_CANDIDATE.json": "ce6313d168d314fd251a8fc7c3f66f8933c10e6762270186d8d7e329a72c0721",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_CPU_CHECKS.json": "36cbf7f016769daa8eb5166a6c1595cc6b2ca375944a9bc40a2c09f06eb310a7",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/LEGACY_CHILD_CONTEXT_CLOSURE.json": "dcc3af9c52fc46bb5da8b5823e588ce65da7743db489c42508cffb57fca17c53",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.md": "15d5642fad235c5ef6244e4bee1697a4887f4c64cccb81b33efef5d9bf79892f",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_IMPLEMENTATION_REPORT.md": "b34fa8e313e3d026ea53a7606d80171efef2914b9542f623c1f2d65d67f10ff9",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/PARENT_RESEARCH_PREFLIGHT.json": "1a2b725a9a8fc8527bcba89d39d017ce40a5fed66a3f65d676be767b294211ec",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_CPU_CHECKS.json": "cc8a254a079742c69b8726dd594adcac58d32d9fcb8480b4d698f054b94da572",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.json": "1c5f224dfa0939b60c026e14ae02f9a6421072d6ab4a533033e7221cc7d7b737",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/ASTRA_HANDOFF.json": "1dd1fac90c33adccc552a1cb2256dfc5060e10bc1462cd7b269cf11bb0a8a566",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/DESIGN_ACCEPTANCE.json": "fc7090e39086ef230e69dbf7784a1ca7198b64432cb62c9ebfff78f1b32725ae"
+    },
+    "prior_cycle_files_after_sha256": {
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_IMPLEMENTATION_REPORT.md": "fe62b323d2e0bcb6b80c0b7aed7c3ae097106950809283c46e35f34de6f28fbe",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/PARENT_SOURCE_REVIEW_CANDIDATE.json": "ce6313d168d314fd251a8fc7c3f66f8933c10e6762270186d8d7e329a72c0721",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_CPU_CHECKS.json": "36cbf7f016769daa8eb5166a6c1595cc6b2ca375944a9bc40a2c09f06eb310a7",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/LEGACY_CHILD_CONTEXT_CLOSURE.json": "dcc3af9c52fc46bb5da8b5823e588ce65da7743db489c42508cffb57fca17c53",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.md": "15d5642fad235c5ef6244e4bee1697a4887f4c64cccb81b33efef5d9bf79892f",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_IMPLEMENTATION_REPORT.md": "b34fa8e313e3d026ea53a7606d80171efef2914b9542f623c1f2d65d67f10ff9",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/PARENT_RESEARCH_PREFLIGHT.json": "1a2b725a9a8fc8527bcba89d39d017ce40a5fed66a3f65d676be767b294211ec",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_CPU_CHECKS.json": "cc8a254a079742c69b8726dd594adcac58d32d9fcb8480b4d698f054b94da572",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.json": "1c5f224dfa0939b60c026e14ae02f9a6421072d6ab4a533033e7221cc7d7b737",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/ASTRA_HANDOFF.json": "1dd1fac90c33adccc552a1cb2256dfc5060e10bc1462cd7b269cf11bb0a8a566",
+      "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/DESIGN_ACCEPTANCE.json": "fc7090e39086ef230e69dbf7784a1ca7198b64432cb62c9ebfff78f1b32725ae"
+    },
+    "prior_cycle_files_unchanged": 11,
+    "prior_review_verdict_preserved": "FAIL",
+    "prior_source_candidate_preserved": true
+  },
+  "validation_scope": {
+    "five_core_groups_rerun": false,
+    "thirteen_admission_fixtures_rerun": false,
+    "reason": "Two local restore/review-binding fixes; core objective and admission code unchanged. Focused actual-helper, validator and two-file syntax checks completed.",
+    "review_fixture_files_written": 0
+  },
+  "constraints": {
+    "exclusive_source_writes": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/natural_quadratic_ranking_20261116/protocol.py",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/experiments/natural_quadratic_ranking_20261116/runner.py"
+    ],
+    "exclusive_report_writes": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/R1_IMPLEMENTATION_REPORT.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/R1_CPU_CHECKS.json"
+    ],
+    "children_spawned": 0,
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "owner_contacts": 0,
+    "research_training_runs": 0,
+    "test_accessed": false,
+    "git_actions": 0,
+    "publication_actions": 0,
+    "dependency_changes": false,
+    "design_changes": false,
+    "root_state_changes": false,
+    "old_source_changes": false,
+    "tensor_or_state_files_written": 0,
+    "prepare_or_manifest_actions": 0,
+    "stop_requested_before": false,
+    "stop_requested_after": false
+  },
+  "next_action": "Parent permanently closes this coder, then dispatches a fresh reviewer distinct from all three coder_ids against actual repaired87 source. No smoke until code PASS; no formal run until required smoke and separate source-bound signoff."
+}
+

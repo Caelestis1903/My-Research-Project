@@ -1,0 +1,291 @@
+{
+  "report_type": "REVIEW REPORT",
+  "stage": "CODE_REVIEW",
+  "verdict": "FAIL",
+  "blocking_issues": [
+    {
+      "id": "R1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "title": "Repeated smoke restores mutate their Adam baseline; the required tail identity check fails",
+      "locations": [
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 257
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 508
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 520
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 551
+        }
+      ],
+      "requirement": "DESIGN_SPECIFICATION.md 5.3, 7.4, acceptance criteria 3 and 5: independent diagnostic/source identity comparisons on disposable matching full/tail states before formal RUN.",
+      "cause": "smoke_identities captures base once and reset repeatedly passes its optimizer tensors to restore. restore calls opt.load_state_dict directly. PyTorch 2.9 noncapturable/nonfused Adam keeps step on CPU, and Optimizer._process_value_according_to_param_policy returns the input step tensor unchanged. Adam therefore increments a tensor still owned by base. CPU restoration also aliases same-device moments.",
+      "trigger": "The first useful full-batch update creates Adam state. The next smoke_identities call, for the natural tail, captures this populated optimizer. Its off run advances the saved step 1 to 2; the on run restores the already-mutated baseline and advances it to 3. The comparison at line 520 fails.",
+      "impact": "The first dataset/arm smoke case cannot complete its mandatory tail identity check and writes SMOKE_TECHNICAL_PAUSE. No successful six-case SMOKE_REPORT or formal RUN signoff can be obtained. This is a smoke implementation defect, not evidence that the algorithm or diagnostics change training.",
+      "evidence": [
+        "Focused CPU execution of the actual smoke_identities after one synthetic Adam update raised AssertionError; post-step counter was 3.",
+        "Direct pointer comparison after restore confirmed optimizer step aliases the saved baseline step; capturable=false, fused=false.",
+        "Installed torch/optim/adam.py:165 explicitly hosts step on CPU when capturable/fused are off; torch/optim/optimizer.py:780-784 returns that step unchanged, including when model parameters are CUDA.",
+        "In-memory wrapper copying only state[optimizer] before the existing restore made the same warmed-state probe pass diagnostic_on_off, lambda_zero, all_single_class and restore counter 1."
+      ],
+      "minimal_fix": "Give every smoke reset fresh optimizer tensors before load_state_dict, for example pass a copy of base[optimizer] in reset (or clone the optimizer state at restore). Keep base immutable across all comparisons; retain source Adam, counters, operation order and the fixed scientific protocol.",
+      "required_retest": "A small CPU fixture must perform one useful update before invoking the real smoke_identities; assert all three identity comparisons pass, the saved baseline is unchanged, and the final restored counter equals its original value. Rebind changed source and obtain a fresh distinct code review. Then perform the already-required six real full/tail/validation/RAM cases and separate smoke/resource review.",
+      "correction_applied": false
+    }
+  ],
+  "reviewer_id": "01a1e411-7a58-7280-963f-9b8a8afa8fbc",
+  "coder_ids": [
+    "01a1e3f5-7f1c-7ad2-9512-5c86d72c033e",
+    "01a1e3f5-7f2c-7262-945c-10b1626cfb40"
+  ],
+  "cpu_checks_passed": false,
+  "source_hash": "d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0",
+  "design_bundle_sha256": "9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4",
+  "protected_c1_source_sha256": "6b16d5e6bd5fcb96d8824a4161ec102af25e5a23ed86ff21f70d21e05eee5ff1",
+  "source_file_count": 87,
+  "design_file_count": 7,
+  "protected_file_count": 79,
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "title": "Repeated smoke restores mutate their Adam baseline; the required tail identity check fails",
+      "locations": [
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 257
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 508
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 520
+        },
+        {
+          "path": "experiments/natural_quadratic_ranking_20261116/runner.py",
+          "line": 551
+        }
+      ],
+      "requirement": "DESIGN_SPECIFICATION.md 5.3, 7.4, acceptance criteria 3 and 5: independent diagnostic/source identity comparisons on disposable matching full/tail states before formal RUN.",
+      "cause": "smoke_identities captures base once and reset repeatedly passes its optimizer tensors to restore. restore calls opt.load_state_dict directly. PyTorch 2.9 noncapturable/nonfused Adam keeps step on CPU, and Optimizer._process_value_according_to_param_policy returns the input step tensor unchanged. Adam therefore increments a tensor still owned by base. CPU restoration also aliases same-device moments.",
+      "trigger": "The first useful full-batch update creates Adam state. The next smoke_identities call, for the natural tail, captures this populated optimizer. Its off run advances the saved step 1 to 2; the on run restores the already-mutated baseline and advances it to 3. The comparison at line 520 fails.",
+      "impact": "The first dataset/arm smoke case cannot complete its mandatory tail identity check and writes SMOKE_TECHNICAL_PAUSE. No successful six-case SMOKE_REPORT or formal RUN signoff can be obtained. This is a smoke implementation defect, not evidence that the algorithm or diagnostics change training.",
+      "evidence": [
+        "Focused CPU execution of the actual smoke_identities after one synthetic Adam update raised AssertionError; post-step counter was 3.",
+        "Direct pointer comparison after restore confirmed optimizer step aliases the saved baseline step; capturable=false, fused=false.",
+        "Installed torch/optim/adam.py:165 explicitly hosts step on CPU when capturable/fused are off; torch/optim/optimizer.py:780-784 returns that step unchanged, including when model parameters are CUDA.",
+        "In-memory wrapper copying only state[optimizer] before the existing restore made the same warmed-state probe pass diagnostic_on_off, lambda_zero, all_single_class and restore counter 1."
+      ],
+      "minimal_fix": "Give every smoke reset fresh optimizer tensors before load_state_dict, for example pass a copy of base[optimizer] in reset (or clone the optimizer state at restore). Keep base immutable across all comparisons; retain source Adam, counters, operation order and the fixed scientific protocol.",
+      "required_retest": "A small CPU fixture must perform one useful update before invoking the real smoke_identities; assert all three identity comparisons pass, the saved baseline is unchanged, and the final restored counter equals its original value. Rebind changed source and obtain a fresh distinct code review. Then perform the already-required six real full/tail/validation/RAM cases and separate smoke/resource review.",
+      "correction_applied": false
+    }
+  ],
+  "requirements": [
+    {
+      "requirement": "Design and scope",
+      "status": "PASS",
+      "evidence": "All seven accepted design files, both implementation reports and both CPU receipts inspected; only the three fixed objectives are implemented. No VAT/SAM, HPO, extra baseline training, or efficacy verdict.",
+      "locations": "DESIGN_SPECIFICATION.md 3-10; README.md:1; protocol.py:60-71,297-320"
+    },
+    {
+      "requirement": "Pair completion and controls",
+      "status": "PASS",
+      "evidence": "R/B/M implement exact S+2*pi0*pi1*Q, centered differentiable population variance and .75C+.25A; no pair tensor/sampler. Literal fixtures independently define ordered self-inclusive pairs and M variance removal.",
+      "locations": "core.py:67-112; checks.py:42-154"
+    },
+    {
+      "requirement": "Mass, rows, classes, tails",
+      "status": "PASS",
+      "evidence": "Natural cell weight n/(2B), per-class BCE coefficient (1-lambda+lambda*pi)/(2B), unit total and half task masses; singleton variance zero; absent statistics null; actual B retained.",
+      "locations": "core.py:34-56,82-110; runner.py:435-451"
+    },
+    {
+      "requirement": "Reference p=.5 derivatives",
+      "status": "PASS",
+      "evidence": "Algebra yields CLEAN score derivatives for all three arms; inspected fixed FP64/FP32 fixtures cover unequal classes and true tail denominators. Existing passing receipts reused.",
+      "locations": "checks.py:157-178; core.py:99-111"
+    },
+    {
+      "requirement": "Direct source branches",
+      "status": "PASS",
+      "evidence": "Priority lambda_zero then all_single_class is label-derived before candidate forward. Frozen helper owns the one forward/backward/Adam/EMA sequence. C=A=L and unavailable statistics remain null.",
+      "locations": "core.py:59-64,153-178; frozen TV core.py:145-150"
+    },
+    {
+      "requirement": "Graph and optimizer paths",
+      "status": "PASS",
+      "evidence": "Ordinary model(x), source detached gate inputs and trainable gates, one scalar backward and source Adam/EMA. No hooks/probes/gradient substitution; grad=None and explicit-zero activity preserved. Finite gradients checked before ordinary optimizer mutation.",
+      "locations": "core.py:179-198; checks.py:283-362; frozen reference.py:156; auxiliary protocol.py:59-61"
+    },
+    {
+      "requirement": "Core API and diagnostics",
+      "status": "PASS",
+      "evidence": "Signatures and required keys agree with runtime callers. Prefix grouping, actual gradient/update norms, optional temporary clones, no returned tensors or persistent candidate state. Existing core checks exercise diagnostic identity using independent model copies.",
+      "locations": "core.py:131-198; runner.py:440-454; checks.py:202-279"
+    },
+    {
+      "requirement": "Smoke identity restoration",
+      "status": "FAIL",
+      "evidence": "R1: populated optimizer baseline is aliased and mutated between comparisons. Existing core identity checks use separate models and do not exercise this runtime helper.",
+      "locations": "runner.py:256-258,505-526,546-553"
+    },
+    {
+      "requirement": "CLEAN reuse and baselines",
+      "status": "PASS",
+      "evidence": "Ten explicit CLEAN result byte hashes independently verified. Source traces preserve CLEAN BCE plus zero auxiliary, source Adam/EMA, initialization and private seed+11000 loader. Runtime verifies 52 shared dependency bytes, ten initialization identities and 500 reference epoch orders, with all 1500 new arm-epoch comparisons.",
+      "locations": "protocol.py:235-285; runner.py:395-401,428-430; pilot core.py:170-192; pilot run.py:29-50"
+    },
+    {
+      "requirement": "Budget and selection",
+      "status": "PASS",
+      "evidence": "Exactly 30 new jobs, seeds 2022-2026, 50 epochs, batch40960 with tails, 1500 epochs and 51750 useful updates. Independent online/fixed_ema strict maxima retain earliest ties and same-state LL/cells; fixed E10/E30/E50 remain descriptive.",
+      "locations": "protocol.py:60-71,221-232,308-318; runner.py:424-481"
+    },
+    {
+      "requirement": "Data and evaluation",
+      "status": "PASS_STATIC",
+      "evidence": "Immutable existing cache only, relocated raw hashes and train/validation identities checked. Frozen evaluator uses unscaled natural validation metrics, not the algorithm objective. Undefined six-cell endpoints pause. No reviewer data-cache load or Test operation.",
+      "locations": "protocol.py:174-186; runner.py:320-329; frozen ema02/evaluate.py:51-61"
+    },
+    {
+      "requirement": "Source closure and preservation",
+      "status": "PASS",
+      "evidence": "Independently matched candidate 87-file closure, seven-file bundle and protected79 aggregate. Extra frozen TV tables.py is a real transitive import via TV protocol. Whole-byte previous TV/C1 journal/result inventories match runtime before_inventory; old states/owners not contacted.",
+      "locations": "protocol.py:74-111,189-202; PARENT_SOURCE_REVIEW_CANDIDATE.json; RUNTIME_CPU_CHECKS.json"
+    },
+    {
+      "requirement": "Admission",
+      "status": "PASS_STATIC",
+      "evidence": "Per-card current memory/power strict85 and host strict90; physical <= CUDA-usable100; pending real allocation ACK followed by resampling. No predicted power/projected85 memory/projected90 host/card coupling/process cap. Existing 13 passing CPU fixtures inspected.",
+      "locations": "runner.py:44-80,675-713"
+    },
+    {
+      "requirement": "Profiles and both cards",
+      "status": "PASS_STATIC",
+      "evidence": "Maximum C2 full process or torch peak plus measured context, raised by live observations. Compatibility uses name/compute capability/usable capacity, not GPU index: compatible cards can share a measured dataset/arm profile even if only one ran that smoke case. Missing compatible profile pauses rather than silently disabling a card. Actual hardware identity remains the next stage.",
+      "locations": "runner.py:121-182,599-610,671-703"
+    },
+    {
+      "requirement": "Storage routing and transactions",
+      "status": "PASS_STATIC",
+      "evidence": "Absolute C2 root enforced. Frozen TV serve actual register/allocated/commit/get/recover/complete contracts traced. Numeric epoch precedes commit; subsequent get verifies retained continuation and component hashes; ACK binds file bytes. Same-owner restore and epoch50 finalization retain selected pairs. R1 concerns repeated smoke restore, not server root isolation.",
+      "locations": "protocol.py:123-146,364-404; runner.py:185-258,349-374,644-659; frozen TV runner.py:62-143"
+    },
+    {
+      "requirement": "Retention and credentials",
+      "status": "PASS_STATIC",
+      "evidence": "Parent alone starts foreground storage after code PASS. No owner launcher or old endpoint calls in the new package. Tensor save is BytesIO only; private guardian mode0600 is checked; numeric owner/export receipts omit authkey. Handoff requests parent acceptance and lists30 pairs/1500 commits; context closure remains parent-owned.",
+      "locations": "runner.py:185-194,221-244,774-797; README.md:25-40"
+    },
+    {
+      "requirement": "Exports and costs",
+      "status": "PASS_STATIC",
+      "evidence": "Exactly30 manifest jobs plus10 explicit CLEAN references. New scientific epochs resolve through RAM journal/local ACK; orphan files stay physical evidence. Count assertions cover320 endpoints/4000 estimator curves/24000 cell curves/51750 useful batches. Row-weighted losses, null/statistic denominators, diagnostics, all physical attempts and seed-level paired arithmetic are retained without scientific verdict.",
+      "locations": "protocol.py:386-418; runner.py:261-317,449-473,613-641; tables.py:41-65,79-210"
+    },
+    {
+      "requirement": "Lifecycle and Test seal",
+      "status": "PASS_STATIC",
+      "evidence": "Both workspace stop controls read and clear during review; admission/epoch boundaries use them. Technical failure pauses. No hidden science gate or outer-loop cap. Owner acceptance and future eligible Test gate remain original parent responsibilities.",
+      "locations": "protocol.py:136-142; runner.py:424-426,476-487,662-723; accepted design sections7-11"
+    }
+  ],
+  "corrections_made": [],
+  "commands": [
+    {
+      "id": "Q1",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport hashlib,json,os\nfrom pathlib import Path\nfrom experiments.natural_quadratic_ranking_20261116 import protocol as p\nw=p.ROOT; a=p.CYCLE\ncandidate=p.read_json(a/'PARENT_SOURCE_REVIEW_CANDIDATE.json')\ns=p.source_manifest(); d=p.design_bundle()\nassert s==candidate['source_manifest'] and d==candidate['design_bundle']\nassert s['sha256']=='d3f518b8d23cbafa9be0b954de995d0edfeaf12ebab3836cd4a723d3eda9d0a0'\nassert d['sha256']=='9e5265df52809e45ac186d5c5a4a2b80ac96e4c952ded35eb92f76c1efcccfb4'\nassert len(s['files'])==87 and len(p.protected_source())==79\nreport=p.read_json(a/'RUNTIME_CPU_CHECKS.json'); inv=p.old_inventory()\nassert inv==report['before_inventory']\nmanifest=p.design(); index=p.read_json(manifest['controls']['index_receipt']['path'])\nassert p.sha_file(manifest['controls']['index_receipt']['path'])==manifest['controls']['index_receipt']['sha256']\nassert len(index['initial_hashes'])==10 and len(index['epoch_order_hashes'])==500\nfor e in manifest['controls']['entries']: assert p.sha_file(e['result_path'])==e['result_sha256']\nprotected={r['path'] for r in p.protected_source()}\nextra=[r for r in s['files'] if r['path'] not in protected and not r['path'].startswith('experiments/natural_quadratic_ranking_20261116/')]\nprint(json.dumps(dict(status='PASS',reviewer_id=os.environ['CODEX_THREAD_ID'],source_hash=s['sha256'],source_files=len(s['files']),design_bundle_sha256=d['sha256'],design_files=len(d['files']),protected_source_sha256=p.PROTECTED,extra=extra,old_disk_inventory_unchanged=True,stop_requested=p.stop_requested(),clean_results_byte_verified=10,reference_initial_hashes=10,reference_order_hashes=500,gpu_queries=0,ipc_calls=0)))\nPY",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": "PASS: actual87/source7/protected79 identities, old disk inventory, ten CLEAN result bytes and reference counts; stop=false."
+    },
+    {
+      "id": "Q2",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport copy,inspect,json\nimport numpy as np\nimport torch\nfrom experiments.natural_quadratic_ranking_20261116 import runner as r, protocol as p\nclass Scores(torch.nn.Module):\n def __init__(self):\n  super().__init__(); self.score=torch.nn.Parameter(torch.tensor([.2,-.3]))\n def forward(self,x): return self.score.sigmoid().expand(x.shape[1],2)\nmodel=Scores(); ema=copy.deepcopy(model).requires_grad_(False)\nc=p.config('movielens',p.ARMS[0]); opt=p.optimizer(model,c)\nx=torch.tensor([[1.,2.,3.,4.],[0.,0.,0.,0.]])\ny=torch.tensor([[0.,1.],[1.,0.],[0.,1.],[1.,0.]])\nloader=torch.Generator().manual_seed(13022); ctx=dict(dataset='movielens',seed=2022,epoch=1,batch=2,global_step=2)\nr.train_step(model,opt,ema,x,y,c,ctx,np.arange(4),diagnose=False)\ntry:\n r.smoke_identities(model,opt,ema,loader,torch.device('cpu'),x,y,np.arange(4),c,ctx,r.new_costs())\nexcept AssertionError as error:\n print(json.dumps(dict(probe='actual_smoke_identities_after_one_real_Adam_update',result='FAIL_REPRODUCED',exception=type(error).__name__,post_step=int(opt.state[model.score]['step']),gpu_queries=0,ipc_calls=0)))\nelse:\n print(json.dumps(dict(probe='actual_smoke_identities_after_one_real_Adam_update',result='PASS')))\nbase=r.identity_state(model,opt,ema,loader,torch.device('cpu'))\nr.restore(model,ema,opt,loader,base,torch.device('cpu'))\nstate_id=next(iter(base['optimizer']['state']))\nprint(json.dumps(dict(cpu_step_alias=opt.state[model.score]['step'].data_ptr()==base['optimizer']['state'][state_id]['step'].data_ptr(),capturable=opt.param_groups[0]['capturable'],fused=opt.param_groups[0]['fused'])))\nprint(inspect.getsource(torch.optim.Optimizer._process_value_according_to_param_policy))\nPY",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 0,
+      "result": "FAIL_REPRODUCED: actual smoke helper AssertionError; step3; step pointer aliases baseline. The script catches and reports the expected failure."
+    },
+    {
+      "id": "Q3",
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nimport copy,inspect,json\nfrom unittest.mock import patch\nimport numpy as np\nimport torch\nfrom experiments.natural_quadratic_ranking_20261116 import runner as r, protocol as p\nclass Scores(torch.nn.Module):\n def __init__(self):\n  super().__init__(); self.score=torch.nn.Parameter(torch.tensor([.2,-.3]))\n def forward(self,x): return self.score.sigmoid().expand(x.shape[1],2)\nmodel=Scores(); ema=copy.deepcopy(model).requires_grad_(False); c=p.config('movielens',p.ARMS[0]); opt=p.optimizer(model,c)\nx=torch.tensor([[1.,2.,3.,4.],[0.,0.,0.,0.]]); y=torch.tensor([[0.,1.],[1.,0.],[0.,1.],[1.,0.]])\nloader=torch.Generator().manual_seed(13022); ctx=dict(dataset='movielens',seed=2022,epoch=1,batch=2,global_step=2)\nr.train_step(model,opt,ema,x,y,c,ctx,np.arange(4),diagnose=False)\noriginal_restore=r.restore\ndef isolated_restore(model,ema,opt,loader,state,device):\n return original_restore(model,ema,opt,loader,dict(state,optimizer=p.cpu_copy(state['optimizer'])),device)\nwith patch.object(r,'restore',side_effect=isolated_restore):\n checks=r.smoke_identities(model,opt,ema,loader,torch.device('cpu'),x,y,np.arange(4),c,ctx,r.new_costs())\nprint(json.dumps(dict(probe='same_warmed_smoke_with_in_memory_optimizer_copy_only',result='PASS',checks=checks,source_edited=False,step_restored=int(opt.state[model.score]['step']),gpu_queries=0,ipc_calls=0)))\nsource,line=inspect.getsourcelines(torch.optim.Adam._init_group)\nfor n,s in enumerate(source,line):\n if 'state[\"step\"]' in s or 'cpu' in s or 'capturable' in s or 'fused' in s: print(f'{inspect.getsourcefile(torch.optim.Adam)}:{n}: {s.rstrip()}')\nprint('extra_TV_tables_bytes_match_O',p.sha_file(p.ROOT/'experiments/task_view_gradient_residual_momentum_20261116/tables.py')==p.sha_file(p.CONTROL/'experiments/task_view_gradient_residual_momentum_20261116/tables.py'))\nPY",
+      "cwd": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "exit_code": 1,
+      "result": "Focused in-memory correction probe PASS: all three identities, final step1. Following that successful probe and installed Adam-source inspection, an optional comparison to O/experiments/task_view_gradient_residual_momentum_20261116/tables.py raised FileNotFoundError because that counterpart does not exist. No byte-preservation claim relies on that comparison. No source fix applied."
+    }
+  ],
+  "registered_coder_cpu_checks": {
+    "status": "PASS_IN_BOTH_RECEIPTS",
+    "independently_inspected": true,
+    "rerun_broad_suites": false,
+    "core_groups": 5,
+    "runtime_admission_fixtures": 13,
+    "note": "The new focused runtime restoration failure is outside the passing core separate-model identity fixtures."
+  },
+  "constraints": {
+    "exclusive_writes": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/IMPLEMENTATION_REVIEW.json"
+    ],
+    "source_edits": false,
+    "children_spawned": 0,
+    "gpu_queries": 0,
+    "gpu_checks_performed": false,
+    "ipc_calls": 0,
+    "owner_contacts": 0,
+    "training_experiments": 0,
+    "test_accessed": false,
+    "git_actions": 0,
+    "publication_actions": 0,
+    "old_owner_or_state_mutations": false,
+    "stop_requested": false,
+    "scope": "Finite implementation review only; no efficacy analysis. Applied ponytail FULL and stop-that-shit CHANGE. Filehandoff only."
+  },
+  "inputs": {
+    "design_files": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/DESIGN_SPECIFICATION.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/ALGORITHM_DESIGNS.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CODEX_EXECUTION_PLAN.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CRITICAL_REVIEW.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/LITERATURE_AND_NOVELTY.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RESEARCH_EXPLORATION.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/EXPERIMENT_MANIFEST.json"
+    ],
+    "reports": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_IMPLEMENTATION_REPORT.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/CORE_CPU_CHECKS.json",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_IMPLEMENTATION_REPORT.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/RUNTIME_CPU_CHECKS.json",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/PARENT_SOURCE_REVIEW_CANDIDATE.json",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/DESIGN_ACCEPTANCE.json",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_02/ASTRA_HANDOFF.json"
+    ],
+    "policy": [
+      "W/AGENTS.md",
+      "O/start.md decoded GB18030",
+      "W/buchong.md",
+      "W/research_plans/26-11-16_augmentation_gradient_momentum/00_EXECUTION_RUNBOOK.md"
+    ]
+  },
+  "remaining_risks": [
+    "R1 is unresolved in the frozen candidate.",
+    "Real CUDA full/tail identity, NVML behavior, capacity, RAM transport/recovery and separate source-bound smoke/resource review remain the next stage after repaired code PASS. Their unperformed status is not an additional code blocker.",
+    "Formal data execution and real40-trajectory export have not occurred; source paths and contracts were inspected statically."
+  ],
+  "experiments_safe_to_run": false,
+  "engineering_smoke_authorized": false,
+  "formal_run_authorized": false,
+  "next_action": "Original parent dispatches a fresh coder for R1, closes that child, then a fresh distinct reviewer. After code PASS, retain the prescribed parent-owned C2 foreground storage, six-case smoke and separate fresh smoke/resource signoff."
+}

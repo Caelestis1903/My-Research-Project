@@ -1,5 +1,12 @@
 # Experimental Stable Findings
 
+## SF-NQR-C02 — 当前排序设置的ML成本与KR大域损失响应
+
+在自然ML/KR、固定M3oE/Adam/EMA、50epochs/40960/FP32五seed下，NQR selected EMA未形成CLEAN之外的主增量。ML Macro AUC与task0 AUC均5/5下降且CI低于0，task0 LL五seed上升且CI高于0；task0成本与AXIS-EVEN重复（MEDIUM，保留协议范围）。ML E10 EMA AUC却5/5提高，属于阶段反例。
+
+KR最大d1域LL五seed降低且CI低于0（MEDIUM），d0/d2两个较小域AUC均值反向、最大域AUC近零；不支持统一小域收益/大域下降。KR主AUC与四个NQR机制AUC CI跨0（WEAK），Macro和Traffic/Pooled方向仍不同。注册非正主均值条件为直接数值事实STRONG，无champion/Test。证据：[E-NQR-C02](Experimental_Evidence_Ledger.md)与[完整报告](../../research_reports/natural_quadratic_ranking_20261116/REPORT.md)。
+
+
 ## SF-AXISEVEN-C01 — 当前even-view设置的局部退化与域间反向
 
 完整五seed、M3oE fixed1、自然ML/KR、50epochs/40960/FP32中，AXIS-EVEN未形成selected EMA Macro AUC增量。ML task0及最小d0均5/5负且各自描述性CI不跨零（MEDIUM）；KR d0负/d2正的域均值与最大d1近零并存，d2域LL五seed均降低。该模式不支持统一的小域改善/大域下降。KR IID2均值正但仅2/5正、CI跨零（WEAK）。证据与边界见[E-AXISEVEN-C01](Experimental_Evidence_Ledger.md)及[完整报告](../../research_reports/task_axis_even_views_20261116/REPORT.md)。
