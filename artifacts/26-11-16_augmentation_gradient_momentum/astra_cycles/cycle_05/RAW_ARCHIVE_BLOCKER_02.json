@@ -1,0 +1,115 @@
+{
+  "status": "PAUSED_NEW_REAL_BLOCKER",
+  "native_id": "01a1eaa9-6f72-7513-b1aa-2f2333621a67",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "fork_context": false,
+  "recorded_at_utc": "2026-11-17T18:01:59.126400+00:00",
+  "source_hash": "f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d",
+  "design_bundle_sha256": "9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c",
+  "metadata_correction": {
+    "status": "COMPLETE",
+    "correction_receipt": "/tmp/phase0-3-c05-01a1e9a9/attempt1/ARCHIVE_METADATA_REPRESENTATION_CORRECTION.json",
+    "original_review_sha256": "f9a949b78a9b912e35e53fd96258bccad3ccf5ee68b11d8ce9941ec7cb28e348",
+    "original_review_bytes": 5167,
+    "original_review_unchanged": true,
+    "wrapper_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/REVIEW_SCHEMA_TEXT_PROVENANCE.json",
+    "wrapper_sha256": "7aea5401eeee6f6310eb7cdacf36bf116598c4a1a421bea03755f577de1bffbd",
+    "wrapper_bytes": 6174,
+    "utf8_roundtrip_bytes": 5167,
+    "utf8_roundtrip_sha256": "f9a949b78a9b912e35e53fd96258bccad3ccf5ee68b11d8ce9941ec7cb28e348",
+    "retired_inputs_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/PACK_INPUTS_RETIRED_01.json",
+    "retired_inputs_sha256": "49ac0f326b65487cc63d01e2ad8916f1b008a229e83a40424f5b43bade1ab67f",
+    "explicit_receipts_before": 51,
+    "explicit_receipts_after": 50,
+    "all_other_receipts_unchanged": true
+  },
+  "precheck": {
+    "functions": [
+      "tables.checked_member",
+      "tables.archive_members"
+    ],
+    "tool_session": 3487,
+    "exit_code": 1,
+    "wrapper_checked_member": "PASS",
+    "current_source_manifest_identity": "PASS",
+    "archive_members": "FAIL_TRUNCATED_GZIP",
+    "complete_archive_members_not_returned": true
+  },
+  "diagnostic": {
+    "method": "read-only gzip scan of every *.gz in physical attempt tree; original bytes and guards unmodified",
+    "tool_session": 44537,
+    "exit_code": 0,
+    "gzip_files_checked": 548,
+    "failures": [
+      {
+        "path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu0.jsonl.gz",
+        "archive_member": "attempt1/telemetry/controller_2982307_gpu0.jsonl.gz",
+        "bytes": 420,
+        "sha256": "6ea11d5c34c75e82b5944474f94c48c585c47689c493f7194347d00f2dfdf39e",
+        "exception_type": "EOFError",
+        "reason": "Compressed file ended before the end-of-stream marker was reached",
+        "complete_lines_before_error": 1,
+        "expanded_bytes_before_error": 545,
+        "original_bytes_untouched": true
+      },
+      {
+        "path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu1.jsonl.gz",
+        "archive_member": "attempt1/telemetry/controller_2982307_gpu1.jsonl.gz",
+        "bytes": 1266,
+        "sha256": "483cab759cbe37e8edc415a4adb74858464949fd10841e35210e3356647a0f87",
+        "exception_type": "EOFError",
+        "reason": "Compressed file ended before the end-of-stream marker was reached",
+        "complete_lines_before_error": 15,
+        "expanded_bytes_before_error": 5130,
+        "original_bytes_untouched": true
+      },
+      {
+        "path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/worker_2982386_2.jsonl.gz",
+        "archive_member": "attempt1/telemetry/worker_2982386_2.jsonl.gz",
+        "bytes": 49429,
+        "sha256": "829fd47364bb70bc45cc2b6c8ea9a374c24ff15df2bf31ab2a22a8a73799da2e",
+        "exception_type": "EOFError",
+        "reason": "Compressed file ended before the end-of-stream marker was reached",
+        "complete_lines_before_error": 1385,
+        "expanded_bytes_before_error": 453085,
+        "original_bytes_untouched": true
+      }
+    ]
+  },
+  "pack": {
+    "invoked": false,
+    "tool_session": null,
+    "pid": null,
+    "archive_sha256": null,
+    "archive_bytes": null,
+    "part_count": null,
+    "member_count": null,
+    "archive_readback_status": "NOT_RUN"
+  },
+  "required_closure": {
+    "source": 55,
+    "control": 1530,
+    "design": 7,
+    "full_archive_closure_verified": false
+  },
+  "witness_registry": {
+    "collector_called_again": false,
+    "bytes": 13441523,
+    "rows": 568,
+    "sha256": "bd499876d148095c218dcbefab2cbe2fce093a5cfcb0136af471cdc17fc76c1e",
+    "reviewed_13_row_prefix_unchanged": true
+  },
+  "scientific_source_changes": false,
+  "guard_changes": false,
+  "partial_files_changed": false,
+  "owner_ipc_performed": false,
+  "training_models_accessed": false,
+  "tensors_written": false,
+  "pid_2982386_attribution": null,
+  "pid_2982386_attribution_note": "Preserved unknown attribution; telemetry filename is not proof of a controller relation.",
+  "test_accessed": false,
+  "workspace_free_bytes": 3102662656,
+  "tmp_free_bytes": 187736023040,
+  "staging_directory_exists": false,
+  "next_action": "Parent must resolve the three preserved truncated gzip inputs within an explicitly authorized representation or recovery boundary before pack. No blind precheck retry, pack invocation, guard change, partial deletion, or foreign cleanup was performed."
+}

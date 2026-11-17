@@ -1,0 +1,154 @@
+{
+  "status": "PAUSED_CAPACITY_BLOCKER",
+  "classification_status": "COMPLETE_CLASSIFIED_VALIDATED",
+  "native_id": "01a1eaaf-72e1-71d1-96a2-f28eb3460027",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "fork_context": false,
+  "recorded_at_utc": "2026-11-17T18:26:56.875939+00:00",
+  "source_hash": "f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d",
+  "source_files": 55,
+  "design_bundle_sha256": "9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c",
+  "pack": {
+    "invocations": 1,
+    "tool_session": 33899,
+    "pid": 3060800,
+    "exit_code": 1,
+    "command": "-m experiments.cell_mass_bce_20261117.tables pack --attempt /tmp/phase0-3-c05-01a1e9a9/attempt1",
+    "failure": "Workspace staging lacks measured 3A+256MiB+1GiB headroom",
+    "failure_source": "experiments/cell_mass_bce_20261117/tables.py:476",
+    "phase": "after archive write and complete content readback; before parts or manifests publication",
+    "blind_retry": false
+  },
+  "archive": {
+    "path": "/tmp/phase0-3-c05-01a1e9a9/publication/RAW_RUNS.tar.gz",
+    "sha256": "fa08b88dd6d488b48f1810a4e900e680ba3a35e577d2118f6b68accf92e44250",
+    "bytes": 677004657,
+    "member_count": 4026,
+    "category_counts": {
+      "raw": 2381,
+      "source": 55,
+      "design": 7,
+      "receipt": 53,
+      "control": 1530
+    },
+    "uncompressed_member_bytes": 1263254172,
+    "full_content_readback": "PASS: existing frozen write_archive returned before failing capacity gate",
+    "header_readback_status": "PASS",
+    "part_count": 0,
+    "logical_part_count": 0,
+    "manifests_published": false,
+    "archive_retained_untouched": true
+  },
+  "capacity": {
+    "gate": "3A+256MiB+1GiB",
+    "archive_bytes": 677004657,
+    "required_workspace_free_bytes": 3373191251,
+    "current_workspace_free_bytes": 3091951616,
+    "current_shortfall_bytes": 281239635,
+    "free_observation": "Measured after failed gate; current values may differ slightly from instantaneous gate observation",
+    "tmp_free_bytes": 187058294784,
+    "gate_weakened": false,
+    "cleanup_performed": false
+  },
+  "precheck": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RAW_ARCHIVE_PRECHECK_03.json",
+    "status": "PASS",
+    "member_count": 4024,
+    "elapsed_seconds": 508.76562570990063
+  },
+  "archive_selected_receipts": {
+    "attempt1/FINAL_EVIDENCE_NUMERIC_CHECKS.json": {
+      "bytes": 3390,
+      "sha256": "1488844df86ca69a67c7bae98af2ec720b4dabbc41041c53ddec3f4b4b700743"
+    },
+    "attempt1/FINAL_EVIDENCE_REPORT_CHECKS.json": {
+      "bytes": 530,
+      "sha256": "154cf808b74c93feb045b162230fe937d28d55dcc7d850507d5fe1f2dd658397"
+    },
+    "attempt1/PARTIAL_TELEMETRY_BYTE_PROVENANCE.json": {
+      "bytes": 106228,
+      "sha256": "df87ea9bf74e09b59a26bb174dd6fe8119a800fbe0b64a62653105ff20896c41"
+    },
+    "attempt1/PARTIAL_TELEMETRY_CLASSIFICATION_CORRECTION.json": {
+      "bytes": 8044,
+      "sha256": "f998174bb9f4ef3366fa8610c12ecf802717b85f3849c947bd69ea712b8cd844"
+    },
+    "attempt1/REVIEW_SCHEMA_TEXT_PROVENANCE.json": {
+      "bytes": 6174,
+      "sha256": "7aea5401eeee6f6310eb7cdacf36bf116598c4a1a421bea03755f577de1bffbd"
+    }
+  },
+  "three_byte_roundtrips": [
+    {
+      "original_gzip_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu0.jsonl.gz",
+      "current_renamed_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu0.jsonl.gz.incomplete_bytes",
+      "original_bytes": 420,
+      "sha256": "6ea11d5c34c75e82b5944474f94c48c585c47689c493f7194347d00f2dfdf39e",
+      "archive_hex_roundtrip_status": "PASS",
+      "retained_bytes_identical": true,
+      "prefix_archive_member": "attempt1/telemetry_partial_prefixes/controller_2982307_gpu0.jsonl.gz.complete_prefix.jsonl",
+      "prefix_records": 1,
+      "prefix_bytes": 545,
+      "prefix_sha256": "379eb422144b3bd80cb39a43b0255e23a5abbb88daedfb245832a4feeba4f012",
+      "gzip_eof": false,
+      "incomplete_tail_bytes": 0,
+      "truncation_extent": "unknown"
+    },
+    {
+      "original_gzip_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu1.jsonl.gz",
+      "current_renamed_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2982307_gpu1.jsonl.gz.incomplete_bytes",
+      "original_bytes": 1266,
+      "sha256": "483cab759cbe37e8edc415a4adb74858464949fd10841e35210e3356647a0f87",
+      "archive_hex_roundtrip_status": "PASS",
+      "retained_bytes_identical": true,
+      "prefix_archive_member": "attempt1/telemetry_partial_prefixes/controller_2982307_gpu1.jsonl.gz.complete_prefix.jsonl",
+      "prefix_records": 15,
+      "prefix_bytes": 5130,
+      "prefix_sha256": "8a8ba9cd1425acb1870bf6260d001a80d0c94b781bd4847873fcadf600024687",
+      "gzip_eof": false,
+      "incomplete_tail_bytes": 0,
+      "truncation_extent": "unknown"
+    },
+    {
+      "original_gzip_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/worker_2982386_2.jsonl.gz",
+      "current_renamed_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/worker_2982386_2.jsonl.gz.incomplete_bytes",
+      "original_bytes": 49429,
+      "sha256": "829fd47364bb70bc45cc2b6c8ea9a374c24ff15df2bf31ab2a22a8a73799da2e",
+      "archive_hex_roundtrip_status": "PASS",
+      "retained_bytes_identical": true,
+      "prefix_archive_member": "attempt1/telemetry_partial_prefixes/worker_2982386_2.jsonl.gz.complete_prefix.jsonl",
+      "prefix_records": 1385,
+      "prefix_bytes": 453085,
+      "prefix_sha256": "e4995af3a8078adff5b1ea76baf296f112cdbd3d16903a291ab9af7e8ff1d4ac",
+      "gzip_eof": false,
+      "incomplete_tail_bytes": 0,
+      "truncation_extent": "unknown"
+    }
+  ],
+  "complete_prefix_counts": [
+    1,
+    15,
+    1385
+  ],
+  "aliases_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/PARTIAL_TELEMETRY_CLASSIFICATION_CORRECTION.json",
+  "byte_provenance_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/PARTIAL_TELEMETRY_BYTE_PROVENANCE.json",
+  "byte_provenance_sha256": "df87ea9bf74e09b59a26bb174dd6fe8119a800fbe0b64a62653105ff20896c41",
+  "actual_postclassification_validate_attempt_require_engineering": "PASS",
+  "known_unknown_pid_2982386_cost": null,
+  "known_unknown_pid_2982386_attribution": null,
+  "original_signoffs_and_parent_acceptance_changed": false,
+  "explicit_pack_inputs_receipts": 50,
+  "witness_registry_recollected": false,
+  "witness_registry_records": 568,
+  "source_changes": false,
+  "guard_changes": false,
+  "training": false,
+  "export_or_witness_collection": false,
+  "model_get_or_release": false,
+  "owner_pid": 2926581,
+  "owner_tool_session": 16855,
+  "owner_lifecycle": "Unchanged; parent retains polling supervision",
+  "test_accessed": false,
+  "remote_side_effects": false,
+  "next_action": "Parent must resolve actual workspace capacity within its authorization before any separately authorized retry; current worker permanently returns without retry, cleanup, or gate/source changes."
+}

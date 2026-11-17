@@ -1,0 +1,280 @@
+{
+  "status": "IMPLEMENTED_CPU_CHECKS_PASS",
+  "stage": "IMPLEMENT",
+  "scope": "numerical_core_and_finite_CPU_fixtures",
+  "coder_id": "01a1e9d3-c739-7933-a66e-50368081af1e",
+  "coder_name": "Laplace",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "model": "gpt-6.1-sol",
+  "fork_context": false,
+  "descendants_created": 0,
+  "permanent_return_after_handoff": true,
+  "recorded_at_utc": "2026-11-17T14:16:23.186044+00:00",
+  "design_spec_sha256": "a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9",
+  "design_bundle_sha256": "9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c",
+  "research_bundle_sha256": "bfd6230c9cae8971a3a8d793027fc54ba6209d193429340107bf64bb22dc4caf",
+  "historical_source48_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+  "historical_source48_verified_unchanged": true,
+  "source_freeze_performed": false,
+  "attempt_prepared": false,
+  "files": [
+    {
+      "path": "experiments/cell_mass_bce_20261117/__init__.py",
+      "sha256": "5d0de7415a2fdb3c78d2fbe61cda3c211c7860cecd072ac073e7fbccd61ed666",
+      "bytes": 76
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/core.py",
+      "sha256": "5beb32779c14e78756794a91d2a27a030688053cc82a675e4d2d83ae1ba270e3",
+      "bytes": 20996
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/checks.py",
+      "sha256": "03ee6e5ce1c7aa7b59f28bf0732ccdb7451b89559659f6866d014a092217572e",
+      "bytes": 23922
+    }
+  ],
+  "external_runtime_verified": [
+    {
+      "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+      "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+    }
+  ],
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "stop_after_current_cycle": 5,
+      "cycle06_authorized": false,
+      "sentinels_absent": true
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "manual_stop_requested": false,
+      "termination_reason": null,
+      "stop_after_current_cycle": 5,
+      "cycle06_authorized": false,
+      "sentinels_absent": true
+    }
+  ],
+  "environment": {
+    "python": "3.13.5",
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "torch": "2.9.0+cu126",
+    "device": "cpu",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "api": {
+    "loss_components": "loss_components(probabilities, targets, domains, *, arm='CELL-MASS-BCE-025', mixture_lambda=.25, diagnose=False)",
+    "train_step": "train_step(model, optimizer, ema, x, y, config, context, row_ids=None, diagnose=False)",
+    "loss_fields": [
+      "loss",
+      "clean_loss",
+      "same_class_loss",
+      "completion_loss",
+      "scaled_loss",
+      "cell_mass_loss"
+    ],
+    "additional_loss_field": "same_class_loss_null_reason: null or not_computed_delegate",
+    "delegate_H": "mixed-label lambda_zero: H=null, reason=not_computed_delegate, both diagnostic modes; all-single-class H=C",
+    "diagnostic_objectives": [
+      "C",
+      "S",
+      "U",
+      "W"
+    ],
+    "diagnostic_pairs": [
+      "U-W",
+      "U-S",
+      "S-C"
+    ],
+    "group_fields": [
+      "coordinates",
+      "objectives",
+      "pairs"
+    ],
+    "group_parameter_names_omitted": true,
+    "group_order": "ALL then sorted parameter-name prefixes before the first dot",
+    "parameter_activity_and_adam_step_counters": "ordered parameter-name dictionaries; runtime normalizes through its model dictionary",
+    "point_fields": [
+      "schema_version",
+      "point_id",
+      "context",
+      "job_id",
+      "physical_attempt_id",
+      "host_arm",
+      "counterfactual_at_host_state",
+      "row_order_hash",
+      "pre_model_hash",
+      "pre_optimizer_hash",
+      "pre_rng_hash",
+      "pre_loader_hash",
+      "objective_losses",
+      "bce_mass_scale",
+      "removed_opposite_mass",
+      "actual_objective",
+      "actual_post",
+      "virtual_post",
+      "actual_virtual_exact",
+      "actual_virtual_update_difference_norm",
+      "extra_autograd_sweeps",
+      "virtual_adam_steps",
+      "diagnostic_seconds",
+      "parameter_groups"
+    ],
+    "point_identity_join": "job_id/physical_attempt_id use optional context IDs; runtime joins actual job/registration identity and stores point metadata once",
+    "ledger_additions": [
+      "w",
+      "a",
+      "kappa",
+      "natural_bce_mass",
+      "cell_mass_bce_mass",
+      "q0",
+      "q1",
+      "natural_coefficient0",
+      "natural_coefficient1",
+      "cell_mass_coefficient0",
+      "cell_mass_coefficient1",
+      "natural_class_mass0",
+      "natural_class_mass1",
+      "completion_class_mass0",
+      "completion_class_mass1",
+      "cell_mass_class_mass0",
+      "cell_mass_class_mass1",
+      "scale_class_mass0",
+      "scale_class_mass1",
+      "coefficient_status",
+      "support_status",
+      "cell_mass_task_mass",
+      "scale_task_mass",
+      "natural_task_mass",
+      "shared_completion_cell_mass_exact"
+    ],
+    "core_finite_checks": "core.finite_checks() delegates to the one checks.check_core() fixture implementation",
+    "checks_finite_checks": "checks.finite_checks() calls check_core(); checks CLI accepts the required check command",
+    "final_schema_changes_since_interim_handoff": [
+      "core.finite_checks() entry point added; no other schema change"
+    ],
+    "no_NQR_objective": true,
+    "config": "cycle_05/cell_mass_bce_v1/U plus exact fixed scientific settings, dataset definition hash and pinned selection hash",
+    "validation": "formal exact epoch/batch/global_step/full-tail/diagnostic clock; engineering separate clock; engineering_check CPU fixture_rows; no schedule/switch/off-update keys"
+  },
+  "final_checks": {
+    "command": "env PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -m experiments.cell_mass_bce_20261117.checks check",
+    "execution": "same CLI via runpy with check argv and captured stdout in RAM",
+    "elapsed_seconds": 5.801297520985827,
+    "source_strings_compiled_in_memory": 3,
+    "result": {
+      "check": {
+        "status": "PASS",
+        "device": "cpu",
+        "tolerance_fp64": {
+          "atol": 1e-12,
+          "rtol": 1e-10
+        },
+        "tolerance_fp32": {
+          "atol": 2e-06,
+          "rtol": 2e-05
+        },
+        "exact_hash_tolerance": null,
+        "losses": {
+          "dtype_fixtures": 2,
+          "coefficient_covariance_allocation_gradients": true,
+          "frozen_C_H_W_S_exact": true,
+          "six_cell_W_U_mass_exact": true,
+          "natural_entries": 14,
+          "balanced_single_empty_absent_singleton_boundary_lambda_zero": true
+        },
+        "source_state": {
+          "neutrality_comparisons": 6,
+          "diagnosed_core_calls": 12,
+          "core_calls": 24,
+          "direct_source_identity_calls": 4,
+          "extra_autograd_sweeps": 36,
+          "virtual_source_adam_steps": 48,
+          "oracle_steps": 8,
+          "oracle_forwards": 8,
+          "bytesio_prefix_suffix": true,
+          "none_tensor_zero_lazy_populated": true,
+          "rng_loader_gradients_buffers_exact": true
+        },
+        "validation": {
+          "rejected_pre_mutation_calls": 15,
+          "rejected_probability_inputs": 4,
+          "real_form_full_tail_cardinalities": 4,
+          "full_coordinate_disjoint_zero_norm": true
+        },
+        "source_model": {
+          "actual_m3oe_comparisons": 2,
+          "core_calls": 3,
+          "direct_source_calls": 1,
+          "diagnosed_core_calls": 2,
+          "extra_autograd_sweeps": 6,
+          "virtual_source_adam_steps": 8,
+          "separate_layout_backward_forwards": 1,
+          "ordinary_gate_detach": true,
+          "prefixes": [
+            "domain_expert",
+            "embedding",
+            "expert",
+            "gate",
+            "shared_bias",
+            "shared_weight",
+            "skip_conn",
+            "slot_bias",
+            "slot_weight",
+            "star_mlp",
+            "task_expert",
+            "tower"
+          ]
+        },
+        "metrics_selection": {
+          "six_cell_source_metrics": true,
+          "independent_earliest_strict_selection": true,
+          "unscaled_loss_bound_to_auc_selected_state": true,
+          "undefined_auc_null": true,
+          "paired_families_and_table_counts": "tables.finite_checks (runtime scope)"
+        },
+        "tensor_storage": "CPU RAM and BytesIO only",
+        "test_accessed": false
+      }
+    }
+  },
+  "check_history": [
+    {
+      "invocation": 1,
+      "status": "PASS",
+      "note": "Before the final core.finite_checks entry point was added"
+    },
+    {
+      "invocation": 2,
+      "status": "PASS",
+      "note": "Final source; repeated because of the specified entry-point addition"
+    }
+  ],
+  "fixture_operation_counts_per_pass": {
+    "core_calls": 27,
+    "diagnosed_core_calls": 14,
+    "extra_autograd_sweeps": 42,
+    "virtual_source_adam_steps": 56,
+    "direct_source_clean_calls": 5,
+    "independent_virtual_oracle_forwards_and_steps": 8,
+    "populated_fixture_initializer_adam_steps": 3,
+    "separate_architecture_layout_backward_forwards": 1
+  },
+  "runtime_owned_checks_not_run": [
+    "snapshot scientific/continuation clocks and fake owner ACK/lost-reply/pending schema fixtures",
+    "17-family enumeration/34-metric directions/paired five-seed t4 arithmetic/logical table counts",
+    "telemetry/terminal/witness/admission/root/archive finite fixtures"
+  ],
+  "blockers": [],
+  "distinct_review_required": true,
+  "test_accessed": false,
+  "cache_unpickled": false,
+  "actual_data_preparation": false,
+  "GPU_training": false,
+  "owner_IPC": false,
+  "training_state_disk_writes": false,
+  "research_result_analysis_performed": false
+}

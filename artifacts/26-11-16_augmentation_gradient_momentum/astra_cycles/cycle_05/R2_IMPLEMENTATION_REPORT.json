@@ -1,0 +1,636 @@
+{
+  "status": "IMPLEMENTED_NARROW_CPU_CHECKS_PASS_PENDING_DISTINCT_R2_REVIEW",
+  "stage": "IMPLEMENT_C05_R2_PRELAUNCH_SOURCE_CORRECTION",
+  "issue": "C05-R2",
+  "coder_id": "01a1ea0c-d126-75f3-ad8a-78914c15e791",
+  "coder_name": "Aquinas",
+  "identity_source": "Explicit user-provided actual native identity",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "fork_context": false,
+  "descendants_created": 0,
+  "permanent_return_after_handoff": true,
+  "scope": "Only runner startup admission-row construction and one narrow CPU fixture; no scientific intervention change.",
+  "changed_files": [
+    "experiments/cell_mass_bce_20261117/runner.py",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/R2_IMPLEMENTATION_REPORT.md",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/R2_IMPLEMENTATION_REPORT.json"
+  ],
+  "bug": {
+    "location_before": "runner.py:1114-1115 in _schedule",
+    "actual_error": "TypeError: dict() got multiple values for keyword argument 'sample_id'",
+    "cause": "admission() already returns sample_id; dict(..., sample_id=current['sample_id'], **decision) passes it twice and fails before _launch.",
+    "repair": "Extract pure admission_row() used by production and the fixture; remove only the explicit duplicate sample_id and retain the complete raw decision expansion. No admission() logic changed.",
+    "source_authority": "PRELAUNCH_R2_DECISION.json; DESIGN_SPECIFICATION sections 7.2 and 7.5",
+    "prechange_reproduction": {
+      "type": "TypeError",
+      "message": "dict() got multiple values for keyword argument 'sample_id'",
+      "original_line": 1114,
+      "sample_id": "2930478:0:1:1"
+    }
+  },
+  "candidate_source_hash_before": "78604351e97221abd78318aa1f10e31aacfcc6c97a0d5d0e99e965d87a64bd80",
+  "candidate_source_hash_after": "f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d",
+  "source_hash": "f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d",
+  "source_file_count": 55,
+  "source_files": [
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+      "sha256": "decb419a3338b5518b2cf6a8fa03c3d578a8d2287ee34f1a4f27bb6e1c758e91"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/core.py",
+      "sha256": "0999b534aba4f632f9fbd35a3313d5eeb4fd04405d323f881d2e39a7f4a2bfe3"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "sha256": "2d8cea2d9319e437b6fa48fb99d6d2debdf8b972f1b9d60f1feef897e1151ebe"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/runner.py",
+      "sha256": "5a0dbe51530119a52f0fe1a2dab443efb06f798f2902165e2c2ca152e78cd322"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+      "sha256": "22b988169286fb9c71313dfe51e01ed4e633d7634770fcb638d02519f29b6888"
+    },
+    {
+      "path": "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+      "sha256": "fe662da1b8c00229a6a234bb7e00d659fab1d278470092531cdeefa6bb2f3d58"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/README.md",
+      "sha256": "12564d4cba98e89358d441c3dea001e84e60275e4654c024f6e76460c7a0eb4c"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/__init__.py",
+      "sha256": "5d0de7415a2fdb3c78d2fbe61cda3c211c7860cecd072ac073e7fbccd61ed666"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/checks.py",
+      "sha256": "03ee6e5ce1c7aa7b59f28bf0732ccdb7451b89559659f6866d014a092217572e"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/core.py",
+      "sha256": "5beb32779c14e78756794a91d2a27a030688053cc82a675e4d2d83ae1ba270e3"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/protocol.py",
+      "sha256": "58d4c02f17af7c389c3ce937b2e3aca40bebf5b09ec863d21670b6c7ff7b9332"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/runner.py",
+      "sha256": "0aeb48eb66dda88ef579b3fc9abbaa3b850105d5de44bd867be1aa430f59c649"
+    },
+    {
+      "path": "experiments/cell_mass_bce_20261117/tables.py",
+      "sha256": "79d9673e032a4b0eab4bff575fa9594e11bfcb972975a68da53a3a5c6b804965"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/README.md",
+      "sha256": "86724212cb2aa0352864c1d7f300514d55861f06be98974212b13b367cd2bfe5"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/__init__.py",
+      "sha256": "8e59a3cfab9489c628e1df1049b0f74bf78da1dd4bdf8546e909b7543843a307"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/checks.py",
+      "sha256": "7bbf10c3e4249d9a3af7e1ad80b7c93267a66f99ddc52e3050c709ba99605ae1"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/core.py",
+      "sha256": "790ae97d01a3ab3d39e42712580e333aa017b96d5869f36aed682181b03de683"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/protocol.py",
+      "sha256": "1ac986b4996808903a97dab431d29503add770e9273422ff06c888ab4499b53b"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/runner.py",
+      "sha256": "b95d54a81210641824afe1596c6fd732743ec694ef528b1ffab0062d4c98f638"
+    },
+    {
+      "path": "experiments/completion_weight_attribution_20261117/tables.py",
+      "sha256": "e7da61efe9c5a1dee26177c312d899b1d83d0faf99605946554801493dfefb5b"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+      "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+      "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+      "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+      "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+      "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+      "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+      "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+      "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+      "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+      "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+      "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+      "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+      "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+      "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+      "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+      "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json",
+      "sha256": "37c2455e63c97c46f72bcedf33a7e01a2c7b14c4e4f2711e64d313f25b4a133c"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+      "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+      "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+    },
+    {
+      "path": "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+      "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/__init__.py",
+      "sha256": "e7ad848721bb9d870c46b7b281b03eced9c21fee2c5eb71eba48a9c9d5ceb6ad"
+    },
+    {
+      "path": "experiments/natural_quadratic_ranking_20261116/core.py",
+      "sha256": "0050c411a7a627cf54363097473770d8ef24900e8848acd00594a99f0862fb0b"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+      "sha256": "3677d5086fc6263f7c771402890bdfaf2eb3da4b08018924b879122bdae719c5"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/autonomous.py",
+      "sha256": "19bbb5e075a3928997ba6118da9e420f27609554615556bc25c97a2cc0f819fc"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+      "sha256": "5915d97983c79ccb33302146fde287419ef611caee5bda2f13898c973845c9d9"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+      "sha256": "c97acf7879b57c3e9ee49ef84633b74366a934e9e7c9787ed08cf7a2f19b2f64"
+    },
+    {
+      "path": "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+    },
+    {
+      "path": "requirements-phase0-3.lock",
+      "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+    }
+  ],
+  "runner": {
+    "path": "experiments/cell_mass_bce_20261117/runner.py",
+    "sha256_before": "7515c4c20aa26828309163fa825404ef93d02cc7e807a97f7bf74e504827b567",
+    "sha256_after": "0aeb48eb66dda88ef579b3fc9abbaa3b850105d5de44bd867be1aa430f59c649",
+    "readonly_baseline_path": "/tmp/phase0-3-cycle05-preR2-runner.py",
+    "baseline_unchanged": true
+  },
+  "unchanged54_proof": {
+    "count": 54,
+    "comparison": "Every current non-runner source_files hash equals both frozen attempt1/source_receipt.json and IMPLEMENTATION_REVIEW_R1.json source_files; same exact55 path set.",
+    "paths": [
+      "experiments/auxiliary_objective_attribution_20261115/__init__.py",
+      "experiments/auxiliary_objective_attribution_20261115/core.py",
+      "experiments/auxiliary_objective_attribution_20261115/protocol.py",
+      "experiments/auxiliary_objective_attribution_20261115/runner.py",
+      "experiments/auxiliary_objective_attribution_20261115/stage2/__init__.py",
+      "experiments/auxiliary_objective_attribution_20261115/stage2/core.py",
+      "experiments/cell_mass_bce_20261117/README.md",
+      "experiments/cell_mass_bce_20261117/__init__.py",
+      "experiments/cell_mass_bce_20261117/checks.py",
+      "experiments/cell_mass_bce_20261117/core.py",
+      "experiments/cell_mass_bce_20261117/protocol.py",
+      "experiments/cell_mass_bce_20261117/tables.py",
+      "experiments/completion_weight_attribution_20261117/README.md",
+      "experiments/completion_weight_attribution_20261117/__init__.py",
+      "experiments/completion_weight_attribution_20261117/checks.py",
+      "experiments/completion_weight_attribution_20261117/core.py",
+      "experiments/completion_weight_attribution_20261117/protocol.py",
+      "experiments/completion_weight_attribution_20261117/runner.py",
+      "experiments/completion_weight_attribution_20261117/tables.py",
+      "experiments/conditional_information_momentum_20261102_v3/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/guardian.py",
+      "experiments/conditional_information_momentum_20261102_v3/protocol.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py",
+      "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py",
+      "experiments/natural_quadratic_ranking_20261116/__init__.py",
+      "experiments/natural_quadratic_ranking_20261116/core.py",
+      "experiments/task_view_gradient_residual_momentum_20261116/__init__.py",
+      "experiments/task_view_gradient_residual_momentum_20261116/autonomous.py",
+      "experiments/task_view_gradient_residual_momentum_20261116/core.py",
+      "experiments/task_view_gradient_residual_momentum_20261116/protocol.py",
+      "experiments/task_view_gradient_residual_momentum_20261116/runner.py",
+      "requirements-phase0-3.lock"
+    ],
+    "R1_tables_sha256": "79d9673e032a4b0eab4bff575fa9594e11bfcb972975a68da53a3a5c6b804965"
+  },
+  "source48": {
+    "sha256": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+    "receipt_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/source_receipt.json",
+    "receipt_sha256": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3",
+    "members_verified": 48
+  },
+  "external_runtime": [
+    {
+      "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+      "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+    }
+  ],
+  "design_spec_sha256": "a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9",
+  "design_bundle_sha256": "9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c",
+  "research_bundle_sha256": "bfd6230c9cae8971a3a8d793027fc54ba6209d193429340107bf64bb22dc4caf",
+  "design_files": {
+    "ALGORITHM_DESIGNS.md": "f4abaa1bc2c1a270b7a9c2f2d3631f29d192344b0a60b82faaa0515542b11635",
+    "CODEX_EXECUTION_PLAN.md": "14980f1849269855e2d03213b664505a25a8fb65856148cb38a82e13b088892a",
+    "CRITICAL_REVIEW.md": "f6c10f1688b8ad3726b622eddb5e8331e452953a8fa98daaabf7010ade2a34c4",
+    "EXPERIMENT_MANIFEST.json": "42320f2842f04f0d2d49006108db52e0927c9fe392631df2c96f423440fcf27e",
+    "LITERATURE_AND_NOVELTY.md": "ef765b2a4c8796d771d9203db52b2e6b64543be15b9ed5689e4082cfe30a81ce",
+    "RESEARCH_EXPLORATION.md": "8e9f2bdc10dd3178074a40e441e5596abd81a11c96e8813ca54b9580f1186f5c",
+    "DESIGN_SPECIFICATION.md": "a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9"
+  },
+  "source_frozen": false,
+  "source_manifest_read_hash_only": true,
+  "attempt_prepared": false,
+  "old_frozen_snapshot55_verified_unchanged": true,
+  "protected_historical_hashes": {
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/DESIGN_SPECIFICATION.md": "a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/DESIGN_ACCEPTANCE.json": "57bb5ccaf1ccfc9f0f33f6370bcd45728251a7d4c70a245824659bdcb2568b5d",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/ASTRA_HANDOFF.json": "3609573806c997a5f7f706741ccf2fc094b05129f744ae49556fe43dcf2e5e3e",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW.md": "82b2436a4ceb9284707926d7dff53d0a079bde00f2da3a6f2fe4ada066971fd3",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW.json": "ddda6993cd3c854fc3ead3a1155f168dd9721dfc8924ce9ee7f9f0d5fadb40c3",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW_CHECKS.json": "f9a949b78a9b912e35e53fd96258bccad3ccf5ee68b11d8ce9941ec7cb28e348",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CORE_IMPLEMENTATION_REPORT.md": "afe26d897973f5d1bfae8e8851d8a1ebbb0918889600ef9ca1a49bbe038e30e0",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CORE_IMPLEMENTATION_REPORT.json": "c2947357112165901433fe8138fec85e363556f3e755e26aa4a92402150f4772",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RUNTIME_IMPLEMENTATION_REPORT.md": "9ba926d3439f96b1328e862503c2ad83fcb082c431bc13a98fd80c895bcc587c",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RUNTIME_IMPLEMENTATION_REPORT.json": "69c215c6057955b1e25dddf3ecbb70f19296af27844a0859c54b2c8583ae83e2",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/R1_IMPLEMENTATION_REPORT.md": "9871121b40031b98dbed4bb5eb6eed5ecf834b508c717b61c3a27e5ed82f2e6c",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/R1_IMPLEMENTATION_REPORT.json": "9fc1691267ef3faba815d122b0c3b015257b4cb951b0067fe87562f7ddbfdb21",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW_R1.md": "ebbe64890a697d1fc75fe007b634b6e60702ebf404c583dfa1759793cdc9c35f",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW_R1.json": "e90ce51182223bb096fb31e025e9c33c668bdcf16c52b1c4b098b1c6d5891fbd",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW_R1_CHECKS.json": "191647d0e489eafc902f740383e119d173547cb292ad7433e4a282e5cd5fc619",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/PRELAUNCH_R2_DECISION.json": "9a945c33559549af545293d4ba1a831c5996d16d3c7ea80fc57f352aa96859ba",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/source_receipt.json": "399ce43a94df816f8c5d91f285573abea227a7bc42ae90df3e0915402a1ab699",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/run_manifest.json": "33edfb0b8ef16d5f7a5425acd64a73ec7c6d79f163de1d83a39bc2bd57ad73fe",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/ROOT_MAPPING.json": "d312d838acd2b72092c21922062af4e564ed9d48cdf9fc48332abc8c38a407fc",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/TECHNICAL_PAUSE.json": "92094e9e0ab74b7565dd7ec951132bfd222587351cfe9310f2350bd54964bb16",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/PARENT_PRELAUNCH_EMPTY_ACCEPTANCE.json": "8b793b1ce8e60098b6e7bdff7a0ca3248ece3a67beb37f4b32c495a08a2e5bd9",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2930478_gpu0.jsonl.gz": "2d1c2647fca9ae9cbcbeb2d0583b9386aab828aa5f3c336021761bbc587059ce",
+    "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2930478_gpu1.jsonl.gz": "486b9fe4b1f11d06fe2a942b0372b105811769c955aa6e765a90544a5ca64a5e",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CODEX_EXECUTION_PLAN.md": "14980f1849269855e2d03213b664505a25a8fb65856148cb38a82e13b088892a",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RESEARCH_EXPLORATION.md": "8e9f2bdc10dd3178074a40e441e5596abd81a11c96e8813ca54b9580f1186f5c",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/ALGORITHM_DESIGNS.md": "f4abaa1bc2c1a270b7a9c2f2d3631f29d192344b0a60b82faaa0515542b11635",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CRITICAL_REVIEW.md": "f6c10f1688b8ad3726b622eddb5e8331e452953a8fa98daaabf7010ade2a34c4",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/LITERATURE_AND_NOVELTY.md": "ef765b2a4c8796d771d9203db52b2e6b64543be15b9ed5689e4082cfe30a81ce",
+    "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/EXPERIMENT_MANIFEST.json": "42320f2842f04f0d2d49006108db52e0927c9fe392631df2c96f423440fcf27e"
+  },
+  "unchanged_production_proof": {
+    "changed_existing_definitions": [
+      "_schedule",
+      "finite_checks"
+    ],
+    "added_definitions": [
+      "admission_row",
+      "admission_row_check"
+    ],
+    "schedule_only_row_assignment_changed": true,
+    "finite_checks_only_new_fixture_call_and_result": true,
+    "all_other_definitions_unchanged": true
+  },
+  "final_checks": {
+    "invocations": 1,
+    "command_prefix": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -",
+    "syntax": "RAM compile PASS",
+    "narrow_fixture": {
+      "status": "PASS",
+      "sample_id": "2930478:0:1:1",
+      "admission_rows": 2,
+      "raw_decision_preserved": true,
+      "incoming_envelope_pending_preserved": true,
+      "no_gpu_queries": true,
+      "test_accessed": false
+    },
+    "helper_calls": 2,
+    "admission_calls": 2,
+    "historical_numeric_fields_match": true,
+    "operations": {
+      "NVML_constructors": 0,
+      "hardware_queries": 0,
+      "train_calls": 0,
+      "worker_launches": 0,
+      "owner_IPC": 0,
+      "forwards": 0,
+      "backwards": 0,
+      "adam_steps": 0
+    },
+    "elapsed_seconds": 0.002738898037932813,
+    "cpu_seconds": 0.002737618000001163,
+    "script_elapsed_seconds": 6.110483410069719,
+    "script_cpu_seconds": 7.994229814,
+    "tool_process_wall_seconds": 8.936719816,
+    "fixture_description": "One standalone admission_row_check(), also called by existing finite_checks(). Uses required numeric fields of actual GPU0 historical SAMPLE 2930478:0:1:1, the existing historical bootstrap incoming envelope 2027945984 bytes and recorded CUDA-usable25307578368 bytes. Only fixture monotonic_end is renewed; historical measurements are not live admission evidence. The real admission() and shared production admission_row() construct eligible/no-pending and blocked/pending rows. Checks all raw decision keys/values, sample ID, measured incoming/remaining bytes, envelope identity, pending identity, queue/job/device/purpose metadata and complete row key set.",
+    "fixture_data": {
+      "raw_sample_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/telemetry/controller_2930478_gpu0.jsonl.gz",
+      "sample_id": "2930478:0:1:1",
+      "source_sample": {
+        "event": "SAMPLE",
+        "sample_id": "2930478:0:1:1",
+        "incident_id": "2930478:0:1",
+        "sample_attempt": 1,
+        "time": 1794927569.4435265,
+        "monotonic_start": 741473.771466298,
+        "monotonic_end": 741473.808402564,
+        "device": 0,
+        "phase": "admission",
+        "calling_pid": 2930478,
+        "used_bytes": 20985675776,
+        "nvml_total_bytes": 25769803776,
+        "power_watts": 192.963,
+        "power_limit_watts": 350,
+        "host_fraction": 0.5195776199158447,
+        "processes": [
+          {
+            "pid": 26993,
+            "used_bytes": 29425664
+          },
+          {
+            "pid": 2455768,
+            "used_bytes": 2793406464
+          },
+          {
+            "pid": 2455998,
+            "used_bytes": 4481613824
+          },
+          {
+            "pid": 2456216,
+            "used_bytes": 8885633024
+          },
+          {
+            "pid": 2634983,
+            "used_bytes": 1358954496
+          },
+          {
+            "pid": 2835252,
+            "used_bytes": 2933915648
+          }
+        ],
+        "own_process_bytes": 0,
+        "known": true
+      },
+      "GPU1_log_facts": "1 dictionary record; no SAMPLE row",
+      "incoming_measured_full_process_bytes": 2027945984,
+      "cuda_usable_total_bytes": 25307578368
+    },
+    "reproduction_method": "Before edit, AST-extract and compile/evaluate the exact original production row expression from the byte-identical read-only runner copy; real historical sample_id reproduces the reported TypeError.",
+    "repeat_fixture_command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -B -c 'from experiments.cell_mass_bce_20261117.runner import admission_row_check; print(admission_row_check())' (cwd=W)",
+    "zero_operation_instrumentation": "NVML constructor, controller_hardware, train_step, _launch, protocol.request, Module._call_impl, Tensor.backward and source Adam.step patched to raise if invoked; each count0.",
+    "compile_method": "One compile(source_text, filename, 'exec') in RAM; no py_compile, bytecode or fixture/state files."
+  },
+  "reused_evidence": {
+    "broad_suites_rerun": false,
+    "basis": "All54 non-runner source hashes unchanged; source48/design/external Adam unchanged; AST proves all old runner definitions and top-level code unchanged except the one row assignment and finite_checks fixture call/result.",
+    "core_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CORE_IMPLEMENTATION_REPORT.json",
+      "sha256": "c2947357112165901433fe8138fec85e363556f3e755e26aa4a92402150f4772"
+    },
+    "runtime_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RUNTIME_IMPLEMENTATION_REPORT.json",
+      "sha256": "69c215c6057955b1e25dddf3ecbb70f19296af27844a0859c54b2c8583ae83e2"
+    },
+    "R1_coder_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/R1_IMPLEMENTATION_REPORT.json",
+      "sha256": "9fc1691267ef3faba815d122b0c3b015257b4cb951b0067fe87562f7ddbfdb21"
+    },
+    "R1_review": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/IMPLEMENTATION_REVIEW_R1.json",
+      "sha256": "e90ce51182223bb096fb31e025e9c33c668bdcf16c52b1c4b098b1c6d5891fbd"
+    },
+    "limitation": "Original R1 engineering authorization binds only old source78604351...; this candidate needs a NEW distinct R2 implementation review. No claim that old fixtures had covered the failed startup-row construction."
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "state": {
+        "status": "PAUSED",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "stop_after_current_cycle": 5,
+        "cycle06_authorized": false
+      },
+      "sentinels": {
+        "/home/xzf/Code/phase0-3_tvg_rm_20261116/STOP_AUTONOMOUS": false,
+        "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/STOP_AUTONOMOUS": false
+      }
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "state": {
+        "status": "PAUSED",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "stop_after_current_cycle": 5,
+        "cycle06_authorized": false
+      },
+      "sentinels": {
+        "/home/xzf/Code/phase0-3/STOP_AUTONOMOUS": false,
+        "/home/xzf/Code/phase0-3/artifacts/26-11-16_augmentation_gradient_momentum/STOP_AUTONOMOUS": false
+      }
+    }
+  ],
+  "environment": {
+    "python_executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "python_version": "3.13.5",
+    "torch_version": "2.9.0+cu126",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "physical_work_this_coder": {
+    "train_calls": 0,
+    "forwards": 0,
+    "backwards": 0,
+    "live_Adam_steps": 0,
+    "virtual_Adam_steps": 0,
+    "EMA_updates": 0,
+    "scientific_epochs": 0,
+    "engineering_calls": 0,
+    "model_instances": 0,
+    "optimizer_constructors": 0,
+    "GPU_queries": 0,
+    "owner_IPC": 0,
+    "worker_launches": 0,
+    "CPU_fixture_admission_rows": 2,
+    "CPU_fixture_elapsed_seconds": 0.002738898037932813,
+    "CPU_fixture_cpu_seconds": 0.002737618000001163,
+    "final_verification_script_elapsed_seconds": 6.110483410069719,
+    "final_verification_script_cpu_seconds": 7.994229814,
+    "tool_process_wall_seconds": 8.936719816,
+    "cost_scope": "Timed final fixture and verification process, not unmeasured total interactive session CPU; source/design/report byte reads/hashes and one original-expression TypeError reproduction are additional nontraining CPU work."
+  },
+  "parent_empty_owner_decision": {
+    "decision_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/PRELAUNCH_R2_DECISION.json",
+    "decision_sha256": "9a945c33559549af545293d4ba1a831c5996d16d3c7ea80fc57f352aa96859ba",
+    "status": "AUTHORIZED_ZERO_WORK_PRELAUNCH_SOURCE_CORRECTION",
+    "empty_acceptance_path": "/tmp/phase0-3-c05-01a1e9a9/attempt1/PARENT_PRELAUNCH_EMPTY_ACCEPTANCE.json",
+    "empty_acceptance_sha256": "8b793b1ce8e60098b6e7bdff7a0ca3248ece3a67beb37f4b32c495a08a2e5bd9",
+    "proof_owner": "Original parent direct acceptance; coder performed no owner IPC or process/GPU queries.",
+    "owner_pid": 2926581,
+    "owner_tool_session": 16855,
+    "retained_states": 0,
+    "retained_bytes": 0,
+    "registered_jobs": 0,
+    "ACKs": 0,
+    "failed_controller_pid": 2930478,
+    "failed_controller_exit_code": 1,
+    "next_steps_parent_only": [
+      "Close this coder and obtain NEW distinct R2 source review for the new unfrozen candidate.",
+      "After failed-runner handoff/closure and renewed direct empty-owner proof, quarantine the old zero-work preparation unchanged per the decision; preserve every frozen source/receipt and private binding.",
+      "Re-prepare the reviewed new source and explicitly bind SAME still-empty owner2926581/session16855 to new source/new job keys, with before/after empty acceptance; otherwise PAUSE.",
+      "Fresh current-conversation runner and required engineering/resource/parent gates before formal work; finish C05 report/review/publication/delivery then USER_STOPPED."
+    ],
+    "steps_performed_by_coder": []
+  },
+  "preserved_experiment": {
+    "C04_published_commit": "cbccf5ae234e46bc3f976467de2b3327139f021b",
+    "new_arm_only": "CELL-MASS-BCE-025",
+    "datasets": [
+      "movielens",
+      "kuairand"
+    ],
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "epochs_per_run": 50,
+    "new_trajectories": 10,
+    "committed_epochs_expected": 500,
+    "live_updates_expected": 17250,
+    "batch_size": 40960,
+    "precision": "FP32",
+    "numeric_control_trajectories": 30,
+    "numeric_control_files": 1530,
+    "model_storage": "RAM_ONLY",
+    "source_Adam_fixed_EMA_gate_detach_unchanged": true,
+    "cycle06_authorized": false,
+    "stop_after_cycle05_delivery": true
+  },
+  "prohibited_actions": {
+    "cache_unpickled": false,
+    "GPU_queries": false,
+    "GPU_training": false,
+    "owner_IPC": false,
+    "retry_execution": false,
+    "source_frozen": false,
+    "attempt_prepared": false,
+    "attempt_filesystem_moves": false,
+    "training_state_disk_writes": false,
+    "test_accessed": false,
+    "research_analysis": false,
+    "new_AI_sessions": false,
+    "descendants": false,
+    "driver": false,
+    "background_session": false
+  },
+  "handoff": "Corrected unfrozen candidate only, not a PASS receipt or runtime restart. Original parent closes Aquinas permanently and dispatches a NEW distinct R2 reviewer. Preserve historical FAIL/R1 PASS, frozenR5 and concurrent failed-runner reports. No C06/Test.",
+  "exact_diff": "--- before/experiments/cell_mass_bce_20261117/runner.py\n+++ after/experiments/cell_mass_bce_20261117/runner.py\n@@ -193,6 +193,11 @@\n         sample_id=current.get('sample_id'),current_memory_fraction=memory,current_power_fraction=power,\n         incoming_measured_full_process_bytes=incoming_measured_full_process_bytes,already_resident_bytes=already_resident_bytes,\n         remaining_measured_bytes=remaining,test_accessed=False)\n+\n+\n+def admission_row(j,queue_index,device,decision,pending_identity,envelope):\n+    return dict(time=time.time(),purpose=j['purpose'],queue_index=queue_index,key=j['key'],device=device,\n+        pending_identity=pending_identity,envelope=envelope,**decision)\n \n \n def pending_matches(pending,record,*,alive):\n@@ -1111,8 +1116,7 @@\n                         decision=admission(current,incoming,pending=any(v['device']==dev for v in pending.values()))\n                         if not decision['predicates']['fresh_known']:\n                             current=sample(dev); decision=admission(current,incoming,pending=any(v['device']==dev for v in pending.values()))\n-                        row=dict(time=time.time(),purpose=j['purpose'],queue_index=i,key=j['key'],device=dev,\n-                            sample_id=current['sample_id'],pending_identity=[v for v in pending.values() if v['device']==dev],envelope=envelope,**decision)\n+                        row=admission_row(j,i,dev,decision,[v for v in pending.values() if v['device']==dev],envelope)\n                         row['decision_id']=p.digest(row); p.append_json(a/'admission.jsonl',row)\n                         if not decision['eligible']:\n                             if any(x!='physical_fit' for x in decision['reasons']): break\n@@ -1217,7 +1221,31 @@\n \n \n \n+def admission_row_check():\n+    # Required fields from controller_2930478_gpu0 SAMPLE; only fixture freshness is renewed.\n+    current=dict(sample_id='2930478:0:1:1',known=True,device=0,used_bytes=20985675776,\n+        nvml_total_bytes=25769803776,power_watts=192.963,power_limit_watts=350.,host_fraction=.5195776199158447,\n+        cuda_usable_total_bytes=25307578368,monotonic_end=time.monotonic())\n+    incoming=2027945984\n+    j=dict(purpose='engineering_smoke',key='fixture-startup')\n+    envelope=dict(path='fixture-envelope.json',sha256='fixture-envelope')\n+    held=dict(pid=33,key=j['key'],device=0,expected_attempt=1)\n+    for pending in ([],[held]):\n+        decision=admission(current,incoming,pending=bool(pending)); raw=copy.deepcopy(decision)\n+        row=admission_row(j,0,0,decision,pending,envelope)\n+        assert row['sample_id']==current['sample_id'] and all(row[k]==v for k,v in raw.items())\n+        assert decision==raw and row['eligible']==(not bool(pending))\n+        assert row['incoming_measured_full_process_bytes']==row['remaining_measured_bytes']==incoming\n+        assert row['already_resident_bytes']==0 and row['predicates']['no_pending']==(not bool(pending))\n+        assert row['envelope'] is envelope and row['pending_identity'] is pending\n+        assert row['purpose']==j['purpose'] and row['key']==j['key'] and row['queue_index']==row['device']==0\n+        assert set(row)==set(raw)|{'time','purpose','queue_index','key','device','pending_identity','envelope'}\n+    return dict(status='PASS',sample_id=current['sample_id'],admission_rows=2,raw_decision_preserved=True,\n+        incoming_envelope_pending_preserved=True,no_gpu_queries=True,test_accessed=False)\n+\n+\n def finite_checks():\n+    startup_row=admission_row_check()\n     from unittest.mock import patch\n     from types import SimpleNamespace\n     import sys\n@@ -1357,7 +1385,7 @@\n                 assert peak==12 and p.read_json(ref['path'])['registry_prefix']==prefix\n     return dict(status='PASS',groups=7,named_query_retry_attempts=[2,3],terminal_cleanup_failures=2,\n         stale_pending_rejected=True,ram_only_restore=True,storage_transcripts=2,actual_core_integration_calls=1,actual_core_diagnostic_points=1,actual_core_virtual_steps=4,\n-        numeric_registry_prefix_fixture=True,no_gpu_queries=True,test_accessed=False)\n+        numeric_registry_prefix_fixture=True,startup_row=startup_row,no_gpu_queries=True,test_accessed=False)\n \n \n def main():\n"
+}

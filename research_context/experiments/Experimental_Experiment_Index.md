@@ -87,3 +87,12 @@ ML/KR × NQR-025/BRIER-OPPORTUNITY-025/MEAN-GAP-025 × seeds2022–2026，M3oE f
 - 数据重建/实现文件：[`P3_kuairand.md`](reports/history_report/P3_kuairand.md) 与 [`P4_implementation.md`](reports/history_report/P4_implementation.md) 记录数据和实现来源，不另作性能实验。
 
 **索引总数：32 个实验/门控条目**：29 个既有实验组有正式运行/探测记录，2 个未运行/未过门控（E2、E7），另有 1 个已完成的 evaluation-only S6-R2（复用既有 checkpoint，没有新增训练）。共 30 个条目有运行或评估结果。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+C05：U唯一新增arm；ML+KR×5seed×50epochs；DESIGN/IMPLEMENT/独立代码REVIEW/工程及资源REVIEW/RUN/主ANALYZE完成。父RAM验收20选中模型/500ACK，18CSV含28900配对seed及5780汇总。报告与归档进入最终证据复审和发布收尾，交付后停止。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

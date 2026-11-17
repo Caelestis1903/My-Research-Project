@@ -85,3 +85,12 @@
 - **Evidence Against:** E003/E004/E010/E014/E020；域身份、objective、样本分布、target 与 checkpoint 同时变化；S6 full analysis 纠正了 MovieLens d0/d1 大小标签。
 - **Current Status:** CLOSED as a stand-alone causal conclusion。
 - **Narrower Version Remaining Open:** Domain size 是否是独立调节因素仍是 OQ002；没有预设小域更困难或大域更易受损。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+在当前λ=.25、源M3OE/Adam/固定EMA/自然划分/50epoch协议下，CELL-MASS-BCE-025不进入候选继续通道。此为限定协议的失败，不是证明所有cell质量方法无效；KR总体AUC效应仍不确定。不得以挑seed、重选终点、自动加lambda搜索来改写结论。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

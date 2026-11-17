@@ -1,0 +1,145 @@
+{
+  "reviewer_id": "01a1e9eb-54e3-7211-8fe1-2bb686e0183e",
+  "source_hash": "3f32ce34d76d2ab79a3b8fcb447722862310f7cecb6d037b326626b03e9d7e74",
+  "source_file_count": 55,
+  "recorded_at_utc": "2026-11-17T14:37:14.837961+00:00",
+  "identity_checks": {
+    "status": "PASS",
+    "source48_receipt_sha256": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3",
+    "source48_identity": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+    "all48_current_files_match": true,
+    "source55_exact_union": true,
+    "all7_coder_file_hashes_match": true,
+    "external_runtime": [
+      {
+        "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+        "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+      }
+    ],
+    "design_spec_sha256": "a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9",
+    "design_bundle_sha256": "9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c",
+    "research_bundle_sha256": "bfd6230c9cae8971a3a8d793027fc54ba6209d193429340107bf64bb22dc4caf"
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "state": {
+        "status": "ACTIVE",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "stop_after_current_cycle": 5,
+        "cycle06_authorized": false
+      },
+      "sentinels": {
+        "/home/xzf/Code/phase0-3_tvg_rm_20261116/STOP_AUTONOMOUS": false,
+        "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/STOP_AUTONOMOUS": false
+      }
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "state": {
+        "status": "ACTIVE",
+        "manual_stop_requested": false,
+        "termination_reason": null,
+        "stop_after_current_cycle": 5,
+        "cycle06_authorized": false
+      },
+      "sentinels": {
+        "/home/xzf/Code/phase0-3/STOP_AUTONOMOUS": false,
+        "/home/xzf/Code/phase0-3/artifacts/26-11-16_augmentation_gradient_momentum/STOP_AUTONOMOUS": false
+      }
+    }
+  ],
+  "syntax": {
+    "status": "PASS",
+    "method": "compile source strings in RAM",
+    "files": 6
+  },
+  "reused_finite_results": [
+    {
+      "receipt": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/CORE_IMPLEMENTATION_REPORT.json",
+        "sha256": "c2947357112165901433fe8138fec85e363556f3e755e26aa4a92402150f4772"
+      },
+      "status": "PASS",
+      "core_calls_per_final_pass": 27,
+      "diagnostic_points": 14,
+      "extra_autograd_sweeps": 42,
+      "virtual_adam_steps": 56
+    },
+    {
+      "receipt": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/RUNTIME_IMPLEMENTATION_REPORT.json",
+        "sha256": "69c215c6057955b1e25dddf3ecbb70f19296af27844a0859c54b2c8583ae83e2"
+      },
+      "status": "PASS",
+      "protocol_groups": 5,
+      "runner_groups": 7,
+      "tables_groups": 4,
+      "paired_seed_rows": 28900,
+      "paired_summary_rows": 5780
+    }
+  ],
+  "gap_reproductions": [
+    {
+      "id": "C05-R1-A",
+      "tool_chunk": "541402",
+      "function": "tables.checked_member",
+      "input_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_05/EXPERIMENT_MANIFEST.json",
+      "input_sha256": "42320f2842f04f0d2d49006108db52e0927c9fe392631df2c96f423440fcf27e",
+      "logical_member": "design/EXPERIMENT_MANIFEST.json",
+      "category": "design",
+      "observed": "TechnicalPause: Opaque training state field in public record",
+      "expected": "accept pinned design metadata",
+      "trigger": "fixed model description at EXPERIMENT_MANIFEST.json:166"
+    },
+    {
+      "id": "C05-R1-B",
+      "tool_chunk": "541402",
+      "function": "tables.numeric_document(runner.observation(...))",
+      "fixture": "Actual runner.observation on two CPU Linear modules, lazy installed source Adam, private CPU Generator; activity normalized as in production",
+      "state_field_types": {
+        "model": {
+          "type": "str",
+          "length": 64
+        },
+        "ema": {
+          "type": "str",
+          "length": 64
+        },
+        "optimizer": {
+          "type": "str",
+          "length": 64
+        },
+        "rng": {
+          "type": "str",
+          "length": 64
+        },
+        "loader": {
+          "type": "str",
+          "length": 64
+        }
+      },
+      "observed": "TechnicalPause: Opaque training state field in public record",
+      "expected": "accept numeric hash observation"
+    }
+  ],
+  "reviewer_fixture_operations": {
+    "train_calls": 0,
+    "forwards": 0,
+    "backwards": 0,
+    "adam_steps": 0,
+    "scientific_epochs": 0
+  },
+  "code_review_gate": {
+    "expected": "FAIL rejected before prepare",
+    "accepted_for_engineering": false
+  },
+  "cache_unpickled": false,
+  "GPU_queries": false,
+  "owner_IPC": false,
+  "attempt_prepared": false,
+  "source_frozen": false,
+  "training_state_disk_writes": false,
+  "test_accessed": false
+}

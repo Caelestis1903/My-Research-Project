@@ -57,3 +57,10 @@ This user policy overrides older driver, session-lifecycle and handoff instructi
    Every cycle:
    Codex report -> main context update -> fresh Astra
    -> research plan -> main agent -> Codex experiment.
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+完整报告research_reports/cell_mass_bce_20261117/REPORT.md。500epochs/17250有用更新/20选中模型已直接验收；实际17333返回包含83次重放成本。原ownerPID2926581当前验收95,508,960字节；模型只在RAM，C04模型仍不可用。完成本轮报告/归档/独立最终证据复审/实际发布后USER_STOPPED，不启动C06，不自动开Test。

@@ -134,3 +134,12 @@ KR最大d1域LL五seed降低且CI低于0（MEDIUM），d0/d2两个较小域AUC�
 - **Scope:** KuaiRand-Pure natural；Sample/M3OE；四 seeds；parameter_manifest 的 shared/architecture/private 分区。
 - **Evidence Strength:** MEDIUM。
 - **Known exceptions:** seed2025 的 DH−F non-target denominator 近零，retention ratio 不可解释；结果不能推广到其他 partition definition 或模型。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 LL均5/5变差且区间全正。两数据U−W task1均5/5变差，但ML区间跨零，ML幅度证据MEDIUM。W−S task1的原有双数据5/5下降保持。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

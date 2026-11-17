@@ -131,3 +131,12 @@
 - **Relevant Evidence IDs:** E032。
 - **Competing Explanations:** 跨分区 co-adaptation、partition boundary 定义、单 seed near-zero denominator；这些解释目前不能区分。
 - **Evidence That Would Resolve It:** 对候选参数/功能分区提供独立完整性验证，并同时保留 intact parent 与 hybrid 的 seed-level validation/test outputs；不从当前失败 swaps 断言增益由某一分区产生。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+最有鉴别力的未来实验：同domain内独立操纵类别率与样本量、固定配对seed和训练预算，并预设baseline难度分层；另以全新独立seed检验KR轨迹分叉。共同U状态中S−C梯度共线但Adam更新不同，需独立消融才能区分历史、耦合WD、eps。以上均为建议，本次不执行C06。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

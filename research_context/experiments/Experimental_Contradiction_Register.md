@@ -188,3 +188,12 @@
 - **Difference in setting:** Complete trained solutions are compared with evaluation-only hybrids assembled from partitions across distinct solutions; seed2025 has a near-zero DH−F denominator for retention ratios。
 - **Can the contradiction currently be explained?** Partially; cross-partition co-adaptation is consistent with the collapse, but does not identify the source of the intact DH gain。
 - **Current interpretation:** The tested swaps show non-composability under this partition definition, not that DH's test-side effect is absent or localized to one component。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+KR4/5 AUC为正而均值为负：seed2024差−0.009762547必须保留；不删异常seed。U−W KR d0t0 LL方向改善而AUC变差，F3不成立。E50小正AUC与selected负并存。KR较小d0与最小d2反向，ML最小域baseline最好，不能小=难或宣称普遍小升大降。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

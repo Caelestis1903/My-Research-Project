@@ -585,3 +585,12 @@ TV-.05/.10/.20对CLEAN fixed EMA的selected Macro AUC均值：ML −.000328815/�
 - Stage2 source SHA256 `831cba9947738652cc6d4e5abf864e1ab4e32545b304936cb39aba28b227893b`；selection `c67a9771fc5980f76f3fd4cfe0afd29a260ab987bbe816865452fbdc69590b89`。
 
 下一轮TV-GRM按已批准设计比较整体梯度路由、post-cap实际残差更新norm匹配SHUFFLE及INSTANT残差历史删除；其首轮50新轨迹预算与历史50条分别计数。每次fresh native Astra必须收到本节引用的完整NDP-A报告/原数表及最新轮完整报告/原证据、实质更新并已发布的main上下文。每轮NO-GO或Astra STOP均转新研究；只有USER_STOPPED正常终止。所有自主轮Test封存，人工停止+最终freeze+有效完整selected RAM后才允许独立最终评价。
+
+
+## C05 CELL-MASS-BCE-025 — 2026-11-18 完整五seed证据
+
+10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
+
+证据等级：筛选不通过的协议事实STRONG；总体AUC方向WEAK（CI跨零）；移除类内政策损失KR校准收益STRONG，ML幅度MEDIUM；规模主因WEAK。正式物理17333次返回vs17250有用更新；工程33vs32。缺失terminal的PID2982386成本未知仍null，不能以已知pending求和0推断全历史0。
+
+完整报告：[C05 REPORT](../../research_reports/cell_mass_bce_20261117/REPORT.md)；方法、逐seed/cell/stage数值附录、成本及失败恢复见同目录。冻结source55=f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d。父直接验收500ACK/20模型/95508960字节；C04已丢失模型仍不可用，仅复用数值，不重建。按用户最终指令本轮交付后停止，不开C06；未来实验建议不自动执行。

@@ -1,0 +1,58 @@
+# REVIEW REPORT — C05 IMPLEMENTATION R2
+
+## 1. Verdict: PASS WITH FIXES
+
+C05-R1 and C05-R2 are CLOSED. Zero outstanding blocking issues. Current reviewed source55 is `f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d`. Real read-only `protocol.check_review(IMPLEMENTATION_REVIEW_R2.json, 'code', source_hash)` accepted the final JSON as PASS WITH FIXES with blocking_issues=[]. Final JSON SHA256: `140be96bb2867464394d3cfe37c1a36acebe36347cef67735ebf613012666fa2`.
+
+Reviewer: **Mill / 01a1ea14-a9a5-7a60-ae60-6ae449cbe164**, gpt-6.1-sol/high, fork_context=false. Parent: 01a1dfb8-605b-7430-8462-5fd3da0b048f. Distinct from Lorentz, all four contributing coders Laplace/Lovelace/Mendel/Aquinas, and prior reviewers Confucius/Arendt. No descendants; permanent return for parent closure.
+
+## 2. Requirement-by-requirement verification
+
+The accepted complete specification, governance, original FAIL and checks, R1 PASS WITH FIXES and checks, all four coder Markdown/JSON reports, actual R2 diff/callers, failed-controller/runner receipts, and parent prelaunch decision/retirement plan were inspected. Both controls are technical PAUSED, recovery_in_progress=true, manual_stop_requested=false, termination_reason=null, stop_after_current_cycle=5, cycle06_authorized=false; all four sentinels absent.
+
+Independently recomputed current source55 and verified the exact same path set against R1: **54 non-runner files byte-identical; only runner.py changed**. The old runner copy SHA7515c4c20aa26828309163fa825404ef93d02cc7e807a97f7bf74e504827b567 matches R1 and the old snapshot's runner. New runner SHA0aeb48eb66dda88ef579b3fc9abbaa3b850105d5de44bd867be1aa430f59c649. AST comparison shows only `_schedule`'s row assignment changed; existing `finite_checks` only calls/returns the added fixture. All other existing definitions/top-level statements, admission predicate, queue, pending generations, caps and launch ordering are identical.
+
+This establishes reuse of the original independent scientific/core/runtime/source/export proofs and R1 archive repair/readback evidence. Source48 remains `d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f`; tables.py remains79d9673e032a4b0eab4bff575fa9594e11bfcb972975a68da53a3a5c6b804965; installed Adam remainsb099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c. Complete spec `a1f61ae81535bb33873da72185d9400187c5b988e81c0d3a5019c5505e821af9`, design7 `9a7e826794f4cdc3fcc7c437e1462149a1dc9372b5d5e3a38981f69fb3af299c`, research6 `bfd6230c9cae8971a3a8d793027fc54ba6209d193429340107bf64bb22dc4caf` remain exact. Prior evidence/report hashes were verified before reuse. No broad code/core/runtime/archive/data rerun.
+
+| Requirement | Result | Evidence |
+| --- | --- | --- |
+| §1-4 | PASS_STATIC | U only; ML/KR seeds2022..2026,50 epochs,40960 FP32; exactly30 C/W/S controls; no efficacy stopping or extra arm. |
+| §5 | PASS | core.py:59-84 uses frozen C/H/W/S with diagnose=False and d-major/t-minor (w*a)*cell.mean; exact shared W/U cell masses; frozen m order; scheduled detached statistics; mixed-label lambda0 H=null/not_computed_delegate. |
+| §5.1 | PASS | core.py:269-303 delegates whole nonordinary call; ordinary one forward/backward/source Adam/EMA. Source [F,B] to [B,2], detached gate, None-versus-zero behavior and private counters verified in actual pinned functions and hash-bound core fixtures. |
+| §5.2 | PASS | C/S/U/W; exactly3 extra sweeps and4 sequential real source-Adam clones; no clone forward; exact actual U virtual post hashes/update zero; live/prestate/RNG checks; final core fixtures27 calls/14points/56virtual steps reused. |
+| §6-6.2 | PASS | Current55 f716b4e3025621f20d10aae4547379b9adafa69f2824af769f4e01aaef1fe59d; exact same55 paths;54 non-runner files identical to R1; immutable source48 and installed Adam exact; accepted spec/design/research exact; all4 coders and distinct Mill reviewer recorded. |
+| §7.1 | PASS_STATIC | Explicit train/validation/features attribute projection; no Test dereference; manifest control pointers1530; C03 initialization/order binding; source control selection preserved. No preparation or data unpickling performed in review. |
+| §7.2 | PASS_STATIC | Canonical R5/N5/S5 writers, containment/symlink checks, explicit mapping; Tensor/array/bytes rejected from JSON; snapshot/EMA/Adam/RNG/loader/BytesIO remain RAM. Spec section7.2 authorizes review plus parent-defined attempt decision for a needed correction. PRELAUNCH_R2_DECISION and RETIREMENT_PLAN preserve old786 provenance and require renewed zero proof before same-root reprepare and same empty owner binding. Old frozen source intentionally differs from current candidate; no validate_attempt called. |
+| §7.3-7.4 | PASS_STATIC | Real generic-server methods/responses inspected; byte-bound native reviews consumed; epoch transactions preserve ACK chronology/lost-reply reconciliation; strict independent online/EMA AUC selection with unscaled same-state LL; same-owner recovery and no formal release. |
+| §7.5 | PASS_WITH_FIX_C05-R2_CLOSED | Only the scheduler row assignment changes to admission_row(), removing the duplicate sample_id. Fresh CPU production-path fixture constructs eligible/no-pending and denied/exact-pending rows after real admission(); exact raw decision/sample/incoming/remaining/envelope/pending/queue metadata preserved. Original expression reproduces TypeError. admission(),85/85/90,physical100fit,queue/pending-generation/caps and all other scheduler statements are AST-identical. |
+| §7.6 | PASS_STATIC_DOWNSTREAM_EVIDENCE_REQUIRED | Eight-call plan/case, source lambda0 fork, immutable prefix, restored suffix, exact diagnostic comparisons and full validation; resource/native/owner/review/witness/ACK/release fields consumed. Actual four GPU cases remain RUN-stage work. |
+| §7.7 | PASS_WITH_FIX_C05-R1_CLOSED | tables.py:374-383 accepts JSON-safe scalar descriptive/hash provenance, recursively rejects credentials and state containers, retains unchanged json_safe tensor/array/bytes/opaque rejection. Real pinned manifest checked_member and production-normalized actual observation both PASS;15 rejection examples PASS. archive_members/write_archive/mapping/capacity/parts AST unchanged. Repaired tables finite fixture, bound R1 report: three archive members including both required inputs, exact header/length/content readback PASS. |
+| §8 | PASS | Core27calls/14points/56virtual steps, unchanged protocol5/runner7 groups and repaired R1 archive evidence reused. New standalone production-row fixture invoked once;2 real admissions/2 real row constructions; eligible and pending-denied decisions preserved; exact original production expression reproduces the actual exception. Zero GPU/owner/train/forward/backward/Adam operations. |
+| §9 | PASS_STATIC | 10 runs/500 ACK/17250 live steps,40/120/160 diagnostics. Normalized point/parameter joins;400/2400 endpoints/cells,4000/24000 curves,500phase/103500weights;17x2x5x34x5=28900 paired and5780 summaries; ddof1/t4 and no epoch favorable direction. |
+| §10-11 | PASS_IMPLEMENTATION_GATE | C05-R1 and C05-R2 closed; no source-review blocker. Parent alone renews zero-work proof, preserves old files/snapshot provenance, prepares reviewed f716 source at same canonical roots using this exact R2 review path, and binds same still-empty owner before fresh native engineering GO. Four real cases/eightACKs/fresh resource signoff/formal500ACK17250updates/parentanalysis/report/pub/delivery remain. Stop after C05, noC06/Test. |
+
+Review order was requirements, added behavior, formulas, tensor/mask/routing/weighting semantics, gradient paths, then baselines. The unchanged54 and runner AST proof preserve the previous independent findings for those scientific paths.
+
+## 3. Bugs/deviations found
+
+**C05-R2 — MAJOR, CLOSED.** The old scheduler explicitly supplied sample_id while expanding the decision that already contained it. Evaluating the exact AST-extracted old production expression reproduces `TypeError: dict() got multiple values for keyword argument 'sample_id'`. Failure was before `_launch`; preserved parent/runner receipts record0 jobs/states/bytes/ACKs/physical workers/scientific updates.
+
+The corrected production `admission_row` uses the raw decision's sample_id once. One independent invocation of `admission_row_check` called real admission and the same production constructor twice: eligible without pending, denied with exact pending identity. Historical NVML-shaped SAMPLE2930478:0:1:1 fields were checked against the preserved raw telemetry; only fixture freshness is renewed. Exact sample ID, all decision fields, six predicate flags/reasons, incoming/remaining bytes, envelope/pending identities and purpose/queue/job/device metadata passed. The denied row's sole reason is no_pending. Fixture elapsed 0.000196538s, process CPU 0.000193669s. These historical measurements supply CPU fixture inputs; fresh live samples remain a RUN requirement.
+
+**C05-R1 — MAJOR, CLOSED and preserved.** The required manifest and engineering component-hash provenance repair remains byte-identical. R1's actual required-input acceptance,15 rejection examples and archive readback proof are reused with exact report/source hashes. Original FAIL and R1 PASS receipts remain intact. No new issue found.
+
+## 4. Corrections made
+
+Aquinas corrected runner.py plus its narrow production-path fixture. Mill made no source correction and authored only IMPLEMENTATION_REVIEW_R2.md/.json and R2_CHECKS.json. R2_CHECKS includes actual source55/external identity, unchanged54, AST proof, before/after production evidence and zero-operation instrumentation. All four coder JSON reports and the passed bound finite-check receipts are consumed by the machine gate.
+
+## 5. Remaining risks
+
+Old R5 source78604351e97221abd78318aa1f10e31aacfcc6c97a0d5d0e99e965d87a64bd80 is intentionally different from the new unfrozen f716 candidate. Old frozen receipts and snapshot bytes were untouched; old-attempt validate_attempt was never called. Parent retains the concrete PRELAUNCH_R2_DECISION/RETIREMENT_PLAN: renew zero jobs/states/bytes/ACK and dead-worker proof; preserve prior nonprivate bytes and exact old55 UTF8 provenance; reprepare at the same canonical R5/N5 using this R2 review path; explicitly bind the same still-empty PID2926581/session16855 owner. Parent owns execution and renewed live proof; reviewer performed no owner IPC.
+
+Four real resource engineering cases/eight ACK proofs, fresh independent resource signoff, parent release, formal10x50/500ACK/17250updates/40diagnostics/120sweeps/160virtualsteps,20 selected RAM models, parent analysis/report/evidence review/publication/delivery remain pending. Scientific U-only matrix,30 numeric controls/1530 files, source Adam/fixed EMA/gate.detach/natural data/RAM-only and independent earliest strict AUC selection are unchanged. Finish C05 delivery then USER_STOPPED; no C06/Test.
+
+## 6. Whether experiments are safe to run
+
+**Safe to proceed to engineering after parent-approved renewed zero-work reinitialization, same-empty-owner binding and fresh native engineering GO.** Zero remaining implementation blockers. The final JSON was accepted by actual new production check_review in code mode; no old attempt validation, preparation, source freeze, owner modification or training occurred in review. Formal RUN requires the downstream resource/parent release gates above.
+
+Skipped broad repeated suites and old archive/dataset surveys. Instrumented GPU/owner/train/worker/model forward/backward/Adam calls were all0; no cache unpickling, Test access, source edits, file moves or new source freeze. Mill returns permanently for parent closure.
