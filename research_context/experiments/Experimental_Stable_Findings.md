@@ -1,5 +1,21 @@
 # Experimental Stable Findings
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 / SF-CWA-C04 — 稳定条件现象及其边界
+
+**SF-CWA-01 / MEDIUM：同BCE总质量下的task1损失收益。** W−S selected fixed EMA task1 LL在ML/KR分别−.002988932/−.005124581，五seed全部降低、描述性区间全负。KR Macro LL也五seed降低。只适用于本模型、自然切分、λ=.25、固定协议；class/cell/task一起变化，非class-only或平衡机制识别。W本身未获注册跨数据集AUC资格。
+
+**SF-CWA-02 / MEDIUM：排序项作用随阶段/读出改变。** ML N−W online selected AUC五seed下降、CI全负；EMA selected AUC混合但LL五seed增加、CI全正。N−W E1 AUC五seed增加，E50 AUC/LL五seed均不利、CI不跨0。不能概括成排序总是有害，也不能把阶段反转直接当作curriculum或EMA中介已识别。
+
+**SF-CWA-03 / MEDIUM：KR域间与指标间不一致是真实条件现象。** W−C最小d2 AUC五seed改善，另一个较小d0 LL五seed变差，最大d1 LL五seed改善。Macro AUC正均值与traffic-cell微负/pooled近零并存。规模主因和统一小域/大域交换仍WEAK；ML最小域基线最高且本轮三个域AUC均值微负，反对将规模当成困难度定义。
+
+**未建立的命题：** W稳定提高selected matched-EMA AUC（ML均值负、KR区间跨0且seed偏斜）；移除R仍稳定保留N的ML五seed选中退化（W未满足该条件）；S仅等价于LR变化；局部gradient/update cosine或deltaEMA代数式已解释全轨迹中介比例。精确C/N复用和C3相同prefix不是新独立重复。
+
+来源：[完整报告](../../research_reports/completion_weight_attribution_20261117/REPORT.md)、[全部五seed及区间](../../research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv)、[数据可用性](../../research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)。C4完整训练/状态已验收，证据审查与发布采用实际收据；之后仅一次完整C05，交付后停止。以下保留历史发现与修正。
+
 ## SF-NQR-C03 — ML排序成本未随后40epoch关闭而消失
 
 EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。

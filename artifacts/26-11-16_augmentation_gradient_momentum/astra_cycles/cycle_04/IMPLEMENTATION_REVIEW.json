@@ -1,0 +1,355 @@
+{
+  "report_type": "REVIEW REPORT",
+  "cycle": "cycle_04",
+  "verdict": "FAIL",
+  "reviewer_id": "01a1e6c2-c955-7021-857e-eb4d342b73a2",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "coder_ids": [
+    "01a1e54b-0376-79c0-b1a7-20a6893345c7",
+    "01a1e54b-03a0-7613-a537-dba4cc0f0e80"
+  ],
+  "source_hash": "51e1e9e151858ffcc22fa10fb1c34a4f4921e8873436c70991d85c261f63e6cb",
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "research_bundle_sha256": "a3648198e25f6929154b628880715c7b4eb7d9749fc8b178a1631722debba01a",
+  "design_specification_sha256": "cb320632dcebdb8f75fe298b5b35f95e6dc07659ff0146fbe5f8ffd79ffed9db",
+  "source_file_count": 48,
+  "external_runtime": [
+    {
+      "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+      "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+    }
+  ],
+  "blocking_issues": [
+    {
+      "id": "C04-R1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "file": "experiments/completion_weight_attribution_20261117/runner.py",
+      "lines": [
+        201,
+        207,
+        210,
+        222,
+        507,
+        586
+      ],
+      "spec": [
+        "7.4",
+        "7.6",
+        "10.1.6"
+      ],
+      "title": "An uncommitted pending transaction permanently blocks replay of its epoch",
+      "trigger": "A numeric pending transaction exists, but the owner did not commit that epoch; a reviewed recovery replays it under the next physical attempt.",
+      "finding": "commit_snapshot uses one immutable transactions/<key>/epoch_XX.json for all physical attempts. Replayed attempt/path, commit_requested timestamp, serialization timings and usually continuation hash differ. immutable rejects the new pending transaction before commit. recover/reconcile_ack only reconcile an existing owner ACK; they never resolve a pending transaction for an epoch not present in RAM.",
+      "evidence": "Actual commit_snapshot invoked twice with in-memory persistence and a simulated failure before commitment. Both a valid formal E1/step20 snapshot and an engineering ordinal1/step2 snapshot reproduced Immutable receipt differs at the canonical transactions/.../epoch_01.json. No real writes or IPC.",
+      "correction": "Preserve each uncommitted physical transaction with attempt identity; select exactly the successful ACK-bound transaction for the canonical scientific epoch. Reconcile a committed transaction without resending it. Permit a genuinely uncommitted epoch to create its next physical transaction. Do not overwrite/drop prior failed receipts or relax continuation/hash checks.",
+      "focused_acceptance": "Finite failed-before-commit -> recovery -> new-attempt replay -> ACK case, plus the already-committed/lost-ACK case; all failed costs and transaction identities retained."
+    },
+    {
+      "id": "C04-R2",
+      "severity": "MAJOR",
+      "blocking": true,
+      "file": "experiments/completion_weight_attribution_20261117/runner.py",
+      "lines": [
+        377,
+        383,
+        430,
+        447,
+        465,
+        586,
+        588,
+        596,
+        632
+      ],
+      "spec": [
+        "7.5",
+        "7.6",
+        "10.2"
+      ],
+      "title": "Engineering technical failures cannot pass through the implemented reviewed recovery path",
+      "trigger": "One of the four engineering cases fails after prefix ordinal1 is acknowledged and before its final verified case receipt/signoff, or after suffix ACK but before receipt finalization.",
+      "finding": "smoke_case rejects every registration with an existing acknowledged state. smoke has no recovery continuation. recover requires validate_attempt(require_engineering=True), which already requires all four completed/signed/released cases, and then skips every non-formal job. The fixed case/key therefore has no implemented path to finish from its retained prefix. Re-running the same smoke command cannot clear it, and releasing it before acceptance is forbidden.",
+      "evidence": "Actual smoke_case invoked with an in-memory registration containing an acknowledged prefix; it deterministically rejects at line383 before Profile/GPU/IPC. Independently traced recover engineering prerequisite and its formal-only filter, and frozen serve recover/register/paused contracts.",
+      "correction": "Provide source/design/pause/owner-bound reviewed recovery for the existing engineering cases before engineering signoff. Reconcile their actual ACK/journal and resume the registered finite case plan from retained state, or finalize an already-verified suffix safely. Preserve physical attempt/call costs, exact source/replay checks, fixed scientific protocol, scientific_epochs=0 and all four protected engineering keys. Do not bypass the resource gate, contact old owners, fake COMPLETE50, or release an unaccepted key.",
+      "focused_acceptance": "Finite engineering failure after prefix ACK and after suffix ACK but before final receipt; recover without requiring the signoff being produced, retain earlier costs, and complete genuine case evidence without fabricated calls."
+    },
+    {
+      "id": "C04-R3",
+      "severity": "MAJOR",
+      "blocking": true,
+      "file": "experiments/completion_weight_attribution_20261117/runner.py",
+      "lines": [
+        68,
+        75,
+        77,
+        82,
+        121,
+        143,
+        148,
+        363,
+        388,
+        501,
+        502
+      ],
+      "spec": [
+        "7.5",
+        "7.6"
+      ],
+      "title": "Startup profiling can count live torch allocations as non-torch overhead",
+      "trigger": "The sampler runs while _new_objects has already allocated CUDA model/EMA tensors but has not returned.",
+      "finding": "Profile starts with cuda_ready=False and forces torch allocated/reserved to zero until after all _new_objects construction, device moves and EMA copy finish. NVML already includes those tensors during that interval, so own_process_bytes is recorded as non_torch_bytes. The maximum is permanent and measured_envelope later adds it to the torch-reserved peak, double-counting the misclassified allocator bytes. This is not the specified measured reserved-plus-actual-non-torch capacity envelope.",
+      "evidence": "Actual Profile._sample on a finite telemetry fixture with own residency900 and allocator reserved500, cuda_ready=False: reports reserved0/non_torch900 instead of non_torch400 and never queries allocator counters. Source call ordering establishes the legitimate allocation window. No actual hardware measurements were claimed.",
+      "correction": "Begin sampling before context creation, then enable correct allocator telemetry as soon as the process CUDA context exists and before model/EMA/optimizer allocations. Keep early context observations, phase coverage and maximum full-process measurements, but never classify torch residency as non-torch merely because initialization is in progress. Use correctly measured peaks for the existing usable-capacity fit predicate; do not add a cap, projected85% gate or guessed peak.",
+      "focused_acceptance": "Finite staged context/model/EMA telemetry interleaving verifies actual allocator/non-torch decomposition and envelope arithmetic. Actual four-case profiling still requires independent RUN-stage resource review."
+    }
+  ],
+  "nonblocking_issues": [
+    {
+      "id": "C04-R4",
+      "severity": "MINOR",
+      "blocking": false,
+      "file": "experiments/completion_weight_attribution_20261117/tables.py",
+      "lines": [
+        258,
+        260,
+        278,
+        306
+      ],
+      "related_file": "experiments/completion_weight_attribution_20261117/runner.py",
+      "related_lines": [
+        151,
+        507
+      ],
+      "spec": [
+        "9.2",
+        "9.3"
+      ],
+      "title": "COSTS export does not expose all required diagnostic/restore cost components",
+      "finding": "COSTS contains snapshot-transfer and combined logical-epoch/validation records; returned per-batch diagnostic_seconds is left only in batch logs. restore has no separate elapsed-cost record. Required diagnostic/restore breakdown therefore cannot be read from the advertised cost table. This does not invalidate the inspected loss formulas or erase the available batch diagnostic timings.",
+      "correction": "Export existing returned diagnostic timings with their physical attempt provenance and measure restore time separately. Preserve unknown partial work as null; do not infer missing durations by subtracting unrelated totals."
+    }
+  ],
+  "corrections_made": [],
+  "source_modified": false,
+  "test_accessed": false,
+  "coder_cpu_checks_passed": true,
+  "independent_math_checks_passed": true,
+  "independent_acceptance_passed": false,
+  "requirements": [
+    {
+      "spec": "1-3,8,11",
+      "requirement": "Scientific intervention and causal scope",
+      "status": "SUPPORTED",
+      "evidence": "Only W/S formal arms, constant .25, C/N numeric reuse, fifteen comparisons; no rank gradient in production, no class-only attribution or efficacy decision added."
+    },
+    {
+      "spec": "4",
+      "requirement": "Frozen model/data/Adam/EMA/environment protocol",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Source fixed1 model and gate(emb.detach()), exact source optimizer and EMA, natural full/tail cardinalities, five seeds and fifty epochs wired; real execution remains gated."
+    },
+    {
+      "spec": "5.1",
+      "requirement": "Loss, reductions and probability/parameter gradients",
+      "status": "PASS",
+      "evidence": "Four independent FP32/FP64 arm fixtures passed row W, S=mC, pair-risk N decomposition and probability derivatives; coder parameter-chain evidence reused by exact hash and inspected."
+    },
+    {
+      "spec": "5.2",
+      "requirement": "Mass, class/task allocation, masks and null support",
+      "status": "PASS",
+      "evidence": "m=.875..1, no normalization, q=.75+.25*pi, detached counts, task-specific W allocation, empty/absent/single-class semantics match code and finite fixtures."
+    },
+    {
+      "spec": "5.3",
+      "requirement": "Core APIs, contexts, counters and source row IDs",
+      "status": "SUPPORTED",
+      "evidence": "Actual core/runtime interface, pre_loader_hash, strict clock/cardinality checks, six-cell ledger and two-key source counts inspected."
+    },
+    {
+      "spec": "5.4",
+      "requirement": "Same-graph diagnostics and real Adam clones",
+      "status": "SUPPORTED",
+      "evidence": "Three additional autograds, four sequential actual source Adam clones, None/zero distinctions, copied populated optimizer, actual/virtual exact hashes, full-coordinate FP64 vector reductions and null zero-norm cosines."
+    },
+    {
+      "spec": "5.4",
+      "requirement": "Identity delegation and observational neutrality",
+      "status": "SUPPORTED",
+      "evidence": "Actual source_clean_step delegate; forward hook removes itself before clone copy; optimizer observer and finally cleanup; no old-module monkeypatch or N training delegate."
+    },
+    {
+      "spec": "5.5",
+      "requirement": "Algebra tolerances versus exact identities",
+      "status": "SUPPORTED",
+      "evidence": "Registered FP64/FP32 algebra tolerances retained; replay/source/RNG/loader/selected/actual-virtual checks exact."
+    },
+    {
+      "spec": "6.1-6.3",
+      "requirement": "Write scope, import closure and immutable provenance",
+      "status": "PASS",
+      "evidence": "All seven new files read, six Python files compiled in memory, explicit48 and external Adam hashes independently reproduced, seven-design/six-research and report receipts exact. Unused lazy historical imports do not expand the active closure."
+    },
+    {
+      "spec": "7.1",
+      "requirement": "Test-opaque cache projection",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Only train/validation arrays/IDs/features dereferenced; no old source_cache or whole-bundle Test methods. No real cache was opened in this review."
+    },
+    {
+      "spec": "7.1",
+      "requirement": "Exact numeric controls and historical missing fields",
+      "status": "SUPPORTED",
+      "evidence": "Index hash and actual CLEAN/NQR result/E1 schema bytes checked; all1020-file verification is deferred to preparation as specified. No C3 prefix requirement or fabricated missing CLEAN RNG/count/Test fields."
+    },
+    {
+      "spec": "7.2",
+      "requirement": "Jobs, formal/engineering clocks and budget",
+      "status": "SUPPORTED",
+      "evidence": "New canonical N/config/job identities, twenty jobs, separate engineering ordinals1/2 and logical2/4,1000 formal epochs/34500 updates/80 diagnoses/240 extra sweeps/320 virtual steps wired."
+    },
+    {
+      "spec": "7.3",
+      "requirement": "Snapshot isolation, scientific identity and selection",
+      "status": "SUPPORTED",
+      "evidence": "Deep CPU copies, source optimizer restore with RNG last, timing-independent scientific projection, independent strict earliest online/EMA maxima; populated storage/replay proofs inspected and hash-reused."
+    },
+    {
+      "spec": "7.4",
+      "requirement": "Frozen owner API, credentials and ordinary ACK chronology",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Actual serve APIs inspected; private guardian/owner handling, canonical new root, old PID exclusions, ACK->status/get/hash->journal->numeric ACK path and compact selected get match actual API. No owner was contacted."
+    },
+    {
+      "spec": "7.4,7.6",
+      "requirement": "Uncommitted replay and pending transaction retention",
+      "status": "FAIL",
+      "evidence": "C04-R1: immutable per-epoch pending transaction blocks next-attempt replay."
+    },
+    {
+      "spec": "7.5",
+      "requirement": "Four real engineering case plans",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Correct case matrix, eight calls, diagnosed lazy full/populated tail, populated source/lambda0 fork, real prefix/suffix commit/get plan, zero scientific epochs and release gates. Actual evidence does not yet exist."
+    },
+    {
+      "spec": "7.5-7.6",
+      "requirement": "Recoverable engineering technical failure",
+      "status": "FAIL",
+      "evidence": "C04-R2: acknowledged engineering prefix cannot resume; generic recovery needs the unavailable engineering signoff and filters engineering jobs out."
+    },
+    {
+      "spec": "7.5-7.6",
+      "requirement": "Measured full-process resource envelopes",
+      "status": "FAIL",
+      "evidence": "C04-R3: model/EMA allocations can inflate startup non-torch peak and subsequent physical-fit envelope."
+    },
+    {
+      "spec": "7.6",
+      "requirement": "Current per-card admission and supervision",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Current85/85/host90, usable100 fit, first-fitting KR-first queue, no active-worker caps/forecast power/projected85/card coupling, pending first-FULL ACK protection, retained mechanical process handles."
+    },
+    {
+      "spec": "7.6",
+      "requirement": "Stop/Test policy and parent stage boundaries",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Both workspaces ACTIVE/manual false/no sentinels on review read; no Test-opening implementation, no old driver lifecycle/new AI descendants. Fresh RUN metadata and later stages remain parent responsibilities."
+    },
+    {
+      "spec": "7.7",
+      "requirement": "Selected model retention and handoff",
+      "status": "SUPPORTED_STATIC",
+      "evidence": "Twenty selected online/EMA pairs retained;50 ACKs each and191017920 actual tensor-byte consistency check required; parent direct acceptance remains distinct."
+    },
+    {
+      "spec": "9.1-9.3",
+      "requirement": "Metrics, tables, tail weights and seed statistics",
+      "status": "SUPPORTED_WITH_MINOR_DEVIATION",
+      "evidence": "Source metric names, six cells,selected/E1/E10/E30/E50,15 contrasts,negative-favorable LL, five-seed SD/intervals, scheduled support-aware statistics and actual row weighting inspected. C04-R4: cost component export incomplete."
+    },
+    {
+      "spec": "10.1",
+      "requirement": "Coder finite CPU evidence and focused independent checks",
+      "status": "PARTIAL",
+      "evidence": "Closed coder receipts exactly match reviewed bytes; integration PASS is historical evidence. New finite negative-path checks reproduce blockers missed by that suite; no broad old suite rerun."
+    },
+    {
+      "spec": "10.2-10.3",
+      "requirement": "Code gate, real resource gate and scientific decision authority",
+      "status": "FAIL_CODE_GATE",
+      "evidence": "No code PASS may be issued while R1-R3 persist. No actual engineering/resource signoff or formal training authorized. Scientific analysis/publication/Astra remain parent-only."
+    }
+  ],
+  "evidence": {
+    "parent_candidate_sha256": "84066d8dbc0e23ad53275fb53e389f13792efcb6d93899ed7bcda20291d078c1",
+    "design_acceptance_sha256": "5a55605c48965b5d68ca8de71780519ee7987141258f342206021cd7d38ca8e5",
+    "astra_handoff_sha256": "dbef1eae5bae13f05d8f4a77b04826dfed515c4e0915d55fdc899ab34509668d",
+    "combined_coder_report_sha256": "ee1c21f66b6b546e274da526b5c6825450e990bbc2eb1a6b063530d7f8a0542b",
+    "coder_reports_and_cpu_receipts": [
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_IMPLEMENTATION_REPORT.md",
+        "sha256": "377759b1679b3146d609a0cbd63135c7385d256e8bd1bc8fb6fb91727b11a440",
+        "bytes": 8527
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RUNTIME_IMPLEMENTATION_REPORT.md",
+        "sha256": "c9abe1fcc26f1f50150fda1075c029078394ecca2967ff3063bda467eadb40ab",
+        "bytes": 5488
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_CPU_CHECKS.json",
+        "sha256": "146d279d66081711398dcfdd96f4f5d52e34ab5b99c83a8427afd4e22d16c68d",
+        "bytes": 6132
+      },
+      {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RUNTIME_CPU_CHECKS.json",
+        "sha256": "95756effbe893c8890784872a3162f23402e92399b837e0d4e04883d873247c7",
+        "bytes": 17100
+      }
+    ],
+    "independent_checks": [
+      "Explicit48, installed Adam, seven-design and six-research bytes match frozen candidate.",
+      "All six new Python sources compile in memory; all seven package files inspected.",
+      "AST import closure reviewed, including inactive historical lazy imports.",
+      "Actual frozen model/gate/Adam/EMA/evaluator/copy/RNG/BytesIO/serve/guardian APIs inspected.",
+      "Protected C1/C2/C3/publication/evidence numeric receipt hashes match design; no repeated historical tree/bytecode audit.",
+      "Actual CLEAN and NQR result/E1 numeric schemas and index hashes checked.",
+      "Four independent pure FP32/FP64 W/S row/cell/pair and probability-derivative fixtures PASS.",
+      "Actual commit_snapshot finite in-memory replay reproduction for formal E1 and engineering prefix, no storage API.",
+      "Actual smoke_case acknowledged-prefix guard reproduction stops before resource initialization.",
+      "Actual Profile._sample finite startup telemetry reproduction, no hardware query."
+    ],
+    "interpreter": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "python_dont_write_bytecode": true,
+    "broad_old_suite_rerun": false,
+    "training_calls": 0,
+    "gpu_queries": 0,
+    "ipc_calls": 0,
+    "real_cache_accessed": false,
+    "tensor_files_written": 0
+  },
+  "safe_to_run": {
+    "parent_new_owner_cleared_by_this_review": false,
+    "real_engineering_cases": false,
+    "formal_experiments": false,
+    "reason": "Correct C04-R1/R2/R3 through fresh repair coder and fresh independent code review first; formal RUN additionally requires real engineering/resource PASS."
+  },
+  "remaining_risks": [
+    "Actual CUDA source/diagnostic/replay neutrality and residency require four real cases and fresh resource review after code fixes.",
+    "Complete cache/raw/train-validation and1020 control receipt verification remains the preparation gate.",
+    "No efficacy, Test eligibility, scientific conclusion or formal result is certified."
+  ],
+  "scope": {
+    "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+    "authorized_writes": [
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/IMPLEMENTATION_REVIEW.md",
+      "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/IMPLEMENTATION_REVIEW.json"
+    ],
+    "descendants": 0,
+    "background_ai_sessions": 0,
+    "source_or_design_edits": 0,
+    "old_owner_access": false
+  },
+  "recorded_at_utc": "2026-11-16T23:57:14.247998+00:00"
+}

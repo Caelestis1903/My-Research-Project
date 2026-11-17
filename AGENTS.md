@@ -1,3 +1,11 @@
+## Current user continuation instruction — 2026-11-17
+
+Finish Cycle04 in full, including analysis, report, review and publication/delivery. Then execute exactly one additional full research cycle (Cycle05), following DESIGN -> IMPLEMENT -> distinct REVIEW -> supervised current-conversation RUN -> ANALYZE -> report/review/publication. Stop after the Cycle05 report/delivery; do not start Cycle06. This latest instruction supersedes the earlier stop-after-Cycle04 paragraph below. Ponytail FULL and Stop That Shit CHANGE apply; fresh independent native children only, no reuse or independent/background AI.
+
+## Current user termination instruction — 2026-11-17
+
+Finish Cycle04 in full: all twenty trajectories through fifty epochs, analysis, complete research report, evidence review and publication/delivery. Then terminate with USER_STOPPED. Do not start Cycle05 or another Astra research handoff. This overrides older uncapped continuation instructions below. During current-cycle recovery keep the immediate manual stop latch false; it is a stop-after-report request.
+
 # Research Experiment Orchestration
 
 ## Highest-priority current-conversation policy — 2026-11-16

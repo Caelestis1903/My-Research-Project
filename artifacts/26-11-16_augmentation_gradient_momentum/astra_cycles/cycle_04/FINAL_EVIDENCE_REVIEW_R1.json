@@ -1,0 +1,908 @@
+{
+  "report_type": "REVIEW REPORT",
+  "review_scope": "Fresh scoped FINAL EVIDENCE R1: truthful B1 availability disposition and publication readiness; unchanged full numerical/archive proofs reused after byte identity verification",
+  "verdict": "PASS WITH FIXES",
+  "scientific_numeric_evidence_verdict": "PASS",
+  "publication_ready": true,
+  "publication_status": "READY_FOR_ORIGINAL_PARENT_ACTUAL_PUBLICATION; NOT_PUBLISHED_BY_THIS_REVIEW",
+  "reviewer_id": "01a1e994-a5c5-7001-8405-b18e04ab8c69",
+  "reviewer_name": "Jason",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "coder_ids": [
+    "01a1e54b-0376-79c0-b1a7-20a6893345c7",
+    "01a1e54b-03a0-7613-a537-dba4cc0f0e80",
+    "01a1e6cd-54c0-7a11-80ca-fb7194be1f15",
+    "01a1e747-c8be-7a73-af93-5a9f2966d3b1"
+  ],
+  "root_contract": "CHANGE",
+  "hash_policy": "allow",
+  "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "research_bundle_sha256": "a3648198e25f6929154b628880715c7b4eb7d9749fc8b178a1631722debba01a",
+  "initial_review": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/FINAL_EVIDENCE_REVIEW.json",
+    "sha256": "f5b3122f7ec28545d200b577e5fab1a46a898b8dd2676bbfd2415003ba9dcca8",
+    "markdown_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/FINAL_EVIDENCE_REVIEW.md",
+    "markdown_sha256": "ad8b6dcb98ca5accded94e088b9331aafa7f9f845f0214c15838014a5a5ee89d",
+    "reviewer_id": "01a1e959-925f-7742-913b-f34c65ffea24",
+    "verdict": "FAIL",
+    "scientific_numeric_evidence_verdict": "PASS",
+    "preserved_unchanged": true
+  },
+  "availability_update": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json",
+    "sha256": "00c841e6e06f5285323489f3582204b8c798fea89d5cad2d634f4c21e1b0f44f"
+  },
+  "selected_ram_currently_available": false,
+  "selected_ram_available_at_parent_acceptance": true,
+  "historical_acceptance_valid": true,
+  "historical_acceptance": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_STORAGE_ACCEPTANCE.json",
+    "sha256": "c68d93815c0e8c9f60e88898ecf73ac0124243dfeb3b25ccd061b208a5f7d0e7",
+    "time_utc": "2026-11-17T11:21:33.883200+00:00",
+    "verified_selected_models": 40,
+    "retained_pairs": 20,
+    "tensor_bytes": 191017920,
+    "interpretation": "Historical acceptance only; not current liveness"
+  },
+  "current_owner_observation": {
+    "hostname": "ubun",
+    "pid": 2476891,
+    "proc_exists": false,
+    "observed_at_utc": "2026-11-17T13:01:35.498673+00:00",
+    "owner_ipc_performed": false,
+    "foreground_exit_code": 143,
+    "exit_code_evidence": "Parent availability receipt and explicit parent task handoff; reviewer did not poll or reuse the foreground session",
+    "exact_exit_time_known": false,
+    "exit_trigger_known": false
+  },
+  "blocking_issues": [],
+  "issues": [
+    {
+      "id": "B1",
+      "severity": "MAJOR",
+      "status": "CLOSED_AS_DISCLOSED_LOSS_NOT_RESTORED",
+      "blocking": false,
+      "original_title": "Current C04 RAM owner is absent; publication inputs still assert live selected-state retention",
+      "disposition": "Current unavailability truthfully disclosed in publication/current context and metadata. Historical receipt/archive preserved. Lost tensors are not restored; Test/live-state continuation remain unavailable. Numerical evidence unchanged.",
+      "correction_made_by_reviewer": false
+    }
+  ],
+  "issue_counts": {
+    "CRITICAL": 0,
+    "MAJOR": 0,
+    "MINOR": 0
+  },
+  "historical_closed_issue_counts": {
+    "CRITICAL": 0,
+    "MAJOR": 1,
+    "MINOR": 0
+  },
+  "requirement_verification": [
+    {
+      "id": "R01",
+      "requirement": "Governing policy, stop controls and identity",
+      "status": "PASS",
+      "verification": "Jason native reviewer_id is supplied by the parent in this active task and differs from all four coders, Darwin and all prior review identities. Both workspace state files observed ACTIVE, manual_stop_requested=false, stop_after_current_cycle=5. No dispatch or launch performed.",
+      "prior_status": "PASS",
+      "evidence_mode": "Current scoped inspection"
+    },
+    {
+      "id": "R02",
+      "requirement": "Frozen source, design and runtime",
+      "status": "PASS",
+      "verification": "All 48 installed source files match source_receipt; canonical bundle d1930f26... verified. Seven accepted design files and six-file research bundle match acceptance. Installed torch/optim/adam.py matches b099132d... .",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R03",
+      "requirement": "Specification and algorithm scope",
+      "status": "PASS",
+      "verification": "Inspected direct W reduction, S=mC, support/mask coefficients, actual scalar backward, source Adam and one live EMA. Reused unchanged source-bound code/engineering proofs after byte identity. No new algorithm, arm or baseline change.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R04",
+      "requirement": "Mathematics, shapes, masks, weights, gradients",
+      "status": "PASS",
+      "verification": "[F,B]/[B,2]/[B] routes and probability BCE remain as designed; counts are host constants, W and S remain differentiable. All 207000 coefficient rows satisfy mass/support identities; matched W/S m equals exactly at each seed/epoch/batch. R has no live update path.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R05",
+      "requirement": "Baseline, natural-data, seed and selection bindings",
+      "status": "PASS",
+      "verification": "Exact 20 reused controls / 1020 file hashes and archive copies verified. All 50 order hashes and initial hashes agree per dataset/seed. Independent strict AUC selection, same-state loss and chosen hash verified for both estimators. Manifest/data/config bindings preserved; no cache/Test unpickling.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R06",
+      "requirement": "Full useful budget and acknowledged records",
+      "status": "PASS",
+      "verification": "20 new x50 epochs, 1000 formal ACK/epoch/transaction/batch links, 34500 updates and all final operation counters independently reconciled; old275 epochs contribute zero.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R07",
+      "requirement": "Raw endpoints and curves",
+      "status": "PASS",
+      "verification": "All400 ENDPOINTS and4000 CURVES records matched actual raw result/epoch metrics, epoch/order/model hashes and selected states. Numerical appendix endpoint lines match.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R08",
+      "requirement": "All comparisons and seed statistics",
+      "status": "PASS",
+      "verification": "15 families x2 datasets x5 endpoints; 25500 parent paired rows and5100 summaries over34 metrics including epoch, plus24750/4950 frozen export rows. Independent centered sample SD/(n-1), t4 intervals, sign/favorable counts and2720 endpoint means match.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R09",
+      "requirement": "Primary decision and eligibility",
+      "status": "PASS",
+      "verification": "W EMA-C EMA is MIXED: ML mean negative, KR positive, both intervals cross0, both miss+.003; KRd0t0 mean below-.001. Separate loss benefit retained; no champion or Test release.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R10",
+      "requirement": "Conditional mechanisms and contradictions",
+      "status": "PASS",
+      "verification": "Verified task1 W-S LL gains, online/EMA distinction, ML N-W E1/E50 reversal, KRd2 rank gain/d0 LL harm/d1 LL gain and macro/traffic/pooled contradictions. No mediation percentages, class-only/balancing, Adam-LR equivalence, universal CL/momentum or SOTA claim.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R11",
+      "requirement": "Diagnostics, annotations and null semantics",
+      "status": "PASS",
+      "verification": "93600 raw diagnostic rows at80 committed points,17888 mean rows and4160 algebraic/Boolean annotations checked. Actual-versus-virtual hashes match; values are grouped within seed before between-seed summaries; null reasons retained.48000 statistic rows and19200 means verified.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R12",
+      "requirement": "Physical execution and costs",
+      "status": "PASS",
+      "verification": "Independent gzip reading of1009 physical batch files confirms34640 returned calls,140 outside ACK files,81/243/324 physical diagnoses/sweeps/virtual steps versus80/240/320 useful.30 processes=20COMPLETE/8PAUSED/2FAILED_OBSERVED.28 cost means checked; overlapping times not added.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R13",
+      "requirement": "Recovery provenance and historical corrections",
+      "status": "PASS",
+      "verification": "Fresh Dirac recovery02 PASS supersedes historical hash-denied partial preparation; source bindings match.111 recovery ACK workflows sum61.909074446884915s; original wrong-zero raw report hash preserved and parent correction exact. Retired40 processes/275 ACKs/7733 updates and10523.255015449016s independently recounted separately.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R14",
+      "requirement": "Raw archive coverage, integrity and exclusions",
+      "status": "PASS",
+      "verification": "89 parts and concatenated archive SHA verified; all6611 member hashes/sizes checked against stream and current originals;4243 new+1020 controls+1348 retired including48 frozen source files. Exact eligible tree coverage, gzip CRC, safe regular paths, excluded tensor suffixes/private owner files and known owner credential values checked.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R15",
+      "requirement": "Scientific figures and maintained contexts",
+      "status": "PASS",
+      "verification": "All seven maintained contexts now prominently disclose current C04 selected-model loss. EXP current-owner assertion is corrected to historical tense. Actual full diffs preserve scientific statements, numerical tables and evidence strengths. FIGURES.py and all three PNG hashes remain unchanged; Darwin visual checks reused.",
+      "prior_status": "PASS_WITH_AVAILABILITY_EXCEPTION",
+      "evidence_mode": "Current complete diffs plus unchanged figure proof"
+    },
+    {
+      "id": "R16",
+      "requirement": "Historical direct selected-RAM acceptance",
+      "status": "PASS",
+      "verification": "Actual direct acceptance receipt unchanged, SHA c68d93815c0e8c9f60e88898ecf73ac0124243dfeb3b25ccd061b208a5f7d0e7. Acceptance time 2026-11-17T11:21:33.883200+00:00, 40 models/20 pairs/191017920 bytes. Valid historical acceptance; no current liveness inferred.",
+      "prior_status": "PASS",
+      "evidence_mode": "Reused Darwin independent proof after current byte identity verification"
+    },
+    {
+      "id": "R17",
+      "requirement": "Current selected-state retention and truthful availability",
+      "status": "PASS",
+      "verification": "B1 CLOSED_AS_DISCLOSED_LOSS_NOT_RESTORED. Current procfs owner absent. Availability receipt binds original review and actual historical acceptance. REPORT/METHODS/DATA_AVAILABILITY/history/ledger and all seven contexts disclose loss, unknown exact exit time/cause and no Test/live continuation. Normative retention protocol preserved; actual post-acceptance failure disclosed. No model restored.",
+      "prior_status": "FAIL",
+      "evidence_mode": "Current receipt, procfs and complete disclosure diffs"
+    },
+    {
+      "id": "R18",
+      "requirement": "Publication status and continuation",
+      "status": "PASS",
+      "verification": "Numeric publication ready. PREPARE_PUBLICATION.py requires actual FINAL_EVIDENCE_REVIEW_R1.json PASS or PASS WITH FIXES with no blockers, records its actual path/hash, and includes old FAIL and R1 through A directory iteration. Main publication remains pending and is not certified here. Only fresh independent C05 may proceed after actual C04 publication and its own complete stage gates; no C06/Test.",
+      "prior_status": "BLOCKED_BY_B1",
+      "evidence_mode": "Static publication-helper and current-scope inspection"
+    }
+  ],
+  "corrections_made": [],
+  "corrections_verified": [
+    "17 pre-disclosure originals and MANIFEST match Darwin input hashes; complete diffs independently inspected",
+    "12 prose/context files change only availability disclosure and historical/current tense",
+    "DECISION and RESOURCE_EXECUTION_AUDIT retain every preexisting value and add only four availability/Test metadata fields",
+    "ANALYSIS and EXECUTION_AUDIT ASTs equal originals after removing only added metadata statements",
+    "ANALYSIS.stdout unchanged; EXECUTION_AUDIT.stdout equals updated resource JSON with numeric values preserved",
+    "PREPARE_PUBLICATION gates on genuine R1 verdict and actual path/hash; original FAIL remains included"
+  ],
+  "input_hashes": {
+    "research_reports/completion_weight_attribution_20261117/COST_MEANS.csv": "57655c1156f59d0893ad5fa83d89aa40f0fc30debb43f06366e0946076e7b6b3",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_COSTS.py": "95336a4ceaa9383f71c267bb11066b30f8172bd9ed015f56fd29d9c9d1893cae",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_DOMAIN_CONTEXT.csv": "20f338f8ad5193dfa4dec27618d4ac248b66b5786bbefd1bfc60d9cf9a842a90",
+    "research_reports/completion_weight_attribution_20261117/CELL_AUC_DELTAS.png": "2119c36070049a3b2944da39f7fb382d2e658e3b6e8099ec3dd4ad16df8ee112",
+    "research_reports/completion_weight_attribution_20261117/METHODS.md": "8495e6db1bad0170bac4aeff1cf701e502ad1f26515b2ab63ba1d41cec6a35a6",
+    "research_reports/completion_weight_attribution_20261117/ENDPOINT_MEANS.csv": "2381f79cf49619c6161d5839a0254afa1d64c18b6fb0a5701974d7be0043cd80",
+    "research_reports/completion_weight_attribution_20261117/FIGURES.py": "175f29ab18590b5e87a747225caf7348299924a2fcdab8280f933001f7fa3ed4",
+    "research_reports/completion_weight_attribution_20261117/ARCHIVE.stdout.json": "8c18d4b8721ba40629aeb8c3762dfdfeae2accc95316bb34225072ec9ee03d74",
+    "research_reports/completion_weight_attribution_20261117/NUMERICAL_APPENDIX.md": "7c3cefbf4985a6f1a19f946a5ad773824e6c0bc90498aa4da2494df14e8eec00",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_CELL_CONTEXT.csv": "a11fa2507692782dec36abc3e84e9567b5c7fba63fbf8b58921e93c1b0eb3c70",
+    "research_reports/completion_weight_attribution_20261117/RESOURCE_EXECUTION_AUDIT.json": "755775764dd0bb8507e1481a43457ede99bae02d21f14a8e535dd2144a661233",
+    "research_reports/completion_weight_attribution_20261117/PHYSICAL_ATTEMPT_SUMMARY.csv": "3e4e6177b6202fc29d07abf664266b3e1f76a765b30fe9a2f43d62c633efee00",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_PHYSICAL_ATTEMPTS.csv": "56f7a4fc71bfd3dfade55c8c44d06a79c0a51ca8aa425ac2ce947217f814213a",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_CONTEXT.py": "7f563e7195d59e3b4488d5d53f321be609df60057cd5add22a49452f5208edb1",
+    "research_reports/completion_weight_attribution_20261117/ANALYSIS.stdout.json": "904b53d9ac88ad13df67678bfdc9b16d8df22faee6d34a8df8263d1d03e7e53d",
+    "research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md": "45e2beef3eeb56a27ef8d81e2f1c370838828ac5025db6c24c78ae7498254fbd",
+    "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv": "e09f0da7277d95c197ac606494b0b1ac45fd5e20a6385a133dc4a26797f1ff5c",
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.stdout.json": "cc526baf3686cb0eef1618bde635a088f77918ca7a6a160fc519d6288a5bfbf9",
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_HISTORY.md": "0efbec69c970965a961b07ed7b0a3cfe8c48c304d50aa293322e063762f8710e",
+    "research_reports/completion_weight_attribution_20261117/STAGE_CONTRASTS.png": "3d9c9253ab657532070c4a426f1d50f0bb7ca17eba038716267cb798d1fd0b72",
+    "research_reports/completion_weight_attribution_20261117/PHYSICAL_BATCH_LEDGER.csv": "54f56380bd57ae54a73b757803d07344ea98994f2a1460f687cff749add321b5",
+    "research_reports/completion_weight_attribution_20261117/REPORT.md": "c84c9bf88b8fb92eb79d24f1133f2e019ffe6072cbf03b36b353e185e398be08",
+    "research_reports/completion_weight_attribution_20261117/COST_ACCOUNTING_CORRECTION.json": "4f5cb19c73bdd1b6d83f2bcb84c3f71302303d99e35af9680d6cb20fb7e0df96",
+    "research_reports/completion_weight_attribution_20261117/ANALYSIS.py": "a7937092abdee80609908dd8757fa4817bae18ae73e0034b98d9d094d3c23f99",
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.py": "dd2b38e1f08f5a27a3e36a2739bb13d5c608f446739d8771670db85ec52f2ee4",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_ATTEMPT_COSTS.json": "ff1aa03bf149777fe1c0eb1e47bb84ea881655c15b5122f471c6b97c2daa2f67",
+    "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_MEANS.csv": "871ae423d9528b5e4bb6e5540eea1f07f39d4d84354dc1915a2f42dae0718d3a",
+    "research_reports/completion_weight_attribution_20261117/DECISION.json": "4ff7711cf1bf143c6667e4a86e27f9ea85c34f1c58d337423466e08de11818d7",
+    "research_reports/completion_weight_attribution_20261117/LEDGER_ENTRY.md": "154baba60b1b29cb2ba3e76a5c7297411db3bdb54e2809b36e948fc6f21db48e",
+    "research_reports/completion_weight_attribution_20261117/PREPARE_PUBLICATION.py": "f8216013cce7d34ccb3f469b98d8aa7748f938955884a96817634e498f9dc0ac",
+    "research_reports/completion_weight_attribution_20261117/PACK_RAW.py": "20674a5e04bdc641a79253d0018b68d8bffd0afcb6d23bc05ae42479506e9d00",
+    "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_ANNOTATIONS.csv": "0904456e0a36fdc5c110e2ef503f2b414c3d03e2c3a3c0f436463b8681bb8dde",
+    "research_reports/completion_weight_attribution_20261117/PAIRED_AUC.png": "833d532d24440581cfde9a6e146dece69c1ad3e9e6379f0170cad698cf614022",
+    "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SEEDS.csv": "0f03d7896551c008e8b587330fca22284a6e58fee6f95d4966176f11c17d6c94",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/source_receipt.json": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/run_manifest.json": "673f0a392a03a7fdbd608073762de42dfc3b4efdbc0d0070f56ee7e0e1050e37",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_STORAGE_ACCEPTANCE.json": "c68d93815c0e8c9f60e88898ecf73ac0124243dfeb3b25ccd061b208a5f7d0e7",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/tables/TABLE_RECEIPT.json": "05e3044eec6753f471ebf8f71c7c308dea9ae0a73316c5cb56f1ea5d9085c4a5",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RAW_RUNS_MANIFEST.json": "a44b00cab058f877888898a4a33c05dd2e191779c6673b82828db015d590dce1",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/DESIGN_ACCEPTANCE.json": "5a55605c48965b5d68ca8de71780519ee7987141258f342206021cd7d38ca8e5",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/PARENT_ACCEPT.py": "cb21ce653288a91bee141e05a9d7f1980f972a19d3c9e12e4c2bc2da97baf288",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_CPU_CHECKS.json": "146d279d66081711398dcfdd96f4f5d52e34ab5b99c83a8427afd4e22d16c68d",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_IMPLEMENTATION_REPORT.md": "377759b1679b3146d609a0cbd63135c7385d256e8bd1bc8fb6fb91727b11a440",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RUNTIME_IMPLEMENTATION_REPORT.md": "c9abe1fcc26f1f50150fda1075c029078394ecca2967ff3063bda467eadb40ab",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/R1_IMPLEMENTATION_REPORT.md": "9a476322010f205e8a652780da4331fe3c82cbe3692fe4253fabbd59de245abb",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_CODER_IMPLEMENTATION_REPORT.md": "fd88d88b86ed94ee55852cf5e5f2b2a854c5e5e180b9053f7b2f0fe7d50e38d9",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CONTINUATION_SCOPE_20261117.json": "a51cf4240004f14bd52d41324901e7edfb70705c922f92f34baa1b774970a4c4",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PUBLIC_STORAGE_OWNER.json": "1497744f9daf4896caee1fc5b29954212f49caeb3618dcb357adc50a675f29b1",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RECOVERY_REVIEW_PREPARATION_02.json": "2500a1f9e9ad8d0739eb93d6f96a991d8f431be88aed7715cac54d74f4751437",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/FORMAL_RUNNER_REPORT_RECOVERY_02.json": "c6e0df83aa94a3e735f040e9df6d32491a8d9b88fda89827dae9079c24725190",
+    "EXP_AI_CONTEXT.md": "a9e0a367f8547765d1459571eb090173d6ab0be22a7c3f4e85b9c69d208433f1",
+    "MDMT_ALGORITHM_METRICS_LEDGER.md": "7b30f0a3daeed6db48efab425bbc334f5c4ae7f447cc27fa5e0b028b042ace51",
+    "research_context/experiments/Experimental_Global_Summary.md": "0f3a9ee20c9ad4e89be5b83495532b82091a7f12cfa55915fe551a9e4017c9cd",
+    "research_context/experiments/Experimental_Evidence_Ledger.md": "e99dc29a8d6a77b5628f1a935952b7d277f26c31b7edd784517b58056053b8d1",
+    "research_context/experiments/Experimental_Experiment_Index.md": "3328f4b496effe8f902a1c368e661ad19417900d8d5efdda2a9a0339f0d9cbbf",
+    "research_context/experiments/Experimental_Open_Questions.md": "d414e451468d3f36991ac32407b144e1ce324158e5a78f931e9fdeaa47eaf1c9",
+    "research_context/experiments/Experimental_Stable_Findings.md": "2eb7465226599f4bbdf4c3ab8db4f9068db00daf4acfd8344c99d278557822e6"
+  },
+  "changed_input_hashes": {
+    "research_reports/completion_weight_attribution_20261117/METHODS.md": {
+      "before_sha256": "affa7644421109f7325cc012bb8298b6e89554b70d1c99ee10b65a8aada0007c",
+      "current_sha256": "8495e6db1bad0170bac4aeff1cf701e502ad1f26515b2ab63ba1d41cec6a35a6"
+    },
+    "research_reports/completion_weight_attribution_20261117/RESOURCE_EXECUTION_AUDIT.json": {
+      "before_sha256": "8362aa762840d9af67292439143a57f384b30ba683863f92680e0009a0f76931",
+      "current_sha256": "755775764dd0bb8507e1481a43457ede99bae02d21f14a8e535dd2144a661233"
+    },
+    "research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md": {
+      "before_sha256": "e109e875406526e0d2f3cc1f08f172220243a3612b1115d512e2450abad96212",
+      "current_sha256": "45e2beef3eeb56a27ef8d81e2f1c370838828ac5025db6c24c78ae7498254fbd"
+    },
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.stdout.json": {
+      "before_sha256": "20fc794beb4510bd58b33bd96b51584b53f9bf5b77717c0071ee82c246f2a8f3",
+      "current_sha256": "cc526baf3686cb0eef1618bde635a088f77918ca7a6a160fc519d6288a5bfbf9"
+    },
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_HISTORY.md": {
+      "before_sha256": "5013890177108ac7234fc1abe75c925882a934dcef08c01bbc3994628f6877dc",
+      "current_sha256": "0efbec69c970965a961b07ed7b0a3cfe8c48c304d50aa293322e063762f8710e"
+    },
+    "research_reports/completion_weight_attribution_20261117/REPORT.md": {
+      "before_sha256": "47e2c53e0960e77d4ec5d6e1690ccb685c450d05a5113d88793307d5eae1db87",
+      "current_sha256": "c84c9bf88b8fb92eb79d24f1133f2e019ffe6072cbf03b36b353e185e398be08"
+    },
+    "research_reports/completion_weight_attribution_20261117/ANALYSIS.py": {
+      "before_sha256": "52e89119bdfd36034d3814505244f747e771dcf94f3277810689b2e149d8cebe",
+      "current_sha256": "a7937092abdee80609908dd8757fa4817bae18ae73e0034b98d9d094d3c23f99"
+    },
+    "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.py": {
+      "before_sha256": "14d4754278c5aeda815726e794d10db98266751688ae25c06592a3e0d4388a30",
+      "current_sha256": "dd2b38e1f08f5a27a3e36a2739bb13d5c608f446739d8771670db85ec52f2ee4"
+    },
+    "research_reports/completion_weight_attribution_20261117/DECISION.json": {
+      "before_sha256": "b99023c50c9cb583567fabc3624109c074072a1b5c64c1270c8a6e686afd49de",
+      "current_sha256": "4ff7711cf1bf143c6667e4a86e27f9ea85c34f1c58d337423466e08de11818d7"
+    },
+    "research_reports/completion_weight_attribution_20261117/LEDGER_ENTRY.md": {
+      "before_sha256": "c03ccf4c089d5e0ca2a6f5ebe371862f22267a03805e9c400b32162ac1135083",
+      "current_sha256": "154baba60b1b29cb2ba3e76a5c7297411db3bdb54e2809b36e948fc6f21db48e"
+    },
+    "research_reports/completion_weight_attribution_20261117/PREPARE_PUBLICATION.py": {
+      "before_sha256": "18ea90707b3361ec11485ef9df2ce62700444cf6e41f012f5c8733fa3743f407",
+      "current_sha256": "f8216013cce7d34ccb3f469b98d8aa7748f938955884a96817634e498f9dc0ac"
+    },
+    "EXP_AI_CONTEXT.md": {
+      "before_sha256": "b69adbf023639506f01dfad30d374a61ea2270038477fbe3ebe14200355dce21",
+      "current_sha256": "a9e0a367f8547765d1459571eb090173d6ab0be22a7c3f4e85b9c69d208433f1"
+    },
+    "MDMT_ALGORITHM_METRICS_LEDGER.md": {
+      "before_sha256": "61c070ad206ce435e74d30cef4172162b35012478f9b1a08634dafe06b28f785",
+      "current_sha256": "7b30f0a3daeed6db48efab425bbc334f5c4ae7f447cc27fa5e0b028b042ace51"
+    },
+    "research_context/experiments/Experimental_Global_Summary.md": {
+      "before_sha256": "2def9c05840cb24efca8423aa243c204c9d0b4319b2d7c5e0982257cce906636",
+      "current_sha256": "0f3a9ee20c9ad4e89be5b83495532b82091a7f12cfa55915fe551a9e4017c9cd"
+    },
+    "research_context/experiments/Experimental_Evidence_Ledger.md": {
+      "before_sha256": "ce1de892b33844b78329b10f4204bd641c84f4b6f80c9f4cb0c44b6ca089a141",
+      "current_sha256": "e99dc29a8d6a77b5628f1a935952b7d277f26c31b7edd784517b58056053b8d1"
+    },
+    "research_context/experiments/Experimental_Experiment_Index.md": {
+      "before_sha256": "98e1af0484f78783057c8b4a09f5aefea35e2dbbdcd74dc6c5404afea004fea0",
+      "current_sha256": "3328f4b496effe8f902a1c368e661ad19417900d8d5efdda2a9a0339f0d9cbbf"
+    },
+    "research_context/experiments/Experimental_Open_Questions.md": {
+      "before_sha256": "8a073d866808b196d654c94e3b8bfe91cf2ef18e0576015e37099389cbe33335",
+      "current_sha256": "d414e451468d3f36991ac32407b144e1ce324158e5a78f931e9fdeaa47eaf1c9"
+    },
+    "research_context/experiments/Experimental_Stable_Findings.md": {
+      "before_sha256": "4dc873255b7b16154edc90c74b52429832e7379b64437342ed5d69d53b16552c",
+      "current_sha256": "2eb7465226599f4bbdf4c3ab8db4f9068db00daf4acfd8344c99d278557822e6"
+    }
+  },
+  "unchanged_input_hashes": {
+    "research_reports/completion_weight_attribution_20261117/COST_MEANS.csv": "57655c1156f59d0893ad5fa83d89aa40f0fc30debb43f06366e0946076e7b6b3",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_COSTS.py": "95336a4ceaa9383f71c267bb11066b30f8172bd9ed015f56fd29d9c9d1893cae",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_DOMAIN_CONTEXT.csv": "20f338f8ad5193dfa4dec27618d4ac248b66b5786bbefd1bfc60d9cf9a842a90",
+    "research_reports/completion_weight_attribution_20261117/CELL_AUC_DELTAS.png": "2119c36070049a3b2944da39f7fb382d2e658e3b6e8099ec3dd4ad16df8ee112",
+    "research_reports/completion_weight_attribution_20261117/ENDPOINT_MEANS.csv": "2381f79cf49619c6161d5839a0254afa1d64c18b6fb0a5701974d7be0043cd80",
+    "research_reports/completion_weight_attribution_20261117/FIGURES.py": "175f29ab18590b5e87a747225caf7348299924a2fcdab8280f933001f7fa3ed4",
+    "research_reports/completion_weight_attribution_20261117/ARCHIVE.stdout.json": "8c18d4b8721ba40629aeb8c3762dfdfeae2accc95316bb34225072ec9ee03d74",
+    "research_reports/completion_weight_attribution_20261117/NUMERICAL_APPENDIX.md": "7c3cefbf4985a6f1a19f946a5ad773824e6c0bc90498aa4da2494df14e8eec00",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_CELL_CONTEXT.csv": "a11fa2507692782dec36abc3e84e9567b5c7fba63fbf8b58921e93c1b0eb3c70",
+    "research_reports/completion_weight_attribution_20261117/PHYSICAL_ATTEMPT_SUMMARY.csv": "3e4e6177b6202fc29d07abf664266b3e1f76a765b30fe9a2f43d62c633efee00",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_PHYSICAL_ATTEMPTS.csv": "56f7a4fc71bfd3dfade55c8c44d06a79c0a51ca8aa425ac2ce947217f814213a",
+    "research_reports/completion_weight_attribution_20261117/BASELINE_CONTEXT.py": "7f563e7195d59e3b4488d5d53f321be609df60057cd5add22a49452f5208edb1",
+    "research_reports/completion_weight_attribution_20261117/ANALYSIS.stdout.json": "904b53d9ac88ad13df67678bfdc9b16d8df22faee6d34a8df8263d1d03e7e53d",
+    "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv": "e09f0da7277d95c197ac606494b0b1ac45fd5e20a6385a133dc4a26797f1ff5c",
+    "research_reports/completion_weight_attribution_20261117/STAGE_CONTRASTS.png": "3d9c9253ab657532070c4a426f1d50f0bb7ca17eba038716267cb798d1fd0b72",
+    "research_reports/completion_weight_attribution_20261117/PHYSICAL_BATCH_LEDGER.csv": "54f56380bd57ae54a73b757803d07344ea98994f2a1460f687cff749add321b5",
+    "research_reports/completion_weight_attribution_20261117/COST_ACCOUNTING_CORRECTION.json": "4f5cb19c73bdd1b6d83f2bcb84c3f71302303d99e35af9680d6cb20fb7e0df96",
+    "research_reports/completion_weight_attribution_20261117/RETIRED_ATTEMPT_COSTS.json": "ff1aa03bf149777fe1c0eb1e47bb84ea881655c15b5122f471c6b97c2daa2f67",
+    "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_MEANS.csv": "871ae423d9528b5e4bb6e5540eea1f07f39d4d84354dc1915a2f42dae0718d3a",
+    "research_reports/completion_weight_attribution_20261117/PACK_RAW.py": "20674a5e04bdc641a79253d0018b68d8bffd0afcb6d23bc05ae42479506e9d00",
+    "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_ANNOTATIONS.csv": "0904456e0a36fdc5c110e2ef503f2b414c3d03e2c3a3c0f436463b8681bb8dde",
+    "research_reports/completion_weight_attribution_20261117/PAIRED_AUC.png": "833d532d24440581cfde9a6e146dece69c1ad3e9e6379f0170cad698cf614022",
+    "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SEEDS.csv": "0f03d7896551c008e8b587330fca22284a6e58fee6f95d4966176f11c17d6c94",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/source_receipt.json": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/run_manifest.json": "673f0a392a03a7fdbd608073762de42dfc3b4efdbc0d0070f56ee7e0e1050e37",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_STORAGE_ACCEPTANCE.json": "c68d93815c0e8c9f60e88898ecf73ac0124243dfeb3b25ccd061b208a5f7d0e7",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/tables/TABLE_RECEIPT.json": "05e3044eec6753f471ebf8f71c7c308dea9ae0a73316c5cb56f1ea5d9085c4a5",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RAW_RUNS_MANIFEST.json": "a44b00cab058f877888898a4a33c05dd2e191779c6673b82828db015d590dce1",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/DESIGN_ACCEPTANCE.json": "5a55605c48965b5d68ca8de71780519ee7987141258f342206021cd7d38ca8e5",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/PARENT_ACCEPT.py": "cb21ce653288a91bee141e05a9d7f1980f972a19d3c9e12e4c2bc2da97baf288",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_CPU_CHECKS.json": "146d279d66081711398dcfdd96f4f5d52e34ab5b99c83a8427afd4e22d16c68d",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_IMPLEMENTATION_REPORT.md": "377759b1679b3146d609a0cbd63135c7385d256e8bd1bc8fb6fb91727b11a440",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RUNTIME_IMPLEMENTATION_REPORT.md": "c9abe1fcc26f1f50150fda1075c029078394ecca2967ff3063bda467eadb40ab",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/R1_IMPLEMENTATION_REPORT.md": "9a476322010f205e8a652780da4331fe3c82cbe3692fe4253fabbd59de245abb",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_CODER_IMPLEMENTATION_REPORT.md": "fd88d88b86ed94ee55852cf5e5f2b2a854c5e5e180b9053f7b2f0fe7d50e38d9",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CONTINUATION_SCOPE_20261117.json": "a51cf4240004f14bd52d41324901e7edfb70705c922f92f34baa1b774970a4c4",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PUBLIC_STORAGE_OWNER.json": "1497744f9daf4896caee1fc5b29954212f49caeb3618dcb357adc50a675f29b1",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RECOVERY_REVIEW_PREPARATION_02.json": "2500a1f9e9ad8d0739eb93d6f96a991d8f431be88aed7715cac54d74f4751437",
+    "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/FORMAL_RUNNER_REPORT_RECOVERY_02.json": "c6e0df83aa94a3e735f040e9df6d32491a8d9b88fda89827dae9079c24725190"
+  },
+  "pre_disclosure_manifest": {
+    "path": "/tmp/phase0-3-cycle04-pre-availability/MANIFEST.json",
+    "sha256": "d3ecbd89f7b0f0fa7a5084e48ff3df8c895bf57731207d4aef128bdcd95d4688",
+    "entries": 17,
+    "all_backups_match_manifest_and_original_review": true
+  },
+  "identity_verification": {
+    "source_files": 48,
+    "source_files_match_frozen_receipt_and_Darwin": true,
+    "canonical_source_digest_verified": true,
+    "external_runtime": [
+      {
+        "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+        "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+      }
+    ],
+    "design_files": {
+      "ALGORITHM_DESIGNS.md": "35a2fa2ad974511e2401bb6e8a5291f9715d12453127344ad035407195ae2988",
+      "CODEX_EXECUTION_PLAN.md": "56e8b8a90add63d694655a1b908e84e63a6ebdc11bb0012e950a10c88255b558",
+      "CRITICAL_REVIEW.md": "696fe772efb113aa4304d014a9c4a573cb240ccff02bebad2bba4781fd64044f",
+      "DESIGN_SPECIFICATION.md": "cb320632dcebdb8f75fe298b5b35f95e6dc07659ff0146fbe5f8ffd79ffed9db",
+      "EXPERIMENT_MANIFEST.json": "1e93bc945533d15ed869ee6e7716cbcf701eaebfd6ccfdb330e0f3707c118b10",
+      "LITERATURE_AND_NOVELTY.md": "5f0ddf966283c241638a52e038834efc79b4dc530a35e437b7b04a6b59a649c3",
+      "RESEARCH_EXPLORATION.md": "47e94eb2bf62b312b7a692bfed3b3af6e40106c83ac76247350b87655c0d5503"
+    },
+    "design_name_to_path": {
+      "ALGORITHM_DESIGNS.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/ALGORITHM_DESIGNS.md",
+      "CODEX_EXECUTION_PLAN.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CODEX_EXECUTION_PLAN.md",
+      "CRITICAL_REVIEW.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CRITICAL_REVIEW.md",
+      "EXPERIMENT_MANIFEST.json": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/EXPERIMENT_MANIFEST.json",
+      "LITERATURE_AND_NOVELTY.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/LITERATURE_AND_NOVELTY.md",
+      "RESEARCH_EXPLORATION.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESEARCH_EXPLORATION.md",
+      "DESIGN_SPECIFICATION.md": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/DESIGN_SPECIFICATION.md"
+    },
+    "canonical_seven_design_digest_verified": true,
+    "all_prior_review_receipt_hashes_unchanged": true,
+    "prior_review_identities": [
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/IMPLEMENTATION_REVIEW.json",
+        "reviewer_id": "01a1e6c2-c955-7021-857e-eb4d342b73a2",
+        "sha256": "68cf69917b5ecab8e8e48254ad5e1d7f39919a063a9116074614b970ce8ea9cd",
+        "verdict": "FAIL"
+      },
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/IMPLEMENTATION_REVIEW_R1.json",
+        "reviewer_id": "01a1e6e3-bfaa-73a2-a96e-a16123dd9999",
+        "sha256": "b47e69dc928bb084701870bf29a6f28be489e10cf005897aca277aad1e532cf6",
+        "verdict": "PASS"
+      },
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_IMPLEMENTATION_REVIEW.json",
+        "reviewer_id": "01a1e753-1214-7ec0-8183-5dc262103865",
+        "sha256": "681ee71a574919c9df3f4d7a337cf0dc82f589097a4ce8e51e94398fadd15494",
+        "verdict": "PASS"
+      },
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/ENGINEERING_SIGNOFF.json",
+        "reviewer_id": "01a1e75f-4282-7793-b4cf-6d0115a19307",
+        "sha256": "ee7dc227bdcfc73798e5920da6eee441574378f25fe894cbf6d0c4c1b22868ac",
+        "verdict": "PASS"
+      },
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RECOVERY_REVIEW_01.json",
+        "reviewer_id": "01a1e820-76e4-7851-85fe-f3e22a2045d6",
+        "sha256": "a74e87b045c5757d9afa6187ad8026c15c2b83f30ff389b18a4a1fae50f3a89b",
+        "verdict": "PASS"
+      },
+      {
+        "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RECOVERY_REVIEW_02.json",
+        "reviewer_id": "01a1e920-d526-7303-91e0-dadf1ecef937",
+        "sha256": "5087bd011455e3de6780c3285edce08787321a40fc129314213484d1b0a72538",
+        "verdict": "PASS"
+      }
+    ],
+    "unchanged_Darwin_inputs": 39,
+    "changed_Darwin_inputs": 18,
+    "raw_manifest_sha256": "a44b00cab058f877888898a4a33c05dd2e191779c6673b82828db015d590dce1",
+    "table_receipt_sha256": "05e3044eec6753f471ebf8f71c7c308dea9ae0a73316c5cb56f1ea5d9085c4a5",
+    "archive_parts": 89,
+    "every_part_size_and_sha256_verified": true,
+    "concatenated_archive_sha256": "5841209454b679425a25e910042e90056553a03521507c30b9287e69b406d5e2",
+    "archive_bytes": 740197954,
+    "original_member_files_rehashed": 6611,
+    "original_member_bytes": 4077601426,
+    "original_member_kinds": {
+      "new_cycle_numeric": 4243,
+      "reused_numeric_control": 1020,
+      "retired_numeric_or_source": 1348
+    },
+    "all_original_member_sizes_and_sha256_verified": true,
+    "exact_current_N_eligible_tree_coverage": true,
+    "current_N_numeric_members": 4243,
+    "N_or_archive_rewritten": false
+  },
+  "reused_proofs": {
+    "provenance": "Darwin independent checks, not claimed as recomputed R1 arithmetic/member-stream checks. Their input byte identities verified above.",
+    "initial_review_sha256": "f5b3122f7ec28545d200b577e5fab1a46a898b8dd2676bbfd2415003ba9dcca8",
+    "archive": {
+      "status": "PASS",
+      "parts": 89,
+      "archive_sha256": "5841209454b679425a25e910042e90056553a03521507c30b9287e69b406d5e2",
+      "bytes": 740197954,
+      "members": 6611,
+      "uncompressed_bytes": 4077601426,
+      "kinds": {
+        "new_cycle_numeric": 4243,
+        "reused_numeric_control": 1020,
+        "retired_numeric_or_source": 1348
+      },
+      "all_member_hashes_verified": true,
+      "all_original_path_hashes_verified": true,
+      "exact_current_and_retired_tree_coverage": true,
+      "reused_control_files": 1020,
+      "retired_source_files": 48,
+      "outer_gzip_crc": true,
+      "secret_findings": [],
+      "known_actual_owner_authkeys_scanned": true,
+      "regular_safe_paths_only": true,
+      "tensor_extensions_excluded": true
+    },
+    "arithmetic": {
+      "status": "PASS",
+      "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+      "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+      "source_files": 48,
+      "design_files": {
+        "ALGORITHM_DESIGNS.md": "35a2fa2ad974511e2401bb6e8a5291f9715d12453127344ad035407195ae2988",
+        "CODEX_EXECUTION_PLAN.md": "56e8b8a90add63d694655a1b908e84e63a6ebdc11bb0012e950a10c88255b558",
+        "CRITICAL_REVIEW.md": "696fe772efb113aa4304d014a9c4a573cb240ccff02bebad2bba4781fd64044f",
+        "DESIGN_SPECIFICATION.md": "cb320632dcebdb8f75fe298b5b35f95e6dc07659ff0146fbe5f8ffd79ffed9db",
+        "EXPERIMENT_MANIFEST.json": "1e93bc945533d15ed869ee6e7716cbcf701eaebfd6ccfdb330e0f3707c118b10",
+        "LITERATURE_AND_NOVELTY.md": "5f0ddf966283c241638a52e038834efc79b4dc530a35e437b7b04a6b59a649c3",
+        "RESEARCH_EXPLORATION.md": "47e94eb2bf62b312b7a692bfed3b3af6e40106c83ac76247350b87655c0d5503"
+      },
+      "source_runtime": [
+        {
+          "path": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/lib/python3.13/site-packages/torch/optim/adam.py",
+          "sha256": "b099132d262d6cb16eefa48ab4bae789a0655cafb8571e421ef4fe3d2ff7c34c"
+        }
+      ],
+      "tables_hashes_and_counts_verified": 18,
+      "proof_reviews": [
+        {
+          "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_IMPLEMENTATION_REVIEW.json",
+          "sha256": "681ee71a574919c9df3f4d7a337cf0dc82f589097a4ce8e51e94398fadd15494",
+          "reviewer_id": "01a1e753-1214-7ec0-8183-5dc262103865"
+        },
+        {
+          "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/ENGINEERING_SIGNOFF.json",
+          "sha256": "ee7dc227bdcfc73798e5920da6eee441574378f25fe894cbf6d0c4c1b22868ac",
+          "reviewer_id": "01a1e75f-4282-7793-b4cf-6d0115a19307"
+        },
+        {
+          "path": "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RECOVERY_REVIEW_02.json",
+          "sha256": "5087bd011455e3de6780c3285edce08787321a40fc129314213484d1b0a72538",
+          "reviewer_id": "01a1e920-d526-7303-91e0-dadf1ecef937"
+        }
+      ],
+      "control_files_verified": 1020,
+      "new_ACKs_verified": 1000,
+      "useful_updates": 34500,
+      "final_operations": {
+        "training_rows": 1403149500,
+        "task_entries": 2806299000,
+        "ordinary_forwards": 34500,
+        "scalar_backwards": 34500,
+        "live_adam_steps": 34500,
+        "live_ema_steps": 34500,
+        "diagnostic_points": 80,
+        "extra_autograd_sweeps": 240,
+        "virtual_adam_steps": 320,
+        "probe_forwards": 0,
+        "view_forwards": 0,
+        "algorithm_rng_draws": 0
+      },
+      "raw_trajectories": 40,
+      "raw_curves": 4000,
+      "raw_endpoints": 400,
+      "paired_seed_rows": 25500,
+      "paired_summaries": 5100,
+      "endpoint_mean_rows": 2720,
+      "contrast_families": 15,
+      "metrics": 34,
+      "sample_sd_ddof": 1,
+      "t4": 2.7764451051977987,
+      "independent_formula": "math.fsum; explicit centered sum of squares/(n-1)",
+      "all_summary_fields_match": true,
+      "all_selected_and_fixed_hashes_match": true,
+      "all50_order_hashes_match_controls": true,
+      "primary": {
+        "movielens": {
+          "macro_auc": {
+            "n": 5,
+            "mean": -0.00015462144763278562,
+            "sd": 0.00045484050930574133,
+            "ci95_low": -0.0007193805329623899,
+            "ci95_high": 0.0004101376376968186,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0,
+            "favorable": 2,
+            "unfavorable": 3
+          },
+          "macro_logloss": {
+            "n": 5,
+            "mean": -0.0003053164734484248,
+            "sd": 0.0020454832246558927,
+            "ci95_low": -0.002845119352433394,
+            "ci95_high": 0.002234486405536544,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0,
+            "favorable": 3,
+            "unfavorable": 2
+          },
+          "d0t0_auc": {
+            "n": 5,
+            "mean": -1.6938642844310792e-05,
+            "sd": 0.0018978611474117849,
+            "ci95_low": -0.0023734445031752156,
+            "ci95_high": 0.0023395672174865937,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0,
+            "favorable": 3,
+            "unfavorable": 2
+          },
+          "min_cell_mean_delta": -0.00034086049986612463
+        },
+        "kuairand": {
+          "macro_auc": {
+            "n": 5,
+            "mean": 0.0025550857333183517,
+            "sd": 0.004445800598895028,
+            "ci95_low": -0.002965104813522348,
+            "ci95_high": 0.008075276280159051,
+            "positive": 3,
+            "negative": 2,
+            "zero": 0,
+            "favorable": 3,
+            "unfavorable": 2
+          },
+          "macro_logloss": {
+            "n": 5,
+            "mean": -0.003942334325717012,
+            "sd": 0.0015331538858727896,
+            "ci95_low": -0.005845996309511461,
+            "ci95_high": -0.0020386723419225632,
+            "positive": 0,
+            "negative": 5,
+            "zero": 0,
+            "favorable": 5,
+            "unfavorable": 0
+          },
+          "d0t0_auc": {
+            "n": 5,
+            "mean": -0.0031413726095260277,
+            "sd": 0.006324207951032849,
+            "ci95_low": -0.010993913939477525,
+            "ci95_high": 0.004711168720425468,
+            "positive": 2,
+            "negative": 3,
+            "zero": 0,
+            "favorable": 2,
+            "unfavorable": 3
+          },
+          "min_cell_mean_delta": -0.0031413726095260277
+        }
+      },
+      "owner_alive": false,
+      "keyfile_hashes": {
+        "research_reports/completion_weight_attribution_20261117/COST_MEANS.csv": "57655c1156f59d0893ad5fa83d89aa40f0fc30debb43f06366e0946076e7b6b3",
+        "research_reports/completion_weight_attribution_20261117/RETIRED_COSTS.py": "95336a4ceaa9383f71c267bb11066b30f8172bd9ed015f56fd29d9c9d1893cae",
+        "research_reports/completion_weight_attribution_20261117/BASELINE_DOMAIN_CONTEXT.csv": "20f338f8ad5193dfa4dec27618d4ac248b66b5786bbefd1bfc60d9cf9a842a90",
+        "research_reports/completion_weight_attribution_20261117/CELL_AUC_DELTAS.png": "2119c36070049a3b2944da39f7fb382d2e658e3b6e8099ec3dd4ad16df8ee112",
+        "research_reports/completion_weight_attribution_20261117/METHODS.md": "affa7644421109f7325cc012bb8298b6e89554b70d1c99ee10b65a8aada0007c",
+        "research_reports/completion_weight_attribution_20261117/ENDPOINT_MEANS.csv": "2381f79cf49619c6161d5839a0254afa1d64c18b6fb0a5701974d7be0043cd80",
+        "research_reports/completion_weight_attribution_20261117/FIGURES.py": "175f29ab18590b5e87a747225caf7348299924a2fcdab8280f933001f7fa3ed4",
+        "research_reports/completion_weight_attribution_20261117/ARCHIVE.stdout.json": "8c18d4b8721ba40629aeb8c3762dfdfeae2accc95316bb34225072ec9ee03d74",
+        "research_reports/completion_weight_attribution_20261117/NUMERICAL_APPENDIX.md": "7c3cefbf4985a6f1a19f946a5ad773824e6c0bc90498aa4da2494df14e8eec00",
+        "research_reports/completion_weight_attribution_20261117/BASELINE_CELL_CONTEXT.csv": "a11fa2507692782dec36abc3e84e9567b5c7fba63fbf8b58921e93c1b0eb3c70",
+        "research_reports/completion_weight_attribution_20261117/RESOURCE_EXECUTION_AUDIT.json": "8362aa762840d9af67292439143a57f384b30ba683863f92680e0009a0f76931",
+        "research_reports/completion_weight_attribution_20261117/PHYSICAL_ATTEMPT_SUMMARY.csv": "3e4e6177b6202fc29d07abf664266b3e1f76a765b30fe9a2f43d62c633efee00",
+        "research_reports/completion_weight_attribution_20261117/RETIRED_PHYSICAL_ATTEMPTS.csv": "56f7a4fc71bfd3dfade55c8c44d06a79c0a51ca8aa425ac2ce947217f814213a",
+        "research_reports/completion_weight_attribution_20261117/BASELINE_CONTEXT.py": "7f563e7195d59e3b4488d5d53f321be609df60057cd5add22a49452f5208edb1",
+        "research_reports/completion_weight_attribution_20261117/ANALYSIS.stdout.json": "904b53d9ac88ad13df67678bfdc9b16d8df22faee6d34a8df8263d1d03e7e53d",
+        "research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md": "e109e875406526e0d2f3cc1f08f172220243a3612b1115d512e2450abad96212",
+        "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv": "e09f0da7277d95c197ac606494b0b1ac45fd5e20a6385a133dc4a26797f1ff5c",
+        "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.stdout.json": "20fc794beb4510bd58b33bd96b51584b53f9bf5b77717c0071ee82c246f2a8f3",
+        "research_reports/completion_weight_attribution_20261117/EXECUTION_HISTORY.md": "5013890177108ac7234fc1abe75c925882a934dcef08c01bbc3994628f6877dc",
+        "research_reports/completion_weight_attribution_20261117/STAGE_CONTRASTS.png": "3d9c9253ab657532070c4a426f1d50f0bb7ca17eba038716267cb798d1fd0b72",
+        "research_reports/completion_weight_attribution_20261117/PHYSICAL_BATCH_LEDGER.csv": "54f56380bd57ae54a73b757803d07344ea98994f2a1460f687cff749add321b5",
+        "research_reports/completion_weight_attribution_20261117/REPORT.md": "47e2c53e0960e77d4ec5d6e1690ccb685c450d05a5113d88793307d5eae1db87",
+        "research_reports/completion_weight_attribution_20261117/COST_ACCOUNTING_CORRECTION.json": "4f5cb19c73bdd1b6d83f2bcb84c3f71302303d99e35af9680d6cb20fb7e0df96",
+        "research_reports/completion_weight_attribution_20261117/ANALYSIS.py": "52e89119bdfd36034d3814505244f747e771dcf94f3277810689b2e149d8cebe",
+        "research_reports/completion_weight_attribution_20261117/EXECUTION_AUDIT.py": "14d4754278c5aeda815726e794d10db98266751688ae25c06592a3e0d4388a30",
+        "research_reports/completion_weight_attribution_20261117/RETIRED_ATTEMPT_COSTS.json": "ff1aa03bf149777fe1c0eb1e47bb84ea881655c15b5122f471c6b97c2daa2f67",
+        "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_MEANS.csv": "871ae423d9528b5e4bb6e5540eea1f07f39d4d84354dc1915a2f42dae0718d3a",
+        "research_reports/completion_weight_attribution_20261117/DECISION.json": "b99023c50c9cb583567fabc3624109c074072a1b5c64c1270c8a6e686afd49de",
+        "research_reports/completion_weight_attribution_20261117/LEDGER_ENTRY.md": "c03ccf4c089d5e0ca2a6f5ebe371862f22267a03805e9c400b32162ac1135083",
+        "research_reports/completion_weight_attribution_20261117/PREPARE_PUBLICATION.py": "18ea90707b3361ec11485ef9df2ce62700444cf6e41f012f5c8733fa3743f407",
+        "research_reports/completion_weight_attribution_20261117/PACK_RAW.py": "20674a5e04bdc641a79253d0018b68d8bffd0afcb6d23bc05ae42479506e9d00",
+        "research_reports/completion_weight_attribution_20261117/DIAGNOSTIC_ANNOTATIONS.csv": "0904456e0a36fdc5c110e2ef503f2b414c3d03e2c3a3c0f436463b8681bb8dde",
+        "research_reports/completion_weight_attribution_20261117/PAIRED_AUC.png": "833d532d24440581cfde9a6e146dece69c1ad3e9e6379f0170cad698cf614022",
+        "research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SEEDS.csv": "0f03d7896551c008e8b587330fca22284a6e58fee6f95d4966176f11c17d6c94",
+        "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/source_receipt.json": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3",
+        "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/run_manifest.json": "673f0a392a03a7fdbd608073762de42dfc3b4efdbc0d0070f56ee7e0e1050e37",
+        "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_STORAGE_ACCEPTANCE.json": "c68d93815c0e8c9f60e88898ecf73ac0124243dfeb3b25ccd061b208a5f7d0e7",
+        "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/tables/TABLE_RECEIPT.json": "05e3044eec6753f471ebf8f71c7c308dea9ae0a73316c5cb56f1ea5d9085c4a5",
+        "artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RAW_RUNS_MANIFEST.json": "a44b00cab058f877888898a4a33c05dd2e191779c6673b82828db015d590dce1"
+      }
+    },
+    "diagnostics_costs_baselines": {
+      "status": "PASS",
+      "diagnostic_raw_rows": 93600,
+      "diagnostic_points": 80,
+      "diagnostic_means": 17888,
+      "annotations": 4160,
+      "all_nulls_and_seed_aggregation_verified": true,
+      "coefficient_rows": 207000,
+      "paired_batch_m_exact": true,
+      "mean_m": {
+        "movielens": 0.8947690674512807,
+        "kuairand": 0.8994699862685044
+      },
+      "physical_batches": {
+        "calls": 34640,
+        "rows": 1408883900,
+        "diagnostics": 81,
+        "sweeps": 243,
+        "virtual": 324,
+        "seconds": 61546.47154270578
+      },
+      "useful_batches": {
+        "calls": 34500,
+        "rows": 1403149500,
+        "diagnostics": 80,
+        "sweeps": 240,
+        "virtual": 320,
+        "seconds": 61143.16829083883
+      },
+      "physical_batch_files": 1009,
+      "nonACK_calls": 140,
+      "processes": 30,
+      "status_counts": {
+        "COMPLETE": 20,
+        "PAUSED": 8,
+        "FAILED_OBSERVED": 2
+      },
+      "known_worker_seconds": 60790.55736127368,
+      "missing_worker_terminal_durations": 2,
+      "supervisor_seconds": 68156.81714725494,
+      "all_formal_pids_exited": true,
+      "cost_means": 28,
+      "corrected_ACK_records": 111,
+      "corrected_seconds": 61.909074446884915,
+      "baseline_cells": 12,
+      "baseline_domains": 6
+    },
+    "additional_checks": {
+      "frozen_export_paired_rows": 24750,
+      "frozen_export_summaries": 4950,
+      "statistic_rows": 48000,
+      "statistic_means": 19200,
+      "ledger_table_rows": 16,
+      "analysis_stdout_shared_fields_match": true,
+      "execution_audit_stdout_shared_fields_match": true,
+      "all_three_actual_pngs_viewed": true,
+      "retired_attempt": {
+        "processes": 40,
+        "statuses": {
+          "PAUSED": 24,
+          "FAILED": 15,
+          "FAILED_OBSERVED": 1
+        },
+        "ACK_epochs": 275,
+        "updates": 7733,
+        "known_worker_seconds": 10523.255015449016,
+        "missing_terminal_durations": 1,
+        "current_completion_credit": 0
+      },
+      "ACK_chronology_and_actual_server_journal_links": 1000,
+      "current_data_manifests_equal_bound_control_data_manifests": true
+    },
+    "scientific_claim_review": [
+      {
+        "claim": "Primary MIXED / no qualification",
+        "verdict": "SUPPORTED",
+        "strength": "STRONG for arithmetic; WEAK for stable AUC benefit",
+        "detail": "Both primary CIs cross0; both means miss+.003 and KRd0t0 misses-.001. Loss cannot rescue AUC eligibility."
+      },
+      {
+        "claim": "KR W-C macro LL; W-S task1 LL in both datasets",
+        "verdict": "SUPPORTED",
+        "strength": "MEDIUM",
+        "detail": "Five negative paired seeds and negative intervals; conditional on source model/protocol and independent AUC selections."
+      },
+      {
+        "claim": "ML ranking addition cost and stage reversal",
+        "verdict": "SUPPORTED_WITH_RECORDED_SCOPE",
+        "strength": "MEDIUM",
+        "detail": "N-W online selected AUC5/5 negative; EMA selected AUC uncertain. EMA E1 positive to E50 negative; selected and fixed stage are kept distinct."
+      },
+      {
+        "claim": "Ranking necessary for all persistent selected deficits",
+        "verdict": "UNRESOLVED_AS_REPORTED",
+        "strength": "WEAK",
+        "detail": "W does not preserve N's five-seed selected deficit; uncertainty is not equivalence. Missing S+R interaction remains unestimated."
+      },
+      {
+        "claim": "Size/difficulty or uniform small-gain/large-cost explanation",
+        "verdict": "NOT_ESTABLISHED_AS_REPORTED",
+        "strength": "WEAK",
+        "detail": "KRd2 rank gain, d0 loss harm and largestd1 loss gain coexist; ML smallest-domain baseline AUC is highest. Priors/domain identity/populations are confounded."
+      },
+      {
+        "claim": "Macro versus sample-weighted/pooled AUC and EMA readout",
+        "verdict": "SUPPORTED",
+        "detail": "Contradictory aggregations and baseline EMA advantage preserved; pooled versus weighted LL are equivalent summaries, not independent replications."
+      },
+      {
+        "claim": "C/N reuse and C3 identical prefix",
+        "verdict": "CORRECTLY_NOT_COUNTED_AS_NEW_INDEPENDENT_REPLICATIONS"
+      },
+      {
+        "claim": "Prohibited causal/generalization claims",
+        "verdict": "ABSENT",
+        "detail": "No mediation percentage, class-only or balancing identification, Adam-LR equivalence, universal CL/momentum efficacy, inevitable difficult-domain M3oE failure or SOTA superiority claim."
+      }
+    ],
+    "reuse_covers": {
+      "archive_members": 6611,
+      "controls": 1020,
+      "new_ACKs": 1000,
+      "paired_seed_rows": 25500,
+      "paired_summaries": 5100,
+      "all_three_figure_visual_checks": true
+    }
+  },
+  "registered_decision": "MIXED",
+  "candidate_qualified": false,
+  "champion_selected": false,
+  "test_accessed": false,
+  "test_release_eligible": false,
+  "final_test_eligible": false,
+  "experiments_safe_to_continue": true,
+  "experiments_safe_to_run": false,
+  "experiments_safe_to_run_after_c04_publication": true,
+  "current_review_authorizes_launch": false,
+  "continuation_qualification": "Only independently initialized C05, after actual C04 main publication/delivery and fresh DESIGN -> IMPLEMENT -> distinct REVIEW -> supervised RUN gates. C/N/W/S numeric controls remain valid for fresh source initialization. No lost-model warm start, replacement owner, automatic C04 retraining, Test or C06. Parent alone dispatches. This evidence review is not C05 algorithm/design/run approval.",
+  "publication_gate": {
+    "review_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/FINAL_EVIDENCE_REVIEW_R1.json",
+    "helper_path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/research_reports/completion_weight_attribution_20261117/PREPARE_PUBLICATION.py",
+    "helper_sha256": "f8216013cce7d34ccb3f469b98d8aa7748f938955884a96817634e498f9dc0ac",
+    "requires_actual_PASS_or_PASS_WITH_FIXES_and_empty_blockers": true,
+    "records_actual_R1_path_and_sha256": true,
+    "includes_original_FAIL_and_R1": true,
+    "publication_helper_executed_by_reviewer": false,
+    "main_publication_certified": false,
+    "expected_prepublication_main": "4c95dc877b85cc676bf7366958f8c7de0291871e",
+    "expected_main_source": "Parent handoff; no remote publication action or main movement verified by this reviewer"
+  },
+  "remaining_material_limits": [
+    "Selected C04 models currently unavailable. B1 closes disclosure/publication readiness only; physical retention loss persists. Exact exit time/cause unknown.",
+    "Historical archive/acceptance preserve provenance and numbers, not live tensors. No live-state reuse or selected-model Test eligibility.",
+    "Unchanged scientific limits: five paired seeds, shared/adapted validation, correlated comparisons, one model/two natural datasets; size/difficulty/class/task/optimizer/EMA paths not independently isolated.",
+    "Unchanged execution limits: two failed worker terminal durations and unreturned work unknown; NVML concrete failing API/cause unidentified.",
+    "Actual C04 main publication remains the original parent responsibility and prerequisite for independent C05."
+  ],
+  "boundaries": {
+    "only_written_files": [
+      "FINAL_EVIDENCE_REVIEW_R1.md",
+      "FINAL_EVIDENCE_REVIEW_R1.json"
+    ],
+    "source_edits": 0,
+    "input_report_edits": 0,
+    "N_writes": 0,
+    "context_edits": 0,
+    "gpu_training_calls": 0,
+    "gpu_queries": 0,
+    "owner_ipc_calls": 0,
+    "selected_model_repulls": 0,
+    "cache_unpickling": false,
+    "test_accessed": false,
+    "broad_tests": 0,
+    "mutable_analysis_script_executions": 0,
+    "descendants": 0,
+    "independent_ai_sessions": 0,
+    "context_reuse": false,
+    "publication_actions": 0
+  },
+  "final_verification_at_utc": "2026-11-17T13:01:35.498673+00:00",
+  "context_returned_permanently": true,
+  "context_reuse_authorized": false,
+  "markdown_report": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/FINAL_EVIDENCE_REVIEW_R1.md",
+    "sha256": "29041ca69254bf6f1002c71986ec800228f8bae9d035de6f4bdc25f5d5dec263"
+  }
+}

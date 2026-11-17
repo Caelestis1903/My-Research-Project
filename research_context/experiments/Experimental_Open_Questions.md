@@ -1,5 +1,19 @@
 # Experimental Open Questions
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 / OQ-CWA-C04 — 条件权重、排序阶段与选点
+
+1. W−S在两数据集task1 LL五seed改善，但同时改变class/cell/task分配。哪一个分量解释损失收益及KR d2排序增益、d0损失成本？需要保持cell/task总质量的class内干预，或补足S+R交互；相同全局m不足以识别class-only机制。
+2. 保留W时，R在ML E1帮助排序、E50却使AUC和LL五seed恶化。早期历史印记与持续晚期排序力如何区分？C3关闭N同时回到C，混合关闭权重和排序；保持W、只改变R暴露阶段是优先区分问题，不是curriculum有效的前提。
+3. KR W−C selected主AUC+.002555、3/5正、CI跨0，E50却+.003242、5/5正、CI全正；ML online N−W成本稳定而EMA选中排序不稳定。完整轨迹、EMA读出和独立选点分别贡献什么？固定阶段、CLEAN online或另一个控制不能替代注册matched EMA主门槛。
+4. KR d2增益、d0损失和最大d1 LL改善并存，Macro/traffic/pooled AUC不同。自然train/val规模、标签先验、有效验证阳性数量、域身份与基线表现如何独立区分？本轮规模主因仍WEAK，禁止由小样本数直接命名困难域。
+5. 共同batch m≈.895/.899在coupled Adam下如何通过数据/decay比例、epsilon与历史影响task0/1？S−C的ML task0 LL五seed增加，说明不能假定精确尺度不变；本轮未隔离优化器子状态或等效学习率。
+
+依据：[CWA-C04报告](../../research_reports/completion_weight_attribution_20261117/REPORT.md)、[完整配对](../../research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv)、[数据与状态](../../research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)。下一fresh Astra必须比较至少三种数学不同机制，保留TVγ.20、C1-IID2、C3-LATE和本轮阶段/格间反例。仅在C04真实审查/发布后设计唯一追加C05；完整C05交付后停止，无C06。Test封存。
+
 ## 2026-11-16 / OQ-NQR-C03 — 早期排序成本与损失恢复的分离
 
 1. 关闭后40epoch NQR使ML selected LL相对常数暴露5/5改善，却几乎不改变AUC缺口：自然class/opportunity完成权重、真实ranking梯度与早期Adam/参数路径分别贡献什么？下一设计需能排除竞争解释，不能只改暴露epoch寻找正值。

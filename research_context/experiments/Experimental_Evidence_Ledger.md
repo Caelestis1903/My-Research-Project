@@ -1,5 +1,25 @@
 # Experimental Evidence Ledger
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 / E-CWA-C04 — 相同BCE质量下的分配、排序与阶段
+
+范围：自然ML/KR、同源M3oE fixed1、seeds2022–2026、50epochs/40960/FP32；新增W/S各10条，精确C/N数值控制各10条。20新增完整1000epochs/34500更新；selected按每stream独立最早严格验证六格Macro AUC最大值，LL同点。统计n=5 paired seeds，不把1000epochs或诊断重复计样本。
+
+**主效能 WEAK／MIXED，无资格。** W EMA−C EMA：ML AUC−.000154621、2/5正、CI[−.000719381,+.000410138]；KR+.002555086、3/5正、CI[−.002965105,+.008075276]。两者不满足+.003，KR最差d0t0均值−.003141373不满足−.001。算术判定与完整身份/预算证据为STRONG，跨分布稳定AUC效能未建立。Test封存，无champion。
+
+**条件损失 MEDIUM。** KR W−C Macro LL−.003942334、5/5降低、CI[−.005845996,−.002038672]；W−S −.003621037、5/5降低、CI[−.006636916,−.000605159]。ML/KR W−S task1 LL−.002988932/−.005124581均5/5降低、区间全负。W/S实际m逐seed/批次对应相同；仅共同总量不能复制该任务收益。但class/cell/task一起改变，不能指定class先验或域规模单独致因。
+
+**排序阶段效应 MEDIUM，必要性未解决。** ML N−W online selected AUC−.000412489（5/5负、CI全负）；EMA selected AUC CI跨0，EMA LL+.002446577（5/5增加、CI全正）。ML E1 N−W AUC+.019277577（5/5正、CI全正）到E50 −.001496855（5/5负、CI全负），E50 LL+.007416875（5/5增加、CI全正）。W−C selected EMA本身符号混合，未满足注册的“移除R仍稳定保留退化”条件，不能据此否定/证明所有持久排序成本的R必要性。
+
+**域/聚合反例与规模 WEAK。** KR d2 AUC+.009201240、5/5正、CI全正；d0 LL+.002005435、最大d1 LL−.006935433均5/5且CI不跨0。两较小域不同，最大域LL五seed改善。KR sample-weighted cell AUC−.000166779、task-pooled AUC均值+.000004440，二者CI跨0，Macro AUC正均值不能替代它们；pooled LL−.006839170、5/5降低。ML最小域CLEAN AUC最高而三个域W−C AUC均值微负，不能把小域等同困难域。KR E50 W−C AUC+.003242111、5/5正、CI全正是固定阶段证据，不救援selected主判定。
+
+**执行证据。** parent直接验证40选中模型和1000ACK，历史验收时RAM owner2476891/session67406共191017920B。有效attempt2有30物理worker、34640已返回calls、140未进入当前ACK文件的调用、81物理诊断；缺2个failed terminal duration。旧attempt1丢失RAM后退役，275 ACK epochs不给当前完成信用；其成本/source snapshot保留。两次NVML code3具体调用未定位；最终恢复111epochs无新增失败。原runner一个成本字段0误读已由COST_ACCOUNTING_CORRECTION更正61.909074s，原归档不改。归档6611成员/740197954B/89分片，模型状态不落盘。
+
+来源：[报告](../../research_reports/completion_weight_attribution_20261117/REPORT.md)、[25500配对seed/5100汇总](../../research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv)、[数据可用性](../../research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)、[执行审计](../../research_reports/completion_weight_attribution_20261117/RESOURCE_EXECUTION_AUDIT.json)。source48 d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f。复用C2控制和C3相同prefix不是新增独立重复。后续仅一次完整Cycle05，真实审查/发布后再交接Astra，结束后停止。
+
 ## E-NQR-C03 — 等十epoch早晚NQR暴露的证伪比较
 
 EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。

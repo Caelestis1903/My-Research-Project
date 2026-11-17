@@ -1,3 +1,11 @@
+## Current user continuation instruction — 2026-11-17
+
+Finish Cycle04 in full, including analysis, report, review and publication/delivery. Then execute exactly one additional full research cycle (Cycle05), following DESIGN -> IMPLEMENT -> distinct REVIEW -> supervised current-conversation RUN -> ANALYZE -> report/review/publication. Stop after the Cycle05 report/delivery; do not start Cycle06. This latest instruction supersedes the earlier stop-after-Cycle04 paragraph below. Ponytail FULL and Stop That Shit CHANGE apply; fresh independent native children only, no reuse or independent/background AI.
+
+## Current user termination instruction — 2026-11-17
+
+Finish Cycle04 in full: all twenty trajectories through fifty epochs, analysis, complete research report, evidence review and publication/delivery. Then terminate with USER_STOPPED. Do not start Cycle05 or another Astra research handoff. This overrides older uncapped continuation instructions below. During current-cycle recovery keep the immediate manual stop latch false; it is a stop-after-report request.
+
 # Autonomous Research Runbook — TV-GRM
 
 ## Highest-priority current-conversation policy — 2026-11-16
@@ -8,6 +16,7 @@ This user policy overrides older driver, session-lifecycle and handoff instructi
 - Each subtask gets a fresh native child with explicit `fork_context=false`. Coder and reviewer are distinct. Close each child on completion; never resume or reuse it. Handoffs use explicit files/reports only, without inherited conversation context.
 - Independent/headless/background Codex sessions, `codex exec/resume/fork`, `tmux`, `nohup`, `systemd`, and `autonomous.py start/run/recover` are forbidden. Create no background agent/driver. The original 50/50 trajectories are complete; the old driver was PAUSED after treating a recovered reconnect warning as fatal and is retired. Preserve its source/receipts; do not repair or restart it.
 - Concurrent mechanical training is permitted only under supervision of a runner in the current conversation. Keep the existing RAM guardian as storage; preserve live states and frozen source identities. No detached AI session or replacement guardian/driver.
+- RUN dispatch correction from Cycle03: `start.md` explicitly requires all five seeds2022–2026. The legacy named `luna-runner` role has four seeds hardcoded in its developer prompt and refused that approved manifest before launch. Use a fresh native `default` child assigned only the mechanical runner task, with the user-requested `gpt-6-luna`/`high` and `fork_context=false`; preserve the full five-seed manifest and runner/reviewer separation. This path completed Cycle03 unchanged. Do not modify global role configuration, reuse the closed child, or reduce the seed budget. See `artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_03/RUNNER_ROLE_RESOLUTION.json` and its verified publication receipt.
 - `max_cycles=null`, `max_astra_cycles=null`, `max_experiments=null`; no hidden total/revision cap. Only explicit USER_STOPPED normally terminates; candidate NO-GO/Astra STOP leads through report/context to fresh research, while technical failures PAUSE.
 - Check both workspaces' stop controls before dispatch. On user stop, finish/checkpoint the atomic operation safely and produce the final summary. Test stays sealed until explicit user stop + final freeze + the existing eligible selected-RAM verification gate; ACTIVE/PAUSED/candidate outcomes never open Test.
 

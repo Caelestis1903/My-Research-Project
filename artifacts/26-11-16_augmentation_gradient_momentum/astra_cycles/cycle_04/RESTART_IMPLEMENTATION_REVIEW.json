@@ -1,0 +1,218 @@
+{
+  "report_type": "REVIEW REPORT",
+  "cycle": "cycle_04",
+  "revision": "attempt2 restart",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "issues": [],
+  "corrections_made": [],
+  "reviewer_id": "01a1e753-1214-7ec0-8183-5dc262103865",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "coder_ids": [
+    "01a1e54b-0376-79c0-b1a7-20a6893345c7",
+    "01a1e54b-03a0-7613-a537-dba4cc0f0e80",
+    "01a1e6cd-54c0-7a11-80ca-fb7194be1f15",
+    "01a1e747-c8be-7a73-af93-5a9f2966d3b1"
+  ],
+  "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "research_bundle_sha256": "a3648198e25f6929154b628880715c7b4eb7d9749fc8b178a1631722debba01a",
+  "old_source_hash": "00ce7925c3589deb239f57e8374673e5afe8e3fe155e159dd34c140ae08cd553",
+  "input_receipts": {
+    "restart_design_specification_sha256": "6d0f47999413d2c79736219db900002f92a96869f21036c1f8bb500c068806b7",
+    "restart_design_handoff_sha256": "ff6b69e064b422e19880934d050cc75e2a7930772ff422cf4ea46d0bc9252fad",
+    "restart_design_acceptance_sha256": "10dd06000bcc23f25010d444d335c6619de45bf1b745d7b92f5fbbaf81eebe57",
+    "coder_report_sha256": "fd88d88b86ed94ee55852cf5e5f2b2a854c5e5e180b9053f7b2f0fe7d50e38d9",
+    "coder_cpu_checks_sha256": "c8d1d27ed846717cf4b9e3451e7fab4709870a1ff1744298b1d60aa1664bd3f6",
+    "parent_candidate_sha256": "dd924100eb2c3b46c103f96aae16c4d732d14febdaf03e3cd6655bf5552298c5",
+    "old_accepted_review_sha256": "b47e69dc928bb084701870bf29a6f28be489e10cf005897aca277aad1e532cf6",
+    "core_report_sha256": "377759b1679b3146d609a0cbd63135c7385d256e8bd1bc8fb6fb91727b11a440",
+    "core_cpu_checks_sha256": "146d279d66081711398dcfdd96f4f5d52e34ab5b99c83a8427afd4e22d16c68d"
+  },
+  "requirement_verification": [
+    {
+      "spec": "Restart §7.1; §10",
+      "requirement": "Historical source preservation",
+      "status": "PASS",
+      "evidence": "48 snapshot bytes match the old source receipt and RAM-loss mapping; old receipt/hash recipe verified. Exactly the authorized three live files differ; 45 match. Review performed no attempt1 writes."
+    },
+    {
+      "spec": "Restart §7.2",
+      "requirement": "Canonical attempt2 and fresh jobs",
+      "status": "PASS",
+      "evidence": "Only ATTEMPT plus two canonical-write diagnostic strings changed in protocol.py. Existing source_paths/digest/config/job/prepare recipes remain unchanged. Independently generated 20 unique keys disjoint from all 24 historical formal/engineering keys; formal scientific job fields match exactly except source_hash/key."
+    },
+    {
+      "spec": "Restart §5; §7.3",
+      "requirement": "Pending launch generation",
+      "status": "PASS",
+      "evidence": "Before Popen, captures prior owner attempts+1. Immediately after launch, records key/PID/expected_attempt and active exact job. Release requires live matching active child, exact job, PID, attempt, RUNNING and allocated is True. Fresh absent keys expect registration1, not experiment attempt2."
+    },
+    {
+      "spec": "Restart §5; §7.3",
+      "requirement": "Registration and actual allocation ACK",
+      "status": "PASS",
+      "evidence": "Frozen serve register resets allocated=False and increments attempts; worker registers with os.getpid(). Actual first train_step, lazy Adam/diagnostics, and profile measurements precede allocation_ack. ACK now records actual worker_pid; no server protocol change."
+    },
+    {
+      "spec": "Restart §5; §9",
+      "requirement": "Release, telemetry, audit and exits",
+      "status": "PASS",
+      "evidence": "Qualified release samples current NVML and records expected/observed PID/attempt, source/design and device before dropping pending. Admission samples again before next launch. Exit cleanup matches both key/PID; nonzero exit sets PAUSE without ACK-release evidence."
+    },
+    {
+      "spec": "Restart §5; §7.3",
+      "requirement": "Admission semantics",
+      "status": "PASS",
+      "evidence": "Unchanged admission uses per-card current memory<85%, power<85%, host RAM<90%, pending exclusion, and current used+remaining measured full-process residency<=CUDA-usable100%. First-fitting queue, dataset/arm/hardware envelope, resampling and independent device loop retained. No cap/projected85/predicted power/both-card requirement added."
+    },
+    {
+      "spec": "Restart §4–5; original §5.1–5.2",
+      "requirement": "Mathematics and weighting",
+      "status": "PASS",
+      "evidence": "Byte-identical core inspected: direct ordered W=(1-lambda)C+lambda A, A=sum(w*pi²*class_BCE), S=mC, m=1-sum(w*lambda*2*pi0*pi1). Detached support weights; actual applied mass m, no renormalization or live ranking gradient."
+    },
+    {
+      "spec": "Restart §4–5; original §5.2–5.3",
+      "requirement": "Shapes, support, masks and routing",
+      "status": "PASS",
+      "evidence": "Byte-identical validation for source [F,B], FP32 [B,2], six domain/task cells, full40960/tails21927/40052, missing/absent-class nulls and source identity delegates. Matched-mass S and heterogeneous W task/cell semantics preserved."
+    },
+    {
+      "spec": "Restart §4–5; original §5.4–5.5",
+      "requirement": "Gradient paths and observational diagnostics",
+      "status": "PASS",
+      "evidence": "Byte-identical train_step inspected: only selected W/S loss backward updates live parameters; N only diagnostic reference. Three extra gradients, four sequential isolated actual source Adam clones, None versus zero gradients, exact virtual/live checks and one source EMA remain intact. Reuse exact unchanged core/checks evidence by verified hashes."
+    },
+    {
+      "spec": "Restart §4; §7.4–5",
+      "requirement": "Freeze, controls and reviewer separation",
+      "status": "PASS",
+      "evidence": "Actual source48 and external installed Adam verified. Seven-file design, six-file research bundle and control index retain exact hashes; index enumerates20 results+1000 epochs. Four genuine coder report identities preserved; check_review unchanged and this reviewer differs from every coder."
+    },
+    {
+      "spec": "Restart §7.6",
+      "requirement": "Fresh foreground owner boundary",
+      "status": "PASS",
+      "evidence": "README specifies parent prepare then direct foreground serve(attempt2), private bindings and new source/design/server identity; no detached helper invocation was added. Frozen owner/IPC/snapshot machinery unchanged. Actual new-owner availability/binding remains the parent's subsequent gate."
+    },
+    {
+      "spec": "Restart §7.7–8",
+      "requirement": "Fresh engineering and resource gates",
+      "status": "PASS",
+      "evidence": "CASES and source-bound engineering validation unchanged: four prescribed GPU/dataset/arm cases, separate zero-scientific-epoch clocks, exact replay/neutrality/counter checks and measured profiles. Formal run still requires distinct signoff, parent acceptance and actual release flags. No GPU evidence was represented as already obtained."
+    },
+    {
+      "spec": "Restart §7.9; §4",
+      "requirement": "Full formal matrix and baselines",
+      "status": "PASS",
+      "evidence": "Unchanged 2 datasets ×2 arms ×5 seeds2022–2026 ×50 epochs,1000 useful ACK epochs/34500 Adam+EMA updates. Fresh root/jobs start without inherited ACK credit. Source initialization/order, deep restore/RNG-last, selection, commit/recovery/export and existing numeric-only CLEAN/NQR controls remain unchanged."
+    },
+    {
+      "spec": "Restart finite CPU acceptance",
+      "requirement": "Targeted verification",
+      "status": "PASS",
+      "evidence": "Reviewed coder's exact diffs and bounded6/11/5-group outputs. Independently compiled edited Python in memory, verified identities, and executed unmodified production run/admission/measured_envelope/_supervisor_exit AST bodies with mocked external boundaries: all eight cases plus eight admission assertions passed. No broad core or bounded-suite rerun."
+    },
+    {
+      "spec": "Restart §6; §9; parent handoff",
+      "requirement": "Reporting and termination scope",
+      "status": "PASS",
+      "evidence": "README migrates current commands to attempt2 and restart review, preserves attempt1 costs as history with zero useful-budget credit, and requires full current report/review/context/publication then USER_STOPPED; no C05/Astra. Parent report tools are outside coder scope and were not modified by this review."
+    }
+  ],
+  "independent_validation": {
+    "interpreter": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "invocation": "Explicit interpreter, stdin scripts, stdlib only; no generated import/temp files.",
+    "identities": {
+      "status": "PASS",
+      "reviewer_id": "01a1e753-1214-7ec0-8183-5dc262103865",
+      "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+      "source_files": 48,
+      "changed": [
+        "experiments/completion_weight_attribution_20261117/README.md",
+        "experiments/completion_weight_attribution_20261117/protocol.py",
+        "experiments/completion_weight_attribution_20261117/runner.py"
+      ],
+      "unchanged_files": 45,
+      "snapshot_verified": 48,
+      "external_adam_verified": true,
+      "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+      "controls_index_sha256": "e8d67c6b18ad9ddbfa19b752e35c6ab051e3170a3d28df635b86b27922441fdb",
+      "control_numeric_entries": 1020,
+      "new_unique_keys": 20,
+      "old_keys_disjoint": true,
+      "scientific_job_fields_identical": true,
+      "contributor_reports_verified": true,
+      "core_evidence_verified": true,
+      "syntax_files": 2,
+      "both_stop_controls_clear": true,
+      "test_accessed": false
+    },
+    "scheduler": {
+      "status": "PASS",
+      "method": "Unmodified production run/admission/measured_envelope/_supervisor_exit AST bodies, isolated in memory with mocked external boundaries; no module import or production execution overrides",
+      "pending_cases": {
+        "independent_gpu1": "PASS",
+        "absent_status": "PASS",
+        "stale_pid_and_attempt": "PASS",
+        "right_pid_wrong_attempt": "PASS",
+        "wrong_pid_right_attempt": "PASS",
+        "allocated_false": "PASS",
+        "qualified_release_resample": "PASS",
+        "nonzero_exit_pause_no_release": "PASS"
+      },
+      "registration_attempts": [
+        6,
+        1,
+        1
+      ],
+      "release_count": 1,
+      "admission_boundary_assertions": 8,
+      "result": {
+        "status": "PAUSED",
+        "foreground_wall_seconds": 8,
+        "test_accessed": false
+      },
+      "test_accessed": false
+    },
+    "fixture_note": "Initial reviewer identity harness included four engineering job files when asserting20 formal jobs. Corrected the harness to filter purpose=formal, then passed; no repository defect or source edit.",
+    "bounded_coder_checks": "Read and reused exact source-bound6/11/5 outputs; not independently rerun.",
+    "core_evidence": "Verified unchanged core.py/checks.py and exact core report/check hashes; inspected math/shape/gradient implementation; no broad core rerun."
+  },
+  "remaining_risks": [
+    "Code acceptance establishes the operational implementation only. Current GPU occupancy/usable fit and all four new-source actual GPU engineering cases remain unmeasured by this reviewer.",
+    "Parent must prepare attempt2, bind/verify a fresh foreground RAM owner distinct from historical owners, verify actual runner metadata, obtain distinct resource signoff and actual four-key engineering release before formal RUN.",
+    "Attempt1 numeric hashes/acceptances describe historical work; lost model/optimizer/RNG states are unavailable and cannot supply continuation or completion credit. No historical owner was contacted.",
+    "Prepare retains full raw/train/validation and1020-file control verification. This reviewer checked control index identity/coverage and reused exact valid evidence, without dataset-cache/Test inspection."
+  ],
+  "experiments_safe_to_run": {
+    "code_gate": "PASS",
+    "next_authorized_stage": "Parent preparation and fresh supervised four-case GPU engineering after foreground-owner and runner-metadata checks",
+    "formal_run_released": false,
+    "formal_run_condition": "Fresh actual engineering PASS, independent resource PASS, parent acceptance and actual four-key release; unchanged measured resource admission"
+  },
+  "boundaries": {
+    "source_edits": 0,
+    "gpu_queries": 0,
+    "gpu_training_calls": 0,
+    "real_owner_ipc": 0,
+    "dataset_cache_access": false,
+    "test_accessed": false,
+    "descendants": 0,
+    "independent_ai_sessions": 0,
+    "git_actions": 0,
+    "tensor_files_written": 0,
+    "attempt1_writes": 0,
+    "only_written_files": [
+      "RESTART_IMPLEMENTATION_REVIEW.md",
+      "RESTART_IMPLEMENTATION_REVIEW.json"
+    ]
+  },
+  "stop_after_current_report": true,
+  "next_cycle_authorized": false,
+  "test_accessed": false,
+  "context_returned_permanently": true,
+  "context_reuse_authorized": false
+}

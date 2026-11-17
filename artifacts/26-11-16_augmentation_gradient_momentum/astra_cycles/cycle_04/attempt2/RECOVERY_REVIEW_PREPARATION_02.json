@@ -1,0 +1,796 @@
+{
+  "report_type": "REVIEW REPORT \u2014 RECOVERY REVIEW PREPARATION",
+  "review_scope": "Cycle04 attempt2 recovery02; partial independent static/numeric review under hash=deny",
+  "verdict": "BLOCKED",
+  "ready_for_runner": false,
+  "not_a_recovery_consumer_receipt": true,
+  "root_contract": "CHANGE",
+  "hash_policy": "deny",
+  "reviewer_id": null,
+  "reviewer_identity_note": "Fresh independent reviewer in the current original-parent conversation; native reviewer ID was not supplied to this context and is not invented.",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "coder_ids": [
+    "01a1e54b-0376-79c0-b1a7-20a6893345c7",
+    "01a1e54b-03a0-7613-a537-dba4cc0f0e80",
+    "01a1e6cd-54c0-7a11-80ca-fb7194be1f15",
+    "01a1e747-c8be-7a73-af93-5a9f2966d3b1"
+  ],
+  "closed_contexts_not_reused": [
+    {
+      "name": "Hypatia",
+      "id": "01a1e820-76e4-7851-85fe-f3e22a2045d6"
+    },
+    {
+      "name": "Fermat",
+      "id": "01a1e836-9e09-76c1-99d1-7d3551eae227"
+    }
+  ],
+  "recorded_identity_labels_only": {
+    "source": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+    "design_bundle": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+    "owner_endpoint": "4fd83153a8e86091ad43676ef24bb9064e241873ea0b8e9e70ca9e8cb1ada9cd",
+    "status": "Compared existing recorded fields only. No recomputation or byte-identity certification."
+  },
+  "requirement_verification": [
+    {
+      "requirement": "Governing policies, both stop controls, current continuation",
+      "status": "COMPLETED_STATIC_NUMERIC",
+      "evidence": "Both workspaces ACTIVE/manual_stop_requested=false; four STOP_AUTONOMOUS sentinels absent. PAUSE_TRAINING remains present. CONTINUATION_SCOPE_20261117.json and W/AGENTS.md authorize finish Cycle04 then exactly Cycle05 then stop; no Cycle06. Earlier no-Cycle05 receipts are historical and superseded."
+    },
+    {
+      "requirement": "Scientific objectives and mathematical formulas",
+      "status": "COMPLETED_STATIC_ONLY",
+      "evidence": "Read actual core.py: ordered A=sum cell_weight*pi_class^2*class_BCE, W=.75*C+.25*A, S=m*C with m=1-sum cell_weight*.25*2*pi0*pi1. Support counts are host numbers; no mass renormalization, live ranking objective, curriculum or momentum. N is constructed only for diagnostics. No scientific deviation found by static inspection; byte identity and numerical execution are not certified."
+    },
+    {
+      "requirement": "Shapes, support, routing, weighting and gradients",
+      "status": "COMPLETED_STATIC_ONLY",
+      "evidence": "Actual validators enforce nonempty [B,2] probability/label tensors, source [F,B], domain0/1/2, FP32 formal training and exact full/tail sizes. Six cells, absent-class nulls and m versus task/cell allocation agree with spec. Selected W/S scalar alone calls backward; three retained-graph diagnostic gradients/four sequential disposable source Adam clones preserve None/zero distinction. Source gate uses emb.detach(); identity branches call source_clean_step. Live optimizer and EMA each update once. No runtime tensor/gradient proof was performed."
+    },
+    {
+      "requirement": "Source protocol, baselines, selection and restore",
+      "status": "COMPLETED_STATIC_AND_RECORDED_NUMERIC_ONLY",
+      "evidence": "Inspected actual protocol/runner and targeted source helper definitions: installed torch.optim.Adam via source helper, coupled WD, fixed rho, source model, one private loader generator and RNG-last restore. CLEAN/NQR controls remain numeric-only references in code; no control retraining. Compared earliest strict AUC selection epochs through all889 formal records without efficacy analysis. Prior exact source/engineering proofs remain historical until identity is re-established."
+    },
+    {
+      "requirement": "Formal matrix, ACK schema, epoch/transaction/journal fields and budget",
+      "status": "COMPLETED_DIRECT_FIELD_EQUALITY",
+      "evidence": "20 formal jobs, four separate engineering jobs. All889 formal ACKs have one schema and contiguous per-key prefixes; job/epoch/source/design/control/owner labels, transaction fields, recorded event order, numeric counters/operations, branch counts and journal row equality agree. Fifteen epoch50 numeric results match final-record selected fields/counts. Journal897 rows=889 formal+8 engineering. No byte hash or live RAM identity was verified."
+    },
+    {
+      "requirement": "Quiescence and owner preservation",
+      "status": "COMPLETED_PROCFS_ONLY",
+      "evidence": "At recorded observation owner2476891 was S and its command served attempt2; controller2611647 and all seven specified workers had no procfs entries. No matching live Python formal runner command found. Private guardian/owner files mode0600; recorded PID/source/design/endpoint fields agree. No IPC, signal, state get, release or owner mutation."
+    },
+    {
+      "requirement": "Resource admission and pending generation",
+      "status": "COMPLETED_STATIC_AND_RECORDED_NUMERIC",
+      "evidence": "Actual admission independently requires memory/NVMLtotal<.85, power/enforcedlimit<.85, hostRAM<.90, no pending, and used+max(0,incoming-already_resident)<=CUDAusable100% for formal starts. No predicted power, projected85%, fixed cap or both-card gate. Actual pending release requires live matching active child/job/device/PID/expected registration attempt/RUNNING/allocated is True; startup and qualified release resample. Seven recovery launch/allocation/release generations agree in recorded fields; all29 recorded eligible decisions satisfy their predicate."
+    },
+    {
+      "requirement": "Measured envelopes, engineering evidence and repeated NVML failure",
+      "status": "COMPLETED_RECORDED_NUMERIC_ONLY",
+      "evidence": "Four engineering case records report8/2/6/8 calls/diagnostics/sweeps/virtual steps each and zero scientific epochs; profiles cover both arms and target cards. Existing990 live resource observations grow MovieLens envelope to1709178880 bytes, KuaiRand remains2027945984. NVML_RECHECK_02 has four samples with all recorded return codes0, but historical failure remains unidentified and repeated. No current telemetry was queried."
+    },
+    {
+      "requirement": "Mandatory source/ACK/tensor identity and fresh recovery02 binding",
+      "status": "BLOCKED_BY_CURRENT_CONSTRAINT",
+      "evidence": "No cryptographic hashing, hash-verification helper/IPC, model-state IPC or consumer validation was invoked. Source/design/Adam/control/profile/ACK/transaction/batch byte identity, owner endpoint derivation, current live continuation/selected tensors, new pause digest and fresh recovery review binding remain mandatory and unperformed. Preparation cannot release RUN."
+    }
+  ],
+  "numeric_verification": {
+    "observed_at_utc": "2026-11-17T10:00:52.345999+00:00",
+    "method": "stdlib file reads and arithmetic; digest-like strings compared only as recorded fields; no hash recomputation, project imports, torch, IPC or GPU queries",
+    "formal_jobs": 20,
+    "engineering_jobs": 4,
+    "numeric_ACKs": 889,
+    "numeric_useful_updates": 32251,
+    "target_epochs": 1000,
+    "target_updates": 34500,
+    "remaining_epochs": 111,
+    "remaining_updates": 2249,
+    "completed_numeric_results": 15,
+    "unfinished_jobs": 5,
+    "journal_total_rows": 897,
+    "journal_formal_rows": 889,
+    "ack_schema_variants": 1,
+    "checks": {
+      "formal_matrix": 1,
+      "ack_job_epoch": 889,
+      "ack_status_flags": 889,
+      "transaction_direct_fields": 889,
+      "epoch_direct_fields": 889,
+      "provenance_direct_fields": 889,
+      "journal_direct_fields": 889,
+      "recorded_event_order": 889,
+      "numeric_clock_counters": 889,
+      "numeric_clock_fields": 889,
+      "numeric_branch_counts": 889,
+      "referenced_numeric_files_exist": 889,
+      "earliest_strict_selection_numeric": 889,
+      "contiguous_ACK_prefix": 20,
+      "completed_numeric_result_exists": 15,
+      "completed_result_direct_fields": 15
+    },
+    "errors": [],
+    "frontier": [
+      {
+        "key": "053b80c9771678c1d81928302842a73f9f8f0f38b7279101eee286d56db0673b",
+        "dataset": "movielens",
+        "arm": "MASS-SCALE-025",
+        "seed": 2022,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/053b80c9771678c1d81928302842a73f9f8f0f38b7279101eee286d56db0673b/epoch_50.json",
+        "epoch_file": "runs/053b80c9771678c1d81928302842a73f9f8f0f38b7279101eee286d56db0673b/attempt1/epoch_50.json",
+        "transaction_file": "transactions/053b80c9771678c1d81928302842a73f9f8f0f38b7279101eee286d56db0673b/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 29,
+          "fixed_ema": 23
+        }
+      },
+      {
+        "key": "09d5f15bdfa3940a13db15351620e4f300cb22f82109387755071e8d9a364f3d",
+        "dataset": "movielens",
+        "arm": "MASS-SCALE-025",
+        "seed": 2024,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/09d5f15bdfa3940a13db15351620e4f300cb22f82109387755071e8d9a364f3d/epoch_50.json",
+        "epoch_file": "runs/09d5f15bdfa3940a13db15351620e4f300cb22f82109387755071e8d9a364f3d/attempt1/epoch_50.json",
+        "transaction_file": "transactions/09d5f15bdfa3940a13db15351620e4f300cb22f82109387755071e8d9a364f3d/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 22,
+          "fixed_ema": 22
+        }
+      },
+      {
+        "key": "1af0b0505e1d334a17681dff5dda2f310deec074c4fcb534ea05cf26bb773455",
+        "dataset": "movielens",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2022,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/1af0b0505e1d334a17681dff5dda2f310deec074c4fcb534ea05cf26bb773455/epoch_50.json",
+        "epoch_file": "runs/1af0b0505e1d334a17681dff5dda2f310deec074c4fcb534ea05cf26bb773455/attempt1/epoch_50.json",
+        "transaction_file": "transactions/1af0b0505e1d334a17681dff5dda2f310deec074c4fcb534ea05cf26bb773455/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 27,
+          "fixed_ema": 21
+        }
+      },
+      {
+        "key": "200ab75fcc8adc4a6cd6ceff96a1ccc65096e7c4d1ebee0b6c53e2d5edabf1a5",
+        "dataset": "kuairand",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2022,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/200ab75fcc8adc4a6cd6ceff96a1ccc65096e7c4d1ebee0b6c53e2d5edabf1a5/epoch_50.json",
+        "epoch_file": "runs/200ab75fcc8adc4a6cd6ceff96a1ccc65096e7c4d1ebee0b6c53e2d5edabf1a5/attempt1/epoch_50.json",
+        "transaction_file": "transactions/200ab75fcc8adc4a6cd6ceff96a1ccc65096e7c4d1ebee0b6c53e2d5edabf1a5/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 43,
+          "fixed_ema": 50
+        }
+      },
+      {
+        "key": "2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c",
+        "dataset": "movielens",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2026,
+        "last_ack_epoch": 20,
+        "remaining_epochs": 30,
+        "remaining_updates": 600,
+        "last_ack_path": "acks/2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c/epoch_20.json",
+        "epoch_file": "runs/2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c/attempt1/epoch_20.json",
+        "transaction_file": "transactions/2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c/attempt1/epoch_20.json",
+        "selected_epochs": {
+          "online": 18,
+          "fixed_ema": 20
+        }
+      },
+      {
+        "key": "36d45cdfe51e115f07ddd7dac653693b07f84ea50ee57b87224b076a45f5bc1d",
+        "dataset": "kuairand",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2024,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/36d45cdfe51e115f07ddd7dac653693b07f84ea50ee57b87224b076a45f5bc1d/epoch_50.json",
+        "epoch_file": "runs/36d45cdfe51e115f07ddd7dac653693b07f84ea50ee57b87224b076a45f5bc1d/attempt1/epoch_50.json",
+        "transaction_file": "transactions/36d45cdfe51e115f07ddd7dac653693b07f84ea50ee57b87224b076a45f5bc1d/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 49,
+          "fixed_ema": 50
+        }
+      },
+      {
+        "key": "3a0ec7ec3099176ca1a2776a2a7d81a5ecd760e3666014f8680b750d39126795",
+        "dataset": "kuairand",
+        "arm": "MASS-SCALE-025",
+        "seed": 2023,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/3a0ec7ec3099176ca1a2776a2a7d81a5ecd760e3666014f8680b750d39126795/epoch_50.json",
+        "epoch_file": "runs/3a0ec7ec3099176ca1a2776a2a7d81a5ecd760e3666014f8680b750d39126795/attempt1/epoch_50.json",
+        "transaction_file": "transactions/3a0ec7ec3099176ca1a2776a2a7d81a5ecd760e3666014f8680b750d39126795/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 42,
+          "fixed_ema": 33
+        }
+      },
+      {
+        "key": "40e2f2b566be11aace762c43aafec94887239533c871aa990e2dbe3a0a1503a3",
+        "dataset": "movielens",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2024,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/40e2f2b566be11aace762c43aafec94887239533c871aa990e2dbe3a0a1503a3/epoch_50.json",
+        "epoch_file": "runs/40e2f2b566be11aace762c43aafec94887239533c871aa990e2dbe3a0a1503a3/attempt1/epoch_50.json",
+        "transaction_file": "transactions/40e2f2b566be11aace762c43aafec94887239533c871aa990e2dbe3a0a1503a3/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 25,
+          "fixed_ema": 25
+        }
+      },
+      {
+        "key": "5696c58a7c592fca412476a4bed827b3fd6f2c689096e8bdcd558d3dd3359cb2",
+        "dataset": "kuairand",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2023,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/5696c58a7c592fca412476a4bed827b3fd6f2c689096e8bdcd558d3dd3359cb2/epoch_50.json",
+        "epoch_file": "runs/5696c58a7c592fca412476a4bed827b3fd6f2c689096e8bdcd558d3dd3359cb2/attempt1/epoch_50.json",
+        "transaction_file": "transactions/5696c58a7c592fca412476a4bed827b3fd6f2c689096e8bdcd558d3dd3359cb2/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 39,
+          "fixed_ema": 42
+        }
+      },
+      {
+        "key": "64ad311b996e93992d959e04c2b358126404faa5002e43aa7ae8f92b4be300e9",
+        "dataset": "movielens",
+        "arm": "MASS-SCALE-025",
+        "seed": 2023,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/64ad311b996e93992d959e04c2b358126404faa5002e43aa7ae8f92b4be300e9/epoch_50.json",
+        "epoch_file": "runs/64ad311b996e93992d959e04c2b358126404faa5002e43aa7ae8f92b4be300e9/attempt1/epoch_50.json",
+        "transaction_file": "transactions/64ad311b996e93992d959e04c2b358126404faa5002e43aa7ae8f92b4be300e9/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 27,
+          "fixed_ema": 24
+        }
+      },
+      {
+        "key": "67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011",
+        "dataset": "movielens",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2025,
+        "last_ack_epoch": 26,
+        "remaining_epochs": 24,
+        "remaining_updates": 480,
+        "last_ack_path": "acks/67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011/epoch_26.json",
+        "epoch_file": "runs/67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011/attempt2/epoch_26.json",
+        "transaction_file": "transactions/67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011/attempt2/epoch_26.json",
+        "selected_epochs": {
+          "online": 18,
+          "fixed_ema": 21
+        }
+      },
+      {
+        "key": "6cd8a644cf38d3c04562b27b47c861685d956866eb71b1e79787245802d5276f",
+        "dataset": "movielens",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2023,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/6cd8a644cf38d3c04562b27b47c861685d956866eb71b1e79787245802d5276f/epoch_50.json",
+        "epoch_file": "runs/6cd8a644cf38d3c04562b27b47c861685d956866eb71b1e79787245802d5276f/attempt1/epoch_50.json",
+        "transaction_file": "transactions/6cd8a644cf38d3c04562b27b47c861685d956866eb71b1e79787245802d5276f/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 24,
+          "fixed_ema": 25
+        }
+      },
+      {
+        "key": "8a38a215216804b09d08558ef78402941bf9192600e22efa98a722448e3f54d9",
+        "dataset": "kuairand",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2025,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/8a38a215216804b09d08558ef78402941bf9192600e22efa98a722448e3f54d9/epoch_50.json",
+        "epoch_file": "runs/8a38a215216804b09d08558ef78402941bf9192600e22efa98a722448e3f54d9/attempt1/epoch_50.json",
+        "transaction_file": "transactions/8a38a215216804b09d08558ef78402941bf9192600e22efa98a722448e3f54d9/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 37,
+          "fixed_ema": 40
+        }
+      },
+      {
+        "key": "926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a",
+        "dataset": "kuairand",
+        "arm": "COMPLETION-BCE-025",
+        "seed": 2026,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a/epoch_50.json",
+        "epoch_file": "runs/926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a/attempt2/epoch_50.json",
+        "transaction_file": "transactions/926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a/attempt2/epoch_50.json",
+        "selected_epochs": {
+          "online": 32,
+          "fixed_ema": 30
+        }
+      },
+      {
+        "key": "9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8",
+        "dataset": "kuairand",
+        "arm": "MASS-SCALE-025",
+        "seed": 2026,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8/epoch_50.json",
+        "epoch_file": "runs/9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8/attempt2/epoch_50.json",
+        "transaction_file": "transactions/9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8/attempt2/epoch_50.json",
+        "selected_epochs": {
+          "online": 41,
+          "fixed_ema": 46
+        }
+      },
+      {
+        "key": "c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0",
+        "dataset": "movielens",
+        "arm": "MASS-SCALE-025",
+        "seed": 2025,
+        "last_ack_epoch": 26,
+        "remaining_epochs": 24,
+        "remaining_updates": 480,
+        "last_ack_path": "acks/c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0/epoch_26.json",
+        "epoch_file": "runs/c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0/attempt2/epoch_26.json",
+        "transaction_file": "transactions/c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0/attempt2/epoch_26.json",
+        "selected_epochs": {
+          "online": 17,
+          "fixed_ema": 21
+        }
+      },
+      {
+        "key": "dfe465e04b744abf6867b4888223611c767a56cf194cba73b62a530c33dc0615",
+        "dataset": "kuairand",
+        "arm": "MASS-SCALE-025",
+        "seed": 2024,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/dfe465e04b744abf6867b4888223611c767a56cf194cba73b62a530c33dc0615/epoch_50.json",
+        "epoch_file": "runs/dfe465e04b744abf6867b4888223611c767a56cf194cba73b62a530c33dc0615/attempt1/epoch_50.json",
+        "transaction_file": "transactions/dfe465e04b744abf6867b4888223611c767a56cf194cba73b62a530c33dc0615/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 39,
+          "fixed_ema": 41
+        }
+      },
+      {
+        "key": "ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d",
+        "dataset": "movielens",
+        "arm": "MASS-SCALE-025",
+        "seed": 2026,
+        "last_ack_epoch": 18,
+        "remaining_epochs": 32,
+        "remaining_updates": 640,
+        "last_ack_path": "acks/ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d/epoch_18.json",
+        "epoch_file": "runs/ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d/attempt1/epoch_18.json",
+        "transaction_file": "transactions/ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d/attempt1/epoch_18.json",
+        "selected_epochs": {
+          "online": 18,
+          "fixed_ema": 18
+        }
+      },
+      {
+        "key": "eb5a63846ea11f9ae277c85be08707cdf6413ab6246890ea702cbd159431569f",
+        "dataset": "kuairand",
+        "arm": "MASS-SCALE-025",
+        "seed": 2022,
+        "last_ack_epoch": 50,
+        "remaining_epochs": 0,
+        "remaining_updates": 0,
+        "last_ack_path": "acks/eb5a63846ea11f9ae277c85be08707cdf6413ab6246890ea702cbd159431569f/epoch_50.json",
+        "epoch_file": "runs/eb5a63846ea11f9ae277c85be08707cdf6413ab6246890ea702cbd159431569f/attempt1/epoch_50.json",
+        "transaction_file": "transactions/eb5a63846ea11f9ae277c85be08707cdf6413ab6246890ea702cbd159431569f/attempt1/epoch_50.json",
+        "selected_epochs": {
+          "online": 48,
+          "fixed_ema": 50
+        }
+      },
+      {
+        "key": "f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649",
+        "dataset": "kuairand",
+        "arm": "MASS-SCALE-025",
+        "seed": 2025,
+        "last_ack_epoch": 49,
+        "remaining_epochs": 1,
+        "remaining_updates": 49,
+        "last_ack_path": "acks/f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649/epoch_49.json",
+        "epoch_file": "runs/f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649/attempt2/epoch_49.json",
+        "transaction_file": "transactions/f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649/attempt2/epoch_49.json",
+        "selected_epochs": {
+          "online": 41,
+          "fixed_ema": 41
+        }
+      }
+    ],
+    "processes": [
+      {
+        "pid": 2476891,
+        "present": true,
+        "state": "S",
+        "ppid": 2467377,
+        "start_ticks": 69667862,
+        "command": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -u -c from experiments.task_view_gradient_residual_momentum_20261116.runner import serve; serve(\"/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2\") "
+      },
+      {
+        "pid": 2611647,
+        "present": false
+      },
+      {
+        "pid": 2611773,
+        "present": false
+      },
+      {
+        "pid": 2611774,
+        "present": false
+      },
+      {
+        "pid": 2612072,
+        "present": false
+      },
+      {
+        "pid": 2612190,
+        "present": false
+      },
+      {
+        "pid": 2612426,
+        "present": false
+      },
+      {
+        "pid": 2619341,
+        "present": false
+      },
+      {
+        "pid": 2620208,
+        "present": false
+      }
+    ],
+    "matching_live_formal_commands": [],
+    "prior_review_frontier_changes": {
+      "f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649": [
+        40,
+        49
+      ],
+      "926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a": [
+        40,
+        50
+      ],
+      "9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8": [
+        39,
+        50
+      ],
+      "67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011": [
+        1,
+        26
+      ],
+      "c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0": [
+        1,
+        26
+      ]
+    },
+    "prior_review_missing_formal_keys": [
+      "2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c",
+      "ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d"
+    ],
+    "pause_present": true,
+    "pause_matches_snapshot": true
+  },
+  "admission_numeric_verification": {
+    "observed_at_utc": "2026-11-17T10:03:05.443820+00:00",
+    "method": "streamed startup/release and eligible admission rows only; numeric fields only; no production helper execution",
+    "startup_events": 25,
+    "release_events": 25,
+    "eligible_decisions": 29,
+    "recovery_generations": [
+      {
+        "pid": 2611773,
+        "key": "f8df5a89010729c008e138d2f74668f9698d391c6fe32f93041a3537493c6649",
+        "device": 0,
+        "expected_attempt": 2,
+        "started_attempt": 2,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2611774,
+        "key": "926a61e2c285299f6c3433b05b917384f93b0811dc98759de243c3dd85b9a33a",
+        "device": 1,
+        "expected_attempt": 2,
+        "started_attempt": 2,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2612072,
+        "key": "9b81123228e5056da60e3c51ad0ac52f97588cf53c76217831b8034eb7e5a2d8",
+        "device": 1,
+        "expected_attempt": 2,
+        "started_attempt": 2,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2612190,
+        "key": "67510a0c232f831ab36e16984ee074646cb59e69be1b16d94cba3a4fbac9a011",
+        "device": 0,
+        "expected_attempt": 2,
+        "started_attempt": 2,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2612426,
+        "key": "c6481fe6067fe4a819b8e1249a1ccf9ef3c6491b61e70042af7d1d85c76636a0",
+        "device": 0,
+        "expected_attempt": 2,
+        "started_attempt": 2,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2619341,
+        "key": "2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c",
+        "device": 1,
+        "expected_attempt": 1,
+        "started_attempt": 1,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      },
+      {
+        "pid": 2620208,
+        "key": "ea3f3584e6de6d4f328882f42055264e6306665c82c874d0245577eb1d29148d",
+        "device": 1,
+        "expected_attempt": 1,
+        "started_attempt": 1,
+        "allocation_ACK_rows": 1,
+        "release_rows": 1,
+        "recorded_generation_fields_and_order_match": true
+      }
+    ],
+    "all_eligible_predicates_match": true,
+    "resource_observations": 990,
+    "recorded_envelopes_with_live_observation_maxima": [
+      {
+        "dataset": "movielens",
+        "target_device": 0,
+        "compatible_observations": 438,
+        "both_arms_present": true,
+        "target_card_observed": true,
+        "measured_envelope_bytes": 1709178880
+      },
+      {
+        "dataset": "movielens",
+        "target_device": 1,
+        "compatible_observations": 438,
+        "both_arms_present": true,
+        "target_card_observed": true,
+        "measured_envelope_bytes": 1709178880
+      },
+      {
+        "dataset": "kuairand",
+        "target_device": 0,
+        "compatible_observations": 556,
+        "both_arms_present": true,
+        "target_card_observed": true,
+        "measured_envelope_bytes": 2027945984
+      },
+      {
+        "dataset": "kuairand",
+        "target_device": 1,
+        "compatible_observations": 556,
+        "both_arms_present": true,
+        "target_card_observed": true,
+        "measured_envelope_bytes": 2027945984
+      }
+    ],
+    "errors": [],
+    "harness_note": "Initial numeric reader assumed every eligible row carried key; four engineering admission rows use a different schema. Corrected reader with optional key; no repository defect or code change."
+  },
+  "parent_supplied_nonoverlapping_evidence": {
+    "source": "User/parent message during this review; parent updated R/EXECUTION_HISTORY.md. Accepted as attributed supplied evidence, not independently reread/recounted.",
+    "failed_worker_key": "2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c",
+    "E1_through_E20_valid_returned_batch_records": 400,
+    "E21": "empty, fully readable gzip per parent",
+    "six_other_workers_known_returned_calls": 2876,
+    "returned_calls_lower_bound": 3276,
+    "new_useful_updates": 3230,
+    "returned_work_outside_new_useful_frontier": 46,
+    "classification": "Replay or returned work outside new commit frontier only; no finer attribution established. Missing failed-worker terminal remains null/unknown, never zero.",
+    "recount_performed": false
+  },
+  "issues": [
+    {
+      "id": "B1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "kind": "required_acceptance_unverified",
+      "finding": "Mandatory identity checks and fresh recovery02 acceptance cannot be completed under hash=deny and no model-state IPC.",
+      "evidence": "protocol.py:337-373,500-547,550-578; runner.py:744-792. Production validate_attempt/owner_binding/receipt_json/recover/_verify_saved_ack compute hashes or verify live state; none were invoked.",
+      "required_action": "Leave technical pause intact. Parent must resolve authorization for the mandatory verification and obtain actual verified evidence plus fresh independent acceptance; this report grants no exception."
+    },
+    {
+      "id": "B2",
+      "severity": "MAJOR",
+      "blocking": true,
+      "kind": "stale_prior_recovery_acceptance",
+      "finding": "RECOVERY_REVIEW_01 is historical and cannot authorize the current frontier/failure.",
+      "evidence": "Prior review has18 keys/771 epochs, omits two now-started formal keys, and has five changed frontiers. Current pause key2df25390 is distinct from prior failure key926a61e2. Parent readiness01 is likewise historical.",
+      "required_action": "Bind a fresh review to current TECHNICAL_PAUSE.json/SNAPSHOT_02, owner, reviewed source/design/resource evidence and all current formal last ACKs; do not recycle prior pause/review digest."
+    },
+    {
+      "id": "R1",
+      "severity": "MAJOR",
+      "blocking": false,
+      "kind": "repeated_operational_failure",
+      "finding": "NVML code=3 recurred; successful later samples do not establish a permanent fix or identify which NVML API failed.",
+      "evidence": "Failed key2df25390 foreground.log: runner.py:692 -> Profile.mark:116 consumes stored sampler error; Profile.close:123 raises again. NVML._ok:52 reports only code. NVML_RECHECK_02 four historical samples succeed.",
+      "required_action": "Report recurrence and exact uncertainty. Any authorized continuation must retain fresh measured gates and technical PAUSE on telemetry error; no speculative repair, threshold relaxation or permanent-fix claim."
+    },
+    {
+      "id": "R2",
+      "severity": "MINOR",
+      "blocking": false,
+      "kind": "missing_terminal_accounting",
+      "finding": "Failed worker cleanup raises before resource_profile.json and worker terminal physical/cost row; terminal train-call count remains unknown.",
+      "evidence": "Worker2619341 has STARTED and supervisor exit1/689.6625649929047 wall seconds, but no worker terminal row/resource_profile. batches_epoch_21.jsonl.gz exists. Parent separately supplies400 valid returned batch records in E1..20 and empty readable E21.",
+      "required_action": "Keep raw terminal null/unknown, retain parent-supplied non-overlapping lower bound3276 returned calls,3230 new useful updates and46 returned calls classified only as replay or outside new commit frontier. Do not double count overlapping process durations."
+    },
+    {
+      "id": "R3",
+      "severity": "MINOR",
+      "blocking": false,
+      "kind": "historical_scope_text_superseded",
+      "finding": "Restart/signoff/recovery01 prose still says no Cycle05; current explicit continuation supersedes it.",
+      "evidence": "W/AGENTS.md current continuation and CONTINUATION_SCOPE_20261117.json authorize exactly one additional cycle after Cycle04.",
+      "required_action": "Use finishCycle04+exactlyCycle05 then stop, noCycle06, in new parent handoffs; preserve historical receipts."
+    }
+  ],
+  "blocking_issues": [
+    {
+      "id": "B1",
+      "severity": "MAJOR",
+      "blocking": true,
+      "kind": "required_acceptance_unverified",
+      "finding": "Mandatory identity checks and fresh recovery02 acceptance cannot be completed under hash=deny and no model-state IPC.",
+      "evidence": "protocol.py:337-373,500-547,550-578; runner.py:744-792. Production validate_attempt/owner_binding/receipt_json/recover/_verify_saved_ack compute hashes or verify live state; none were invoked.",
+      "required_action": "Leave technical pause intact. Parent must resolve authorization for the mandatory verification and obtain actual verified evidence plus fresh independent acceptance; this report grants no exception."
+    },
+    {
+      "id": "B2",
+      "severity": "MAJOR",
+      "blocking": true,
+      "kind": "stale_prior_recovery_acceptance",
+      "finding": "RECOVERY_REVIEW_01 is historical and cannot authorize the current frontier/failure.",
+      "evidence": "Prior review has18 keys/771 epochs, omits two now-started formal keys, and has five changed frontiers. Current pause key2df25390 is distinct from prior failure key926a61e2. Parent readiness01 is likewise historical.",
+      "required_action": "Bind a fresh review to current TECHNICAL_PAUSE.json/SNAPSHOT_02, owner, reviewed source/design/resource evidence and all current formal last ACKs; do not recycle prior pause/review digest."
+    }
+  ],
+  "corrections_made": [],
+  "remaining_mandatory_consumer_requirements": [
+    {
+      "id": "C1",
+      "required": true,
+      "consumer_or_policy": "Frozen identity gate; protocol.source_manifest/design_bundle/validate_attempt",
+      "requirements": "Verify actual48 source paths and installed Adam against frozen receipt, seven-file design/research/control identities and required environment/code-review/engineering receipt bindings. Reuse prior numerical proofs only after their applicable identity is established. No broad retest or new training is requested.",
+      "status": "UNPERFORMED; cryptographic verification forbidden now"
+    },
+    {
+      "id": "C2",
+      "required": true,
+      "consumer_or_policy": "Owner binding and live storage gate; protocol.owner_binding/request",
+      "requirements": "Verify actual owner2476891/session67406 with private0600 bindings, derived endpoint and server/source/design identity; recheck procfs quiescence. Establish actual status of20 formal keys and released four engineering keys. Preserve owner and its states; no replacement, release of formal keys or old-owner IPC.",
+      "status": "Recorded fields/procfs checked; endpoint/server identity and live status not verified"
+    },
+    {
+      "id": "C3",
+      "required": true,
+      "consumer_or_policy": "Epoch identity and live continuation; protocol.epoch_files/validate_epoch_state; runner._verify_saved_ack",
+      "requirements": "Verify ACK-referenced epoch/transaction/batch bytes and current last ACK bindings; check actual journal/status/get. All five unfinished keys now have nonzero ACKs49/26/26/20/18 and require existing exact continuation: model,EMA,Adam,RNG,loader,source modes,selection,counts,operations,private steps/activity and scientific identity. Restore whole epoch/RNG last and replay uncommitted work; none qualifies for fresh epoch0 initialization. Numeric equality here is insufficient.",
+      "status": "All889 numeric field checks completed; byte/live-tensor verification unperformed"
+    },
+    {
+      "id": "C4",
+      "required": true,
+      "consumer_or_policy": "Completed state preservation and engineering/profile gate",
+      "requirements": "For15 completed formal keys verify actual compacted selected_models/selected_epochs/selected_validation and result binding, preserve them and skip re-registration/training. Verify four engineering case/profile receipts, parent release acceptance and actual state_released flags. Use compatible dataset/source/design/hardware envelopes grown by recorded maxima: ML1709178880B, KR2027945984B as currently recorded; never shrink back to older engineering-only ML peak.",
+      "status": "Numeric results/cases/profiles inspected; live selected tensors/release flags and receipt bytes unverified"
+    },
+    {
+      "id": "C5",
+      "required": true,
+      "consumer_or_policy": "Fresh pause02 parent acceptance and independent recovery review; runner.recover:765-792",
+      "requirements": "Create actual new parent pause/owner/ACK acceptance and fresh independent review tied to current TECHNICAL_PAUSE.json and NVML_RECHECK_02 evidence. Consumer requires verdict PASS or PASS WITH FIXES with no blockers, genuine fresh reviewer_id distinct from all coders and code reviewer, matching source_hash/design_bundle_sha256, test_accessed=false, actual current pause_sha256, actual owner_endpoint_hash, nonempty resource_profiles path/sha256 receipts verified by receipt_json, and last_acks matching every unfinished registered formal key (prefer full20-key map). Actual parent-policy pause/acceptance/NVML bindings must accompany it. No consumer digests are supplied by this preparation.",
+      "status": "BLOCKED; new pause/review/parent binding cannot be certified under hash=deny"
+    },
+    {
+      "id": "C6",
+      "required": true,
+      "consumer_or_policy": "Recovery mutation boundary and current-conversation runner dispatch",
+      "requirements": "Production recover first validates engineering/frozen identity and no live registered worker, verifies saved ACK states, recovers only FAILED/deadRUNNING keys, records an immutable review-digest receipt and only then clears PAUSE_TRAINING. PAUSED keys re-register; COMPLETE keys skip. These helpers hash and/or perform state IPC/mutations and must not run under current constraint. After all gates genuinely pass, parent alone dispatches fresh DEFAULT Luna/high runner with actual native model/reasoning receipt, no reuse of Fermat/Hypatia or coders. Fresh current per-card memory/power/host/physical fit and pending-generation checks remain mandatory at every admission.",
+      "status": "Not authorized/released; ready_for_runner=false"
+    },
+    {
+      "id": "C7",
+      "required": true,
+      "consumer_or_policy": "Scope, physical accounting and Test seal",
+      "requirements": "Finish remaining111 formal epochs/2249 useful updates without reducing budget; preserve replay/uncommitted/unknown costs and parent supplied3276-returned lower bound. FinishCycle04 reporting/review/delivery then exactlyCycle05 and stop; do not startCycle06. Test stays sealed; current technical pause and this preparation provide no Test eligibility.",
+      "status": "Future parent work only; no RUN performed"
+    }
+  ],
+  "experiments_safe_to_run": false,
+  "remaining_risks": [
+    "Recorded field consistency does not prove byte identity or current live tensor availability.",
+    "NVML failure recurred and exact failing API/driver cause remains unidentified; historical successful samples are not current admission evidence.",
+    "Previous recovery01 acceptance predates the current pause and frontier.",
+    "Failed-worker terminal accounting is missing; parent-supplied batch evidence refines a lower bound only."
+  ],
+  "boundaries": {
+    "cryptographic_hash_operations": 0,
+    "delegated_hash_operations": 0,
+    "hash_verification_helpers_or_IPC": 0,
+    "project_module_imports": 0,
+    "torch_imports": 0,
+    "owner_IPC_calls": 0,
+    "model_state_IPC_calls": 0,
+    "GPU_queries": 0,
+    "training_calls": 0,
+    "guard_state_modifications": 0,
+    "source_edits": 0,
+    "test_accessed": false,
+    "dataset_cache_access": false,
+    "child_agents": 0,
+    "independent_AI_sessions": 0,
+    "broad_retests": 0,
+    "only_written_files": [
+      "RECOVERY_REVIEW_PREPARATION_02.md",
+      "RECOVERY_REVIEW_PREPARATION_02.json"
+    ]
+  },
+  "continuation": {
+    "finish_cycle04": true,
+    "additional_complete_cycles": 1,
+    "next_cycle": 5,
+    "stop_after_cycle": 5,
+    "cycle06_authorized": false
+  },
+  "context_returned_permanently": true,
+  "context_reuse_authorized": false
+}

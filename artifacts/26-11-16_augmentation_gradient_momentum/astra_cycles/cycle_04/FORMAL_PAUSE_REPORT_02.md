@@ -1,0 +1,7 @@
+# Cycle04 recovery01 technical pause
+
+Controller2456362/session70379 exited PAUSED after106.255344485s. All20 resumed processes started: {1: 3, 0: 17}. Nineteen pending gates released before their new worker STARTED record. The scheduler read the previous attempt's allocated flag before registration reset it, allowing a series of concurrent starts whose future residency was absent from the fresh board sample. The fixed current85% predicates were evaluated but the intended pending allocation protection was ineffective.
+
+The physical-capacity guard then stopped15 workers;5 paused. Latest key b81be874…fbee9ba is KuaiRand/MASS-SCALE-025/2026. At staged_model_EMA_Adam its globalNVML used was25525813248B versus CUDAusable25307578368B; there is no logged CUDA OOM. All20 last-ACK snapshots remain valid:275epochs/7733useful updates/573265960tensor bytes. Parent directly reverified them after quiescence; second attempt added no whole-epoch ACK. Partial returned/unreturned work and all physical resource/cost logs remain preserved.
+
+Repair scope is an independently reviewed mechanical recovery controller, keeping the48frozen source files and every training operator unchanged. Fresh per-card current memory/power/RAM and physical-fit gates remain required, with release bound to the newly launched worker PID and actual allocation ACK. No worker cap, seed/epoch reduction or foreign-process change. The current user request is to complete Cycle04/report/publication and then stop; no Cycle05. Test remains sealed.

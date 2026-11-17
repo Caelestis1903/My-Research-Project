@@ -1,5 +1,19 @@
 # Experimental Experiment Index
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 / EXP-CWA-C04 — completion_weight_attribution_20261117
+
+研究：C→S=mC→W=.75C+.25ΣwH→N=W+R，移除ranking且不重新归一化总BCE质量。候选W=COMPLETION-BCE-025，新控制S=MASS-SCALE-025；同源CLEAN/NQR各10精确数值轨迹复用。自然ML/KR、M3oE fixed1、5seeds2022–2026、50epochs/40960/FP32；20新轨迹1000epochs/34500有效更新完整。
+
+结果MIXED：selected W EMA−C EMA AUC ML−.000154621、KR+.002555086，均CI跨0，+.003均失败，KRd0t0保护失败。KR LL−.003942334、5/5降低、CI全负；W−S task1 LL两数据集5/5降低。ML N−W早期排序帮助/后期排序损失成本，读出/阶段不能省略。E-CWA-C04标注归因和规模解释的证据边界。
+
+代码`experiments/completion_weight_attribution_20261117`；研究六文件`research_plans/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04`；正式DESIGN在对应artifacts/cycle_04/DESIGN_SPECIFICATION.md；有效运行`artifacts/.../cycle_04/attempt2`，旧attempt1为退役成本和source snapshot。source48 d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f；设计2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7。
+
+[完整报告](../../research_reports/completion_weight_attribution_20261117/REPORT.md)、[数据与89分片](../../research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)、[决策](../../research_reports/completion_weight_attribution_20261117/DECISION.json)。父级已验收40个RAM选中模型，Test未访问。C04真实审查/发布后执行一次C05并最终停止，不启动C06；不得把旧无上限循环段落视为最新终止规则。
+
 ## EXP-NQR-C03-20261116 — Temporal NQR，完整五seed
 
 EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。

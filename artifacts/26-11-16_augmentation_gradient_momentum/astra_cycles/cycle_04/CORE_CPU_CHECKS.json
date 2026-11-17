@@ -1,0 +1,105 @@
+{
+  "status": "CORE_COMPLETE_CPU_PASS",
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "research_bundle_sha256": "a3648198e25f6929154b628880715c7b4eb7d9749fc8b178a1631722debba01a",
+  "design_specification_sha256": "cb320632dcebdb8f75fe298b5b35f95e6dc07659ff0146fbe5f8ffd79ffed9db",
+  "source_base_commit": "4c95dc877b85cc676bf7366958f8c7de0291871e",
+  "source_freeze": "PENDING_PARENT_AFTER_BOTH_CODERS",
+  "workdir": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nfrom pathlib import Path\np = Path('experiments/completion_weight_attribution_20261117/core.py')\ncompile(p.read_text(), str(p), 'exec')\nprint('core syntax PASS')\nPY",
+      "exit_code": 0,
+      "scope": "initial core syntax"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python -m experiments.completion_weight_attribution_20261117.checks --scope core",
+      "exit_code": 0,
+      "scope": "initial full finite core suite"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python - <<'PY'\nfrom pathlib import Path\nfrom experiments.completion_weight_attribution_20261117.checks import check_core\nimport json\nfor name in ('core.py', 'checks.py'):\n    path = Path('experiments/completion_weight_attribution_20261117') / name\n    compile(path.read_text(), str(path), 'exec')\nprint(json.dumps(check_core(), indent=2, allow_nan=False))\nPY",
+      "exit_code": 0,
+      "scope": "final two-file syntax and finite core suite, including added independent parameter derivatives"
+    }
+  ],
+  "final_result": {
+    "status": "PASS",
+    "device": "cpu",
+    "tolerance_fp64": {"atol": 1e-12, "rtol": 1e-10},
+    "tolerance_fp32": {"atol": 2e-6, "rtol": 2e-5},
+    "exact_hash_tolerance": null,
+    "losses": {
+      "dtype_arm_fixtures": 4,
+      "probability_and_parameter_derivatives": true,
+      "explicit_pair_enumeration": true,
+      "empty_absent_single_lambda_zero": true
+    },
+    "source_state": {
+      "neutrality_comparisons": 12,
+      "diagnosed_core_calls": 24,
+      "core_calls": 48,
+      "direct_source_identity_calls": 8,
+      "extra_autograd_sweeps": 72,
+      "virtual_source_adam_steps": 96,
+      "bytesio_prefix_suffix": true,
+      "none_tensor_zero_lazy_populated": true,
+      "rng_loader_gradients_buffers_exact": true
+    },
+    "validation": {
+      "rejected_pre_mutation_calls": 15,
+      "rejected_probability_inputs": 4,
+      "real_form_full_tail_cardinalities": 4,
+      "full_coordinate_disjoint_zero_norm": true
+    },
+    "source_model": {
+      "actual_m3oe_comparisons": 4,
+      "core_calls": 6,
+      "direct_source_calls": 2,
+      "diagnosed_core_calls": 4,
+      "extra_autograd_sweeps": 12,
+      "virtual_source_adam_steps": 16
+    },
+    "tensor_storage": "CPU RAM and BytesIO only",
+    "test_accessed": false
+  },
+  "per_suite_operation_accounting": {
+    "core_train_step_calls": 54,
+    "direct_frozen_source_clean_step_calls": 10,
+    "diagnosed_core_calls": 28,
+    "train_step_diagnostic_extra_autograd_sweeps": 84,
+    "disposable_actual_source_adam_steps": 112,
+    "explicit_populated_fixture_setup_adam_steps": 6,
+    "explicit_populated_fixture_setup_ema_steps": 6,
+    "loss_fixture_algebra_autograd_calls": 56,
+    "ordinary_fixture_forwards_and_scalar_backwards": 64,
+    "total_actual_adam_steps_including_fixture_setup_and_clones": 182,
+    "accounting_scope": "one complete final finite suite; fixture operations are separate from all formal and engineering budgets"
+  },
+  "assertions": [
+    "Ordered-cell W equals independently weighted rows; S=mC; frozen N equals W plus enumerated opposite-class pair risk, including probability and parameter derivatives at fixed tolerances.",
+    "Actual total/cell/task coefficient sums use m; balanced lower bound .875; W task allocations differ; single-class W coefficient differs from global S scaling; structural null reasons take precedence.",
+    "Both arms and ordinary/all_single_class/lambda_zero branches are exactly diagnostic-neutral in lazy and populated source Adam, including gradients/None masks, buffers/modes, EMA, RNG and loader.",
+    "Actual-arm disposable source Adam post-model/optimizer hashes match live exactly, and update difference norm is zero.",
+    "Zero gradient remains active with coupled WD/private step; None preserves unused parameter and populated moments/private step.",
+    "CPU BytesIO roundtrip, deep optimizer storage separation, saved-prefix immutability, restored suffix and next loader permutation match exactly.",
+    "Actual source M3oE ordinary on/off and populated lambda-zero/source comparisons are exact for both arms.",
+    "Invalid configuration/support/clock cases reject before model, optimizer, EMA, gradients, RNG or loader mutation; ML/KR real-form full/tail cardinalities validate.",
+    "Full-coordinate disjoint-activity norm/cosine and zero-norm null semantics hold; independent EMA difference arithmetic meets the fixed FP32 tolerance."
+  ],
+  "changed_code_files": [
+    {"path": "experiments/completion_weight_attribution_20261117/core.py", "sha256": "790ae97d01a3ab3d39e42712580e333aa017b96d5869f36aed682181b03de683"},
+    {"path": "experiments/completion_weight_attribution_20261117/checks.py", "sha256": "7bbf10c3e4249d9a3af7e1ad80b7c93267a66f99ddc52e3050c709ba99605ae1"}
+  ],
+  "runtime_integration": {
+    "status": "PENDING_RUNTIME_CODER_FILES",
+    "reason": "protocol and __init__ present; runner and tables absent at core completion; --scope all not run",
+    "next_action": "Run checks --scope all after runtime implementation arrives; parent freezes combined source before distinct review."
+  },
+  "additional_local_dependencies_outside_spec_6_2": [],
+  "warning": "Frozen setup emitted the installed PyTorch TF32 API deprecation warning; source setup flags were preserved.",
+  "gpu_queries": 0,
+  "ipc_requests": 0,
+  "test_accessed": false,
+  "tensor_files_written": 0
+}

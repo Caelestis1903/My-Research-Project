@@ -1,5 +1,19 @@
 # Experimental Global Summary
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](../../artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 最新：Completion weighting attribution / CWA-C04
+
+W=COMPLETION-BCE-025、S=MASS-SCALE-025完成20新增+20精确C/N控制，自然ML/KR、M3oE fixed1、五seed2022–2026、50epochs/40960/FP32，1000epoch/34500有效更新。selected W EMA−C EMA AUC：ML−.000154621（2/5正、CI跨0），KR+.002555086（3/5正、CI跨0）；MIXED，两主均值未到+.003，KR d0t0−.003141373失败保护。无champion/Test。KR Macro LL−.003942334、5/5降低、CI全负；ML LL方向不稳定。
+
+同m下W−S的KR Macro LL−.003621037，且ML/KR task1 LL−.002988932/−.005124581，均5/5降低、CI全负（条件分配损失效应MEDIUM）。该干预合并class/cell/task分配，非类平衡、非class-only识别；S−C含coupled Adam/decay/history。ML N−W online selected AUC−.000412489、5/5负、CI全负；EMA selected AUC不稳定但LL+.002446577、5/5增加、CI全正。ML N−W E1排序增益与E50排序/损失成本反转（MEDIUM），并不证明curriculum有效或某个EMA中介。
+
+KR d2 selected AUC+.009201240、5/5正、CI全正，较小d0 LL+.002005435和最大d1 LL−.006935433均5/5同向；统一小域收益/大域受损与规模主因仍WEAK。KR traffic-cell AUC均值微负、pooled任务AUC均值近零，而Macro正；pooled LL五seed降低。E50 W−C KR AUC+.003242111、5/5正、CI全正必须保留，selected主门槛仍失败。ML原task0联合排序/损失成本未在W稳定复现，task1 LL反而5/5改善。
+
+[报告](../../research_reports/completion_weight_attribution_20261117/REPORT.md)、[原数/89分片](../../research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)、[全配对](../../research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv)。所有40选中状态已parent直接验收、RAM191017920B；旧attempt1及两次NVML暂停/未知terminal成本分开保存。候选未获资格；C04实际审查/发布后执行一次完整Cycle05，交付后停止，无Cycle06。保留以下旧历史和TV-MLγ.20、C1-KR-IID2、C3-KR-LATE弱条件反例。
+
 ## 2026-11-16 最新：Temporal NQR / NQR-C03
 
 EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。

@@ -1,0 +1,745 @@
+{
+  "report_type": "REVIEW REPORT",
+  "review_scope": "Cycle04 attempt2 ENGINEERING RESOURCE REVIEW",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "issues": [],
+  "corrections_made": [],
+  "reviewer_id": "01a1e75f-4282-7793-b4cf-6d0115a19307",
+  "parent_id": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "code_reviewer_id": "01a1e753-1214-7ec0-8183-5dc262103865",
+  "coder_ids": [
+    "01a1e54b-0376-79c0-b1a7-20a6893345c7",
+    "01a1e54b-03a0-7613-a537-dba4cc0f0e80",
+    "01a1e6cd-54c0-7a11-80ca-fb7194be1f15",
+    "01a1e747-c8be-7a73-af93-5a9f2966d3b1"
+  ],
+  "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+  "source_files": 48,
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "research_bundle_sha256": "a3648198e25f6929154b628880715c7b4eb7d9749fc8b178a1631722debba01a",
+  "cases": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case.json",
+      "sha256": "deacc09fdddda97408eeaa20493daeb602d79e9f6a81387715fa971294b9136a"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case.json",
+      "sha256": "03a04679940a934d20234b863dc9fb4c34c407e3b24e64f96beef54c5a6062b6"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case.json",
+      "sha256": "3ab50fe243c95504b6ea891b4d307b9d5074a7739307b4ef26449ee240f0cdef"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case.json",
+      "sha256": "ff5618225276b836ded49ed962da22e41a89edafc0c9cc57a6cdbfe72545327e"
+    }
+  ],
+  "profiles": [
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case_profile.json",
+      "sha256": "1f196d597c2dbadf70eb6c748d46d8f80e5c1d1f4275fca337922627dc074450"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case_profile.json",
+      "sha256": "9d841b078b6b2ded6a9b5e022630a0e35040d3533722118c0347262e16929081"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case_profile.json",
+      "sha256": "793856cbdb3c6d3063165bf83b91bc7d28f0d2c987a305867cc687964a296f18"
+    },
+    {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case_profile.json",
+      "sha256": "a92798765283423c60099955420ceedfc79ac2db250b477b0df48dfab34ca895"
+    }
+  ],
+  "verified_plan_counts": {
+    "physical_train_calls": 32,
+    "diagnostic_points": 8,
+    "extra_autograd_sweeps": 24,
+    "virtual_adam_steps": 32
+  },
+  "physical_train_calls": 32,
+  "diagnostic_points": 8,
+  "extra_autograd_sweeps": 24,
+  "virtual_adam_steps": 32,
+  "scientific_epochs_completed": 0,
+  "validation_chunks": 80,
+  "requirement_verification": [
+    {
+      "requirement": "Frozen source, design and environment",
+      "status": "PASS",
+      "evidence": "All 48 live source files and the installed source Adam hash match the new receipt. Recomputed source digest d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f and seven-file design digest match the accepted manifest/review. Explicit Python 3.13.5 and locked installed package versions verified."
+    },
+    {
+      "requirement": "Four actual engineering cases",
+      "status": "PASS",
+      "evidence": "GPU0 MovieLens/W and KuaiRand/S; GPU1 MovieLens/S and KuaiRand/W, seed2022. All four case/proof/profile/call-log receipts verified from actual bytes; no old signoff reused."
+    },
+    {
+      "requirement": "Real full/tail batches and physical accounting",
+      "status": "PASS",
+      "evidence": "Each case has exact call ordinals1..8, correct full40960 and true dataset tail21927/40052, role/attempt/row-order/context bindings. Counts derived from returned-call logs equal8/2/6/8 per case; total32/8/24/32. No failed or unknown partial call is present;20 lifecycle rows reconcile eight registration segments and four successful process exits."
+    },
+    {
+      "requirement": "Diagnostics and gradient/activity neutrality",
+      "status": "PASS",
+      "evidence": "Calls1 and6 diagnose lazy full and populated tail states. Each records three extra sweeps/four virtual source Adam steps, exact actual/virtual poststates and zero update difference. Expected versus replayed full/tail observations match model, EMA, Adam, RNG, loader, gradients and activity; validation and scientific identity match exactly."
+    },
+    {
+      "requirement": "Source lambda0 and baseline preservation",
+      "status": "PASS",
+      "evidence": "Calls3/4 from the populated prefix match all observation hashes/activity exactly. Frozen core still applies only selected W/S gradients; N is diagnostic-only. Existing1020 numeric controls and source initialization/loader/Adam/EMA protocol remain frozen; Test untouched."
+    },
+    {
+      "requirement": "Mathematics, shapes and masks",
+      "status": "PASS",
+      "evidence": "Inspected unchanged core: W=(1-lambda)C+lambda A; A=sum cell_weight*pi_class^2*class_BCE; S=mC with m=1-sum cell_weight*lambda*2*pi0*pi1. No renormalization; label support weights are detached; None/zero source routing preserved. Exact core.py/checks.py hashes match the math/gradient/populated-prefix CPU proof, which is reused without rerunning broad tests."
+    },
+    {
+      "requirement": "Deep prefix restore and RNG last",
+      "status": "PASS",
+      "evidence": "Actual pause/re-register changes registration attempt1->2, retrieves ordinal1 prefix, serializes through BytesIO and replays suffix. Immutable prefix, exact suffix and selected validation are recorded. Inspected restore copies model/EMA/optimizer/loader before RNG-last; unchanged source-bound CPU proof establishes optimizer storage isolation and next-permutation identity."
+    },
+    {
+      "requirement": "Two genuine RAM ACKs per case",
+      "status": "PASS",
+      "evidence": "Verified eight ordinal1/2 ACKs against numeric record hashes, batch hashes, transaction hashes and exact own server journal rows. Commit request <= journal <= RAM ACK <= status/get <= hash verification <= numeric ACK. Retained step4 has exactly optimizer_updates=4,ema_updates=4 and scientific_epochs_completed=0; selection clock is engineering_commit_ordinal."
+    },
+    {
+      "requirement": "Fresh foreground owner and parent direct acceptance",
+      "status": "PASS",
+      "evidence": "Owner2476891/session67406 and endpoint/server/source/design bindings match parent empty-owner, dispatch and final direct get/hash acceptance receipts. Reused parent actual acceptance by SHA instead of owner IPC. Parent verifies four full states totaling114653192 tensor bytes. Local ps confirms owner alive and controller2477619/all four workers exited."
+    },
+    {
+      "requirement": "Actual full-process resource profiles",
+      "status": "PASS",
+      "evidence": "Four case_profile receipts resolve to four genuine resource_profile receipts. Profiles measure context/non-torch overhead329252864B, full/tail lazy/populated diagnostics, validation, CPU-copy/serialization/get/restore/replay and allocator peaks. Diagnostic phase samplers have thousands of samples; observed board bytes remain below25307578368B CUDA-usable capacity. PID provenance comes from actual call/allocation/lifecycle logs, not an invented profile PID field."
+    },
+    {
+      "requirement": "Measured dataset envelopes on both cards",
+      "status": "PASS",
+      "evidence": "Both arms and target-card dataset coverage exist on compatible RTX3090/compute8.6/CUDA-usable25307578368B hardware with identical source/design/environment. Unmodified measured_envelope returns MovieLens1675624448B and KuaiRand2027945984B on either card, taking max(full process, reserved+measured overhead). Original arm/card/profile hash contributors retained."
+    },
+    {
+      "requirement": "Current resource gates and cold engineering independence",
+      "status": "PASS",
+      "evidence": "All four actual cold starts have fresh per-card memory<85% AND power<85%, hostRAM<90%. GPU1 starts KuaiRand before GPU0 MovieLens finishes, establishing independent-card progress; each card retains its calibration until full profile/exit. Formal admission adds measured incoming remaining residency to current used only for CUDA-usable100% fit. Eight finite assertions executed against unchanged pure production admission verify strict thresholds, pending, physical boundary and already-resident subtraction."
+    },
+    {
+      "requirement": "Pending launch generation and scheduling policy",
+      "status": "PASS",
+      "evidence": "Inspected production launch/release/exit path: pending binds key/PID/expected registration attempt before next admission; release requires live matching child/job/device/PID/attempt/RUNNING/allocated=true, then fresh sample. Actual allocation ACKs bind worker PID/attempt after full lazy Adam and diagnosed allocation. Reused exact source-bound restart CPU/code-review evidence for stale/absent/wrong generation, allocated=false, independent other card, qualified release/resample and failed exit. No forecast power, projected85%, worker cap, both-card fit gate or foreign-process changes."
+    },
+    {
+      "requirement": "Formal consumer and release boundary",
+      "status": "PASS",
+      "evidence": "Signoff follows actual validate_attempt schema: four case and four profile path/SHA receipts, exact verified_plan_counts, actual totals and zero scientific epochs. Parent alone must next record ENGINEERING_RELEASE_ACCEPTANCE and release precisely four accepted keys; formal consumer checks actual state_released flags."
+    },
+    {
+      "requirement": "Termination, scope and Test",
+      "status": "PASS",
+      "evidence": "Both workspaces ACTIVE/manual_stop_requested=false with no stop sentinel. Current instruction remains full Cycle04/report/review/context/publication then USER_STOPPED, no Cycle05/Astra. Twenty formal trajectories/five seeds/50epochs remain intact. Review performs no efficacy analysis, GPU query/allocation, owner IPC, dataset-cache/Test access, tensor-state access, source/Git edits or child dispatch."
+    }
+  ],
+  "per_case_verification": [
+    {
+      "case_id": "case1_gpu0_movielens",
+      "key": "437124145c679285399ea5365d4149aa7cdc4cc57e344cb9bffce35469ee612c",
+      "worker_pid": 2477699,
+      "dataset": "movielens",
+      "arm": "COMPLETION-BCE-025",
+      "device": 0,
+      "case": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case.json",
+        "sha256": "deacc09fdddda97408eeaa20493daeb602d79e9f6a81387715fa971294b9136a"
+      },
+      "profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case_profile.json",
+        "sha256": "1f196d597c2dbadf70eb6c748d46d8f80e5c1d1f4275fca337922627dc074450"
+      },
+      "physical_profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/resource_profile.json",
+        "sha256": "01c44609c39429d1f1b52f6a263c1fe283fd512d6ff56b12ebccf5b82414cf01"
+      },
+      "proof": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/verified_plan.json",
+        "sha256": "002c78369ddb3e46a50b0fc448e9e8090db2153e3df5aad2e39362621c1e26b2"
+      },
+      "acks": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/437124145c679285399ea5365d4149aa7cdc4cc57e344cb9bffce35469ee612c/epoch_01.json",
+          "sha256": "4cab47af614316c1a8016b905a4946c9f3e21606f2b3bba7abc2d68271be1966"
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/437124145c679285399ea5365d4149aa7cdc4cc57e344cb9bffce35469ee612c/epoch_02.json",
+          "sha256": "a74672d12e8b3f483e6ec17ddc379d19033ca733319073e127cabd7895a0bdcc"
+        }
+      ],
+      "counts": {
+        "physical_train_calls": 8,
+        "diagnostic_points": 2,
+        "extra_autograd_sweeps": 6,
+        "virtual_adam_steps": 8
+      },
+      "tail_rows": 21927,
+      "full_rows": 40960,
+      "hardware": {
+        "name": "NVIDIA GeForce RTX 3090",
+        "compute_capability": [
+          8,
+          6
+        ],
+        "cuda_usable_total_bytes": 25307578368
+      },
+      "full_process_peak_bytes": 1675624448,
+      "torch_allocated_peak_bytes": 1093158400,
+      "torch_reserved_peak_bytes": 1346371584,
+      "non_torch_bytes": 329252864,
+      "incoming_measured_full_process_bytes": 1675624448,
+      "peak_host_rss_bytes": 1838551040,
+      "maximum_observed_board_bytes": 18290245632,
+      "maximum_observed_host_fraction": 0.36324187292686816,
+      "retained_samples": 98,
+      "sampler_phase_sample_count": 8410,
+      "lazy_diagnostic_samples": 2454,
+      "populated_tail_diagnostic_samples": 2695,
+      "first_time": 1794882866.6184454,
+      "last_time": 1794882926.9932187,
+      "all_receipt_identities_exact": true
+    },
+    {
+      "case_id": "case2_gpu0_kuairand",
+      "key": "435ddfa39c5f4ea9aeec7984268311b0a04135f07cae6c01be0c423c47bbdfc8",
+      "worker_pid": 2478482,
+      "dataset": "kuairand",
+      "arm": "MASS-SCALE-025",
+      "device": 0,
+      "case": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case.json",
+        "sha256": "03a04679940a934d20234b863dc9fb4c34c407e3b24e64f96beef54c5a6062b6"
+      },
+      "profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case_profile.json",
+        "sha256": "9d841b078b6b2ded6a9b5e022630a0e35040d3533722118c0347262e16929081"
+      },
+      "physical_profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/resource_profile.json",
+        "sha256": "7ed6a080055e79c74bd0d84e4815e24a4b0fd96ed63a993cc4941673b0450948"
+      },
+      "proof": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/verified_plan.json",
+        "sha256": "614e003d239d454b64f7e943fe7f4523343834faba0bbcb2b2ae725a6d5fe318"
+      },
+      "acks": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/435ddfa39c5f4ea9aeec7984268311b0a04135f07cae6c01be0c423c47bbdfc8/epoch_01.json",
+          "sha256": "d82320beaf415e76f59b5087126fde4887fc16165dac986f6c5842f659c580de"
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/435ddfa39c5f4ea9aeec7984268311b0a04135f07cae6c01be0c423c47bbdfc8/epoch_02.json",
+          "sha256": "8dd4cde94bd5645dd0366ade0c20fbf41aea720800bdde30f72189166ad9c634"
+        }
+      ],
+      "counts": {
+        "physical_train_calls": 8,
+        "diagnostic_points": 2,
+        "extra_autograd_sweeps": 6,
+        "virtual_adam_steps": 8
+      },
+      "tail_rows": 40052,
+      "full_rows": 40960,
+      "hardware": {
+        "name": "NVIDIA GeForce RTX 3090",
+        "compute_capability": [
+          8,
+          6
+        ],
+        "cuda_usable_total_bytes": 25307578368
+      },
+      "full_process_peak_bytes": 2027945984,
+      "torch_allocated_peak_bytes": 1277969920,
+      "torch_reserved_peak_bytes": 1698693120,
+      "non_torch_bytes": 329252864,
+      "incoming_measured_full_process_bytes": 2027945984,
+      "peak_host_rss_bytes": 2435641344,
+      "maximum_observed_board_bytes": 18642567168,
+      "maximum_observed_host_fraction": 0.3733994073216897,
+      "retained_samples": 114,
+      "sampler_phase_sample_count": 10624,
+      "lazy_diagnostic_samples": 3018,
+      "populated_tail_diagnostic_samples": 2729,
+      "first_time": 1794882932.5685031,
+      "last_time": 1794883018.2694504,
+      "all_receipt_identities_exact": true
+    },
+    {
+      "case_id": "case3_gpu1_movielens",
+      "key": "8dbbca26f3cdd53a59977fd8cf38a83665d340775112f928494c3a3b82fbcc48",
+      "worker_pid": 2477700,
+      "dataset": "movielens",
+      "arm": "MASS-SCALE-025",
+      "device": 1,
+      "case": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case.json",
+        "sha256": "3ab50fe243c95504b6ea891b4d307b9d5074a7739307b4ef26449ee240f0cdef"
+      },
+      "profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case_profile.json",
+        "sha256": "793856cbdb3c6d3063165bf83b91bc7d28f0d2c987a305867cc687964a296f18"
+      },
+      "physical_profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/resource_profile.json",
+        "sha256": "1135f71bf0a2820bea7f82d6ef3f4d397359551f87b63573f80a6ae332f42d45"
+      },
+      "proof": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/verified_plan.json",
+        "sha256": "c31c27f0f8f2f35a594defb1164daeff492c53c3bb53ad18a1521005f0d5e4f7"
+      },
+      "acks": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/8dbbca26f3cdd53a59977fd8cf38a83665d340775112f928494c3a3b82fbcc48/epoch_01.json",
+          "sha256": "6caf0eade3c2c5f8f629f736a800f33a96f734a4098013701666225bb1d0e148"
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/8dbbca26f3cdd53a59977fd8cf38a83665d340775112f928494c3a3b82fbcc48/epoch_02.json",
+          "sha256": "db8949b81af3cb3f8a1cdd8119d287300a781a9eb9ee2d313572b043a3ccbe6e"
+        }
+      ],
+      "counts": {
+        "physical_train_calls": 8,
+        "diagnostic_points": 2,
+        "extra_autograd_sweeps": 6,
+        "virtual_adam_steps": 8
+      },
+      "tail_rows": 21927,
+      "full_rows": 40960,
+      "hardware": {
+        "name": "NVIDIA GeForce RTX 3090",
+        "compute_capability": [
+          8,
+          6
+        ],
+        "cuda_usable_total_bytes": 25307578368
+      },
+      "full_process_peak_bytes": 1675624448,
+      "torch_allocated_peak_bytes": 1093158400,
+      "torch_reserved_peak_bytes": 1346371584,
+      "non_torch_bytes": 329252864,
+      "incoming_measured_full_process_bytes": 1675624448,
+      "peak_host_rss_bytes": 1856520192,
+      "maximum_observed_board_bytes": 20430323712,
+      "maximum_observed_host_fraction": 0.3626949822321493,
+      "retained_samples": 91,
+      "sampler_phase_sample_count": 7321,
+      "lazy_diagnostic_samples": 2174,
+      "populated_tail_diagnostic_samples": 2356,
+      "first_time": 1794882866.2336602,
+      "last_time": 1794882918.273312,
+      "all_receipt_identities_exact": true
+    },
+    {
+      "case_id": "case4_gpu1_kuairand",
+      "key": "ada7a28826842c01a327a26b9a4ad7a4cf52394d09578770c2468a7b1f4f04a3",
+      "worker_pid": 2478289,
+      "dataset": "kuairand",
+      "arm": "COMPLETION-BCE-025",
+      "device": 1,
+      "case": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case.json",
+        "sha256": "ff5618225276b836ded49ed962da22e41a89edafc0c9cc57a6cdbfe72545327e"
+      },
+      "profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case_profile.json",
+        "sha256": "a92798765283423c60099955420ceedfc79ac2db250b477b0df48dfab34ca895"
+      },
+      "physical_profile": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/resource_profile.json",
+        "sha256": "8182da7afd0212857ee4ed1496dbb1c34eb7aeadda52e7686ee751d100133841"
+      },
+      "proof": {
+        "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/verified_plan.json",
+        "sha256": "22aa3c4da660333ad72023da756238c0b221423ee47c678adada7e4e9f00cb77"
+      },
+      "acks": [
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/ada7a28826842c01a327a26b9a4ad7a4cf52394d09578770c2468a7b1f4f04a3/epoch_01.json",
+          "sha256": "f88f91d95a66d2ccd160a2ce8e8dc5e0e28368580d41a84cecc33741617b827e"
+        },
+        {
+          "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/acks/ada7a28826842c01a327a26b9a4ad7a4cf52394d09578770c2468a7b1f4f04a3/epoch_02.json",
+          "sha256": "a4f5efa8d8d3914378a4d4b1fae6d3bd04c8555114ef6d3c83c08d780304086e"
+        }
+      ],
+      "counts": {
+        "physical_train_calls": 8,
+        "diagnostic_points": 2,
+        "extra_autograd_sweeps": 6,
+        "virtual_adam_steps": 8
+      },
+      "tail_rows": 40052,
+      "full_rows": 40960,
+      "hardware": {
+        "name": "NVIDIA GeForce RTX 3090",
+        "compute_capability": [
+          8,
+          6
+        ],
+        "cuda_usable_total_bytes": 25307578368
+      },
+      "full_process_peak_bytes": 2027945984,
+      "torch_allocated_peak_bytes": 1277969920,
+      "torch_reserved_peak_bytes": 1698693120,
+      "non_torch_bytes": 329252864,
+      "incoming_measured_full_process_bytes": 2027945984,
+      "peak_host_rss_bytes": 2423410688,
+      "maximum_observed_board_bytes": 20782645248,
+      "maximum_observed_host_fraction": 0.376853415308001,
+      "retained_samples": 84,
+      "sampler_phase_sample_count": 8423,
+      "lazy_diagnostic_samples": 2535,
+      "populated_tail_diagnostic_samples": 1884,
+      "first_time": 1794882922.5840232,
+      "last_time": 1794882990.1863618,
+      "all_receipt_identities_exact": true
+    }
+  ],
+  "measured_envelopes": [
+    {
+      "dataset": "movielens",
+      "target_device": 0,
+      "bytes": 1675624448,
+      "basis": "maximum of compatible measured full-process residency and allocator reservation plus measured context/non-torch overhead",
+      "contributors": [
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case_profile.json",
+            "sha256": "1f196d597c2dbadf70eb6c748d46d8f80e5c1d1f4275fca337922627dc074450"
+          },
+          "arm": "COMPLETION-BCE-025",
+          "device": 0
+        },
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case_profile.json",
+            "sha256": "793856cbdb3c6d3063165bf83b91bc7d28f0d2c987a305867cc687964a296f18"
+          },
+          "arm": "MASS-SCALE-025",
+          "device": 1
+        }
+      ]
+    },
+    {
+      "dataset": "movielens",
+      "target_device": 1,
+      "bytes": 1675624448,
+      "basis": "maximum of compatible measured full-process residency and allocator reservation plus measured context/non-torch overhead",
+      "contributors": [
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case1_gpu0_movielens/attempt1/case_profile.json",
+            "sha256": "1f196d597c2dbadf70eb6c748d46d8f80e5c1d1f4275fca337922627dc074450"
+          },
+          "arm": "COMPLETION-BCE-025",
+          "device": 0
+        },
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case3_gpu1_movielens/attempt1/case_profile.json",
+            "sha256": "793856cbdb3c6d3063165bf83b91bc7d28f0d2c987a305867cc687964a296f18"
+          },
+          "arm": "MASS-SCALE-025",
+          "device": 1
+        }
+      ]
+    },
+    {
+      "dataset": "kuairand",
+      "target_device": 0,
+      "bytes": 2027945984,
+      "basis": "maximum of compatible measured full-process residency and allocator reservation plus measured context/non-torch overhead",
+      "contributors": [
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case_profile.json",
+            "sha256": "9d841b078b6b2ded6a9b5e022630a0e35040d3533722118c0347262e16929081"
+          },
+          "arm": "MASS-SCALE-025",
+          "device": 0
+        },
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case_profile.json",
+            "sha256": "a92798765283423c60099955420ceedfc79ac2db250b477b0df48dfab34ca895"
+          },
+          "arm": "COMPLETION-BCE-025",
+          "device": 1
+        }
+      ]
+    },
+    {
+      "dataset": "kuairand",
+      "target_device": 1,
+      "bytes": 2027945984,
+      "basis": "maximum of compatible measured full-process residency and allocator reservation plus measured context/non-torch overhead",
+      "contributors": [
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case2_gpu0_kuairand/attempt1/case_profile.json",
+            "sha256": "9d841b078b6b2ded6a9b5e022630a0e35040d3533722118c0347262e16929081"
+          },
+          "arm": "MASS-SCALE-025",
+          "device": 0
+        },
+        {
+          "profile": {
+            "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/smoke/case4_gpu1_kuairand/attempt1/case_profile.json",
+            "sha256": "a92798765283423c60099955420ceedfc79ac2db250b477b0df48dfab34ca895"
+          },
+          "arm": "COMPLETION-BCE-025",
+          "device": 1
+        }
+      ]
+    }
+  ],
+  "cold_admission_observations": [
+    {
+      "queue_index": 0,
+      "device": 0,
+      "sample_time": 1794882863.9198375,
+      "decision_time": 1794882863.9201846,
+      "used_bytes": 16609050624,
+      "nvml_total_bytes": 25769803776,
+      "memory_fraction": 0.6445159912109375,
+      "power_watts": 198.273,
+      "power_limit_watts": 350,
+      "power_fraction": 0.5664942857142857,
+      "host_fraction": 0.31876344172885746,
+      "cold_engineering": true,
+      "eligible": true
+    },
+    {
+      "queue_index": 2,
+      "device": 1,
+      "sample_time": 1794882863.9369154,
+      "decision_time": 1794882863.93714,
+      "used_bytes": 18749128704,
+      "nvml_total_bytes": 25769803776,
+      "memory_fraction": 0.7275619506835938,
+      "power_watts": 285.22,
+      "power_limit_watts": 350,
+      "power_fraction": 0.8149142857142858,
+      "host_fraction": 0.3182485596868395,
+      "cold_engineering": true,
+      "eligible": true
+    },
+    {
+      "queue_index": 3,
+      "device": 1,
+      "sample_time": 1794882920.5886595,
+      "decision_time": 1794882920.5887709,
+      "used_bytes": 18749128704,
+      "nvml_total_bytes": 25769803776,
+      "memory_fraction": 0.7275619506835938,
+      "power_watts": 288.849,
+      "power_limit_watts": 350,
+      "power_fraction": 0.8252828571428571,
+      "host_fraction": 0.3434066290834277,
+      "cold_engineering": true,
+      "eligible": true
+    },
+    {
+      "queue_index": 1,
+      "device": 0,
+      "sample_time": 1794882930.6227238,
+      "decision_time": 1794882930.6228428,
+      "used_bytes": 16609050624,
+      "nvml_total_bytes": 25769803776,
+      "memory_fraction": 0.6445159912109375,
+      "power_watts": 197.12,
+      "power_limit_watts": 350,
+      "power_fraction": 0.5632,
+      "host_fraction": 0.34506412857357555,
+      "cold_engineering": true,
+      "eligible": true
+    }
+  ],
+  "parent_ram_acceptance": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_ENGINEERING_SUPERVISION_ACCEPTANCE.json",
+    "sha256": "032e49ba4ba18650382d9d4ca0c4c8bdc889fb824fe05ec038a09548d464c8f1"
+  },
+  "owner": {
+    "pid": 2476891,
+    "tool_session": "67406",
+    "endpoint_hash": "4fd83153a8e86091ad43676ef24bb9064e241873ea0b8e9e70ca9e8cb1ada9cd",
+    "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+    "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+    "server_file_sha256": "5ddcb68c206c6d78ad6c3cecf59441081aa9a9ddde3233ade4af55d158b32cfa"
+  },
+  "input_receipts": {
+    "code_review": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_IMPLEMENTATION_REVIEW.json",
+      "sha256": "681ee71a574919c9df3f4d7a337cf0dc82f589097a4ce8e51e94398fadd15494"
+    },
+    "source": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/source_receipt.json",
+      "sha256": "10f3000ae43e2a394b71cdb2febc291888f06bf216dd99c05ddd7b842186fec3"
+    },
+    "run_manifest": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/run_manifest.json",
+      "sha256": "673f0a392a03a7fdbd608073762de42dfc3b4efdbc0d0070f56ee7e0e1050e37"
+    },
+    "parent_owner": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PARENT_OWNER_ACCEPTANCE.json",
+      "sha256": "2c2e2f5adf37f14fdf29fc6b3fd9c75584d9866469bc8d7539d87fc73ea9ddd7"
+    },
+    "public_owner": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/PUBLIC_STORAGE_OWNER.json",
+      "sha256": "1497744f9daf4896caee1fc5b29954212f49caeb3618dcb357adc50a675f29b1"
+    },
+    "runner_dispatch": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RUNNER_DISPATCH_SMOKE.json",
+      "sha256": "016747d30d82cb06b18a61c64f85e993adfb765bac8ec3ce1e0b40f9508e2c99"
+    },
+    "runner_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/RUNNER_SMOKE_REPORT.json",
+      "sha256": "6c7f65d980d79f550f41d9f78d31d86e5c363737d5349d586485c3c4e0256ca5"
+    },
+    "core_checks": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_CPU_CHECKS.json",
+      "sha256": "146d279d66081711398dcfdd96f4f5d52e34ab5b99c83a8427afd4e22d16c68d"
+    },
+    "core_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/CORE_IMPLEMENTATION_REPORT.md",
+      "sha256": "377759b1679b3146d609a0cbd63135c7385d256e8bd1bc8fb6fb91727b11a440"
+    },
+    "restart_checks": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_CPU_CHECKS.json",
+      "sha256": "c8d1d27ed846717cf4b9e3451e7fab4709870a1ff1744298b1d60aa1664bd3f6"
+    },
+    "restart_coder_report": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_CODER_IMPLEMENTATION_REPORT.md",
+      "sha256": "fd88d88b86ed94ee55852cf5e5f2b2a854c5e5e180b9053f7b2f0fe7d50e38d9"
+    },
+    "restart_design": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_DESIGN_SPECIFICATION.md",
+      "sha256": "6d0f47999413d2c79736219db900002f92a96869f21036c1f8bb500c068806b7"
+    },
+    "admissions": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/admission.jsonl",
+      "sha256": "393ff0da4041646ae7d2987d2932ed21426767285b67eca6c0503265d54a9580"
+    },
+    "allocation_acks": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/allocation_acks.jsonl",
+      "sha256": "79adf9a78cb8311a070a3423050cbd5c9b250348e38d8c0d5f4fdcabe55f9410"
+    },
+    "physical_attempts": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/physical_attempts.jsonl",
+      "sha256": "56233b300a4ed7131b003048815fe8ef114b243a36a8bbfbab2ddb9aeab8be7d"
+    },
+    "commit_journal": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/epoch_commit_ledger.jsonl",
+      "sha256": "10fe6c6e8fa7ec16de961533d2bd8fb82cde45fae5be99229952cf2ec8b5a33a"
+    },
+    "costs": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2/costs.jsonl",
+      "sha256": "4dd85729bdefcbdec05ef198e4c7a1c4006f39f087f3605ca9192477b771742a"
+    }
+  },
+  "stop_controls": [
+    {
+      "workspace": "/home/xzf/Code/phase0-3_tvg_rm_20261116",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "sentinels_absent": true
+    },
+    {
+      "workspace": "/home/xzf/Code/phase0-3",
+      "status": "ACTIVE",
+      "manual_stop_requested": false,
+      "sentinels_absent": true
+    }
+  ],
+  "independent_verification": {
+    "interpreter": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "method": "Finite stdlib-only hashing/receipt/chronology/counter/observation/profile audit; unmodified pure production admission/measured_envelope AST bodies evaluated in memory; frozen production validate_attempt and check_review checked through the pending parent-release boundary without IPC.",
+    "source_files_verified": 48,
+    "real_case_receipts": 4,
+    "real_case_profiles": 4,
+    "real_physical_profiles": 4,
+    "ack_receipts_verified": 8,
+    "physical_attempt_log_rows": 20,
+    "strict_resource_predicate_assertions": 8,
+    "validation_chunks": 80,
+    "core_math_prefix_evidence": "Reused CORE_CPU_CHECKS/CORE_IMPLEMENTATION_REPORT by independently verified exact byte hashes and unchanged core.py/checks.py, plus accepted new-source restart review/check hashes. No old engineering signoff approves this source.",
+    "consumer_gate_validated_through_parent_release_boundary": true,
+    "local_process_check": {
+      "owner_pid": 2476891,
+      "owner_alive": true,
+      "controller_pid": 2477619,
+      "controller_exited": true,
+      "worker_pids": [
+        2477699,
+        2477700,
+        2478482,
+        2478289
+      ],
+      "all_workers_exited": true
+    },
+    "fixture_note": "One preliminary summary script treated the intentionally null diagnostics field on ordinary calls as iterable; summary harness corrected with null handling. No source defect or source change."
+  },
+  "remaining_risks": [
+    "Parent release acceptance and actual release of all four retained engineering keys remain pending. Formal RUN is gated on both.",
+    "Engineering telemetry binds these measurements; each formal admission must freshly measure per-card memory/power, host RAM and CUDA-usable capacity and apply the measured dataset envelope. Grow envelopes with compatible live maxima.",
+    "Source/design/environment changes invalidate this signoff. Attempt1 numeric history supplies zero restart training credit; scientific epochs completed by this engineering gate are zero."
+  ],
+  "experiments_safe_to_run": {
+    "engineering_gate": "PASS",
+    "resource_gate": "PASS",
+    "formal_run_authorized": false,
+    "next_authorized_action": "Parent records ENGINEERING_RELEASE_ACCEPTANCE and releases the four accepted engineering keys; then dispatches a fresh supervised DEFAULT Luna/high formal runner after validating actual metadata and current resource gates.",
+    "parent_release_acceptance_required": true,
+    "actual_state_released_flags_required": true,
+    "full_formal_budget": {
+      "trajectories": 20,
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "epochs_per_trajectory": 50,
+      "useful_epochs": 1000,
+      "live_adam_updates": 34500,
+      "live_ema_updates": 34500
+    }
+  },
+  "boundaries": {
+    "only_written_files": [
+      "ENGINEERING_SIGNOFF.md",
+      "ENGINEERING_SIGNOFF.json"
+    ],
+    "source_edits": 0,
+    "git_actions": 0,
+    "gpu_queries": 0,
+    "gpu_training_calls": 0,
+    "owner_ipc_calls": 0,
+    "dataset_cache_access": false,
+    "tensor_state_access": false,
+    "test_accessed": false,
+    "tensor_files_written": 0,
+    "old_attempt_writes": 0,
+    "foreign_process_changes": 0,
+    "descendants": 0,
+    "independent_ai_sessions": 0
+  },
+  "stop_after_current_report": true,
+  "next_cycle_authorized": false,
+  "test_accessed": false,
+  "efficacy_analysis_performed": false,
+  "context_returned_permanently": true,
+  "context_reuse_authorized": false
+}

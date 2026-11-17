@@ -1,0 +1,156 @@
+{
+  "status": "DESIGN_COMPLETE_READY_FOR_PARENT_ACCEPTANCE",
+  "original_orchestrator": "01a1dfb8-605b-7430-8462-5fd3da0b048f",
+  "specification": {
+    "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RESTART_DESIGN_SPECIFICATION.md",
+    "sha256": "6d0f47999413d2c79736219db900002f92a96869f21036c1f8bb500c068806b7"
+  },
+  "research_question": "Finish registered Cycle04 after RAM loss with unchanged science and correct pending-allocation generation binding.",
+  "hypothesis": "Matching launched PID, expected registration attempt and new allocation ACK prevents stale allocated flags from releasing pending.",
+  "variables_changed": [
+    "canonical attempt2",
+    "new actual source48 and20 source-bound keys",
+    "fresh foreground owner and reviews",
+    "PID/registration-attempt qualified pending release",
+    "necessary audit fields and finite regression"
+  ],
+  "variables_held_constant": {
+    "source_path_count": 48,
+    "old_source_sha256": "00ce7925c3589deb239f57e8374673e5afe8e3fe155e159dd34c140ae08cd553",
+    "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+    "controls_index_sha256": "e8d67c6b18ad9ddbfa19b752e35c6ab051e3170a3d28df635b86b27922441fdb",
+    "numeric_control_files": 1020,
+    "seeds": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "trajectories": 20,
+    "epochs_each": 50,
+    "useful_epochs": 1000,
+    "useful_updates": 34500,
+    "core_checks": {
+      "experiments/completion_weight_attribution_20261117/checks.py": "7bbf10c3e4249d9a3af7e1ad80b7c93267a66f99ddc52e3050c709ba99605ae1",
+      "experiments/completion_weight_attribution_20261117/core.py": "790ae97d01a3ab3d39e42712580e333aa017b96d5869f36aed682181b03de683"
+    }
+  },
+  "algorithmic_definition": {
+    "scientific_math": "Original DESIGN_SPECIFICATION.md section5 unchanged",
+    "pending": "Capture b before Popen; store key,pid,expected_attempt=b+1; release only live active child + exact job/PID/attempt + RUNNING + allocated=true; then fresh resample",
+    "admission": "Independent per-card current memory<85%,power<85%,hostRAM<90%,no pending; current used+measured incoming full-process envelope<=CUDA usable100%; no worker cap"
+  },
+  "affected_modules": [
+    "experiments/completion_weight_attribution_20261117/protocol.py",
+    "experiments/completion_weight_attribution_20261117/runner.py",
+    "experiments/completion_weight_attribution_20261117/README.md"
+  ],
+  "implementation_requirements": {
+    "old_attempt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt1",
+    "new_attempt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt2",
+    "source48_receipt": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt1/source_receipt.json",
+    "preservation_mapping": {
+      "path": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/RAM_STATE_LOSS.json",
+      "sha256": "98e8987733d0dc250e12381d6e32143f069b25cc7825b827d4e5fd7e41be1be7"
+    },
+    "source_snapshot": "/home/xzf/Code/phase0-3_tvg_rm_20261116/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/attempt1/source_snapshot",
+    "new_source_sha256": "COMPUTE_AFTER_IMPLEMENTATION",
+    "missing_owner_pids": [
+      2429109,
+      2097722,
+      1944719,
+      1570727
+    ],
+    "protected_live_tv_owner_pid": 1025015,
+    "old_owner_ipc": false,
+    "new_owner": "Parent-owned fresh foreground serve(attempt2); no detached helper",
+    "disk_model_states": false,
+    "test_access": false,
+    "workflow": [
+      "parent acceptance",
+      "fresh coder",
+      "distinct code reviewer",
+      "fresh DEFAULT Luna/high four-case engineering",
+      "distinct resource signoff",
+      "parent actual RAM acceptance and four-key release",
+      "fresh DEFAULT Luna/high full RUN",
+      "parent selected-RAM acceptance and ANALYZE",
+      "report/evidence review/context/publication",
+      "USER_STOPPED"
+    ],
+    "fresh_native": true,
+    "fork_context": false,
+    "children_of_children": false,
+    "resume_completed_children": false,
+    "cycle05_or_astra": false
+  },
+  "ablations_required": "No additional scientific ablation; preserve registered W/S and numeric C/N comparisons.",
+  "finite_cpu_cases": [
+    "absent status retains",
+    "stale PID and attempt with allocated=true retains",
+    "right PID wrong attempt retains",
+    "wrong PID right attempt retains",
+    "right generation allocated=false retains",
+    "right live generation allocated=true releases once and resamples before next launch",
+    "pending GPU0 permits fitting GPU1",
+    "nonzero child exit pauses without ACK-release event"
+  ],
+  "engineering_cases": [
+    [
+      0,
+      "movielens",
+      "COMPLETION-BCE-025"
+    ],
+    [
+      0,
+      "kuairand",
+      "MASS-SCALE-025"
+    ],
+    [
+      1,
+      "movielens",
+      "MASS-SCALE-025"
+    ],
+    [
+      1,
+      "kuairand",
+      "COMPLETION-BCE-025"
+    ]
+  ],
+  "expected_logging_requirements": [
+    "pending key/PID/expected and observed attempt/ACK/resample chronology",
+    "unchanged scientific numeric schemas",
+    "attempt1 costs and48 snapshot immutable",
+    "attempt2 useful budget starts zero",
+    "all old/new physical costs by experiment attempt/source/key/registration/PID without overlap double-counting"
+  ],
+  "old_numeric_work": {
+    "ack_epochs": 275,
+    "ack_updates": 7733,
+    "attempt2_completion_credit": 0
+  },
+  "acceptance_criteria": [
+    "authorized three-file diff only; unchanged45 files",
+    "fresh actual48 digest and20 distinct keys",
+    "eight finite CPU cases plus existing bounded runtime checks",
+    "all four actual new-source engineering proofs and profiles",
+    "independent reviews and actual resolved runner metadata",
+    "all20x50 ACKs and34500 useful updates",
+    "40 selected models191017920bytes directly verified in live RAM",
+    "report/evidence review/context/publication then USER_STOPPED"
+  ],
+  "falsification_conditions": [
+    "old or mismatched generation releases pending",
+    "same-card launch before matching allocation ACK and resample",
+    "fix introduces cross-card admission coupling",
+    "training math/config changes",
+    "scientific hypotheses rejected under original registered criteria"
+  ],
+  "designer_actions": {
+    "source_modified": false,
+    "experiments_run": false,
+    "owner_ipc": false,
+    "subagents_spawned": false
+  }
+}

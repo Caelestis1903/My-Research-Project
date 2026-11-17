@@ -1,5 +1,25 @@
 # EXP_AI_CONTEXT.md
 
+## 2026-11-17 CWA-C04 选中模型可用性更新
+
+11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+
+## 2026-11-17 最新交接：CWA-C04 完成权重归因完整五seed
+
+COMPLETION-BCE-025（W）/MASS-SCALE-025（S）完成20条新增，精确复用CLEAN（C）/NQR-025（N）各10条数值控制；自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epochs/34500有效Adam及EMA更新。注册selected W EMA−C EMA：ML AUC−.000154621（2/5正，CI[−.000719381,+.000410138]），KR+.002555086（3/5正，CI[−.002965105,+.008075276]）；MIXED，两者均未到+.003，KR d0t0−.003141373未过−.001保护。无champion，Test封存。
+
+KR Macro LL−.003942334，5/5降低且CI全负；ML−.000305316，3/5降低、CI跨0。相同实际总BCE质量m下，W−S的KR Macro LL−.003621037（5/5降低、CI全负），两数据集task1 LL分别−.002988932/−.005124581（均5/5降低、CI全负）：条件分配损失收益为MEDIUM。W改变class/cell/task三种分配，不能称class-only或类平衡；少数类通常降权更多。S−C仍包含coupled Adam/decay/epsilon/history，不等于LR变换。
+
+ML N−W online selected AUC−.000412489，5/5负、CI全负；EMA selected AUC−.000188895但CI跨0，EMA LL+.002446577、5/5增加、CI全正。E1 N−W AUC+.019277577、5/5正，E50反为−.001496855且LL+.007416875，均5/5不利、CI不跨0。R的条件收益/成本随阶段与读出改变；W−C选中EMA未保留稳定五seed退化，原排序必要性假说仍未解决，不能预设curriculum或额外动量有效。
+
+KR W−C d0/d1/d2 AUC−.001311602/−.000224380/+.009201240，d2五seed正、CI全正；另一个较小d0 LL+.002005435，最大d1 LL−.006935433，均5/5同向且CI不跨0。规模主因和统一小域收益/大域代价仍WEAK。KR traffic-cell AUC−.000166779、task-pooled AUC均值+.000004440，均区间跨0，与Macro正均值分开；pooled LL−.006839170、5/5降低。KR E50 W−C AUC+.003242111、5/5正、CI全正是阶段性反例，不能救援selected主门槛。ML task1 LL改善5/5，task0排序/损失不稳定，旧task0联合成本未在W中完整重现。
+
+同状态80诊断点使用240额外sweeps/320虚拟Adam步骤，无额外forward/live EMA/RNG。局部梯度/update角度受host/history/batch影响；deltaEMA=(1-rho)deltaTheta仅代数注记，不是额外EMA干预或中介比例。下一独立Astra研究智能体须比较至少三种数学不同机制。最有区分力的问题包括：保持W全程时只改变R暴露阶段，以拆开C3关闭N时同时回到C的混杂；保持W cell/task质量但取消class内异质权重；缺失S+R交互。正式选择、设计和运行仍须完整门控。
+
+执行与存储：有效attempt2共30物理worker（20完成/8暂停/2仅supervisor观测失败），34640已返回calls含140非当前提交文件calls，81物理诊断对80有效诊断；缺两份terminal duration。两次NVML暂停后恢复到完整预算，所有子上下文关闭。旧attempt1 RAM丢失后的275epochs不计完成信用，stale pending代际绑定经独立流程修复；旧C1/C2/C3 RAM验收均为历史，不能声称这些旧owner仍活着。parent于11:21实际验收40选中模型，当时owner2476891/session67406持有191017920B；该owner随后退出，当前这些状态不可用；TV旧存储进程保留且未作旧owner IPC。有效attempt2观察到5个实际CUDA并发，逐卡当前85%显存/85%功耗、host90%、实测usable100%容量及新PID/attempt分配ACK门控，非固定cap。训练时有外部作业，墙钟不是隔离效率比较。
+
+[完整报告](research_reports/completion_weight_attribution_20261117/REPORT.md)、[全部seed/CI](research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv)、[完整数值与89分片](research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md)。源码48 d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f，设计2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7。完整报告/上下文经独立证据审查和真实main发布后，再执行唯一追加Cycle05；Cycle05报告交付后终止，不启动Cycle06。旧无限循环/stop-after-C04段落保留作历史，最新用户边界以此为准。
+
 ## 2026-11-16 最新交接：NQR-C03 时序暴露完整20条
 
 EARLY10/LATE10完整20新增+20精确数值控制（CLEAN/constant-NQR各10），自然ML/KR、M3oE fixed1、seeds2022–2026、50epochs/40960/FP32，1000epoch/34500新更新；20物理attempt全完成、0失败。注册EARLY selected EMA−CLEAN Macro AUC：ML−.000340045（0/5正，CI[−.000459987,−.000220103]），KR−.000068613（3/5正，CI[−.008122287,+.007985061]）；NO_CONTINUATION_SIGNAL，无champion、Test未访问。ML/KR ΔLL均值−.000928551/−.000928905，但仅3/5和2/5降低且CI跨0；ML cell保护通过，KR最小cell均值−.006049390未通过。

@@ -1,0 +1,61 @@
+{
+  "status": "PAUSED",
+  "scope": "Cycle04 attempt2 recovery run only; raw execution accounting",
+  "dispatch_receipt": "RUNNER_DISPATCH_RECOVERY_01.json",
+  "recovery_review": "RECOVERY_REVIEW_01.json",
+  "runner_pid": 2611647,
+  "tool_session": "75552",
+  "runner_exit_code": 0,
+  "runner_stdout_status": "PAUSED",
+  "foreground_wall_seconds": 1418.0120804079343,
+  "source_hash": "d1930f26e2b73d04a2ed504112ca0161948468d5ce00b99b074d5214efdf3b3f",
+  "design_bundle_sha256": "2acde7e9e6764f6243920cba3f538e2c4cd49b36b6ddfa2351addba3b9fc62b7",
+  "formal_progress": {
+    "key_source": "jobs/*.json filtered to purpose=formal; parent-refreshed CURRENT_PROGRESS.json",
+    "formal_jobs": 20,
+    "acknowledged_epochs": 889,
+    "target_epochs": 1000,
+    "acknowledged_useful_adam_updates": 32251,
+    "target_useful_adam_updates": 34500,
+    "complete_50_epoch_jobs": 15,
+    "unfinished_jobs": 5,
+    "unfinished_epochs": 111,
+    "unfinished_useful_adam_updates": 2249
+  },
+  "pause": {
+    "receipt": "TECHNICAL_PAUSE.json",
+    "key": "2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c",
+    "exception": "experiments.completion_weight_attribution_20261117.protocol.TechnicalPause: NVML measurement failed code=3",
+    "worker_log": "runs/2df253901fbd915c33bb3f5a2c6152666931bbd1bc093b16f9aee1828dd1932c/foreground.log",
+    "worker_pid": 2619341,
+    "worker_exit_code": 1,
+    "worker_process_wall_seconds": 689.6625649929047,
+    "returned_train_calls": null,
+    "unknown_partial_call": true
+  },
+  "physical_execution": {
+    "formal_worker_processes_started": 7,
+    "formal_worker_processes_exited": 7,
+    "worker_exit_codes": {
+      "0": 6,
+      "1": 1
+    },
+    "known_returned_train_calls": 2876,
+    "unknown_partial_worker_calls": 1,
+    "sum_of_observed_process_wall_seconds": 6973.316387176514,
+    "wall_seconds_semantics": "sum of process wall durations; worker processes overlapped, so this is not elapsed run time",
+    "records": "physical_attempts.jsonl filtered to recovery worker PIDs 2611773, 2611774, 2612072, 2612190, 2612426, 2619341, 2620208"
+  },
+  "runner_handoff": {
+    "status": "NOT_RUN; formal run paused before all 20 jobs completed",
+    "receipt": null
+  },
+  "tables": {
+    "status": "NOT_RUN; runner handoff unavailable",
+    "table_receipt": null,
+    "resource_execution_audit": null
+  },
+  "test_accessed": false,
+  "source_edits": 0,
+  "research_analysis_performed": false
+}
