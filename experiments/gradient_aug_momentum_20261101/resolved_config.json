@@ -1,0 +1,15 @@
+{
+  "study_id": "GAM01",
+  "source": {"repository": "Caelestis1903/My-Research-Project", "main_commit": "e65ceb4735d533f3a9035a9199c30f68b4bde98d", "branch": "26-11-01", "commit": "a6f496b54f467cdf7b814b6bb8defdbdd457bc38", "base_model_commit": "ee6e81fdfd37284e6447e8149cb93d04736dba02"},
+  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "training": {"epochs": 50, "batch_size": 40960, "save_epochs": [10, 50], "sampler": "natural_without_replacement_shuffle", "drop_last": false, "amp": false, "tf32": false, "early_stopping": false, "selection": "strict full-real-validation six-cell macro AUC maximum, earliest tie, E0 excluded", "state_storage": "RAM_ONLY"},
+  "optimizer": {"lr": 0.01, "betas": [0.9, 0.999], "eps": 1e-8, "decay_type": "coupled_L2", "foreach": false, "fused": false},
+  "rng": {"loader_offsets": {"train": 11000, "validation": 33000, "test": 44000}, "view_key": "GA31-R3|dataset|seed|train|global_step|gaussian|1"},
+  "arms": [
+    {"id": "A0", "use_shadow_ema": true, "use_augmented_view": false, "use_delta_momentum": false, "use_reliability_gain": false, "beta_delta": 0, "rho_shadow": 0.995, "lambda_aug": 0.5, "noise_scale": 0.1, "num_views": 1},
+    {"id": "A1", "use_shadow_ema": true, "use_augmented_view": true, "use_delta_momentum": false, "use_reliability_gain": false, "beta_delta": 0, "rho_shadow": 0.995, "lambda_aug": 0.5, "noise_scale": 0.1, "num_views": 1},
+    {"id": "A2", "use_shadow_ema": true, "use_augmented_view": true, "use_delta_momentum": true, "use_reliability_gain": false, "beta_delta": 0.9, "rho_shadow": 0.995, "lambda_aug": 0.5, "noise_scale": 0.1, "num_views": 1},
+    {"id": "A3", "use_shadow_ema": true, "use_augmented_view": true, "use_delta_momentum": true, "use_reliability_gain": false, "beta_delta": 0.99, "rho_shadow": 0.995, "lambda_aug": 0.5, "noise_scale": 0.1, "num_views": 1}
+  ],
+  "decision": {"auc_mean_gain_min": 0.001, "positive_seeds_min": 4, "guard_auc_loss": 0.002, "guard_logloss_increase": 0.002, "guard_adverse_seeds_min": 4, "ci": "paired descriptive t 95% df4", "p2": {"gain_positive_seeds_min": 3, "seed_injection_cv_min": 0.5, "stage_injection_ratio_min": 2, "stage_repeated_seeds_min": 4, "valid_injection_mean_floor": 1e-12, "misalignment_positive_cos_min": 0.1, "misalignment_negative_cos_max": -0.1, "misalignment_injection_min": 0.05, "stages": [[1,10],[11,30],[31,50]], "test_input_allowed": false, "budget_resolution": "conditional coordinator freeze required before P2"}}
+}
