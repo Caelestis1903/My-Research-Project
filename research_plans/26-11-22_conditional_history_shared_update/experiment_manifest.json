@@ -1,0 +1,588 @@
+{
+  "schema_version": 1,
+  "study_id": "CONDITIONAL_HISTORY_SHARED_UPDATE_20261122",
+  "artifact_status": "DESIGN_ONLY",
+  "source_main_commit": "875215c1e509ab55c1b6632d4f5d13e8b94782da",
+  "repository": "Caelestis1903/My-Research-Project",
+  "plan_directory": "research_plans/26-11-22_conditional_history_shared_update",
+  "authority": {
+    "task": "current uploaded A/B planning task",
+    "implementation_now": false,
+    "training_now": false,
+    "planning_publish_branch": "main",
+    "future_execution": "bounded stages in current supervised conversation",
+    "old_C04_C05_test": "remain sealed",
+    "future_new_test": "after complete five-seed selection, FINAL_FREEZE and current RAM verification"
+  },
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "datasets": {
+    "movielens": {
+      "csv": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "train_rows": 800167,
+      "validation_rows": 100021,
+      "test_rows": 100021,
+      "steps_per_epoch": 20,
+      "tail_rows": 21927,
+      "weight_decay": 0.0001,
+      "rho": 0.9828205985452511
+    },
+    "kuairand": {
+      "csv": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+      "train_rows": 2006132,
+      "validation_rows": 250767,
+      "test_rows": 250767,
+      "steps_per_epoch": 49,
+      "tail_rows": 40052,
+      "weight_decay": 1e-05,
+      "rho": 0.995
+    }
+  },
+  "frozen": {
+    "model": "M3oE fixed1 source v3",
+    "natural_split": "original row order 80/10/10; train-only preprocessing",
+    "epochs": 50,
+    "batch_size": 40960,
+    "precision": "float32",
+    "lr": 0.01,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay_mode": "coupled",
+    "foreach": false,
+    "fused": false,
+    "amsgrad": false,
+    "loader_seed_offset": 11000,
+    "drop_last": false,
+    "ema_feedback": false,
+    "model_storage": "RAM_ONLY",
+    "main_readout": "fixed_ema",
+    "selection": "earliest strict maximum of validation six-cell Macro AUC; online tracked separately",
+    "pair_count": 2048,
+    "pair_lambda": 0.05,
+    "conditional_beta": 0.99,
+    "rms_gradient_normalization": false
+  },
+  "A": {
+    "conditions": "(d,t,a,b), 24 joint-label boundaries; exact source w/q",
+    "history_scope": [
+      "shared_weight",
+      "shared_bias",
+      "skip_conn.*",
+      "star_mlp.*",
+      "expert.*"
+    ],
+    "missing_seeds": [
+      2023,
+      2025,
+      2026
+    ],
+    "historical_seeds": [
+      2022,
+      2024
+    ],
+    "simple_preference_band": 0.0001,
+    "long_adam_beta1": 0.99,
+    "lambda_grid": [
+      0.025,
+      0.05
+    ],
+    "lambda_search_requires_matched_Adam": true,
+    "H_star_pool": [
+      "A20",
+      "A21",
+      "A22"
+    ],
+    "target_dataset_rule": "among datasets with history mean Val gain over both A00 and A10, choose largest H*-A10; exact tie lexicographic dataset id; same update form and scope on both datasets in unified row"
+  },
+  "B": {
+    "anchor_epochs": [
+      5,
+      20,
+      35,
+      50
+    ],
+    "anchor_batch": "last true batch before optimizer step",
+    "anchor_count": 40,
+    "groups": [
+      "EMBED",
+      "S_DENSE",
+      "N"
+    ],
+    "algorithm_scope": "EMBED",
+    "true_sources": 6,
+    "pseudo_partitions": 2,
+    "pseudo_bucket_count": 6,
+    "pseudo_capacity": "match per-cell positive and negative loss-entry counts",
+    "virtual_steps_per_anchor": 52,
+    "virtual_steps_total": 2080,
+    "extra_autograd_per_anchor": 18,
+    "extra_autograd_total": 720,
+    "pulse_epochs": [
+      20,
+      35
+    ],
+    "pulse_trigger_unit": "dataset; all five seeds and both anchors; include NO_ACTION",
+    "pulse_branches": [
+      "train_selected_true_LOO",
+      "train_selected_partition0_pseudo_LOO"
+    ],
+    "pulse_K": "steps_per_epoch including first LOO",
+    "max_pulse_slots": 40,
+    "max_pulse_logical_steps": 1380,
+    "reused_virtual_first_steps": 40,
+    "max_new_pulse_Adam_calls": 1340,
+    "window_core_parent_windows": 20,
+    "window_core_step_panel_reads": 690,
+    "max_window_all_branch_step_panel_reads": 2070,
+    "window_initialization": "prediction(F_pre); same rho weights as parameter F_K",
+    "eta_grid": [
+      0.25,
+      0.5
+    ],
+    "controller_start_epoch": 1,
+    "controller_end_epoch": 50,
+    "controller_frequency": "first actual batch of every epoch; q held for epoch; current gradients recomputed every batch",
+    "controller_selection": "train P_A argmax positive Macro AUC increment of actual eta branch over JOINT, else NO_ACTION",
+    "uniform_formula": "g_E *= 1 - eta*n_domain(q_e)/(2*actual_B), replay same ADAPT seed/eta trace; other gradients and WD unchanged",
+    "minimal_action_value": 0.0001,
+    "controller_virtual_branches_per_epoch": 7,
+    "controller_update_order": "7 independent virtual branches (JOINT + 6 actual eta candidates) from same prestate; select on P_A; then exactly 1 live Adam step and 1 EMA update",
+    "search_selector_virtual_calls_max": 7000,
+    "search_extra_EMBED_autograd_max": 74000
+  },
+  "performance": {
+    "strong_published_delta": 0.003,
+    "candidate_published_delta": 0.002,
+    "cell_mean_guard": -0.001,
+    "component_independent_gain_required": true,
+    "CI_is_hard_gate": false,
+    "all_seed_positive_required": false,
+    "LogLoss_separate": true,
+    "known_published_reference": {
+      "movielens": "M3oE",
+      "kuairand": "HyperGate"
+    }
+  },
+  "arms": [
+    {
+      "id": "A00",
+      "definition": "clean Adam; online/F",
+      "historical_unique_trajectories": 10,
+      "new_scientific_trajectories_max": 0,
+      "trigger": "required_reference",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A10",
+      "definition": "P00 static pair ordinary Adam lambda .05",
+      "historical_unique_trajectories": 4,
+      "new_scientific_trajectories_max": 6,
+      "trigger": "A_CORE",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A20",
+      "definition": "P01 static pair ECCM lambda .05",
+      "historical_unique_trajectories": 10,
+      "new_scientific_trajectories_max": 0,
+      "trigger": "required_reference",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A30",
+      "definition": "P10 dynamic sampling ordinary Adam lambda .05",
+      "historical_unique_trajectories": 4,
+      "new_scientific_trajectories_max": 6,
+      "trigger": "A_CORE",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A21",
+      "definition": "PCOLL_STATIC_099",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "A_history_positive_mean",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A22",
+      "definition": "ADAM_S99",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "A_history_positive_mean",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A40_HISTORY_L025",
+      "definition": "H* same static pair lambda .025",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "A_observed_tradeoff",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A41_ADAM_L025",
+      "definition": "ordinary Adam same static pair lambda .025",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "paired_with_A40",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A50_STAR_SKIP_ONLY",
+      "definition": "H* history only STAR_SKIP",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "A_localized_history_cost",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "A51_EXPERT_ONLY",
+      "definition": "H* history only EXPERT",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "paired_with_A50",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "B_ADAPT",
+      "definition": "train panel source attenuation in EMBED",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 20,
+      "trigger": "B_actionable_residual",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "B_STATIC",
+      "definition": "LOSO early train panel frozen source attenuation in EMBED",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 20,
+      "trigger": "B_actionable_residual",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "B_UNIFORM",
+      "definition": "replay ADAPT action trace; nominal mass scaling of EMBED data gradient",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 20,
+      "trigger": "B_actionable_residual_and_ADAPT_trace",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "AB_FROZEN",
+      "definition": "one frozen A+B; compare best single",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "A_B_complementary_independent_gain",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    },
+    {
+      "id": "G_FROZEN",
+      "definition": "final selected optimization under Gaussian D0",
+      "historical_unique_trajectories": 0,
+      "new_scientific_trajectories_max": 10,
+      "trigger": "Gaussian_background_changes_method_decision",
+      "formal_seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "all_epochs_required": 50
+    }
+  ],
+  "state_replays": [
+    {
+      "id": "B_REPLAY",
+      "max_full_trajectories": 10,
+      "default": 10,
+      "purpose": "new exact Adam/EMA mechanism anchors; no extra statistical seeds"
+    },
+    {
+      "id": "A_STATE_REPLAY",
+      "max_full_trajectories": 10,
+      "default": 0,
+      "purpose": "candidate own trajectory causal attribution when required; do not replay every A arm"
+    }
+  ],
+  "budgets": {
+    "core_new_scientific": 12,
+    "core_state_replays": 10,
+    "core_full_physical": 22,
+    "core_full_epochs": 1100,
+    "core_main_updates": 37950,
+    "max_new_scientific_full_trajectories": 152,
+    "max_state_replay_full_trajectories": 20,
+    "max_full_physical_trajectories": 172,
+    "max_full_epochs": 8600,
+    "max_main_updates": 296700,
+    "B_virtual_calls": 2080,
+    "B_new_pulse_calls_max": 1340,
+    "core_with_B_virtual_and_max_pulse_calls": 41370,
+    "initial_history_cost_proxy_worker_hours": 5.35,
+    "proxy_excludes": [
+      "new mechanism observers",
+      "source attribution shadows",
+      "B controller probes",
+      "extra panel forwards",
+      "technical replays"
+    ],
+    "max_is_not_default_queue": true,
+    "B_search_selector_virtual_calls_max": 7000,
+    "AB_selector_virtual_calls_max_if_ADAPT": 3500,
+    "G_selector_virtual_calls_max_if_ADAPT": 3500,
+    "all_selector_virtual_calls_max": 14000
+  },
+  "resource_admission": {
+    "gpu_current_memory_fraction_lt": 0.85,
+    "gpu_current_power_fraction_lt": 0.85,
+    "host_current_ram_fraction_lt": 0.9,
+    "per_gpu_independent": true,
+    "fixed_worker_cap": null,
+    "also_require_measured_physical_fit": true,
+    "resample_after_allocation": true
+  },
+  "stage_order": [
+    "SOURCE_AUDIT",
+    "IMPLEMENT_REVIEW",
+    "A_CORE",
+    "A_GATE",
+    "B_CORE",
+    "CONDITIONAL_EXPANSION",
+    "FINAL_FREEZE",
+    "FINAL_EVALUATION",
+    "REPORT_REVIEW_PUBLISH",
+    "STOP"
+  ],
+  "required_independence": [
+    {
+      "stage": "B_CORE",
+      "independent_of": "A_GATE positive status"
+    }
+  ],
+  "dependencies": {
+    "A40_HISTORY_L025": [
+      "A_HISTORY_COMPARISON",
+      "A_observed_tradeoff"
+    ],
+    "A50_STAR_SKIP_ONLY": [
+      "A_DOSE",
+      "A_OWN_TRAJECTORY_ATTRIBUTION"
+    ],
+    "B_UNIFORM": [
+      "same dataset/seed/eta B_ADAPT frozen ACTION_TRACE"
+    ],
+    "AB_FROZEN": [
+      "same dataset A independent gain",
+      "same dataset B independent gain",
+      "positive bridge in A current states per section11"
+    ],
+    "FINAL_EVALUATION": [
+      "FINAL_FREEZE",
+      "current selected-model hash verification"
+    ],
+    "A41_ADAM_L025": [
+      "A_HISTORY_COMPARISON",
+      "A_observed_tradeoff"
+    ]
+  },
+  "files": {
+    "runbook": "00_EXECUTION_RUNBOOK.md",
+    "engineering": "06_IMPLEMENTATION_SPEC.md",
+    "decision": "09_DECISION_RULES.md",
+    "codex_prompt": "11_CODEX_TASK_PROMPT.md",
+    "sources": "12_SOURCE_AND_REUSE_REGISTER.md",
+    "review": "13_PLAN_REVIEW.md"
+  },
+  "terminal_states": [
+    "COMPLETE",
+    "NOT_TRIGGERED",
+    "TECHNICAL_BLOCKED",
+    "USER_STOPPED"
+  ],
+  "no_automatic_next_research_cycle": true,
+  "composition": {
+    "spec": "06_IMPLEMENTATION_SPEC.md section 11",
+    "AB_data_gradient": "g0 + gG + lambdaP*rP - eta*P_EMBED*gq",
+    "q_definition": "original natural BCE cell gradient only; not pair or Gaussian residual",
+    "A_conditional_history": "PAIR only: A20 stores unweighted r_pair and recomposes current w; A21 stores (w/q)*r_pair in collapsed history; Gaussian residual joins ordinary real channel",
+    "B_uniform_background": "scale g0 only; preserve gG and pair; reuse original standalone B_ADAPT trace",
+    "AB_gate": "same dataset positive A and B increments; train-selected B action at actual A E20/E35 states yields positive five-seed Validation marginal and cell guards",
+    "Gaussian_objective": "original replacement, .5 D0 augmented minus .5 D0 clean, divided by 2B",
+    "Gaussian_pair": "original clean logits; no extra clean forward",
+    "extra_training_for_composition_spec": 0
+  },
+  "stage_completion_requirements": {
+    "A_DOSE": [
+      "A40_HISTORY_L025 complete for both datasets and all five seeds",
+      "A41_ADAM_L025 complete for both datasets and all five seeds"
+    ]
+  }
+}
