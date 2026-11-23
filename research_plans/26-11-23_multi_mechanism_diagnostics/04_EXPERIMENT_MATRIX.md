@@ -16,13 +16,13 @@ Test: S0–S3 sealed。
 | M1 | 3 consistency objectives + 3 coordinate-shuffled controls + P-BCE + joint baseline = 8 | 240 |
 | M2 | 4 task/sample impact actions + natural + task-agnostic + shuffled controls = 7 | 210 |
 | M3 | 2 group-pair types × 5 interaction arms = 10 | 300 |
-| M4 | 3 feature-dependence actions × intervention/sham = 6 | 180 |
+| M4 | 4 feature-dependence actions × intervention/sham = 8 | 240 |
 | M5 | 5 augmentation families × augmented/matched control = 10 | 300 |
 | M6 | 3 output-sensitivity controls × candidate/matched control = 6 | 180 |
 | M7 | 3 distributional attribution actions × robust/mean or shuffled control = 6 | 180 |
 | M8 | 4 conflict controllers × candidate/matched control = 8 | 240 |
 | Cross-family | 5 registered interactions × combination/matched control arms = 10 | 300 |
-| **Total** |  | **2,130** |
+| **Total** |  | **2,190** |
 
 每个 slot 都必须进入 RUN_MANIFEST。某个变体在某数据集不适用时，仍创建 slot 并以 NOT_APPLICABLE + reason 终结，不静默减少总数。
 
