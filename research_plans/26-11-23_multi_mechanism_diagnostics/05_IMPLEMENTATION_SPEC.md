@@ -53,7 +53,7 @@ def private_consistency_step(state, batch, inner_lr, inner_steps):
     """Update P only; prove U and U-Adam state are unchanged."""
 
 def sample_task_scores(state, calibration_pairs, sampled_rows):
-    """Return per-row/task/cell local ranking-margin impact proxy."""
+    """Return per-row/task/cell leave-one-row-task-out Adam displacement contrast and local ranking-margin impact proxy."""
 
 def run_matched_fork(anchor, arm, batch_a, batch_b) -> ForkReceipt:
     """Clone, execute, evaluate and atomically persist one arm."""
@@ -81,10 +81,11 @@ M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 
 ## 5. M2 implementation
 
 - Select a fixed row-gradient panel from canonical Train batch B (max 128 rows per domain/anchor), stratified by observed joint-label support.
-- Compute per-row/task gradient on U using the exact task-specific BCE contribution and canonical reduction scale: for batch size B and two tasks, each row-task contribution is scaled by 1/(2B) to match the source mean-over-tasks then mean-over-rows reduction. Record this scale and verify summing row contributions reconstructs the batch gradient within numerical tolerance.
+- Compute each row-task gradient contribution on U using canonical reduction scale 1/(2B), where B is batch size and there are two tasks. Verify summing row-task contributions reconstructs the batch gradient within numerical tolerance. For each row-task, calculate two virtual native Adam displacements from the same anchor state: full batch gradient and full batch gradient minus that row-task contribution. Define its marginal update as their difference. Neither virtual step may mutate live optimizer state.
 - Compute virtual Adam update using anchor m/v/step and effective weight decay; do not mutate live optimizer.
-- Compute train-calibration pairwise margin gradients per cell.
-- Score = margin-gradient dot signed virtual parameter displacement; positive means predicted positive-negative margin increase.
+- Compute Train-calibration pairwise margin gradients per cell.
+- Score = calibration margin gradient dot the signed leave-one-row-task-out displacement contrast; positive means predicted positive-negative margin increase.
+- This is a local optimizer-step marginal attribution proxy, not an exact causal effect or full influence function.
 - Normalize weights within each domain-task to mean 1; clip and log effective total mass.
 - M2-2 averages score across tasks before weighting; M2-3 shuffles score within domain. Rows outside the panel keep weight 1; panel weights are renormalized within each domain-task so total task loss mass is unchanged.
 - All arms retain identical row IDs and batch size.
