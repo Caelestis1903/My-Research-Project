@@ -1,0 +1,35 @@
+{
+  "plan_id": "mdmt_shared_private_coordination_20261123",
+  "directory": "research_plans/11-23",
+  "status": "DESIGN_ONLY",
+  "created_date": "2026-11-23",
+  "primary_question": "Whether domain-task-specific prediction paths can adapt after a shared representation update and whether a fixed shared-to-private update order yields an independent ranking gain.",
+  "candidate_algorithm": "U_to_P shared-to-private sequential coordination with one pre-registered scope selected by Stage 1 response diagnostics; no online controller.",
+  "datasets": ["movielens", "kuairand"],
+  "seeds": [2022, 2023, 2024, 2025, 2026],
+  "stages": ["S0_SOURCE_AND_IMPLEMENTATION_AUDIT", "S1_CONTROLLED_RESPONSE_DIAGNOSIS", "S2_FULL_TRAINING_VALIDATION", "S3_FROZEN_TEST_EVALUATION"],
+  "test_policy": "No Test access before S3 freeze; one-shot scoring only for frozen arms.",
+  "files": [
+    "README.md",
+    "00_EXECUTION_RUNBOOK.md",
+    "01_RESEARCH_CONTEXT.md",
+    "02_THEORY_AND_HYPOTHESES.md",
+    "03_CAUSAL_EXPERIMENT_DESIGN.md",
+    "04_EXPERIMENT_MATRIX.md",
+    "05_IMPLEMENTATION_SPEC.md",
+    "06_SCHEDULER_AND_RESOURCES.md",
+    "07_METRICS_AND_STATISTICS.md",
+    "08_REPORT_TEMPLATES.md",
+    "09_CODEX_HANDOFF.md"
+  ],
+  "prohibited": [
+    "No modification of historical experiment code or artifacts",
+    "No Gaussian/PAIR/ECCM/NQR combination in the primary method",
+    "No adaptive EMA or new gradient-conflict controller",
+    "No small-domain-as-hard-domain assumption",
+    "No unbounded autonomous experiment loop"
+  ],
+  "execution_started": false,
+  "training_started": false,
+  "test_accessed": false
+}
