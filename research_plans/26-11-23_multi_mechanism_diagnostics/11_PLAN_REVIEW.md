@@ -52,3 +52,18 @@
 ## 5. 审查限制
 
 PASS WITH CONDITIONS 不表示所有变体一定适用于两个数据集，也不表示所有算法预期有效。它表示设计已给出完整执行定义；具体技术适用性由 S0 receipts 决定。NOT_APPLICABLE/TECHNICAL_BLOCKED 必须逐变体留档，不得被隐藏。
+
+
+## 6. 第二轮技术一致性复核
+
+在全候选矩阵落盘后，再次逐文件核对了 fork 计数、variant registry、短程轨迹数量、超参网格和机制定义，并修正：
+- M4 从三个变体扩展为四个，S1 总量由初版 2,130 更正为 2,190 slots；
+- M3-B score-defined 与 M3-C random-matched group interaction 分离，M3-D 负责 stage×group interaction；
+- M3 的 A-only/B-only/A-B/A-A/B-B 固定 batch row slots，A/A 与 B/B 明确作为重复暴露/冗余控制；
+- M2 row-task gradient contribution 明确使用 canonical 1/(2B) reduction scale，并要求可重建 batch gradient；
+- M2-B task-specific scheduling 使用相同 row IDs 的自然顺序 matched control；
+- M1 coordinate-shuffle 明确要求每个 cell 独立 permutation，避免所有 cell 共用同一 permutation 后 cosine 不变；
+- S3 的 31 个 trainable variants × 3 settings × 10 dataset-seed combinations = 930 short trajectories；
+- S4 在 31 个变体全部通过时最多 310 条 50-epoch trajectories；不设 Top-K。
+
+以上修正已同步到 README、Runbook、Mechanism Definitions、Experiment Matrix、Implementation Spec、State Snapshot、Scheduler、Decision Rules 与 Full Mechanism Catalog。
