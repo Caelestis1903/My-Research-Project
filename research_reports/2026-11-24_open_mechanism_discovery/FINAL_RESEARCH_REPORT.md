@@ -2,7 +2,7 @@
 
 **研究范围**：MDMTRec / M3oE 的共享—专有学习、训练动态、样本—任务依赖、负迁移与语义保持增强。  
 **文献截止**：2026-11-24。  
-**仓库核对**：\`Caelestis1903/My-Research-Project\`，main 当前提交 \`f66bf17cba2980618e6f2edd1c7381b73c35cac5\`；共享—专有协调实验分支 \`26-11-23_v2\` 相对该 main ahead 1、behind 0。  
+**仓库核对**：`Caelestis1903/My-Research-Project`，main 当前提交 `f66bf17cba2980618e6f2edd1c7381b73c35cac5`；共享—专有协调实验分支 `26-11-23_v2` 相对该 main ahead 1、behind 0。  
 **任务性质**：研究发现与机制筛选；不实现算法、不启动训练、不撰写 Codex 执行计划。
 
 ---
@@ -24,9 +24,9 @@
 
 ### 0.2 本轮重要修正
 
-- 用户上传的《MDMTRec_2025_2026_完整研究报告.md》以 main 的旧提交 \`4a3e4f1b21f1aebb6daa2df6635c3d7ca547a983\` 为研究上下文。当前 main 已前进到 \`f66bf17cba2980618e6f2edd1c7381b73c35cac5\`，其常驻科研上下文改为 \`experiments/reports/EXP_AI_CONTEXT_V2.md\`，包含截至 S6 的新裁定。不能把旧报告的研究状态直接当成当前最新状态。
+- 用户上传的《MDMTRec_2025_2026_完整研究报告.md》以 main 的旧提交 `4a3e4f1b21f1aebb6daa2df6635c3d7ca547a983` 为研究上下文。当前 main 已前进到 `f66bf17cba2980618e6f2edd1c7381b73c35cac5`，其常驻科研上下文改为 `experiments/reports/EXP_AI_CONTEXT_V2.md`，包含截至 S6 的新裁定。不能把旧报告的研究状态直接当成当前最新状态。
 - 当前 main 的最新上下文把早期“固定 EMA 仍是所有问题的中心”进一步收敛：Equal 下有条件性的 Adam history 现象；Sample 下两个已测最大域 target 均未通过 practical rescue gate，S6 停止 Phase B。这个新结论限制了“Adam history 是通用方法”的外推。
-- \`26-11-23_v2\` 的 D2 共享—专有协调实验确实完成了 S1 诊断矩阵：10 条基线轨迹、30 个 anchor、570 个 fork，未使用 Test。但最终 \`SCOPE_DECISION.json\` 是 \`COMPLETE_NO_GO_S1\`：V_A 选择的 P_AXIS 在独立 V_B 上没有达到确认要求；MovieLens 与 KuaiRand 均未确认通过。它排除的是当前固定 scope / 固定更新动作在当前协议下的晋级，不是所有共享—专有协调机制。
+- `26-11-23_v2` 的 D2 共享—专有协调实验确实完成了 S1 诊断矩阵：10 条基线轨迹、30 个 anchor、570 个 fork，未使用 Test。但最终 `SCOPE_DECISION.json` 是 `COMPLETE_NO_GO_S1`：V_A 选择的 P_AXIS 在独立 V_B 上没有达到确认要求；MovieLens 与 KuaiRand 均未确认通过。它排除的是当前固定 scope / 固定更新动作在当前协议下的晋级，不是所有共享—专有协调机制。
 
 ### 0.3 研究决策
 
@@ -50,7 +50,7 @@
 
 ### 1.2 当前 main 的最新研究裁定
 
-当前 main 的 \`experiments/reports/EXP_AI_CONTEXT_V2.md\` 是最新常驻上下文，不能再以旧的 \`EXP_AI_CONTEXT.md\` 路径或旧提交摘要替代。
+当前 main 的 `experiments/reports/EXP_AI_CONTEXT_V2.md` 是最新常驻上下文，不能再以旧的 `EXP_AI_CONTEXT.md` 路径或旧提交摘要替代。
 
 当前可接受的关键事实：
 
@@ -68,14 +68,14 @@
 
 ### 1.3 11月23日 D2 实验的独立核对
 
-核对对象：\`26-11-23_v2\`，其与当前 main \`f66bf17...\` 的 merge-base 相同，ahead 1、behind 0。实验工件位于：
+核对对象：`26-11-23_v2`，其与当前 main `f66bf17...` 的 merge-base 相同，ahead 1、behind 0。实验工件位于：
 
-- \`artifacts/mdmt_shared_private_coordination_20261123/S0/\`
-- \`artifacts/mdmt_shared_private_coordination_20261123/S1_RUN.json\`
-- \`artifacts/mdmt_shared_private_coordination_20261123/SCOPE_DECISION.json\`
-- \`artifacts/mdmt_shared_private_coordination_20261123/ANCHOR_INDEX.json\`
-- \`research_reports/mdmt_shared_private_coordination_20261123/DESIGN_SPECIFICATION.md\`
-- \`research_reports/mdmt_shared_private_coordination_20261123/DESIGN_ERRATUM.md\`
+- `artifacts/mdmt_shared_private_coordination_20261123/S0/`
+- `artifacts/mdmt_shared_private_coordination_20261123/S1_RUN.json`
+- `artifacts/mdmt_shared_private_coordination_20261123/SCOPE_DECISION.json`
+- `artifacts/mdmt_shared_private_coordination_20261123/ANCHOR_INDEX.json`
+- `research_reports/mdmt_shared_private_coordination_20261123/DESIGN_SPECIFICATION.md`
+- `research_reports/mdmt_shared_private_coordination_20261123/DESIGN_ERRATUM.md`
 
 **实验范围**：MovieLens 与 KuaiRand；训练 seeds 2022–2026；固定1模型；三域×两任务；50 epochs；natural 两任务目标；batch size 40960；Adam 与参数 EMA 沿用该数据集既定参数。S1 在 E10/E25/E40 建立 anchor 并对相同训练状态 fork，测 U、P_CELL、P_AXIS、P_FULL 等 private scope 与不同更新次序/联合更新对照。
 
@@ -88,11 +88,11 @@ S0 工件显示：
 - S1 完成10条轨迹、30个 anchors、570个 forks，Test evaluations=0。
 
 **最终 S1 gate**：
-- \`SCOPE_DECISION.status = COMPLETE_NO_GO_S1\`；
+- `SCOPE_DECISION.status = COMPLETE_NO_GO_S1`；
 - V_A 对 P_AXIS 仅 KuaiRand 入选；P_CELL 与 P_FULL 均无合格数据集；
 - V_B 独立确认中，MovieLens 的 P→U 平均 Macro AUC +0.0000113、J_ACC −0.0000011；KuaiRand P→U +0.0000527、J_ACC −0.0000820；
-- 两个数据集均没有复现至少两个 anchor 的双对照一致正向要求，\`confirmed_datasets=[]\`；
-- 最终原因是 \`INDEPENDENT_V_B_DID_NOT_CONFIRM\`。
+- 两个数据集均没有复现至少两个 anchor 的双对照一致正向要求，`confirmed_datasets=[]`；
+- 最终原因是 `INDEPENDENT_V_B_DID_NOT_CONFIRM`。
 
 这些数值处于 \(10^{-5}\) 量级，远低于项目常用的 +0.003 实用增益门槛。V_A 的局部正向不能替代独立 V_B 确认。
 
