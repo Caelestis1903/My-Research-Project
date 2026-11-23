@@ -76,7 +76,7 @@ def analyze_and_decide(manifest, outputs) -> DecisionRecord:
 7. Recompute joint loss on batch B and perform one canonical joint step.
 8. Record P displacement, U displacement, m/v/step transitions, gradient cosine matrix and pairwise ranking changes.
 
-M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 uses a deterministic permutation of cell-to-gradient association, frozen before outcomes. All arms use identical anchor, A/B row IDs and optimizer state.
+M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 uses a fixed within-tensor coordinate permutation of each g_U,c, preserving tensor norms while breaking coordinate alignment. A simple cell-ID permutation is invariant under equal-weight summation and is not a valid control. All arms use identical anchor, A/B row IDs and optimizer state.
 
 ## 5. M2 implementation
 
