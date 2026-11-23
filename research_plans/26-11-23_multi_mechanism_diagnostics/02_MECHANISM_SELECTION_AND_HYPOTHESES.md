@@ -127,3 +127,23 @@ M8 与 M1 区分：M1 改变 P 以塑造 cell gradients；M8 直接控制共享�
 - X5 M1×M8：private-gradient shaping + shared-gradient conflict controller。
 
 每个组合均有两个单机制 arm、组合 arm 和预算匹配 control。禁止扩成全部八机制全排列。
+
+
+## 三点轻量超参网格（全部 trainable variants）
+
+S1 使用每个变体的 canonical default 运行全量局部诊断；S3 对全部 31 个训练动作变体执行三点轻量搜索。每个设置均跑两数据集、五种子，不允许按单 seed 选择。预注册网格：
+
+| Family | Parameter | Three values |
+|---|---|---|
+| M1 | consistency inner-step LR multiplier | 0.1 / 0.3 / 1.0 |
+| M2 | row-task weight amplitude α | 0.05 / 0.10 / 0.20 |
+| M3 | group pool size | 64 / 128 / 256 rows |
+| M4 | dependence penalty λ or conditional permutation rate | λ: 1e-4 / 1e-3 / 1e-2; permutation rate: 0.05 / 0.10 / 0.20 |
+| M5 | transform strength / mask or replacement probability | 0.01 / 0.05 / 0.10 for continuous/embedding strength; 0.05 / 0.10 / 0.20 for categorical mask/substitution probability |
+| M6 | worst-cell predicted margin tolerance τ | 0.05 / 0.10 / 0.20 in normalized margin units |
+| M7 | robust-score risk coefficient λ | 0.25 / 0.50 / 1.00 |
+| M8 | conflict activation threshold | 0.00 / 0.10 / 0.20 |
+
+若某个变体使用两个相关参数，按表中对应三点单参数 sweep，其他参数固定 canonical default；不得做全笛卡尔积。M3 group size 受真实 label support 约束时，使用最大可用值并记录实际 n，不补造样本。X1–X5 使用其组成 family 在 S3 五 seed 综合结果中选出的配置，不另做组合超参网格。
+
+S3 结束后，每个变体使用五 seed Validation aggregate 选择一个配置并 freeze；所有通过 gate 的变体都进入 S4，不按变体间收益排名删减。
