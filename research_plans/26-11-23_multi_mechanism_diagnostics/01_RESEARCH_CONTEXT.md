@@ -1,74 +1,81 @@
-# 01 — 研究上下文与已知证据
+# 01 — 研究上下文与实验事实
 
-## 1. 输入报告与文件身份
+## 1. 第一阶段报告身份
 
-第二阶段提示词指定的第一阶段路径：
+第二阶段提示词指定的第一阶段文件：
 research_reports/26-11-23_multi_mechanism_discovery/00_RESEARCH_REPORT.md
+及其三个支持文件，在当前 main 检索中未找到。
 
-在当前 main 未找到该路径及其三个支持文件。实际第一阶段交付为：
+当前实际存在的第一阶段交付：
 research_reports/2026-11-24_open_mechanism_discovery/FINAL_RESEARCH_REPORT.md
 
-本方案以实际存在的报告为准，并保留路径差异，不声称已读取缺失文件。
+本方案以实际存在的报告为主要研究依据，并在 10_SOURCE_AND_REUSE_REGISTER.md 保留路径差异。不得伪称读取缺失文件。
 
-## 2. 第一阶段结论
+## 2. 第一阶段研究发现
 
-本轮种子预注册为 2022–2026：这是第二阶段提示词明确指定的五种子集合，也与 D2 S1 的实际 seed 范围一致。该选择作为本计划的明确预注册，不沿用 main 上下文中未另行预注册时的默认 2022–2025 规则。
+第一阶段报告列出 M1–M8 候选机制：
+- M1 共享更新诱导的专有梯度一致性；
+- M2 样本×任务条件影响；
+- M3 阶段性与组合式训练影响归因；
+- M4 域任务条件有害特征依赖；
+- M5 语义合法多标签保持增强；
+- M6 输出响应/敏感度条件化控制；
+- M7 跨 seed 分布影响归因；
+- M8 推荐任务冲突控制器。
 
-第一阶段保留的主线是共享更新—专有梯度响应—条件更新动作。新增研究给出的关键机制来源：
-- ConsMTL (CVPR 2025)：专有参数参与塑造共享梯度，提示共享—专有反馈不只是更新顺序问题。
-- DTJS (ICDE 2025)：同一样本对不同任务可能有不同影响；不能简化为样本难度。
-- MT-CCL (TNNLS 2025)：任务条件特征依赖可能导致任务关系误判；需具体可干预证据。
-- NeurIPS 2025 distributional attribution：训练随机性应纳入结果解释。
-- ICLR 2026 interaction-aware attribution：组贡献可能非加性。
-- ICLR 2026 stagewise attribution：影响可能随训练阶段变化。
-- MTCCM (Applied Soft Computing 2026)：推荐中的任务冲突控制参考，但与当前 CTR/CVR MDMT 距离较远。
+第一阶段报告给出了候选排序，但本轮执行策略不继承其主次等级。八个家族全部纳入，进一步拆解为多个可执行变体。报告中的“候选排序”仅作为来源记录，不是本轮资源准入或实验删减规则。
 
-第一阶段候选排序 M1–M8 不等于本轮全部纳入。实际纳入 M1/M2；M3 有条件；M4/M5 审计；M6/M7 作为辅助；M8 排除。
+## 3. 最新 main 上下文
 
-## 3. main 最新上下文的关键事实
+权威文件：experiments/reports/EXP_AI_CONTEXT_V2.md。
 
-依据 experiments/reports/EXP_AI_CONTEXT_V2.md：
-- Equal 与 Sample 是不同有效目标。
-- Sample 在已测自然比例与协议下是更稳健参照；Sample 下普遍 residual NT / Safe-MTL 主线未达到稳定实用门槛。
-- Equal 下 KuaiRand tab1 存在条件性大幅退化与 shared-access rescue。
-- S5 将 Equal 下 d1 rescue 主要定位到 persistent Adam history；S6 切换 Sample 后两个已测最大域 target 均未达到 +0.003 practical rescue gate，HT/DH Phase B 未运行。
+关键事实：
+- Equal 与 Sample 是不同有效训练目标。
+- Sample 下普遍 residual negative transfer / Safe-MTL 主线未达到稳定实用门槛。
+- Equal 下 KuaiRand tab1 存在条件性 target rescue。
+- S5 将 Equal 下 d1 rescue 定位到 persistent Adam history 整体载体；S6 切换 Sample 后两个已测最大域 target 均未通过 +0.003 practical gate，HT/DH Phase B 未运行。
 - raw-gradient norm matching 与 applied-step norm matching 均未复现 Equal 下 rescue。
-- 小域不是困难域，size 不能独立解释全部现象。
-- 固定 EMA 的收益已被接受，不再重复证明。
+- 小域不是困难域，域大小不能独立解释全部现象。
+- 固定 EMA 的收益已被接受，不重新证明。
 
-## 4. D2 最新结果及本计划边界
+这些事实作为本轮控制条件与结果解释边界，不用于预先排除 M1–M8。
 
-D2 分支 26-11-23_v2 的 S1 完成：
+## 4. D2 最新分支事实
+
+分支：26-11-23_v2。相对 main@f66bf17cba2980618e6f2edd1c7381b73c35cac5 ahead 1 / behind 0。
+
+D2 S1：
 - 2 datasets × 5 seeds；
 - 10 条 baseline trajectories；
-- 30 个 anchors（E10/E25/E40）；
-- 570 个 forks；
-- Test evaluations = 0；
-- SCOPE_DECISION = COMPLETE_NO_GO_S1；
-- V_A 仅在 KuaiRand 对 P_AXIS 给出初筛资格；V_B 独立确认未通过；
-- confirmed_datasets 为空；原因 INDEPENDENT_V_B_DID_NOT_CONFIRM。
+- 30 anchors（E10/E25/E40）；
+- 570 forks；
+- Test evaluations=0；
+- SCOPE_DECISION=COMPLETE_NO_GO_S1；
+- V_A 仅 KuaiRand P_AXIS 有初筛资格，V_B 独立确认失败；
+- confirmed_datasets=[]；
+- V_B P→U mean Macro AUC：MovieLens +1.13e−5，KuaiRand +5.27e−5；J_ACC 分别 −1.15e−6、−8.20e−5。
 
-V_B 的 P→U mean Macro AUC：MovieLens +1.13e−5，KuaiRand +5.27e−5；J_ACC 分别 −1.15e−6、−8.20e−5。该幅度远低于 +0.003 实用算法门槛。
+正确解释：D2 固定 private scope / 固定更新顺序不晋级。不能将其扩大成共享—专有反馈不存在。M1 的 P consistency objective、M8 的 shared-gradient aggregation、M2 的样本条件影响和其他家族均需独立测量。
 
-因此当前静态 P 范围/更新次序不晋级。M1 与 D2 的实质差异是：M1 通过二阶 consistency objective 优化 P，使每个 cell 对 U 的梯度趋近自然联合共享梯度；不是再测固定 U→P/P→U，也不是再做 P_SCOPE 选择。
+## 5. 本轮执行策略变化
 
-## 5. 不能误用的历史结论
+此前版本将 M1/M2 与 M3–M8 区别对待。本版取消该策略：
+- M1–M8 全部执行；
+- M3 不依赖 M2 阳性结果；
+- M4/M5 不止做审计，真实可行的变体进入干预与训练；
+- M8 纳入多种冲突控制变体；
+- S2 对所有候选执行 V_B；
+- S3 对所有可训练变体执行短程轨迹；
+- S4 对所有通过机制与短程门的变体执行完整训练，不设 Top-K。
 
-- Equal 下的 history-mediated rescue 不可外推为 Sample 下通用方法。
-- D2 的 S1 NO-GO 不能证明共享—专有反馈不存在。
-- 专有参数更新弱收益不等于专有参数对共享梯度没有影响。
-- AUC 与 LogLoss 分别评价排序与概率质量，不得相互替代。
-- 代理梯度一致性改善不是排序收益；必须报告两者关系。
-- 域大小不是难度，样本量不作为候选信号。
+## 6. 固定实验规则
 
-## 6. 研究问题
-
-RQ1：P consistency update 是否能降低各 cell 的共享梯度不一致？
-RQ2：一致性下降是否对应更好的六格排序，还是仅改变梯度几何？
-RQ3：样本×任务的局部排序影响是否存在超出 loss/频率代理的异质性？
-RQ4：样本组影响是否非加性，且是否随训练阶段改变？
-RQ5：是否存在具备真实语义约束的特征干预/增强对象？
-
-## 7. 结论范围
-
-本计划只验证上述机制在 M3oE fixed1、两数据集和固定协议下的局部可观测性。S1/S2/S3 结果不得被称为完整算法有效性；S4 需新算法规格与独立审查。
+- 数据：MovieLens、KuaiRand。
+- 模型：M3oE fixed1。
+- seeds：2022–2026。此集合由第二阶段提示词明确指定，并与 D2 S1 一致；优先于 main 上下文“未另行预注册时”的默认 2022–2025。
+- baseline 50 epochs；batch 40960；自然尾批保留。
+- Validation 六格 Macro AUC 选点；Test 只在冻结后评价。
+- 正式性能门槛：五 seed paired Macro AUC ≥ +0.003；每格平均下降 ≥ −0.001；LogLoss 独立评价。
+- 局部机制诊断不强制 +0.003，但必须与真实排序响应分开报告。
+- 六格、anchor、fork、sample panel、pair 不是独立 seed。
+- 正式发表基线 M3oE、HyperGate、AutoIFS；新方法不得当作发表基线。
