@@ -13,13 +13,13 @@
 S1 PASS 条件：
 1. P-consistency step 正确执行，U 参数和 U Adam state bitwise unchanged；
 2. L_cons 在至少 4/5 seeds、至少两个 anchors 下降；
-3. 相对 P-BCE 与 shuffled control 的梯度一致性改善具有一致方向；
+3. 相对 P-BCE 与 coordinate-shuffled control 的梯度一致性改善具有一致方向；
 4. V_A 上 pairwise correction 或六格 AUC 有正向关联，且无 cell mean < −0.001。
 
 S2 PASS 条件：
 1. V_B 上独立复现一致性改善；
 2. 预测排序收益不由单一 seed/anchor 驱动；
-3. 相对 P-BCE/shuffled controls 的差异保持；
+3. 相对 P-BCE/coordinate-shuffled controls 的差异保持；
 4. 代理变化与实际排序响应方向一致。
 
 若 L_cons 改善但 AUC/pair correction 无响应，结论为 MECHANISM_PRESENT_NO_RANKING_TRANSLATION，当前方法 NO_GO，不否认梯度可塑现象。
