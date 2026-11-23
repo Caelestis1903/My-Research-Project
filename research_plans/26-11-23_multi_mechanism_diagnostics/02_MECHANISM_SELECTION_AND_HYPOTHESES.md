@@ -38,7 +38,7 @@ M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微�
 对样本 i、任务 t、目标 cell c：
 s(i,t,c) = ∇_θ m_c^cal · Δθ(i,t)
 
-m_c^cal 是从 Train-only calibration pairs 构造的 cell ranking margin；Δθ(i,t) 是 anchor Adam state 下样本 i 的任务 t 梯度所对应的虚拟 Adam 单步位移。此量仅为局部一阶预测代理，不称为因果 influence。
+m_c^cal 是从 Train-only calibration pairs 构造的正负样本 logit margin；Δθ(i,t)=θ_after−θ_before 是 anchor Adam state 下样本 i 的任务 t 梯度所对应的带符号虚拟 Adam 单步位移。正分数表示预测 margin 增大。此量仅为局部一阶预测代理，不称为因果 influence。
 
 Action：在每个 domain-task 内归一权重、总 loss mass 不变地调整样本权重。权重 clipping 与缩放范围必须 S0/S1 前冻结，并轻量搜索。
 
