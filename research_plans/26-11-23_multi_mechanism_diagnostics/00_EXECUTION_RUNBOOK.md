@@ -109,8 +109,8 @@ M1-0、M1-1、M1-2、M1-3 的 optimizer.step 次数均为两次；所有 arm 从
 ### 6.4 M2 筛选
 
 M2 不按 loss 或梯度范数排序样本。对 Train calibration pair 的 cell-specific ranking margin m_c，计算样本 i、任务 t 的局部预测影响：
-s(i,t,c) = ∇_θ m_c · Δθ(i,t)
-其中 Δθ(i,t) 定义为同一 anchor Adam state 下完整 batch 虚拟位移与移除该行任务 t 损失贡献后的虚拟位移之差：Δθ(i,t)=Δθ_full−Δθ_without(i,t)。正分数表示该 row-task 对该步更新的一阶预测使正负样本 margin 增大。两次虚拟更新均不修改真实 optimizer state；该量是局部一阶预测代理，不称为真实因果影响。
+s(i,t,c) = ∇_U m_c · ΔU(i,t)
+其中 Δθ(i,t) 定义为同一 anchor Adam state 下完整 batch 虚拟位移与移除该行任务 t 损失贡献后的虚拟位移之差：ΔU(i,t)=ΔU_full−ΔU_without(i,t)。正分数表示该 row-task 对该步更新的一阶预测使正负样本 margin 增大。两次虚拟更新均不修改真实 optimizer state；该量是局部一阶预测代理，不称为真实因果影响。
 
 每 anchor 从 canonical batch B 中按 domain 抽取最多 128 行作为 row-gradient panel（每行保留两个任务标签），按实际存在的联合标签组合分层。若某组合不存在（例如 MovieLens 嵌套标签导致的结构零），标记 NOT_APPLICABLE，不补造样本。其余 batch rows 仍保留权重 1；M2 权重只作用于 panel rows，随后在每个 domain-task 内重归一化，使整个 batch 的 task loss mass 不变。
 
