@@ -40,7 +40,7 @@ Test: S0–S3 sealed。
 ## 4. M2 arms
 
 每 anchor：
-- task/cell-conditioned influence weighting；
+- task/cell-conditioned influence weighting；每 anchor 每 domain 最多 128 scored rows，未评分 rows 权重 1；
 - influence-ranked task-gradient accumulation；
 - negative-impact suppression；
 - cell-response weighting；
@@ -53,7 +53,7 @@ Test: S0–S3 sealed。
 
 每 anchor固定两个 group pair：
 - score-defined high/low influence pair；
-- domain + joint-label support + group size 匹配的 random pair。
+- domain + joint-label support + group size 匹配的 random pair。两类 group pools 均按 domain × observed joint-label strata 保持相同配额比例。
 
 每个 pair：
 A-only 从 A pool 取 n 个不同 row；B-only 从 B pool 取 n 个不同 row；A/B 从 A、B 各取 n/2；A/A 从 A pool 取 n/2 个 row 并各重复一次；B/B 对 B pool 同理。五组总 batch rows 均为 n，optimizer step 与 Adam 起点一致。A/A、B/B 是重复暴露/冗余对照，不与 A-only/B-only 混同。M3-A stagewise attribution 与 M3-D stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
