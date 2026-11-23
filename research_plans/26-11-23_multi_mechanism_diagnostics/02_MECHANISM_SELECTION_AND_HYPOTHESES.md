@@ -49,8 +49,9 @@ M3 不依赖 M2 是否阳性，全部执行。
 
 变体：
 1. M3-A stagewise attribution：对 E10/E25/E40 的同一 row/task panel 计算影响分数、pair-margin response 和符号翻转。
-2. M3-B group interaction：每个 anchor 固定两个 group pair：一组由 Train-only M2 score 的高/低影响组构成；另一组为同 domain、joint-label support 和规模匹配的随机组。对每组比较 A-only、B-only、A/B mixture、A/A mixture、B/B mixture。
-3. M3-C stage×group interaction：同一 group pair 在 E10/E25/E40 分别计算，检验交互项随阶段改变。
+2. M3-B score-defined group interaction：每个 anchor 使用 Train-only M2 score 构造高/低影响的互斥 A/B pools，执行五个 group arms。
+3. M3-C random matched group interaction：使用相同 domain、joint-label support 和 pool size 构造随机匹配 A/B pools，执行相同五个 arms。
+4. M3-D stage×group interaction：对 M3-B 与 M3-C 的同一 group pools 在 E10/E25/E40 分别计算，检验交互项随阶段变化。
 
 固定 batch size n：
 I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
@@ -63,7 +64,8 @@ I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
 变体：
 1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层。
 2. M4-B conditional permutation intervention：在 domain × observed joint-label strata 内置换目标 feature group，比较 logit、pair margin、AUC 变化；这是依赖诊断，不是因果证明。
-3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization 或 HSIC penalty，配 matched sham penalty/control。
+3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization，配 matched sham control。
+4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
 
 所有 feature groups 由 DATA_MANIFEST 的实际字段映射生成。domain_indicator 不作为可干预特征。用户/物品实体 ID 不做任意置换；对这些字段只做依赖测量或合法 masking 检查。
 
