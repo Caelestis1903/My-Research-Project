@@ -10,7 +10,7 @@ M1 二阶梯度、M2 row-task virtual Adam、M6 Jacobian/trust-region、M8 六�
 
 - baseline：最多 10 条 50-epoch trajectories；
 - anchors：30；
-- S1：2,130 个局部 fork slots；
+- S1：2,190 个局部 fork slots；
 - S2：全部 S1 endpoints 的 V_B readout；
 - S3：所有可训练变体各自 2 datasets × 5 seeds × 5 epochs；
 - S4：所有通过机制与短程门的变体各自 2 datasets × 5 seeds × 50 epochs；不设 Top-K。
