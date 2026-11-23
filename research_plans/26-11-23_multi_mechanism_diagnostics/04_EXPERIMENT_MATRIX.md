@@ -56,7 +56,7 @@ Test: S0–S3 sealed。
 - domain + joint-label support + group size 匹配的 random pair。
 
 每个 pair：
-A-only、B-only、A/B mixture、A/A mixture、B/B mixture。固定 batch size、总样本数、optimizer step、Adam 起点。M3-A stagewise attribution 与 M3-C stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
+A-only 从 A pool 取 n 个不同 row；B-only 从 B pool 取 n 个不同 row；A/B 从 A、B 各取 n/2；A/A 从 A pool 取 n/2 个 row 并各重复一次；B/B 对 B pool 同理。五组总 batch rows 均为 n，optimizer step 与 Adam 起点一致。A/A、B/B 是重复暴露/冗余对照，不与 A-only/B-only 混同。M3-A stagewise attribution 与 M3-C stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
 
 ## 6. M4/M5/M6/M7/M8 arms
 
@@ -72,11 +72,11 @@ M8 执行 PCGrad reference、conflict-aware weights、common-descent projection�
 
 ## 7. Cross-family interactions
 
-X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组包含 component arms、combined arm、matched-budget control。所有五组都执行。
+X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组的 component arms 复用同 anchor 下已完成的单机制 immutable receipts；新增 combined arm 与 matched-budget control 两个 fork。所有五组都执行。
 
 ## 8. S2：全候选 V_B 确认
 
-2,130 个 S1 fork endpoints 全部计算 V_B readout。不得只选择 S1 positive variants。V_A 与 V_B row/pair IDs 完全互斥。S2 不额外训练，不用 V_B 调参。
+2,190 个 S1 fork endpoints 全部计算 V_B readout。不得只选择 S1 positive variants。V_A 与 V_B row/pair IDs 完全互斥。S2 不额外训练，不用 V_B 调参。
 
 ## 9. S3：所有可训练变体的短程轨迹
 
@@ -94,4 +94,4 @@ X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组包含 compone
 
 ## 11. 成本与估算
 
-S1 固定 2,130 fork slots + 最多 10 条 baseline trajectories。S3/S4 数量取决于实际可训练变体数量，但不得按研究优先级删减。S0 GPU smoke 后，按每个 family 的实测 forward/backward/optimizer cost、peak VRAM、host RAM 计算 GPU hours 与墙钟。成本估算必须同时列出全矩阵最坏情况和实测准入后的实际情况，不得编造训练速度。
+S1 固定 2,190 fork slots + 最多 10 条 baseline trajectories。S3/S4 数量取决于实际可训练变体数量，但不得按研究优先级删减。S0 GPU smoke 后，按每个 family 的实测 forward/backward/optimizer cost、peak VRAM、host RAM 计算 GPU hours 与墙钟。成本估算必须同时列出全矩阵最坏情况和实测准入后的实际情况，不得编造训练速度。
