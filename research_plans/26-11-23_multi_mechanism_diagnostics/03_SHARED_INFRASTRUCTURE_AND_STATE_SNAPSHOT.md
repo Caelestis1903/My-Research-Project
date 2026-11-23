@@ -38,10 +38,10 @@
 ## 4. Adam 子集更新语义
 
 M1 的 P-consistency step 必须：
-- 对 U 设置 requires_grad=False 或冻结更新，但保留计算 g_c 对 U 的依赖图；
+- U 必须保持 requires_grad=True，以便构造 g_U,c；不得在计算 g_U,c 前关闭 U 的梯度图。
 - 通过 create_graph=True 获取 g_c；
-- consistency loss 对 P 求导；
-- 只允许 P 参数更新；
+- consistency loss 对 P 求导；二阶反传后显式清空 U.grad=None，再调用原生 Adam step；
+- 只允许 P 参数更新；通过 U.grad=None 使 native Adam 跳过 U，且核验 U 的参数与 m/v/step bitwise unchanged；
 - U 的 tensor、Adam state、step counter 逐项 bitwise unchanged；U.grad 必须在 optimizer.step 前显式清空为 None，不能假定二阶反传后自然为空；
 - P 的 Adam state 按原生 Adam semantics 更新；
 - P-BCE 对照使用相同参数组、相同 step 数和 weight decay。
