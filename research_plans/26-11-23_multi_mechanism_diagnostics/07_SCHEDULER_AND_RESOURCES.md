@@ -12,8 +12,8 @@ M1 二阶梯度、M2 row-task virtual Adam、M6 Jacobian/trust-region、M8 六�
 - anchors：30；
 - S1：2,190 个局部 fork slots；
 - S2：全部 S1 endpoints 的 V_B readout；
-- S3：所有可训练变体各自 2 datasets × 5 seeds × 5 epochs；
-- S4：所有通过机制与短程门的变体各自 2 datasets × 5 seeds × 50 epochs；不设 Top-K。
+- S3：31 个训练动作变体 × 3 个轻量超参设置 × 2 datasets × 5 seeds × 5 epochs，最多 930 条短程轨迹；
+- S4：所有通过机制与短程门的变体各自 2 datasets × 5 seeds × 50 epochs；若 31 个变体全部通过，最多 310 条完整轨迹；不设 Top-K。
 
 S0 smoke 后，按实测每类动作的 GPU-seconds、CPU-seconds、peak VRAM、host RAM、wall seconds 计算总预算。报告最坏情况与预计情况；不得编造速度。
 
