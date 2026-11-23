@@ -84,7 +84,7 @@ M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 
 - Compute per-row/task gradient on U using exact task-specific BCE contribution.
 - Compute virtual Adam update using anchor m/v/step and effective weight decay; do not mutate live optimizer.
 - Compute train-calibration pairwise margin gradients per cell.
-- Score = negative margin-gradient dot virtual update.
+- Score = margin-gradient dot signed virtual parameter displacement; positive means predicted positive-negative margin increase.
 - Normalize weights within each domain-task to mean 1; clip and log effective total mass.
 - M2-2 averages score across tasks before weighting; M2-3 shuffles score within domain. Rows outside the panel keep weight 1; panel weights are renormalized within each domain-task so total task loss mass is unchanged.
 - All arms retain identical row IDs and batch size.
