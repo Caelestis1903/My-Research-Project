@@ -95,7 +95,7 @@ S2 不是“只确认 S1 胜者”。所有 S1 注册变体都必须在 V_B 上�
 
 ## 8. S3：所有可训练变体的短程轨迹
 
-所有具有可执行训练动作的注册变体均运行 5-epoch continuous trajectory，不要求先进入 S1/S2 Top-K。S1/S2 结果用于解释，但不作为 S3 的删减条件。纯测量型变体继续完成其跨阶段/跨 seed 诊断，不强行伪装成训练算法。
+所有具有可执行训练动作的注册变体均运行 5-epoch continuous trajectory；每个变体执行预注册的三点轻量超参网格，所有数据集×seed 均运行，不要求先进入 S1/S2 Top-K。S1/S2 结果用于解释，但不作为 S3 的删减条件。纯测量型变体继续完成其跨阶段/跨 seed 诊断，不强行伪装成训练算法。
 
 每个短程 run 从 E25 anchor 恢复，执行 E1/E3/E5 readouts，保存完整 model/Adam/EMA/RNG/loader state。所有匹配控制与候选使用相同数据 exposure 和 batch schedule。
 
