@@ -64,7 +64,7 @@ M8：pairwise conflict matrix、projection residual、cell weights、active set�
 - 机制代理指标与 AUC 主结果分开校正和解释。
 - 所有失败、负向、无差异和 NOT_APPLICABLE 结果进入同一汇总表。
 
-不得根据结果事后改变 family primary contrast、筛选门槛或报告范围。
+不得根据结果事后改变 family primary contrast、筛选门槛或报告范围。超参选择在每个 variant 内基于五 seed Validation 综合结果完成；不得使用单 seed 选择。
 
 ## 9. 机制与算法阈值
 
