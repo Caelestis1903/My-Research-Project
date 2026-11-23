@@ -47,7 +47,7 @@ M1 P-only consistency step：
 - P 按原生 Adam 语义更新；
 - 不得将 None gradient 改成 zero gradient。
 
-M1 的 coordinate-shuffled control 在每个 U parameter tensor 内执行固定可逆坐标 permutation，保留张量范数但破坏参数坐标对齐。简单置换 cell ID 在等权求和下不改变目标，不是有效 control。
+M1 的 coordinate-shuffled control 对每个 cell、每个 U parameter tensor 使用独立且固定的可逆坐标 permutation，保留各张量范数但破坏 cell gradients 之间的坐标对齐；所有 cell 共用同一 permutation 会保持 cosine，不是有效 control。简单置换 cell ID 在等权求和下不改变目标，不是有效 control。
 
 ## 5. 虚拟 Adam 与 M2
 
