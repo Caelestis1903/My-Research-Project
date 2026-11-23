@@ -89,9 +89,9 @@ X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组的 component 
 ## 10. S4：全量合格变体正式训练
 
 所有同时通过机制确认和短程轨迹 gate 的变体逐一执行：
-2 datasets × 5 seeds × 50 epochs。
-不设候选数量上限、不做 Top-K。每个候选独立选择 Validation 六格 Macro AUC checkpoint，冻结后 Test 一次性评价。
+2 datasets × 5 seeds × 50 epochs。若 31 个 trainable variants 全部通过，则最多 310 条完整轨迹、15,500 trajectory epochs；实际数量按逐 variant gate 记录。
+不设候选数量上限、不做 Top-K。每个变体从 S3 三点网格中按五 seed Validation 综合结果冻结一个配置；每个候选独立选择 Validation 六格 Macro AUC checkpoint，冻结后 Test 一次性评价。
 
 ## 11. 成本与估算
 
-S1 固定 2,190 fork slots + 最多 10 条 baseline trajectories。S3/S4 数量取决于实际可训练变体数量，但不得按研究优先级删减。S0 GPU smoke 后，按每个 family 的实测 forward/backward/optimizer cost、peak VRAM、host RAM 计算 GPU hours 与墙钟。成本估算必须同时列出全矩阵最坏情况和实测准入后的实际情况，不得编造训练速度。
+S1 固定 2,190 fork slots + 最多 10 条 baseline trajectories。S3 最多 930 条 5-epoch trajectories；S4 在 31 个 trainable variants 全部通过时最多 310 条 50-epoch trajectories。S3/S4 实际数量取决于逐 variant 的技术适用性和预注册 gate，不得按研究优先级删减。S0 GPU smoke 后，按每个 family 的实测 forward/backward/optimizer cost、peak VRAM、host RAM 计算 GPU hours 与墙钟。成本估算必须同时列出全矩阵最坏情况和实测准入后的实际情况，不得编造训练速度。
