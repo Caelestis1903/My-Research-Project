@@ -36,9 +36,9 @@ M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微�
 **核心假设 H2**：相同训练样本在不同任务上产生的共享参数更新，对不同 cell 的排序 margin 有不同的预测影响；task-specific score 优于 task-agnostic 或 shuffled score。
 
 对样本 i、任务 t、目标 cell c：
-s(i,t,c) = ∇_θ m_c^cal · Δθ(i,t)
+s(i,t,c) = ∇_U m_c^cal · ΔU(i,t)
 
-m_c^cal 是从 Train-only calibration pairs 构造的正负样本 logit margin；Δθ(i,t)=Δθ_full−Δθ_without(i,t)，两项均从同一 anchor Adam state 对完整 batch 梯度和移除该 row-task BCE contribution 后的梯度执行虚拟 Adam 单步得到。正分数表示该 row-task 对当前更新的一阶预测使 margin 增大。此量仅为局部一阶预测代理，不称为因果 influence。
+m_c^cal 是从 Train-only calibration pairs 构造的正负样本 logit margin；ΔU(i,t)=ΔU_full−ΔU_without(i,t)，两项均从同一 anchor Adam state 对完整 batch 梯度和移除该 row-task BCE contribution 后的梯度执行虚拟 Adam 单步得到。正分数表示该 row-task 对当前更新的一阶预测使 margin 增大。此量仅为局部一阶预测代理，不称为因果 influence。
 
 Action：在每个 domain-task 内归一权重、总 loss mass 不变地调整样本权重。权重 clipping 与缩放范围必须 S0/S1 前冻结，并轻量搜索。
 
