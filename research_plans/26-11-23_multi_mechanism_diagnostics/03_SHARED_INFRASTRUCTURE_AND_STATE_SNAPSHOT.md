@@ -1,78 +1,77 @@
-# 03 — 统一基础设施与状态快照
+# 03 — 统一状态快照、隔离与数据身份
 
-## 1. 状态身份
+## 1. 快照必须包含
 
-每个基线状态必须绑定：
-- repo commit、branch、source closure SHA-256；
-- raw dataset SHA-256、split ID、train/validation row ID hashes；
-- model class、fixed1 config、完整 parameter manifest；
-- optimizer class/config、Adam m/v/step；
-- EMA state 与 update counter；
-- Python/NumPy/Torch CPU/CUDA RNG；
-- sampler/DataLoader generator、epoch permutation、batch cursor；
-- scheduler state（如有）；
-- epoch/global step、last completed batch；
-- environment versions、device identity；
-- validation selection history。
+每个 baseline/anchor/fork 的完整状态至少包括：
+- model parameters、buffers、training/eval mode；
+- Adam m/v/step、param groups、lr、betas、eps、weight decay 和 None/zero gradient semantics；
+- EMA parameters、rho、update counter；
+- scheduler state；
+- Python、NumPy、Torch CPU、CUDA RNG；
+- sampler/DataLoader generator、epoch permutation、batch cursor、next row IDs；
+- dataset/split/feature encoder/scaler identity；
+- config、source commit、dependency closure、environment；
+- epoch/global step、checkpoint selection history；
+- validation panel and calibration panel identities。
 
-## 2. 基线来源与复用
+只保存 model weights 不构成可恢复训练状态。
 
-优先审计 D2 S1 的十条 J_ORIG trajectories 和 30 anchors。S1_RUN.json 表明运行曾完成，但 RAM guardian 记录不代表当前仍可读取。每个状态必须通过 live readback：
-1. state file/guardian object 存在；
-2. SHA 与 ANCHOR_INDEX / source / config / data identity 一致；
-3. 加载后重新预测与存储 readout 一致；
-4. Adam、EMA、RNG、loader cursor 一致；
-5. 下一批 row IDs 完全一致。
+## 2. D2 state 复用
 
-不满足任一项则从固定源重建，不得复用 endpoint CSV 代替 state。
+先读取 D2 10 条 J_ORIG trajectories 与 30 anchors 的 receipts。每个 state 必须 live readback：
+1. state 对象真实存在；
+2. hash 与 source/config/data/anchor identity 一致；
+3. restore 后 model prediction parity；
+4. Adam、EMA、RNG、loader cursor parity；
+5. next batch row IDs parity。
 
-## 3. 克隆隔离
+任一失败则从冻结 source/config 重建。endpoint CSV 或 hash index 不能替代完整 state。
 
-- Anchor baseline 只读。
-- 每个 arm fork 独立 model、optimizer、EMA、RNG、loader。
-- fork 前后写入 state hash。
-- 不同机制间不共享可变对象。
-- 每个 fork 记录 parent anchor ID、arm ID、batch A/B row IDs。
-- 诊断评价 forward 必须保存/恢复所有 RNG 状态，不能改变后续 batch permutation。
+## 3. Fork 隔离
 
-## 4. Adam 子集更新语义
+- baseline 和 anchor 只读；
+- 每个机制 variant / arm / seed / dataset / anchor 独立 clone；
+- 不共享可变 model、optimizer、EMA、loader、RNG；
+- 每个 fork 写 parent_state_hash、start_state_hash、end_state_hash；
+- 训练前后写 batch row IDs、optimizer transitions 和 EMA ticks；
+- fork 间结果只通过 immutable receipts 汇总。
 
-M1 的 P-consistency step 必须：
-- U 必须保持 requires_grad=True，以便构造 g_U,c；不得在计算 g_U,c 前关闭 U 的梯度图。
-- 通过 create_graph=True 获取 g_c；
-- consistency loss 对 P 求导；二阶反传后显式清空 U.grad=None，再调用原生 Adam step；
-- 只允许 P 参数更新；通过 U.grad=None 使 native Adam 跳过 U，且核验 U 的参数与 m/v/step bitwise unchanged；
-- U 的 tensor、Adam state、step counter 逐项 bitwise unchanged；U.grad 必须在 optimizer.step 前显式清空为 None，不能假定二阶反传后自然为空；
-- P 的 Adam state 按原生 Adam semantics 更新；
-- P-BCE 对照使用相同参数组、相同 step 数和 weight decay。
+## 4. Adam 子集更新
 
-不得为方便将 None gradient 改成 zero gradient。None/zero 对 Adam momentum 与 coupled weight decay 的行为不同。
+M1 P-only consistency step：
+- U 保持 requires_grad=True，构造 g_U,c 的二阶计算图；
+- consistency loss 对 P 求导；
+- backward 后显式将 U.grad=None；
+- 再调用同一个 native Adam.step()，让 Adam 跳过 U；
+- 核验 U 参数、m/v/step bitwise unchanged；
+- P 按原生 Adam 语义更新；
+- 不得将 None gradient 改成 zero gradient。
 
-## 5. 二阶图与内存
+M1 的 coordinate-shuffled control 在每个 U parameter tensor 内执行固定可逆坐标 permutation，保留张量范数但破坏参数坐标对齐。简单置换 cell ID 在等权求和下不改变目标，不是有效 control。
 
-不显式构造 Hessian。用 autograd.grad(..., create_graph=True) 得到 g_U,c，再对标量 L_cons 求 P 梯度。按 cell 顺序逐个构造/释放图；只保留计算一致性目标所需的张量。GPU smoke 必须记录峰值显存与墙钟。
+## 5. 虚拟 Adam 与 M2
 
-若 full U 二阶图 OOM：
-- 不可直接切换到一阶 proxy 并保留 M1 名称；
-- 先检查图生命周期、checkpointing 和 cell-wise accumulation；
-- 若仍无法运行，TECHNICAL_BLOCKED；
-- 如需缩小 U 子集，必须提交新 estimand amendment 与独立审查，不能在运行中临时缩小。
+M2 的 full 与 leave-one-row-task-out 虚拟更新必须从同一 optimizer state 克隆计算：
+- full gradient；
+- full gradient 减去指定 row-task 的 BCE gradient contribution；
+- 两次 native Adam virtual displacement；
+- ΔU_i,t = ΔU_full − ΔU_without(i,t)。
 
-## 6. 数据和面板
+两次虚拟更新不得修改 live optimizer、EMA、RNG 或模型状态。验证 row-task contributions 按 canonical loss reduction 求和可重建完整 batch gradient。
 
-- Train calibration panel 与训练 batch 不重叠。
-- Validation V_A / V_B 行互斥，按 domain-task 分层。
-- 正负 pair 不重叠；固定 row IDs 与 pair IDs。
-- Test arrays 不加载；只保留预先存在的 sealed provenance hash。
-- 所有样本保持原始 domain membership 和自然 row weight，除 M2 预注册的域任务内权重处理外不得改变。
+## 6. Evaluation 与 RNG
 
-## 7. 原子保存
+所有 Validation forward、pair-margin calculation、feature permutation audit 和 diagnostic forward 必须保存并恢复训练 RNG。额外创建 DataLoader iterator 可能消耗全局 RNG；必须使用隔离 generator 或保存/恢复 RNG，并核验后续 batch order。
 
-快照保存采用临时文件 + fsync + atomic rename。写入：
-- state.pt（模型、Adam、EMA、RNG、loader、scheduler）；
-- state_manifest.json；
-- hashes.json；
-- validation_readout.json；
-- next_batch_receipt.json。
+## 7. Panel 与数据隔离
 
-恢复后必须执行预测 parity 与 next-batch identity test。
+- Train calibration panel 不与训练 batch 重叠。
+- V_A 与 V_B row IDs 和 pair IDs 互斥。
+- 所有 panel 在结果读取前冻结。
+- Test arrays 在 S0–S3 不加载、不解码、不评分。
+- 变换数据保留原始 row ID、domain membership 和原始 labels。
+- M5 每种变换保留 before/after feature hash、label pair、domain ID、合法性和一致性 receipts。
+
+## 8. 原子持久化
+
+采用 temp write → fsync → atomic rename。每个 checkpoint 包含 state.pt、state_manifest.json、hashes.json、next_batch_receipt.json、validation_readout.json、costs.json。读回验证通过后才能标记 COMPLETE_VERIFIED。
