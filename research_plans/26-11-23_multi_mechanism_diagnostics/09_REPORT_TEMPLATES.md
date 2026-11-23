@@ -1,48 +1,59 @@
-# 09 — 报告与机器工件模板
+# 09 — 全机制报告与机器工件模板
 
-## 1. 机器可读清单
+## 1. 全局 manifest
 
-### RUN_MANIFEST.json
-包含 study_id、plan_commit、source_branch、source_commit、code_sha、data_hash、protocol_hash、datasets、seeds、arms、anchors、panel identities、stage status。
+RUN_MANIFEST.json：study_id、plan commit、source branch/commit、code hash、data hash、protocol hash、datasets、seeds、anchors、families、variants、arms、panels、expected fork slots、stage statuses。
 
-### SEED_MANIFEST.csv
-每行一个 dataset × seed，含 baseline trajectory ID、state receipt、source/config/data hashes。
+VARIANT_REGISTER.csv：每行一个 family × variant × dataset applicability，包含假设、action、controls、hyperparameter grid、diagnostic adapter、status。
 
-### BASELINE_MANIFEST.csv
-每行一个 baseline trajectory，含 model/Adam/EMA/RNG/sampler identity、epoch、global step、selected checkpoint。
+SEED_MANIFEST.csv：dataset × seed baseline trajectory、source/config/data identity。
 
-### SNAPSHOT_MANIFEST.csv
-每行一个 anchor，含 parent run、epoch、model hash、Adam hash、EMA hash、RNG hash、loader cursor、next batch IDs、live readback status。
+SNAPSHOT_MANIFEST.csv：anchor parent、epoch、model/Adam/EMA/RNG/loader hashes、next batch IDs、live readback。
 
-### FORK_ENDPOINTS.csv
-每行一个 fork，含 arm、dataset、seed、anchor、parent snapshot、A/B batch IDs、step count、optimizer transitions、endpoint hash、validation metrics、costs、status。
+FORK_ENDPOINTS.csv：每个 arm 的 parent state、batch IDs、action receipt、endpoint hash、V_A/V_B metrics、costs、status。
 
-### CELL_METRICS.csv
-每行一个 cell metric，包含 AUC、LogLoss、support、positive count、negative count、paired delta。
+FAMILY_RESULTS.csv：每个 family/variant 的所有 seed 结果、配对差、机制指标和决策。
 
-### M1_GRADIENT_CONSISTENCY.csv
-每行一个 seed × dataset × anchor × arm × cell，包含 cosine、norm、direction residual、L_cons、P/U displacement。
+CROSS_FAMILY_INTERACTIONS.csv：X1–X5 component/combined/control effects。
 
-### M2_SAMPLE_TASK_SCORES.csv
-每行一个 sampled row × task × cell，包含 score、score rank、label support、predicted margin delta、observed fork delta reference。
+COSTS.csv：GPU/CPU/wall seconds、peak VRAM、host RAM、steps、forward/backward、EMA ticks、retry。
 
-### M3_GROUP_INTERACTIONS.csv
-每行一个 group pair × anchor × seed，包含 A/B membership hash、batch size、five arm metrics、interaction residual。
+DECISION_LEDGER.json：每个 family/variant/dataset 的阶段状态与依据。
 
-### COSTS.csv
-记录 wall seconds、GPU seconds、CPU seconds、peak VRAM、host RAM、forward/backward/optimizer steps、retry count。
+## 2. 机制专属工件
 
-### DECISION_RECORD.json
-每个机制一个独立 decision，记录 stage、status、primary contrast、thresholds、seed values、limitations、next gate。
+- M1_GRADIENT_SHAPING.csv
+- M2_ROW_TASK_INFLUENCE.csv
+- M3_STAGE_GROUP_INTERACTION.csv
+- M4_FEATURE_DEPENDENCE.csv
+- M5_AUGMENTATION_VALIDITY_AND_EFFECT.csv
+- M6_OUTPUT_SENSITIVITY.csv
+- M7_DISTRIBUTIONAL_ATTRIBUTION.csv
+- M8_TASK_CONFLICT_CONTROL.csv
 
-## 2. 人类可读报告
+每个文件必须包含 dataset、seed、anchor、variant、arm、source/config/data hashes。
 
-- S0_AUDIT_REPORT.md：来源、协议、模型、数据、参数组、资源、语义审计。
-- S1_SCREENING_REPORT.md：M1/M2/M3 所有 arm 与候选，不只报告胜者。
-- S2_CONFIRMATION_REPORT.md：V_B 独立确认及所有冻结候选。
-- S3_SHORT_TRAJECTORY_REPORT.md：5 epoch 轨迹、阶段变化与成本。
-- FINAL_DECISION_REPORT.md：机制排序、证据强度、NO_GO/blocked/triggered、是否进入 S4。
+## 3. 人类报告
 
-## 3. 必须报告的失败
+- S0_ALL_FAMILY_AUDIT.md
+- S1_ALL_MECHANISM_SCREENING.md
+- S2_ALL_VARIANT_CONFIRMATION.md
+- S3_ALL_SHORT_TRAJECTORIES.md
+- S4_ALL_QUALIFIED_FULL_RUNS.md
+- CROSS_FAMILY_INTERACTION_REPORT.md
+- FINAL_ALL_MECHANISMS_REPORT.md
 
-所有失败 run、重试、OOM、缺类 cell、无效 pair panel、NOT_APPLICABLE 标签组合、技术暂停和未触发阶段均需列出。不得静默删除。
+报告必须按 M1–M8 家族完整列出所有候选，包括负向、无差异、技术阻塞、NOT_APPLICABLE、失败重试和未触发项。不得只写表现最好的方法。
+
+## 4. 最终总结
+
+最终报告不按主观研究优先级排序。使用统一表格比较：
+- 机制是否执行；
+- 信号是否存在；
+- 干预是否改变目标对象；
+- V_A/V_B 是否复现；
+- 短程轨迹是否持续；
+- 六格 AUC/LogLoss；
+- 成本；
+- 适用边界；
+- 后续是否具备完整算法晋级条件。
