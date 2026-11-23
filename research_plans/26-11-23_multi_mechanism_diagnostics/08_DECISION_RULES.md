@@ -67,3 +67,17 @@ PASS：
 ## 8. STOP 语义
 
 NO_GO 仅针对实际测试的动作和条件，不自动关闭 M1/M2/M3 整个研究家族。TECHNICAL_BLOCKED 不能写成科学失败；INCONCLUSIVE 不能写成成功或失败。
+
+
+## 9. CGPA full-training gate
+
+CGPA is eligible only if M1:
+- passes the S1 mechanism execution and signal checks;
+- independently passes S2 on V_B;
+- passes the 5-epoch S3 trajectory from E25;
+- retains gains against P-BCE-prestep budget control;
+- passes cell guard and has no evidence that the result is merely an extra-step effect.
+
+If eligible, run 2 datasets × 5 seeds × 50 epochs. Hyperparameter selection is light (consistency lr multiplier 0.1/0.3/1.0; inner steps fixed 1) and uses five-seed Validation aggregate. Freeze before Test. If CGPA does not exceed the matched P-BCE-prestep control and published baseline gates, do not claim algorithm gain.
+
+M2/M3 results do not automatically become full training algorithms. A separate explicit design amendment and reviewer approval is required.
