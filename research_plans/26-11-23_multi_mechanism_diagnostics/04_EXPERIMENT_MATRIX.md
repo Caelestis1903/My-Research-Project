@@ -1,92 +1,97 @@
-# 04 — 实验矩阵
+# 04 — 全候选实验矩阵与数量
 
 ## 1. 固定维度
 
-| 维度 | 取值 |
-|---|---|
-| Dataset | MovieLens、KuaiRand |
-| Model | M3oE fixed1 |
-| Seeds | 2022–2026 |
-| Baseline epochs | 50 |
-| Batch | 40960，保留 natural tail |
-| Anchors | E10、E25、E40 |
-| Validation | V_A screening；V_B confirmation |
-| Test | sealed，S4 freeze 后才允许评价 |
+2 datasets × 5 seeds × 3 anchors = 30 anchor blocks。
+Datasets: MovieLens、KuaiRand。
+Seeds: 2022–2026。
+Anchors: E10、E25、E40。
+Validation: V_A screening + V_B confirmation。
+Test: S0–S3 sealed。
 
-## 2. S0 feasibility audit
+## 2. S1 局部 fork slots
 
-M1 二阶计算、M2 样本梯度读取、M4/M5 语义可行性分别审计。无训练。若二阶图 smoke 超出显存或资源约束，M1=TECHNICAL_BLOCKED，不影响 M2 审计。
+| Family | Registered arms per anchor | Fork slots |
+|---|---:|---:|
+| M1 | 3 consistency objectives + 3 coordinate-shuffled controls + P-BCE + joint baseline = 8 | 240 |
+| M2 | 4 task/sample impact actions + natural + task-agnostic + shuffled controls = 7 | 210 |
+| M3 | 2 group-pair types × 5 interaction arms = 10 | 300 |
+| M4 | 3 feature-dependence actions × intervention/sham = 6 | 180 |
+| M5 | 5 augmentation families × augmented/matched control = 10 | 300 |
+| M6 | 3 output-sensitivity controls × candidate/matched control = 6 | 180 |
+| M7 | 3 distributional attribution actions × robust/mean or shuffled control = 6 | 180 |
+| M8 | 4 conflict controllers × candidate/matched control = 8 | 240 |
+| Cross-family | 5 registered interactions × combination/matched control arms = 10 | 300 |
+| **Total** |  | **2,130** |
 
-## 3. S1 baseline
+每个 slot 都必须进入 RUN_MANIFEST。某个变体在某数据集不适用时，仍创建 slot 并以 NOT_APPLICABLE + reason 终结，不静默减少总数。
 
-若 D2 state live recovery 通过，复用；否则重建：
-2 datasets × 5 seeds = 10 trajectories，50 epochs each，anchors E10/E25/E40。
+## 3. M1 arms
 
-## 4. M1 local forks
+每 anchor：
+- M1-A directional consistency；
+- M1-B magnitude-aware consistency；
+- M1-C pairwise conflict energy；
+- 三个各自 coordinate-shuffled controls；
+- P-BCE-only private step + joint；
+- two-step joint baseline。
+所有 arm 使用同一 A/B batch mapping、同一 anchor、相同两次 optimizer steps；consistency-only 另作 readout，不参与预算主比较。
 
-每 dataset × seed × anchor：
-- M1-0 Joint × 2 steps；
-- M1-1 P-consistency × 1 + Joint × 1；
-- M1-2 P-BCE × 1 + Joint × 1；
-- M1-3 coordinate-shuffled consistency × 1 + Joint × 1；
-- M1-4 consistency-only（readout-only diagnostic）。
+## 4. M2 arms
 
-共 5 arms × 30 anchor states = 150 fork jobs。M1-4 不计入公平预算主比较。
+每 anchor：
+- task/cell-conditioned influence weighting；
+- influence-ranked task-gradient accumulation；
+- negative-impact suppression；
+- cell-response weighting；
+- natural uniform；
+- task-agnostic collapsed score；
+- within-domain shuffled score。
+所有组 row exposure、batch size、loss mass、optimizer steps、Adam state 匹配。
 
-## 5. M2 local forks
+## 5. M3 arms
 
-每 dataset × seed × anchor：
-- M2-0 natural uniform；
-- M2-1 task-specific impact weighting；
-- M2-2 task-agnostic collapsed score；
-- M2-3 within-domain shuffled score。
+每 anchor固定两个 group pair：
+- score-defined high/low influence pair；
+- domain + joint-label support + group size 匹配的 random pair。
 
-共 4 arms × 30 = 120 fork jobs。样本 panel size、每格支持和计算上限在 S0 冻结。每 domain 每 seed/anchor 从同一 canonical batch B 抽取最多 128 行，按实际联合标签组合分层；每行分别计算两个任务的局部 score。不足则全取并记录，不补造。未入 panel 的 batch rows 权重固定为 1，panel weights 在 domain-task 内重归一化，保持该 task 的总 loss mass 不变。
+每个 pair：
+A-only、B-only、A/B mixture、A/A mixture、B/B mixture。固定 batch size、总样本数、optimizer step、Adam 起点。M3-A stagewise attribution 与 M3-C stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
 
-## 6. M3 conditional forks
+## 6. M4/M5/M6/M7/M8 arms
 
-触发条件：M2 top/bottom group 至少 2 seeds × 2 anchors 同向，且支持检查通过。
+M4 按真实字段组执行 conditional dependence map、conditional permutation、task-conditioned residualization/HSIC penalty；每个动作都有 sham/neutral control。
 
-每 dataset × seed × anchor 对一个冻结 group pair：
-- A-only；
-- B-only；
-- A/B equal mixture；
-- A/A mixture control；
-- B/B mixture control。
+M5 对 field masking、embedding perturbation、within-stratum categorical substitution、dense perturbation、multi-view consistency 分别执行变换审计和训练 arm。具体字段不适用时保留 NOT_APPLICABLE 记录。
 
-最多 5 × 30 = 150 forks。若未触发，M3=NOT_TRIGGERED，不补做探索性 pair sweep。
+M6 执行 sensitivity scaling、worst-cell trust region、parameter-group response gating，并与 global clipping / random scaling / unmodified update 对照。
 
-## 7. S1 总量上限
+M7 执行跨 seed influence distribution、mean-variance robust score、leave-one-seed-out transfer；使用 M2 的五 seed score receipts，但独立写出 M7 decision。
 
-- baseline trajectories：最多 10 条；
-- anchors：30；
-- M1：150 forks；
-- M2：120 forks；
-- M3：最多 150 forks；
-- 总 fork 上限 420；
-- M1/M2 共享 baseline/anchor，不重复训练 baseline；
-- 所有 fork 只执行预注册局部更新与 Validation readout，不执行 Test。
+M8 执行 PCGrad reference、conflict-aware weights、common-descent projection、conflict-aware cell gating。
 
-## 8. S2 confirmation
+## 7. Cross-family interactions
 
-最多 2 个候选（M1、M2 各一个）；M3 仅当有独立可解释交互时最多一个。使用 V_B；仍为 5 seeds × 2 datasets。候选在 V_B 解封前冻结。S2 不新增超参数搜索。
+X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组包含 component arms、combined arm、matched-budget control。所有五组都执行。
 
-## 9. S3 short trajectory
+## 8. S2：全候选 V_B 确认
 
-每个通过 S2 的候选：2 datasets × 5 seeds × 5 epochs。对照与处理组各一条。最多 3 candidates。若多个候选通过，独立轨迹运行，不做全因子组合。
+2,130 个 S1 fork endpoints 全部计算 V_B readout。不得只选择 S1 positive variants。V_A 与 V_B row/pair IDs 完全互斥。S2 不额外训练，不用 V_B 调参。
 
-## 10. S4 formal algorithm
+## 9. S3：所有可训练变体的短程轨迹
 
-只有独立设计审查 PASS 才执行：2 datasets × 5 seeds × 50 epochs。S4 的算法动作必须由 S1–S3 证据定义，不得在本方案中留给 Codex 自行猜测。未触发则报告 NOT_TRIGGERED。
+所有可执行训练动作均进入 5 epochs continuous trajectory，不受 S1/S2 Top-K 选择限制。按变体、数据集、seed独立恢复：
+- 2 datasets × 5 seeds × 5 epochs；
+- E1/E3/E5 readouts；
+- 对应匹配控制同样运行。
+纯测量型机制完成跨阶段和跨 seed 重复测量，不伪造训练动作。
 
+## 10. S4：全量合格变体正式训练
 
-## 11. S3/S4 的冻结补充
+所有同时通过机制确认和短程轨迹 gate 的变体逐一执行：
+2 datasets × 5 seeds × 50 epochs。
+不设候选数量上限、不做 Top-K。每个候选独立选择 Validation 六格 Macro AUC checkpoint，冻结后 Test 一次性评价。
 
-S3 primary trajectory 从 E25 anchor 开始，连续 5 epochs；E10/E40 仅作为 S1 局部阶段读数，不再增加短程轨迹网格。每个通过的候选为 2 datasets × 5 seeds，处理与匹配控制独立恢复。
+## 11. 成本与估算
 
-S4 只可能晋级 CGPA（M1）。训练矩阵：
-- CGPA：P-consistency step → same-batch joint step → one EMA tick；
-- P-BCE-prestep control：P-BCE step → same-batch joint step → one EMA tick；
-- canonical joint-only：原训练步骤与 EMA tick，不伪称 optimizer-step 匹配。
-
-每个新超参 consistency_lr_multiplier 搜索 0.1/0.3/1.0；inner steps 默认 1。所有选择以五 seed Validation 综合结果完成后 freeze。M2/M3 不自动组合进 CGPA。
+S1 固定 2,130 fork slots + 最多 10 条 baseline trajectories。S3/S4 数量取决于实际可训练变体数量，但不得按研究优先级删减。S0 GPU smoke 后，按每个 family 的实测 forward/backward/optimizer cost、peak VRAM、host RAM 计算 GPU hours 与墙钟。成本估算必须同时列出全矩阵最坏情况和实测准入后的实际情况，不得编造训练速度。
