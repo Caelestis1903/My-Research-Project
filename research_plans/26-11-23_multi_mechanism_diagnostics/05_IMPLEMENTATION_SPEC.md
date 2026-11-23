@@ -57,6 +57,8 @@ M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 或所有 cell �
 
 ## 6. M2 implementation
 
+每个 dataset/seed/anchor 从 canonical Train batch B 中抽取最多 128 rows/domain（总计最多 384 rows），按 observed joint-label support 分层；Train-only calibration pairs 独立保留，不进入 optimizer batch。未评分 row-task 权重保持 1。
+
 对每个 sampled row-task：
 1. 按 source canonical loss reduction 计算 BCE gradient contribution；
 2. 计算 full batch native Adam virtual displacement；
@@ -69,7 +71,7 @@ M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 或所有 cell �
 
 ## 7. M3 implementation
 
-stagewise attribution 在 E10/E25/E40 的同一冻结 panel 上重复。Group interaction 使用固定 A/B row pools（各至少 n 个不同 row）。A-only/B-only 各取 n 个不同 row；A/B 各取 n/2；A/A、B/B 各取 n/2 后重复一次。五组总 row slots 固定为 n，optimizer state 和 step 数一致。记录 parameter delta、logit、pair margin 和 AUC interaction residual。
+stagewise attribution 在 E10/E25/E40 的同一冻结 panel 上重复。Group interaction 使用固定 A/B row pools（各至少 n 个不同 row），按 domain × observed joint-label strata 保持相同配额比例。A-only/B-only 各取 n 个不同 row；A/B 各取 n/2；A/A、B/B 各取 n/2 后重复一次。五组总 row slots 固定为 n，optimizer state 和 step 数一致。记录 parameter delta、logit、pair margin 和 AUC interaction residual。
 
 ## 8. M4 implementation
 
