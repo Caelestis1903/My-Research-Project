@@ -35,6 +35,8 @@ s(i,t,c)=∇_U m_c · ΔU_i,t。
 
 正分数表示 row-task 对当前共享更新的一阶预测提高正负样本 margin。该量是 local optimizer-step marginal attribution，不称为精确因果效应或完整 influence function。
 
+每个 dataset/seed/anchor 从 canonical Train batch B 中抽取最多 128 rows/domain（总计最多 384 rows），按实际 joint-label support 分层；每行计算两个 task contributions。Train-only calibration pairs 独立保留，不进入 optimizer batch。M2 权重只作用于被评分 row-task；未评分 row-task 权重为 1，随后在 source domain-task 内重新归一，保持总 loss mass。面板不足时全取并记录，不补造。
+
 变体：
 1. M2-A task/cell-conditioned influence weighting：按 s 的 task-specific aggregate 形成权重，domain-task 内均值归一，保持总 loss mass。
 2. M2-B influence-ranked scheduling：每个 optimizer step 分别为 task0/task1 构造独立 row microbatch，按各自 task-specific score 排序；两个 task 的梯度在同一参数状态下合并后执行一次 Adam step。每个 task 的全部 row 在 epoch 内恰好出现一次，保持每任务 exposure、每步 row 数、optimizer steps 和 loss mass。自然顺序为 control。
@@ -49,7 +51,7 @@ M3 不依赖 M2 是否阳性，全部执行。
 
 变体：
 1. M3-A stagewise attribution：对 E10/E25/E40 的同一 row/task panel 计算影响分数、pair-margin response 和符号翻转。
-2. M3-B score-defined group interaction：每个 anchor 使用 Train-only M2 score 构造高/低影响的互斥 A/B pools，执行五个 group arms。
+2. M3-B score-defined group interaction：每个 anchor 使用 Train-only M2 score 构造高/低影响的互斥 A/B pools；另构造同 domain × joint-label stratum、相同规模的随机匹配 A/B pools。每个 pool 按 domain 与 joint-label stratum 保留相同配额比例，执行五个 group arms。
 3. M3-C random matched group interaction：使用相同 domain、joint-label support 和 pool size 构造随机匹配 A/B pools，执行相同五个 arms。
 4. M3-D stage×group interaction：对 M3-B 与 M3-C 的同一 group pools 在 E10/E25/E40 分别计算，检验交互项随阶段变化。
 
@@ -65,7 +67,6 @@ I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
 1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层。
 2. M4-B conditional permutation intervention：在 domain × observed joint-label strata 内置换目标 feature group，比较 logit、pair margin、AUC 变化；这是依赖诊断，不是因果证明。
 3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization，配 matched sham control。
-4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
 4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
 
 所有 feature groups 由 DATA_MANIFEST 的实际字段映射生成。domain_indicator 不作为可干预特征。用户/物品实体 ID 不做任意置换；对这些字段只做依赖测量或合法 masking 检查。
