@@ -98,3 +98,20 @@ M3：
 - M2 weight amplitude：0.05 / 0.10 / 0.20，作用为 w=normalize(1+α·clip(score))，每个 domain-task 内 mean=1。
 
 S1 用五 seed 综合 Validation AUC 与机制读数选择一个配置；S2 冻结，不得按单 seed 选择。若新超参与 D2 的现有值重叠，仍须记录来源和是否为新参数。
+
+
+## 5. 条件晋级算法：CGPA
+
+仅当 M1 在 S2 和 S3 通过时，才执行 CGPA 完整训练。
+
+对每个 batch：
+- 计算六格共享梯度 g_U,c 与自然联合梯度 g_U,J；
+- 构造 L_cons；
+- 固定 U，对 P 做一次 consistency-only Adam step；
+- 重新计算同一 batch 的 canonical joint BCE；
+- 执行一次 joint Adam step；
+- 执行一次固定 EMA tick。
+
+consistency step 的学习率乘数从 0.1、0.3、1.0 轻量搜索，inner steps 固定为 1；若 S3 显示单步不足，inner steps=2 仅可在 S3 预注册前作为第二档，不允许运行中追加。最终超参由五 seed 综合 Validation 结果选择并在 S4 freeze 前固定。
+
+对照 P-BCE-prestep + joint 使用相同两次 optimizer steps、同 batch、相同 EMA ticks，区分 consistency objective 与额外私有更新收益。CGPA 不叠加 M2 weighting，不叠加 M3 group sampler，不改变固定 EMA。
