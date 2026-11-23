@@ -1,0 +1,60 @@
+{
+  "design_sha256": "7c1df7c873468de90b17ff53e32deab0721001bdd53dab2600de3b924467a74b",
+  "implementation_hash": "f15af15b13c67c7d8451a9196c7b63a70e55d1d0fca4b66443890fd7aa939691",
+  "files": {
+    "experiments/mdmt_shared_private_coordination_20261123/__init__.py": "80489238ec780b812b70bd68c6aa0e455bd460c42a524641859f00d1cc25c92c",
+    "experiments/mdmt_shared_private_coordination_20261123/blocks.py": "4ddfc63dc77c8eddabc246ce2f7133f6e17904355115c72fa9ee35edaf45537e",
+    "experiments/mdmt_shared_private_coordination_20261123/cli.py": "796f3c15828956c20e1d30c1d64aac7cd882acdf499be54ca12f5933c79c1cdd",
+    "experiments/mdmt_shared_private_coordination_20261123/diagnostics.py": "2592e5d8ef8fb11c924e5dd63278dd8812cd96d6ad4126b156b85f4d5f624b67",
+    "experiments/mdmt_shared_private_coordination_20261123/s0.py": "caa0ad2a491e19002441f6e5f7be27b1045c42baad98b91db270a019a3af0f54",
+    "experiments/mdmt_shared_private_coordination_20261123/scheduler.py": "cf3f149af80abeeb7abd84576bcd68af2f8a02db642b7bfbd216021becdf8be4",
+    "experiments/mdmt_shared_private_coordination_20261123/source.py": "f5d272d4d42ca0050b31bff28b40fc66246f65c7f11eb3937e4c0db7bc3add43",
+    "experiments/mdmt_shared_private_coordination_20261123/statistics.py": "dbfbeaebcb491af054f6b0314174045581f48a2076fda5129fc7532238447c58",
+    "experiments/mdmt_shared_private_coordination_20261123/tests/test_core.py": "9330f49d0a5fb8ed1a10b985d377bd6f9bfa6fb62331f623432a11125b7ca7d5",
+    "experiments/mdmt_shared_private_coordination_20261123/tests/test_diagnostics.py": "245af7a0f516f8fa280bb56d5ff710f8e2ea8d537fbe2db62800102e607e9882",
+    "experiments/mdmt_shared_private_coordination_20261123/tests/test_runtime.py": "08b7acbc3e7053fc14995e42590bbcd909d49744f6d1827778abd9c90877325f",
+    "experiments/mdmt_shared_private_coordination_20261123/training.py": "ba6d8c6897ea3d66521b6e5121251cd70b4379c8f46b103540284835885ea2ab",
+    "experiments/conditional_history_shared_update_20261122/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/conditional_history_shared_update_20261122/protocol.py": "fd66160762b5653090ebee19753f2d0a7640fd7998c0c784dddc7d6966be1af4",
+    "experiments/conditional_history_shared_update_20261122/scheduler.py": "9c1f0fee5f3bb0a4a8741b882757ae380185aeb2cea3abc58e2fbfdb54948902",
+    "experiments/conditional_history_shared_update_20261122/results.py": "5350c5add527aa674fe62eb7d3e0182519dd52e9ba57054d36c9f37b06c717cc",
+    "experiments/conditional_history_shared_update_20261122/b_panel_identity.py": "e246c147c880c7d2ced128e63a6ac63c77d670592cbb436ee90d0de40131b236",
+    "experiments/conditional_history_shared_update_20261122/b_build_panels.py": "68906c28816c83425cf0ae55565b2aa285d3a71d8e7218c4c53b3f27cc2644b1",
+    "research_reports/mdmt_shared_private_coordination_20261123/DESIGN_SPECIFICATION.md": "7c1df7c873468de90b17ff53e32deab0721001bdd53dab2600de3b924467a74b",
+    "research_reports/mdmt_shared_private_coordination_20261123/DESIGN_ERRATUM.md": "45b42e2d47dc10341ebe898e86d42a137861587fd4024a9a61627c1ecab792e5"
+  },
+  "evidence": {
+    "S0/SOURCE_MANIFEST.json": "b4f3e43dfcfc2d7cec24c2917a7ba97c93f8f830554c3ad3e5503a697833bbd0",
+    "S0/DATA_MANIFEST.json": "bc23226b5aca73de27d83a2b2cec7f6b1ea8636fea69c9734f1f9be41f56e7ca",
+    "S0/MODEL_FIDELITY.json": "e93a4f336f05ed074e441435d2c008f20d5dacdbbcfe7533d1c80c4b7e118ea8",
+    "S0/PARAMETER_MANIFEST.json": "80a6b66c44afd3f8f606158b2a7b6329d9f029d8c5710fdbe19decfc596b3563",
+    "S0/PARAMETER_SUPPORT.csv": "eb700a35ab0628a745363e0c99067a1785f8b6848d219603e68d9f084691879a",
+    "S0/CPU_TESTS.json": "fb03d38bc7467d4f6d5ffdf976aadfdf85eb0791230716f9e4a463014a1cad24",
+    "S0/IMPLEMENTATION_MAP.md": "b47ab36ec175851c5e1d8fe27d940c1f2c07a0f267cf1b33b51026335564ea20",
+    "PANELS_movielens.json": "def51cdc0e37397c12235372b6c687d2de9fb2552285bd4eb1b13579e819a068",
+    "PANELS_kuairand.json": "3c27736a8835f0d2d1498c389d4eab53c8e89555b74e9243789d3ff673740f00"
+  },
+  "verdict": "FAIL",
+  "blocking_issues": [
+    {
+      "id": "D2-R1",
+      "severity": "MAJOR",
+      "issue": "Resume at an anchor suppresses allocation acknowledgment and eligible subsequent GPU admissions."
+    },
+    {
+      "id": "D2-R2",
+      "severity": "MAJOR",
+      "issue": "The runtime import closure contains unbound 11-22 state.py."
+    },
+    {
+      "id": "D2-R3",
+      "severity": "MAJOR",
+      "issue": "The standalone CUDA fidelity CLI bypasses review, stop and resource gates."
+    },
+    {
+      "id": "D2-R4",
+      "severity": "MAJOR",
+      "issue": "Failed fork attempts drop completed diagnostic work from physical retry accounting."
+    }
+  ]
+}

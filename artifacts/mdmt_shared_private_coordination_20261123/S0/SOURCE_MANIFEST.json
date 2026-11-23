@@ -1,0 +1,392 @@
+{
+  "adam": {
+    "amsgrad": false,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "capturable": false,
+    "coupled": true,
+    "differentiable": false,
+    "eps": 1e-08,
+    "foreach": false,
+    "fused": false,
+    "maximize": false
+  },
+  "audit_head": "f66bf17cba2980618e6f2edd1c7381b73c35cac5",
+  "design": {
+    "git_blob": "c731f27182ea078b97e0448963911e845376e293",
+    "path": "research_reports/mdmt_shared_private_coordination_20261123/DESIGN_SPECIFICATION.md",
+    "sha256": "7c1df7c873468de90b17ff53e32deab0721001bdd53dab2600de3b924467a74b"
+  },
+  "effective_config": {
+    "kuairand": {
+      "arm": "A0",
+      "batch_size": 40960,
+      "dataset": "kuairand",
+      "dynamic": false,
+      "epochs": 50,
+      "kappa": 0.1,
+      "lambda_aug": 0.5,
+      "lambda_pair": 0.0,
+      "lr": 0.01,
+      "mode": "adam",
+      "rho": 0.995,
+      "target_domain": 2,
+      "weight_decay": 1e-05
+    },
+    "movielens": {
+      "arm": "A0",
+      "batch_size": 40960,
+      "dataset": "movielens",
+      "dynamic": false,
+      "epochs": 50,
+      "kappa": 0.05,
+      "lambda_aug": 0.5,
+      "lambda_pair": 0.0,
+      "lr": 0.01,
+      "mode": "adam",
+      "rho": 0.9828205985452511,
+      "target_domain": 0,
+      "weight_decay": 0.0001
+    }
+  },
+  "environment": {
+    "cuda_build": "12.6",
+    "cudnn": 91002,
+    "executable": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "platform": "Linux-5.15.0-136-generic-x86_64-with-glibc2.31",
+    "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:09:02) [GCC 11.2.0]",
+    "torch": "2.9.0+cu126"
+  },
+  "loader": {
+    "drop_last": false,
+    "seed_offset": 11000,
+    "shuffle": "one independent CPU randperm per epoch"
+  },
+  "matching_main": "92a592418d3f11a588f1e628fbe9364ceab71e18",
+  "model": {
+    "domains": 3,
+    "embedding_dim": 16,
+    "fcn": [
+      512,
+      256,
+      256,
+      64
+    ],
+    "fixed1": {
+      "bal_d": 1,
+      "bal_t": 1,
+      "exp_d": 1,
+      "exp_t": 1
+    },
+    "shared_experts": 4,
+    "tasks": 2
+  },
+  "precision": {
+    "amp": false,
+    "cudnn_benchmark": false,
+    "dtype": "float32",
+    "tf32": false
+  },
+  "source_commit": "f66bf17cba2980618e6f2edd1c7381b73c35cac5",
+  "source_files": {
+    "artifacts/conditional_history_shared_update_20261122/A_CORE_SOURCE_MANIFEST.json": {
+      "git_blob": "ac51ccb18ac9876b1d79ef74fff874e308290e7c",
+      "sha256": "52afff1d735f714c8fd381c4ad584553f4536529fa86d304bb0fe8137bcb6212"
+    },
+    "artifacts/conditional_history_shared_update_20261122/kuairand_data_identity.json": {
+      "git_blob": "8ad31f75a3a3f2814834dcfc5f2325a7f09edb8d",
+      "sha256": "764be976ab43103a6a2ee10385aa15b5be02f1e18acd081203ac02970e1debc0"
+    },
+    "artifacts/conditional_history_shared_update_20261122/movielens_data_identity.json": {
+      "git_blob": "2e76266be779bd46f6a524d5e20aea48c579c459",
+      "sha256": "ff08266b540323b22085477de554f63aa044bb62fbd284f76d25c7d602f434dd"
+    },
+    "experiments/conditional_history_shared_update_20261122/b_build_panels.py": {
+      "git_blob": "c1613cc49c409c3273203d8e27e3fe66f39375e5",
+      "sha256": "68906c28816c83425cf0ae55565b2aa285d3a71d8e7218c4c53b3f27cc2644b1"
+    },
+    "experiments/conditional_history_shared_update_20261122/b_panel_identity.py": {
+      "git_blob": "55a46f8b6ffec2710c7d04d2bb7e781e4266728c",
+      "sha256": "e246c147c880c7d2ced128e63a6ac63c77d670592cbb436ee90d0de40131b236"
+    },
+    "experiments/conditional_history_shared_update_20261122/state.py": {
+      "git_blob": "fb2b09ec8db04fd100c63c82d6714aa3d54f8828",
+      "sha256": "93d10e84df94acbee5dae41c405c6b264b2b1337a6b27fe4cd6d3c604c8fcf74"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/SOURCE_MANIFEST.json": {
+      "git_blob": "3294dea8ac8a6f4b6dc18fd60a4a61f7db3ff9df",
+      "sha256": "af2e7590cf8dc424494edd6a77c6d5c524de781b6e87ef025a064b843e252ef0"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py": {
+      "git_blob": "78a4c6006b2d4f89d1b4135ce30b9d5c4d5d9303",
+      "sha256": "278d22da232199922f3b70e4735966c61c09d5d4ed800dcf78ed8ffe2e5164eb"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/guardian.py": {
+      "git_blob": "84a19eb6b248398c7b9d5cd6a870bbd3f7a227cc",
+      "sha256": "b819b0a482a382e91a792a27009c4e28084318be03398c7eb49f7e5cfe70f284"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/objectives.py": {
+      "git_blob": "e17d722de5e9fc90d24aa10dfe16fdcba87dceaa",
+      "sha256": "9794b3aa5f10370c4b09d9bb040f925334ea47a591516ef0fe3e4caee8ac51d0"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/optimizers.py": {
+      "git_blob": "c4136e403b7d70cce05afc322b5a87458f875a99",
+      "sha256": "b78675f1674df0e2a4690b64d567826f4fcc764b256a5e19878ec1e0e79295e7"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/protocol.py": {
+      "git_blob": "243d979676b20130d089b8c7edab8bc154c7162d",
+      "sha256": "11e82bb7a8f6d2bce225485d01efe06b12d2676cb0b2f691bf9e96faf4bbe191"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/run.py": {
+      "git_blob": "8fa8b3a08d68d7e3496908dd0baec5a7f14123fd",
+      "sha256": "56129eb565487fbf536352c59d1978a09cebf2721f9c46ba7e3f8c66ef27b7b0"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/stage0.py": {
+      "git_blob": "ae8faff2ae02b6abbce49c2f13827db30731df61",
+      "sha256": "725a19dffa68573597ce1279d50f149af0eac16d70a67db61b6b1a1773cdb872"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/tests/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/tests/test_semantics.py": {
+      "git_blob": "2e00bcad79dcfd0c34ee48fd7fde7a6a8fd06eb4",
+      "sha256": "6272155542f8f25c5e959809c591d696b93c4890b0bc09aa1644d23ec8ceb202"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/__init__.py": {
+      "git_blob": "4d722ee40f20f957ef89a6fb1867593e97b16168",
+      "sha256": "2ecad115356982a13e6b7c99d4bd79212437ea848d8ffbd623ee5a915ab76dac"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/data.py": {
+      "git_blob": "5fa95ce4bd201db9c06786eb11878fbc7875181d",
+      "sha256": "9075080d1bb8bc6bff79dc1a5698f4a4ccec45a997ecf3119e3739c6d475a2e5"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/evaluate.py": {
+      "git_blob": "c3984a1d6e101a6dff9c12008340d8941498a0b3",
+      "sha256": "c2c61beed0bd153d635176d7cb2a68ab0860cd5b91ae554fed6978799ef1192f"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/gates.py": {
+      "git_blob": "9c491e05097fda5e362dec22f09f83dc093f8811",
+      "sha256": "990b2606384af6978cc212ed15492314670eefb44616620b92e608ba7fc09d84"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/guardian.py": {
+      "git_blob": "a36c81d93971698db110e76ff4fcd5ef256047d3",
+      "sha256": "8fcd484922f62ec777e10606140034578292c61e4feb6b08c7f84864cc5e9208"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/input_probe.py": {
+      "git_blob": "47e3f871643ef34194882dfd7ac98da3757f605d",
+      "sha256": "63f8aaa7b100cb91d725fe2213a21cd747dd5e6abd47d721089300f795ca81a0"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/objectives.py": {
+      "git_blob": "099988eb3e796a90f45b46e3d9d47725954a3cab",
+      "sha256": "d8bddc7f8160cc96e1675662630b845aaac37646490eb3ea6e05caa0bb4b82bf"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/protocol.py": {
+      "git_blob": "53b540eb1b59b08a90d3bb98899f3e8243724207",
+      "sha256": "4ef91a2c5702e0ce2829fb48c9763dc37a33243c15aff58cf8df4560f1157d84"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/rng.py": {
+      "git_blob": "cdfe7d77b05dc0b13065acc84a4d84718672e85b",
+      "sha256": "48d41cb3cc9df57feaa86d87c1e11c54949a78abce97f027b459bebd34e0961d"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/run.py": {
+      "git_blob": "5f2f92353d9f378a3e3de9be6f7f210dd8a30ea6",
+      "sha256": "0b7fd9b89238bafe867dc43f182b5c40bda5c0fd95188e61b89e9759162de26f"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/stage0.py": {
+      "git_blob": "8897955ac399ce690c5854a7d9de290f49acbb00",
+      "sha256": "e0270deb4406995a5f35d85a480fa3fd6f866f07d0a14e15f6a45828824c11a3"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_core.py": {
+      "git_blob": "786aafe03c053a627c2f6847f201b0a86bd875f2",
+      "sha256": "78747519136d4b5f5ad7a1db46b0ce7067e00a4dadf160df1d6e2cacb2437bd9"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/tests/test_execution.py": {
+      "git_blob": "370a43240d043c2740ef0025973d798db6bccb6c",
+      "sha256": "c08139513a0143df2110f6144c10cd3493c3d16cf95216b0c8b8df6ba3eab858"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/SOURCE_MANIFEST.json": {
+      "git_blob": "0fc85a70497880c40a30399b04e460445ef37274",
+      "sha256": "05337a7cb1a3c2ccd2290c75a65e5de84022328f91d183bd177dbafe1fe59816"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/objectives.py": {
+      "git_blob": "c4b58d0e230c03bfe69f8822ddac818d332d5ed1",
+      "sha256": "28eaa19444cb650ca46d28c4e22829771612920add6c27188b828d934ea5479c"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/protocol.py": {
+      "git_blob": "7e59458c3473717f9c07e48dca984e2c19380bd7",
+      "sha256": "1f6e345cf50d417285fde8100c1c99bf4ef3a71bddf4e256c3b3640186247ccd"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/audited_data.py": {
+      "git_blob": "10b98fd62248c87fd52668110137b44a91cad6ce",
+      "sha256": "c2a951e67a8c8002ccec5a47b67c51e6e0c8cae5b850ad3a83624d021a510fc2"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/activation.py": {
+      "git_blob": "a2384813a648497173542c660f62dba30afe8c3a",
+      "sha256": "152c5909e966055f83b7ec49de7634c853fbae8b029fbd37759371c14c921046"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/features.py": {
+      "git_blob": "6daeb1904b05e0787b714a7eef73694f195e40eb",
+      "sha256": "116025a45517021bfe86447b8229e59cf04feb665549544ce30173d04421a2b0"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/initializers.py": {
+      "git_blob": "b3b5323d8c82d947d4ab3cfe0a4dfc6060f24424",
+      "sha256": "a9a6a2923eebeca7f541ffaddbccf2671a42e7f9b6a1ec8d38ba2872c53f6196"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/basic/layers.py": {
+      "git_blob": "c0421a7f93bf893ecb040883d61b09358c2cb3ad",
+      "sha256": "bfdb86084bac7478639c2e4e0b9ae87b9d0726480e0d12f90f30b2e10eb8449d"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/data.py": {
+      "git_blob": "b6bff7583783aabd923a157689fe4b0a98787801",
+      "sha256": "1e0c4aab006805490ae81759dbe251f15caa45a73a676de48d675e803bfe451c"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/metrics.py": {
+      "git_blob": "8d50d5e3261558cc885c91b9a52c0bfb35cab0a6",
+      "sha256": "835b587ed9aa552db40bc1310458ceda6b8e65c0ae62252b1083314c6c756699"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/model.py": {
+      "git_blob": "6f80172ba8e2cc829abb1ccea77cabdfa2953246",
+      "sha256": "0b7a72654ddb0284688aaca9d41df5f6b41d38a1df28f44bc14bd73039a97dff"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/protocol.py": {
+      "git_blob": "8d10e865d7d8648254eb0536ae96c33f8633262f",
+      "sha256": "f71e0944cc08975597b2074ae4567c1fe817be830b6fdc67d8714f4662ad0c0f"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/reference.py": {
+      "git_blob": "6d1616efa1ce3e028ccd9de4a9b2daae302a184c",
+      "sha256": "f86b9781afb3c227deb8c1c0cdd16450d1bfc90da83bc04ffc30c328540fc538"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/resolved_protocol.json": {
+      "git_blob": "df3f55019248bd494de922579ee85ef8b9745f11",
+      "sha256": "37c2455e63c97c46f72bcedf33a7e01a2c7b14c4e4f2711e64d313f25b4a133c"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_data.py": {
+      "git_blob": "990648e5d8705cd69907bd4efa3ddede22419823",
+      "sha256": "295d55421eaae4db5f16fc7597d984ca90e72201fb30799c8dadef4c53b65742"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/source_protocol.py": {
+      "git_blob": "c47ee580e65477405d0d85eb18aae91d3c6103f8",
+      "sha256": "76ed4a851e6cdf15493be5628a08db4647a28eb3a2a11e4e1d7c1974a704218f"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/__init__.py": {
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/vendor_ga31/utils/data.py": {
+      "git_blob": "334f1bd38eb3f07e8031b9eaa9692c4383455e0b",
+      "sha256": "71d08bd9487afc702473d8813449d21ffd85c223ed05457791486b6df708501a"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py": {
+      "git_blob": "ecc354eba1c1d1e8b21694e8dbfb3c2b7221d254",
+      "sha256": "cc83584fa43a57ffd8c9c176e14a668a5dc835e902086e378a8db15e2a75f44b"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views.py": {
+      "git_blob": "61d8dde8fac855e8396ef1983f846f1c440d5320",
+      "sha256": "983f1e35ec1c6ea5b3dae6c7c60855d67f8eb0e688163f64b160dd08ee16f05f"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_ema_field.py": {
+      "git_blob": "de2a9ee0879428673a33c54cc8dd635358e3037b",
+      "sha256": "fed4dbdb06da69a318bd1f26aabc223fc564dd5f02b2d94f8caee490f8e353da"
+    },
+    "experiments/conditional_information_momentum_20261102_v3/vendor/ema02/views_joint_label.py": {
+      "git_blob": "1d6ff7e030463335be824d4ec10ab8fc06b06c3d",
+      "sha256": "8d745faa6372194eeeab030c49647dc3ca27010ca19c76b617238bdd69e45385"
+    },
+    "m3oe/MDMTRec/models/multi_domain/model.py": {
+      "git_blob": "e2b46e71001b2e0f53681fd5c30872806af4a3db",
+      "sha256": "a7702a64f8b5471f46209c9bfa1d9cb3108f11a89122933d7ae19942e9a12ce1"
+    },
+    "requirements-phase0-3.lock": {
+      "git_blob": "cd6e75e7d0fa447c3a84b5c74c68ed6b43a71224",
+      "sha256": "5ca1c78d5a1f58636eb3a23b51fd2dbd550c9b2619b9fd918882d622070ebb13"
+    },
+    "research_plans/11-23/00_EXECUTION_RUNBOOK.md": {
+      "git_blob": "f295e63aaab1318c82a54cbc7497332dbb8f5e72",
+      "sha256": "ff1ceede783f5ffc4781d93d77afd5e43aac72be02e619f0710f3a1a2c413b88"
+    },
+    "research_plans/11-23/01_RESEARCH_CONTEXT.md": {
+      "git_blob": "216f7f4de1a3268346029e59d7a08968bed09410",
+      "sha256": "c9cd2f16f702bfede7555caa16cc4fa9c75d6646c5fbda7b8f5deef377cd32e1"
+    },
+    "research_plans/11-23/02_THEORY_AND_HYPOTHESES.md": {
+      "git_blob": "723bce055c55903d574db70837d4d43edd3e2b33",
+      "sha256": "80e2502100f628fb7fab13cf150cc183aa600b179ae7c62416c7299aa22ee29f"
+    },
+    "research_plans/11-23/03_CAUSAL_EXPERIMENT_DESIGN.md": {
+      "git_blob": "09500564ae10abd0b2228c464b4c1aa6ec72e26c",
+      "sha256": "442052e6c68097c8102111dffea4a66c8feeb0a02e16bc0ef84ac28d72e2d513"
+    },
+    "research_plans/11-23/04_EXPERIMENT_MATRIX.md": {
+      "git_blob": "0d108897cd5d7266a28579ef2ae186dde5a74dc5",
+      "sha256": "6011f94f3042549aeef54567e8738df002eaec6e701c50ce191a993938e233d3"
+    },
+    "research_plans/11-23/05_IMPLEMENTATION_SPEC.md": {
+      "git_blob": "d94f5a0ec2604e8f5390174e4fd57581886beb12",
+      "sha256": "beba63a1c4241ef3a534ad892c8c3b3d3d701abd73a2623012bebf5ddbf69c10"
+    },
+    "research_plans/11-23/06_SCHEDULER_AND_RESOURCES.md": {
+      "git_blob": "5cfdef949a8729c0e9accf9a3c07c6ad82951c87",
+      "sha256": "6586d2a58d89314d964f48846d7bb648a4d365b57c0b962304fa99782529e64c"
+    },
+    "research_plans/11-23/07_METRICS_AND_STATISTICS.md": {
+      "git_blob": "50bd7514bb386ca9ed02748883ee43f1874e494e",
+      "sha256": "c62822d26dd467d4667c509a55170f7adfa1d569f55cebb3984363cdc8eecaa5"
+    },
+    "research_plans/11-23/08_REPORT_TEMPLATES.md": {
+      "git_blob": "5d5071664b37dcb87aea5f09cbc086a190c2fd0e",
+      "sha256": "c6581141d59944bad2c83ebe62bc5484738b10832b032c84bfc2692a0d84cac8"
+    },
+    "research_plans/11-23/09_CODEX_HANDOFF.md": {
+      "git_blob": "bf145cf34b2596dfb072f4795c7ad3cb6466a253",
+      "sha256": "a94ec63f490a357d67a2352922bd09626851684626310edb234c679f34d247a9"
+    },
+    "research_plans/11-23/PLAN_MANIFEST.json": {
+      "git_blob": "e8ba68068046bcc56f8593323a1ffe5cce132d0f",
+      "sha256": "bb610c5c47bdf27d3c6da5b8b521be1ba6ac858e44dae0f83d04ad33faded7bc"
+    },
+    "research_plans/11-23/README.md": {
+      "git_blob": "9896f807c6216cf730c7e6a745a44746c80e4f2a",
+      "sha256": "174f51d2a6e7606818ac71640b522af0fec9f488add224081502ff9bc539c69e"
+    }
+  },
+  "source_layering": {
+    "executable": "v3 protocol and objectives A0 with clean PairOptimizer, EMA02, and GA31 fixed reference",
+    "preprocessing": "GA31 audited_data encoders and array/row hashing with bounded decoders",
+    "published": "Its trainable fusion weights apply sigmoid to the input value 1",
+    "standalone_ga31": "Historical metadata uses global weight_decay 1e-5 and EMA false"
+  },
+  "status": "PASS"
+}

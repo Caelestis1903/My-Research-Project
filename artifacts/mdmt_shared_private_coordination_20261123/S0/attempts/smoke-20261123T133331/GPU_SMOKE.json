@@ -1,0 +1,1006 @@
+{
+  "status": "PASS",
+  "review_sha256": "d3f39a943facbcd67ec59931641bdaac1c1eed130000c399f853e1214865569a",
+  "implementation_hash": "f45b68ef687179f756f1397314b47d46359fbd8ecbdd9312ef6da3704d819202",
+  "evidence": {
+    "S0/SOURCE_MANIFEST.json": "db809b596df4a7c1a0006e7876fdc9cf7d6b4899e34eb17235eee7c3c601d2c4",
+    "S0/DATA_MANIFEST.json": "bc23226b5aca73de27d83a2b2cec7f6b1ea8636fea69c9734f1f9be41f56e7ca",
+    "S0/MODEL_FIDELITY.json": "cfc9c5bd00e57e675ae3896c4492745f73401c3d2e7a59fda6a12eeddf880de4",
+    "S0/PARAMETER_MANIFEST.json": "80a6b66c44afd3f8f606158b2a7b6329d9f029d8c5710fdbe19decfc596b3563",
+    "S0/PARAMETER_SUPPORT.csv": "d6dd141f732e2295cb91fd4db75f379c1f571d29a87e9efc55012d8469cebedf",
+    "S0/CPU_TESTS.json": "fb03d38bc7467d4f6d5ffdf976aadfdf85eb0791230716f9e4a463014a1cad24",
+    "S0/IMPLEMENTATION_MAP.md": "b47ab36ec175851c5e1d8fe27d940c1f2c07a0f267cf1b33b51026335564ea20",
+    "PANELS_movielens.json": "def51cdc0e37397c12235372b6c687d2de9fb2552285bd4eb1b13579e819a068",
+    "PANELS_kuairand.json": "3c27736a8835f0d2d1498c389d4eab53c8e89555b74e9243789d3ff673740f00"
+  },
+  "owner": "87a85e092a2e61c79216587aba6520307f2446999c3700c659d26b206b22aacf",
+  "usable": {
+    "GPU-4ac4b341-3045-1093-fec3-492516863e5a": 25307578368,
+    "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908": 25307578368
+  },
+  "profiles": {
+    "movielens": 1388314624,
+    "kuairand": 1675624448
+  },
+  "records": {
+    "movielens": {
+      "fidelity": {
+        "status": "PASS",
+        "device": "cuda:0",
+        "seed": 2022,
+        "loader_order_sha256": "f79cc52fa87db749865b22e8cdafef24e1ac89688ef78abe0731417fbcbb38f1",
+        "comparisons": [
+          {
+            "batch": "first",
+            "rows": 40960,
+            "canonical_batch_index": 1,
+            "row_ids_sha256": "ad7f7f8061da39957d43aca2942d0213fd4456aec79e99d709326570f98130e0",
+            "loss": 0.6957953572273254,
+            "donor_loss": 0.6957953572273254,
+            "probability_max_abs_difference": 0.0,
+            "probability_sha256": "8f2167bef863243ffa042de67e8a2cb10b85aeb38edb8af1047bdedd82a6940a",
+            "donor_probability_sha256": "8f2167bef863243ffa042de67e8a2cb10b85aeb38edb8af1047bdedd82a6940a",
+            "online_sha256": "5c03c381c4573cbb9bf2af3fa4ceb1bc1914bc61b710a3a2f51fcdfd723d1a84",
+            "donor_online_sha256": "5c03c381c4573cbb9bf2af3fa4ceb1bc1914bc61b710a3a2f51fcdfd723d1a84",
+            "ema_sha256": "f3b04521133749e1ae6b66db96272c47b9ef0184a036a76777e590ec67ea4aab",
+            "donor_ema_sha256": "f3b04521133749e1ae6b66db96272c47b9ef0184a036a76777e590ec67ea4aab",
+            "adam_sha256": "0579c502d2ef4ae9d2b66701dec91042a42ddfa2777aa7000e831aba90eb4d81",
+            "donor_adam_sha256": "0579c502d2ef4ae9d2b66701dec91042a42ddfa2777aa7000e831aba90eb4d81",
+            "step_summary": {
+              "loss": 0.6957953572273254,
+              "rows": 40960,
+              "training_forwards": 1,
+              "parameter_backward_calls": 1,
+              "optimizer_steps": 1,
+              "ema_updates": 1,
+              "groups": {
+                "U": {
+                  "parameters": 39,
+                  "included_parameters": 39,
+                  "updated_parameters": 39,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 39,
+                  "gradient_norm": 0.8061866034836703,
+                  "displacement_norm": 7.947093406700447,
+                  "coupled_decay_norm": 0.004201951881337538,
+                  "exp_avg_norm_range": [
+                    0.00022100382193457335,
+                    0.05250858515501022
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    9.152090196806739e-11,
+                    4.237730536260642e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    0.00022100382193457335,
+                    0.05250858515501022
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    9.152090196806739e-11,
+                    4.237730536260642e-05
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_CELL": {
+                  "parameters": 48,
+                  "included_parameters": 48,
+                  "updated_parameters": 48,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 48,
+                  "gradient_norm": 0.7071805587146901,
+                  "displacement_norm": 1.7893801702793486,
+                  "coupled_decay_norm": 0.0022899693831146526,
+                  "exp_avg_norm_range": [
+                    4.594519850797951e-06,
+                    0.030668629333376884
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    1.4184586664967025e-12,
+                    2.7117210265714675e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    4.594519850797951e-06,
+                    0.030668629333376884
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    1.4184586664967025e-12,
+                    2.7117210265714675e-05
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_AXIS": {
+                  "parameters": 20,
+                  "included_parameters": 20,
+                  "updated_parameters": 20,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 20,
+                  "gradient_norm": 0.5864064885342429,
+                  "displacement_norm": 2.868969039898196,
+                  "coupled_decay_norm": 0.0020665734969822105,
+                  "exp_avg_norm_range": [
+                    0.00046486302744597197,
+                    0.034124646335840225
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    9.815552814984585e-09,
+                    3.206095925634145e-06
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    0.00046486302744597197,
+                    0.034124646335840225
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    9.815552814984585e-09,
+                    3.206095925634145e-06
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_FULL": {
+                  "parameters": 68,
+                  "included_parameters": 68,
+                  "updated_parameters": 68,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 68,
+                  "gradient_norm": 0.918682160716688,
+                  "displacement_norm": 3.3812519494535347,
+                  "coupled_decay_norm": 0.0030845884318709007,
+                  "exp_avg_norm_range": [
+                    4.594519850797951e-06,
+                    0.034124646335840225
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    1.4184586664967025e-12,
+                    2.7117210265714675e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    4.594519850797951e-06,
+                    0.034124646335840225
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    1.4184586664967025e-12,
+                    2.7117210265714675e-05
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "seconds": 0.6276996320011676
+            }
+          },
+          {
+            "batch": "tail",
+            "rows": 21927,
+            "canonical_batch_index": 20,
+            "row_ids_sha256": "167f6528667025c7ec870df1c0bef73acc26bd370566c4612cfbc7f816939d73",
+            "loss": 0.7529882192611694,
+            "donor_loss": 0.7529882192611694,
+            "probability_max_abs_difference": 0.0,
+            "probability_sha256": "77e85a50d865aaf17f921f22262c1d7c652ab31bdacb9ef193c1381c38094ec6",
+            "donor_probability_sha256": "77e85a50d865aaf17f921f22262c1d7c652ab31bdacb9ef193c1381c38094ec6",
+            "online_sha256": "2e7fd3ae48c577c9dfa8b4b6ac9968bfcb05cbaa1faeb288914d704afa1fdb89",
+            "donor_online_sha256": "2e7fd3ae48c577c9dfa8b4b6ac9968bfcb05cbaa1faeb288914d704afa1fdb89",
+            "ema_sha256": "3f7cad6f29179ca0af0c0b4f93e051afa41b085e31297627ace5e88e126d2cbe",
+            "donor_ema_sha256": "3f7cad6f29179ca0af0c0b4f93e051afa41b085e31297627ace5e88e126d2cbe",
+            "adam_sha256": "90498a61d323bfc260e8016b8335b6d574d79d2ed87db5369eb81b43a5c7db95",
+            "donor_adam_sha256": "90498a61d323bfc260e8016b8335b6d574d79d2ed87db5369eb81b43a5c7db95",
+            "step_summary": {
+              "loss": 0.7529882192611694,
+              "rows": 21927,
+              "training_forwards": 1,
+              "parameter_backward_calls": 1,
+              "optimizer_steps": 1,
+              "ema_updates": 1,
+              "groups": {
+                "U": {
+                  "parameters": 39,
+                  "included_parameters": 39,
+                  "updated_parameters": 39,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 39,
+                  "gradient_norm": 0.13716013542039301,
+                  "displacement_norm": 6.244479745414134,
+                  "coupled_decay_norm": 0.003907328922783887,
+                  "exp_avg_norm_range": [
+                    0.00020617898553609848,
+                    0.04768288508057594
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    9.455750071829527e-11,
+                    4.260345667717047e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    5.727717143599875e-05,
+                    0.00914541631937027
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    4.465206416420786e-12,
+                    8.275977734228945e-07
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_CELL": {
+                  "parameters": 48,
+                  "included_parameters": 48,
+                  "updated_parameters": 48,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 48,
+                  "gradient_norm": 0.6846302393832895,
+                  "displacement_norm": 1.2743224714333243,
+                  "coupled_decay_norm": 0.00227830565186871,
+                  "exp_avg_norm_range": [
+                    7.274853851413354e-05,
+                    0.04578634724020958
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    4.905452710701752e-10,
+                    7.429048127960414e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    4.481597352423705e-05,
+                    0.0489465594291687
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    9.385514587734178e-11,
+                    7.401280163321644e-05
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_AXIS": {
+                  "parameters": 20,
+                  "included_parameters": 20,
+                  "updated_parameters": 20,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 20,
+                  "gradient_norm": 0.12973407543163348,
+                  "displacement_norm": 2.1453297591803535,
+                  "coupled_decay_norm": 0.002045291176530642,
+                  "exp_avg_norm_range": [
+                    0.0006371801136992872,
+                    0.03066413849592209
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    1.1753792605873059e-08,
+                    3.204304675819003e-06
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    0.00020364108786452562,
+                    0.009721044450998306
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    3.6687863858020364e-10,
+                    3.3274665156568517e-07
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_FULL": {
+                  "parameters": 68,
+                  "included_parameters": 68,
+                  "updated_parameters": 68,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 68,
+                  "gradient_norm": 0.6968138166010495,
+                  "displacement_norm": 2.4952630195682315,
+                  "coupled_decay_norm": 0.0030616813420294097,
+                  "exp_avg_norm_range": [
+                    7.274853851413354e-05,
+                    0.04578634724020958
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    4.905452710701752e-10,
+                    7.429048127960414e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    4.481597352423705e-05,
+                    0.0489465594291687
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    9.385514587734178e-11,
+                    7.401280163321644e-05
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "seconds": 0.1436212999979034
+            }
+          }
+        ],
+        "trajectory": "initial state, first joint step, tail joint step"
+      },
+      "recovery": {
+        "status": "PASS",
+        "receipt": {
+          "key": "D2:S0:021cfda79faa40ceaae769906c326f37",
+          "sequence": 1,
+          "epoch": 1,
+          "owner": "87a85e092a2e61c79216587aba6520307f2446999c3700c659d26b206b22aacf",
+          "state_hash": "23c1e0f75acc17867ac1463386adebe1b7f27413584b9ee2a81e35f3febcdffe",
+          "bytes": 12713756,
+          "status": "RAM_VERIFIED"
+        },
+        "next_permutation_hash": "3552965cb0e6bbc78e3805c707c171846c2224f19e454419751d187e5c28f168",
+        "next_rows_hash": "4b542c9eb1cddb6c3d5d5937207ac88aceea58b05dc7b91b96128ca67334c309",
+        "next_update_exact": true,
+        "source_loss": 0.7494904398918152,
+        "restored_loss": 0.7494904398918152,
+        "process_gpu_bytes": 1388314624,
+        "telemetry": {
+          "time": 1795440826.5837414,
+          "host_ram_used": 0.49805024603072845,
+          "devices": [
+            {
+              "index": 0,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "used": 12938379264,
+              "total": 25769803776,
+              "watts": 216.78,
+              "limit": 350.0
+            },
+            {
+              "index": 1,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "used": 13501464576,
+              "total": 25769803776,
+              "watts": 277.42,
+              "limit": 350.0
+            }
+          ],
+          "processes": [
+            {
+              "pid": 36823,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 3879731200
+            },
+            {
+              "pid": 105376,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 348127232
+            },
+            {
+              "pid": 105377,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1291845632
+            },
+            {
+              "pid": 168218,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 778043392
+            },
+            {
+              "pid": 174112,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 765460480
+            },
+            {
+              "pid": 174519,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1486880768
+            },
+            {
+              "pid": 175693,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 2929721344
+            },
+            {
+              "pid": 190304,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1388314624
+            },
+            {
+              "pid": 36824,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 3869245440
+            },
+            {
+              "pid": 106327,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2929721344
+            },
+            {
+              "pid": 107152,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2940207104
+            },
+            {
+              "pid": 174342,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 771751936
+            },
+            {
+              "pid": 175692,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2938109952
+            }
+          ]
+        }
+      },
+      "peak_allocated_bytes": 986271744,
+      "peak_reserved_bytes": 1059061760
+    },
+    "kuairand": {
+      "fidelity": {
+        "status": "PASS",
+        "device": "cuda:0",
+        "seed": 2022,
+        "loader_order_sha256": "c99605bc182487fe5f60a2bb71fa75a2a5e946858cd753a1de04ceb0ef6fb7d1",
+        "comparisons": [
+          {
+            "batch": "first",
+            "rows": 40960,
+            "canonical_batch_index": 1,
+            "row_ids_sha256": "fc09a79929c71dc598f6cc27a18943e19cc3923f0f04642f875647132d837004",
+            "loss": 0.7191649079322815,
+            "donor_loss": 0.7191649079322815,
+            "probability_max_abs_difference": 0.0,
+            "probability_sha256": "23c34a827bbe5d83cd8894c7fd264cbebb27ae7d96dc56d9147bccf8bedc0435",
+            "donor_probability_sha256": "23c34a827bbe5d83cd8894c7fd264cbebb27ae7d96dc56d9147bccf8bedc0435",
+            "online_sha256": "93601491c57ee1e70db1aa4d7a58775d7b04415d2a3c3ea2aedfa3e1cff2175d",
+            "donor_online_sha256": "93601491c57ee1e70db1aa4d7a58775d7b04415d2a3c3ea2aedfa3e1cff2175d",
+            "ema_sha256": "c6e63df59f79a389fe9fb2459f3dc06947c36dd95ec29a3e97a45d5682817080",
+            "donor_ema_sha256": "c6e63df59f79a389fe9fb2459f3dc06947c36dd95ec29a3e97a45d5682817080",
+            "adam_sha256": "4bd8f43ffe4f13d96b035603225a4151720035d8e38ce1dfaafce70b091158fa",
+            "donor_adam_sha256": "4bd8f43ffe4f13d96b035603225a4151720035d8e38ce1dfaafce70b091158fa",
+            "step_summary": {
+              "loss": 0.7191649079322815,
+              "rows": 40960,
+              "training_forwards": 1,
+              "parameter_backward_calls": 1,
+              "optimizer_steps": 1,
+              "ema_updates": 1,
+              "groups": {
+                "U": {
+                  "parameters": 66,
+                  "included_parameters": 66,
+                  "updated_parameters": 66,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 66,
+                  "gradient_norm": 2.288367677922206,
+                  "displacement_norm": 11.605236244359562,
+                  "coupled_decay_norm": 0.0005597672052167644,
+                  "exp_avg_norm_range": [
+                    1.32345303427428e-05,
+                    0.13352034986019135
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    1.178712617962152e-13,
+                    0.000254566315561533
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    1.32345303427428e-05,
+                    0.13352034986019135
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    1.178712617962152e-13,
+                    0.000254566315561533
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_CELL": {
+                  "parameters": 48,
+                  "included_parameters": 48,
+                  "updated_parameters": 48,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 48,
+                  "gradient_norm": 1.2040779511180673,
+                  "displacement_norm": 1.7839723504652762,
+                  "coupled_decay_norm": 0.00022884803245661644,
+                  "exp_avg_norm_range": [
+                    7.383515367109794e-06,
+                    0.07704803347587585
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    3.889257839395643e-12,
+                    0.0002228909870609641
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    7.383515367109794e-06,
+                    0.07704803347587585
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    3.889257839395643e-12,
+                    0.0002228909870609641
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_AXIS": {
+                  "parameters": 20,
+                  "included_parameters": 20,
+                  "updated_parameters": 20,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 20,
+                  "gradient_norm": 1.3461136511223528,
+                  "displacement_norm": 2.8338817524715316,
+                  "coupled_decay_norm": 0.00020653551553262797,
+                  "exp_avg_norm_range": [
+                    0.00014193053357303143,
+                    0.09740786254405975
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    8.024954589735955e-10,
+                    3.7924593925708905e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    0.00014193053357303143,
+                    0.09740786254405975
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    8.024954589735955e-10,
+                    3.7924593925708905e-05
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_FULL": {
+                  "parameters": 68,
+                  "included_parameters": 68,
+                  "updated_parameters": 68,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 68,
+                  "gradient_norm": 1.8060525114477248,
+                  "displacement_norm": 3.3486479561482305,
+                  "coupled_decay_norm": 0.0003082666721129499,
+                  "exp_avg_norm_range": [
+                    7.383515367109794e-06,
+                    0.09740786254405975
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    3.889257839395643e-12,
+                    0.0002228909870609641
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    7.383515367109794e-06,
+                    0.09740786254405975
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    3.889257839395643e-12,
+                    0.0002228909870609641
+                  ],
+                  "step_before_range": [
+                    0,
+                    0
+                  ],
+                  "step_after_range": [
+                    1,
+                    1
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "seconds": 0.2473823629989056
+            }
+          },
+          {
+            "batch": "tail",
+            "rows": 40052,
+            "canonical_batch_index": 49,
+            "row_ids_sha256": "07341285bb60264b468d566961a3db9470798001f8e6d4ff2477c6ab8040e102",
+            "loss": 0.624462366104126,
+            "donor_loss": 0.624462366104126,
+            "probability_max_abs_difference": 0.0,
+            "probability_sha256": "a08fc8a8af96cd468a46ce69ea7685a91e060687951b0369b86556a3b305b79b",
+            "donor_probability_sha256": "a08fc8a8af96cd468a46ce69ea7685a91e060687951b0369b86556a3b305b79b",
+            "online_sha256": "544fdb8e80c64773b6d8463841bcbf9aafc52b126ee594b16b695a4d17344c53",
+            "donor_online_sha256": "544fdb8e80c64773b6d8463841bcbf9aafc52b126ee594b16b695a4d17344c53",
+            "ema_sha256": "8765c6436b43e217b4dc1cc66921c8e53abb42ec97f8a595748f7b06a3dc0073",
+            "donor_ema_sha256": "8765c6436b43e217b4dc1cc66921c8e53abb42ec97f8a595748f7b06a3dc0073",
+            "adam_sha256": "34d03a06e0a60d40eea8c24ac69e90f2b0b08622e760b5246a108b9de4f12544",
+            "donor_adam_sha256": "34d03a06e0a60d40eea8c24ac69e90f2b0b08622e760b5246a108b9de4f12544",
+            "step_summary": {
+              "loss": 0.624462366104126,
+              "rows": 40052,
+              "training_forwards": 1,
+              "parameter_backward_calls": 1,
+              "optimizer_steps": 1,
+              "ema_updates": 1,
+              "groups": {
+                "U": {
+                  "parameters": 66,
+                  "included_parameters": 66,
+                  "updated_parameters": 66,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 66,
+                  "gradient_norm": 0.07191012995411897,
+                  "displacement_norm": 10.157333494759362,
+                  "coupled_decay_norm": 0.0004863800658246115,
+                  "exp_avg_norm_range": [
+                    3.9312766602961347e-05,
+                    0.1201377734541893
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    2.2957460585337763e-13,
+                    0.00025436177384108305
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    1.6504609448020346e-05,
+                    0.01393048744648695
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    9.614689280195224e-14,
+                    3.1695128654973814e-07
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_CELL": {
+                  "parameters": 48,
+                  "included_parameters": 48,
+                  "updated_parameters": 48,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 48,
+                  "gradient_norm": 0.3676552186151813,
+                  "displacement_norm": 1.2415770161226631,
+                  "coupled_decay_norm": 0.00022811132388437404,
+                  "exp_avg_norm_range": [
+                    1.8068889403366484e-05,
+                    0.06641322374343872
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    2.1088346346953557e-11,
+                    0.0002249108365504071
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    9.368481187266298e-06,
+                    0.031955502927303314
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    5.140974993801672e-13,
+                    2.5243944037356414e-05
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_AXIS": {
+                  "parameters": 20,
+                  "included_parameters": 20,
+                  "updated_parameters": 20,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 20,
+                  "gradient_norm": 0.03836882376654659,
+                  "displacement_norm": 2.0712924468422833,
+                  "coupled_decay_norm": 0.0002049379735338517,
+                  "exp_avg_norm_range": [
+                    0.00014085417205933481,
+                    0.08755715191364288
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    8.86462792060172e-10,
+                    3.788798858295195e-05
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    3.824943632935174e-05,
+                    0.01002195943146944
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    2.380895827713836e-11,
+                    4.065015346554901e-08
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                },
+                "P_FULL": {
+                  "parameters": 68,
+                  "included_parameters": 68,
+                  "updated_parameters": 68,
+                  "absent_included_gradients": 0,
+                  "explicit_zero_gradients": 0,
+                  "nonzero_gradients": 68,
+                  "gradient_norm": 0.36965189897010553,
+                  "displacement_norm": 2.414904943742082,
+                  "coupled_decay_norm": 0.00030665020639230543,
+                  "exp_avg_norm_range": [
+                    1.8068889403366484e-05,
+                    0.08755715191364288
+                  ],
+                  "exp_avg_sq_norm_range": [
+                    2.1088346346953557e-11,
+                    0.0002249108365504071
+                  ],
+                  "exp_avg_delta_norm_range": [
+                    9.368481187266298e-06,
+                    0.031955502927303314
+                  ],
+                  "exp_avg_sq_delta_norm_range": [
+                    5.140974993801672e-13,
+                    2.5243944037356414e-05
+                  ],
+                  "step_before_range": [
+                    1,
+                    1
+                  ],
+                  "step_after_range": [
+                    2,
+                    2
+                  ],
+                  "step_delta_range": [
+                    1,
+                    1
+                  ]
+                }
+              },
+              "seconds": 0.2483477240020875
+            }
+          }
+        ],
+        "trajectory": "initial state, first joint step, tail joint step"
+      },
+      "recovery": {
+        "status": "PASS",
+        "receipt": {
+          "key": "D2:S0:fb36cb62b37e488894c50c63ec836560",
+          "sequence": 1,
+          "epoch": 1,
+          "owner": "87a85e092a2e61c79216587aba6520307f2446999c3700c659d26b206b22aacf",
+          "state_hash": "1a3b98aacebc8671092335e1280f0ab0f491e4cc73bc85e485025ac35e5c7c7b",
+          "bytes": 26166408,
+          "status": "RAM_VERIFIED"
+        },
+        "next_permutation_hash": "8db0b18a356da4f0eb6d85eccff03d4a321748e892e0046ce8440f63823f7e58",
+        "next_rows_hash": "3ae1530cec680fb551aac4ef6bfd2d1a11ae831ad1fabb0734d0622d266946de",
+        "next_update_exact": true,
+        "source_loss": 0.6199647784233093,
+        "restored_loss": 0.6199647784233093,
+        "process_gpu_bytes": 1654652928,
+        "telemetry": {
+          "time": 1795440885.3807487,
+          "host_ram_used": 0.5025590768532723,
+          "devices": [
+            {
+              "index": 0,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "used": 13204717568,
+              "total": 25769803776,
+              "watts": 214.58,
+              "limit": 350.0
+            },
+            {
+              "index": 1,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "used": 13501464576,
+              "total": 25769803776,
+              "watts": 285.82,
+              "limit": 350.0
+            }
+          ],
+          "processes": [
+            {
+              "pid": 36823,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 3879731200
+            },
+            {
+              "pid": 105376,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 348127232
+            },
+            {
+              "pid": 105377,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1291845632
+            },
+            {
+              "pid": 168218,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 778043392
+            },
+            {
+              "pid": 174112,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 765460480
+            },
+            {
+              "pid": 174519,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1486880768
+            },
+            {
+              "pid": 175693,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 2929721344
+            },
+            {
+              "pid": 190304,
+              "uuid": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+              "bytes": 1654652928
+            },
+            {
+              "pid": 36824,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 3869245440
+            },
+            {
+              "pid": 106327,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2929721344
+            },
+            {
+              "pid": 107152,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2940207104
+            },
+            {
+              "pid": 174342,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 771751936
+            },
+            {
+              "pid": 175692,
+              "uuid": "GPU-2a59fb49-6bef-5320-74ab-ffb24d056908",
+              "bytes": 2938109952
+            }
+          ]
+        }
+      },
+      "peak_allocated_bytes": 1103536128,
+      "peak_reserved_bytes": 1346371584
+    }
+  },
+  "new_scientific_runs": 0,
+  "test_evaluations": 0,
+  "resource_sha256": "efd4935dbbb3bca1712e6a76444fa75120f3052acca282892154b433c795a730"
+}
