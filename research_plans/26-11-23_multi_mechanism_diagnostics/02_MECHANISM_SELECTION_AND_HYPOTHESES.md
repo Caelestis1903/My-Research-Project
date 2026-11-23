@@ -39,7 +39,7 @@ s(i,t,c)=∇_U m_c · ΔU_i,t。
 
 变体：
 1. M2-A task/cell-conditioned influence weighting：按 s 的 task-specific aggregate 形成权重，domain-task 内均值归一，保持总 loss mass。
-2. M2-B influence-ranked scheduling：每个 optimizer step 分别为 task0/task1 构造独立 row microbatch，按各自 task-specific score 排序；两个 task 的梯度在同一参数状态下合并后执行一次 Adam step。每个 task 的全部 row 在 epoch 内恰好出现一次，保持每任务 exposure、每步 row 数、optimizer steps 和 loss mass。自然顺序为 control。
+2. M2-B influence-ranked scheduling：每个 optimizer step 分别为 task0/task1 构造独立 row microbatch，每个 task microbatch 大小为 canonical B；candidate 按各自 task-specific score 排序，matched control 使用完全相同 row IDs 但保留自然顺序。两个 task gradients 在同一参数状态下按 1/2 权重合并后执行一次 Adam step。每个 task 的全部 row 在 epoch 内恰好出现一次，保持每任务 exposure、每步 row 数、optimizer steps 和 loss mass。
 3. M2-C negative-impact suppression：对负向影响行降低权重，正向影响行补偿，保持 domain-task loss mass。
 4. M2-D worst-cell/cell-response weighting：先保留六维 s(i,t,c)，主 action 使用该 row-task 对六个 target cells 的最小预测 margin response 形成保护性权重；另报告等权平均聚合的敏感度版本。所有 source domain-task 的总 loss mass 显式匹配。
 
@@ -64,7 +64,7 @@ I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
 不把相关性或 HSIC 下降直接称为因果或有害依赖。按真实 feature schema 分组，逐组报告 domain/task 条件结果。
 
 变体：
-1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层。
+1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层；matched control 使用相同数量的随机 feature-group assignment，作为 dependence-map readout 对照，不更新模型。
 2. M4-B conditional permutation intervention：在 domain × observed joint-label strata 内置换目标 feature group，比较 logit、pair margin、AUC 变化；这是依赖诊断，不是因果证明。
 3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization，配 matched sham control。
 4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
