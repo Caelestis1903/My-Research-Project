@@ -164,3 +164,27 @@ S3 通过后，Codex 必须先生成新算法 DESIGN_SPECIFICATION，定义可�
 - 不把六格、anchor、fork、sample panel 计为独立 seed。
 - 不将诊断 NO_GO 外推到整个机制家族。
 - 不修改基础协议，不提前解封 Test。
+
+
+## 12. S4 候选算法的冻结映射
+
+若 M1 通过 S2 且 S3，唯一允许自动晋级的算法候选为 CGPA（Consistency-Guided Private Adaptation）。其执行定义固定如下，不允许 Codex 自行变更：
+
+每个 training batch：
+1. 在当前 θ=(U,P) 上计算六个 cell 的 g_U,c 与自然联合 g_U,J；
+2. 计算 L_cons(P)；
+3. 冻结 U，仅对 P 执行一次 consistency Adam step，inner step 不更新 EMA；
+4. 在同一 batch、更新后的 P 上重算 canonical joint BCE；
+5. 执行一次标准 joint Adam step；
+6. 按原协议执行一次 EMA update。
+
+P consistency step 和 joint step 共用同一原生 Adam 状态；U 的梯度保持 None，因此 P-only step 不得改变 U 的参数或 Adam state。EMA 每个 batch 仍只 tick 一次，ρ 不变。
+
+正式对照：
+- CGPA；
+- P-BCE-prestep + joint update（相同两次 optimizer step、同 batch exposure）；
+- canonical joint-only baseline（报告真实训练预算差异，不假装 step-matched）。
+
+S3 只在 E25 anchor 做 5-epoch primary continuous run；E10/E40 结果作为 S1 阶段异质性，不触发额外短程网格。若 M1 未通过，CGPA 不运行，S4=NOT_TRIGGERED。
+
+M2 即使通过诊断，也不自动进入 S4。其局部 score 尚未建立稳定、低成本、可部署的全训练更新规则；若 M2 通过，应报告为机制证据并另行提出算法规格，不允许 Codex 临时把 score 接入训练。
