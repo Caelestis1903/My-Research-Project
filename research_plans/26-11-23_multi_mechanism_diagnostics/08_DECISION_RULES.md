@@ -1,83 +1,58 @@
-# 08 — 决策规则
+# 08 — 全候选决策规则
 
-## 1. 状态定义
+## 1. 核心原则
 
-- PASS：预注册阶段目标达到，证据与身份审计通过。
-- NO_GO：实验正常完成，但当前具体机制/动作在当前协议下未达到目标。
-- TECHNICAL_BLOCKED：代码、数据、资源、状态恢复或执行身份问题导致不能作科学判断。
-- INCONCLUSIVE：运行完成但关键支持、独立确认或统计信息不足。
-- NOT_TRIGGERED：预注册触发条件未满足，不执行后续阶段。
+M1–M8 全部执行。一个机制的 NO_GO 不得终止其他机制。S1/S2 不做 Top-K，不因筛选结果删减其他候选的 S3。所有可训练变体都执行短程轨迹；S4 对所有通过机制与短程门的变体执行，不设候选数量上限。
 
-## 2. M1 gate
+## 2. 状态
 
-S1 PASS 条件：
-1. P-consistency step 正确执行，U 参数和 U Adam state bitwise unchanged；
-2. L_cons 在至少 4/5 seeds、至少两个 anchors 下降；
-3. 相对 P-BCE 与 coordinate-shuffled control 的梯度一致性改善具有一致方向；
-4. V_A 上 pairwise correction 或六格 AUC 有正向关联，且无 cell mean < −0.001。
+- PASS：预注册目标达到，执行与身份审计通过。
+- NO_GO：实验正常完成，但该具体变体/动作在当前协议下未达到目标。
+- TECHNICAL_BLOCKED：代码、数据、资源、状态或算子不支持，无法作科学判断。
+- INCONCLUSIVE：运行完成但样本支持、独立 panel 或统计信息不足。
+- NOT_APPLICABLE：该变体所需字段/标签在该数据集真实不存在或不适用，必须提供证据。
+- NOT_TRIGGERED：仅用于预注册条件性附加读数；不得用于 M3 或 M1–M8 主家族跳过。
 
-S2 PASS 条件：
-1. V_B 上独立复现一致性改善；
-2. 预测排序收益不由单一 seed/anchor 驱动；
-3. 相对 P-BCE/coordinate-shuffled controls 的差异保持；
-4. 代理变化与实际排序响应方向一致。
+## 3. M1–M8 family-specific gates
 
-若 L_cons 改善但 AUC/pair correction 无响应，结论为 MECHANISM_PRESENT_NO_RANKING_TRANSLATION，当前方法 NO_GO，不否认梯度可塑现象。
+每个变体分别定义：
+1. action execution gate；
+2. target signal gate；
+3. matched-control contrast；
+4. V_A response；
+5. V_B independent response；
+6. S3 trajectory persistence；
+7. cell guard；
+8. computational cost。
 
-## 3. M2 gate
+具体指标按 02_MECHANISM_SELECTION_AND_HYPOTHESES.md 与 06_METRICS_AND_STATISTICS.md。不得把代理指标改善直接写成 AUC 算法收益。
 
-S1 PASS 条件：
-- task-specific score 对局部 pair-margin change 的预测优于 task-agnostic 与 shuffled controls；
-- 在至少 4/5 seeds 方向一致，且跨至少两个 anchors；
-- 不由 loss/gradient norm/label frequency 单一代理解释；
-- 有足够样本支持和稳定 score。
+## 4. S1/S2/S3 全量执行
 
-S2 PASS 条件：
-- V_B 独立确认排序响应；
-- 同一任务条件影响在两个数据集或同一数据集多个域任务单元中有可解释边界；
-- cell guard 通过。
+- S1：全部 2,130 slots。
+- S2：全部注册变体在 V_B 读取，不只确认 S1 阳性。
+- S3：所有可训练变体执行 5 epochs，不以 S1/S2 结果删减。
+- 某个变体 TECHNICAL_BLOCKED 时，只隔离该变体；其余变体继续。
+- 某个变体 NO_GO 时，仍保留结果并继续该 family 其他变体。
 
-若仅有梯度对齐相关而无排序预测，NO_GO 作为 AUC 方法。
+## 5. S4 完整算法晋级
 
-## 4. M3 gate
+所有满足以下条件的候选逐一晋级，不设 Top-K：
+- S2 上有独立、可解释的机制或预测响应；
+- S3 有持续、累积或明确阶段条件响应；
+- 相对匹配预算控制有可重复差异；
+- cell mean guard ≥ −0.001；
+- 机制动作可部署，复杂度和训练成本可接受；
+- 独立实现审查 PASS。
 
-仅当触发条件满足才运行。PASS 需要 interaction residual 在 V_B/独立 fork 中方向复现，且相对 A-only/B-only/A/A、B/B controls 有增量解释。否则 NO_GO 或 INCONCLUSIVE。不得扩展到全量样本对。
+正式训练 2 datasets × 5 seeds × 50 epochs。正式 AUC 门槛 +0.003。LogLoss 独立评价。Test 只在 freeze 后评价。
 
-## 5. M4/M5
+## 6. 特殊规则
 
-- M4 只有在具体字段/关系有可解释、可干预的任务条件错误依赖时，才建议形成独立设计。
-- M5 只有在字段级语义保持约束有明确来源时，才建议形成增强设计。
-- 缺少语义支持时 NO_GO，不得构造虚假反事实。
-
-## 6. S3 short trajectory
-
-PASS：
-- 5 epochs 连续动作保持预期机制读数；
-- 相对匹配预算控制不消失；
-- 至少 4/5 seeds 同方向；
-- 六格 cell guard 不破；
-- 不只是额外 optimizer steps 或样本暴露。
-
-初期负向后期正向或反之必须完整报告，不得只选 E5。
-
-## 7. S4
-
-只有 S3 PASS、算法规格冻结、独立 Reviewer PASS 才触发。正式 AUC mean gain ≥ +0.003、每 cell mean delta ≥ −0.001；LogLoss 单独评价。Test freeze 后只运行一次正式评价。没有新算法规格则 NOT_TRIGGERED。
-
-## 8. STOP 语义
-
-NO_GO 仅针对实际测试的动作和条件，不自动关闭 M1/M2/M3 整个研究家族。TECHNICAL_BLOCKED 不能写成科学失败；INCONCLUSIVE 不能写成成功或失败。
-
-
-## 9. CGPA full-training gate
-
-CGPA is eligible only if M1:
-- passes the S1 mechanism execution and signal checks;
-- independently passes S2 on V_B;
-- passes the 5-epoch S3 trajectory from E25;
-- retains gains against P-BCE-prestep budget control;
-- passes cell guard and has no evidence that the result is merely an extra-step effect.
-
-If eligible, run 2 datasets × 5 seeds × 50 epochs. Hyperparameter selection is light (consistency lr multiplier 0.1/0.3/1.0; inner steps fixed 1) and uses five-seed Validation aggregate. Freeze before Test. If CGPA does not exceed the matched P-BCE-prestep control and published baseline gates, do not claim algorithm gain.
-
-M2/M3 results do not automatically become full training algorithms. A separate explicit design amendment and reviewer approval is required.
+- M3 无论 M2 是否阳性都执行；其 group pair 包括 score-defined pair 和随机匹配 pair。
+- M4 不得将 dependence/HSIC 下降写成因果证明。
+- M5 不得将未经验证的字段替换写成语义合法；无效变换标记 NOT_APPLICABLE，但继续其余变换。
+- M7 五 seed 分布只描述本项目五条训练轨迹，不外推总体分布。
+- M8 的 PCGrad 是历史参考；其他冲突控制变体分别报告，不以 PCGrad 历史负结果排除整个 M8。
+- 小域不是困难域。
+- 固定 EMA 不重新证明。
