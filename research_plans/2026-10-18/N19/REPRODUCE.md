@@ -1,0 +1,140 @@
+# N19 reproduction and artifact layout
+
+Run from repository root on `codex/execute-n19-2026-10-18`. The archived
+source_start_utf8.md is a decoded copy of the GB18030 user entry file. The revised
+entry, DESIGN_SPECIFICATION and numbered addenda govern this stage. N18 remains
+in `research_plans/2026-10-18/execution/` with its original scope and results.
+
+Environment: ENVIRONMENT.json. Actual executable:
+`/home/xzf/miniconda3/envs/phase0-3-env/bin/python`. Full source-level data loading
+and split/preprocessing definitions are in stage_S1_data.py. N19 reuses the fixed
+seed2022 S1 populations from:
+
+```
+/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/local_cache/kuairand_2022.pkl
+/home/xzf/Code/phase0-3-20261016-v3-git/research_plans/2026-10-16_v3/execution_20261016/local_cache/movielens_2022.pkl
+```
+
+These caches are prerequisite local data, not downloaded by the training queue.
+See config.json/data_source for raw file identity, task definitions and frozen
+row-ID hashes. Native KR tab0/tab1/tab4 map to domain0/1/2. ML domains correspond
+to ages{1,18}/{25}/{35,45,50,56}; the intentionally imbalanced historical training
+population is34500/3000/150000 before common5% train-meta exclusion.
+
+An individual full run:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+/home/xzf/miniconda3/envs/phase0-3-env/bin/python -u experiments/n19_train.py \
+  --suite natural --dataset kuairand --method rank_protected --seed 2022 --device cuda:0
+```
+
+KR defaults50epochs/lr.003; ML100epochs/lr.001. Batch40960. A run refuses to
+overwrite an existing folder unless --resume is explicit. Resume restores last
+committed model/optimizers/random streams and truncates only uncommitted metric
+rows. No early stopping; selected checkpoint search is independent of budget.
+P3 rank selection is eligible from epoch10 only. --engineering truncates visits
+and produces a distinct receipt; never mix it with formal runs.
+
+Queue execution (do not launch a second queue over an active manifest):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 \
+/home/xzf/miniconda3/envs/phase0-3-env/bin/python -u experiments/n19_queue.py \
+  --manifest research_plans/2026-10-18/N19/queue_manifest.json
+```
+
+The queue reloads reviewed additions atomically, admits each GPU independently,
+and allows at most5 active jobs/device below90% device memory. A manifest with
+sealed=false intentionally remains alive after the pending tasks drain. Do not
+silently rerun failed tasks or remove negative seeds. Raw return codes, process
+IDs, device assignments and commands are preserved in queue events/status/logs.
+
+Development aggregation and stage analysis (read completed formal runs only):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 \
+/home/xzf/miniconda3/envs/phase0-3-env/bin/python experiments/n19_summarize.py --phase development
+PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=2 \
+/home/xzf/miniconda3/envs/phase0-3-env/bin/python experiments/n19_dynamics.py
+```
+
+Per-run files contain exact config, source_snapshot, all epoch trajectories,
+per-cell validation metrics, selected/final predictions, completion receipt and
+mechanism-specific diagnostics. Large full model/optimizer/random states reside
+in `/home_new/xzf_n19_artifacts/<run_id>/`; record-specific config states the path.
+Checkpoint names are selected.pt,last.pt and the declared stage snapshots.
+Physical active-factor exports are produced at frozen final evaluation. They
+do not replace the warmup supernet states required for exact resumption.
+
+Test evaluation requires a finalized TEST_FREEZE.json listing the allowed runs.
+Until all primary/alternative decisions and required extensions finish, this file
+must not be created. n19_evaluate.py performs no optimizer steps; it evaluates
+selected/final once, records cell metrics/mechanism diagnostics and a freeze hash.
+Then n19_summarize.py --phase test aggregates and n19_figures.py --phase test
+exports PNG/PDF figures. PROTOCOL_LIMITS.md applies to all interpretation.
+
+Completion and delivery status are recorded in EXECUTION_STATUS.json and the
+final report; this protocol does not itself infer effectiveness or novelty.
+
+P3 uses one alternate optimizer condition, --optimizer adamw, on
+fixed/rank_uniform/rank_protected/domain_codebook/cell_codebook for both native
+datasets, all4seeds and full budgets (20 KR+20 ML networks). Automatic suffix
+optimizer_adamw prevents mixing records. Default Adam is preserved. ADDENDUM_11
+records the inactivity trigger; ADDENDA_13/14 record the bounded transfer triggers.
+This is not a learning-rate/decay/rank optimizer grid.
+
+n19_rank_diagnostics.py reads fixed train-meta rows and saved epochs1/5/10,
+selected/final to measure finite slot removal and parameter norms (no optimizer).
+n19_routing_diagnostics.py reads actual effective routing logits, source weights
+and confidence from selected/final states without data/test forwards. Their
+CSV outputs are supplementary conditional mechanism evidence, not substitute
+training experiments or independent generalization observations.
+
+Pending MovieLens reliability/coalition/fixed-target runs were moved earlier in
+the scheduling order to expose short-cohort scientific results before the long
+matched KR optimizer cohort drains. Commands, seeds, budgets and already-running
+processes were unchanged; queue events preserve actual admission order. Scheduling
+is operational, not randomized causal timing, and wall costs remain concurrent.
+
+Final inventory fingerprints all local prediction arrays and saved checkpoint
+files with SHA256 and byte counts in LOCAL_PREDICTION_INDEX.csv and
+LOCAL_CHECKPOINT_INDEX.csv. It checks actual Git tracking for arrays; historical
+engineering arrays already tracked are distinguished from ignored formal arrays.
+Large model/optimizer states remain outside Git. Raw numeric evidence and exact
+per-run source snapshots stay in the execution branch. Per-task/cell human-readable
+tables are generated alongside numeric aggregate tables after summary collection.
+
+P5 n19_credit_diagnostics.py is the prespecified same-checkpoint supplement
+triggered by development-stage contradictions. It records finite individual and
+leave-one-source-out costs, local logit-coordinate derivatives and choices on
+disjoint fixed train-meta halves. Run after all five relevant routing methods
+finish to collect80 checkpoints/480cell records. No optimizer steps or test
+performance; its conditional choices are not independent training outcomes.
+
+After the primary completes DEVELOPMENT_DECISION_RECORD.md, commits all source
+and verifies every declared training budget, run n19_freeze.py once. It records
+TEST_FREEZE.json and atomically appends one selected/final readout job per formal
+network to the running queue, then seals the manifest. The immutable freeze lists
+all run IDs, selected epochs, receipt/config/selection hashes and source commit.
+Do not call it while any scientific continuation decision remains unresolved.
+The manifest thereafter contains training and evaluation jobs; count formal
+networks from training entries, not total queue jobs. n19_inventory.py --final
+creates the final training/test ledger and SHA256 indices of local arrays/states.
+
+After the sealed queue completes, final reporting commands (same environment
+variables as above) are n19_summarize.py --phase test; n19_tables.py --phase test;
+n19_figures.py --phase test; and n19_inventory.py --final. Development equivalents
+use --phase development. n19_dynamics.py, n19_rank_diagnostics.py,
+n19_routing_diagnostics.py, n19_credit_diagnostics.py and n19_channels.py read
+completed training records/checkpoints and regenerate the supplementary CSVs.
+Do not rerun training into existing formal directories to regenerate a report.
+
+Raw validation metrics preserve both selection/development halves at every
+epoch. Test metrics contain6 cells x2 predeclared checkpoints per network. The
+sampling aggregate additionally reuses4 native Adam full-label runs (not extra
+training); do not count those duplicated reference rows as more networks.
+The original learned-fusion Sample and literal two-optimizer repository protocol
+are distinct controls, not a claim of exact published M3OE reproduction.
+
+The mechanical inventory intentionally does not infer scientific completion. After final analysis the primary integrates SCIENTIFIC_DISPOSITIONS.json and marks the delivered inventory/execution status complete; rerunning the collector alone resets that analysis field to pending.
