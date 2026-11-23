@@ -7,18 +7,9 @@
 > **重要：本项目当前研究协议与上游 M3oE 不完全相同。V1/V2 有意移除原 M3oE 的可学习融合权重及 AutoML/DARTS 权重搜索/附加优化路径。此移除是后续实验的刻意控制条件，不是 bug、遗漏或需要恢复的功能。**
 
 
-## 2026-11-15 研究结论优先级（覆盖11/02旧摘要）
+## 研究上下文入口
 
-**本文件原有V1/V2、旧基线及实验约定主要属于历史架构和实现记录，不涵盖后续全部科研结论。** Codex开始规划、实现或评价新方法时，按顺序读取[最新AI上下文](EXP_AI_CONTEXT.md)、[全局研究结论](experiments/Experimental_Global_Summary.md)、[稳定事实](experiments/Experimental_Stable_Findings.md)、[开放问题](experiments/Experimental_Open_Questions.md)、[实验索引EXP061–EXP064](experiments/Experimental_Experiment_Index.md)、[证据E070–E078](experiments/Experimental_Evidence_Ledger.md)和[性能总台账](MDMT_ALGORITHM_METRICS_LEDGER.md)。10-26及更早的结论仍在各自条件下有效，不得因新分支而重新从零验证。
-
-- **固定EMA仍是强内部参照。** 11/10因果归因显示，当前M3oE fixed1设置下EMA收益主要由共享参数S承担，尤其是EMBED；非共享参数N删除效应接近零。近期与较早历史存在正交互，不能将收益简单归结为“只需要最近参数”或“全部参数等价”。
-- **11/09 EMA自适应A0没有产生可执行增量。** A0只复用既有轨迹做训练面板/验证侧诊断，没有新训练、完整模型Test或新独立seed；A1/B/C均未触发。不能把它写成完整自适应EMA算法的Test失败。
-- **11/09 PUB迁移当前版本不晋级。** P0/P1/P2在原始尺度、coupled-WD设置下均未胜A/F；C相对退化的同α G控制的差异不能替代与正常基线比较。WD=0后续矩阵仅为当时建议，不得写成已完成实验。
-- **11/10机制归因与11/11反馈实验必须联合阅读。** 同状态同范数的current-preconditioned单步干预有小幅局部正值，但六轮反馈A在MovieLens和KuaiRand均使F下降；不能把单步收益外推为持续训练收益。当前C类未来动作规则也未通过。
-- **11/11两态历史读出是有限候选，不是已接受的通用新算法。** MovieLens两态B相对F的Test AUC增量接近零，但LogLoss稳定下降；KuaiRand两态B诊断AUC约+0.000699、5/5正向，95%区间下界略低于零。冻结主候选B_SHARED未胜HyperGate。后续若继续，只应对固定两态B与F/B_SHARED做新的五seed判别，不扩成无边界超参搜索。
-- **AUC与LogLoss分别裁定。** 不用LogLoss改善替代AUC晋级，也不以AUC收益掩盖概率损失代价；正式基线仍限已发表模型，固定EMA及其他自研变体均为内部对照。
-- **研究边界固定：小域不是困难域。** 不得把域大小作为困难度代理，也不得设计实验或进行假设性分析来证明/否定这一结论；其他可直接观测变量应独立定义和讨论。
-- **本次合并只更新研究结论与上下文索引。** 原始报告、代码、训练工件、数据和研究计划继续保留在来源分支，不复制到main。
+研究规划与评价从 [实验索引](mdmt_research_context/01_AI_EXPERIMENT_INDEX.md) 开始。只有拟议干预重合或结论冲突时查阅相关详细章节。具体数值按索引指向的数据表复核。根目录 AGENTS.md 定义读取边界与现行协议。下文记录各历史实现版本。
 
 ---
 ## 0. Codex 最高优先级规则

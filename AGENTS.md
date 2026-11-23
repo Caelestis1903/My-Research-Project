@@ -1,3 +1,10 @@
+## MDMTRec 研究上下文
+
+- AI 从 [实验索引](mdmt_research_context/01_AI_EXPERIMENT_INDEX.md) 检查既有干预、对照与结论。只有发现新设计与既有结论矛盾，或干预重合需要对照具体方案时，才读取 [02_AI_EXPERIMENT_DETAILS.md](mdmt_research_context/02_AI_EXPERIMENT_DETAILS.md) 对应章节。
+- 数值核对使用 [数据对照与性能](mdmt_research_context/03_EXPERIMENT_RESULTS.md)。`mdmt_research_context/04_HUMAN_RESEARCH_REVIEW.md` 仅供人类阅读。AI 禁止获取或读取该路径，包含递归搜索、批量加载以及自动上下文注入。
+- 新结果用同一实验编号更新四个文件。先验收对应来源、分割、读出、seed、配对参照和六格，再更新索引结论。重复历史轨迹、派生评价和未运行阶段分开记。
+- 正式性能比较使用 seeds 2022–2026。小域不是困难域，禁止以域规模替代困难度或验证这一结论。
+
 ## Current user continuation instruction — 2026-11-17
 
 Finish Cycle04 in full, including analysis, report, review and publication/delivery. Then execute exactly one additional full research cycle (Cycle05), following DESIGN -> IMPLEMENT -> distinct REVIEW -> supervised current-conversation RUN -> ANALYZE -> report/review/publication. Stop after the Cycle05 report/delivery; do not start Cycle06. This latest instruction supersedes the earlier stop-after-Cycle04 paragraph below. Ponytail FULL and Stop That Shit CHANGE apply; fresh independent native children only, no reuse or independent/background AI.
@@ -90,12 +97,7 @@ return to CODER.
 
 Spawn `luna-runner`.
 
-Unless explicitly specified otherwise, experimental seeds are:
-
-2022
-2023
-2024
-2025
+For formal performance comparison, training seeds are 2022–2026. Use the approved design for any explicitly distinct historical or diagnostic protocol.
 
 Runner records raw results only.
 
@@ -110,7 +112,8 @@ The primary agent MUST NOT assume:
 - Curriculum Learning is effective.
 - Momentum mechanisms are effective.
 - M3OE necessarily fails on difficult domains.
-- Small domains are equivalent to difficult domains.
+
+Small domains are not difficult domains. Keep domain size and difficulty separate, and do not design experiments to test that distinction.
 
 The analysis must evaluate evidence independently.
 
