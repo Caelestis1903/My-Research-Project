@@ -67,7 +67,7 @@ M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 或所有 cell �
 5. 对 Train-only calibration positive-negative margin 计算 ∇_U m；
 6. s(i,t,c)=∇_U m_c · ΔU_i,t。
 
-正分数表示 row-task 对该更新的一阶预测提高该 margin。对 task/cell score 的聚合、权重、排序和 loss mass 规则必须逐一记录。M2-B 为每个 optimizer step 分别构造 task0/task1 row microbatch，按各自 task score 排序，在相同参数状态下计算两个 task gradients 后合并并执行一次 Adam step；每个 task 的 row 在 epoch 内恰好出现一次。M2 不得退化为 loss 或 gradient norm 排序。
+正分数表示 row-task 对该更新的一阶预测提高该 margin。对 task/cell score 的聚合、权重、排序和 loss mass 规则必须逐一记录。M2-B 为每个 optimizer step 分别构造 task0/task1 row microbatch，每个 task microbatch 大小为 canonical B；candidate 按 task score 排序，matched control 使用完全相同 row IDs 的自然顺序。两个 task gradients 在相同参数状态下按 1/2 权重合并并执行一次 Adam step；每个 task 的 row 在 epoch 内恰好出现一次。M2 不得退化为 loss 或 gradient norm 排序。
 
 ## 7. M3 implementation
 
