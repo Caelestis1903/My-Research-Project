@@ -15,7 +15,7 @@ L_cons(P) = Σ_c w_c [1 − (g_c·g_J)/(||g_c|| ||g_J|| + ε)]
 
 主诊断固定 w_c=1/6；natural traffic 权重仅作为描述性敏感度，不替代主定义。
 
-M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微分更新 P；随后在同样的训练预算下执行一次 joint update。比较 P-consistency、P-BCE、cell-index-shuffled consistency 与 joint baseline。
+M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微分更新 P；随后在同样的训练预算下执行一次 joint update。比较 P-consistency、P-BCE、coordinate-shuffled consistency 与 joint baseline。
 
 **区分性**：D2 只比较 P 范围、更新顺序和联合更新。M1 优化的是 P 对共享梯度几何的塑形目标，新增了 ConsMTL 类型的二阶机制，不是重做静态 U/P scope sweep。
 
@@ -28,7 +28,7 @@ M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微�
 控制：
 - joint baseline，两次 joint step；
 - P-BCE step + joint step（相同步数/额外计算对照）；
-- shuffled cell mapping + joint step；
+- within-tensor coordinate-shuffled consistency + joint step；
 - consistency-only（只测直接 P output response，不参与预算主比较）。
 
 ### M2：样本×任务条件影响（主诊断候选）
