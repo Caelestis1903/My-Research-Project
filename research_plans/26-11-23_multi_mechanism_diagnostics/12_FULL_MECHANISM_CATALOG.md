@@ -1,6 +1,6 @@
 # 12 — 全候选机制目录与运行注册
 
-本文件作为 VARIANT_REGISTER 的静态设计来源。Codex 必须将下列每个 ID 展开为 dataset × seed × anchor × arm 的任务记录。
+本文件作为 VARIANT_REGISTER 的静态设计来源。Codex 必须将下列每个 ID 展开为 dataset × seed × anchor × arm 的任务记录。S3 每个 trainable variant 使用三点轻量超参网格，具体值见 02_MECHANISM_SELECTION_AND_HYPOTHESES.md 的超参表。
 
 ## M1 — Private-gradient shaping
 - M1-A COSINE_CONSISTENCY
