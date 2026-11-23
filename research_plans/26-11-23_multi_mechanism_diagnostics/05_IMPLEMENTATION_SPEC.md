@@ -157,3 +157,33 @@ Before any S1 baseline training, independent Reviewer must PASS:
 - resource smoke.
 
 A failed review blocks run. Coder self-review is not independent review.
+
+
+## 10. 条件性 CGPA trainer
+
+新增 cgpa_train.py，仅当 M1 S2/S3 PASS 后启用。
+
+~~~python
+for batch in train_loader:
+    # step 1: P consistency adaptation
+    freeze_update(U)                 # U remains in graph as differentiation target
+    cell_grads = per_cell_grad_U(create_graph=True)
+    joint_grad = joint_grad_U(create_graph=True)
+    loss_cons = consistency_objective(cell_grads, joint_grad)
+    optimizer.zero_grad(set_to_none=True)
+    loss_cons.backward()
+    assert all(p.grad is None for p in U)
+    optimizer.step()                 # P state only
+
+    # step 2: canonical joint training
+    unfreeze_all()
+    optimizer.zero_grad(set_to_none=True)
+    joint_bce(batch).backward()
+    optimizer.step()
+
+    ema.update_once()                # one tick per batch, unchanged rho
+~~~
+
+Implementation must prove U tensor and U Adam state unchanged after step 1; P m/v/step changes as expected; EMA tick count increments exactly once per batch. P-BCE-prestep control uses the same two-step sequence but replaces loss_cons with private BCE. CGPA and control share batch IDs and initialization.
+
+Do not update EMA after the private inner step. Do not change rho, batch size, loss reduction, or optimizer configuration. This candidate is not a direct implementation of ConsMTL's full bilevel method; report the exact local consistency objective and its computational cost without claiming theoretical equivalence.
