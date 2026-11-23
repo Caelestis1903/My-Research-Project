@@ -29,6 +29,36 @@ AUC 差按候选减对照，正为改善；LogLoss 差负为改善。历史协�
 
 [main_table.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/main_table.csv) · [endpoints.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/endpoints.csv) · [paired_summary.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/paired_summary.csv) · [paired_seed.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/paired_seed.csv) · [S5_REPORT.json](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/S5_REPORT.json) · [costs.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5/costs.csv)
 
+## EXP072 · HAT 原始五 seed 先导
+
+自然 ML/KR，2×6×5 条 50 epoch；selected Validation fixed-EMA 差相对 CLEAN。95% t 区间按种子配对；Test、HPO 与条件消融均未触发。
+
+| 数据 | 方法 | ΔMacro AUC | 配对 SD | 95% CI | ΔMacro LL | d0t0 | d0t1 | d1t0 | d1t1 | d2t0 | d2t1 |
+| --- | --- | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ML | DT-PGNA | −.001436 | .000402 | [−.001935,−.000937] | +.004009 | −.000623 | +.000338 | −.002876 | −.001174 | −.000779 | −.003505 |
+| ML | TGA-Pair | −.001353 | .000445 | [−.001906,−.000801] | +.003422 | −.000062 | −.000200 | −.002715 | −.001542 | −.000700 | −.002900 |
+| ML | TGA-Example | −.001643 | .000522 | [−.002291,−.000995] | −.004180 | −.001622 | −.000690 | −.003026 | −.001289 | −.000537 | −.002695 |
+| KR | DT-PGNA | −.022282 | .004103 | [−.027377,−.017188] | +.079627 | −.024104 | −.025496 | −.031235 | −.031870 | −.010357 | −.010632 |
+| KR | TGA-Pair | −.021557 | .003091 | [−.025395,−.017719] | +.080400 | −.021051 | −.023004 | −.029885 | −.030579 | −.010304 | −.014519 |
+| KR | TGA-Example | −.009188 | .006410 | [−.017147,−.001229] | +.002748 | −.009148 | −.007066 | −.017193 | −.017861 | −.000264 | −.003596 |
+
+六行的 AUC 正向种子均为 0/5。CLEAN 的 ML/KR Macro AUC 为 .759768/.691098，Macro LL 为 .524690/.428640。全部六臂、逐种子、六格双指标、Traffic、Pooled、online、EMA 与阶段表在下方数据目录中。
+
+## EXP081 · RCF-v1 与独立 SCALE
+
+主 RCF 对 H_DIRECT/POOLED/LOCAL 的 Q 结果为 5201–5204 训练 seed。冻结历史 Test 按原协议展示，S4 未触发。SCALE 为另外四个训练 seed 2022–2025；其人口与主 RCF 按各自表解释。
+
+| 设计与端点 | 比较 | ML ΔAUC / ΔLL | KR ΔAUC / ΔLL |
+| --- | --- | --- | --- |
+| RCF Q | RCF − H_DIRECT | −.00051304 / +.00024518 | +.01119579 / −.00304660 |
+| RCF Q | RCF − POOLED_TARGET | −.00000381 / −.00002949 | +.00111838 / −.00033626 |
+| RCF Q | RCF − LOCAL_ACTIVE | +.00005739 / −.00010966 | +.00097558 / −.00026485 |
+| 冻结历史 Test | RCF − H_DIRECT | +.00010003 / −.00186226 | +.00676605 / −.00383557 |
+| 冻结历史 Test | RCF − NATIVE | +.00271030 / −.00900884 | −.00750254 / +.00377258 |
+| 独立 SCALE 暴露 Test | Dconst01_NO_AUG − B | +.00404890 / −.00924025 | +.00758835 / −.00655322 |
+
+KR RCF−H_DIRECT 冻结 Test 的自然样本 LL +.00195334（4/4 恶化），Macro LL −.00383557（4/4 改善）；SCALE KR 的同一对照在 Traffic cell AUC / Pooled AUC 为 −.00451560/−.00445033。细分数表包含全部六格、配对区间、角色、预算、推理与训练成本。
+
 ## 原始数据与对照表目录
 
 逐种子、六格、阶段、曝光与成本的高维表通过冻结路径索引。数值归属以各臂的 run/receipt 与选点字段为准。归档分支的结果访问固定提交；同一历史 CSV 或同轨迹读出只索引一次。
@@ -79,6 +109,8 @@ AUC 差按候选减对照，正为改善；LogLoss 差负为改善。历史协�
 | EXP078 | [报告及其证据链接](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117/REPORT.md) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117) · [分片/原始表映射](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117/DATA_AVAILABILITY.md) · [ALL_PAIRED_SUMMARY.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117/ALL_PAIRED_SUMMARY.csv) · [NUMERICAL_APPENDIX.md](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117/NUMERICAL_APPENDIX.md) |
 | EXP079 | [报告及其证据链接](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/cell_mass_bce_20261117/REPORT.md) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/cell_mass_bce_20261117) · [分片/原始表映射](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/cell_mass_bce_20261117/DATA_AVAILABILITY.md) · [SELECTED_PAIRED_SUMMARY.csv](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/cell_mass_bce_20261117/SELECTED_PAIRED_SUMMARY.csv) · [NUMERICAL_APPENDIX.md](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/cell_mass_bce_20261117/NUMERICAL_APPENDIX.md) |
 | EXP080 | [报告及其证据链接](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/conditional_history_shared_update_20261122) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/conditional_history_shared_update_20261122/S5) |
+| EXP072 | [RESULT_TABLES.md](https://github.com/Caelestis1903/My-Research-Project/blob/52b48c9aab066d56fa91a060864c7c9abf12e50c/research_reports/2026-11-15_heterogeneity_aware/RESULT_TABLES.md) · [NUMERICAL_APPENDIX.md](https://github.com/Caelestis1903/My-Research-Project/blob/52b48c9aab066d56fa91a060864c7c9abf12e50c/research_reports/2026-11-15_heterogeneity_aware/NUMERICAL_APPENDIX.md) · [PRIMARY_PAIRED_COMPARISONS.csv](https://github.com/Caelestis1903/My-Research-Project/blob/52b48c9aab066d56fa91a060864c7c9abf12e50c/research_reports/2026-11-15_heterogeneity_aware/tables/PRIMARY_PAIRED_COMPARISONS.csv) · [ENDPOINTS.csv](https://github.com/Caelestis1903/My-Research-Project/blob/52b48c9aab066d56fa91a060864c7c9abf12e50c/artifacts/heterogeneity_aware_20261115/attempt1/tables/ENDPOINTS.csv) · [PAIRED_SUMMARY.csv](https://github.com/Caelestis1903/My-Research-Project/blob/52b48c9aab066d56fa91a060864c7c9abf12e50c/artifacts/heterogeneity_aware_20261115/attempt1/tables/PAIRED_SUMMARY.csv) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/52b48c9aab066d56fa91a060864c7c9abf12e50c/artifacts/heterogeneity_aware_20261115/attempt1/tables) |
+| EXP081 | [ARTIFACT_INDEX.json](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/ARTIFACT_INDEX.json) · [S1_Q_four_seed_six_cells.csv](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables/S1_Q_four_seed_six_cells.csv) · [S2_Q_four_seed_paired_summary.csv](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables/S2_Q_four_seed_paired_summary.csv) · [S3_Q_four_seed_paired_summary.csv](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables/S3_Q_four_seed_paired_summary.csv) · [SCALE_four_seed_metrics_long.csv](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables/SCALE_four_seed_metrics_long.csv) · [SCALE_four_seed_paired_summary.csv](https://github.com/Caelestis1903/My-Research-Project/blob/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables/SCALE_four_seed_paired_summary.csv) · [原始目录](https://github.com/Caelestis1903/My-Research-Project/tree/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8/research_reports/2026-10-26_v2/tables) |
 
 ## 历次性能数表
 

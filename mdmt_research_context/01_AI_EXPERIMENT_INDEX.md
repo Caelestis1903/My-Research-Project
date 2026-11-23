@@ -47,9 +47,11 @@
 | [EXP069](02_AI_EXPERIMENT_DETAILS.md#exp069) | Gaussian D0/D2/D02，同协议五 seed | KR Macro AUC 优先 D0、LL 优先 D2，D02 降 AUC；ML D0 Test .779357，较 M3oE +.004167。 |
 | [EXP070](02_AI_EXPERIMENT_DETAILS.md#exp070) | EMA 方向响应、路径分组时间尺度、漂移协方差增强 | 三类未稳定超过固定 EMA；保留局部交换与数据集条件。 |
 | [EXP071](02_AI_EXPERIMENT_DETAILS.md#exp071) | EMA 年龄匹配、排序稳定性、常驻时间尺度、收益预测和 Gaussian 交互 | 超年龄匹配成立；更稳定或可预测与更高 AUC 是不同终点；常驻时间交叉仅在 KR Gaussian 条件成立。 |
+| [EXP072](02_AI_EXPERIMENT_DETAILS.md#exp072) | DT-PGNA/TGA，非目标梯度投影、pair/example 支持与随机控制，60 条五 seed | 投影确实限制漂移；A/B/C 对 clean EMA 两数据全 0/5 正，ML C 的 LL 改善；仅 Validation。 |
 | [EXP073](02_AI_EXPERIMENT_DETAILS.md#exp073) | 保持辅助质量的零扰动；自然质量自身任务视图 NDP-A | 零扰动复现主要退化；NDP-A 修正后 ML/KR selected EMA ΔAUC −.000101/−.005775；继续比较目标组成与阶段，勿重做零扰动。 |
 | [EXP074](02_AI_EXPERIMENT_DETAILS.md#exp074) | TV-GRM 残差历史、shuffle、instant、γ 跨阶段 | 未形成续跑信号；ML γ=.20 保留弱正均值及一致 LL 方向；KR 优于 NDP-A 的局部改进未超过 clean。 |
 | [EXP075](02_AI_EXPERIMENT_DETAILS.md#exp075) | AXIS-EVEN、IID2、匹配 isotropic 视图 | 额外轴向结构未改善 selected；KR IID2 有弱反例，均值机制与噪声路径仍可区分。 |
 | [EXP076–077](02_AI_EXPERIMENT_DETAILS.md#exp076-077) | NQR/Brier/mean-gap；相同剂量 EARLY10/LATE10 | NQR 两数据 selected EMA AUC 非正；ML 早期正但选点负，关闭后 LL 改善未恢复排序。 |
 | [EXP078–079](02_AI_EXPERIMENT_DETAILS.md#exp078-079) | 完成权重 W/总质量 S；移除格内类别异质性 U | W 在 KR 保留 LL 改善且 d2 AUC 正，d0t0 破保护；U 两数据 AUC 均值非正，格质量单独未产生稳定排序增量。 |
 | [EXP080](02_AI_EXPERIMENT_DETAILS.md#exp080) | A20/A21 条件/简单历史、匹配剂量和定位；B 真实/伪源脉冲 | A21 Test 对匹配 PAIR ML −.000083、KR +.004062，两数据未达最终资格；B 未获持续信号。Gaussian 同身份失败，技术暂停。 |
+| [EXP081](02_AI_EXPERIMENT_DETAILS.md#exp081) | RCF 强直接头/同容量本地及池化对照、函数形成；独立 SCALE | 原旧索引的 DESIGN_ONLY 已过时。ML 简单读出足够，KR 局部修复弱头但未超强 NATIVE，S4 未触发；独立 SCALE 将部分收益定位到简单损失缩放。 |

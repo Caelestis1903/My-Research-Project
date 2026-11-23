@@ -142,6 +142,9 @@
 
 **EMA_MECHANISM。** 自然两数据、Clean/Gaussian；固定 EMA 对照同轨迹年龄匹配 online 与预测稳定性。配对证据支持 fixed EMA 的 selected 排序收益超过纯年龄匹配；早期学习滞后与后期平滑并存。降低排序变化率未建立充分收益。常驻分组交叉仅在 KR Gaussian 成立。复杂收益预测可提高预测准确度，动作比较未增加稳健排序；Gaussian×EMA 交互随阶段/选点改变。
 
+## EXP072
+
+**HAT，DT-PGNA / TGA-Pair / TGA-Example。** 2 数据×6 臂×5 seed，60×50 epoch；A/B 取各格至多 128 同域正负对，C 按同规模抽自然标签 example；共同目标 `L_clean+.25 L_aug`，PAIR 的 `L_aug=mean_pairs(BCE_pos+BCE_neg)`。A 对非目标 logit 梯度作正交投影，半径 .03 RMS(e)，有 margin cap 与实际非目标漂移 ≤.001；B 去掉投影和实际约束；RANDOM、GAUSSIAN 沿 A 支持与半径改方向，C 无配对/margin cap。敏感度探针恢复 gate 输入导数，生成 δ 后 detach；训练保留原模型路径。A 平均 drift ML/KR .000009/.000015，相比 B .016546/.014192，确有投影作用。A/B/C 对 clean EMA 在每数据均 0/5 seed AUC 正向。ML C LL −.004180、五 seed 同向；KR C 胜通用随机/高斯，但对 clean AUC −.009188。KR A/B E1–10 +.013854/+.013042，中晚期反号。ML A/B 晚期微正而各自 selected 负。matched-norm B_MATCH、HPO 和 Test 均未触发。后续零扰动归因见 EXP073。
 
 ## EXP073
 
@@ -185,6 +188,11 @@
 
 **共享更新 B。** 10 条 clean 重放，40 个真实 Adam 锚点，虚拟 JOINT 与真实同状态更新身份逐项相合；2080 虚拟 Adam/720 来源梯度，对等尺度、动态/固定源、伪源及 NO_ACTION。40 脉冲槽含 7 NO_ACTION，1120 个实际反事实续步。KR online 动态相对 JOINT +.0000063、相对等预算伪源 −.0000562；ML 对 JOINT −.0000690；晚期留出两数据动态均低于固定留一 seed 来源。B_SEARCH 关闭，AB 未触发。共同冻结 S5 有 90 端点（58 个登记历史值/32 个新 Test 评价）。10 条计划 Gaussian 训练未派发：既有批级 GA31-R3 与任务要求按行键的 EMA02 不同，ML 仅两种子身份一致、KR 为零。52 科学轨迹与 10 clean 重放分列。
 
+## EXP081
+
+**RCF-v1 及独立 SCALE，执行版。** 旧设计索引标为 DESIGN_ONLY，后续分支已完成。RCF 对 NATIVE、H_DIRECT、固定概率读出、等监督本地/池化和随机特征，分开比较强目标后的来源增量与后继函数形成。ML/KR seeds 5201–5204；104 S1、24 S2、8 KR S3 方法完成收据。6201–6204 独立锁定种子未开；S4 两数据 NO_START。Q 上 RCF−H 的 AUC/LL ML −.00051304/+.00024518、KR +.01119579/−.00304660，但 KR 不胜 NATIVE，且普通本地/池化强对照的 LL 幅度或方向不满足门。KR 对重训 K1_WIDE 在 Q 的 AUC/LL +.00172312/−.00060349（4/4，区间跨零），不足以取代强参照。ML 历史暴露 Test 对 H 的 LL −.00186226（4/4）且 AUC +.00010003（3/4），在 legacy 反号，POOLED/LOCAL 接近；KR Test 对 NATIVE AUC −.00750254。ML SIMPLE_READER_SUFFICIENT；KR ORDINARY_ANCHORED_FINETUNING，保留 TARGET_REFITTING_EXPLANATION。P_form 与 OOF/refit 背景不同，KR Q 上出现 source LL 预算超界，训练约束与分布外保留分别裁定。
+
+SCALE 独立使用 seeds 2022–2025，八条训练。冷/对应热 Adam 严格匹配 `cL,wd,eps ≍ L,wd/c,eps/c`，因而常数损失尺度效应包含有效 WD/eps 改变。历史暴露 Test 下 Dconst01_NO_AUG−B 的 Macro AUC/LL 为 ML +.00404890/−.00924025、KR +.00758835/−.00655322；KR 流量格 AUC −.00451560、pooled −.00445033，最大域 AUC −.00486585。主 RCF 与 SCALE 有不同设计和参照。当前停止扩展 RCF，保留强简单读出及有限阳性。
 
 ## 历史交接摘录
 
@@ -4127,6 +4135,62 @@ N17 **120 条新的 H100 训练轨迹（48 tuning +72 formal）全部完成**，
 2. [Stable Findings](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Stable_Findings.md)、[Contradiction Register](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Contradiction_Register.md)、[Hypothesis History](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Hypothesis_History.md)、[Open Questions](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Open_Questions.md)、[Dead Ends](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Dead_Ends.md)保留历史编号并标出后期限制。
 3. [2026-10-18旧综合](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Branch_Synthesis_20261018.md)及[旧Q1–Q53](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Question_Disposition_20261018.json)是日期固定的历史记录。新证据不可回填改写它们。
 4. 全部阶段原文、不同实验分支的代码与表格在 [history_experiments](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/README.md)中；归档内容和各阶段原始报告不做编辑。
+
+## 研究分支覆盖复审
+
+下列为迁移前远端可见的 47 个非 main 分支。按各分支头和结果目录核对；超过比较接口文件上限的分支补查研究报告/方案树。表中 Git 状态描述提交关系，科学状态描述能够用于设计的实际证据。继承的报告、重放、相同数据的再分析不重复计数。旧归档结果保留原协议。
+
+| 原分支 | 与迁移前 main 的关系 | 结果在上下文中的位置 |
+| --- | --- | --- |
+| [`10-24`](https://github.com/Caelestis1903/My-Research-Project/tree/b64b29222fcd36ca8ecbb323ccb127f7da1ccd57) | 分叉 | EXP048 |
+| [`2026-10-25_15-56-04`](https://github.com/Caelestis1903/My-Research-Project/tree/8a4b3b296ca5dc7349956fae9eca5e202aefe2c0) | 分叉 | EXP048–050 |
+| [`26-10-25`](https://github.com/Caelestis1903/My-Research-Project/tree/619371d9c4d57f6f0b3e8a71b686498f9e5f36d4) | 分叉 | EXP048–049 |
+| [`26-10-26`](https://github.com/Caelestis1903/My-Research-Project/tree/dc32f60a6aafce98a25838a485e02cead5425fc6) | 已在 main 历史 | EXP051 |
+| [`26-10-27`](https://github.com/Caelestis1903/My-Research-Project/tree/03c338092008a71b2d360a61b06d985eac551ec7) | 分叉 | EXP052 |
+| [`26-10-28`](https://github.com/Caelestis1903/My-Research-Project/tree/97151c74544c3651feb805d1898bc9ce1b8d12d3) | 分叉 | EXP052–053 |
+| [`26-10-31`](https://github.com/Caelestis1903/My-Research-Project/tree/ee6e81fdfd37284e6447e8149cb93d04736dba02) | 分叉 | EXP055 |
+| [`26-11-01`](https://github.com/Caelestis1903/My-Research-Project/tree/a6f496b54f467cdf7b814b6bb8defdbdd457bc38) | 分叉 | EXP056 |
+| [`26-11-01_v2`](https://github.com/Caelestis1903/My-Research-Project/tree/ee4cf0512a7723624c9ee6a1ef192f0f7f17686b) | 分叉 | EXP057 |
+| [`26-11-01_v3`](https://github.com/Caelestis1903/My-Research-Project/tree/6f5742c2085c1e49d1767b0a7079bb9f28160eda) | 分叉 | EXP057–058 |
+| [`26-11-02`](https://github.com/Caelestis1903/My-Research-Project/tree/e59efa2fd954c4d2231b679a742406cfbe2a1077) | 分叉 | EXP057–059 |
+| [`26-11-02_v2`](https://github.com/Caelestis1903/My-Research-Project/tree/38a53bc1aa6e0c16c0b6d2b0e24e07018f91ab27) | 分叉 | EXP060 |
+| [`26-11-02_v3`](https://github.com/Caelestis1903/My-Research-Project/tree/a06f9d3e544a8658b2d24ddc8f7d10d3f20f0288) | 分叉 | EXP065 |
+| [`26-11-03_history_information`](https://github.com/Caelestis1903/My-Research-Project/tree/f9c2a8ef7b29b899e63b1beba823df1b6ea22c72) | 分叉 | EXP066 |
+| [`26-11-06`](https://github.com/Caelestis1903/My-Research-Project/tree/40705dfe0bb4fe614bdca835c0bae567348c87d0) | 分叉 | EXP068–070 |
+| [`26-11-07`](https://github.com/Caelestis1903/My-Research-Project/tree/ffa3de067fcda5a1293af83a465d741e069493f1) | 分叉 | EXP068–071 |
+| [`26-11-09`](https://github.com/Caelestis1903/My-Research-Project/tree/1391affa5f08556c79b4cb2bfad15228a8b9129f) | 分叉 | EXP061、EXP068–071 |
+| [`26-11-09_v2`](https://github.com/Caelestis1903/My-Research-Project/tree/a5f461de714232a416a2e95ca6fdc57fa7ce7ae8) | 分叉 | EXP062 |
+| [`26-11-11`](https://github.com/Caelestis1903/My-Research-Project/tree/fb120946c50519ea3993bbd6a2532a2c457731fc) | 分叉 | EXP063–064 |
+| [`26-11-15`](https://github.com/Caelestis1903/My-Research-Project/tree/52b48c9aab066d56fa91a060864c7c9abf12e50c) | 分叉 | EXP072 正式登记原始 HAT 六臂；旧 NDP-A 已引用它，逐 seed/六格证据补入 |
+| [`26-11-23`](https://github.com/Caelestis1903/My-Research-Project/tree/9df48737dd6693f892b85db2344cdee76fb05d6f) | 同一提交 | EXP080 |
+| [`baseline/mdmt-sota-2526`](https://github.com/Caelestis1903/My-Research-Project/tree/d2fdd272a2cdf7da626e29b97f61555d25271f89) | 分叉 | EXP052–054 |
+| [`codex/2026-10-16-v2-research-plan`](https://github.com/Caelestis1903/My-Research-Project/tree/04ea96173b6302f5a4d7fd436add644b57629e7c) | 分叉 | v2 方案，该分支增量无独立性能结果 |
+| [`codex/add-mdmt-frontier-plan-2026-10-18`](https://github.com/Caelestis1903/My-Research-Project/tree/9f6d89683b4a96d3b9cc5e493f8eadf325aa65df) | 分叉 | 研究前沿计划，该分支增量无独立性能结果 |
+| [`codex/add-research-plans-2026-10-17`](https://github.com/Caelestis1903/My-Research-Project/tree/7a7cf54313ea41bb40f4099e16b60e0d4d777999) | 分叉 | 已归档前序证据的分析与后续计划，该分支增量无独立性能结果 |
+| [`codex/conditional-paths-2026-10-19`](https://github.com/Caelestis1903/My-Research-Project/tree/eab817b3de626caee9ee9aeb1db4dd9aa3ef9e4c) | 分叉 | EXP045 |
+| [`codex/execute-2026-10-15`](https://github.com/Caelestis1903/My-Research-Project/tree/b17cb2707fc2448f09f21fd12279b2b3856c7756) | 分叉 | EXP033–034 |
+| [`codex/execute-2026-10-16`](https://github.com/Caelestis1903/My-Research-Project/tree/aa39e7b27285985bae9fa9a093f16c6d9634989b) | 分叉 | EXP033–035 |
+| [`codex/execute-2026-10-16-v2`](https://github.com/Caelestis1903/My-Research-Project/tree/c31b531e210daab4cbfb2e53eaa44c22b913264b) | 分叉 | EXP033–036 |
+| [`codex/execute-2026-10-16-v3`](https://github.com/Caelestis1903/My-Research-Project/tree/2d04c6de6c925eca8563f81b66af3f0e95f99183) | 分叉 | EXP037 |
+| [`codex/execute-2026-10-17-run`](https://github.com/Caelestis1903/My-Research-Project/tree/5550afbc57f76e0b94c5783db16f4c1796933541) | 分叉 | EXP037–042 |
+| [`codex/execute-2026-10-18`](https://github.com/Caelestis1903/My-Research-Project/tree/14cf09a3865303f5e451636dc6407fd0e2cc1b8c) | 分叉 | EXP043 |
+| [`codex/execute-n19-2026-10-18`](https://github.com/Caelestis1903/My-Research-Project/tree/c440350681a7a3e41ab3f05eb1c4d31f419b989f) | 分叉 | EXP043–044 |
+| [`codex/m3oe-reproduction-2026-10-21`](https://github.com/Caelestis1903/My-Research-Project/tree/c5618e281785a4b7063ff9bf2a61cf38d4faf1be) | 分叉 | EXP047 |
+| [`codex/natural-movielens-reassessment-2026-10-20`](https://github.com/Caelestis1903/My-Research-Project/tree/f0b1084b7bcbde5a6c6cb6210c4ef7511bcfff8e) | 分叉 | EXP046（已完成部分；自然 transfer 未闭环） |
+| [`codex/research-plan-2026-10-16-v3`](https://github.com/Caelestis1903/My-Research-Project/tree/0698fe31ea752811b1d71f0f2bb343679d9a5685) | 分叉 | V0–V13 方案，该分支增量无独立性能结果 |
+| [`docs/mdmt-ap-codex-plan-20261027`](https://github.com/Caelestis1903/My-Research-Project/tree/b176d6aa6618a51f2e615aeb9d1981fec9fd820b) | 已在 main 历史 | MDMT-AP 方案，该分支增量无独立性能结果 |
+| [`planning/ga31-v2-reassessment`](https://github.com/Caelestis1903/My-Research-Project/tree/d857e4cba05d1c64976cfb88668418448d78a22a) | 分叉 | GA31 再评估方案，该分支增量无独立性能结果 |
+| [`research-plan/2026-10-19-modulation-path-generalization`](https://github.com/Caelestis1903/My-Research-Project/tree/3bd84f10971791a264e598bcb4b8114aea28bbe7) | 分叉 | 共享调制方案，该分支增量无独立性能结果 |
+| [`research-plan/2026-10-26-v2-mechanisms`](https://github.com/Caelestis1903/My-Research-Project/tree/e9e14ab9643131dc30292e8f28bcc12f0a4c4be8) | 分叉 | EXP081 补入实际执行的 RCF 与 SCALE；取代旧索引 DESIGN_ONLY 状态 |
+| [`research-plan/26-10-27-v2`](https://github.com/Caelestis1903/My-Research-Project/tree/ed94caa82761d4b9e1ddb8c5cda454e75e6eeed3) | 分叉 | Relation-Basis 实施方案，该分支增量无独立性能结果 |
+| [`research-plan/26-11-03-mdmt-history-information`](https://github.com/Caelestis1903/My-Research-Project/tree/75f698d1aff221adee2b6c2d0a9e59ba9c1c7e64) | 已在 main 历史 | 条件信息和历史方案，该分支增量无独立性能结果 |
+| [`research-plan/26-11-03-overnight-ab-auc`](https://github.com/Caelestis1903/My-Research-Project/tree/9e682f3e3f608c7d63c2e9306b8657b16d822541) | 分叉 | EXP068 |
+| [`research-plan/26-11-2-v3-conditional-information-momentum`](https://github.com/Caelestis1903/My-Research-Project/tree/2c4ab338798e4bd98d3263bfd719b14345edc27e) | 已在 main 历史 | PAIR/ECCM 方案，该分支增量无独立性能结果 |
+| [`research/26-11-01-gradient-augmentation-momentum-plan`](https://github.com/Caelestis1903/My-Research-Project/tree/f2444e72f93a1955a3dfb066801473855890ac65) | 分叉 | 梯度增强与动量方案，该分支增量无独立性能结果 |
+| [`research/26-11-04-gaussian-domain-coverage`](https://github.com/Caelestis1903/My-Research-Project/tree/c8675ae2923c15b6965884b140b5b646690cd95e) | 分叉 | EXP068–069 |
+| [`review/ga31-r3-codex-ready-20261031`](https://github.com/Caelestis1903/My-Research-Project/tree/2f5f30589da9e91bd0396b029984cf50c14f4401) | 已在 main 历史 | GA31 审查分支，该分支增量无独立性能结果 |
+
+RCF 的冻结效果、作用域和移交见 [EXP081](#exp081)。早期分析中的 DESIGN_ONLY 描述的是当时快照。HAT 的实际六臂先导及对照见 [EXP072](#exp072)。
 
 ## 迁移复审与旧路径索引
 
