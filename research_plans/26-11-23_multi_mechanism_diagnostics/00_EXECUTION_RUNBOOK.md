@@ -83,7 +83,7 @@ Train-only calibration panel 与训练优化 batch 不重叠。M2/M7 的样本�
 
 ### 6.3 全量执行规则
 
-执行 04_EXPERIMENT_MATRIX.md 中的全部 2,130 个局部 fork slots。M1–M8 不按结果触发；M3 永远运行；五组交互永远运行。各 arm 从相同 anchor 状态克隆，保留完整状态和 action receipt。
+执行 04_EXPERIMENT_MATRIX.md 中的全部 2,190 个局部 fork slots。M1–M8 不按结果触发；M3 永远运行；五组交互永远运行。各 arm 从相同 anchor 状态克隆，保留完整状态和 action receipt。
 
 M1 的二阶图、M2 的逐样本虚拟 Adam 等高成本操作可以按 anchor 分批、按 cell 顺序计算，但不得通过降低精度、缩小 batch 或改用一阶代理改变机制定义。
 
