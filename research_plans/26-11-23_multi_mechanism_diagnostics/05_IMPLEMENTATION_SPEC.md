@@ -53,7 +53,7 @@ def analyze_all_registered_variants(manifest, receipts) -> DecisionLedger: ...
 
 每个 variant 计算六格 g_U,c 与 natural joint g_U,J，构造对应 differentiable objective。通过 create_graph=True 计算 ∇_P L_cons。U 保持可微；backward 后 U.grad=None，再执行 native Adam step。随后按该 arm 定义执行同 batch joint update。记录 gradient geometry、P/U displacement、Adam state transitions 和 pair-margin responses。
 
-M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 作为 control；必须使用 within-tensor coordinate-shuffled control。
+M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 或所有 cell 共用同一坐标 permutation 作为 control；必须对每个 cell 独立执行 within-tensor coordinate-shuffled control。
 
 ## 6. M2 implementation
 
@@ -65,11 +65,11 @@ M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 作为 control�
 5. 对 Train-only calibration positive-negative margin 计算 ∇_U m；
 6. s(i,t,c)=∇_U m_c · ΔU_i,t。
 
-正分数表示 row-task 对该更新的一阶预测提高该 margin。对 task/cell score 的聚合、权重、排序和 loss mass 规则必须逐一记录。M2 不得退化为 loss 或 gradient norm 排序。
+正分数表示 row-task 对该更新的一阶预测提高该 margin。对 task/cell score 的聚合、权重、排序和 loss mass 规则必须逐一记录。M2-B 为每个 optimizer step 分别构造 task0/task1 row microbatch，按各自 task score 排序，在相同参数状态下计算两个 task gradients 后合并并执行一次 Adam step；每个 task 的 row 在 epoch 内恰好出现一次。M2 不得退化为 loss 或 gradient norm 排序。
 
 ## 7. M3 implementation
 
-stagewise attribution 在 E10/E25/E40 的同一冻结 panel 上重复。Group interaction 使用固定 A/B row IDs，A-only、B-only、A/B、A/A、B/B 五组均固定 batch size、optimizer state 和 step 数。记录 parameter delta、logit、pair margin 和 AUC interaction residual。
+stagewise attribution 在 E10/E25/E40 的同一冻结 panel 上重复。Group interaction 使用固定 A/B row pools（各至少 n 个不同 row）。A-only/B-only 各取 n 个不同 row；A/B 各取 n/2；A/A、B/B 各取 n/2 后重复一次。五组总 row slots 固定为 n，optimizer state 和 step 数一致。记录 parameter delta、logit、pair margin 和 AUC interaction residual。
 
 ## 8. M4 implementation
 
