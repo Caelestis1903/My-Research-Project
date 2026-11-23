@@ -1,194 +1,138 @@
-# 05 — Codex 实现规格
+# 05 — Codex 实现规格：M1–M8 全家族
 
 ## 1. 新目录
 
-源码：
-experiments/multi_mechanism_diagnostics_20261123/
+源码：experiments/multi_mechanism_diagnostics_20261123/
+工件：artifacts/multi_mechanism_diagnostics_20261123/
+报告：research_reports/multi_mechanism_diagnostics_20261123/
 
-工件：
-artifacts/multi_mechanism_diagnostics_20261123/
+不得修改原始 M3oE source、D2 source 或历史报告。复用纯函数必须记录来源 blob/hash。
 
-报告：
-research_reports/multi_mechanism_diagnostics_20261123/
+## 2. 公共模块
 
-不得修改原始 M3oE source、D2 source 或历史报告。允许从 D2 分支复用经过审查的纯函数，但必须记录来源 blob/hash；不得直接把 D2 scheduler/arm 当作新机制实现。
+- protocol.py：effective config、seed、dataset、split。
+- source_adapter.py：fixed1 canonical model/data/Adam/EMA adapter。
+- parameter_registry.py：运行时 U/P/FROZEN 参数和 support。
+- state_store.py：完整 state save/load/hash/readback。
+- panels.py：Train calibration、V_A、V_B、pair IDs。
+- ranking.py：六格 AUC/LogLoss、pair margins、correction/destruction/ties。
+- virtual_adam.py：不污染 live state 的 native Adam virtual step。
+- scheduler.py：family-round-robin、worker ownership、retry、resume。
+- statistics.py：paired seed、CIs、Holm/BH、family/variant reports。
+- reports.py：CSV/JSON/Markdown outputs。
+- cli.py：audit、smoke、baseline、screen-all、confirm-all、short-all、full-all、report。
 
-## 2. 模块
+## 3. 八个机制适配器
 
-- protocol.py：读取并冻结 effective config、seed、dataset、split。
-- source_adapter.py：canonical fixed1 model/data/EMA/Adam adapter。
-- parameter_registry.py：运行时 U/P/FROZEN 分组和 support。
-- state_store.py：state save/load、hash、atomic commit、readback。
-- panels.py：Train calibration、V_A/V_B row/pair panels。
-- ranking.py：six-cell AUC、LogLoss、pair margins、pair correction/destruction。
-- m1_consistency.py：per-cell g_U、g_J、L_cons、二阶 P update。
-- m2_attribution.py：per-row/task gradient contribution、virtual Adam step、calibration margin influence proxy。
-- m3_interaction.py：固定总 batch 的 A/B group interaction arms。
-- m4_m5_audit.py：feature semantics and label-preserving transformation audit only.
-- diagnostics.py：M6 output sensitivity and prediction delta.
-- scheduler.py：state machine, admission, retry, worker ownership.
-- statistics.py：paired seed reduction, CIs, multiple-comparison registry.
-- reports.py：CSV/JSON/Markdown outputs.
-- cli.py：audit, smoke, baseline, screen, confirm, short-run, report。
+- m1_private_gradient_shaping.py
+- m2_row_task_influence.py
+- m3_stage_group_interaction.py
+- m4_conditional_feature_dependency.py
+- m5_multilabel_augmentation.py
+- m6_output_sensitivity_control.py
+- m7_distributional_attribution.py
+- m8_task_conflict_controller.py
+- cross_family_interactions.py
 
-## 3. 核心接口
+每个 adapter 必须实现同一 receipt contract，但保留各自真实输入、作用对象和数学操作。不能为了统一接口而把不同机制都转成简单 loss weighting。
 
-~~~python
-def load_protocol(dataset: str, seed: int) -> Protocol:
-    """Return exact frozen D2-compatible effective protocol."""
-
-def capture_state(model, optimizer, ema, rng, loader, epoch, step) -> StateReceipt:
-    """Capture complete resumable state and identity hashes."""
-
-def restore_state(receipt: StateReceipt) -> RuntimeState:
-    """Restore and verify predictions, optimizer state and next batch IDs."""
-
-def compute_cell_shared_grads(model, batch, cell_ids, create_graph=True):
-    """Return per-cell gradients on the runtime-verified U parameter set."""
-
-def consistency_objective(cell_grads, joint_grad, weights):
-    """Scalar cosine inconsistency objective."""
-
-def private_consistency_step(state, batch, inner_lr, inner_steps):
-    """Update P only; prove U and U-Adam state are unchanged."""
-
-def sample_task_scores(state, calibration_pairs, sampled_rows):
-    """Return per-row/task/cell leave-one-row-task-out Adam displacement contrast and local ranking-margin impact proxy."""
-
-def run_matched_fork(anchor, arm, batch_a, batch_b) -> ForkReceipt:
-    """Clone, execute, evaluate and atomically persist one arm."""
-
-def compute_group_interaction(anchor, group_a, group_b, batch_size):
-    """Run equal-size A-only/B-only/A-B/A-A/B-B arms."""
-
-def analyze_and_decide(manifest, outputs) -> DecisionRecord:
-    """Apply frozen stage gates; no post-hoc arm selection."""
-~~~
-
-## 4. M1 algorithm semantics
-
-1. Compute per-cell losses from the same canonical forward and same Train batch.
-2. Obtain g_U,c with create_graph=True.
-3. Obtain g_U,J using the canonical joint objective and same batch population.
-4. Build L_cons over runtime U registry.
-5. Compute ∇_P L_cons; do not materialize Hessian.
-6. Apply exactly one native Adam step to P only; preserve U and U optimizer state bitwise.
-7. Recompute joint loss on batch B and perform one canonical joint step.
-8. Record P displacement, U displacement, m/v/step transitions, gradient cosine matrix and pairwise ranking changes.
-
-M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 uses a fixed within-tensor coordinate permutation of each g_U,c, preserving tensor norms while breaking coordinate alignment. A simple cell-ID permutation is invariant under equal-weight summation and is not a valid control. All arms use identical anchor, A/B row IDs and optimizer state.
-
-## 5. M2 implementation
-
-- Select a fixed row-gradient panel from canonical Train batch B (max 128 rows per domain/anchor), stratified by observed joint-label support.
-- Compute each row-task gradient contribution on U using canonical reduction scale 1/(2B), where B is batch size and there are two tasks. Verify summing row-task contributions reconstructs the batch gradient within numerical tolerance. For each row-task, calculate two virtual native Adam displacements from the same anchor state: full batch gradient and full batch gradient minus that row-task contribution. Define its marginal update as their difference. Neither virtual step may mutate live optimizer state.
-- Compute virtual Adam update using anchor m/v/step and effective weight decay; do not mutate live optimizer.
-- Compute Train-calibration pairwise margin gradients per cell.
-- Score = calibration margin gradient dot the signed leave-one-row-task-out displacement contrast; positive means predicted positive-negative margin increase.
-- This is a local optimizer-step marginal attribution proxy, not an exact causal effect or full influence function.
-- Normalize weights within each domain-task to mean 1; clip and log effective total mass.
-- M2-2 averages score across tasks before weighting; M2-3 shuffles score within domain. Rows outside the panel keep weight 1; panel weights are renormalized within each domain-task so total task loss mass is unchanged.
-- All arms retain identical row IDs and batch size.
-
-If exact per-row gradients are too expensive, S0 may reduce fixed panel size only before S1 and record the reduced estimand. It may not switch to loss ranking or gradient norm ranking.
-
-## 6. M3 implementation
-
-Construct equal-sized batch groups A, B and A/B mixture. Use same anchor optimizer state, same batch size and same step count. Record interaction residual and all five arm outcomes. If group support fails, do not run.
-
-## 7. Output contract
-
-Each run writes:
-- run_manifest.json;
-- config.json;
-- source_receipt.json;
-- state_parent.json;
-- batch_identity.json;
-- action_receipt.json;
-- metrics.json;
-- costs.json;
-- COMPLETE_VERIFIED.json or failure.json.
-
-Global outputs:
-- RUN_MANIFEST.json;
-- SEED_MANIFEST.csv;
-- BASELINE_MANIFEST.csv;
-- SNAPSHOT_MANIFEST.csv;
-- ADMISSIONS.jsonl;
-- EXITS.jsonl;
-- FORK_ENDPOINTS.csv;
-- CELL_METRICS.csv;
-- PAIR_TRANSITIONS.csv;
-- M1_GRADIENT_CONSISTENCY.csv;
-- M2_SAMPLE_TASK_SCORES.csv;
-- M3_GROUP_INTERACTIONS.csv;
-- COSTS.csv;
-- DECISION_RECORD.json.
-
-## 8. Mandatory tests
-
-- U/P/FROZEN coverage, disjointness or documented overlap;
-- model forward parity and six-cell output ordering;
-- source vs adapter loss parity;
-- Adam None-vs-zero semantics;
-- P-only step leaves U parameters and U optimizer state unchanged;
-- consistency objective finite gradients and correct sign;
-- state save/restore prediction parity;
-- next batch row IDs and RNG parity;
-- M2 virtual Adam does not mutate optimizer;
-- M2 weight mass and row exposure parity;
-- M3 fixed batch-size/exposure parity;
-- Validation panel disjointness;
-- Test remains inaccessible;
-- deterministic replay of one fork;
-- OOM/retry and atomic-write recovery;
-- metrics and statistics recomputation.
-
-## 9. Review gate
-
-Before any S1 baseline training, independent Reviewer must PASS:
-- design conformance;
-- code/source hash closure;
-- model/data fidelity;
-- M1 second-order correctness;
-- M2 sample-score correctness;
-- M3 budget parity;
-- state restore;
-- Test sealing;
-- resource smoke.
-
-A failed review blocks run. Coder self-review is not independent review.
-
-
-## 10. 条件性 CGPA trainer
-
-新增 cgpa_train.py，仅当 M1 S2/S3 PASS 后启用。
+## 4. 核心接口
 
 ~~~python
-for batch in train_loader:
-    # step 1: P consistency adaptation
-    # Keep U.requires_grad=True to construct per-cell gradients; only suppress its optimizer update below.
-    cell_grads = per_cell_grad_U(create_graph=True)
-    joint_grad = joint_grad_U(create_graph=True)
-    loss_cons = consistency_objective(cell_grads, joint_grad)
-    optimizer.zero_grad(set_to_none=True)
-    loss_cons.backward()
-    # g_U,c must remain differentiable, so U may receive autograd grads here.
-    # Clear U grads to None immediately before native Adam step.
-    for p in U:
-        p.grad = None
-    assert all(p.grad is None for p in U)
-    optimizer.step()                 # P state only; native Adam skips U entirely
-
-    # step 2: canonical joint training
-    unfreeze_all()
-    optimizer.zero_grad(set_to_none=True)
-    joint_bce(batch).backward()
-    optimizer.step()
-
-    ema.update_once()                # one tick per batch, unchanged rho
+def load_protocol(dataset: str, seed: int) -> Protocol: ...
+def capture_state(runtime, parent_id: str) -> StateReceipt: ...
+def restore_state(receipt: StateReceipt) -> RuntimeState: ...
+def run_variant(anchor, variant_spec, controls) -> ForkReceipt: ...
+def evaluate_panels(model, panel_a, panel_b) -> PanelMetrics: ...
+def run_short_trajectory(anchor, variant_spec, epochs=5) -> TrajectoryReceipt: ...
+def run_full_trajectory(protocol, variant_spec, epochs=50) -> FullRunReceipt: ...
+def analyze_all_registered_variants(manifest, receipts) -> DecisionLedger: ...
 ~~~
 
-Implementation must prove U tensor and U Adam state unchanged after step 1; P m/v/step changes as expected; EMA tick count increments exactly once per batch. P-BCE-prestep control uses the same two-step sequence but replaces loss_cons with private BCE. CGPA and control share batch IDs and initialization.
+## 5. M1 implementation
 
-Do not update EMA after the private inner step. Do not change rho, batch size, loss reduction, or optimizer configuration. This candidate is not a direct implementation of ConsMTL's full bilevel method; report the exact local consistency objective and its computational cost without claiming theoretical equivalence.
+每个 variant 计算六格 g_U,c 与 natural joint g_U,J，构造对应 differentiable objective。通过 create_graph=True 计算 ∇_P L_cons。U 保持可微；backward 后 U.grad=None，再执行 native Adam step。随后按该 arm 定义执行同 batch joint update。记录 gradient geometry、P/U displacement、Adam state transitions 和 pair-margin responses。
+
+M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 作为 control；必须使用 within-tensor coordinate-shuffled control。
+
+## 6. M2 implementation
+
+对每个 sampled row-task：
+1. 按 source canonical loss reduction 计算 BCE gradient contribution；
+2. 计算 full batch native Adam virtual displacement；
+3. 从同一 anchor state 计算 leave-one-row-task-out virtual displacement；
+4. ΔU_i,t = ΔU_full − ΔU_without(i,t)；
+5. 对 Train-only calibration positive-negative margin 计算 ∇_U m；
+6. s(i,t,c)=∇_U m_c · ΔU_i,t。
+
+正分数表示 row-task 对该更新的一阶预测提高该 margin。对 task/cell score 的聚合、权重、排序和 loss mass 规则必须逐一记录。M2 不得退化为 loss 或 gradient norm 排序。
+
+## 7. M3 implementation
+
+stagewise attribution 在 E10/E25/E40 的同一冻结 panel 上重复。Group interaction 使用固定 A/B row IDs，A-only、B-only、A/B、A/A、B/B 五组均固定 batch size、optimizer state 和 step 数。记录 parameter delta、logit、pair margin 和 AUC interaction residual。
+
+## 8. M4 implementation
+
+从 DATA_MANIFEST 的真实字段 schema 构造 feature groups。计算 domain/task conditional dependence; 执行 within-domain × observed joint-label conditional permutation；执行 task-conditioned residualization/HSIC intervention。每种操作都保留 sham control。禁止把相关性下降直接报告为因果效应。
+
+## 9. M5 implementation
+
+每个变换有独立 transformer、validity checker、label-pair checker 和 receipt：
+- sparse field mask/dropout；
+- embedding perturbation；
+- within-stratum categorical substitution；
+- dense perturbation within original domain/semantic bin；
+- multi-view consistency training。
+
+OOV index 不自动视为 mask。domain indicator 不变。user_id/movie_id 不任意替换。每种增强保留标签联合分布、原始 domain、feature schema、预测一致性和有效样本数。无合法字段的变体写 NOT_APPLICABLE，不阻塞其他 M5 变体。
+
+## 10. M6 implementation
+
+对六格 pair margin 求 Jacobian/JVP/VJP。实现：
+- sensitivity-based scalar step scaling；
+- worst-cell constrained trust-region projection；
+- parameter-group response gating。
+
+QP/solver 需记录约束、收敛状态和残差。对照 global norm clipping、random scale、unmodified update。实际 AUC 与预测敏感度分开报告。
+
+## 11. M7 implementation
+
+同一 row/task 的 score 在五 seed 间对齐。输出 empirical distribution、mean、SD、quantiles、sign stability。实现 mean−λSD robust score，并执行 leave-one-seed-out 五轮外推。留出 seed 不参与其自身 score rule fitting。M7 结果不宣称总体分布估计。
+
+## 12. M8 implementation
+
+实现 PCGrad reference、conflict-aware simplex weighting、common-descent projection、conflict-aware cell gating。每个 controller 输入六格梯度与冲突矩阵，输出更新向量、cell weights、projection residual 和每格实际监督质量。权重非负、总量受控，不得静默丢弃任务。
+
+## 13. Cross-family implementation
+
+执行 X1–X5 五组预注册组合。组合 arm 使用已有单机制 arm receipts 作为 component reference；只有 combined 和 matched control 需要新增 fork，避免重复计算。组合定义与单机制变体完全冻结。
+
+## 14. Output contract
+
+全局：
+RUN_MANIFEST.json、VARIANT_REGISTER.csv、SEED_MANIFEST.csv、BASELINE_MANIFEST.csv、SNAPSHOT_MANIFEST.csv、ADMISSIONS.jsonl、EXITS.jsonl、FORK_ENDPOINTS.csv、CELL_METRICS.csv、PAIR_TRANSITIONS.csv、M1–M8 family result tables、CROSS_FAMILY_INTERACTIONS.csv、COSTS.csv、DECISION_LEDGER.json。
+
+每个 run：
+run_manifest.json、config.json、source_receipt.json、parent_state.json、batch_identity.json、action_receipt.json、metrics.json、costs.json、COMPLETE_VERIFIED.json 或 failure.json。
+
+## 15. Mandatory tests
+
+- U/P/FROZEN coverage、support、overlap；
+- source/adapter model and loss parity；
+- six-cell output ordering；
+- Adam None/zero semantics；
+- M1 U unchanged / P updated / second-order finite gradient；
+- M2 row-task gradient reconstruction and virtual Adam non-mutation；
+- M3 group size, exposure and optimizer parity；
+- M4 permutation strata and feature-group identity；
+- M5 label-pair/domain preservation and transform validity；
+- M6 Jacobian finite-difference check and solver feasibility；
+- M7 leave-one-seed-out no leakage；
+- M8 projection/weight constraints and total gradient mass；
+- cross-family component/combined identity；
+- state save/restore prediction and next-batch parity；
+- V_A/V_B disjointness and Test sealing；
+- atomic-write and retry recovery；
+- metric/statistic recomputation.
+
+独立 Reviewer 必须审查所有八个 adapter 与 cross-family adapter。单个 adapter 未通过时隔离其 family，不阻塞其余 family。
