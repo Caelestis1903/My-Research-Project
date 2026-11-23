@@ -56,7 +56,7 @@ Test: S0–S3 sealed。
 - domain + joint-label support + group size 匹配的 random pair。
 
 每个 pair：
-A-only 从 A pool 取 n 个不同 row；B-only 从 B pool 取 n 个不同 row；A/B 从 A、B 各取 n/2；A/A 从 A pool 取 n/2 个 row 并各重复一次；B/B 对 B pool 同理。五组总 batch rows 均为 n，optimizer step 与 Adam 起点一致。A/A、B/B 是重复暴露/冗余对照，不与 A-only/B-only 混同。M3-A stagewise attribution 与 M3-C stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
+A-only 从 A pool 取 n 个不同 row；B-only 从 B pool 取 n 个不同 row；A/B 从 A、B 各取 n/2；A/A 从 A pool 取 n/2 个 row 并各重复一次；B/B 对 B pool 同理。五组总 batch rows 均为 n，optimizer step 与 Adam 起点一致。A/A、B/B 是重复暴露/冗余对照，不与 A-only/B-only 混同。M3-A stagewise attribution 与 M3-D stage×group interaction 使用 E10/E25/E40 全部读数，M3 不设条件触发。
 
 ## 6. M4/M5/M6/M7/M8 arms
 
@@ -80,7 +80,7 @@ X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组的 component 
 
 ## 9. S3：所有可训练变体的短程轨迹
 
-所有可执行训练动作均进入 5 epochs continuous trajectory，不受 S1/S2 Top-K 选择限制。按变体、数据集、seed独立恢复：
+按本矩阵的 trainable registry，M1 3、M2 4、M3 2、M4 3、M5 5、M6 3、M7 2、M8 4、cross-family 5，共 31 个训练动作变体。每个变体均为 2 datasets × 5 seeds = 10 条独立短程轨迹，共最多 310 条 5-epoch trajectories（1,550 trajectory epochs）。所有可执行训练动作均进入 5 epochs continuous trajectory，不受 S1/S2 Top-K 选择限制。按变体、数据集、seed独立恢复：
 - 2 datasets × 5 seeds × 5 epochs；
 - E1/E3/E5 readouts；
 - 对应匹配控制同样运行。
