@@ -1,0 +1,28 @@
+{
+  "status": "TRIGGERED",
+  "split": "validation",
+  "target_dataset": "movielens",
+  "unaugmented": "A21",
+  "history_form": "A21",
+  "scope": "S_DENSE",
+  "lambda_pair": 0.05,
+  "fixed_gaussian": {
+    "domain": 0,
+    "mix": 0.5,
+    "kappa": {
+      "movielens": 0.05,
+      "kuairand": 0.1
+    }
+  },
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "A_DOSE_gate_sha256": "bd2aac7b9e89b89250b031fa3fd862d4b21b0a474037f8a474296860790bcb78",
+  "reason": "Determine whether the selected A21 optimization adds ranking value to the established Gaussian D0 background, which was competitive on the target dataset.",
+  "comparison": "G_FROZEN against matching G-D0 + fixed EMA and the frozen A21 on target MovieLens; report all five paired AUC/LL differences and all six cells on both datasets. Retain the simpler unaugmented A21 if the augmented combination does not add independent target-dataset Macro AUC over G-D0 or improve the unaugmented candidate with cell protection.",
+  "test_used_for_selection": false
+}

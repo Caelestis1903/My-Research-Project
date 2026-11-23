@@ -133,3 +133,8 @@
 | EXP063 | 11-10；26-11-11 EMA_CAUSAL_ATTRIBUTION | ML/KR×Clean/Gaussian四条件、20条正式轨迹、1000 epoch、34500 Adam更新，五seed；共享/非共享参数、时间窗口、函数与方向干预 | 固定EMA收益主要来自共享S/EMBED；recent×old互补；预测组合在固定面板有收益但无独立Test；当前自适应菜单无稳定动作增量；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md) |
 | EXP064 | 11-11；26-11-11 EMA_NEXT | 95个job、1415 epoch、46280 Adam更新；五seed；A反馈、B两态读出、C条件动作、KD | A_MATCH反馈损害F；ML两态B主要改善LL、无新增AUC；KR B_H277保留小幅诊断AUC信号；C无future signal，KD未形成独立AUC晋级；[FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md) |
 
+
+
+## 2026-11-23 · 条件历史与共享更新
+
+条件历史与共享更新。状态：主实验完成，Gaussian 补充因对照身份不符暂停。A 核心、简单历史、剂量、同状态定位；B 核心与短段脉冲；S5 冻结评价共 90 个端点。日期分支 26-11-23。 [完整报告](../research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)

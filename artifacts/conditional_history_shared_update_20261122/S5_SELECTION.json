@@ -1,0 +1,134 @@
+{
+  "author": "11-22 foreground orchestrator",
+  "artifacts_root": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122",
+  "split": "validation",
+  "test_used_for_selection": false,
+  "status": "FINAL_CANDIDATE",
+  "target_dataset": "movielens",
+  "reason": "A21 .05 on the registered target has positive matched and clean Validation gains, passes six-cell protection, and ties the more complex table within the registered .0001 band. The same frozen form applies to KuaiRand.",
+  "core_gate_sha256": {
+    "A_CORE": "2bedf44d8522cef9d3e22dd03418fd686f9747404187f7230627a3e8a9056d14",
+    "movielens": "fcb1414f18fe4850bebe40588d2b93ba05281139b81dfcd5e5bbd91dbd6443e5",
+    "kuairand": "84fee750bcd88d8c3f56c8bc2284a1f08fdf76bb8f7984745602f84d750eeb3e"
+  },
+  "branches": {
+    "A_HISTORY": {
+      "status": "COMPLETE",
+      "reason": "Positive five-seed A20-A10 means triggered 20 matched history controls.",
+      "decision_sha256": "67eee0b74295c243654472201e9b08b088446fbaccb331860fab81b515d9071e",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/A_HISTORY/decisions.json": "67eee0b74295c243654472201e9b08b088446fbaccb331860fab81b515d9071e",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/A_HISTORY_RUN.json": "c1200ab1e9cd81aab18f65ef15c7c9242d87795f170edbb8d13378d8870179e8",
+        "/home/xzf/Code/phase0-3/research_reports/conditional_history_shared_update_20261122/A_HISTORY_REVIEW_RECEIPT.json": "cef32ea0ce5be5559d3784477bf74ebb3451b684876b900fc38b9281f0545598"
+      }
+    },
+    "A_DOSE": {
+      "status": "COMPLETE",
+      "reason": "The common selected A21 form had a KuaiRand cell cost; both .025 arms completed five seeds per dataset.",
+      "decision_sha256": "bd2aac7b9e89b89250b031fa3fd862d4b21b0a474037f8a474296860790bcb78",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/A_DOSE/decisions.json": "bd2aac7b9e89b89250b031fa3fd862d4b21b0a474037f8a474296860790bcb78",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/A_DOSE_RUN.json": "4e2171b81f330d4f65e3b7b4d23adc29038f432c0c91fefd36832b5abd1ea053",
+        "/home/xzf/Code/phase0-3/research_reports/conditional_history_shared_update_20261122/A_DOSE_REVIEW_RECEIPT.json": "ad2860fd87951205f5879405446fc050602efeb3158c87a8ae63c739ab250cda"
+      }
+    },
+    "A_SCOPE": {
+      "status": "NOT_TRIGGERED",
+      "reason": "No eligible history-plus-localized damage after the matched dose comparison and full state-local interventions.",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/A_DOSE/decisions.json": "bd2aac7b9e89b89250b031fa3fd862d4b21b0a474037f8a474296860790bcb78",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/A_TARGET_RUN.json": "e11f9094b1b07f451dac43ca583c72e662da19a0278d22c1d4e0c5dfe679c1a3",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/A_TARGET/localization.json": "8e91d747ed4f63a2bc7d62ead779a7b86d983d0d735927c14bb7b6097377a7e4"
+      }
+    },
+    "B_SEARCH": {
+      "status": "NOT_TRIGGERED",
+      "reason": "Held-out five-seed source selection failed both dataset action gates after all 40 pulse slots.",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/B_CORE/B_GATE_movielens.json": "fcb1414f18fe4850bebe40588d2b93ba05281139b81dfcd5e5bbd91dbd6443e5",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/B_CORE/B_GATE_kuairand.json": "84fee750bcd88d8c3f56c8bc2284a1f08fdf76bb8f7984745602f84d750eeb3e"
+      }
+    },
+    "AB_FROZEN": {
+      "status": "NOT_TRIGGERED",
+      "reason": "B search did not qualify on either dataset; no common eligible B method for the A+B comparison.",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/B_CORE/B_GATE_movielens.json": "fcb1414f18fe4850bebe40588d2b93ba05281139b81dfcd5e5bbd91dbd6443e5",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/B_CORE/B_GATE_kuairand.json": "84fee750bcd88d8c3f56c8bc2284a1f08fdf76bb8f7984745602f84d750eeb3e",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/tables/A_DOSE/decisions.json": "bd2aac7b9e89b89250b031fa3fd862d4b21b0a474037f8a474296860790bcb78"
+      }
+    },
+    "G_FROZEN": {
+      "status": "TECHNICAL_BLOCKED",
+      "reason": "The required Gaussian D0 noise-stream identity lacks five seed-matched controls on both datasets. The unaugmented A21 remains the final candidate.",
+      "evidence": {
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/G_FROZEN_TRIGGER.json": "dd2c2d1589113ddf2f1bec9f757431659586d4962a501e1dbaff27bc6dc84179",
+        "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/SOURCE_G_CONTROL_AUDIT.json": "10a8b2ed10b944ce21292526cc9a0920c3dfcc850acc2199d17ccaa68ed002c3",
+        "/home/xzf/Code/phase0-3/research_reports/conditional_history_shared_update_20261122/G_CONTROL_REVIEW_RECEIPT.json": "8ab0327a52434cc4a4b02d0274b4cee3c6845795ee7ee0202c175cf3e1fa59fe"
+      },
+      "results": []
+    }
+  },
+  "datasets": {
+    "movielens": {
+      "candidate": "A21",
+      "strongest_published": "M3OE_FIXED1_ADAPTED",
+      "strong_internal": "A00",
+      "matched_adam": "A10",
+      "history_form": "A21",
+      "scope": "S_DENSE",
+      "parameters": {
+        "lambda_pair": 0.05,
+        "history_scope": "S_dense",
+        "mode": "collapsed",
+        "dynamic": false
+      },
+      "result_paths": {
+        "A21": {
+          "2023": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/4d7ec2bae1fb7aa953fa9e9c9de03292efe5f779a109dd7d0e5d7fd70014b9ee/result.json",
+          "2024": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/56b541f85cb3738b8622f70d00c47843e7cfe1a89dfdaff1457fa1f2a6a3f3d1/result.json",
+          "2026": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/9cb89e3cf8d1e73486a5b096d7f0c0f9797070131155d65797e0807acdd40b6c/result.json",
+          "2022": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/3a7fd40e13456d11e70156b52c99ceb9ff10b894f49291f034adec893e4397ef/result.json",
+          "2025": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/d1e54ac267d307aaa86347a8d35124b028dd9a2910cfde3bec90ab5d9498f217/result.json"
+        },
+        "A22": {
+          "2024": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/b8a5f8cc1bdbe15938843c861c15599cddb18c7705c09b2c681a681e9706f8d7/result.json",
+          "2023": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/f665f166b4fcc71d3c0a36477de90cbc5a93b06759f960bf44e09b52f78f921b/result.json",
+          "2025": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/ff477b203dd1b69369b24b84c476e1bacff1f6731b001cefc606c772afb2b351/result.json",
+          "2026": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/82fd89f5fbd767a0c7d4ed4e7a1c77b430002915fbeb50207a0410c49c568439/result.json",
+          "2022": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/348a5fa24c060ca264ce999179c79e813ae577fe39734753b0538b65b089c6b9/result.json"
+        }
+      }
+    },
+    "kuairand": {
+      "candidate": "A21",
+      "strongest_published": "HYPERGATE",
+      "strong_internal": "A00",
+      "matched_adam": "A10",
+      "history_form": "A21",
+      "scope": "S_DENSE",
+      "parameters": {
+        "lambda_pair": 0.05,
+        "history_scope": "S_dense",
+        "mode": "collapsed",
+        "dynamic": false
+      },
+      "result_paths": {
+        "A21": {
+          "2022": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/9414fc92d8c2a0bd17551ef737a9b442c740ee611935fa8aa6efc7bd1bf62313/result.json",
+          "2023": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/426a317b5dce58b3de80261645d324eda42754b636bbd655bf208e0497a3bf75/result.json",
+          "2024": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/ea59e585ad56e11ed25c03057427610d0a8a77d47306368d25b8f973eae90606/result.json",
+          "2026": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/c7137b73758b0b9282532c309fa0f31126bc738a2cd971f62e56a0b4b06103ed/result.json",
+          "2025": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/e20b1f93690b085a0a0efc93b7a11bdced5a02f7f61b12f07826bdc40b158dc2/result.json"
+        },
+        "A22": {
+          "2022": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/55da6828f11f655a7f985a6b5f9d2bb10c1e18f0307f77ce382e6907e0c6e2c5/result.json",
+          "2026": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/e87c4e8eb7973c9a0da01d96fd0ef7914863e1e9d1cf2782c5904545e51a32e2/result.json",
+          "2025": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/36196b0b30a18486d38b7b400ce05abc9d4d3cbf4133e582006c1e12075b4d01/result.json",
+          "2023": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/cdc829b439c4ab757ca0aa54e6e8d4dd0c3e8af4f36c87242ec7311e120c0a6c/result.json",
+          "2024": "/home/xzf/Code/phase0-3/artifacts/conditional_history_shared_update_20261122/attempt1/runs/cdda3c10114251270fc22f9cc11616494d5e59269a4d65ee551e27538bd52889/result.json"
+        }
+      }
+    }
+  }
+}

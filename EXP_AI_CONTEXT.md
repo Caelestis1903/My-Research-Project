@@ -649,3 +649,8 @@ E1 支持但不确证 shared contribution distortion；E2 未执行，故 E3 响
 10条新U×50epochs已全部完成；复用C/W/S数值30条，共40条唯一轨迹，配对n=5（2022–2026）。selected EMA U−C AUC：ML−0.000221160，CI[−0.000624936,+0.000182617]、1正4负；KR−0.000235705，CI[−0.007145879,+0.006674468]、4正1负。ML/KR LL差+0.000320050/+0.000576420。结论NO_CONTINUATION_SIGNAL：两套AUC均未达+.003，KR d0t0差−0.007526250未通过−.001保护线。Test仍封闭，无champion。
 
 完整报告research_reports/cell_mass_bce_20261117/REPORT.md。500epochs/17250有用更新/20选中模型已直接验收；实际17333返回包含83次重放成本。原ownerPID2926581当前验收95,508,960字节；模型只在RAM，C04模型仍不可用。完成本轮报告/归档/独立最终证据复审/实际发布后USER_STOPPED，不启动C06，不自动开Test。
+
+
+## 2026-11-23 · 条件历史与共享更新
+
+条件历史研究按 11-22 有限矩阵结案。A21 静态辅助历史、λ=.05、S_DENSE 由 MovieLens Validation 选出，实际五种子 Test 相对相同 PAIR Adam 的 ΔMacro AUC 为 ML −.000083、KR +.004062。两数据均未达到最终资格。B 的 40 个锚点和 40 个脉冲未提供持续训练信号。Gaussian 同身份控制仅 ML 两种子、KR 零种子，补充表技术暂停。共 52 条新科学轨迹与 10 条 clean 重放。 [完整报告](research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)

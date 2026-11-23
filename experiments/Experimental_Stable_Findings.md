@@ -356,3 +356,8 @@
 **研究结论采用：** 固定EMA的排序收益作为已接受的强内部参照；当前B/A/C自适应候选不晋级。完整配置总收益与新增组件增量分开；未来自适应设计必须提供跨seed的未来收益预测证据，并实际改变参数时间递推。AUC与LogLoss分别报告，所有结论限定于对应数据、模型、seed和选点协议。
 
 
+
+
+## 2026-11-23 · 条件历史与共享更新
+
+STRONG（限当前冻结人口和指定对照）：A21 在 MovieLens 的 Test Macro AUC 相对已发表 M3oE 五种子全正，在 KuaiRand 相对同 PAIR 普通 Adam 五种子全正。后一个差值在同数据集 Validation 为负，ML 的组件 Test 也未改善，故不能把跨数据的稳定增益归于条件历史。两数据上晚期留出动态选源均未超过留一 seed 静态对照。 [完整报告](../research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)

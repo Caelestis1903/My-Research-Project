@@ -1,0 +1,66 @@
+{
+  "stage": "S5",
+  "verdict": "PASS",
+  "blocking_issues": [],
+  "review_scope": "code_only_corrected_guardian_and_optional_g",
+  "actual_selection_approved": false,
+  "gaussian_control_audit_approved": false,
+  "reviewer": "/root/s5_review_repair",
+  "design_sha256": "607fb9b7ada44aebae7cd8d80c1fd163e83206607e751de455a46efbcd7a3272",
+  "report_sha256": "cc16366e9038b423989240521ae2e10514f014653531770efd8e16423fc9ca19",
+  "files": {
+    "final_evaluation.py": "f2a41c88f0c4d147925437afe0c18341c1d5b45be9492236a9d8b11d7f28f2c8",
+    "tests/test_final_evaluation.py": "073405c52660edaf4b959100d3c2d3ec444b62da25894322508ce8bbfcb62c5f",
+    "results.py": "5350c5add527aa674fe62eb7d3e0182519dd52e9ba57054d36c9f37b06c717cc",
+    "state.py": "93d10e84df94acbee5dae41c405c6b264b2b1337a6b27fe4cd6d3c604c8fcf74",
+    "protocol.py": "fd66160762b5653090ebee19753f2d0a7640fd7998c0c784dddc7d6966be1af4",
+    "reuse.py": "ea8691794b6f3b032a4ce5bd512977bb4603c93610f8fa6468c7aeef822304a0"
+  },
+  "review_report": "REVIEW_REPORT_S5_CORRECTED.md",
+  "review_report_sha256": "010a2b2dd8fb4a157ad773564c856a72cb3a9728c85835daf58703638aec1891",
+  "supersedes": {
+    "receipt": "S5_REVIEW_RECEIPT_SUPERSEDED_2a297c1c.json",
+    "sha256": "9e30b41e218767e6cf099fc5a1992b78bc7b00ff3762627d4fd33acf36a49c85",
+    "reason": "Corrected production guardian path and narrow runbook-permitted Gaussian technical-pause admission require fresh independent code review"
+  },
+  "checks": {
+    "s5_synthetic_tests": "6 passed",
+    "results_synthetic_tests": "3 passed",
+    "total_synthetic_tests": "9 passed",
+    "plotting_deprecation_warnings": 14,
+    "validation_matrix_rows": 90,
+    "validation_archived_rows": 58,
+    "validation_accepted_local_rows": 32,
+    "core_s0_matches": 28,
+    "arms_per_dataset": 9,
+    "directed_comparisons_per_dataset": 11,
+    "live_validation_readbacks": [
+      "movielens/A10/2023",
+      "movielens/A21/2023"
+    ],
+    "live_owner_generation": "f2a6427b61b812f225f910e6991ede53507fd72383c1a03eaac50db9ea01d353"
+  },
+  "inputs": {
+    "research_reports/conditional_history_shared_update_20261122/S5_GUARDIAN_CORRECTION.md": "c1b913076dc56b21a8725033e1d91ba0a632d46abac0df61ebd56ba792c5ff70",
+    "research_plans/26-11-22_conditional_history_shared_update/00_EXECUTION_RUNBOOK.md": "af7d848ead0014f452ad579ba424dce8f84e831a2e95c42884b50406acbe466f",
+    "research_plans/26-11-22_conditional_history_shared_update/05_EXPERIMENT_MATRIX.md": "4f797b80f55c5fc785446ec06b7cdbfac8b8cee1bbf9d9a012c2f5581d3bb3ac",
+    "research_plans/26-11-22_conditional_history_shared_update/09_DECISION_RULES.md": "5cce93cc40ac2d3840e34d280a80463d6d082af8cdfc3a0e71f597aeed3c6b0a",
+    "research_plans/26-11-22_conditional_history_shared_update/10_REPORT_TEMPLATES.md": "060e8ea06647c8b55bbda64f905575c77eaa6c6f54704fd1df1863327d143170",
+    "artifacts/conditional_history_shared_update_20261122/G_FROZEN_TRIGGER.json": "dd2c2d1589113ddf2f1bec9f757431659586d4962a501e1dbaff27bc6dc84179"
+  },
+  "test_scoring_performed": false,
+  "training_performed": false,
+  "freeze_performed": false,
+  "code_corrections": [],
+  "nonblocking_issues": [
+    {
+      "severity": "MINOR",
+      "description": "endpoints study_id and consolidated plan-wide cost schema remain final-delivery obligations; S5 provides evaluation-only costs"
+    }
+  ],
+  "remaining_gates": [
+    "Independent actual Gaussian control audit/review, if using G_FROZEN technical pause",
+    "Independent actual Validation scientific selection review bound to this current receipt",
+    "Production terminal-gate closure and fresh selected-RAM verification before final Test"
+  ]
+}

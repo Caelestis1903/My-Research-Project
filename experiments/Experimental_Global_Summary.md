@@ -293,3 +293,8 @@ MovieLens两态B对三个发表模型均通过当前AUC门；KuaiRand B_SHARED�
 | Phase 3 条件 | **具备进入证据驱动的下一阶段梳理条件**；尚不构成任何特定算法或普遍机制已成立的依据。Phase 3 应以这些限定事实和未解决问题为输入。 |
 
 > 计数说明：Stable Findings=48、Open Questions=36为2026-11-08更新后的当前文件条目数；Experiment Index/Evidence Ledger的32条仍是此前历史索引快照，本次未改动这两个文件。
+
+
+## 2026-11-23 · 条件历史与共享更新
+
+A21 在 MovieLens 相对已发表 M3oE 的五种子 Test Macro AUC +.003284，但相对 clean+EMA −.000564，d0t1 低于保护线。KuaiRand 相对 clean+EMA +.004243、相对同 PAIR Adam +.004062，相对 HyperGate −.001347。两数据均未达到最终资格。较小 λ 未改善匹配对照，B 动态选源未进入完整训练。 [完整报告](../research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)

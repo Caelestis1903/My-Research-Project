@@ -1106,3 +1106,8 @@ A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的�
 |kuairand|CELL-MASS-BCE-025|fixed_ema|d2t1|0.6733708776763431|0.64662643376011|5|False|
 
 报告research_reports/cell_mass_bce_20261117/REPORT.md；95,508,960B新U选中模型已父get验收；C04模型当前不可用，仅数值有效。所有逐seed/CI/stage详见完整附录，不能用40轨迹充当n40。
+
+
+## 2026-11-23 · 条件历史与共享更新
+
+A21（static PAIR，λ=.05，S_DENSE，fixed EMA），seeds 2022–2026。selected Test Macro AUC / LogLoss：MovieLens .778474 / .494491，KuaiRand .680766 / .435339。相对已冻结最强发表对照的 ΔAUC / ΔLogLoss：ML +.003284 / −.000400，KR −.001347 / −.005250；匹配同 PAIR Adam 的 ΔAUC：ML −.000083，KR +.004062。 [完整报告](research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)
