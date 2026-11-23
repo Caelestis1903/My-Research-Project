@@ -81,7 +81,7 @@ M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 
 ## 5. M2 implementation
 
 - Select a fixed row-gradient panel from canonical Train batch B (max 128 rows per domain/anchor), stratified by observed joint-label support.
-- Compute per-row/task gradient on U using exact task-specific BCE contribution.
+- Compute per-row/task gradient on U using the exact task-specific BCE contribution and canonical reduction scale: for batch size B and two tasks, each row-task contribution is scaled by 1/(2B) to match the source mean-over-tasks then mean-over-rows reduction. Record this scale and verify summing row contributions reconstructs the batch gradient within numerical tolerance.
 - Compute virtual Adam update using anchor m/v/step and effective weight decay; do not mutate live optimizer.
 - Compute train-calibration pairwise margin gradients per cell.
 - Score = margin-gradient dot signed virtual parameter displacement; positive means predicted positive-negative margin increase.
