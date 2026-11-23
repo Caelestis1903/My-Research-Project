@@ -1,90 +1,88 @@
-# 06 — 指标与统计规范
+# 06 — 全机制指标、统计与多重比较
 
-## 1. 共同结果指标
+## 1. 共同指标
 
-每个 seed / dataset / arm / anchor：
-- 六格 AUC、六格 LogLoss；
-- Macro AUC（六格等权平均）；
-- Macro LogLoss（六格等权平均，单独报告）；
+每个 dataset × seed × variant × anchor × arm 记录：
+- 六格 AUC、六格 LogLoss、support/positive/negative counts；
+- six-cell Macro AUC / Macro LogLoss；
 - domain macro、task macro、worst cell；
-- pooled AUC 仅作为额外描述，不替代六格 Macro；
-- validation selected epoch（仅完整训练阶段）；
-- pairwise margin、pair correctness correction/destruction/tie；
-- 参数位移、梯度一致性和 optimizer state 变化；
-- forward/backward/optimizer step 数、GPU time、peak memory。
+- pooled AUC 仅作补充；
+- V_A 与 V_B 分开报告；
+- pairwise margin、pair correctness、correction/destruction/tie；
+- 参数组位移、gradient geometry、optimizer state；
+- forward/backward/optimizer steps、EMA ticks；
+- GPU/CPU/wall time、peak VRAM、host RAM。
 
-## 2. M1 专属
+## 2. M1 指标
 
-- L_cons before/after；
-- 六个 g_U,c 与 g_U,J cosine；
-- pairwise cosine matrix；
-- normalized direction residual；
-- per-group gradient norm；
-- P displacement、U unchanged proof；
-- consistency gain 与 cell AUC/pairwise changes 的 seed-paired relationship。
+L_cos、L_mag、L_pair；六格 g_U,c 与 g_U,J cosine；pairwise cosine matrix；gradient norm/direction residual；P/U displacement；P-only step 后 U/Adam unchanged receipt；pair margin 与 AUC response。
 
-L_cons 降低属于机制信号，不等于 AUC 收益。
+## 3. M2 指标
 
-## 3. M2 专属
+row-task-cell influence score；full/leave-one-out virtual Adam displacement；score distribution；score 与实际 pair-margin delta 的 calibration；task-specific vs task-agnostic/shuffled；weights、loss mass、row exposure。
 
-- per-row/task/cell score 分布；
-- score 与实际局部 pair-margin change 的校准；
-- task-specific vs task-agnostic score 的差异；
-- top/bottom group 的有限真实 fork 方向；
-- label support、row counts、score ties；
-- score 与 loss、gradient norm、label frequency 的相关关系，仅作为代理比较。
+## 4. M3 指标
 
-不把 score 排名本身作为性能指标。
+E10/E25/E40 score sign and magnitude；A/B/A-B/A-A/B-B outcomes；parameter/function interaction residual；group membership hash；阶段×组交互。
 
-## 4. M3 专属
+## 5. M4/M5 指标
 
-- A-only、B-only、A/B、A/A、B/B 的 paired delta；
-- interaction residual；
-- E10/E25/E40 的阶段差；
-- 每个组的 row IDs、label support、batch size、总 loss mass。
+M4：feature-group dependence、conditional permutation effect、representation/logit/margin change、task/domain heterogeneity、regularizer/sham comparison。
 
-## 5. 统计单位与估计
+M5：变换合法性、字段有效率、label-pair consistency、domain preservation、prediction consistency、augmentation exposure、六格 AUC/LogLoss。标签保持率不等于语义因果证明。
 
-五个 seed 是独立重复单位；同 seed 配对。anchors/forks/cells/pairs/samples 仅是 seed 内重复观测。每个结果必须保留五个 seed 原始值。
+## 6. M6/M7/M8 指标
+
+M6：J_c、predicted margin delta、trust-region constraint residual、step scaling、worst-cell response 与实际结果差异。
+
+M7：五 seed score distribution、mean/SD/quantile、sign stability、robust score、leave-one-seed-out held-out prediction。
+
+M8：pairwise conflict matrix、projection residual、cell weights、active set、gradient norm、共同下降可行性、实际 cell outcomes。
+
+## 7. 统计单位
+
+五个 seed 是独立重复单位，使用同 seed 配对。anchors、forks、cells、pairs、rows、feature groups 都是 seed 内重复测量。S1 的三个 anchor 先在 seed 内按预注册方式汇总，再形成五 seed paired statistics；同时保留 anchor-specific table。
 
 报告：
+- per-seed values；
 - paired mean delta；
 - sample SD；
-- 95% t interval（df=4）；
-- 正向 seed 数；
-- 每格配对 delta；
-- 每个 anchor 分别结果与预注册 anchor reduction；
-- 不能将 anchor 数作为 n=15。
+- 95% paired t interval (df=4)；
+- positive/negative seed counts；
+- 六格保护线；
+- 每个 anchor 的异质性；
+- costs。
 
-S1 的三个 anchors 先在每 seed 内按预注册等权平均，再形成五 seed paired summary；另外完整列出 anchor-specific effects。
+不要求所有 seed 同向；不得用一个 seed 单独否决。不得把 30 anchors 写成 n=30。
 
-## 6. 多机制比较
+## 8. 多机制比较
 
-- M1 为唯一 primary mechanism family。
-- M2 为 secondary mechanism family。
-- M3 为 conditional exploratory mechanism family。
-- M4/M5 feasibility only。
-- S1 筛选使用 V_A；S2 确认使用 V_B。
-- 每个 family 内对多个 arms 的比较采用 Holm correction；机制代理指标单独分族，不与 AUC 主检验混合。
-- 不允许事后替换 primary contrast。
+本轮八个 family 都是预注册候选，不设 primary/secondary 排序。
+- Family-level confirmatory contrasts：八个 family primary contrasts 使用 Holm correction。
+- Family 内变体比较：报告所有变体，探索性检验使用 Benjamini–Hochberg q-values。
+- 五组 cross-family interaction 单独成族并校正。
+- 机制代理指标与 AUC 主结果分开校正和解释。
+- 所有失败、负向、无差异和 NOT_APPLICABLE 结果进入同一汇总表。
 
-## 7. 晋级阈值
+不得根据结果事后改变 family primary contrast、筛选门槛或报告范围。
 
-机制阶段不强制 +0.003。S1/S2 主要要求：
-- 操作成功且状态控制通过；
-- 机制信号方向达到预注册；
-- 至少 4/5 seeds 方向一致作为强支持描述，但不是单独显著性规则；
-- V_B 独立确认不由单一 seed/anchor 驱动；
-- cell guard：mean cell delta ≥ −0.001；
-- 代理改善必须对应独立 pairwise ranking 或 AUC 变化，才能进入 S3。
+## 9. 机制与算法阈值
 
-S4 完整算法：
+局部机制诊断不强制 +0.003。需要：
+- 动作正确执行；
+- 预期对象出现可测变化；
+- V_A/V_B 方向及条件边界如实报告；
+- 不被单个 seed/anchor 驱动；
+- 与实际 pair/AUC 响应关联。
+
+S4 正式算法：
 - 五 seed paired Macro AUC mean gain ≥ +0.003；
-- 每个 cell mean delta ≥ −0.001；
-- LogLoss 单独报告；
-- 正式比较 M3oE、HyperGate、AutoIFS；
-- validation six-cell Macro AUC 选点，Test 只在 freeze 后评价。
+- 每格 mean delta ≥ −0.001；
+- Validation 六格 Macro AUC 选点；
+- LogLoss 独立评价；
+- M3oE、HyperGate、AutoIFS 正式比较；
+- Test 只在 freeze 后评价。
 
-## 8. AUC / LogLoss 分歧
+## 10. AUC 与 LogLoss
 
-AUC 是排序指标，LogLoss 是概率质量指标。两者不同向时保留两套结果，不以其中一个解释或替代另一个。Test 不参与筛选或机制判断。
+AUC 是排序，LogLoss 是概率质量。不同向时保留两种结论，不互相替代。任何仅改善 calibration / LogLoss 的机制不得写成 AUC 收益。
