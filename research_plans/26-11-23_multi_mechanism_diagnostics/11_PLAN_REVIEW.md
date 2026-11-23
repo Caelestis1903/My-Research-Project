@@ -46,7 +46,7 @@
 - 将 S2 Top-K confirmation 改为所有候选 V_B readout。
 - 将 S3 gated short trajectory 改为所有可训练变体 5-epoch trajectory。
 - 将 S4 top candidate 改为所有通过门槛的候选逐一完整训练。
-- 增加五组跨机制交互和 2,130 个局部 fork slots。
+- 增加五组跨机制交互和 2,190 个局部 fork slots；S3 增加 31 个训练动作变体的三点轻量超参网格（最多 930 条短程轨迹）。
 - 增加 family-round-robin，取消主观调度优先级。
 
 ## 5. 审查限制
