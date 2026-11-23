@@ -166,7 +166,7 @@ A failed review blocks run. Coder self-review is not independent review.
 ~~~python
 for batch in train_loader:
     # step 1: P consistency adaptation
-    freeze_update(U)                 # U remains in graph as differentiation target
+    # Keep U.requires_grad=True to construct per-cell gradients; only suppress its optimizer update below.
     cell_grads = per_cell_grad_U(create_graph=True)
     joint_grad = joint_grad_U(create_graph=True)
     loss_cons = consistency_objective(cell_grads, joint_grad)
