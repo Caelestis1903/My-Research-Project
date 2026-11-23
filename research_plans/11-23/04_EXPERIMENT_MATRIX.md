@@ -30,7 +30,7 @@
 |---|---|---|---:|---|
 | J_ORIG | ML/KR | 2022–2026 | 50 | 原始联合 Adam + 固定 EMA；提供 E10/E25/E40 fork anchors |
 
-总计 2 × 5 = 10 条完整轨迹，500 epochs。仅当精确身份可核验的历史状态同时含 model、Adam、EMA、RNG、loader 和 epoch state 时才可复用；只复用数值端点不等于复用状态。
+总计 2 × 5 = 10 条完整轨迹，500 epochs。仅当精确身份可核验的历史状态同时含 model、Adam、EMA、RNG、loader 和 epoch state 时才允许复用；只复用数值端点不等于复用状态。
 
 ## 3. S1 诊断臂
 
@@ -41,9 +41,9 @@
 | J2 | A、B 各一次完整联合 Adam | 原始两步参照 |
 | JACC | A/B 同 pre-state 梯度累积，一次联合 Adam | 相同数据/计算、一次参数更新控制 |
 | U_ONLY | A/B 累积，仅 U 更新 | 共享更新单独响应 |
-| P_CELL_ONLY | A/B 累积，仅 Gate/Tower 更新 | cell-specific 路径单独作用 |
-| P_AXIS_ONLY | A/B 累积，仅 domain/task experts 更新 | 域/任务轴专家作用 |
-| P_FULL_ONLY | A/B 累积，仅 P_CELL+P_AXIS 更新 | 全专有路径单独作用 |
+| P_CELL_ONLY | 仅 Gate/Tower 更新 | cell-specific 路径单独作用 |
+| P_AXIS_ONLY | 仅 domain/task experts 更新 | 域/任务轴专家作用 |
+| P_FULL_ONLY | 仅 P_CELL+P_AXIS 更新 | 全专有路径单独作用 |
 | U→P_CELL | U(A) 后 P_CELL(B)，并执行反向 batch 映射 | 共享后 cell head 适配 |
 | P_CELL→U | P_CELL(A) 后 U(B)，并执行反向 batch 映射 | 更新顺序控制 |
 | U→P_AXIS | U(A) 后 P_AXIS(B)，并执行反向 batch 映射 | 共享后轴专家适配 |
@@ -55,7 +55,7 @@ S1 诊断不增加完整训练轨迹，不新增随机 seed。统计单位仍为
 
 ## 4. S2 完整训练臂
 
-仅当 S1 选出唯一 scope (P^*) 后执行：
+仅当 S1 选出唯一 scope (P^*\) 后执行：
 
 | ID | 方法 | 是否新增完整轨迹 | 用途 |
 |---|---|---:|---|
@@ -66,7 +66,18 @@ S1 诊断不增加完整训练轨迹，不新增随机 seed。统计单位仍为
 
 每个新 arm：2 datasets × 5 seeds × 50 epochs = 500 epochs。最多 3 个新 arm = 1500 epochs；若 baseline 状态不可复用，再加 500 epochs。不得因候选结果不理想再扩展 scope 搜索。
 
-## 5. S3 Test
+## 5. S2 pair/tail 规则
+
+- 每 epoch 的原始 loader 顺序不变。
+- 两个连续完整 batch 组成一个 cycle；不跨 epoch 拼接。
+- 对 U→P/P→U，两个 substep 顺序按方法固定；当 pair 中 batch 行数不等时，若源 loader 出现非完整尾批，该 pair 不执行 block schedule。
+- 对不能组成两个完整 batch 的 epoch 尾部 batch（或两个剩余 batch），所有 arms 使用相同 canonical joint Adam tail rule。
+- 不丢弃任何自然样本。每 epoch 输出 row coverage hash，必须与原 loader permutation 一致。
+- 为减少固定 batch 位置偏差，完整 batch pair 的 A/B 映射按 cycle parity 交替：奇数 cycle 用原序，偶数 cycle 交换 batch 身份；更新顺序仍保持 U→P 或 P→U。
+
+因此 ML 每 epoch 仅前 18 个完整 batch（9 个 pair）执行 block schedule，最后 full+tail 两批共同走 canonical tail；KR 前 48 个完整 batch（24 个 pair）执行 block schedule，最后一个 batch 走 canonical tail。若实际 batch 数改变，按同一规则重新生成并在 manifest 中记录，不得静默改变 pair 数。
+
+## 6. S3 Test
 
 仅在 S2 validation gate 通过后冻结：
 - J_ORIG
