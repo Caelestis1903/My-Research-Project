@@ -57,7 +57,7 @@ M1-C 的 pairwise conflict energy 不能用 cell-ID permutation 或所有 cell �
 
 ## 6. M2 implementation
 
-每个 dataset/seed/anchor 从 canonical Train batch B 中抽取最多 128 rows/domain（总计最多 384 rows），按 observed joint-label support 分层；Train-only calibration pairs 独立保留，不进入 optimizer batch。未评分 row-task 权重保持 1。
+每个 dataset/seed/anchor 从 canonical Train batch B 中抽取最多 128 rows/domain（总计最多 384 rows），按 observed joint-label support 分层；Train-only calibration pairs 独立保留，不进入 optimizer batch。未评分 row-task 权重保持 1。每个 row-task BCE gradient contribution 使用 canonical reduction scale 1/(2B)，B 为原始 batch row 数；求和须重建完整 batch gradient。
 
 对每个 sampled row-task：
 1. 按 source canonical loss reduction 计算 BCE gradient contribution；
