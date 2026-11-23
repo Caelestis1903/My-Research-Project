@@ -1,0 +1,42 @@
+{
+  "seed": 2023,
+  "fit_rows": 6144,
+  "teacher_epoch": 10,
+  "method": "closed-form frozen-feature logit ridge distillation",
+  "ridge": 1e-06,
+  "bias_regularized": true,
+  "selection": "residual cell minimizes train logit MSE; no epoch/LR search",
+  "models": {
+    "flat": {
+      "coefficient_dof": 390,
+      "stored_head_scalars": 426,
+      "train_logit_mse": 0.006411700165999176
+    },
+    "additive": {
+      "coefficient_dof": 260,
+      "stored_head_scalars": 284,
+      "train_logit_mse": 0.007584872184163064
+    },
+    "ordinary_one_cell": {
+      "coefficient_dof": 325,
+      "stored_head_scalars": 355,
+      "train_logit_mse": 0.006902203897013321,
+      "selected_cell": 3
+    },
+    "centered_repair": {
+      "coefficient_dof": 325,
+      "stored_head_scalars": 355,
+      "train_logit_mse": 0.006902203897013321,
+      "selected_cell": 3
+    },
+    "rank4_svd": {
+      "coefficient_dof": 268,
+      "stored_head_scalars": 284
+    }
+  },
+  "equivalence_projector_error": 2.220446049250313e-16,
+  "mean_std_storage": 128,
+  "labels_used_for_fitting": false,
+  "optimizer_count": 0,
+  "test_access": false
+}

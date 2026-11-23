@@ -26,3 +26,21 @@
 - 有合理候选方法、可运行条件与判别价值时，至少做一个与强 baseline 可比的小型尝试；若严谨理论已排除或强文献覆盖，清晰记录后可终止该方向。
 - 六项方向在最终对照表中均有可追溯研究判定；未完成的方向必须说明确切阻碍，不能隐去。
 - 创新优先级可以重新排序，但必须由证据支撑，而不是因历史 Equal/Sample 研究数据更丰富而自动偏向旧线。
+
+## 2026-10-18 实际首轮判定
+
+六方向已全部完成实质尝试和首轮判定，所有触发工作完成。完整结论见
+[execution/FINAL_REPORT.md](execution/FINAL_REPORT.md)，机器账本见
+[DIRECTION_DISPOSITIONS.json](execution/DIRECTION_DISPOSITIONS.json)。
+
+| 方向 | 判定 | 实际尝试与主要依据 |
+|---|---|---|
+| [P1](execution/P1/analysis.md) | DATA-BLOCKED | 支持 LP、共同权重反例、ML 评分时间分组；缺可信 nuisance/目标 shift |
+| [P2](execution/P2/analysis.md) | DATA-BLOCKED；简单方法 NO-GO | 同观测世界、MAR/MNAR 与等预算审计；同信息普通 LP 精确复制缩界，缺自然桥接 |
+| [P3](execution/P3/analysis.md) | 当前修复 NO-GO | 精确受限证书＋四种子冻结头新拟合；修复等价普通额外 cell 头，保护 0/4 |
+| [P4](execution/P4/analysis.md) | 当前规模方法 NO-GO | 四种子独立批梯度/完整函数风险方向、直接低成本边际测量；无稳定决策优势 |
+| [P5](execution/P5/analysis.md) | 独立方法 NO-GO | 出版对称＋同函数同动作风险反号；普通人口权重已解决构造，未复现官方 D3 |
+| [P6](execution/P6/analysis.md) | 当前 sampler NO-GO | 四种子完整行梯度与范数/方向/logit/MIS 对照；额外方向收益仅 .06%–.62% |
+
+上述为具体候选与当前数据的裁决；保留更广问题与明确新条件，不表示六个
+科学方向被普遍否定。没有把未触发端到端训练写为阴性训练结果。
