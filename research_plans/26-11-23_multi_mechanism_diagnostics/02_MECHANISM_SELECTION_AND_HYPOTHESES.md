@@ -1,117 +1,126 @@
-# 02 — 机制选择、数学定义与假设
+# 02 — M1–M8 全候选机制、变体与可证伪假设
 
-## 1. 最终选择
+## 总原则
 
-### M1：共享梯度一致性塑形（主候选）
+本轮不对八个机制家族排序。M1–M8 全部纳入，每个家族的以下变体全部注册。机制变体可以得到 NO_GO，但不得因主观优先级在执行前排除。
 
-**核心假设 H1**：在固定共享表示 U 时，改变专有参数 P 可以改变各 cell 对 U 的梯度；存在一个可由 consistency objective 捕获的方向，使六个 cell 的共享梯度更接近自然联合梯度。该变化不必然提高 AUC，必须独立测量。
+## M1：共享更新诱导的专有梯度一致性塑形
 
-对 cell c：
-g_c(U,P) = ∇_U L_c(U,P)
-g_J(U,P) = ∇_U L_joint(U,P)
+设共享参数 U、专有参数 P，六个 domain-task cell 的损失为 L_c。定义：
+g_c(P)=∇_U L_c(U,P)，g_J=∇_U L_joint(U,P)。
 
-方向一致性损失：
-L_cons(P) = Σ_c w_c [1 − (g_c·g_J)/(||g_c|| ||g_J|| + ε)]
+三个互不等价的目标：
+1. M1-A 方向一致性：L_cos = Σ_c w_c[1−cos(g_c,g_J)]。
+2. M1-B 幅度感知一致性：L_mag = Σ_c w_c ||g_c−α_c g_J||²/(||g_J||²+ε)，α_c 固定由训练 batch 的 cell loss mass 计算，不使用 Validation。
+3. M1-C 成对冲突能量：L_pair = Σ_{c<k} w_ck max(0,−cos(g_c,g_k))²，并记录与 g_J 的关系。
 
-主诊断固定 w_c=1/6；natural traffic 权重仅作为描述性敏感度，不替代主定义。
+每种目标均通过二阶自动微分更新 P；U 保持 requires_grad=True 构造 g_c，二阶反传后显式清空 U.grad=None，再执行 native Adam step，使 U 参数与 U 的 Adam m/v/step bitwise unchanged。
 
-M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微分更新 P；随后在同样的训练预算下执行一次 joint update。比较 P-consistency、P-BCE、coordinate-shuffled consistency 与 joint baseline。
+处理/控制：
+- 对应 consistency objective；
+- P-BCE-only step + joint step；
+- within-tensor coordinate-shuffled gradient control；
+- two-step joint baseline；
+- consistency-only readout。
 
-**区分性**：D2 只比较 P 范围、更新顺序和联合更新。M1 优化的是 P 对共享梯度几何的塑形目标，新增了 ConsMTL 类型的二阶机制，不是重做静态 U/P scope sweep。
+假设：P 的变化可以塑造 U 接收的 cell gradient geometry。该几何变化是否改善排序是独立问题，不预设成立。
 
-**预测**：
-- L_cons 应下降；
-- 六个 cell 的 g_c 与 g_J cosine dispersion 应下降；
-- 如机制有预测价值，独立 Validation panel 上排序变化应与 consistency 变化相关；
-- 若只有几何变化而没有预测收益，接受机制现象但不晋级算法。
+## M2：样本×任务条件影响
 
-控制：
-- joint baseline，两次 joint step；
-- P-BCE step + joint step（相同步数/额外计算对照）；
-- within-tensor coordinate-shuffled consistency + joint step；
-- consistency-only（只测直接 P output response，不参与预算主比较）。
+对 row i、source task t、target cell c，使用 Train-only calibration pair margin m_c。计算同一 anchor Adam state 下：
+ΔU_full = virtual_adam(g_full)
+ΔU_without(i,t) = virtual_adam(g_full−g_i,t)
+ΔU_i,t = ΔU_full−ΔU_without(i,t)
+s(i,t,c)=∇_U m_c · ΔU_i,t。
 
-### M2：样本×任务条件影响（主诊断候选）
+正分数表示 row-task 对当前共享更新的一阶预测提高正负样本 margin。该量是 local optimizer-step marginal attribution，不称为精确因果效应或完整 influence function。
 
-**核心假设 H2**：相同训练样本在不同任务上产生的共享参数更新，对不同 cell 的排序 margin 有不同的预测影响；task-specific score 优于 task-agnostic 或 shuffled score。
+变体：
+1. M2-A task/cell-conditioned influence weighting：按 s 的 task-specific aggregate 形成权重，domain-task 内均值归一，保持总 loss mass。
+2. M2-B influence-ranked scheduling：保持 epoch row exposure 与 optimizer steps 不变，改变 task-gradient accumulation 的 row order。
+3. M2-C negative-impact suppression：对负向影响行降低权重，正向影响行补偿，保持 domain-task loss mass。
+4. M2-D cell-response weighting：使用六维 s(i,t,c) 向量形成 cell-aware 更新权重，所有 cell 的有效 loss mass 均显式核对。
 
-对样本 i、任务 t、目标 cell c：
-s(i,t,c) = ∇_U m_c^cal · ΔU(i,t)
+控制：自然 uniform、task-agnostic score、within-domain shuffled score、随机权重分布匹配。不得退化为 loss、gradient norm 或域频率排序。
 
-m_c^cal 是从 Train-only calibration pairs 构造的正负样本 logit margin；ΔU(i,t)=ΔU_full−ΔU_without(i,t)，两项均从同一 anchor Adam state 对完整 batch 梯度和移除该 row-task BCE contribution 后的梯度执行虚拟 Adam 单步得到。正分数表示该 row-task 对当前更新的一阶预测使 margin 增大。此量仅为局部一阶预测代理，不称为因果 influence。
+## M3：阶段性与组合式训练影响
 
-Action：在每个 domain-task 内归一权重、总 loss mass 不变地调整样本权重。权重 clipping 与缩放范围必须 S0/S1 前冻结，并轻量搜索。
+M3 不依赖 M2 是否阳性，全部执行。
 
-对照：
-- natural uniform weights；
-- task-specific score weights；
-- task-agnostic collapsed score；
-- within-domain shuffled score。
+变体：
+1. M3-A stagewise attribution：对 E10/E25/E40 的同一 row/task panel 计算影响分数、pair-margin response 和符号翻转。
+2. M3-B group interaction：每个 anchor 固定两个 group pair：一组由 Train-only M2 score 的高/低影响组构成；另一组为同 domain、joint-label support 和规模匹配的随机组。对每组比较 A-only、B-only、A/B mixture、A/A mixture、B/B mixture。
+3. M3-C stage×group interaction：同一 group pair 在 E10/E25/E40 分别计算，检验交互项随阶段改变。
 
-必须匹配 row exposure、batch size、loss mass、optimizer steps、Adam state 和 weight decay。
+固定 batch size n：
+I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
+同时报告函数输出与 ranking margin 的 interaction residual。A-only、B-only、A/B、A/A、B/B 均使用相同 n、相同 Adam 起点和相同步数。
 
-### M3：阶段性与组合式影响（条件诊断）
+## M4：域任务条件有害特征依赖
 
-**触发**：M2 的 top/bottom group 在至少两个 seed、至少两个 anchors 方向一致，且样本支持充分。
+不把相关性或 HSIC 下降直接称为因果或有害依赖。按真实 feature schema 分组，逐组报告 domain/task 条件结果。
 
-固定总 batch size n：
-I_AB = ΔU(A/B mixture) − 0.5ΔU(A-only) − 0.5ΔU(B-only)
+变体：
+1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层。
+2. M4-B conditional permutation intervention：在 domain × observed joint-label strata 内置换目标 feature group，比较 logit、pair margin、AUC 变化；这是依赖诊断，不是因果证明。
+3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization 或 HSIC penalty，配 matched sham penalty/control。
 
-A-only、B-only、A/B mixture 的 batch size 相同；混合组由 A、B 各 n/2 行组成。另设 A/A 与 B/B 混合 control 以区分单组内部重复。不同 epoch anchors 分别报告，不把阶段差异当作课程收益。
+所有 feature groups 由 DATA_MANIFEST 的实际字段映射生成。domain_indicator 不作为可干预特征。用户/物品实体 ID 不做任意置换；对这些字段只做依赖测量或合法 masking 检查。
 
-### M4：域任务条件有害特征依赖（仅审计）
+## M5：语义约束的多标签保持增强
 
-仅在可定位具体字段、可定义干预并有标签语义依据时继续。统计相关/HSIC 变化本身不构成有害依赖或因果证据。
+M5 不限于审计。所有可实现变换均进入真实增强诊断，但标签保持必须被测量，不得先验宣称。
 
-### M5：语义合法多标签增强（仅审计）
+变体：
+1. M5-A sparse field masking/dropout：使用模型真实支持的 missing/OOV/mask 路径；逐字段检查 mask 语义，不得假设 OOV index 自动等于 mask。
+2. M5-B embedding perturbation：稀疏/稠密 embedding 的小幅扰动，Gaussian+EMA 作为已知内部参照，新增噪声形式单独标记。
+3. M5-C within-stratum categorical substitution：仅在相同 domain、观察到的联合标签支持和预先定义的上下文匹配条件下替换类别值；记录替换前后频率和标签一致性。
+4. M5-D dense feature perturbation：只对真实 dense feature 执行，在原 domain/semantic bin 内扰动；无 dense field 的数据集标记该变体 NOT_APPLICABLE。
+5. M5-E multi-view consistency：原始样本与每种通过字段合法性审计的增强视图共同训练，两个任务标签保持原值，增加 prediction consistency 项。
 
-必须为每种字段变换提供标签保持依据。MovieLens/KuaiRand 的 user_id、movie_id、domain indicator、类别ID、稀疏离散属性不得任意置换或插值。没有业务/数据生成语义支持则 STOP。
+MovieLens 的嵌套任务标签关系必须保持；KuaiRand 按实际联合标签支持处理。user_id、movie_id、domain_indicator 和不可解释的离散 ID 不得任意替换。每个变换记录输入合法性、标签联合分布变化、预测一致性、训练效果。
 
-## 2. 辅助测量
+## M6：输出敏感度条件化控制
 
-- M6 输出敏感度：记录 logits、pair margins、六格 AUC 对参数更新的响应，不作为独立方法。
-- M7 seed 分布：报告五个配对 seed 的每 seed 方向、均值、SD、区间和符号数；不把 seed 内多次 fork 扩充 n。
-- M8 通用冲突控制器：排除，避免与 PCGrad、GradCraft、DTJS、ConsMTL 的通用机制重叠。
+对每个 cell 的 calibration pair margin m_c，计算共享/专有参数组 Jacobian J_c=∇_θ m_c。给定原始更新 Δθ_0，预测响应为 J_cᵀΔθ_0。
 
-## 3. 可证伪条件
+变体：
+1. M6-A sensitivity scaling：依据六格预测响应缩放整体更新，避免预测 worst-cell 大幅受损。
+2. M6-B worst-cell trust region：求解 min_δ ||δ−Δθ_0||²，使每格 J_cᵀδ ≥ −τ。
+3. M6-C parameter-group response gating：对 U/P 及运行时确认的参数组估计输出敏感度，执行组级缩放或门控。
 
-M1：
-- 若 consistency objective 无法稳定降低梯度 dispersion，判当前实现 NO_GO；
-- 若能降低 dispersion，但独立 V_B 的 cell AUC/pair correction 无响应，接受“梯度几何可塑但不转化为排序收益”，停止当前方法化；
-- 若改善只来自多一次 P 更新，P-BCE 匹配对照也应改善，不能归因于 consistency。
+控制：global norm clipping、random scale、无敏感度的相同预算缩放。代理预测与实际 pair/AUC 变化分开报告。
 
-M2：
-- 若 task-specific score 与 task-agnostic/shuffled 无区别，说明当前数据/模型下未识别出可用的任务条件信息；
-- 若 score 只预测 loss 变化、不预测 pairwise ranking，停止作为 AUC 机制；
-- 若结果由标签支持极稀疏或某 seed 主导，标记 INCONCLUSIVE。
+## M7：跨 seed 分布影响归因
 
-M3：
-- 若 interaction residual 在 seed/anchor 间符号不稳定，停止 group attribution 扩张；
-- 若 interaction 存在但无可执行动作收益，只保留诊断结论。
+M7 使用 M2 的 row-task influence 和其他机制的局部响应，但作为独立机制家族完整评价。
 
-## 4. 超参数
+变体：
+1. M7-A distributional attribution：同一 row/task/cell 的五 seed score 分布，报告均值、SD、分位数、正负方向比例。
+2. M7-B robust influence weighting：score = mean(score_seed)−λ·SD(score_seed)，λ 取预注册轻量网格；对照只用均值。
+3. M7-C leave-one-seed-out transfer：用四个 seed 估计样本影响规则，在留出的第五 seed 上检验排序预测和更新方向；轮换五次。
 
-只搜索：
-- M1 consistency step size multiplier：0.1 / 0.3 / 1.0 × canonical Adam lr；
-- M1 inner steps：1 / 2，默认 1；
-- M2 score temperature/clip quantile：预先固定两档轻量值，不做大网格；
-- M2 weight amplitude：0.05 / 0.10 / 0.20，作用为 w=normalize(1+α·clip(score))，每个 domain-task 内 mean=1。
+五 seed 经验分布不等同总体分布。禁止把 row 数或 anchor 数作为独立 seed。
 
-S1 用五 seed 综合 Validation AUC 与机制读数选择一个配置；S2 冻结，不得按单 seed 选择。若新超参与 D2 的现有值重叠，仍须记录来源和是否为新参数。
+## M8：多任务冲突控制器
 
+M8 与 M1 区分：M1 改变 P 以塑造 cell gradients；M8 直接控制共享更新中的任务/cell gradient aggregation。
 
-## 5. 条件晋级算法：CGPA
+变体：
+1. M8-A PCGrad reference：按六 cell gradient 执行标准 pairwise projection，作为历史负向方法的复核控制，不宣称新颖。
+2. M8-B conflict-aware weighting：根据六 cell pairwise cosine/conflict matrix 求非负、受上下界约束的 cell weights，保持总 loss mass。
+3. M8-C common-descent projection：将联合梯度投影到各 cell gradient 的共同下降可行方向，若不存在共同方向则求最小冲突残差；完整报告 solver 与约束。
+4. M8-D conflict-aware cell gating：根据冲突矩阵对 cell contribution 做连续门控，设定最低权重和总质量约束，不允许静默丢弃任务。
 
-仅当 M1 在 S2 和 S3 通过时，才执行 CGPA 完整训练。
+控制：canonical joint gradient、uniform cell weights、random weights、历史 PCGrad 对照。所有动作保留每个 cell 的权重与有效监督量。
 
-对每个 batch：
-- 计算六格共享梯度 g_U,c 与自然联合梯度 g_U,J；
-- 构造 L_cons；
-- 固定 U，对 P 做一次 consistency-only Adam step；
-- 重新计算同一 batch 的 canonical joint BCE；
-- 执行一次 joint Adam step；
-- 执行一次固定 EMA tick。
+## 五组跨机制交互
 
-consistency step 的学习率乘数从 0.1、0.3、1.0 轻量搜索，inner steps 固定为 1；若 S3 显示单步不足，inner steps=2 仅可在 S3 预注册前作为第二档，不允许运行中追加。最终超参由五 seed 综合 Validation 结果选择并在 S4 freeze 前固定。
+全部运行，不依赖单机制先通过：
+- X1 M1×M2：P consistency + task-specific row-task weighting；
+- X2 M2×M3：sample-task weighting + group interaction action；
+- X3 M4×M5：task-conditioned dependency intervention + label-consistency-constrained augmentation；
+- X4 M6×M8：output-sensitivity trust region + conflict-aware aggregation；
+- X5 M1×M8：private-gradient shaping + shared-gradient conflict controller。
 
-对照 P-BCE-prestep + joint 使用相同两次 optimizer steps、同 batch、相同 EMA ticks，区分 consistency objective 与额外私有更新收益。CGPA 不叠加 M2 weighting，不叠加 M3 group sampler，不改变固定 EMA。
+每个组合均有两个单机制 arm、组合 arm 和预算匹配 control。禁止扩成全部八机制全排列。
