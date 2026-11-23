@@ -19,7 +19,7 @@ g_c(P)=∇_U L_c(U,P)，g_J=∇_U L_joint(U,P)。
 处理/控制：
 - 对应 consistency objective；
 - P-BCE-only step + joint step；
-- within-tensor coordinate-shuffled gradient control；
+- within-tensor coordinate-shuffled gradient control：对每个 cell、每个 U parameter tensor 使用独立固定 permutation，保留每个向量范数；不得所有 cell 共用同一 permutation。
 - two-step joint baseline；
 - consistency-only readout。
 
@@ -65,6 +65,7 @@ I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
 1. M4-A conditional dependence map：计算 feature-group embedding 与 shared/task representation、logit/margin 的条件依赖统计，按 domain/task 分层。
 2. M4-B conditional permutation intervention：在 domain × observed joint-label strata 内置换目标 feature group，比较 logit、pair margin、AUC 变化；这是依赖诊断，不是因果证明。
 3. M4-C task-conditioned residualization：对被测 feature group 的可预测表示分量做 task-conditioned residualization，配 matched sham control。
+4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
 4. M4-D task-conditioned HSIC penalty：对指定 representation/feature-group dependence 添加 task-conditioned HSIC penalty，配 matched sham penalty/control。
 
 所有 feature groups 由 DATA_MANIFEST 的实际字段映射生成。domain_indicator 不作为可干预特征。用户/物品实体 ID 不做任意置换；对这些字段只做依赖测量或合法 masking 检查。
