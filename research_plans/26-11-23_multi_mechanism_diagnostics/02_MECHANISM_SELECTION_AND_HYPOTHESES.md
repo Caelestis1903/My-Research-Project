@@ -148,3 +148,71 @@ S1 使用每个变体的 canonical default 运行全量局部诊断；S3 对全�
 若某个变体使用两个相关参数，按表中对应三点单参数 sweep，其他参数固定 canonical default；不得做全笛卡尔积。M3 group size 受真实 label support 约束时，使用最大可用值并记录实际 n，不补造样本。X1–X5 使用其组成 family 在 S3 五 seed 综合结果中选出的配置，不另做组合超参网格。
 
 S3 结束后，每个变体使用五 seed Validation aggregate 选择一个配置并 freeze；所有通过 gate 的变体都进入 S4，不按变体间收益排名删减。
+
+
+## 机制动作的精确定义补充
+
+### M2 score aggregation and weights
+
+令 C_t 为三个 domain 中 task t 的 target cells：
+S(i,t)=mean_{c∈C_t} s(i,t,c)。
+在 source domain × task 内对 S 做 z-score，winsorize 到 [-2,2]，记为 z(i,t)。
+
+- M2-A：w(i,t)=Normalize(exp(α·z(i,t)))。
+- M2-B：每个 optimizer step 为 task0/task1 分别构造大小为 canonical B 的 microbatch；按各自 z(i,t) 降序排列。matched control 使用完全相同 row IDs 的自然顺序。两任务 loss 各乘 1/2 后在同一参数状态下合并，只执行一次 Adam step。
+- M2-C：w(i,t)=Normalize(exp(-α·max(0,-z(i,t))))，只抑制负向影响，归一后保持每个 source domain-task 的总 loss mass。
+- M2-D：使用 z_min(i,t)=min_c z(i,t,c) 形成 worst-cell protective weight，w(i,t)=Normalize(exp(α·z_min(i,t)))。六维原始 score 始终完整保存。
+
+Normalize 表示在 source domain-task 内缩放到权重均值为 1；所有权重必须非负，记录 clipping 和有效 loss mass。
+
+### M3 group construction
+
+对每行 i 定义 row score：
+S_row(i)=0.5·[mean_c s(i,0,c)+mean_c s(i,1,c)]。
+在每个 domain × observed joint-label stratum 内按 S_row 排序，构造高分 A pool 与低分 B pool；随机匹配组在相同 strata 中抽取相同数量的 row。所有 group membership 在读 Validation 前冻结。若 score 全部 ties，使用固定 keyed hash 作确定性 tie-break，并明确标记 NO_SCORE_SEPARATION；仍执行 group arms。
+
+A/B pools 各至少 n 个不同 row。A-only/B-only 各取 n 个不同 row；A/B 各取 n/2；A/A 与 B/B 各取 n/2 个 row 并重复一次。n∈{64,128,256}，受实际 joint-label support 约束；若某档不足，记录该档 INCONCLUSIVE 并继续其他可用档，不补造数据。
+
+### M4 feature dependence actions
+
+- M4-A：按 domain/task/joint-label strata 计算 feature-group embedding 与 hidden representation/logit/pair-margin 的 conditional dependence；对照为相同数量的随机 feature-group assignment。
+- M4-B：在 domain × observed joint-label strata 内置换 feature group values，比较功能变化；matched sham 只执行相同 permutation pipeline 但置换无关的 control group。
+- M4-C：在 Train 上拟合 feature-group-to-representation predictor q_f，构造 h_res=h−q_f(z_f)，送入对应 task path；与参数量/训练预算匹配的 sham residualizer 比较。
+- M4-D：在 joint objective 上增加 λ·Σ_{d,t} HSIC(h_{d,t},z_f)，与 sham penalty 比较。
+
+所有 feature group 只从真实 DATA_MANIFEST 生成；domain indicator 不干预。M4 的 dependence 或 HSIC 降低不自动构成因果结论。
+
+### M5 augmentation actions
+
+- M5-A：在 embedding output 上做 field dropout/masking；默认不把 OOV index 当 mask，使用显式 zero/mask vector，mask rate 0.05/0.10/0.20。
+- M5-B：embedding additive noise；比较 Gaussian 与 Rademacher noise，按 embedding norm 归一化强度；Gaussian+EMA 作为已有参照。
+- M5-C：Train-only within-stratum categorical substitution；仅替换非实体 ID 且经 schema checker 允许的字段。
+- M5-D：对真实 dense fields 在原 domain/semantic bin 内扰动；无适用 dense field 时逐数据集标记 NOT_APPLICABLE。
+- M5-E：原始与增强 view 共同训练，目标为 BCE(original)+BCE(augmented)+λ_cons·||p_original−p_augmented||²；两个任务标签保持原值并记录标签支持、预测一致性和数据合法性。
+
+标签原值不变只说明程序未改标签，不等于证明变换在真实世界语义上保持标签；报告必须区分机械标签一致性与经验预测一致性。
+
+### M6 sensitivity actions
+
+对六格 calibration pair margins 的 Jacobian J_c 与原始更新 δ0：
+- M6-A：选最大 α∈[0,1]，使 min_c J_cᵀ(αδ0)≥−τ。
+- M6-B：求解 min_δ ||δ−δ0||²，约束 J_cᵀδ≥−τ，对所有六格同时成立。
+- M6-C：将 δ0 分为运行时 parameter groups，求每组 α_g∈[0,1]，最小化 ||δ−δ0||² 并满足同样六格约束。
+τ 使用三点网格。记录 solver feasibility、residual、预测响应和实际响应。
+
+### M8 conflict controller actions
+
+- M8-A PCGrad：六 cell gradients 按固定 keyed order 逐对投影；同时报告顺序敏感性。
+- M8-B weights：求解 simplex weights w，minimize ||Σ_c w_c g_c−g_J||² + λ·Σ_{c<k}w_cw_k·max(0,−cos(g_c,g_k))²，约束 w_c≥w_min、Σw=1。
+- M8-C common-descent projection：求 d，minimize ||d−g_J||² + λ·Σ_c max(0,−g_cᵀd)²，并约束 ||d||≤||g_J||；记录是否存在共同下降方向。
+- M8-D gating：根据每个 cell 的 conflict score 生成连续 gate，设定 gate floor，归一后保持总 gradient mass。
+
+### Cross-family combination identity
+
+- X1：M1-A COSINE_CONSISTENCY + M2-A TASK_CELL_IMPACT_WEIGHTING。
+- X2：M2-A TASK_CELL_IMPACT_WEIGHTING + M3-B SCORE_DEFINED_GROUP_INTERACTION。
+- X3：M4-D TASK_CONDITIONED_HSIC_PENALTY + M5-E MULTIVIEW_LABEL_CONSISTENCY；M5 transform 需通过实际 validity gate。
+- X4：M6-B WORST_CELL_TRUST_REGION + M8-B CONFLICT_AWARE_SIMPLEX_WEIGHTS。
+- X5：M1-C PAIRWISE_CONFLICT_ENERGY + M8-C COMMON_DESCENT_PROJECTION。
+
+X1–X5 的 component arms 复用同 anchor 的单机制 receipts；新增 combined arm 与 matched-budget control。不得根据单机制哪个更好临时更换组合定义。
