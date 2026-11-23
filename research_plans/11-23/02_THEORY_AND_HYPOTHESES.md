@@ -3,73 +3,73 @@
 ## 1. 变量定义
 
 令模型参数分解为：
-[
+\[
 \theta=(\theta_U,\theta_{P_c},\theta_{P_a}),
-]
-其中 U 为共享/上游表示与共享专家；(P_c) 为 cell-specific Gate/Tower；(P_a) 为 domain/task axis experts。完整专有路径 (P=P_c\cup P_a)。
+\]
+其中 U 为共享/上游表示与共享专家；P_c 为 cell-specific Gate/Tower；P_a 为 domain/task axis experts。完整专有路径 P=P_c∪P_a。
 
-对 cell (c=(d,t))，预测 logit 为：
-[
+对 cell c=(d,t)，预测 logit 为：
+\[
 z_c(x;\theta_U,\theta_P).
-]
+\]
 
-对一个固定自然训练 batch (B)，普通联合梯度：
-[
+对一个固定自然训练 batch B，普通联合梯度：
+\[
 g_U=\nabla_{\theta_U} L_B(\theta),\qquad
 g_P=\nabla_{\theta_P} L_B(\theta).
-]
+\]
 
 本轮不改变自然目标：
-[
+\[
 L_B=\frac{1}{2|B|}\sum_{i\in B}\sum_{t=0}^{1}
 \mathrm{BCE}(p_{i,t},y_{i,t}).
-]
+\]
 域任务 cell 指标仍按真实 domain mask 统计，不将六格训练目标改成等域重加权。
 
 ## 2. 共享更新后的响应
 
 在相同 pre-state 上，对 U 执行一次 Adam 更新，得到：
-[
+\[
 \theta_U^+=\mathrm{AdamStep}_U(\theta_U,g_U,m_U,v_U).
-]
+\]
 
 固定专有参数，定义 cell 的共享变化响应：
-[
+\[
 \Delta z_c^U(x)=z_c(x;\theta_U^+,\theta_P)-z_c(x;\theta_U,\theta_P).
-]
+\]
 
-对固定正负 pair (q=(x^+,x^-))，margin 响应：
-[
+对固定正负 pair q=(x^+,x^-)，margin 响应：
+\[
 \Delta m_{c,q}^U=
 [z_c(x^+;\theta_U^+,\theta_P)-z_c(x^-;\theta_U^+,\theta_P)]
 -
 [z_c(x^+;\theta_U,\theta_P)-z_c(x^-;\theta_U,\theta_P)].
-]
+\]
 
-响应异质性描述为六格的 (Delta AUC_c)、pair flip、margin 变化和 logit shift 分布；不得只用梯度余弦、参数范数或 loss 变化代替排序效用。
+响应异质性描述为六格的 ΔAUC_c、pair flip、margin 变化和 logit shift 分布；不得只用梯度余弦、参数范数或 loss 变化代替排序效用。
 
 ## 3. 专有路径适配效应
 
 共享更新后，固定 U，只更新选定 P scope：
-[
+\[
 \theta_P^{++}=\mathrm{Adapt}_P(
 \theta_U^+,\theta_P;B_{next},K).
-]
+\]
 
 定义适配恢复：
-[
+\[
 R_c^{post}=AUC_c(\theta_U^+,\theta_P^{++})
 -AUC_c(\theta_U^+,\theta_P).
-]
+\]
 
-但 (R_c^{post}>0) 本身不能证明“共享更新后的适配”具有特殊价值，因为额外专有更新可能在任何时刻都有用。必须与相同更新预算的反向顺序比较：
-[
+但 R_c^{post}>0 本身不能证明“共享更新后的适配”具有特殊价值，因为额外专有更新可能在任何时刻都有用。必须与相同更新预算的反向顺序比较：
+\[
 R_c^{order}=AUC_c(U\rightarrow P)-AUC_c(P\rightarrow U),
-]
+\]
 以及梯度累积联合控制：
-[
+\[
 R_c^{joint}=AUC_c(U\rightarrow P)-AUC_c(JOINT\_ACC).
-]
+\]
 
 核心 estimand 是在同一初始化、同一自然训练数据、同一参数组更新次数和相同反向/前向预算下，U→P 相对于 P→U 与 JOINT-ACC 的配对排序增量。
 
