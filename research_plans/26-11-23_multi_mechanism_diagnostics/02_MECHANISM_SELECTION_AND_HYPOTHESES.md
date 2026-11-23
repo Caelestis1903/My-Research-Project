@@ -37,9 +37,9 @@ s(i,t,c)=∇_U m_c · ΔU_i,t。
 
 变体：
 1. M2-A task/cell-conditioned influence weighting：按 s 的 task-specific aggregate 形成权重，domain-task 内均值归一，保持总 loss mass。
-2. M2-B influence-ranked scheduling：保持 epoch row exposure 与 optimizer steps 不变，改变 task-gradient accumulation 的 row order。
+2. M2-B influence-ranked scheduling：每个 optimizer step 分别为 task0/task1 构造独立 row microbatch，按各自 task-specific score 排序；两个 task 的梯度在同一参数状态下合并后执行一次 Adam step。每个 task 的全部 row 在 epoch 内恰好出现一次，保持每任务 exposure、每步 row 数、optimizer steps 和 loss mass。自然顺序为 control。
 3. M2-C negative-impact suppression：对负向影响行降低权重，正向影响行补偿，保持 domain-task loss mass。
-4. M2-D cell-response weighting：使用六维 s(i,t,c) 向量形成 cell-aware 更新权重，所有 cell 的有效 loss mass 均显式核对。
+4. M2-D worst-cell/cell-response weighting：先保留六维 s(i,t,c)，主 action 使用该 row-task 对六个 target cells 的最小预测 margin response 形成保护性权重；另报告等权平均聚合的敏感度版本。所有 source domain-task 的总 loss mass 显式匹配。
 
 控制：自然 uniform、task-agnostic score、within-domain shuffled score、随机权重分布匹配。不得退化为 loss、gradient norm 或域频率排序。
 
@@ -54,7 +54,7 @@ M3 不依赖 M2 是否阳性，全部执行。
 
 固定 batch size n：
 I_AB = ΔU(A/B)−0.5ΔU(A-only)−0.5ΔU(B-only)。
-同时报告函数输出与 ranking margin 的 interaction residual。A-only、B-only、A/B、A/A、B/B 均使用相同 n、相同 Adam 起点和相同步数。
+同时报告函数输出与 ranking margin 的 interaction residual。A、B 是两个互斥 row pools，各自至少有 n 个不同 row。A-only/B-only 分别使用 n 个不同 row；A/B 各用 n/2；A/A 与 B/B 分别从对应 pool 取 n/2 个 row 并重复一次。五组总 row slots 均为 n，Adam 起点和步数相同。
 
 ## M4：域任务条件有害特征依赖
 
