@@ -37,3 +37,16 @@
 ## 4. 方案最终裁定
 
 本方案允许 Codex 从 S0 开始，按 gate 顺序执行 S1–S3。S4 需要新的算法规格和独立审查。没有通过候选则终止，不追加无上限机制或组合。方案没有把研究报告中的所有候选机械地做笛卡尔积。
+
+
+## 5. 第二轮审查补充：S4 可执行性
+
+初版 S4 仅写“通过后另交算法规格”，不足以让 Codex 在研究门通过后自动执行。本次已将唯一允许的条件晋级算法冻结为 CGPA：
+- P consistency-only step；
+- 同 batch canonical joint step；
+- 每 batch 仅一次 EMA tick；
+- P-BCE-prestep 为两步预算匹配控制；
+- consistency lr multiplier 轻量搜索；
+- M2/M3 不自动混入。
+
+该补充避免 Codex 自行发明算法，同时保留机制未通过时 S4 不触发的停止规则。CGPA 是本项目待检验候选，不预先认定其有效或创新成立。
