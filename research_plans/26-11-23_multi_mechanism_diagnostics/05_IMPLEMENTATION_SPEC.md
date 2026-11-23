@@ -80,13 +80,13 @@ M1-2 P-BCE control executes one private-only BCE step then one joint step. M1-3 
 
 ## 5. M2 implementation
 
-- Select fixed sample panel from Train only.
+- Select a fixed row-gradient panel from canonical Train batch B (max 128 rows per domain/anchor), stratified by observed joint-label support.
 - Compute per-row/task gradient on U using exact task-specific BCE contribution.
 - Compute virtual Adam update using anchor m/v/step and effective weight decay; do not mutate live optimizer.
 - Compute train-calibration pairwise margin gradients per cell.
 - Score = negative margin-gradient dot virtual update.
 - Normalize weights within each domain-task to mean 1; clip and log effective total mass.
-- M2-2 averages score across tasks before weighting; M2-3 shuffles score within domain.
+- M2-2 averages score across tasks before weighting; M2-3 shuffles score within domain. Rows outside the panel keep weight 1; panel weights are renormalized within each domain-task so total task loss mass is unchanged.
 - All arms retain identical row IDs and batch size.
 
 If exact per-row gradients are too expensive, S0 may reduce fixed panel size only before S1 and record the reduced estimand. It may not switch to loss ranking or gradient norm ranking.
@@ -172,8 +172,12 @@ for batch in train_loader:
     loss_cons = consistency_objective(cell_grads, joint_grad)
     optimizer.zero_grad(set_to_none=True)
     loss_cons.backward()
+    # g_U,c must remain differentiable, so U may receive autograd grads here.
+    # Clear U grads to None immediately before native Adam step.
+    for p in U:
+        p.grad = None
     assert all(p.grad is None for p in U)
-    optimizer.step()                 # P state only
+    optimizer.step()                 # P state only; native Adam skips U entirely
 
     # step 2: canonical joint training
     unfreeze_all()
