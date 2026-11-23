@@ -101,10 +101,10 @@ L_cons(P) = Σ_c w_c [1 − cosine(g_U,c, g_U,J)]
 - M1-0：joint baseline 两步；
 - M1-1：P-consistency step（U 冻结）→ joint step；
 - M1-2：P-BCE step（U 冻结）→ joint step，控制额外 P 更新；
-- M1-3：P-consistency 目标的 cell 对应关系打乱 → joint step，控制 cell-specificity；
+- M1-3：P-consistency 的 U 梯度坐标在每个参数张量内作固定置换（保留张量范数）→ joint step，控制 cell-specificity；
 - M1-4：consistency 更新后不执行 joint step，仅测 P 直接改变输出的效果。
 
-M1-0、M1-1、M1-2、M1-3 的 optimizer.step 次数均为两次；所有 arm 从同一 anchor 状态克隆。M1-4 是机制读数，不参与预算公平主比较。更新 U 冻结时必须确保 U 的参数、Adam m/v/step 完全不变；P 更新只允许改变 P 的状态。若二阶计算超出资源门槛，允许 S0 将 M1 标为 TECHNICAL_BLOCKED，不允许静默换成一阶近似后仍称 ConsMTL-style。
+M1-0、M1-1、M1-2、M1-3 的 optimizer.step 次数均为两次；所有 arm 从同一 anchor 状态克隆。坐标置换控制必须在每个 U tensor 内进行固定、可逆的坐标 permutation，保留各 cell 梯度张量范数但破坏坐标对齐；不得简单置换 cell ID，因为等权求和下该操作是置换不变的。M1-4 是机制读数，不参与预算公平主比较。更新 U 冻结时必须确保 U 的参数、Adam m/v/step 完全不变；P 更新只允许改变 P 的状态。若二阶计算超出资源门槛，允许 S0 将 M1 标为 TECHNICAL_BLOCKED，不允许静默换成一阶近似后仍称 ConsMTL-style。
 
 ### 6.4 M2 筛选
 
@@ -112,7 +112,7 @@ M2 不按 loss 或梯度范数排序样本。对 Train calibration pair 的 cell
 s(i,t,c) = − ∇_θ m_c · Δθ(i,t)
 其中 Δθ(i,t) 是从 anchor Adam 状态对该行任务 t 梯度执行的虚拟单步更新；只计算需要的向量积，不持久化全 Hessian。该量是局部一阶预测，不称为真实因果影响。
 
-每域每 seed 每 anchor 预先抽取固定 label-blind 样本 panel，按真实存在的标签组合和任务支持记录分层。若某组合不存在（例如 MovieLens 嵌套标签导致的结构零），标记 NOT_APPLICABLE，不补造样本。
+每 anchor 从 canonical batch B 中按 domain 抽取最多 128 行作为 row-gradient panel（每行保留两个任务标签），按实际存在的联合标签组合分层。若某组合不存在（例如 MovieLens 嵌套标签导致的结构零），标记 NOT_APPLICABLE，不补造样本。其余 batch rows 仍保留权重 1；M2 权重只作用于 panel rows，随后在每个 domain-task 内重归一化，使整个 batch 的 task loss mass 不变。
 
 处理组：
 - M2-0：均匀自然目标联合更新；
@@ -141,7 +141,7 @@ S2 只在 V_B 上确认；所有候选、超参数、对照、读数和门槛在
 
 ## 8. S3：短程轨迹
 
-仅对 S2 通过的候选执行。每个候选独立从同一确定性基线恢复，连续运行 5 epochs，保留 E1/E3/E5 轨迹与完整 optimizer/EMA/RNG。每个候选 2 datasets × 5 seeds。对照包括标准 joint training、相同更新预算的控制动作、候选动作。短程轨迹用于判断累积/衰减/符号翻转，不等同 50-epoch 正式性能。
+仅对 S2 通过的候选执行。每个候选独立从 E25 确定性 anchor 恢复，连续运行 5 epochs，保留 E1/E3/E5 轨迹与完整 optimizer/EMA/RNG。每个候选 2 datasets × 5 seeds。对照包括标准 joint training、相同更新预算的控制动作、候选动作。短程轨迹用于判断累积/衰减/符号翻转，不等同 50-epoch 正式性能。
 
 ## 9. S4：完整算法晋级（条件阶段）
 
