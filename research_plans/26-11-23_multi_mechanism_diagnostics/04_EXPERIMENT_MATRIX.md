@@ -28,7 +28,7 @@ M1 二阶计算、M2 样本梯度读取、M4/M5 语义可行性分别审计。�
 - M1-0 Joint × 2 steps；
 - M1-1 P-consistency × 1 + Joint × 1；
 - M1-2 P-BCE × 1 + Joint × 1；
-- M1-3 shuffled-consistency × 1 + Joint × 1；
+- M1-3 coordinate-shuffled consistency × 1 + Joint × 1；
 - M1-4 consistency-only（readout-only diagnostic）。
 
 共 5 arms × 30 anchor states = 150 fork jobs。M1-4 不计入公平预算主比较。
@@ -41,7 +41,7 @@ M1 二阶计算、M2 样本梯度读取、M4/M5 语义可行性分别审计。�
 - M2-2 task-agnostic collapsed score；
 - M2-3 within-domain shuffled score。
 
-共 4 arms × 30 = 120 fork jobs。样本 panel size、每格支持和计算上限在 S0 冻结。推荐每 domain-task 每 seed/anchor 取最多 512 行；不足则全取并记录，不补造。
+共 4 arms × 30 = 120 fork jobs。样本 panel size、每格支持和计算上限在 S0 冻结。每 domain 每 seed/anchor 从同一 canonical batch B 抽取最多 128 行，按实际联合标签组合分层；每行分别计算两个任务的局部 score。不足则全取并记录，不补造。未入 panel 的 batch rows 权重固定为 1，panel weights 在 domain-task 内重归一化，保持该 task 的总 loss mass 不变。
 
 ## 6. M3 conditional forks
 
