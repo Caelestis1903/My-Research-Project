@@ -16,7 +16,7 @@
 | M2 是否使用 Validation 选择权重 | 可能产生验证泄漏 | score 只从 Train calibration 计算；Validation 只做独立读数 |
 | M3 是否被全量 O(N²) 放大 | 交互归因成本高 | 只在 M2 产生稳定候选组后触发一个 group pair；固定 batch size |
 | M3 的 batch exposure 不公平 | A+B mixture 可能使用双倍样本 | A-only、B-only、A/B mixture 均固定同一 batch size；A/B 各半 |
-| M1 多一步更新是否混淆 | P-consistency step 会增加优化器更新次数 | P-BCE matched private step、two-step joint baseline、shuffled consistency control；所有主 arms 两次 step |
+| M1 多一步更新是否混淆 | P-consistency step 会增加优化器更新次数 | P-BCE matched private step、two-step joint baseline、coordinate-shuffled consistency control；所有主 arms 两次 step |
 | 参数组是否互斥 | M3oE 的 domain/task expert 参数可能跨多个 cell 支持 | 要求运行时 support registry；不假设每 cell 有互斥私有头 |
 | 锚点是否仍可用 | D2 state receipts 属 RAM-only | live readback；失败则重建完整轨迹，不能把 endpoint 当状态 |
 | seed/anchor 虚增样本量 | 30 anchors/数百 forks 容易误统计 | seed 为独立单位；anchor/fork 为 seed 内重复，先 seed 内归约 |
