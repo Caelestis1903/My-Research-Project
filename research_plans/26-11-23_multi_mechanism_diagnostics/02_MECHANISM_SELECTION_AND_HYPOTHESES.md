@@ -36,7 +36,7 @@ M1 action：固定 U，使用训练 batch 计算 L_cons，通过二阶自动微�
 **核心假设 H2**：相同训练样本在不同任务上产生的共享参数更新，对不同 cell 的排序 margin 有不同的预测影响；task-specific score 优于 task-agnostic 或 shuffled score。
 
 对样本 i、任务 t、目标 cell c：
-s(i,t,c) = − ∇_θ m_c^cal · Δθ(i,t)
+s(i,t,c) = ∇_θ m_c^cal · Δθ(i,t)
 
 m_c^cal 是从 Train-only calibration pairs 构造的 cell ranking margin；Δθ(i,t) 是 anchor Adam state 下样本 i 的任务 t 梯度所对应的虚拟 Adam 单步位移。此量仅为局部一阶预测代理，不称为因果 influence。
 
