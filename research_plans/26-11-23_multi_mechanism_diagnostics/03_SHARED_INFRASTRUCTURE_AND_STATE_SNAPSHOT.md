@@ -42,7 +42,7 @@ M1 的 P-consistency step 必须：
 - 通过 create_graph=True 获取 g_c；
 - consistency loss 对 P 求导；
 - 只允许 P 参数更新；
-- U 的 tensor、Adam state、step counter 逐项 bitwise unchanged；
+- U 的 tensor、Adam state、step counter 逐项 bitwise unchanged；U.grad 必须在 optimizer.step 前显式清空为 None，不能假定二阶反传后自然为空；
 - P 的 Adam state 按原生 Adam semantics 更新；
 - P-BCE 对照使用相同参数组、相同 step 数和 weight decay。
 
