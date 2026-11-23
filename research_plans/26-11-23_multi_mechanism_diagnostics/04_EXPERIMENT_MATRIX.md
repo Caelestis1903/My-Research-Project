@@ -80,7 +80,7 @@ X1 M1×M2；X2 M2×M3；X3 M4×M5；X4 M6×M8；X5 M1×M8。每组的 component 
 
 ## 9. S3：所有可训练变体的短程轨迹
 
-按本矩阵的 trainable registry，M1 3、M2 4、M3 2、M4 3、M5 5、M6 3、M7 2、M8 4、cross-family 5，共 31 个训练动作变体。每个变体均为 2 datasets × 5 seeds = 10 条独立短程轨迹，共最多 310 条 5-epoch trajectories（1,550 trajectory epochs）。所有可执行训练动作均进入 5 epochs continuous trajectory，不受 S1/S2 Top-K 选择限制。按变体、数据集、seed独立恢复：
+按本矩阵的 trainable registry，M1 3、M2 4、M3 2、M4 3、M5 5、M6 3、M7 2、M8 4、cross-family 5，共 31 个训练动作变体。每个变体执行三个预注册轻量超参设置；每个设置均为 2 datasets × 5 seeds = 10 条独立短程轨迹，共最多 930 条 5-epoch trajectories（4,650 trajectory epochs）。不得按单一 seed 选择配置。所有可执行训练动作均进入 5 epochs continuous trajectory，不受 S1/S2 Top-K 选择限制。按变体、数据集、seed独立恢复：
 - 2 datasets × 5 seeds × 5 epochs；
 - E1/E3/E5 readouts；
 - 对应匹配控制同样运行。
