@@ -1,6 +1,6 @@
 # MDMTRec 数据对照与性能
 
-AUC 差按候选减对照，正为改善；LogLoss 差负为改善。历史协议保留原权重、人口、读出与指标。对比时同时核对 split、selected/common epoch、online/EMA、Macro/Traffic/Pooled、seed、参照臂及六格保护。缺失或未运行用原状态表示。
+所有配对差值均为候选减对照，AUC 正差和 LogLoss 负差分别表示各自指标改善。对比时核对数据划分、selected/common epoch、online/EMA、Macro/Traffic/Pooled、seed、参照臂和六格保护；历史实验沿用各自的权重、人口、读出和指标。缺失与未运行分别登记原状态。
 
 ## EXP080 · 条件历史共享更新的冻结 S5 数表
 
@@ -118,7 +118,7 @@ KR RCF−H_DIRECT 冻结 Test 的自然样本 LL +.00195334（4/4 恶化），Ma
 
 ## 2026-11-17 CWA-C04 选中模型可用性更新
 
-11:21:33的40模型/1000ACK直接验收为有效历史证据。12:02:24独立审查发现owner2476891已退出，父级复查确认前台会话返回143；当前选中模型不可用，退出触发原因未确定。完整数值、源码和MIXED不变，不能以历史收据证明当前存活，不能据此续训或开放Test。后续C05使用新批准的源初始化。[可用性处置收据](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
+11:21:33 通过 40 模型/1000 ACK 验收。12:02:24 独立审查发现 owner 2476891 已退出，父级确认前台会话返回 143，退出触发原因未确定。C04 选中模型不可用，完整数值、源码和 MIXED 裁定仍有效。C04 的选中状态无法用于续训或开放 Test，C05 使用新批准的源初始化。[可用性处置收据](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/artifacts/26-11-16_augmentation_gradient_momentum/astra_cycles/cycle_04/SELECTED_RAM_AVAILABILITY_UPDATE.json)。
 
 ## 2026-11-17 CWA-C04：完成权重/总质量归因完整五seed
 
@@ -162,9 +162,9 @@ W/S20新增+20精确C/N控制，自然ML/KR、M3oE fixed1、seeds2022–2026、5
 
 主判定MIXED，无champion：W EMA−C EMA AUC ML−.000154621（SD.000454841，2/5正，CI[−.000719381,+.000410138]），KR+.002555086（SD.004445801，3/5正，CI[−.002965105,+.008075276]）。两者均未到+.003；最小cell均值ML−.000340860通过、KRd0t0−.003141373失败−.001保护。
 
-对应Macro LL：ML−.000305316（3/5降低，CI跨0）；KR−.003942334（5/5降低，CI[−.005845996,−.002038672]）。同m的W−S在KR Macro LL−.003621037、两数据集task1 LL−.002988932/−.005124581，均5/5降低且CI全负（MEDIUM）。异质分配同时改变class/cell/task，不能命名为class-only或类平衡。
+对应Macro LL：ML−.000305316（3/5降低，CI跨0）；KR−.003942334（5/5降低，CI[−.005845996,−.002038672]）。同m的W−S在KR Macro LL−.003621037、两数据集task1 LL−.002988932/−.005124581，均5/5降低且CI全负（MEDIUM）。W 同时改变 class、cell 和 task 权重，W−S 衡量同总质量下三者联合分配的效果。
 
-ML N−W online selected AUC−.000412489、5/5负、CI全负，EMA selected排序不稳定但LL+.002446577、5/5增加、CI全正。ML N−W E1 AUC+.019277577到E50−.001496855，E50 LL+.007416875，相关方向均5/5且CI不跨0；阶段/读出不可混用，排名必要性与Adam/EMA子中介仍未解决。KR E50 W−C AUC+.003242111、5/5正、CI全正，不替代selected主判定。
+ML N−W online selected AUC−.000412489、5/5负、CI全负，EMA selected排序不稳定但LL+.002446577、5/5增加、CI全正。ML N−W E1 AUC+.019277577到E50−.001496855，E50 LL+.007416875，相关方向均5/5且CI不跨0；各差值按对应阶段和读出解释，排名必要性与 Adam/EMA 子中介仍未解决。KR E50 W−C AUC+.003242111、5/5正、CI全正；主裁定采用 selected 端点。
 
 KR d0/d1/d2 AUC−.001311602/−.000224380/+.009201240，d2五seed正、CI全正；d0 LL+.002005435、最大d1 LL−.006935433均5/5且CI不跨0。两较小域相反，规模主因及统一小域收益/大域代价仍WEAK。traffic/pooled排序与Macro分开；旧TVγ.20、C1-IID2、C3-LATE弱条件反例和复用非独立性保留。
 
@@ -353,18 +353,15 @@ M3oE fixed1，自然人口，50epochs/batch40960/FP32，seeds2022–2026。50条
 
 ---
 
-> 更新：2026-11-15。保留历史绝对指标及既有协议分组；补入11/09 PUB迁移索引、11/10固定EMA因果归因和11/11两态历史读出的selected Test宏指标。11/09 A0仅为复用轨迹的诊断，没有新训练/Test，不增加性能行。五seed均为2022–2026；同轨迹online/F/影子读出不增加独立seed。
->
-> **正式Baseline仅可使用已发表论文中的模型**。自研M、H、C_MIX、PAIR、ECCM、SAD、AIG、EMA改造、调参变体等只列为**研究方法/组件/内部消融控制**，不可自行升级为“论文基线”。正式比较须在一致的数据与训练/选模协议下重新评估；不同来源表格的绝对指标**不得直接排名**。
+> 2026-11-15 更新包括 11/09 PUB 迁移、11/10 固定 EMA 因果归因及 11/11 两态历史读出的 selected Test 宏指标。11/09 A0 列在诊断条目下。
 
 ## 读取与更新准则
 
-- **每一格格式均为 `AUC / LogLoss`（越高 / 越低越好）**，包括d0t0、d0t1、d1t0、d1t1、d2t0、d2t1，以及总体 `Macro`、`Traffic`、`Pooled`。所有值是**test/E上每个独立seed对应selected checkpoint指标，再跨seed算术平均**，不允许跨epoch挑test最优点。
-- **Macro AUC与Macro LogLoss**是六个域任务格的等权平均；`Traffic` 是按测试人口/标签请求数加权的各格指标，**不是跨域pooled AUC**；`Pooled` 在原始数表具有对应总体指标时展示，否则为“—”。不同协议中“总AUC”可能指macro、traffic或pooled，因此**必须保留三者名称，不得混称**。
-- `n` 是**真正独立训练seed数量**：n=1或n=2记录仅供比较现象、选择后续工作，**不得性能否决**。最新规范要求至少5seed方可做性能否决；五seed配对平均Δmacro AUC **≥+0.003**，并满足每个cell平均ΔAUC **≥−0.001** 才算AUC总体合格且满足单格保护；LogLoss以五seed配对平均下降为准，无需所有seed同向。**这三条只有在基线和候选处于同一实验协议、相同seed且基线身份合法时才应用**。
-- 这里记录**绝对值**，不将本实验的自研方法当作下一实验的正式基线；内部X与A0＋EMA、M与TM之间的数值比较可以标注为“增量消融”，不能替代**与已发表模型的正式基线比较**。**固定EMA不是一篇独立新发表的论文模型**；在此处属于发表架构的内部训练配置/后处理变体。
-- **审计口径**：尽量来自原始CSV中的每个seed指标；只存有各格均值的旧报告使用其已报告均值。不得以重用同源轨迹扩大n；假如存在不同试验协议（模型选择指标、训练阶段、数据人口、batch、优化器、学习率、loss权重、模型结构或评价split），建立独立分组，不合并为一行。
-- 后续每完成一个正式实验，Codex/Pro须从冻结的逐seed结果更新本表的相应协议分组（新增或更新行），保留来源路径、n、所用模型参数平均方式与选点规则。没有原数值的历史方法按“待回填”处理，不能只填AUC缺少LogLoss却暗示全指标已知。
+- 性能表的合并单元格采用 `AUC / LogLoss`，包括六个域任务格及 Macro、Traffic、Pooled。selected Test/E 先根据验证集规则为每个 seed 冻结 checkpoint，再对对应测试端点取 seed 算术均值。E10、E50、common epoch 和 Validation 按各表标记读取。
+- Macro 是六格等权平均，Traffic 是按评价人口或标签请求数加权的格指标，Pooled 从合并人口的预测计算，原表缺少 Pooled 时记“—”。引用时保留原聚合名称。
+- `n` 按独立训练 seed 计数。同轨迹的 online、EMA、重复读出、切片和复用均共享原训练 seed。少于五个 seed 的结果用于诊断和候选筛选。正式性能否决至少需要五个有效配对训练 seed。
+- 正式比较采用已发表模型，对齐数据人口、划分、选点口径和 seed，使用可比训练协议并记录各模型的配置。五 seed 配对均值须同时满足 ΔMacro AUC ≥ +0.003 和各格 ΔAUC ≥ −0.001。LogLoss 以五 seed 配对均值下降裁定，方向数用于描述。自研组件与固定 EMA 等配置用于内部参照或增量消融。跨协议绝对值分组报告，正式排名使用同协议实测。
+- 完成正式实验后，用冻结的逐 seed 结果更新相应协议分组，注明来源、`n`、参数平均方式和选点规则。仅存格均值的旧报告沿用原值；缺失指标标为待回填，并从原始结果补齐。
 
 ## 发表模型资格（已核验）
 
@@ -378,7 +375,7 @@ M3oE fixed1，自然人口，50epochs/batch40960/FP32，seeds2022–2026。50条
 
 ### 11/09 EMA_ADAPTIVE A0：诊断性读出（不进入Test性能矩阵）
 
-**协议身份：** A0复用11/07既有20条轨迹，五seed池2022–2026；新增正式训练0条、Adam更新0次、Test访问0次。该分支只有训练面板与验证侧预测/动作诊断，没有可登记的selected Test绝对AUC/LogLoss，因此不创建算法性能行。C_persist的P_B ΔAUC为−0.000421092±0.000109264，验证侧为−0.000103584±0.000169881；C_carry的P_B为+0.000445201±0.000224756、验证侧为+0.000101319±0.000244342，但相对统一Fast动作的验证增量仅−0.000000478。A0裁定NO_ACTIONABLE_SIGNAL；A1/B/C未触发。
+**协议身份：** A0复用11/07既有20条轨迹，五seed池2022–2026；新增正式训练0条、Adam更新0次、Test访问0次。以下记录训练面板与验证侧的预测和动作诊断。C_persist的P_B ΔAUC为−0.000421092±0.000109264，验证侧为−0.000103584±0.000169881；C_carry的P_B为+0.000445201±0.000224756、验证侧为+0.000101319±0.000244342，但相对统一Fast动作的验证增量仅−0.000000478。A0裁定NO_ACTIONABLE_SIGNAL；A1/B/C未触发。
 
 [来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-09/research_reports/2026-11-09_ema_adaptive/FINAL_REPORT.md)。
 
@@ -421,7 +418,7 @@ C1−C0在两数据均有重复收益。C2−C1的ML宏AUC+.035064、逐格通�
 
 ### 11/10 EMA_CAUSAL_ATTRIBUTION：固定EMA机制复核与因果归因（五seed）
 
-**协议身份：** 4条件（ML/KR × Clean/Gaussian D0）、每条件seed2022–2026、20条正式轨迹、1000 epoch、34,500次Adam更新。下表为本轮selected Test的F−O复核；与11/06同一seed池和协议，不作为新的外部样本人口。
+**协议身份：** 4条件（ML/KR × Clean/Gaussian D0）、每条件seed2022–2026、20条正式轨迹、1000 epoch、34,500次Adam更新。下表为本轮selected Test的F−O复核；沿用 11/06 的数据人口、seed 池与协议。
 
 | 条件 | n | F−O Macro AUC | F−O Macro LogLoss |
 |---|---:|---:|---:|
@@ -432,13 +429,13 @@ C1−C0在两数据均有重复收益。C2−C1的ML宏AUC+.035064、逐格通�
 
 正LogLoss差表示F的LogLoss更高。参数/时间消融是机制归因，不另建算法绝对性能行：删除共享S的晚期验证AUC损失为+0.0037572至+0.0043627；删除N约−0.0001632至+0.0001580；删除EMBED +0.0018738至+0.0030311；删除STAR_SKIP +0.0005041至+0.0016471；删除EXPERT接近0。删除recent损失+0.0045636至+0.0049918，删除old损失+0.0007898至+0.0025160；EMBED recent×old交互四条件均为正。
 
-固定验证面板上的q_logit/q_probability组合相对F提高约+0.0006661至+0.0026413 AUC、同时降低LogLoss；没有独立选点完整Test，不登记为可晋级算法。current-preconditioned单步方向局部增益约+0.0003183至+0.0004076，momentum_isotropic替代约−0.0111386至−0.0127663；这些属于同状态方向诊断，不是完整训练算法结果。
+固定验证面板上的q_logit/q_probability组合相对F提高约+0.0006661至+0.0026413 AUC、同时降低LogLoss；该组合的结果范围为固定验证面板。current-preconditioned单步方向局部增益约+0.0003183至+0.0004076，momentum_isotropic替代约−0.0111386至−0.0127663；这些差值衡量同状态下的单步方向效果。
 
 [来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-10_ema_causal_attribution/FINAL_REPORT.md)。
 
 ### 11/11 EMA_NEXT：两态历史读出的selected Test宏指标（五seed）
 
-**协议身份：** 五seed池2022–2026；95个job、1415 epoch、46,280次Adam更新。发表模型端点复用既有记录，不新增基线训练。以下为selected Test Macro AUC / LogLoss；六格逐seed端点保留在来源分支压缩端点表，不从宏指标反推或补造。
+**协议身份：** 五seed池2022–2026；95个job、1415 epoch、46,280次Adam更新。发表模型端点复用既有记录，不新增基线训练。以下为selected Test Macro AUC / LogLoss；六格逐 seed 端点见来源分支压缩端点表。
 
 | 数据集/条件 | 冻结候选 | n | 候选Test Macro AUC / LL | F Test Macro AUC / LL | O Test Macro AUC / LL |
 |---|---|---:|---:|---:|---:|
@@ -464,7 +461,7 @@ C1−C0在两数据均有重复收益。C2−C1的ML宏AUC+.035064、逐格通�
 | KR Clean | B_SHARED | +0.00447754 | −0.00572842 | −0.00221287 | 仅M3oE通过 |
 | KR Gaussian D0 | B_SHARED | +0.00558318 | −0.00462278 | −0.00110723 | 仅M3oE通过 |
 
-MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARED未胜F，B_H277诊断读出只保留小幅AUC候选。不得将候选相对发表模型的总收益归因成B的独立增量，也不得把LogLoss改善解释为已证明校准。
+MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARED未胜F，B_H277诊断读出只保留小幅AUC候选。B 的增量以 F 为参照，整套配置的总收益以发表模型为参照。校准需用对应的校准诊断裁定。
 
 [来源报告](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
 
@@ -496,9 +493,9 @@ MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARE
 | KuaiRand | clean | +0.004616399 | 4/5 | −0.001225342 |
 | KuaiRand | Gaussian D0 | +0.007766927 | 5/5 | +0.000327687 |
 
-晚期epoch31–50的Validation年龄匹配online对照中，F−age-matched-online AUC依次为MovieLens clean +0.002993±0.000422、MovieLens Gaussian +0.003153±0.000325、KuaiRand clean +0.004503±0.001214、KuaiRand Gaussian +0.003746±0.000840，四项95%配对区间下界均大于0。早期epoch1–10的F−online AUC约为MovieLens −0.0030、KuaiRand −0.0203/−0.0206；晚期固定pair排序时间变化率则明显下降。结果支持历史组合具有超出固定延迟参照的排序价值，同时存在早期学习滞后；排序稳定与滞后成本共同决定效用，不能把低波动单独当作收益指标。
+晚期epoch31–50的Validation年龄匹配online对照中，F−age-matched-online AUC依次为MovieLens clean +0.002993±0.000422、MovieLens Gaussian +0.003153±0.000325、KuaiRand clean +0.004503±0.001214、KuaiRand Gaussian +0.003746±0.000840，四项95%配对区间下界均大于0。早期epoch1–10的F−online AUC约为MovieLens −0.0030、KuaiRand −0.0203/−0.0206；晚期固定pair排序时间变化率则明显下降。EMA 的早期代价是学习滞后，晚期排序收益由年龄匹配对照确认。排序变化率记录稳定性，配对 AUC 衡量排序收益。
 
-逐格常驻时间尺度交叉评价仅KuaiRand Gaussian为正（+0.000375±0.000331，5/5）；MovieLens clean/Gaussian与KuaiRand clean分别为−0.000047、−0.000082、−0.000152。C_design在四组的未来收益数值预测MAE均优于M2/M3，但单组动作整体增益较小；KuaiRand Gaussian d0t1共享组S的M3_direct局部净益+0.000346，M3相对C_simple的五seed增量仅+0.000048355±0.000199264，复杂指标独立必要性仍弱。Gaussian×EMA交互随阶段和选点变化方向，不构成统一协同规则。ML E40校准诊断解释了该锚点大部分LL差异，但不能据此消除selected Test上的LL代价。
+逐格常驻时间尺度交叉评价仅KuaiRand Gaussian为正（+0.000375±0.000331，5/5）；MovieLens clean/Gaussian与KuaiRand clean分别为−0.000047、−0.000082、−0.000152。C_design在四组的未来收益数值预测MAE均优于M2/M3，但单组动作整体增益较小；KuaiRand Gaussian d0t1共享组S的M3_direct局部净益+0.000346，M3相对C_simple的五seed增量仅+0.000048355±0.000199264，复杂指标独立必要性仍弱。Gaussian×EMA 交互方向随阶段和选点变化。ML E40 校准诊断解释了该锚点的大部分 LL 差异，selected Test 的 LL 代价按对应端点报告。
 
 ---
 
@@ -757,11 +754,11 @@ MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARE
 | CP / fixed_ema | 5 | 0.634109 / 0.291130 | 0.656554 / 0.183724 | 0.704559 / 0.501611 | 0.732591 / 0.343496 | 0.657480 / 0.651065 | 0.677858 / 0.646677 | 0.677192 / 0.436284 | 0.717432 / 0.422312 | 0.722668 / 0.422312 |
 | CP / online | 5 | 0.631549 / 0.293440 | 0.645483 / 0.185158 | 0.698968 / 0.509530 | 0.726730 / 0.348772 | 0.654366 / 0.650286 | 0.673095 / 0.648352 | 0.671698 / 0.439257 | 0.711708 / 0.428815 | 0.717068 / 0.428815 |
 
-**selected研究结论。** MovieLens M3/HG/AutoIFS宏AUC分别0.775190/0.771412/0.772425（最强M3）；KuaiRand分别0.671907/0.682113/0.678597（最强HG）。CP fixedEMA宏AUC/LL分别ML 0.777525/0.494212、KR 0.678168/0.434505。对已发表M3的总AUC为ML+0.002335、KR+0.006261；与P01相比为ML−0.000890、KR−0.002441；与内部无组件固定EMA相比为ML−0.001514、KR+0.001645。ML对最强M3未达到严格+.003门，KR对最强HG为−0.003945；CP不替代P01作为排序优先组合，但其他参照下的收益依原口径保留。Macro、Traffic、Pooled不得混称。**当前发表基线最新主表是本协议而非10/29旧的V按LogLoss选点表。**
+**selected研究结论。** MovieLens M3/HG/AutoIFS宏AUC分别0.775190/0.771412/0.772425（最强M3）；KuaiRand分别0.671907/0.682113/0.678597（最强HG）。CP fixedEMA宏AUC/LL分别ML 0.777525/0.494212、KR 0.678168/0.434505。对已发表M3的总AUC为ML+0.002335、KR+0.006261；与P01相比为ML−0.000890、KR−0.002441；与内部无组件固定EMA相比为ML−0.001514、KR+0.001645。ML对最强M3未达到严格+.003门，KR对最强HG为−0.003945；CP不替代P01作为排序优先组合，但其他参照下的收益依原口径保留。**正式基线主表采用本节的 AUC 选点协议。** 10/29 的 V-LogLoss 结果见其历史分组。
 
 ### 11/04 Gaussian增强领域覆盖：KuaiRand G-D0/G-D02五seed和跨数据集来源别名
 
-**KuaiRand协议：** FULLTRAIN_NATURAL80_10_10 / AUC_SELECTED_V1，fixed1 M3oE，batch40960、50epoch、Adam lr=.01/coupled wd=1e−5、Gaussian κ=.1/λ=.5、非反馈EMA ρ=.995；test使用validation六格macro AUC严格最大且最早选点的fixedEMA。增强集合G-D0=[0]、G-D02=[0,2]各新增5seed；G-D2=[2]为旧Gaussian五seed已收录，**本表重列G-D2仅作锚点，不产生新训练或新seed**。
+**KuaiRand协议：** FULLTRAIN_NATURAL80_10_10 / AUC_SELECTED_V1，fixed1 M3oE，batch40960、50epoch、Adam lr=.01/coupled wd=1e−5、Gaussian κ=.1/λ=.5、非反馈EMA ρ=.995；test使用validation六格macro AUC严格最大且最早选点的fixedEMA。增强集合G-D0=[0]、G-D02=[0,2]各新增5seed；G-D2=[2]为旧Gaussian五seed已收录，本表沿用 G-D2 的原训练轨迹和 seed。
 
 [完整报告](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md) · [双数据集六格](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/G_D0_TWO_DATASETS.md) · [逐seed与来源](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/ENDPOINTS.csv)
 
@@ -885,7 +882,7 @@ MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARE
 
 ### 已发表论文模型（MDMT-SOTA-2526，V按LogLoss选择）
 
-基线比较仅限本节已经正式发表的模型；该组以 V 的 LogLoss 选择checkpoint，再在 E 测试。与下列固定EMA宏AUC选点实验**不是同一协议**，不得跨表用绝对值宣布优胜。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/baseline/mdmt-sota-2526/research_reports/mdmt_baselines_2526/analysis/CELL_COMPARISONS.csv)。
+本组比较已发表模型，以 V 的 LogLoss 选点并在 E 评价。绝对值用于本组协议下的模型比较。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/baseline/mdmt-sota-2526/research_reports/mdmt_baselines_2526/analysis/CELL_COMPARISONS.csv)。
 
 **MovieLens**（3条配置记录）
 
@@ -907,7 +904,7 @@ MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARE
 
 ### 11/01 GA31-R3：MASK / Gaussian / 反向配对（普通Adam，无EMA）
 
-普通Adam，无固定EMA；5seed；含 B-ML / L2-ML / B-KR。此组属于自研机制实验，不能将其算法变成新的正式论文基线。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-01/research_reports/2026-10-31_v2/analysis/TEST_METRICS.csv)。
+普通Adam，无固定EMA；5seed；含 B-ML / L2-ML / B-KR。该组配置用于内部机制比较。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-01/research_reports/2026-10-31_v2/analysis/TEST_METRICS.csv)。
 
 **MovieLens**（5条配置记录）
 
@@ -930,7 +927,7 @@ MovieLens两态B相对F新增AUC接近0，LogLoss稳定下降；KuaiRand B_SHARE
 
 ### 11/01 GAM01：固定EMA与差分动量（在线 / Shadow分开）
 
-A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的在线/EMA不能计作两个科学重复。ML本组EMAρ=.995，与AIGM调参后的ML时间常数不同。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-01_v2/research_reports/2026-11-01_momentum/test_metrics.csv)。
+A0、A1、A2、A3 各用五个训练 seed，online 与 shadow 共享对应训练轨迹。ML本组EMAρ=.995，与AIGM调参后的ML时间常数不同。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-01_v2/research_reports/2026-11-01_momentum/test_metrics.csv)。
 
 **MovieLens**（8条配置记录）
 
@@ -982,7 +979,7 @@ A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的�
 
 ### 11/02 GATS02：增强覆盖、任务投影及时间平均
 
-记录仓库已经运行的fixed_ema和必要adaptive/replay对照；B2/KuaiRand具备5seed，其余多数为2seed；不可把两seedNO_GO视为已完成五seed否决。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02/research_reports/2026-11-02_gradient_aug_time_select/tables/test_metrics.csv)。
+记录仓库已经运行的fixed_ema和必要adaptive/replay对照；B2/KuaiRand 完成五 seed，其余多数为两 seed 开发记录；NO_GO 表示当时开发门的裁定。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02/research_reports/2026-11-02_gradient_aug_time_select/tables/test_metrics.csv)。
 
 **MovieLens**（12条配置记录）
 
@@ -1018,7 +1015,7 @@ A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的�
 
 ### 11/02 EMA02V2：联合标签与教师约束视图
 
-仅2开发seed，确认阶段未触发；数值是固定EMA selected测试均值，不能据此作新规则下的性能否决。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02_v2/research_reports/2026-11-02_ema_view_design_v2/tables/cell_effects.csv)。
+本表为两个开发 seed 的 fixed EMA selected 测试均值，确认阶段未触发。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-02_v2/research_reports/2026-11-02_ema_view_design_v2/tables/cell_effects.csv)。
 
 **MovieLens**（9条配置记录）
 
@@ -1080,7 +1077,7 @@ A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的�
 
 ### 11/03 条件信息增强、当前梯度修复与历史改造
 
-新算法仅seed2022（n=1）；A0f/A1引入历史2022/2024两seed（n=2）。原D0停止归属于旧规则，不等于新五seed性能否决。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/six_cell.csv)。
+新算法仅seed2022（n=1）；A0f/A1引入历史2022/2024两seed（n=2）。原 D0 停止记录的是旧协议的开发门。  [本组主要原始记录](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-03_history_information/research_reports/2026-11-03_mdmt_history_information/six_cell.csv)。
 
 **MovieLens**（9条配置记录）
 
@@ -1111,10 +1108,8 @@ A0、A1、A2、A3分别给出在线和shadow估计器；5seed。同一轨迹的�
 
 ## 待回填历史与使用限制
 
-- 2026-10-31 GA31-v2及更早10月大量自研算法、共享/原型类实验，现已有跨阶段总结，但**尚未按同一规则逐个回填六格绝对AUC与LogLoss**；不能根据主摘要中的增量补造缺失的完整绝对值。后续应逐源CSV补齐，并保留每个协议的独立分组。
-- 更早实验可能只存validation或只存某一指标，这些不满足本表完整测试记录标准；不得以其他实验的基线/seed填充。
-- 10/29论文模型组使用V按LogLoss选点、E历史评价集，其他近期多组使用validation按Macro AUC选点、test。**当前表不是可以直接复制成论文跨组排名的最终Table**。必须先把正式发表模型与新算法放在同协议下比较。
-- 本表的自研方法行是科研记录，不得因其数值较强就改名为正式baseline；允许用其作为组件消融或内部机制比较的reference，但在论文的baseline方法列表中只能使用已发表模型。
+- 2026-10-31 GA31-v2 及更早的自研算法、共享和原型实验已记录在跨阶段总结中。待从对应的原始 CSV 按各自协议补齐六格绝对 AUC 和 LogLoss。
+- 只存 Validation 或单项指标的早期实验按实有字段登记。待回填值使用对应实验和 seed 的原始结果。
 
 
 

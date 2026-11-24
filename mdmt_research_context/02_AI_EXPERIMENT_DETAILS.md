@@ -1,10 +1,10 @@
 # MDMTRec 实验设计、现象与结论
 
-按 [01_AI_EXPERIMENT_INDEX.md](01_AI_EXPERIMENT_INDEX.md) 的触发条件定位个别记录。实验编号、证据层级和冻结方案定义了解释范围。数表、逐 seed 和归档核验见 [03_EXPERIMENT_RESULTS.md](03_EXPERIMENT_RESULTS.md)。本文件历史材料中的旧计划、恢复指令和阶段门只记录当时状态，当前执行边界以用户指令和根目录 AGENTS.md 为准。
+按 [01_AI_EXPERIMENT_INDEX.md](01_AI_EXPERIMENT_INDEX.md) 的触发条件定位个别记录。实验编号、证据层级和冻结方案定义了解释范围。数表、逐 seed 和归档核验见 [03_EXPERIMENT_RESULTS.md](03_EXPERIMENT_RESULTS.md)。历史计划、恢复指令和阶段门按各自快照解读。当前执行遵循用户指令和根目录 AGENTS.md。
 
 ## 常用协议与身份
 
-现代 M3oE fixed1 矩阵多用自然原行序 80/10/10、train-only 预处理、3 域×2 任务、保留自然尾批、50 epoch、batch 40960、FP32。ML 任务为 rating>3/rating>4，KR 为 click/long_view；KR 的 d0/d1/d2 对应原 tab 0/1/4，训练人数 172782/1743898/89452。ML 训练人数为 155949/318599/325619。常用单 coupled Adam lr=.01、betas(.9,.999)、eps=1e−8、ML/KR 的 WD 分别为 1e−4/1e−5。固定 EMA ρ 分别 .9828205985452511/.995，从初始化开始，每次有效 Adam 更新后更新；online 和 EMA 分开按验证六格 Macro AUC 的最早最高点选取。具体版本以对应记录为准，早期人工人口、V-LL、四 seed、开发种子和历史暴露 Test 均独立标记。域规模和困难度严格区分。历史材料中的规模/困难度假设仅保留其年代和历史证据。
+现代 M3oE fixed1 矩阵多用自然原行序 80/10/10、train-only 预处理、3 域×2 任务、保留自然尾批、50 epoch、batch 40960、FP32。ML 任务为 rating>3/rating>4，KR 为 click/long_view；KR 的 d0/d1/d2 对应原 tab 0/1/4，训练人数 172782/1743898/89452。ML 训练人数为 155949/318599/325619。常用单 coupled Adam lr=.01、betas(.9,.999)、eps=1e−8、ML/KR 的 WD 分别为 1e−4/1e−5。固定 EMA ρ 分别 .9828205985452511/.995，从初始化开始，每次有效 Adam 更新后更新；online 和 EMA 分开按验证六格 Macro AUC 的最早最高点选取。具体版本以对应记录为准，早期人工人口、V-LL、四 seed、开发种子和历史暴露 Test 均独立标记。分别记录域规模与困难度；相关历史假设按当时的证据解读。
 
 ## EXP001-019
 
@@ -21,12 +21,12 @@
 | EXP009 | P0-5 comp1 × loss weighting 2×2 | MovieLens；M3oE | Equal/Sample × comp1 off/on；同设置配对 | 12 paired blocks（4 seeds × 3 角色轮换） | overall/worst-domain、L/M/S cell AUC、交互；[`P0_5_STAGE_REVIEW.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P0_5_STAGE_REVIEW.md)、[`P0_5_RAW_REPORT.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P0_5_RAW_REPORT.md) | 分解 comp1 与 objective 的共同变化；早期“小域 residual”解释后来被 S0 约束。 |
 | EXP010 | P1-2 curriculum life-or-death | MovieLens；M3oE | static、forward、reverse curriculum；并含 comp1 分层 | 12 配对单元；具体 run 计数见报告 | overall/worst-domain AUC、peak epoch、梯度轨迹；[`P1_2_STAGE_REVIEW.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P1_2_STAGE_REVIEW.md)、[`P1_2_RAW_REPORT.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P1_2_RAW_REPORT.md) | 检验 curriculum 是否稳定超过静态目标；测得差异处于噪声级。 |
 | EXP011 | E1 objective contrast / diagnosis | MovieLens r50；M3oE | Equal 与 Sample 对照；objective 系数与 routing/exposure 未完全分离 | 12 paired blocks（报告口径） | selected AUC、coefficient / mismatch 诊断；[`stage_E1_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E1_analysis.md) | 建立 objective 变化的观察性证据；不作单一中介因果判断。 |
-| EXP012 | E2 机制拆分提案 | UNKNOWN | 计划区分 loss coefficient 与 sampling exposure；未实施 | 0 runs | 无结果；在 [`EXP_AI_CONTEXT_V2.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/EXP_AI_CONTEXT_V2.md) 标注 E2 未执行 | 明确记录未运行，不进入性能证据。 |
+| EXP012 | E2 机制拆分提案 | UNKNOWN | 计划区分 loss coefficient 与 sampling exposure；未实施 | 0 runs | 无结果；在 [`EXP_AI_CONTEXT_V2.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/EXP_AI_CONTEXT_V2.md) 标注 E2 未执行 | E2 为未运行的机制拆分提案。 |
 | EXP013 | E3 alpha response / endpoint replication | MovieLens r50；M3oE | 固定端点复现 E1，并扫描 objective mixing coefficient α | 4 seeds（12 blocks）；正式配置见报告 | selected AUC、响应曲线；[`stage_E3_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E3_analysis.md) | 检查 objective response 是否有稳定 interior winner；未识别 routing 与 loss coefficient 的独立效应。 |
 | EXP014 | E4 KuaiRand objective 与 split audit | KuaiRand-Pure；M3oE | Equal / Sample；采用时间排序重建 split | 4 seeds（正式对照）；数据集审计见 [`stage_E4_dataset_audit.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E4_dataset_audit.md) | per-domain/task AUC、train/test mixture 与 label prior；[`stage_E4_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E4_analysis.md) | 检查 objective 对大域 target 的影响并审计 split；train-test shift 是竞争解释。 |
 | EXP015 | E5 schedule / curriculum | KuaiRand-Pure；M3oE | Forward schedule 与 static Sample 对照；其余配置见正式设计/分析 | 4 seeds；formal run count 以 [`stage_E5_run_report.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E5_run_report.md) 为准 | selected/final/common AUC、LogLoss、GO gate；[`stage_E5_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E5_analysis.md)、[`stage_E5_go_no_go.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E5_go_no_go.md) | 检验预设训练 schedule 是否稳定超过 Sample；报告裁决未通过 GO。 |
 | EXP016 | E6 adaptive calibration / EMA | KuaiRand-Pure；M3oE | Adaptive-NoEMA / Adaptive-EMA / static Sample / Equal 等 | 24 formal runs；4 seeds（2022–2025） | overall/worst-domain AUC、LogLoss、negative-transfer、common epoch；[`stage_E6_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E6_analysis.md)、[`stage_E6_go_no_go.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E6_go_no_go.md) | 检验自适应系数与 EMA；STOP，未建立优于 Sample 且满足 safety gate 的方法。 |
-| EXP017 | E7 generalization gate | 未运行 | E6 STOP 后未冻结可推广的 adaptive 方法，E7 gate 不允许启动 | 0 runs | [`stage_E7_gate_stop.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E7_gate_stop.md) | gate 记录，不是实验结果；不把失败方法改名为可推广方法。 |
+| EXP017 | E7 generalization gate | 未运行 | E6 STOP 后未冻结可推广的 adaptive 方法，E7 gate 不允许启动 | 0 runs | [`stage_E7_gate_stop.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_E7_gate_stop.md) | E6 的 STOP 关闭了 E7 推广验证门。 |
 | EXP018 | P6 component ablation / sensitivity | MovieLens ml_r30；M3oE | 17 arms：动量、课程、架构梯度 EMA、组合与超参数；历史 objective | 17 × 5 = 85 runs（2022–2026） | test AUC、配对检验、γ/κ 敏感性；[`P6_ablation.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P6_ablation.md) | 历史结果支持 comp1，但后续 S0 的匹配 uniform EMA 对照削弱“域条件动量独特性”。 |
 | EXP019 | P7 backbone 与 D/T 扩展 | MovieLens；M3oE、MMoE、PLE、STAR、ShareBottom 适配 | comp1 vs none；D/T 扩展和骨干层移植；STAR 复现差距过大而排除 | 主要矩阵按报告任务清单；ShareBottom 单独补跑 10/10；seeds 依子矩阵 | per-backbone AUC、D/T transfer；[`P7_generalization.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/P7_generalization.md) | 评估历史组件迁移；仅支持所测结构，不等于 S3–S6 的机制泛化。 |
 
@@ -34,7 +34,7 @@
 
 | ID | 阶段 / 实验组 | 数据集与模型 | 训练条件与对照 | Seeds / 运行 | Metrics / 来源 | 目的与范围 |
 | --- | --- | --- | --- | --- | --- | --- |
-| EXP020 | S0 momentum matched controls | MovieLens；M3OE | Sample objective；7 arms × 3 固定角色轮换 × 4 seeds；comp1、Adam、uniform EMA 与记忆控制 | 84/84 有效 runs；12/12 配对区块通过 | macro/per-cell AUC、LogLoss、worst-cell；[`stage_S0_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/stage_S0_analysis.md)、[`stage_S0_run_report.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_S0_run_report.md)；旧汇总 [`exp_sn.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/exp_sn.md) | 检验 comp1 是否有独特于普通平滑的收益；不是新写的 stage summary，而是当前事实核查。 |
+| EXP020 | S0 momentum matched controls | MovieLens；M3OE | Sample objective；7 arms × 3 固定角色轮换 × 4 seeds；comp1、Adam、uniform EMA 与记忆控制 | 84/84 有效 runs；12/12 配对区块通过 | macro/per-cell AUC、LogLoss、worst-cell；[`stage_S0_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/stage_S0_analysis.md)、[`stage_S0_run_report.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_S0_run_report.md)；旧汇总 [`exp_sn.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/exp_sn.md) | 以均匀平滑匹配对照检验 comp1 的独立增量。 |
 | EXP021 | S1 Sample joint vs single-domain reference | MovieLens d0/d1/d2_large、KuaiRand natural；M3OE/MMoE/PLE | Sample objective；3 backbones × 4 run types × 4 seeds | 192/192 有效 runs；288 paired seed units | selected/common per-cell AUC、LogLoss 与 reference variance；[`stage_S1_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/stage_S1_analysis.md)、[`stage_S1_run_report.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/history_report/stage_S1_run_report.md)；旧汇总 [`exp_sn.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/exp_sn.md) | 检验 Sample 下普遍 residual negative transfer；按预注册门槛未发现稳定实用 NT。 |
 | EXP022 | S2 Equal / Sample / SD reference | KuaiRand natural、MovieLens d2_large；M3OE | Equal 与 Sample 对照 single-domain multitask reference；重用 S1 M3OE runs | 80/80 记录验证；4 seeds | selected/final/common per-cell AUC/LogLoss、macro/worst-cell、角色轮换；[`stage_S2_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/stage_S2_analysis.md)；旧汇总 [`exp_sn.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/exp_sn.md) | 比较 objective 条件性与 checkpoint dependence。 |
 | EXP023 | S3 objective × shared-update access | KuaiRand natural、MovieLens d2_large；M3OE | Equal/Sample × FULL/TARGET_ONLY_SHARED；成对控制 shared 参数梯度访问 | 24 新跑 + 8 复用 Equal-FULL；4 seeds；严格配对区块 8/8 | target/non-target、macro、AUC/LogLoss、selected/common；[`stage_S3_analysis.md`](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/reports/stage_S3_analysis.md) | 在窄配置下识别 shared-access 对照的因果影响；不单独证明梯度夹角机制。 |
@@ -69,7 +69,7 @@
 | --- | --- | --- | --- | --- |
 | EXP043 | N18 P1–P6六方向首轮 | **COMPLETED（已触发的有界诊断/冻结头）**；六方向受控构造与四seed头拟合，长期训练按各gate决定 | 存在理论与局部反例，但各当前方案没有稳定的强对照完整算法价值；DATA-BLOCKED不写作训练失败 | [N18 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__execute-2026-10-18/research_plans/2026-10-18/execution/FINAL_REPORT.md) |
 | EXP044 | N19六方向完整端到端 | **COMPLETED：328次正式网络训练＋冻结测试**，四seed，依正式ledger去重 | 容量/通道失活及模型选择、阶段、指标反转，尚不支持通用独立新算法；ML训练人口多为人工固定subset，不是自然全量 | [N19 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__execute-n19-2026-10-18/research_plans/2026-10-18/N19/FINAL_REPORT.md) |
-| EXP045 | CM19共享调制路径 | **COMPLETED：856次全预算训练＋856组冻结测试**；独立STAR/PEPNet/HAMUR等强对照 | KR fixed M3oE选点输入乘性调制数值中性与局部优化修复得到限定机制支持；恢复路径不等于改善合法selected性能 | [CM19 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md) |
+| EXP045 | CM19共享调制路径 | **COMPLETED：856次全预算训练＋856组冻结测试**；独立STAR/PEPNet/HAMUR等强对照 | KR fixed M3oE 的输入乘性调制在选点数值中性；局部优化干预恢复了响应，selected 性能未稳定改善 | [CM19 FINAL_REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__conditional-paths-2026-10-19/research_plans/2026-10-19/execution/FINAL_REPORT.md) |
 | EXP046 | 10-20自然ML追溯/匹配N/阶段复核 | **PARTIAL / IN_PROGRESS**：自然base-train人口审计与V2/S5/S6/AO04/N17等已完成子项；N19/CM19自然transfer截至已存状态未全闭环 | 人工187500对自然800167同时改变比例、真实支持与训练预算；若只看人工旧N19/CM19不得声称全自然复现 | [人口审计](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/DATA_PROTOCOL_AUDIT.md)、[当前工作](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__natural-movielens-reassessment-2026-10-20/research_plans/2026-10-20_natural_movielens_reassessment/CURRENT_WORK.md) |
 | EXP047 | 10-21原生M3oE+D/G套件 | **COMPLETED：48条有效正式训练**（2数据×6臂×4seed）及12单epoch检查 | ML D与Dconst01均优于B，动态specificity非该套件收益必要条件；G−Gtau0终点宏AUC负。其目标legacy_group_sum，非其他Sample/Equal实验的对照复现 | [10-21 REPORT](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/codex__m3oe-reproduction-2026-10-21/experiments/reproduction_20261021/REPORT.md) |
 | EXP048 | 10-24 I1权限/来源使用 | **COMPLETED：44主pilot＋4基线pilot＋40正式训练** | I1_PERM在ML/KR selected test AUC未胜固定RW；KR final LL的有限改善仅为次级 | [10-24 README](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/history_experiments/10-24/research_reports/2026-10-24/README.md) |
@@ -122,13 +122,13 @@
 
 [原报告 68](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md)
 
-**统一发表模型与组合。** 自然人口 Test（V 按 Macro AUC 选点），统一报告 M3oE、HyperGate、AutoIFS；保留各架构实际训练协议。结合 C_MIX＋P01 的组合 CP 与独立组件作内部对比。HyperGate 在 KR .682113，M3oE 在 ML .775190。CP fixedEMA ML/KR .777525/.678168，相对 P01 −.000890/−.002441。以不同预处理和 V-LL 选择的 10/29 表未替代本轮排序。
+**统一发表模型与组合。** 自然人口 Test（V 按 Macro AUC 选点），统一报告 M3oE、HyperGate、AutoIFS；保留各架构实际训练协议。结合 C_MIX＋P01 的组合 CP 与独立组件作内部对比。HyperGate 在 KR .682113，M3oE 在 ML .775190。CP fixedEMA ML/KR .777525/.678168，相对 P01 −.000890/−.002441。本轮正式排序采用自然人口与 Macro AUC 选点；10/29 表采用历史预处理和 V-LL 选点。
 
 ## EXP069
 
 [原报告 69](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md)
 
-**Gaussian 覆盖。** KR 固定 GA31-R3 κ=.1、λ=.5、EMA .995；仅改涵盖域至 [0] 或 [0,2]，各新五条；[2] 精确复用。Macro AUC D0/D02/D2=.679180/.674604/.677999，LL=.435518/.436172/.434283；D02−D0 d0t0 −.014949。ML 复用既有 A1/G-D0，不计新训练，Test Macro AUC .779357、对发表 M3oE +.004167，通过六格保护，平均 LL 上升。KR D0 对 M3oE 的总值 +.007274，仍低于 HyperGate；覆盖策略能改变各格, 全域共享增量仍依赖对照。
+**Gaussian 覆盖。** KR 固定 GA31-R3 κ=.1、λ=.5、EMA .995；仅改涵盖域至 [0] 或 [0,2]，各新五条；[2] 精确复用。Macro AUC D0/D02/D2=.679180/.674604/.677999，LL=.435518/.436172/.434283；D02−D0 d0t0 −.014949。ML 复用既有 A1/G-D0，不计新训练，Test Macro AUC .779357、对发表 M3oE +.004167，通过六格保护，平均 LL 上升。KR D0 对 M3oE 的总 AUC 增量为 +.007274，低于 HyperGate。改变覆盖会重新分配六格收益；以固定 EMA 对照评估增强增量。
 
 ## EXP070
 
@@ -140,7 +140,7 @@
 
 [原报告 71](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/2026-11-06_ema_mechanism/FINAL_REPORT.md)
 
-**EMA_MECHANISM。** 自然两数据、Clean/Gaussian；固定 EMA 对照同轨迹年龄匹配 online 与预测稳定性。配对证据支持 fixed EMA 的 selected 排序收益超过纯年龄匹配；早期学习滞后与后期平滑并存。降低排序变化率未建立充分收益。常驻分组交叉仅在 KR Gaussian 成立。复杂收益预测可提高预测准确度，动作比较未增加稳健排序；Gaussian×EMA 交互随阶段/选点改变。
+**EMA_MECHANISM。** 自然两数据、Clean/Gaussian；固定 EMA 对照同轨迹年龄匹配 online 与预测稳定性。固定 EMA 提高 selected AUC，晚期验证 AUC 也高于年龄匹配 online。EMA 早期学习滞后，晚期降低排序变化率；AUC 收益须由配对排名端点衡量。常驻分组交叉仅在 KR Gaussian 为正。复杂预测降低收益预测误差，按预测执行的动作未稳定提高 AUC。Gaussian×EMA 交互随阶段和选点变化。
 
 ## EXP072
 
@@ -150,19 +150,19 @@
 
 [原报告 73](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/auxiliary_objective_attribution_20261115/REPORT.md)
 
-**辅助目标归因与 NDP-A。** Stage1 保持原支持/重加权，仅令 δ=0。Z-PAIR/Z-EXAMPLE 相对 clean EMA 的 selected AUC ML −.001547/−.001995，KR −.019672/−.009075；对应 B/C 的 −.001353/−.001643 和 −.021557/−.009188。旧总质量可到 1.5，KR pair d0t1 正例额外质量约 23.4×；零扰动复现主要损失。Stage2 NDP-A 为 `.75 L_clean+.25 L_view`，自然 2B 支持，entry 质量 1/(2B)，每 task 质量 .5；各 task 的 detached BCE 上升视图仅回到本任务。50 epoch、两数据五 seed，零扰动 canonical 状态与 CLEAN model/Adam/EMA 完全相等。NDP-A−clean selected online AUC ML/KR +.000360/−.004705，EMA −.000101/−.005775。自然权重修复通过数值验收，EMA 额外排序没有出现；原 pair 质量解释不能再直接覆盖 NDP-A 失败。
+**辅助目标归因与 NDP-A。** Stage1 保持原支持/重加权，仅令 δ=0。Z-PAIR/Z-EXAMPLE 相对 clean EMA 的 selected AUC ML −.001547/−.001995，KR −.019672/−.009075；对应 B/C 的 −.001353/−.001643 和 −.021557/−.009188。旧总质量可到 1.5，KR pair d0t1 正例额外质量约 23.4×；零扰动复现主要损失。Stage2 NDP-A 为 `.75 L_clean+.25 L_view`，自然 2B 支持，entry 质量 1/(2B)，每 task 质量 .5；各 task 的 detached BCE 上升视图仅回到本任务。50 epoch、两数据五 seed，零扰动 canonical 状态与 CLEAN model/Adam/EMA 完全相等。NDP-A−clean selected online AUC ML/KR +.000360/−.004705，EMA −.000101/−.005775。自然权重修复通过数值验收；上述 NDP-A 差值衡量自然权重下任务视图的排序增量。
 
 ## EXP074
 
 [原报告 74](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/task_view_gradient_residual_momentum_20261116/REPORT.md)
 
-**TV-GRM。** 比较任务视图残差历史、shuffle、instant、不同 γ 和 NDP-A/CLEAN 对照；两自然数据各五 seed，50 新轨迹、20 个精确历史控制。γ=.05/.10/.20 对 clean EMA 的 selected AUC ML −.000329/−.000062/+.000154，KR −.000227/−.000166/−.001311。ML γ=.20 AUC 3/5 且区间跨零，LL 5/5 降；KR γ=.10 对 NDP-A +.005609、5/5 正，仍弱于 clean。与 shuffle 的 AUC 区间均跨零，instant 相较历史方向依数据而异。NO_CONTINUATION_SIGNAL；E50、Traffic/Pooled 不替代指定 selected Macro。
+**TV-GRM。** 比较任务视图残差历史、shuffle、instant、不同 γ 和 NDP-A/CLEAN 对照；两自然数据各五 seed，50 新轨迹、20 个精确历史控制。γ=.05/.10/.20 对 clean EMA 的 selected AUC ML −.000329/−.000062/+.000154，KR −.000227/−.000166/−.001311。ML γ=.20 AUC 3/5 且区间跨零，LL 5/5 降；KR γ=.10 对 NDP-A +.005609、5/5 正，仍弱于 clean。与 shuffle 的 AUC 区间均跨零，instant 相较历史方向依数据而异。预设 selected Macro 终点裁定为 NO_CONTINUATION_SIGNAL。E50 和 Traffic/Pooled 提供分阶段、分人口的诊断。
 
 ## EXP075
 
 [原报告 75](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/task_axis_even_views_20261116/REPORT.md)
 
-**AXIS-EVEN。** 30 条轴向反向对称、轴向 IID2、匹配范数的各向同性 even 新轨迹；20 条 CLEAN/NDP-A 复用。注册 AXIS-EVEN selected EMA 相对 CLEAN ML −.000237520、KR −.003540710（0/5、1/5 正）。ML LL +.001264852，五 seed 均恶化。KR IID2−clean +.001269552、2/5 正、区间跨零。条件期望相同的 even/IID2 隔离了部分噪声路径，当前统计未建立轴向、反向配对或 Adam 路径的独特收益。Test 封存。
+**AXIS-EVEN。** 30 条轴向反向对称、轴向 IID2、匹配范数的各向同性 even 新轨迹；20 条 CLEAN/NDP-A 复用。注册 AXIS-EVEN selected EMA 相对 CLEAN ML −.000237520、KR −.003540710（0/5、1/5 正）。ML LL +.001264852，五 seed 均恶化。KR IID2−clean +.001269552、2/5 正、区间跨零。条件期望相同的 even/IID2 对照隔离了部分噪声路径。在该对照及同范数各向同性参照下，轴向结构和反向配对均未显示稳定的 selected AUC 增量，Adam 的独立作用仍未识别。Test 封存。
 
 ## EXP076-077
 
@@ -170,7 +170,7 @@
 
 [原报告 76](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/natural_quadratic_ranking_20261116/REPORT.md)
 
-**NQR 与时序。** C02 三臂 NQR-025、BRIER-OPPORTUNITY、MEAN-GAP；两数据×五 seed 共 30 新轨迹，10 CLEAN 控制复用。NQR selected EMA AUC 对 CLEAN ML −.000343517（0/5），KR −.000328734（2/5）；ML E10 +.001151311（5/5）而 selected task0 AUC/LL 均变差，KR 最大域及 pooled LL 有稳定改善。C03 EARLY10/LATE10 各仅暴露十 epoch，20 新轨迹且 exact reuse CLEAN/constant NQR 各10。EARLY selected AUC−clean ML −.000340045、KR −.000068613。ML EARLY 对 constant 的 LL −.003069812、5/5，AUC 近零；LATE ML selected 恰为干预前 CLEAN 最优，不能评价后置干预。E50 两数据两读出 EARLY−LATE 区间均跨零；E10 重合点不作重复。阶段效应与 selected 结论分别保留。
+**NQR 与时序。** C02 三臂 NQR-025、BRIER-OPPORTUNITY、MEAN-GAP；两数据×五 seed 共 30 新轨迹，10 CLEAN 控制复用。NQR selected EMA AUC 对 CLEAN ML −.000343517（0/5），KR −.000328734（2/5）；ML E10 +.001151311（5/5）而 selected task0 AUC/LL 均变差，KR 最大域及 pooled LL 有稳定改善。C03 EARLY10/LATE10 各仅暴露十 epoch，20 新轨迹且 exact reuse CLEAN/constant NQR 各10。EARLY selected AUC−clean ML −.000340045、KR −.000068613。ML EARLY 对 constant 的 LL −.003069812、5/5，AUC 近零；LATE 的 ML selected 落在干预前的 CLEAN 最优点；干预后比较见 E50。两数据两读出的 E50 EARLY−LATE 区间均跨零。E10 重合端点按同源记录。
 
 ## EXP078-079
 
@@ -178,7 +178,7 @@
 
 [原报告 78](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/completion_weight_attribution_20261117/REPORT.md)
 
-**完成权重和格质量。** C04 W=COMPLETION-BCE-025；S=MASS-SCALE-025 在相同总 BCE 质量下构成纯标量参照；C=CLEAN，N=NQR-025。20 新、20 历史准确控制。W−C selected EMA AUC/LL ML −.000154621/−.000305316，KR +.002555086/−.003942334；KR d0t0 −.003141373，d2 域 +.009201240，Traffic AUC −.000166779；KR W−S LL −.003621037（5/5）。W 同时改变 class/cell/task 权重，S 保留尺度、coupled WD/eps/Adam 的交互。N−W 对 ML E1 大幅正、E50 负；同状态虚拟 Adam 与 EMA 代数对应限局部。C05 U=CELL-MASS-BCE-025 保持 W 的格/task 质量并取消格内 class 异质性，10 新+30 历史控制。U−C selected AUC ML/KR −.000221160/−.000235705，LL 均正；KR d0t0 −.007526250。格质量单独无稳定排序增益，C04/C05 Test 未开，C05 后 USER_STOPPED。C04 曾验收的 RAM owner 后来退出，历史收据只证明当时可用。
+**完成权重和格质量。** C04 W=COMPLETION-BCE-025；S=MASS-SCALE-025 在相同总 BCE 质量下构成纯标量参照；C=CLEAN，N=NQR-025。20 新、20 历史准确控制。W−C selected EMA AUC/LL ML −.000154621/−.000305316，KR +.002555086/−.003942334；KR d0t0 −.003141373，d2 域 +.009201240，Traffic AUC −.000166779；KR W−S LL −.003621037（5/5）。W 同时改变 class/cell/task 权重，S 保留尺度、coupled WD/eps/Adam 的交互。N−W 对 ML E1 大幅正、E50 负；同状态虚拟 Adam 与 EMA 代数对应限局部。C05 U=CELL-MASS-BCE-025 保持 W 的格/task 质量并取消格内 class 异质性，10 新+30 历史控制。U−C selected AUC ML/KR −.000221160/−.000235705，LL 均正；KR d0t0 −.007526250。格质量单独未带来稳定排序增益。C04/C05 为验证集结果，C05 交付后 USER_STOPPED。C04 的 RAM 模型曾通过验收，随后因 owner 退出而不可用。
 
 ## EXP080
 
@@ -190,9 +190,9 @@
 
 ## EXP081
 
-**RCF-v1 及独立 SCALE，执行版。** 旧设计索引标为 DESIGN_ONLY，后续分支已完成。RCF 对 NATIVE、H_DIRECT、固定概率读出、等监督本地/池化和随机特征，分开比较强目标后的来源增量与后继函数形成。ML/KR seeds 5201–5204；104 S1、24 S2、8 KR S3 方法完成收据。6201–6204 独立锁定种子未开；S4 两数据 NO_START。Q 上 RCF−H 的 AUC/LL ML −.00051304/+.00024518、KR +.01119579/−.00304660，但 KR 不胜 NATIVE，且普通本地/池化强对照的 LL 幅度或方向不满足门。KR 对重训 K1_WIDE 在 Q 的 AUC/LL +.00172312/−.00060349（4/4，区间跨零），不足以取代强参照。ML 历史暴露 Test 对 H 的 LL −.00186226（4/4）且 AUC +.00010003（3/4），在 legacy 反号，POOLED/LOCAL 接近；KR Test 对 NATIVE AUC −.00750254。ML SIMPLE_READER_SUFFICIENT；KR ORDINARY_ANCHORED_FINETUNING，保留 TARGET_REFITTING_EXPLANATION。P_form 与 OOF/refit 背景不同，KR Q 上出现 source LL 预算超界，训练约束与分布外保留分别裁定。
+**RCF-v1 及独立 SCALE，执行版。** RCF 对 NATIVE、H_DIRECT、固定概率读出、等监督本地/池化和随机特征，分开比较强目标后的来源增量与后继函数形成。ML/KR seeds 5201–5204；104 S1、24 S2、8 KR S3 方法完成收据。6201–6204 独立锁定种子未开；S4 两数据 NO_START。Q 上 RCF−H 的 AUC/LL ML −.00051304/+.00024518、KR +.01119579/−.00304660，但 KR 不胜 NATIVE，且普通本地/池化强对照的 LL 幅度或方向不满足门。KR 对重训 K1_WIDE 在 Q 的 AUC/LL +.00172312/−.00060349（4/4，区间跨零）；正式版本裁定沿用强目标参照。ML 历史暴露 Test 对 H 的 LL −.00186226（4/4）且 AUC +.00010003（3/4），在 legacy 反号，POOLED/LOCAL 接近；KR Test 对 NATIVE AUC −.00750254。ML SIMPLE_READER_SUFFICIENT；KR ORDINARY_ANCHORED_FINETUNING，保留 TARGET_REFITTING_EXPLANATION。P_form 与 OOF/refit 背景不同，KR Q 上出现 source LL 预算超界，训练约束与分布外保留分别裁定。
 
-SCALE 独立使用 seeds 2022–2025，八条训练。冷/对应热 Adam 严格匹配 `cL,wd,eps ≍ L,wd/c,eps/c`，因而常数损失尺度效应包含有效 WD/eps 改变。历史暴露 Test 下 Dconst01_NO_AUG−B 的 Macro AUC/LL 为 ML +.00404890/−.00924025、KR +.00758835/−.00655322；KR 流量格 AUC −.00451560、pooled −.00445033，最大域 AUC −.00486585。主 RCF 与 SCALE 有不同设计和参照。当前停止扩展 RCF，保留强简单读出及有限阳性。
+SCALE 独立使用 seeds 2022–2025，八条训练。冷/对应热 Adam 严格匹配 `cL,wd,eps ≍ L,wd/c,eps/c`，因而常数损失尺度效应包含有效 WD/eps 改变。历史暴露 Test 下 Dconst01_NO_AUG−B 的 Macro AUC/LL 为 ML +.00404890/−.00924025、KR +.00758835/−.00655322；KR 流量格 AUC −.00451560、pooled −.00445033，最大域 AUC −.00486585。SCALE 裁定基于自身 B 对照。当前停止扩展 RCF，保留简单读出和上列各匹配参照下的收益。
 
 ## 历史交接摘录
 
@@ -323,7 +323,7 @@ E1 支持但不确证 shared contribution distortion；E2 未执行，故 E3 响
 
 ### 尚无最终机制裁定的主张
 
-没有发现最新 S3/S4 与 Reviewer 裁定之间存在需要在两种结论中择一的未裁冲突。仍开放的是**因果不可辨识**而非相互矛盾：S4 的救援可由梯度方向/组成、其诱发的 Adam moment history 或二者共同作用解释；当前数据不能单独判定。域大小与份额/有效权重/多样性共变也未拆开。E3 late-phase 选择计数因 phase 切分口径出现 10/12 与 11/12 的差异，方向相近但精确计数应回源，不应把任一数字写成普遍事实。E2 未执行使“objective 系数 vs sampling exposure”仍缺因果拆分。
+S3/S4 的结果与审查裁定一致。S4 的救援仍有三个竞争解释，即梯度方向或组成、由此诱发的 Adam moment history，以及二者共同作用。域大小与份额、有效权重和多样性共变。E3 的两种 late-phase 切分分别得到 10/12 和 11/12，引用计数时注明切分口径。区分 objective 系数与 sampling exposure 的 E2 未运行。
 
 ---
 
@@ -401,7 +401,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 
 ## Q1–Q53 问题去向
 
-以下保留每个问题的提问、历史状态/结论、冻结裁定、边界和反证字段。发现同题冲突时按 ID 定位。机器可读原字段见 [源 JSON](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Question_Disposition_20261018.json)。
+以下按问题 ID 记录历史状态与结论、冻结裁定、边界和反证。排除项以所引报告中的明确干预或算术证据为准，历史科学状态沿用原裁定。机器可读原字段见 [源 JSON](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/experiments/Experimental_Question_Disposition_20261018.json)。
 
 ### Q1 · Objective-equivalent sampling 是否真的改变 training trajectory？
 - historical status · RESOLVED
@@ -410,7 +410,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · N1与N5独立确认完整H100；KR selected主Holm均未通过，但Adam早期AULC8/8负，固定ML selected两种调参估计对象均8/8负。条件轨迹效应保留，非普遍有害。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不能将有限配置推广为所有optimizer/人口/阶段。
 - next discriminating step · 新假说须冻结其配置与评价对象；不重跑旧存在性审计。
 - sources · ["FINAL_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -423,7 +423,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · N0固定同预测权重分解及N1固定轮/AULC与selected并列；ML own E100正而selected负，selection改变大小/符号但不能解释所有早期效应。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不同评价人口与选轮不是同estimand。
 - next discriminating step · 独立预注册ML完整q×两LR外部预算，检验late作用。
 - sources · ["METRIC_AND_POPULATION_DECOMPOSITION.md", "FINAL_ANALYSIS.md"]
@@ -436,7 +436,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · HISTORICAL_FROZEN
 - evidence strength · STRONG
 - latest evidence · 原无动量SGD反例及FALSIFIED不改。新SGD1.0 selected宏CI跨±.003，不能消除旧配置存在性反例，也不能宣称所有optimizer等效。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 新配置主效应精度不足见Q53；普遍Adam必要性已由旧反例反驳。
 - next discriminating step · 不重做通用必要性；新精度设计另登记。
 - sources · ["FINAL_performance/primary_common_eta_Holm.json", "FINAL_ANALYSIS.md"]
@@ -449,7 +449,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · WEAK
 - latest evidence · 同θ/m/v/step的N2映射对比与固定分母完成；ALL对比/边际MC尺度约.48–.62，固定分母后不明确消失。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 未确认总体即时漂移，不识别长期历史必要性。
 - next discriminating step · 仅在明确定义的新状态假说下预注册健康保留干预。
 - sources · ["N2_FIXEDPOINT_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -462,7 +462,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · MEDIUM
 - latest evidence · 固定quota的域计数份额小，q trace和全程q性能差保留；N3局部作用小。不同路径仍可共同解释。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · quota改变批内依赖/高阶矩，不唯一分解order/repetition/coverage。
 - next discriminating step · 选择一个可操纵剩余解释另立估计对象；不强求唯一中介。
 - sources · ["DOMAIN_COUNT_COUNTERFACTUAL.md", "FINAL_ANALYSIS.md"]
@@ -475,7 +475,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · MEDIUM
 - latest evidence · N3双路径/多draw及独立seed完成；embedding/E10四项MC达标但实际/方向门槛失败，N4未触发。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 未运行长期拓扑，不是拓扑阴性或共享必要性证明。
 - next discriminating step · 保持长期未知；新拓扑假说需新的独立局部/长期依据。
 - sources · ["C_LOCAL_AND_TOPOLOGY_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -488,7 +488,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · WEAK
 - latest evidence · N0及新模型按N、baseline、标签率、task和阶段分解；严格小域双赢/大域损伤不稳定。没有新真实支持N干预。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · N、p、输入/标签、自然难度共变；原alias大小结构边界保持。
 - next discriminating step · 真实独立支持量试验须另定义J；复制行不作为新支持。
 - sources · ["METRIC_AND_POPULATION_DECOMPOSITION.md", "FINAL_ANALYSIS.md"]
@@ -501,7 +501,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · WEAK
 - latest evidence · 新结果不把小域等同困难域；ML最小域下降与最大域略改善，baseline不随N统一单调。原mask敏感性仍限定corruption。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · N5-D未触发；自然难度唯一因果仍未知。
 - next discriminating step · 只有明确难度因果主张才多mask实现/独立optimizer seed。
 - sources · ["FINAL_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -514,7 +514,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · WEAK
 - latest evidence · N2限定计数波动，N0/N1/N5报告人口与任务；同一自然域N下两task可异向。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 三个自然域不分离N/p/标签/输入/baseline，seed不增加域因子水平。
 - next discriminating step · 独立分配候选因子，不做三个域的高自由度因果回归。
 - sources · ["FINAL_domain_context/domain_task_baseline_population_context.csv", "FINAL_ANALYSIS.md"]
@@ -527,7 +527,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 固定E10/20/50/100、selected、AULC与三权重均保留；ML选轮约11–21轮，E100 own正而selected负。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 选择人口最优与test/不同权重排名不可互换。
 - next discriminating step · 保留预注册主estimand及全部反向读数。
 - sources · ["Q_LR_BUDGET_RESPONSE.md", "FINAL_ANALYSIS.md"]
@@ -540,7 +540,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 固定subset2022的ML八optimizer seed完成，selected两估计对象均8/8负，与历史耦合subset/SGD配置不是相同实验。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 两环境bundle与进度共变；只识别该固定ML人口下稳定性。
 - next discriminating step · 需要单一环境driver才做同框架单因子改变。
 - sources · ["Q_LR_BUDGET_RESPONSE.md", "FINAL_ANALYSIS.md"]
@@ -553,7 +553,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 八篇原文逐公式对照完成；D3/SAF一般改变J，AdaTask组件旧结论不冒充完整方法，EMS/MIS覆盖通用采样思想。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 有限检索不证明新颖性穷尽，也未训练完整方法性能基线。
 - next discriminating step · 具体方法候选出现时再公平完整baseline。
 - sources · ["LITERATURE_COVERAGE.md", "FINAL_ANALYSIS.md"]
@@ -566,7 +566,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · WEAK
 - latest evidence · 本轮提供q×LR×预算/人口及固定点反证，未识别独有通用机制/新算法；N3长期门槛失败。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 场景差异不保证创新；仍有非唯一未排除解释。
 - next discriminating step · 把下一具体预测与原文假设逐一对照。
 - sources · ["LITERATURE_COVERAGE.md", "FINAL_ANALYSIS.md"]
@@ -579,7 +579,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 旧NO_GO保持；新轮条件GO-EFFECT、固定点限定GO-MECHANISM分开。所有数值读数无宏收益与七项保护联合通过。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 未触发新候选训练不能推断未来方法全失败；E100 own保护失败是区间精度。
 - next discriminating step · 有冻结候选、主收益、保护、成本与文献依据才方法化。
 - sources · ["FINAL_method_guards/numerical_benefit_guard_summary.json", "FINAL_ANALYSIS.md"]
@@ -592,7 +592,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 原同图同目标身份保持；新quota实际批域系数n*w/B=p全部核验，新增数值身份验证修正不改估计器。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · routing detach字段非普通总导数；quota依赖不同。
 - next discriminating step · 不重复旧审计；保持本轮公式及来源。
 - sources · ["N2_QUOTA_IID_PAIR_IDENTITY.json", "FINAL_ANALYSIS.md"]
@@ -605,7 +605,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 外部固定AULC1..20 KR Adam8/8负；固定E10/E20也负。没有以候选失败重新缩短early窗口。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不以onset未检出证明无过拟合，不证明所有阶段有害。
 - next discriminating step · 主早期窗口始终外部固定，时钟与LL同时报告。
 - sources · ["FINAL_STAGE_MACRO_AUC.csv", "FINAL_ANALYSIS.md"]
@@ -618,7 +618,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 完整H100与所有端点支持阶段依赖；ML own早期负、E100正；H200原rho门槛均未触发。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 没有证明永久差异/纯速度；匹配J是处理后描述。
 - next discriminating step · ML完整q×两LR新seed矩阵，以共同外部预算证伪纯LR解释。
 - sources · ["Q_LR_BUDGET_RESPONSE.md", "FINAL_ANALYSIS.md"]
@@ -631,7 +631,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 原same-multiset ORDER结果保持；本轮未作新的纯内容顺序或课程策略主张，N5-A未触发。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 原ORDER同时移动短尾，纯内容/size-clock仍未分离。
 - next discriminating step · 若顺序成为核心，尾固定等长置换与尾移动分别比较。
 - sources · ["CONDITIONAL_BRANCH_DECISIONS_PRETEST.json", "FINAL_ANALYSIS.md"]
@@ -644,7 +644,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · STRONG
 - latest evidence · R=E-U及E>N时零重复不可能的结构边界保留；本轮quota未伪装成阻断重复。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 固定E/N/支持下不能独立零重复；N5-B未触发。
 - next discriminating step · 研究新的可行时序estimand或真实独立支持，另立问题。
 - sources · ["CONDITIONAL_BRANCH_DECISIONS_PRETEST.json", "FINAL_ANALYSIS.md"]
@@ -657,7 +657,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · STRONG
 - latest evidence · 固定E时unique与repeat代数绑定；quota与N3均未宣称独立coverage中介。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 多seed不修复结构不识别。
 - next discriminating step · 仅同E/U/R的间隔或真实支持设计可另回答限定问题。
 - sources · ["DOMAIN_COUNT_COUNTERFACTUAL.md", "FINAL_ANALYSIS.md"]
@@ -670,7 +670,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · WEAK
 - latest evidence · N2真实trace分解及跨块差异完成，但未作同均值trace匹配shape干预。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不据q方差/局部AUC推出shape优于trace；该主张未承担结论。
 - next discriminating step · 仅shape成为核心命题时预注册受控残差库。
 - sources · ["CONDITIONAL_BRANCH_DECISIONS_PRETEST.json", "FINAL_ANALYSIS.md"]
@@ -683,7 +683,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · NOT_IDENTIFIABLE_WITH_CURRENT_DESIGN
 - evidence strength · MEDIUM
 - latest evidence · N3整体C/子块、双路径、四格及独立确认已完成；共享拓扑门槛未触发，R仍按既有私有支持处理。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 局部更新替换不等于共享C/R长期必要性。
 - next discriminating step · 保持N4未触发而非阴性；新必要性问题另立。
 - sources · ["C_LOCAL_AND_TOPOLOGY_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -696,7 +696,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 原特定配置optimizer×q interaction不改；新对称LR下Adam与SGD各条件效应及N3作用大小不同。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · optimizer和LR/state共同变化，不能唯一归于m/v历史。
 - next discriminating step · 针对实际映射定义单因子控制，不重做旧整体state矩阵。
 - sources · ["FINAL_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -709,7 +709,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · ML固定支持新八seed完成；与KR并列labels、pop、N/steps及相同宏/加权读数，得到条件环境边界。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不是只改N或只改难度；旧耦合subset方差未分解。
 - next discriminating step · 若要求唯一driver，在同框架只改该因子。
 - sources · ["METRIC_AND_POPULATION_DECOMPOSITION.md", "FINAL_ANALYSIS.md"]
@@ -722,7 +722,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 原文对同目标采样/协方差/顺序/状态及MIS/EMS的直接覆盖已对照；本轮不将MDMT应用名称当创新。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 有限检索不是穷尽；新颖方法尚未被实测授权。
 - next discriminating step · 未来具体主张逐公式/假设/估计器比较。
 - sources · ["LITERATURE_COVERAGE.md", "FINAL_ANALYSIS.md"]
@@ -735,7 +735,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 完整D3/SAF一般改变目标的公式边界保持，原文核对完成。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不推断其完整方法效果差，也不把退化常权版冒充原方法。
 - next discriminating step · 只有性能问题需要完整等预算基线。
 - sources · ["LITERATURE_COVERAGE.md", "FINAL_ANALYSIS.md"]
@@ -748,7 +748,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · HISTORICAL_FROZEN
 - evidence strength · MEDIUM
 - latest evidence · 旧同目标AdaTask固定组件未消除q敏感性的RESOLVED原样保留；本轮未重训完整AdaTask。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 旧组件/LR结果不等于完整方法调优失败。
 - next discriminating step · 有真实完整方法候选比较才公平对称调参。
 - sources · ["LITERATURE_COVERAGE.md", "FINAL_ANALYSIS.md"]
@@ -761,7 +761,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · routing_input_detached及原forward始终保持，config/source SHA冻结。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 同图graph-gradient身份不等于恢复routing的普通总导数。
 - next discriminating step · 移除detach属于新架构实验，不作为旧错误修复。
 - sources · ["GLOBAL_MODEL_AND_PROTOCOL_FREEZE.json", "FINAL_ANALYSIS.md"]
@@ -774,7 +774,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · C/E共享、R单元私有及P混合的真实坐标支持沿用；N3参数计数和实际更新范数完整。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 张量名称、实际梯度支持与共享必要性不同。
 - next discriminating step · 未来拓扑必须按真实支持设计。
 - sources · ["N3_development_summary/parameter_counts.csv", "FINAL_ANALYSIS.md"]
@@ -787,7 +787,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 新四点对称网格含低邻点；KR Adam .01/SGD1.0为上边界赢家，ML SB .0003为下边界赢家，均不扩网格。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 预设网格不证明连续全局最优。
 - next discriminating step · 未来边界邻点属于新预注册调参，不改本轮结果。
 - sources · ["Q_LR_BUDGET_RESPONSE.md", "FINAL_ANALYSIS.md"]
@@ -800,7 +800,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 新调参2030/31与正式2032–39不重合；N3提名2032–35与确认2036–39分开，复用别名不计新n。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 仍是条件所选LR确认，不估计完整外层选择方差。
 - next discriminating step · 保持分离与来源索引；不重做旧配置。
 - sources · ["PRETEST_TRAINING_STAGE_CLOSURE.json", "FINAL_ANALYSIS.md"]
@@ -813,7 +813,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 原fixedSGD读数差源于评价人口/小选轮差的结论保持；N0同预测三权重和新轮明确split。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不重新解释为旧训练数值错误。
 - next discriminating step · 保持来源/人口/时钟，不重训旧轨迹。
 - sources · ["METRIC_AND_POPULATION_DECOMPOSITION.md", "FINAL_ANALYSIS.md"]
@@ -826,7 +826,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · MEDIUM
 - latest evidence · 同时给common eta q干预与等预算own估计对象；KR模型相同复用，ML ownSB .0003与common .001不同且均实际确认。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 有限网格性能不等于全局优化；own跨LR差不作纯q机制。
 - next discriminating step · ML晚期优势以同LR新seed格证伪。
 - sources · ["FINAL_COMPARISONS.json", "FINAL_ANALYSIS.md"]
@@ -839,7 +839,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · HISTORICAL_FROZEN
 - evidence strength · STRONG
 - latest evidence · 原corrected_m_norm/v_norm修复及无训练改变结论保留，本轮不再全量刷新遥测。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 范数修正不识别状态因果。
 - next discriminating step · 无需新增训练或工程审计。
 - sources · ["原original_registry_entry证据链", "FINAL_ANALYSIS.md"]
@@ -852,7 +852,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 本轮保留真实optimizer step与锚计数；N3每draw从同状态重置，不将draw序列称连续记忆lag。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 没有新的连续步相关性/长期记忆证明。
 - next discriminating step · 仅有具体时间相关假说才预设连续步窗口。
 - sources · ["N3_DESIGN_ADDENDUM.md", "FINAL_ANALYSIS.md"]
@@ -865,7 +865,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 新主端点采用外部E10/20/50/100与AULC，不作全局onset/FWER保证。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 原操作性onset不是过拟合不存在证明。
 - next discriminating step · 只有提出全局onset命题才校准同时程序。
 - sources · ["FINAL_READOUT_PRETEST_REVIEW.md", "FINAL_ANALYSIS.md"]
@@ -878,7 +878,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 本轮没有数据依赖课程策略实验；原随机ORDER条件路径结论保留。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · IID等长置换同分布不能证明课程收益；尾批因素原样保留。
 - next discriminating step · 若策略成为目标另预注册独立确认。
 - sources · ["CONDITIONAL_BRANCH_DECISIONS_PRETEST.json", "FINAL_ANALYSIS.md"]
@@ -891,7 +891,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 原短尾移动964/1000事实保留，新完整训练均保留尾40052(KR)/23660(ML)。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 本轮没有分离纯内容与size-clock的新ORDER分支。
 - next discriminating step · 需要纯顺序主张时尾固定/移动分别处理。
 - sources · ["FINAL_TRAINING_RUN_LEDGER.csv", "FINAL_ANALYSIS.md"]
@@ -904,7 +904,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 同配置父轨迹/别名复用不计新seed；每formal100纯model和7200预测模型SHA对应实际核验。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不推断所有CPU/GPU普遍bit相同。
 - next discriminating step · 保持producer/model/pred索引，不重复prefix作为新证据。
 - sources · ["TEST_READOUT_VALIDATION.json", "FINAL_ANALYSIS.md"]
@@ -917,7 +917,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 未重做破坏性beta2=0；N3使用原生状态的块norm×direction四格、实际范数与绝对AUC/LL/J。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · floor/gap修复不证明历史必要性；一步健康不代表长期。
 - next discriminating step · 有新状态假说才健康保留长期控制。
 - sources · ["C_LOCAL_AND_TOPOLOGY_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -929,7 +929,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 固定外部早期窗口且并列KR49步/ML5步每epoch；ML own早期负与晚期正的反例保留。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 同epoch、相同J或相同AUC均不消除环境bundle差异。
 - next discriminating step · 未来明确外部steps/暴露estimand，不能同时匹配不同N的两钟。
 - sources · ["Q_LR_BUDGET_RESPONSE.md", "FINAL_ANALYSIS.md"]
@@ -942,7 +942,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 逐块交叉幅度/方向四格和交互已实际测量，方向未定义预设处理；实际落地范数/目标误差保留。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 单个全局范数不能隔离块尺度；局部方向作用仍非唯一长期原因。
 - next discriminating step · 本轮局部实际门槛失败，长期拓扑未知。
 - sources · ["N3_confirmation_summary/actual_block_update_norms.csv", "FINAL_ANALYSIS.md"]
@@ -955,7 +955,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 固定subset_seed2022及行/分半SHA，独立optimizer2032–39；同人口优化随机性新24formal完整确认。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 未交叉多个subset，不能分解旧耦合总体方差。
 - next discriminating step · 只有子集方差仍用于主张时才3subset×4optimizer交叉。
 - sources · ["N5_confirmation_validation.json", "FINAL_ANALYSIS.md"]
@@ -967,7 +967,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · STRONG
 - latest evidence · 本轮外部窗口不由失败arm决定，未以beta2=0等破坏臂缩短共同早期问题。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 保留旧破坏控制/窗口边界。
 - next discriminating step · 始终比较固定外部时钟及绝对健康。
 - sources · ["FINAL_READOUT_PRETEST_REVIEW.md", "FINAL_ANALYSIS.md"]
@@ -979,7 +979,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · RESOLVED
 - evidence strength · STRONG
 - latest evidence · 新120条全H100，各正式组8seed均有E100；旧N0 E100只有1–2seed的资格不更改，H200未触发。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 旧非随机缺失不能补成四seed；未触发更长预算不等于阴性。
 - next discriminating step · 每端点继续给实际n/模型支持集。
 - sources · ["FINAL_TRAINING_RUN_LEDGER.csv", "FINAL_ANALYSIS.md"]
@@ -991,7 +991,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - latest review tag · BOUNDARY
 - evidence strength · MEDIUM
 - latest evidence · 新N3 full embedding独立AUC小正、LL/J多数改善，但方向残差J/LL不统一、实际门槛失败；旧C阳性及loss冲突保留。
-- excluded explanations · 仅排除所链接报告中对应明确干预/算术可排除的解释；不扩张原历史科学状态。
+- excluded explanations · 见所引报告的干预或算术证据。
 - remaining uncertainty · 不把attenuation接近SN称绝对健康，也不倒改旧联合门槛。
 - next discriminating step · 保留多度量/路径/阶段反例；长期拓扑未触发。
 - sources · ["C_LOCAL_AND_TOPOLOGY_ANALYSIS.md", "FINAL_ANALYSIS.md"]
@@ -1333,7 +1333,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 #### C033 — S5/S8 late optimizer rescue 与“新q算法有效”混淆
 
 - **A/B:** Equal历史S5 target rescue具有特定history carrier；Sample S8 的late rescue不提高原F best；v3/N17 q路径早期也可影响AUC。
-- **Classification:** **DIFFERENT OBJECTIVE / INTERVENTION / WINDOW**。不能把旧的 history rescue改名为新的Sample采样方法，亦不能从Sample无新方法收益推历史Equal效应不存在。保持方法NO_GO、机制问题有界开放；E015–E027、E038–E043。
+- **Classification:** **DIFFERENT OBJECTIVE / INTERVENTION / WINDOW**。Equal/S5 的 history rescue 保留为历史受控结果；Sample 下的采样候选维持 NO_GO。两组实验分别限制历史更新与采样干预的适用范围。见 E015–E027、E038–E043。
 
 #### C034 — N17 Adam bootstrap区间负 vs 预定t/符号Holm主准则未确认
 
@@ -1375,7 +1375,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 
 #### C042 — “实验方案/发布完成” vs 实际NO_START与机制工件缺项
 - **A/B:** NEXT-v2核心48完成但正式0 NO_START；v3有实际50epoch；DFD P3/P4因门未触发、184导出和12推理已完成但外层η/μ分组漏导出；RCF只有实施设计、无新训练。
-- **Classification:** **EXECUTION STATUS / ARTIFACT AVAILABILITY**。不能一概写成“全部方法完整阴性”或“所有机制信息已齐”，更不能把RCF方案的理论价值记为测得AUC。E054–E057。
+- **Classification:** **EXECUTION STATUS / ARTIFACT AVAILABILITY**。按各阶段收据记录完成、未启动与缺失工件。RCF 在该历史截面为设计，后续实测见 EXP081。E054–E057。
 
 **修订原则：** “小域=困难域”始终不是研究者认可的先验；共享数值失活、来源可读、形成器有用和共享可提升泛化分别是不同问题。若没有同人口/同参数/同指标的直接对照，保留竞争解释而不强行判某一机制为根因。
 
@@ -1387,7 +1387,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 
 #### C044 — BASP-A部分固定来源读取有依赖，动态原型政策却未晋级
 - **A/B:** 部分读取对固定源内容的替换会引起评价变化，但CG的留出μ不胜常量、NULL占优，Q/E不稳定胜目标匹配。
-- **Classification:** **READ DEPENDENCE ≠ NEED TO FORM PROTOTYPES ≠ DEPLOYED BENEFIT**。E059；不能把旧来源可读性重新当作新机制发现。
+- **Classification:** **READ DEPENDENCE ≠ NEED TO FORM PROTOTYPES ≠ DEPLOYED BENEFIT**。E059 记录的既有发现是固定来源内容可读。
 
 #### C045 — GA31缩放产生selected收益与普通L2形成近似参照并存
 - **A/B:** ML c=.1对c=1无增强test selected AUC+0.003473；后续普通L2校准在ML的validation排序接近缩放参照、test AUC细微反号。
@@ -2473,7 +2473,7 @@ STRONG：U在E1两数据AUC均5/5下降且区间全负；U−W的KR Macro/task1 
 - **Strength / Scope:** MEDIUM；KD的ML结果不代表所有历史软标签方法失败。
 - **Source:** [11/11 EMA_NEXT](https://github.com/Caelestis1903/My-Research-Project/blob/26-11-11/research_reports/2026-11-11_ema_next/FINAL_REPORT.md)。
 
-**所有新增证据共同的边界：****所有新增证据共同的边界：** 这些测试多次使用同一历史划分、既有seed池及参考轨迹。五seed是训练随机性，不是新外部样本/用户/时间窗口。强简单对照未被超越时可以作具体版本STOP；不能把已证明的其他现象归零。
+**证据范围。** 这些测试多次复用同一历史划分、seed 池及参考轨迹。五个 seed 衡量训练随机性，外部复现需独立样本、用户或时间窗口。未超过强简单对照的版本可按预设门停止，已确认的局部结果按原条件记录。
 
 ## 历史跨阶段总裁定
 
@@ -2583,9 +2583,9 @@ MovieLens两态B对三个发表模型均通过当前AUC门；KuaiRand B_SHARED�
 | [11/04 Overnight A+B统一AUC选点和CP组合](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-03_overnight_AB/FINAL_REPORT.md) | 30条A发表模型槽位、40条B组合槽位，合计30条新增训练。ML M3/HG/AutoIFS宏AUC **0.775190/0.771412/0.772425**，最强M3；KR **0.671907/0.682113/0.678597**，最强HG。CP fixedEMA ML/KR **0.777525/0.678168**，对M3总AUC **+0.002335/+0.006261**，对单独P01 **−0.000890/−0.002441** | 论文基线已统一自然人口、AUC合法选点。旧10/29 V按LL及人口/预处理不同不得跨表排名。CP对ML最强M3未达+.003、KR不胜HG，排序优先不替代P01；其对KR M3的总AUC及LL收益保留 |
 | [11/04 Gaussian领域覆盖](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/REPORT.md)／[ML源核验](https://github.com/Caelestis1903/My-Research-Project/blob/c8675ae2923c15b6965884b140b5b646690cd95e/research_reports/2026-11-04_gaussian_domain_coverage/MOVIELENS_SUPPLEMENT.md) | KR G-D0/G-D02各新训5seed，G-D2沿用旧5seed，三者宏AUC **0.679180/0.674604/0.677999**、LL **0.435518/0.436172/0.434283**。D02−D0宏AUC **−0.004576**，d0t0 **−0.014949**。ML G-D0即旧Gaussian，宏AUC **0.779357**、相对M3 **+0.004167**且六格保护通过，ML复用无新训练 | KR宏AUC优先G-D0、宏LL优先G-D2，双域G-D02不优先。KR三臂均不胜最强HG，G-D0对M3总AUC **+0.007274**且六格通过。ML G-D0可按同协议胜最强发表M3，但LL平均上升 |
 
-**跨轮收敛结论。** EMA是独立明确有效的时间平滑内部参照。旧一、两seed的停止门不能自动推翻后续完整五seed的整体排序收益；整体方案收益同样不能直接证明C、H、PAIR、ECCM单个新增部件各自有效。完整2×2已足以拒绝把CP作为当前排序优先组合。统一AUC选点后ML的正式发表模型排序与10/29旧协议相反，本轮以M3、HyperGate、AutoIFS三种合法发表模型为正式baseline；其自带训练设置/架构不同，不声称同超参训练或严格复现原论文。Gaussian改变增强域可改变六格与宏/traffic/LL取舍，直接增加覆盖并未获得排序加成。
+**跨轮收敛结论。** 固定 EMA 提高排序，是评估 C、H、PAIR 和 ECCM 组件增量的内部参照。已补齐五个 seed 的完整方案按本表结果裁定；旧一、两 seed 停止门记录当时的派发状态。CP 在两数据上均低于单 P01，本轮优先保留 P01。统一 AUC 选点后，ML 的发表模型排序与 10/29 的协议相反；正式比较采用 M3、HyperGate、AutoIFS 的仓库适配及各自训练设置。Gaussian 覆盖改变六格、Macro、Traffic 和 LogLoss 的权衡，KuaiRand 从 D0 扩到 D02 的 Macro AUC 下降。
 
-**适用条件与后续决策。** 两自然数据均原行序80/10/10、train-only预处理，ML train 800167行、KR train 2006132行；固定M3与内部候选batch40960、Adam lr=.01、50epoch，EMA rho为ML .9828205985452511、KR .995。各模型按validation六格macro AUC严格最大、并列最早选点后以test为主；E10/E50仅作阶段诊断，online/EMA是同轨迹不同估计器。五seed总AUC配对均值≥+.003、逐cell均值≥−.001分别裁定，LL配对均值<0单独报告。KR test流量主要来自d1，宏/traffic会因权重不同方向分歧。**当前决策**是保留ML G-D0相对最强论文模型的已达标优势、KR的已有完整方案总收益但不声称超过HG；优先研究可改变算法选择的域任务收益分配与组件增量，不重启已完成论文基线统一或进行缺乏决策价值的重复确认。
+**适用条件与后续决策。** 两自然数据均原行序80/10/10、train-only预处理，ML train 800167行、KR train 2006132行；固定M3与内部候选batch40960、Adam lr=.01、50epoch，EMA rho为ML .9828205985452511、KR .995。各模型按validation六格macro AUC严格最大、并列最早选点后以test为主；E10/E50仅作阶段诊断，online/EMA是同轨迹不同估计器。五seed总AUC配对均值≥+.003、逐cell均值≥−.001分别裁定，LL配对均值<0单独报告。KR test流量主要来自d1，宏/traffic会因权重不同方向分歧。**当前决策**是保留 ML G-D0 相对最强发表模型的达标优势，以及 KR G-D0 相对普通 M3oE 的总收益。KR 的正式 AUC 比较仍由 HyperGate 领先。沿用已统一的发表模型参照，后续聚焦会改变算法选择的域任务收益分配与组件增量。
 
 **数值入口：** [MDMT算法性能总台账](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/MDMT_ALGORITHM_METRICS_LEDGER.md)。Overnight增量为正式M3/HG/AI与CP的六格及selected/E10/E50；KR G-D0/G-D02新数据与旧G-D2锚点同协议并列。ML G-D0与原Gaussian、KR G-D2与原Gaussian各为一组源轨迹的别名，不能累加独立seed或训练次数。
 
@@ -3137,7 +3137,7 @@ A21 在 MovieLens 相对已发表 M3oE 的五种子 Test Macro AUC +.003284，�
 - **Current Status:** **FALSIFIED**（该强版本）。
 - **Allowed Claim:** 必须冻结主评价函数；cell加权AUC≠pooled AUC，两个任务和六cell不应视独立seed。E040。
 
-**当前研究立场：** 不预设momentum、课程学习、domain size困难性，也不把新出现的若干识别缺口机械转化为无限追加的防御性实验。新假设要以既有MDMT方法的具体前提/迁移边界/未解决问题为对象，并提前规定可否定它的最小观测。
+**当前研究立场。** 分别记录域规模与困难度，用受控对照检验动量和课程学习。新假设针对既有 MDMT 方法的具体前提、迁移边界或未解问题，并提前设定足以改变研究决策的观测。
 
 
 #### 2026-10-26 假设演化续记 H033–H040
@@ -3182,7 +3182,7 @@ A21 在 MovieLens 相对已发表 M3oE 的五种子 Test Macro AUC +.003284，�
 - **Current Status:** **OPEN / DESIGN_ONLY**（未训练）。
 - **Allowed Claim:** 是有明确对照和预算的待验新假设；只有超过固定来源读、直接目标头、目标专有/统一微调、单宽后继等控制，才能谈新方法贡献。[RCF-v1](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_plans/2026-10-26-v2/00_README.md)。
 
-**历史记述与研究立场：** 研究者一直区分“小域”和“困难域”，并非提出后才被迫否定。既有方法相近不导致方向被机械丢弃；如果真实新增收益在强参照下仍不能建立，则明确版本NO_GO和能重新建立差异的最小设计更改。
+**历史记述与研究立场：** 研究者一直区分“小域”和“困难域”，并非提出后才被迫否定。按强参照下的增量裁定具体版本。NO_GO 后仅在设计更改可辨别新增作用时重开。
 
 #### 2026-11-02 新增已检验主张/候选解释状态 H041–H047
 
@@ -4050,7 +4050,7 @@ N17 **120 条新的 H100 训练轨迹（48 tuning +72 formal）全部完成**，
 #### 5. 当前能成立的最终结论及行动边界
 
 1. **存在条件效应：** 同一 Sample 经验目标下，改变域采样 q（配以 p/q 校正）能改变批梯度高阶统计、优化路径和某些配置/阶段的 AUC/LL；统计与泛化范围取决于 LR、optimizer、fusion、dataset、物理人口、时钟及 validation selection，**没有普遍收益/损伤定律**。
-2. **已证伪通用必要性，不等于确认单一替代中介：** 无动量 SGD 可以出现 q 差，故 Adam 不是普遍必要条件；但某些 Adam 状态响应存在，不能宣布 Adam 历史无作用或 S5 Equal 效应错误。固定点域计数波动不足以解释 trace 差；谱shape/域内噪声/重复/覆盖/长期 C 必要性尚未分离。
+2. **采样效应可在无动量 SGD 下复现。** Equal/S5 的 Adam 历史作用在其受控设置下成立。固定点的域计数波动解释不了测得的 trace 差；谱形、域内噪声、重复、覆盖与共享 C 的长期作用尚未分离。
 3. **不应以数据量代替困难度：** 三自然域的规模、输入、正例率、域任务分布、split、baseline 等高度共变，大小不是独立已识别原因。历史一开始就已拒绝“小域=困难域”；不应再把反复否定它算作新创新。
 4. **评价是研究结论的一部分：** 报告必须绑定 macro vs train-p/test-p weighted cell AUC（均不是pooled AUC）、AUC vs LL、validation vs test、selected vs same-clock/E100/AULC、同q不同LR与独立seed；不能只看使单一方法显得有利的一组端点。
 5. **方法化暂不成立：** 已测试静态 Balanced、历史 late rescue、局部 C/state 方案均不满足本项目的可用收益和全单元非劣/证据门。既有文献覆盖许多一般采样/优化机制；目前适合主张**条件边界与可证伪问题**，而不是新 MDMT 优化算法已获验证。**NO_GO 只针对本轮所测候选和当前证据**。
@@ -4118,8 +4118,8 @@ N17 **120 条新的 H100 训练轨迹（48 tuning +72 formal）全部完成**，
 
 #### 4. 当前可信的综合科研认识
 
-1. **样本重加权/梯度/优化：** 它们的作用确实可能随目标、population、优化器、学习率和训练阶段而变化；当前尚无证据支持一个通用的“增大小域权重”或“动量修复”的安全算法。10-21套件的正结果表明仍有可深入的尺度、增强与权重交互，但不能把套件收益直接归因某个动态权重函数。
-2. **共享机制：** 部分M3oE乘性路径可在特定条件下数值中性，存在设计/优化器相关的恢复；并非所有结构都会失活，也不意味着激活恢复就能提升性能。普通foreign读取的有限价值与特定来源功能形成的必要性需分开判定。
+1. **样本重加权/梯度/优化。** 已测效应随训练目标、人口、优化器、学习率和阶段变化。10-21 的完整套件有收益，尺度、增强和权重的独立作用由各自匹配对照检验。所测小域加权和动量干预的收益有具体配置边界。
+2. **共享机制。** CM19 中 M3oE 的部分乘性路径数值中性，设计或优化器干预可恢复其响应；独立强参照的相应路径保持活跃。恢复响应后，selected 泛化收益未稳定建立。来源函数形成的额外价值由普通来源读取和目标直接适配两类对照衡量。
 3. **局部需求驱动共享：** ML中目标条件选读相对常量有信号，KR未过，完整DFD未超过强直接控制；需求外推及正权形成机制缺口已清楚，因而可以保留“目标真实剩余需求—来源可用函数”的问题，并用RCF的强对照检验新增价值，而不是宣称其已有效。
 4. **评价与科研证据：** 逐格AUC/LL、宏与不同部署人口、selected与末态、validation与历史exposed-test必须并存。当前大部分正式测试沿用已暴露的人口，独立新时间/真实样本支持才有助于升级外部效度。
 
