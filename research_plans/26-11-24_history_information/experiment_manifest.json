@@ -1,0 +1,1438 @@
+{
+  "schema_version": 1,
+  "study_id": "history_information_20261124",
+  "created_date": "2026-11-24",
+  "timezone": "Asia/Shanghai",
+  "status": "PLAN_COMPLETE_NO_NEW_MODEL_TRAINING",
+  "repository": {
+    "full_name": "Caelestis1903/My-Research-Project",
+    "target_branch": "main",
+    "plan_directory": "research_plans/26-11-24_history_information",
+    "evidence_main_sha": "358d3a465747eda6af1d55acc937759fa651a10b",
+    "published_model_source_sha": "c8675ae2923c15b6965884b140b5b646690cd95e",
+    "forbidden_read_paths": [
+      "mdmt_research_context/04_HUMAN_RESEARCH_REVIEW.md"
+    ]
+  },
+  "authority": {
+    "formulas": "05_CANDIDATE_ALGORITHMS.md",
+    "implementation": "07_IMPLEMENTATION_SPEC.md",
+    "matrix": "06_EXPERIMENT_MATRIX.md",
+    "decisions": "08_DECISION_RULES.md",
+    "statistics": "09_METRICS_AND_STATISTICS.md",
+    "scheduler": "10_RESOURCES_AND_SCHEDULER.md",
+    "on_conflict": "FIX_EXPLICIT_CONTRACT_AND_REVIEW_BEFORE_TRAINING"
+  },
+  "current_task": {
+    "training_allowed": false,
+    "new_test_evaluation_allowed": false,
+    "historical_table_reanalysis_allowed": true,
+    "plan_commit_main_authorized": true,
+    "implemented_training_entrypoint_exists": false
+  },
+  "runtime": {
+    "python": "/home_new/xzf/envs/miniconda3/envs/phase0-3-env/bin/python",
+    "python_version": "3.13.5",
+    "torch_version": "2.9.0+cu126",
+    "new_module_to_implement": "experiments.history_information_20261124.cli",
+    "artifact_root": "artifacts/history_information_20261124",
+    "report_root": "research_reports/history_information_20261124",
+    "checkpoint_storage": "RAM_ONLY",
+    "fresh_native_agent_per_subtask": true,
+    "fork_context": false,
+    "coder_and_reviewer_distinct": true,
+    "detached_ai_allowed": false,
+    "retired_autonomous_driver_allowed": false
+  },
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "datasets": {
+    "movielens": {
+      "csv": "/home_new/xzf/datasets/ml-1m/ml-1m.csv",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "labels": [
+        "rating>3",
+        "rating>4"
+      ],
+      "train_domain_counts": [
+        155949,
+        318599,
+        325619
+      ],
+      "train_rows": 800167,
+      "rho": 0.9828205985452511,
+      "weight_decay_m3oe": 0.0001,
+      "m3oe_steps_per_epoch": 20,
+      "m3oe_tail_rows": 21927,
+      "hypergate_steps_per_epoch": 782,
+      "autoifs_steps_per_epoch": 196,
+      "gaussian_kappa": 0.05,
+      "autoifs_rank": 2
+    },
+    "kuairand": {
+      "csv": "/home_new/xzf/datasets/kuairand/processed/kuai_rand.csv",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "labels": [
+        "click",
+        "long_view"
+      ],
+      "domain_mapping": {
+        "0": 0,
+        "1": 1,
+        "4": 2
+      },
+      "train_domain_counts": [
+        172782,
+        1743898,
+        89452
+      ],
+      "train_rows": 2006132,
+      "rho": 0.995,
+      "weight_decay_m3oe": 1e-05,
+      "m3oe_steps_per_epoch": 49,
+      "m3oe_tail_rows": 40052,
+      "hypergate_steps_per_epoch": 1960,
+      "autoifs_steps_per_epoch": 490,
+      "gaussian_kappa": 0.1,
+      "autoifs_rank": 16
+    }
+  },
+  "data_protocol": {
+    "population": "NATURAL_ORIGINAL_ROWS",
+    "split_fractions": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "split_order": "ORIGINAL_ROW_ORDER",
+    "preprocessing_fit": "TRAIN_ONLY",
+    "resample_domains": false,
+    "drop_last": false,
+    "train_loader_include_test": false,
+    "raw_csv_fingerprint_allowed": true,
+    "test_arrays_only_after_authorized_evaluator_gate": true,
+    "feature_and_split_hashes": "RESTORE_AND_VERIFY_IN_S0_FROM_PINNED_LOADER",
+    "six_cells": [
+      "d0t0",
+      "d0t1",
+      "d1t0",
+      "d1t1",
+      "d2t0",
+      "d2t1"
+    ],
+    "kuairand_split_before_tab_filter": true
+  },
+  "common_training": {
+    "precision": "FP32",
+    "amp": false,
+    "tf32": false,
+    "early_stopping": false,
+    "gradient_clipping": false,
+    "gradient_normalization": false,
+    "validation_each_epoch": true,
+    "validation_scope": "FULL_POPULATION",
+    "ema_passive": true,
+    "ema_init": "COPY_INITIAL_MODEL",
+    "ema_update": "ONCE_AFTER_ALL_REAL_PARAMETER_UPDATES",
+    "ema_buffers": "COPY_NATIVE_BUFFERS",
+    "readouts": [
+      "online",
+      "fixed_ema"
+    ],
+    "performance_seeds_only": [
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ]
+  },
+  "backbones": {
+    "m3oe": {
+      "identity": "M3OE_FIXED1",
+      "embedding_dim": 16,
+      "expert_num": 4,
+      "fcn_dims": [
+        512,
+        256,
+        256,
+        64
+      ],
+      "fixed_coefficients": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "gate_input_detach": "PRESERVE_ORIGINAL",
+      "batch_size": 40960,
+      "eval_batch_size": 40960,
+      "epochs": 50,
+      "optimizer": "ADAM_COUPLED_WD",
+      "lr": 0.01,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "foreach": false,
+      "fused": false,
+      "amsgrad": false
+    },
+    "hypergate": {
+      "identity": "PINNED_PUBLISHED_ADAPTER",
+      "configuration_provenance": "UNVERIFIED_PROPOSAL_IN_ORIGINAL_REPORT",
+      "embedding_dim": 16,
+      "expert_num": 4,
+      "expert_dims": [
+        256,
+        256
+      ],
+      "gate_dims": [
+        256
+      ],
+      "tower_dims": [
+        256,
+        128
+      ],
+      "dropout": 0.3,
+      "lambda_domain": 0.1,
+      "lambda_task": 0.1,
+      "native_objective_all_components": true,
+      "batch_size": 1024,
+      "eval_batch_size": 512,
+      "epochs": 50,
+      "lr": 0.001,
+      "weight_decay": 0,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "foreach_fused_amsgrad": "PRESERVE_PINNED_PUBLISHED_ADAPTER_RESOLVED_DEFAULTS",
+      "history_hyperparameter_transfer": "DIRECT_PER_STEP_AND_PAIR_EVENT_VALUES",
+      "rho_transfer": "SAME_DATASET_NUMERIC_RHO_PER_REAL_STEP",
+      "primary_transfer_readout": "online"
+    },
+    "autoifs": {
+      "identity": "PINNED_PUBLISHED_SEARCH_REUSE_ADAPTER",
+      "embedding_dim": 16,
+      "mlp_dims": [
+        1024,
+        512,
+        256
+      ],
+      "batch_size": 4096,
+      "eval_batch_size": 4096,
+      "search_epochs": 10,
+      "reuse_epochs": 50,
+      "search_lr": 0.0003,
+      "search_weight_decay": 3e-05,
+      "gate_lr_ratio": 0.01,
+      "gate_weight_decay": 0,
+      "temperature_start": 1.0,
+      "temperature_end": 100.0,
+      "rewind_epoch_index": 9,
+      "reuse_lr": 0.0001,
+      "reuse_weight_decay": 0.0003,
+      "reuse_fresh_optimizer": true,
+      "hard_ticket": true,
+      "freeze_gate_for_reuse": true,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "preserve_reviewed_bias_interface_fixes": true
+    }
+  },
+  "pair_protocol": {
+    "source": "conditional_information_momentum_20261102_v3",
+    "lambda_pair": 0.05,
+    "pairs_per_active_step": 2048,
+    "one_active_boundary_per_step": true,
+    "sampling": "WITH_REPLACEMENT_IN_ORIGINAL_BATCH",
+    "dynamic_selector": false,
+    "joint_label": "2*y0+y1",
+    "boundary": "(domain,task,positive_joint_label,negative_joint_label)",
+    "w": "n_d/(2B)*(n_da/n_dt_pos)*(n_db/n_dt_neg)",
+    "q": ".25/num_active + .75*w/sum_active_w",
+    "importance": "w/q",
+    "loss": "MEAN_SOFTPLUS_NEGATIVE_ORIGINAL_LOGIT_MARGIN",
+    "same_forward_graph": true,
+    "full_pair_gradient_outside_custom_scope": true,
+    "no_pair_semantics": "KEEP_Q_U_EVENT_CLOCK_NO_AUX_INJECTION_NATIVE_BASE_STEP_CONTINUES"
+  },
+  "algorithm_contract": {
+    "base_beta": 0.9,
+    "pair_beta": 0.99,
+    "v_beta": 0.999,
+    "scope": "S_DENSE",
+    "b": "ORIGINAL_NATIVE_MIXED_WITH_WD_MINUS_SAME_LAMBDA_PAIR_GRADIENT",
+    "h": "IMPORTANCE_WEIGHTED_RAW_PAIR_GRADIENT",
+    "v_input": "(1-zeta)*(b+lambda*h)^2 + zeta*(b^2+lambda^2*h^2)",
+    "u_update": "EVENT_EMA_OF_CURRENT_BIAS_CORRECTED_D_TIMES_h",
+    "direction": "D*mB_hat + event*lambda*((1-alpha)*D*Q_hat+alpha*U_hat)",
+    "zeta_grid": [
+      0,
+      0.5,
+      1
+    ],
+    "alpha_grid": [
+      0,
+      0.5,
+      1
+    ],
+    "joint_grid": false,
+    "zero_point": "REGISTERED_BETA099_CANDIDATES_ONLY_RESOLVE_SAME_BACKGROUND_SCOPE_H0_PARENT",
+    "lambda_zero": "RESOLVE_CANONICAL_NO_PAIR_PARENT_BY_BACKBONE_AND_BASE_OBJECTIVE_KEEP_GAUSSIAN_OR_NATIVE_HG",
+    "native_none": "SKIP_PARAMETER_WD_AND_ALL_STATE_CLOCKS",
+    "raw_pair_none_with_native_present": "ZERO_PAIR_GRADIENT_ACTIVE_EVENT_DECAY",
+    "scope_N_includes_domain_embedding_rows": true,
+    "local_pair_clock": "SUM(pair_active AND native_grad_not_None)",
+    "state_tensors_detached": true,
+    "canonical_parent_map": {
+      "m3oe_clean_SD": {
+        "no_pair": "B0",
+        "history": "H0"
+      },
+      "m3oe_clean_N": {
+        "no_pair": "B0",
+        "history": "H0_N"
+      },
+      "m3oe_gaussian_SD": {
+        "no_pair": "G_B0",
+        "history": "G_H0"
+      },
+      "hypergate_native_shared_dense": {
+        "no_pair": "HG_B0",
+        "history": "HG_H0"
+      }
+    },
+    "lambda_pair_zero_preserves_lambda_aug": true
+  },
+  "gaussian_protocol": {
+    "enabled_by_default": false,
+    "identity": "GA31_R3",
+    "target_domain_both_datasets": 0,
+    "lambda_aug": 0.5,
+    "kappa_by_dataset": {
+      "movielens": 0.05,
+      "kuairand": 0.1
+    },
+    "noise": "ORIGINAL_GA31_R3_BATCH_NOISE",
+    "row_key_ema02_replacement_allowed": false,
+    "pair_source": "ORIGINAL_CLEAN_FORWARD",
+    "base_source": "ORIGINAL_GA31_R3_MIXED_OBJECTIVE",
+    "requires_source_identity_freeze": true,
+    "base_loss": "(sum_all_clean_BCE + .5*sum_D0(view_BCE-clean_BCE))/(2*B)",
+    "perturbation": "PER_ROW_PER_FIELD_DETACHED_EMBEDDING_RMS_TIMES_KAPPA_GAUSSIAN",
+    "perturb_domain_embedding": false,
+    "num_perturbed_fields": {
+      "movielens": 6,
+      "kuairand": 33
+    },
+    "noise_key": "GA31-R3|{dataset}|{seed}|train|{global_step}|gaussian|1",
+    "global_step_origin": 1,
+    "source_commit": "c8675ae2923c15b6965884b140b5b646690cd95e",
+    "source_package": "experiments/mdmt_history_information_20261103/vendor/v3/vendor/ema02/vendor/gradient_aug_20261031_v2",
+    "draw_order": "ONE_TORCH_RANDN_MATRIX_PER_FIELD_WITH_DEVICE_LOCAL_GENERATOR",
+    "ml_must_not_call_kr_hardcoded_wrapper": true,
+    "clean_forward_count": 1
+  },
+  "arm_templates": [
+    {
+      "arm_id": "B0",
+      "stage": "S1",
+      "role": "parent_reference",
+      "algorithm_id": "CLEAN_ADAM",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "REUSE_AUDIT_REQUIRES_PHYSICAL_REPLAY",
+      "status": "PLANNED",
+      "lambda_pair": 0,
+      "zeta": 0,
+      "alpha": 0,
+      "beta_pair": 0.99,
+      "scope": "NATIVE_ALL",
+      "source_arm": "A00"
+    },
+    {
+      "arm_id": "B1",
+      "stage": "S1",
+      "role": "parent_reference",
+      "algorithm_id": "STATIC_PAIR_ADAM",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "REUSE_AUDIT_REQUIRES_PHYSICAL_REPLAY",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "zeta": 0,
+      "alpha": 0,
+      "beta_pair": 0.99,
+      "scope": "NATIVE_ALL",
+      "source_arm": "A10"
+    },
+    {
+      "arm_id": "H0",
+      "stage": "S1",
+      "role": "parent_reference",
+      "algorithm_id": "A21_CANONICAL",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "REUSE_AUDIT_REQUIRES_PHYSICAL_REPLAY",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "zeta": 0,
+      "alpha": 0,
+      "beta_pair": 0.99,
+      "scope": "S_DENSE",
+      "source_arm": "A21"
+    },
+    {
+      "arm_id": "C1_Z050",
+      "stage": "S2",
+      "role": "mandatory_candidate",
+      "algorithm_id": "C1",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "IMPLEMENTATION_ACCEPTED_NO_SCIENTIFIC_PREFILTER",
+      "status": "PLANNED",
+      "zeta": 0.5,
+      "alpha": 0,
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "C1_Z100",
+      "stage": "S2",
+      "role": "mandatory_candidate",
+      "algorithm_id": "C1",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "IMPLEMENTATION_ACCEPTED_NO_SCIENTIFIC_PREFILTER",
+      "status": "PLANNED",
+      "zeta": 1,
+      "alpha": 0,
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "C2_A050",
+      "stage": "S2",
+      "role": "mandatory_candidate",
+      "algorithm_id": "C2",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "IMPLEMENTATION_ACCEPTED_NO_SCIENTIFIC_PREFILTER",
+      "status": "PLANNED",
+      "zeta": 0,
+      "alpha": 0.5,
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "C2_A100",
+      "stage": "S2",
+      "role": "mandatory_candidate",
+      "algorithm_id": "C2",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "IMPLEMENTATION_ACCEPTED_NO_SCIENTIFIC_PREFILTER",
+      "status": "PLANNED",
+      "zeta": 0,
+      "alpha": 1,
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "S_C1",
+      "stage": "S3a",
+      "role": "short_kernel_control",
+      "algorithm_id": "SHORT_C1",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C1_ENTERS_CONTROLS",
+      "status": "PLANNED",
+      "params_ref": "family_selection.C1.params_by_dataset",
+      "beta_pair": 0.9,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "M_C1",
+      "stage": "S3b",
+      "role": "norm_control",
+      "algorithm_id": "H0_NORM_MATCHED",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C1_S_COMPLETED_AND_REPRESENTATIVE_FROZEN",
+      "status": "PLANNED",
+      "target_ref": "family_representatives.C1",
+      "base_direction": "H0_Q099_OWN_TRAJECTORY",
+      "candidate_shadow_beta_ref": "family_representatives.C1.beta_pair",
+      "groups": [
+        "STAR_SKIP",
+        "EXPERT"
+      ],
+      "scope": "S_DENSE",
+      "lambda_pair": 0.05
+    },
+    {
+      "arm_id": "P_C1",
+      "stage": "S3b",
+      "role": "near_prior_control",
+      "algorithm_id": "ADATASK_TWO_SOURCE_ADAPTED",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C1_S_COMPLETED_AND_REPRESENTATIVE_FROZEN",
+      "status": "PLANNED",
+      "beta_pair": 0.99,
+      "beta_mixed": null,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "S_C2",
+      "stage": "S3a",
+      "role": "short_kernel_control",
+      "algorithm_id": "SHORT_C2",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C2_ENTERS_CONTROLS",
+      "status": "PLANNED",
+      "params_ref": "family_selection.C2.params_by_dataset",
+      "beta_pair": 0.9,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "M_C2",
+      "stage": "S3b",
+      "role": "norm_control",
+      "algorithm_id": "H0_NORM_MATCHED",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C2_S_COMPLETED_AND_REPRESENTATIVE_FROZEN",
+      "status": "PLANNED",
+      "target_ref": "family_representatives.C2",
+      "base_direction": "H0_Q099_OWN_TRAJECTORY",
+      "candidate_shadow_beta_ref": "family_representatives.C2.beta_pair",
+      "groups": [
+        "STAR_SKIP",
+        "EXPERT"
+      ],
+      "scope": "S_DENSE",
+      "lambda_pair": 0.05
+    },
+    {
+      "arm_id": "P_C2",
+      "stage": "S3b",
+      "role": "near_prior_control",
+      "algorithm_id": "LAPROP_MIXED_ADAPTED",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "FAMILY_C2_S_COMPLETED_AND_REPRESENTATIVE_FROZEN",
+      "status": "PLANNED",
+      "beta_pair": null,
+      "beta_mixed": 0.9,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "C12",
+      "stage": "S3c",
+      "role": "conditional_combination",
+      "algorithm_id": "C12",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "BOTH_ORIGINAL_C_PASS_CONTROLS_SAME_DATA_AND_READOUT_NO_S_REPLACEMENT",
+      "status": "PLANNED",
+      "zeta_ref": "family_selection.C1.params_by_dataset.zeta",
+      "alpha_ref": "family_selection.C2.params_by_dataset.alpha",
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE"
+    },
+    {
+      "arm_id": "H0_N",
+      "stage": "S3d",
+      "role": "scope_parent",
+      "algorithm_id": "A21_SCOPE_ADAPTED",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_SCOPE_GATE",
+      "status": "PLANNED",
+      "scope": "N",
+      "beta_pair": 0.99,
+      "lambda_pair": 0.05
+    },
+    {
+      "arm_id": "Cstar_N",
+      "stage": "S3d",
+      "role": "scope_candidate",
+      "algorithm_id": "FROZEN_CSTAR",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_SCOPE_GATE",
+      "status": "PLANNED",
+      "scope": "N",
+      "representative_ref": "Cstar",
+      "lambda_pair": 0.05
+    },
+    {
+      "arm_id": "HG_B0",
+      "stage": "S3d",
+      "role": "backbone_transfer",
+      "algorithm_id": "HYPERGATE_NATIVE_ADAM",
+      "backbone": "hypergate",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_HYPERGATE_GATE",
+      "status": "PLANNED",
+      "lambda_pair": 0,
+      "scope": "NATIVE_ALL",
+      "representative_ref": null,
+      "beta_pair": null,
+      "history_clock_transport": "DIRECT_STEP_VALUES_NO_SAMPLE_RESCALE",
+      "base_objective": "model.objective(x,y,mask)[loss]_ALL_NATIVE_COMPONENTS"
+    },
+    {
+      "arm_id": "HG_B1",
+      "stage": "S3d",
+      "role": "backbone_transfer",
+      "algorithm_id": "STATIC_PAIR_ADAM",
+      "backbone": "hypergate",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_HYPERGATE_GATE",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "NATIVE_ALL",
+      "representative_ref": null,
+      "beta_pair": null,
+      "history_clock_transport": "DIRECT_STEP_VALUES_NO_SAMPLE_RESCALE",
+      "base_objective": "model.objective(x,y,mask)[loss]_ALL_NATIVE_COMPONENTS"
+    },
+    {
+      "arm_id": "HG_H0",
+      "stage": "S3d",
+      "role": "backbone_transfer",
+      "algorithm_id": "A21_HYPERGATE_ADAPTED",
+      "backbone": "hypergate",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_HYPERGATE_GATE",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "HG_SHARED_DENSE",
+      "representative_ref": null,
+      "beta_pair": 0.99,
+      "history_clock_transport": "DIRECT_STEP_VALUES_NO_SAMPLE_RESCALE",
+      "base_objective": "model.objective(x,y,mask)[loss]_ALL_NATIVE_COMPONENTS"
+    },
+    {
+      "arm_id": "HG_Cstar",
+      "stage": "S3d",
+      "role": "backbone_transfer",
+      "algorithm_id": "FROZEN_CSTAR",
+      "backbone": "hypergate",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_HYPERGATE_GATE",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "HG_SHARED_DENSE",
+      "representative_ref": "Cstar",
+      "beta_pair": null,
+      "history_clock_transport": "DIRECT_STEP_VALUES_NO_SAMPLE_RESCALE",
+      "base_objective": "model.objective(x,y,mask)[loss]_ALL_NATIVE_COMPONENTS"
+    },
+    {
+      "arm_id": "G_B0",
+      "stage": "S3d",
+      "role": "gaussian_combination",
+      "algorithm_id": "CLEAN_ADAM",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_GAUSSIAN_GATE_AND_GA31R3_IDENTITY_VERIFIED",
+      "status": "PLANNED",
+      "lambda_pair": 0,
+      "scope": "NATIVE_ALL",
+      "representative_ref": null,
+      "beta_pair": null,
+      "gaussian_protocol": "GA31_R3_D0_BATCH_NOISE",
+      "pair_forward": "ORIGINAL_CLEAN_SAME_FORWARD"
+    },
+    {
+      "arm_id": "G_B1",
+      "stage": "S3d",
+      "role": "gaussian_combination",
+      "algorithm_id": "STATIC_PAIR_ADAM",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_GAUSSIAN_GATE_AND_GA31R3_IDENTITY_VERIFIED",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "NATIVE_ALL",
+      "representative_ref": null,
+      "beta_pair": null,
+      "gaussian_protocol": "GA31_R3_D0_BATCH_NOISE",
+      "pair_forward": "ORIGINAL_CLEAN_SAME_FORWARD"
+    },
+    {
+      "arm_id": "G_H0",
+      "stage": "S3d",
+      "role": "gaussian_combination",
+      "algorithm_id": "A21_GAUSSIAN_BASE",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_GAUSSIAN_GATE_AND_GA31R3_IDENTITY_VERIFIED",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE",
+      "representative_ref": null,
+      "beta_pair": 0.99,
+      "gaussian_protocol": "GA31_R3_D0_BATCH_NOISE",
+      "pair_forward": "ORIGINAL_CLEAN_SAME_FORWARD"
+    },
+    {
+      "arm_id": "G_Cstar",
+      "stage": "S3d",
+      "role": "gaussian_combination",
+      "algorithm_id": "FROZEN_CSTAR",
+      "backbone": "m3oe",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "CSTAR_PASSES_GAUSSIAN_GATE_AND_GA31R3_IDENTITY_VERIFIED",
+      "status": "PLANNED",
+      "lambda_pair": 0.05,
+      "scope": "S_DENSE",
+      "representative_ref": "Cstar",
+      "beta_pair": null,
+      "gaussian_protocol": "GA31_R3_D0_BATCH_NOISE",
+      "pair_forward": "ORIGINAL_CLEAN_SAME_FORWARD"
+    },
+    {
+      "arm_id": "REPAIR_HG",
+      "stage": "BASELINE_REPAIR",
+      "role": "published_baseline_repair",
+      "algorithm_id": "HYPERGATE_NATIVE_ADAM",
+      "backbone": "hypergate",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online"
+      ],
+      "epochs": 50,
+      "max_logical_trajectories": 10,
+      "trigger": "PUBLISHED_HG_IDENTITY_UNMATCHED_AND_HG_B0_NOT_AVAILABLE",
+      "status": "PLANNED",
+      "deduplicate_with": "HG_B0",
+      "lambda_pair": 0
+    },
+    {
+      "arm_id": "REPAIR_AUTOIFS",
+      "stage": "BASELINE_REPAIR",
+      "role": "published_baseline_repair",
+      "algorithm_id": "AUTOIFS_NATIVE_SEARCH_REUSE",
+      "backbone": "autoifs",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "seeds": [
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "readouts": [
+        "online"
+      ],
+      "epochs": 60,
+      "max_logical_trajectories": 10,
+      "trigger": "PUBLISHED_AUTOIFS_IDENTITY_UNMATCHED",
+      "status": "PLANNED",
+      "search_epochs": 10,
+      "reuse_epochs": 50,
+      "lambda_pair": 0
+    }
+  ],
+  "selection": {
+    "checkpoint_metric": "validation_six_cell_macro_auc",
+    "mode": "STRICT_MAX_EARLIEST_EXACT_TIE",
+    "epoch_range": [
+      1,
+      50
+    ],
+    "autoifs_selected_stage": "REUSE",
+    "online_and_ema_select_separately": true,
+    "family_search": "PER_DATASET_FIVE_SEED_MEAN",
+    "cell_protection_references": [
+      "B0",
+      "B1",
+      "H0"
+    ],
+    "prefer_cell_safe_configs": true,
+    "tie_band": 0.0001,
+    "tie_parameter_rule": "SMALLER_NONZERO_ZETA_OR_ALPHA",
+    "test_for_selection": false,
+    "family_selection_readout": "ONLINE_IF_ANY_DATASET_HAS_SAFE_PARENT_INCREMENT_ELSE_FIXED_EMA_IF_ELIGIBLE",
+    "one_control_set_per_family": true,
+    "S_then_representative_then_M_P": true,
+    "S_replacement_rule": {
+      "same_algorithm_form_across_datasets": true,
+      "two_dataset_mean_S_minus_C_min": -0.0001,
+      "six_cell_safe_both_datasets_vs": [
+        "B0",
+        "B1",
+        "H0"
+      ],
+      "parent_increment_gate_at_least_one_dataset": true,
+      "otherwise": "KEEP_ORIGINAL_C"
+    },
+    "M_targets_frozen_C_or_S_representative": true,
+    "M_shadow_Q_shared_only_if_beta_and_clocks_equal": true,
+    "P_C1_beta_pair_remains": 0.99,
+    "P_or_M_coverage": "RETAIN_COMPONENT_RESULTS_END_FAMILY_EXTENSIONS",
+    "Cstar_eligible_ids": [
+      "C1",
+      "S_C1",
+      "C2",
+      "S_C2",
+      "C12"
+    ],
+    "Cstar_readout_priority": [
+      "online",
+      "fixed_ema"
+    ],
+    "Cstar_score": "MEAN_OVER_TWO_DATASETS_OF_SAME_READOUT_FIVE_SEED_SELECTED_VALIDATION_GAIN_VS_B1",
+    "Cstar_tie_rule": [
+      "FEWER_ACTIVE_STATE_ELEMENTS",
+      "S_C1",
+      "C1",
+      "S_C2",
+      "C2",
+      "C12"
+    ],
+    "mix_dataset_algorithm_families": false,
+    "C12_control_reference_ids": [
+      "M_C1",
+      "S_C1",
+      "P_C1",
+      "M_C2",
+      "S_C2",
+      "P_C2"
+    ]
+  },
+  "decision_gates": {
+    "action_resolution": 0.0001,
+    "minimum_cell_mean_delta": -0.001,
+    "enter_controls": "AT_LEAST_ONE_DATASET_READOUT: gain_vs_B1>1e-4 AND gain_vs_H0>1e-4 AND gain_vs_B0>=0; tradeoff_identity_retained_if_cells_fail",
+    "scope_and_hypergate": "ONE_DATASET: representative_vs_B1_H0_M_P>1e-4 AND vs_B0>=0 AND parent_cell_safety; original_C_must_also_exceed_S; OTHER_DATASET_parent_cell_safety_REQUIRED",
+    "combination": "ORIGINAL_C1_C2_PASS_FULL_CONTROLS_IN_SAME_DATASET_AND_READOUT_WITH_NO_S_REPLACEMENT",
+    "gaussian": "CSTAR_ALREADY_ELIGIBLE_AND_FIXED_EMA_gain_vs_B1_H0>1e-4_AND_vs_B0>=0_AND_PARENT_CELL_SAFETY_BOTH_DATASETS_AND_GA31R3_IDENTITY",
+    "strong_method_macro_gain": 0.003,
+    "strong_method_reference": "HIGHEST_FIVE_SEED_MEAN_TEST_AUC_IN_PRE_FROZEN_PUBLISHED_MODEL_ROSTER",
+    "strong_method_all_six_mean_deltas_min": -0.001,
+    "local_diagnostic_veto_of_S2": false,
+    "new_seed_or_family_auto_expansion": false,
+    "terminal_research_labels": [
+      "METHOD_READY",
+      "CONDITIONAL_METHOD",
+      "EMA_DEPENDENT_COMPONENT",
+      "GENERAL_OPTIMIZER_COMPONENT",
+      "AUXILIARY_ONLY",
+      "NO_ACTIONABLE_INCREMENT"
+    ],
+    "C12_expansion": "SAME_DATASET_AND_READOUT_GAIN_GT1E-4_VS_B1_H0_AND_ALL_SIX_PARENT_CONTROLS; B0_NONNEGATIVE; BOTH_DATASETS_PARENT_CELL_SAFE; BEAT_BEST_SINGLE_COMPONENT_BY_SELECTION_RULE",
+    "C12_control_inference": "INHERITED_PARENT_MECHANISM_EVIDENCE_NO_C12_SPECIFIC_NORM_MATCH_CLAIM"
+  },
+  "formal_published_baselines": [
+    {
+      "model": "M3oE",
+      "readout": "online",
+      "source_or_rebuild": "B0"
+    },
+    {
+      "model": "HyperGate",
+      "readout": "online",
+      "source_or_rebuild": "PINNED_PUBLISHED_OR_HG_B0_OR_REPAIR_HG"
+    },
+    {
+      "model": "AutoIFS",
+      "readout": "online",
+      "source_or_rebuild": "PINNED_PUBLISHED_OR_REPAIR_AUTOIFS"
+    }
+  ],
+  "diagnostics": {
+    "D0": {
+      "status": "COMPLETED_HISTORICAL_REANALYSIS",
+      "source_rows": 6480,
+      "derived_seed_rows": 1050,
+      "derived_summary_rows": 210,
+      "epochs_available": [
+        "selected",
+        "E10",
+        "E50"
+      ],
+      "new_training": 0
+    },
+    "D1": {
+      "source_arm": "H0",
+      "anchor_epochs": [
+        5,
+        20,
+        35,
+        50
+      ],
+      "anchor_total": 40,
+      "max_source_autograd_sweeps": 240,
+      "probe_model_forwards": 40,
+      "probe_pairs_per_cell": 2048,
+      "probe_sampling": "INVERSE_ROW_INCLUSION_PROBABILITY_WITHIN_POSITIVE_AND_NEGATIVE_SIDES",
+      "probe_mode": "EVAL_CLONE_AT_SAME_PRE_UPDATE_THETA",
+      "pair_index_fixed_across_anchors": true
+    },
+    "D2": {
+      "anchor_phase": "POST_BACKWARD_PRE_STEP",
+      "branches": [
+        "H0",
+        "C1_Z050",
+        "C1_Z100",
+        "C2_A050",
+        "C2_A100",
+        "M_C1_Z050",
+        "M_C1_Z100",
+        "M_C2_A050",
+        "M_C2_A100",
+        "M9_V0",
+        "M9_V1"
+      ],
+      "norm_branch_targets": "ORIGINAL_BETA099_CORE_CONFIGS",
+      "panels": [
+        "P_TRAIN",
+        "V_A",
+        "V_B"
+      ],
+      "rows_per_joint_label_stratum_max": 512,
+      "rows_per_panel_max": 6144,
+      "sampled_pairs_per_cell": 8192,
+      "readouts": [
+        "online",
+        "fixed_ema"
+      ],
+      "reference_steps": 40,
+      "alternative_steps": 400,
+      "panel_model_evaluations": 2640
+    },
+    "D3": {
+      "mode": "FINITE_ALGEBRA_AND_IMPLEMENTATION_CONTRACTS",
+      "requires_model_training_in_planning_task": false
+    },
+    "D4": {
+      "common_epochs": [
+        10,
+        25,
+        50
+      ],
+      "sampled_pairs_per_cell": 32768,
+      "full_validation_predictions_reused": true,
+      "feedback_to_optimizer": false,
+      "auc_score_input": "ORIGINAL_PROBABILITY_WITH_HALF_TIES"
+    }
+  },
+  "statistics": {
+    "unit": "PAIRED_TRAINING_SEED",
+    "n": 5,
+    "sd_ddof": 1,
+    "paired_t_critical_df4": 2.7764451051977987,
+    "confidence_level": 0.95,
+    "ci_is_performance_gate": false,
+    "all_seeds_positive_is_required_gate": false,
+    "multiple_testing": "DESCRIPTIVE_BY_DEFAULT_OPTIONAL_HOLM_PRE_FROZEN_PRIMARY_FAMILY",
+    "traffic_auc": "MEAN_TASK_SUM_DOMAIN_EVAL_TRAFFIC_WEIGHT_TIMES_CELL_AUC",
+    "pooled_auc": "MEAN_OF_PER_TASK_CROSS_DOMAIN_POOLED_AUC",
+    "logloss": "PROBABILITY_BCE_LOG_FLOOR_MINUS100",
+    "missing_cell_auc": "NULL_AND_UNDEFINED_MACRO",
+    "epsilon_clipping_for_auc": false
+  },
+  "scheduler": {
+    "gpu_admission": "EACH_DEVICE_CURRENT_MEMORY_LT85_AND_CURRENT_POWER_LT85_AND_HOST_RAM_LT90",
+    "memory_fraction": 0.85,
+    "power_fraction": 0.85,
+    "host_ram_fraction": 0.9,
+    "fixed_worker_cap": null,
+    "projected_85_percent_gate": false,
+    "resample_after_startup": true,
+    "pending_startup_guard": true,
+    "after_actual_oom": "MEASURE_FULL_PROCESS_RESIDENCY_AND_PHYSICAL_FIT_WITHIN_CUDA_USABLE_TOTAL",
+    "stop_controls": "RESOLVE_BOTH_ACTIVE_WORKSPACE_CONTROLS_IN_S0_CHECK_BEFORE_DISPATCH_AND_EPOCH_BOUNDARY",
+    "state_store": "EXISTING_LIVE_RAM_GUARDIAN_OR_CURRENT_SUPERVISED_FOREGROUND_RUNNER_RAM_OBJECTS",
+    "new_background_guardian_allowed": false,
+    "disk_training_states_allowed": false,
+    "raw_numeric_logs_allowed": true,
+    "actual_ram_get_hash_required": true
+  },
+  "TEST_POLICY": {
+    "current_task_evaluation_allowed": false,
+    "holdout_identity": "HISTORICALLY_EXPOSED",
+    "future_requires_explicit_task_scope_authorizing_frozen_test": true,
+    "honor_existing_active_scope_stop_freeze_ram_gates": true,
+    "study_id_rename_bypass_allowed": false,
+    "global_freeze_before_new_test": true,
+    "actual_selected_ram_get_hash_required": true,
+    "adaptive_changes_after_test": false,
+    "new_test_endpoints": [
+      "selected"
+    ],
+    "retain_config_set": "B0_B1_H0_PLUS_ONE_S2_REPRESENTATIVE_PER_FAMILY_DATASET_PLUS_TRIGGERED_S_M_P_C12_N_HG_GAUSSIAN_AND_PUBLISHED_BASELINES",
+    "retain_readouts": "BOTH_FOR_NEW_MECHANISM_TRAJECTORIES_ONLINE_FOR_PUBLISHED_ONLY_BASELINES",
+    "unused_HPO_grid_test_allowed": false,
+    "closed_family_test_may_reopen_training": false
+  },
+  "counts": {
+    "default_new_candidate_trajectories": 40,
+    "parent_replays_max": 30,
+    "default_physical_max": 70,
+    "default_epochs_max": 3500,
+    "default_main_updates_max": 120750,
+    "conditional_all_trajectories_including_parents_max": 240,
+    "conditional_all_epochs_max": 12000,
+    "conditional_all_main_updates_max": 3087000,
+    "additional_published_repair_trajectories_max": 20,
+    "including_repair_trajectories_max": 260,
+    "including_repair_epochs_max": 13100,
+    "including_repair_global_batches_max": 3978300,
+    "including_repair_optimizer_calls_max": 4012600,
+    "technical_replays": "SEPARATE_PHYSICAL_COST_NOT_NEW_SEEDS",
+    "counts_are_capacity_upper_bounds_not_unconditional_queue": true
+  },
+  "outputs": {
+    "mandatory": [
+      "SOURCE_MANIFEST.json",
+      "DATA_MANIFEST.json",
+      "PARAMETER_SCOPE_MANIFEST.json",
+      "REUSE_REGISTER.csv",
+      "TEST_POLICY.json",
+      "IMPLEMENTATION_CHECKS.json",
+      "runs.csv",
+      "curves.csv",
+      "endpoints.csv",
+      "paired.csv",
+      "summary.csv",
+      "config_selection.csv",
+      "decisions.json",
+      "costs.csv",
+      "state_receipts.jsonl",
+      "FINAL_FREEZE.json",
+      "FINAL_REPORT.md"
+    ],
+    "conditional_arms_must_have_terminal_status": true,
+    "context_update_after_results": [
+      "mdmt_research_context/01_AI_EXPERIMENT_INDEX.md",
+      "mdmt_research_context/02_AI_EXPERIMENT_DETAILS.md",
+      "mdmt_research_context/03_EXPERIMENT_RESULTS.md"
+    ],
+    "human_context_read_or_overwrite": false
+  }
+}
