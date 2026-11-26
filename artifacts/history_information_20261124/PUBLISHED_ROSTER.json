@@ -1,0 +1,1377 @@
+{
+  "audit_source": {
+    "commit": "c8675ae2923c15b6965884b140b5b646690cd95e",
+    "git_blob": "3ea43b298e5fb832bfdc595f286e5384fa5244a7",
+    "path": "research_reports/2026-11-03_overnight_AB/A_REUSE_AUDIT.csv",
+    "sha256": "52b398e62091fe393181cded348345de5cdb462701cf870687cc0107adf0c67b"
+  },
+  "models": [
+    "M3oE",
+    "HyperGate",
+    "AutoIFS"
+  ],
+  "protocol_source": {
+    "commit": "c8675ae2923c15b6965884b140b5b646690cd95e",
+    "git_blob": "44a5238ecbf7fad0970e9f605cdac1824cb727f7",
+    "path": "research_plans/26-11-03_overnight_AB/protocol.json",
+    "sha256": "b366cceae5004953482384067982ffe754dd5ae4839d2c3f522fd43cb3fe59c2"
+  },
+  "slots": [
+    {
+      "arm": "B0",
+      "dataset": "movielens",
+      "model": "M3oE",
+      "seed": 2022,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 5,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "aa3473efabd7fa4e39955dd40c49e49c918bc723717a0badc5c1757361d63702",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2022,
+      "selection_id": "ee9cd08d331b07da5b83bb25eee99cc236e6fd3756723777b4ddf426c331fdb7",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "813667512244df4205ef89534c7c28b7b66dfb14b9aee630b0bcb281e00efcf6",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "f62de0ffdfa6be523e973864b4cbe1b58ee81bedaa5e09917dbced7d6e4ee375",
+      "trajectory_id": "b2d1597ae76a00b7dc4f15bff371e32521723a271dabe31d3e9ef46deedb582b",
+      "validation_endpoint_id": "c9b5872e25f822a9a3636c7c25e39eaa3c64d8a0a7b1d41ae1a638bc5186cce1"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 2,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "4a0abf3ae32c908e9d3bdb0e3694a311179ac93e7c9df0ef3a65cd61c7d9bc0b",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 18,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "c9f8caa234c98aff468c8f8e53d25c41b8f3311e2d4e71d305497cad5ad88453",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2022,
+      "selection_id": "7a089e01f05eee785013e03d28dd9e526b114067b562b0064663feb61b7a6002",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "a3e979fdfd608fce59b81626898194f997fb5b83d2b1fe13dd85499e2b6e32a6",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "0833fbe7e9338841114ca97a9c4c386520bf7ae9ba11767a881074a6ea734f7e",
+      "trajectory_id": "dd88e33f1f454f33f08045a529f746ac6a5bb941a212f27bd2b4d74b5caf7d5a",
+      "validation_endpoint_id": "20847ac8099ef657db1c9d12408707c8276b72a1839e0352636a4cc0d0579d42"
+    },
+    {
+      "arm": "B0",
+      "dataset": "movielens",
+      "model": "M3oE",
+      "seed": 2023,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 6,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "133f9cf8ecc0b82c15833c2333dd3f852abf717bb05860a6868db7ff7f9d4c80",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2023,
+      "selection_id": "8cc1f9912040abbad06fc9beeda4128500e9d7b56fda738bfc3169501eb0dfd3",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "d8a698ca0dd46df676d460ed72b75a33b601eb9c34bddbfc7b93830817f1a25a",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "aff57de094ab23902ca92f74e04933fc73800d0b84c5a32e8576e3e8903d092c",
+      "trajectory_id": "5564412c41b1458243bf3260908884d4b778260f73909d5850a147329d42f229",
+      "validation_endpoint_id": "3b998daa77bc2fb307fd19f8311aaf0a39fcfdb7298bc39febca07d4cefb7d35"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 2,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "4a0abf3ae32c908e9d3bdb0e3694a311179ac93e7c9df0ef3a65cd61c7d9bc0b",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 10,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "d9361e425e80b6d00798f994e5b6dfbd8be4dad29dc6d267776cb35b5365a023",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2023,
+      "selection_id": "da5cc0d2fe140e434dc4094e2389bba9a10c11485418b000df6ad5f384d9e70e",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "609e42315a3627f7603d452d60640a324efa6bc9f0545a8830a5d271983bcb16",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "2d9fe28e70e3a4aef46ad1bbdeee28d54b88ca23182410be930e07a4439513a1",
+      "trajectory_id": "c9762165cc06d0cb4b78306f8356e7e4d38597f5e002a341966f35a2096694fc",
+      "validation_endpoint_id": "4bdf44abb9953238afe45d1e7c3a20969296faaf4670ffed03190bd1a61fd6d8"
+    },
+    {
+      "arm": "B0",
+      "dataset": "movielens",
+      "model": "M3oE",
+      "seed": 2024,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 5,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "0f2971af9433b0adda9347c0d18dee66cba9ed61029da7192e7a0358c3d3c1dd",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2024,
+      "selection_id": "50b01806e09dc9f90a2c07a5f04c49670cfa3aac2095aa8cb78c8c5b6d412f44",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "a531e9b9631820bd20c0e1f7d6b8685a43f46e09b76813e6fc11ebf58a44f8e8",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "ddf225b453764a8fd8e9b57f727cb27b439fd3fefdb38f21d7f238734f907801",
+      "trajectory_id": "f60080cb74453923cf4008293bd682e1f6d61bad03ab01b1e5d1408a23392627",
+      "validation_endpoint_id": "662bc83d650c43161680411d8fb0e918d432b364a032e04525bca51766bc4806"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 2,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "4a0abf3ae32c908e9d3bdb0e3694a311179ac93e7c9df0ef3a65cd61c7d9bc0b",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 17,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "0b81f737804f4d451b911b43bfd30dbcf61a10a57a88297bfb6f3e3675082951",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2024,
+      "selection_id": "37af224c83af9ab8df739edd0367125e0bf1be940e844ffd19908671baeeb782",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "54309456bb285d35fbd44230afba80b2f661911246e8de6e67043fbc5a15ee35",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "fb6c577a4c49a63d507d5bbe95b2027a41750d92564cb9a1efad6eaa198a3174",
+      "trajectory_id": "722b7a180ae32287c0bfa570d179a1762b2ee87d4176d09ed26e968044f528fa",
+      "validation_endpoint_id": "d9f2cd260c246f11d62e21b6cd478257374cbf406e4affe40d9dc8a30a3f08d1"
+    },
+    {
+      "arm": "B0",
+      "dataset": "movielens",
+      "model": "M3oE",
+      "seed": 2025,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 4,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "fe835abe9f747245ea41f8bd9fd65d079e314e166cf8bd2c385ea07d125e522a",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2025,
+      "selection_id": "0b5a2ccf9803ece7bd3649f057cd5cf850ef2873bae89809250f497c2e7c1ffa",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "fc07cea6f0f726eeba994671013c8118a37cdceae7a36929a10c36c07bce8d0d",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "f3383fc4a2688682ae48a7093b9331ed0e01e4b5461aad0bae65d024669e8e00",
+      "trajectory_id": "ed7249bc6428734d03842d3b67726ae2d19a02b7d1db71ec41677adc1548a761",
+      "validation_endpoint_id": "5ef1ed3e1ffee26440479f767d05a3c6afb1b19151f66a733453463362a52e4a"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 2,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "4a0abf3ae32c908e9d3bdb0e3694a311179ac93e7c9df0ef3a65cd61c7d9bc0b",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 19,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "586e0f5a9d9489404bf59e20446cf1a648d1eb739ffb4a6dfca6f5d199fa1ee9",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2025,
+      "selection_id": "fec5b884dfb8331233b8bb5a69580f3734dfae161cfb92374c5d4aeb4430ac0d",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "e0188714fa35fcdff2dbd91b0403b96438268538f578066da589711b20ae0401",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "a6a07d115138ba0a4c1eea9866717defda379ac04884de75ed58e7223b29ba0f",
+      "trajectory_id": "10ac909f4d8073757c4c9828e0630fb3a6f5a06cb75c97d4e3a0b08cf7505116",
+      "validation_endpoint_id": "11c076e76a087ff3ca319775be7301e15291a4254443449f1e1d6754f0bed66c"
+    },
+    {
+      "arm": "B0",
+      "dataset": "movielens",
+      "model": "M3oE",
+      "seed": 2026,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 7,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "be0d2d3eed222a9fbcf84e4fae26bea4ed75cd62685a13a8fd5e92581b077010",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2026,
+      "selection_id": "896a3da81917993c237c6276cdee28461984ecc99e0022dfca6c2fb172693165",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "820cd05ca809d3b3e3f5cf2a71c6fe1d5b579180a5d3aa8f60845d44432ebf38",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "d2109e1fd9c4f6c3e6bda2c6362f81cd0a4879ca1a7ae9abaddce35e0c361993",
+      "trajectory_id": "9bbb486edd63190c49c525d7f0b0a8b7bda6e8b06a4e3f77a452c5cc6a8ab26d",
+      "validation_endpoint_id": "e48f4e2b7f8c805a04dbd48a9b636c87f504091cfa81443516275df2a7917497"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 2,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "4a0abf3ae32c908e9d3bdb0e3694a311179ac93e7c9df0ef3a65cd61c7d9bc0b",
+      "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+      "dataset": "movielens",
+      "epoch": 12,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "493a5402ddb7fb709793a964291e426200829769db89a76d218033074a93ea76",
+      "raw_sha256": "f060ecb8fb7745f1e24998837ca5a1ec3e18b610f288e73549c0203a9822b5e4",
+      "readout": "online",
+      "row_population_hash": "c2910f696310bbffaed6b3e921a5c54f26be9135f9052abdffb208195b60b2e6",
+      "seed": 2026,
+      "selection_id": "a17e48c4b6db673d433c1cd79733a7ea1ac40e890e35d7e139028d4e40b92e5f",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "ce0e73d18082fefc39c8af09acf05172a20394887092f24ae31b79ed90c50b5f",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "bd1bce14e2eb550cbc4fe0aec5ac19ef425e4b7fce6dd9e257aa371864ac2a15",
+      "trajectory_id": "fb5f3dbe9cf6668c488abf49687ba4fb842310c06ec3a2f4242c9a58ba1b41ae",
+      "validation_endpoint_id": "bc3f4bd49ae96cbbbc790195d4741edd3ea816b85dade2711113e82ea389d478"
+    },
+    {
+      "arm": "B0",
+      "dataset": "kuairand",
+      "model": "M3oE",
+      "seed": 2022,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 21,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "884e0bb8a62f25ce13a3951f8451551af501a0f605908691c63a9a7562eda51e",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2022,
+      "selection_id": "b7ec683f5eef2d1c07bd796923d4b1cacb67918b8e6baf2ff42eea945baa4451",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "909370f46e63f3ca23f6ac199ab7bc8208bf2014831ae3c6493059f58810af9e",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "9e6a948af72509a6bb23cec1832b94c5258ce4961c9d1080846ace99a5ea10ff",
+      "trajectory_id": "ee5e4c929c826e950a800e789835592f34278fe89f83ad032f302744d30612d3",
+      "validation_endpoint_id": "99e47f82f600983901722f2512bb7516924ad1c3a340e3341e2a4590edea5e08"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 16,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "018a447c44c82a7676e825f03fd089f8338f335ece13d50b2d61e320889e5369",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 6,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "24e0b5f2f54bf433fac5b2258a8a34774ba3c1b1803354dd8593050db838375a",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2022,
+      "selection_id": "8ef22b2cb30143af46ae81330efca34f0f08b662b9ac99edbd62f5715d9317a3",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "7830f090dfb1ccc7b6c026ed9bb43f1dd8032c7358bdd6f4538a23c76003ba9a",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "087eafbc6bb53dc8d83a58e033690481c6d4f0715ffd6110c4708cb086f79c5a",
+      "trajectory_id": "6eaf390a4633915de65e13ddc0db85a01581da597e51c108c499f676bd6a572b",
+      "validation_endpoint_id": "b68ffb2fee514cdc088bf3c8983837cd988675b7d7be7c452169b50bbdd6b82b"
+    },
+    {
+      "arm": "B0",
+      "dataset": "kuairand",
+      "model": "M3oE",
+      "seed": 2023,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 10,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "301d683802cbb1aa979a7ec36c2f816e387520fe473668b2d50a1b6426896f81",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2023,
+      "selection_id": "7a408d8fe78f90bc6d2144cc15226173a1e4c927c691f3d1c1ca4fc557416ed4",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "7bc14bc91b8bc313e414c7c18db2d77784eedcfd879438b0f68f8ead2ec94e58",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "ca7029fc1f93ecbf02b801b9cb2e7ab9c6c16241c281a2fe0bf8a6e6b9e54cc2",
+      "trajectory_id": "52bd60247e3124f53156762b9b7f764e5ba050cc1ab73956f5142934e5ac910a",
+      "validation_endpoint_id": "50989a87e668862d3a8720faa1fe380cd9d61f13fb9d003c265cc9af01131cb0"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 16,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "018a447c44c82a7676e825f03fd089f8338f335ece13d50b2d61e320889e5369",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 32,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "9cfa9b222b5ec9cad017e8ca7ae99172789e9bc1606eb88021a9a35293bcf0eb",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2023,
+      "selection_id": "44854998a90555303f3381fece8b0f5a13150e5e97a97144491f63503a8445d2",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "9a9a5741d0584d31d85d8885bd79f02f5728cb436dc484e23700f880f0b9b389",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "0ee4dde7a7721c8867688c0bc6f73ac626881e752b4778ae6ed3fb939cefa9cf",
+      "trajectory_id": "3cb3f9267e366531d45294ac89cd61b750c0a3a02d938629e264795e5aed6caa",
+      "validation_endpoint_id": "2ff4abe2ef20dfc2061b57e46a80b8659c0d37028210248d6eed9785c512b53c"
+    },
+    {
+      "arm": "B0",
+      "dataset": "kuairand",
+      "model": "M3oE",
+      "seed": 2024,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 43,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "0b37c7cd01e73d234bd7dbcea279ea221a7330ac15f638b89758000aa57cc60e",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2024,
+      "selection_id": "2475e009cb7fb9c7710d67e7305f7cb525a283ebada6825a5c3fbc6ffbd54750",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "704656ab222645f8136429dc70d8e9099a9374f6fc403cce441a25972ae67f18",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "72e3a36ca18fe21759c35237766075c26221ddb6d7b45ea9271196b1054c8607",
+      "trajectory_id": "df4a4c0567b3f0585619e483b3e21a8c5cc68605402faebc0a792bc80de7f57b",
+      "validation_endpoint_id": "c5b57d011b49e77c63f0fa872c5a9e70587f2180813075f9046e57f272b411c1"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 16,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "018a447c44c82a7676e825f03fd089f8338f335ece13d50b2d61e320889e5369",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 2,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "e4c3f016b0775daf01430be427ef7ed34c434301367cbd4441171a4aac508a07",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2024,
+      "selection_id": "9f95fa9c856d94eeb2fe04a41a0b0cff3d2bd81abaf27abbcaa0c84af221351f",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "e7b98cae45cc9efa7462224572b950977c7cee0e010690d98d80ab402eebe241",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "adefd7546710e37e1e09f7f33d30eaf2918a7d1d854c29b566ba2d2221e30e3f",
+      "trajectory_id": "8082c607aa57425c40c9df71ebf09dfb7391d84c9649af1b412a0705fbd355fa",
+      "validation_endpoint_id": "e036db21e22f03797c86c75b3cc28ea284cad2309083060e5e028740b98099d7"
+    },
+    {
+      "arm": "B0",
+      "dataset": "kuairand",
+      "model": "M3oE",
+      "seed": 2025,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 28,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "af1678bde4626700fcdd123e2eedfd0ed908ea9aeabf1c70bb784bfce87148f5",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2025,
+      "selection_id": "423085a93be5792542b0992e7c2fc913f37e1076dd33bb48fcdb6348b2fde369",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "bdd8ef196d6c589ae5f40b151f5e37ac8c0bc2a131dcc11e18128f76fb9dec93",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "1b569e43149d504dfd687b7a4017c4fd9d3458d2b4bdd4095cbff8c04b22ed66",
+      "trajectory_id": "c11ab5e8ffca2212e9ea46e7b6ce50cde5524cb779a5b9cad14c5cad265ab711",
+      "validation_endpoint_id": "8498a98e83d40b257c23eec794c0968d004750e7370c9c6aaca9a952fda0ad18"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 16,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "018a447c44c82a7676e825f03fd089f8338f335ece13d50b2d61e320889e5369",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 6,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "cea728b06b2268cb93d6f283a65156402c6bb480333a4c785c703fa8c6b139d5",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2025,
+      "selection_id": "da55d89438b2231df9f3db4cf1fb5bca9023c1bda20a9d0d0cbbd2ac9cdbeff5",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "7f40cfa84655538513623a8a5b8f7821b11170eec57d753a6d5eb79d88e85af1",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "291eb9b3b2d7dd77e6b076103d6595b4de2e31cfcd1a0ad739cc4f6b069e3ad6",
+      "trajectory_id": "a312d162f5f5ec5de8942368a226f660119cdf01bd628b0264f69743aef12e36",
+      "validation_endpoint_id": "4c3bd761fc67d81e9a5fcd2e226b0fd7285d9960a378cad2dae96544b0fd0701"
+    },
+    {
+      "arm": "B0",
+      "dataset": "kuairand",
+      "model": "M3oE",
+      "seed": 2026,
+      "status": "MATCH_CURRENT_B0"
+    },
+    {
+      "arm": "HYPERGATE",
+      "config": {
+        "activation": "relu",
+        "aug_dim": 16,
+        "aug_dims": [
+          64
+        ],
+        "aug_dropout": 0.0,
+        "batch_norm": false,
+        "batch_size": 1024,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "configuration_provenance": "UNVERIFIED_PROPOSAL",
+        "dropout": 0.3,
+        "embedding_dim": 16,
+        "epochs": 50,
+        "eps": 1e-08,
+        "eval_batch_size": 512,
+        "expert_dims": [
+          256,
+          256
+        ],
+        "expert_num": 4,
+        "gate_dims": [
+          256
+        ],
+        "gate_input_type": "augmented_embedding",
+        "gates": {
+          "embedding": true,
+          "expert_bias": true,
+          "fusion": true
+        },
+        "lambda_domain": 0.1,
+        "lambda_task": 0.1,
+        "lr": 0.001,
+        "recstudio_commit": "f08cca607e998e8be4c5e915a393346baffa71f6",
+        "source_commit": "fdc82e3f3feee23694a8123f91092615f977900e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/RecStudio",
+        "tower_dims": [
+          256,
+          128
+        ],
+        "weight_decay": 0.0
+      },
+      "config_hash": "42e9f23239990a48d29fc1ce6cad837f44d3052e2f98a7e08ed5040cd5797038",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 30,
+      "identity_failures": [],
+      "model": "HyperGate",
+      "model_hash": "6843ab9408dada6fb5eb2124d252d68f756f7a10b3650627e37ad3343a066160",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2026,
+      "selection_id": "eb2067d878d3630ce6877fae47694d4f414047aa67ee14114b65aeb069ea04ad",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "4c94e3c969edf21984c041d59480c36f50445bb7064918b543245609a937daf6",
+      "stage": "train",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "c57ce05432e9c6a88e001c1d2cc77885547c17ce2889c6f3267513a095d5cf22",
+      "trajectory_id": "067d34b844d20ceee018a2d6fab3f9acdfcf02b5497f4328bded8432e23133b7",
+      "validation_endpoint_id": "5a32e5319448bf6b694f92d11dc3de46fc8461a6ed061fd13bfaab8aed72642a"
+    },
+    {
+      "arm": "AUTOIFS",
+      "config": {
+        "batch_norm": false,
+        "batch_size": 4096,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "dropout": 0.0,
+        "embedding_dim": 16,
+        "eps": 1e-08,
+        "eval_batch_size": 4096,
+        "freeze_gate_for_reuse": true,
+        "gate_lr_ratio": 0.01,
+        "gate_penalties": [
+          0.0,
+          0.0
+        ],
+        "gate_weight_decay": 0.0,
+        "hard_ticket": true,
+        "mlp_dims": [
+          1024,
+          512,
+          256
+        ],
+        "rank": 16,
+        "rank_by_dataset": true,
+        "reuse_epochs": 50,
+        "reuse_fresh_optimizer": true,
+        "reuse_lr": 0.0001,
+        "reuse_weight_decay": 0.0003,
+        "rewind_epoch_index": 9,
+        "search_epochs": 10,
+        "search_lr": 0.0003,
+        "search_weight_decay": 3e-05,
+        "source_commit": "65fc27cdfad1eb6d7a4a2cc69cd31f61cc8e3d7e",
+        "source_root": "/tmp/mdmt_sota_sources_2526/AutoIFS-pinned",
+        "temperature_end": 100.0,
+        "temperature_start": 1.0
+      },
+      "config_hash": "018a447c44c82a7676e825f03fd089f8338f335ece13d50b2d61e320889e5369",
+      "data_hash": "d04c8460dea7b817ff99f30e4bb38922dece4b284b86ff46502c98ea1f33dca3",
+      "dataset": "kuairand",
+      "epoch": 39,
+      "identity_failures": [],
+      "model": "AutoIFS",
+      "model_hash": "409079849a79cb91002411ddb1e99f69b319d0fb5d010177e5f7df015e2f4844",
+      "raw_sha256": "a1872911e49cb9324a89faf84df1dbed2077357496edd760ba0ab7b8f4fc681f",
+      "readout": "online",
+      "row_population_hash": "0e8f49a972a0c102b89329aa3b232b2a92f2b793c33a7459baa1d92a2dbe515d",
+      "seed": 2026,
+      "selection_id": "ca9ea1ee2517b63b7a6e8924556a3d5db270d94bb6f747753a3a0ce6ecab5604",
+      "source_hash": "ea9b66f27060450627b8ea996120938679fdbea444a6fa4e1bb2d0773e783f39",
+      "source_sha256": "fe28ddadbf5667d9753e0f62c9c33e8b77d5275eadaa272f85f9b92ff942db65",
+      "stage": "reuse",
+      "status": "NUMERIC_REUSE",
+      "test_endpoint_id": "3e2e819ed8d910175e57adfc9b11d3789930aee6578261eb9b856e5b454af803",
+      "trajectory_id": "d0298bc1d6e23cea32d5f5ce154f1f33820230e80a5bd411b4f3be2814dba9d7",
+      "validation_endpoint_id": "28b5fdd147496fbb669d2592526166ff1db72a9d1425e0eb818a57cff5324df5"
+    }
+  ],
+  "source": {
+    "commit": "c8675ae2923c15b6965884b140b5b646690cd95e",
+    "git_blob": "a3d7aa3e2035f0b7ff55406e260fc59c880ba254",
+    "path": "research_reports/2026-11-03_overnight_AB/ENDPOINTS.csv",
+    "sha256": "eb260009b1172f3fb4ed25a12cc1836c06a1ffb24bf583cea1e7e08de4943fce"
+  }
+}

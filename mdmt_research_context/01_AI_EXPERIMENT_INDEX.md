@@ -55,3 +55,4 @@ AI 先用本索引的实验编号、干预对象、匹配对照和主终点检�
 | [EXP078–079](02_AI_EXPERIMENT_DETAILS.md#exp078-079) | 完成权重 W/总质量 S；移除格内类别异质性 U | W 在 KR 保留 LL 改善且 d2 AUC 正，d0t0 破保护；U 两数据 AUC 均值非正，格质量单独未产生稳定排序增量。 |
 | [EXP080](02_AI_EXPERIMENT_DETAILS.md#exp080) | A20/A21 条件/简单历史、匹配剂量和定位；B 真实/伪源脉冲 | A21 Test 对匹配 PAIR ML −.000083、KR +.004062，两数据未达最终资格；B 未获持续信号。Gaussian 同身份失败，技术暂停。 |
 | [EXP081](02_AI_EXPERIMENT_DETAILS.md#exp081) | RCF 强直接头/同容量本地及池化对照、函数形成；独立 SCALE | ML 简单读出足够；KR 修复较弱重拟合头，AUC 低于强 NATIVE。S4 未触发。独立 SCALE 用常数损失缩放获得了部分同类收益。 |
+| [EXP082](02_AI_EXPERIMENT_DETAILS.md#exp082) | 来源二阶耦合 C1、历时预条件 C2 及 S/M/P，两个数据各五 seed | C1 在 Validation 关闭；C2 的 ML fixed EMA 触发并完成控制，冻结 Test 对 M3oE online +.003177、同读出 PAIR Adam −.000190。无 Cstar，100 条轨迹完整。[报告](../research_reports/history_information_20261124/FINAL_REPORT.md) |

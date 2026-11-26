@@ -194,6 +194,14 @@
 
 SCALE 独立使用 seeds 2022–2025，八条训练。冷/对应热 Adam 严格匹配 `cL,wd,eps ≍ L,wd/c,eps/c`，因而常数损失尺度效应包含有效 WD/eps 改变。历史暴露 Test 下 Dconst01_NO_AUG−B 的 Macro AUC/LL 为 ML +.00404890/−.00924025、KR +.00758835/−.00655322；KR 流量格 AUC −.00451560、pooled −.00445033，最大域 AUC −.00486585。SCALE 裁定基于自身 B 对照。当前停止扩展 RCF，保留简单读出和上列各匹配参照下的收益。
 
+## EXP082
+
+[主报告](../research_reports/history_information_20261124/FINAL_REPORT.md) · [机制报告](../research_reports/history_information_20261124/MECHANISM_REPORT.md) · [冻结执行合约](../research_plans/26-11-24_history_information/00_EXECUTION_RUNBOOK.md)
+
+**历史信息的来源耦合与预条件次序。** 两数据自然 80/10/10、M3oE fixed1、seed 2022–2026、50 epoch、batch 40960，每轨迹并行记录 online 与被动 EMA。B0 用自然 BCE，B1 加原静态 2,048 对 PAIR，H0 是原 A21。C1 在 S_DENSE 中以 ζ=.5/1 降低 BCE/WD–PAIR 二阶交叉项。C2 以 α=.5/1 将 PAIR 的当步预条件方向写入事件历史，维持 mixed 二阶矩。来源哈希 `4ae091233e81a9f79535b1113cab2f041de96bc4dec4c4aeadf4802d748b6346`。
+
+S1 重建 30 条父轨迹及 40 锚点，S2 完成 40 条非零配置。Validation 关闭 C1，保留 C1_Z050 双读出冻结评价。C2_A100 的 fixed EMA 在 MovieLens 通过父参照门，启动两个数据集的 S_C2 短核、M_C2 同轨迹组尺度与 P_C2 mixed 预条件历史，各 10 条。S 未替代。KR 六格与控制门使 Cstar 为空，C12、非共享作用域、HyperGate 迁移及 Gaussian 组合均未触发。160 个 RAM selected 新评价和 20 个历史发表端点来自一次 Test 冻结。
+
 ## 历史交接摘录
 
 早期技术与当前研究的边界见索引。本节为旧根上下文的科研口径、归因、关键判据与数据锚点，研究状态按对应 EXP 章节最新裁定。历史运行会话与 GPU/RAM 编排留在原收据。

@@ -1222,3 +1222,17 @@ A0、A1、A2、A3 各用五个训练 seed，online 与 shadow 共享对应训练
 ## 2026-11-23 · 条件历史与共享更新
 
 A21（static PAIR，λ=.05，S_DENSE，fixed EMA），seeds 2022–2026。selected Test Macro AUC / LogLoss：MovieLens .778474 / .494491，KuaiRand .680766 / .435339。相对已冻结最强发表对照的 ΔAUC / ΔLogLoss：ML +.003284 / −.000400，KR −.001347 / −.005250；匹配同 PAIR Adam 的 ΔAUC：ML −.000083，KR +.004062。 [完整报告](https://github.com/Caelestis1903/My-Research-Project/blob/9df48737dd6693f892b85db2344cdee76fb05d6f/research_reports/conditional_history_shared_update_20261122/FINAL_REPORT.md)
+
+## EXP082 · 来源耦合与历时预条件辅助历史
+
+| 对照，均为五 seed | MovieLens ΔMacro AUC / ΔLogLoss | KuaiRand ΔMacro AUC / ΔLogLoss |
+| --- | --- | --- |
+| Validation selected fixed EMA，C2_A100−H0 | +.000255 / −.000845 | +.001711 / −.000944 |
+| Test selected fixed EMA，C1_Z050−B1 | −.000382 / +.000497 | +.003081 / −.000182 |
+| Test selected fixed EMA，C2_A100−B1 | −.000190 / −.001581 | +.000863 / +.000029 |
+| Test selected fixed EMA，C2_A100−H0 | −.000107497 / −.000502 | −.003199 / −.000041 |
+
+MovieLens C2_A100 EMA 相对 M3oE online +.003177，95% CI `[+.002013,+.004340]`，5/5 正，最差格 +.002504，发表数值门通过。同读出相对 B0/B1/H0 全负。KR 相对 HyperGate −.004546，与 H0 比较时 d0 两格 −.01016/−.02038，d1、d2 四格为正。KR H0 相对 B1 的固定 EMA Test +.004062 重现旧人口结果，同一流程 Validation −.001989。80 条当前冻结轨迹的 EMA−online Test Macro AUC 有 77 条正。Test 已具历史暴露身份，训练与选型在新评价前冻结。
+
+100 条轨迹全部首次完成，共 5,000 epoch、172,500 更新。C1、C2 均为 `NO_ACTIONABLE_INCREMENT`，Cstar 为空。 [逐 seed 与六格](../research_reports/history_information_20261124/NUMERICAL_APPENDIX.md) · [配对汇总](../artifacts/history_information_20261124/test/summary.csv) · [研究结论与成本](../research_reports/history_information_20261124/FINAL_REPORT.md)
+
