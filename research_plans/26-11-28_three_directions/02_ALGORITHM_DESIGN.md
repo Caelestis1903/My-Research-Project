@@ -10,19 +10,34 @@
 
 ## 1. A：Gaussian Pairwise Ranking Augmentation
 
-### 1.1 训练 pair 定义
+### 1.1 训练 pair 定义与 Macro-AUC 目标
 
-在每个 batch 内按 cell \(c=(d,t)\) 分层。对 cell 中正例集合 \(P_c\) 与负例集合 \(N_c\)，从合法 Train 行抽取 pair：
-\[
-\mathcal P_{c,t}=\{(i^+,i^-):y_{i^+,t}=1,y_{i^-,t}=0, d(i^+)=d(i^-)=d\}.
-\]
-不跨域、不跨任务格配对。严格复用 main 的 `experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py::sample`：每个 batch 按原 condition distribution 选择一个 cell，并有放回抽取 2048 个正负 pair；保留原 `active/w/q/index/selected`、pair event clock 和 context RNG。所有对照臂共享完全相同的 pair indices。不得改成 256 pair/cell 或自行改成全格均匀采样，因为这会改变 A21 已有的采样目标。pair sampling 只访问 Train 标签；记录 row-id pair hash。
+A/C 的 pairwise 辅助目标直接对齐六格 Macro AUC；B 则必须保持 A21 原有的 natural condition sampler。两者不得混用。
 
-PAIR loss 只在当前 sampler 选中的 cell 上计算：
+对 cell \(c=(d,t)\)，正负样本集合来自当前 Train batch。对每个有效 condition \(i=(d,t,a,b)\)，定义
 \[
-L_{pair}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}\operatorname{softplus}(-(z_j^+-z_j^-)/\tau),\quad \tau=1.
+r_i=\frac{|G_{d,a}|}{n^+_{d,t}}\frac{|G_{d,b}|}{n^-_{d,t}},
+\quad
+Z_{d,t}=\sum_{i\in A_{d,t}}r_i,
+\quad
+w_i^{macro}=\frac{1}{6}\frac{r_i}{Z_{d,t}}.
 \]
-其中 s 是本步 sampler 选中的 condition。严格使用原 `w/q` 重要性比，不能再叠加自定义 cell 权重。若 sampler 返回 None，则 pair loss 为零，不产生 NaN 或伪造历史事件。
+其中 \(G_{d,a}\) 为 domain d 中联合标签状态 a 的行集合，\(n^+_{d,t}\)、\(n^-_{d,t}\) 为该 domain-task cell 的正负样本数，\(A_{d,t}\) 是该 cell 当前 batch 中有正负样本的 condition 集合。每个 domain-task cell 的有效 condition 权重和为 1/6，因此六格总权重为 1。
+
+新增 `macro_pair_sampler.py::sample_macro6`：复用 canonical `CONDITIONS`、`groups` 和 pair index 生成方式，但单独计算上述宏平均目标权重。proposal distribution 固定为
+\[
+q_i^{macro}=0.5/|A|+0.5w_i^{macro}.
+\]
+从 \(q^{macro}\) 抽取一个 condition，并有放回抽取 2048 个正负 pair。PAIR loss：
+\[
+L_{pair}^{macro}=\frac{w_i^{macro}}{q_i^{macro}}\frac{1}{2048}
+\sum_{j=1}^{2048}\operatorname{softplus}(-(z_j^+-z_j^-)/\tau),\quad \tau=1.
+\]
+该重要性采样估计六格 Macro-AUC 对应的平均 pairwise risk；BCE 主目标仍为 Sample/natural，不是 Equal BCE。A/C 所有对照臂共享完全相同的 macro6 pair indices、condition RNG 和 pair exposure。\(w_i^{macro}/q_i^{macro}\le 2\)。
+
+B 不调用 `sample_macro6`，必须原样调用 `boundary_sampler.py::sample`，保持 A21 的 natural 24-condition proposal、原始 w/q、2048 pairs、pair event clock 和 RNG。这样 B 的梯度校正只改变 PAIR 梯度状态，不改变 A21 的采样目标。
+
+A/C 的 batch sampler 预检要求：六个 domain-task cells 在至少 99.9% 的训练 batches 中均有有效正负 pair condition。若未达到，A0/C0 不得对活跃 cells 重新归一化冒充 Macro AUC；改用预先冻结的 Train-global pair pools（每个 condition 固定 row-id pool），保持同一 macro6 \(w/q\)，并在所有 pairwise arms 中匹配 pair-expanded forward 成本。pair sampling 只访问 Train 标签；记录 row-id pair hash。
 
 ### 1.2 Gaussian view
 
