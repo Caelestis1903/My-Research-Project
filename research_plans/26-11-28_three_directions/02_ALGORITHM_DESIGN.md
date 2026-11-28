@@ -168,7 +168,7 @@ q_j=\sigma(\Delta_j^{hist}/T),\quad p_j(\theta_t)=\sigma(\Delta_j(\theta_t)/T).
 \]
 记忆损失沿用 macro6 sampler 的 selected condition 和 (w_i^{macro}/q_i^{macro})，对 2048 memory pairs 求均值：
 \[
-L_{mem}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}
+L_{mem}=\frac{w_i^{macro}}{q_i^{macro}}\cdot\frac{1}{2048}\sum_{j=1}^{2048}
 \operatorname{BCE}(p_j(\theta_t),q_j).
 \]
 C4 使用相同 pair identities，将 memory target 换成 hard pairwise label，即 \(L_{hard}=\frac{w_s}{q_s}\frac{1}{2048}\sum_j\operatorname{softplus}(-\Delta_j(\theta_t))\)。
