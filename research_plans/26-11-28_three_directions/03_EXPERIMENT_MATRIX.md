@@ -53,7 +53,7 @@ S0 不训练。任何身份 mismatch 阻塞受影响方向，不能用近似配�
 
 ## 5. B1：历史梯度新鲜度校正
 
-每数据集最多 3 arms × 5 seeds = 15 logical trajectories；若 A1 P0 可严格复用，B1 阶段只新增 B1/B2 共 20 条训练轨迹。
+每数据集最多 3 arms × 5 seeds = 15 logical trajectories；若 A1 P0 可严格复用，B1 阶段新增 B0/B1/B2 共 30 条训练轨迹；A1 P0 使用 macro6 sampler，不能复用为 B0 natural PAIR Adam。
 | Arm | PAIR source | Freshness correction | 父方法 |
 |---|---|---|---|
 | B0 | ordinary PAIR Adam | none | 复用 A1 的 P0（仅当完整 config/source hash 一致） |
