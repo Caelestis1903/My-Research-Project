@@ -18,13 +18,7 @@
 \]
 不跨域、不跨任务格配对。严格复用 main 的 `experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py::sample`：每个 batch 按原 condition distribution 选择一个 cell，并有放回抽取 2048 个正负 pair；保留原 `active/w/q/index/selected`、pair event clock 和 context RNG。所有对照臂共享完全相同的 pair indices。不得改成 256 pair/cell 或自行改成全格均匀采样，因为这会改变 A21 已有的采样目标。pair sampling 只访问 Train 标签；记录 row-id pair hash。
 
-每格 pair loss：
-\[
-L_{pair,c}=\frac{1}{|\mathcal P_c|}\sum_{(i^+,i^-)\in\mathcal P_c}
-\operatorname{softplus}(-(z_{i^+}-z_{i^-})/\tau),
-\quad \tau=1.
-\]
-总体 pair loss 由当前 sampler 的单一 selected cell 估计，并乘以原始 `w/q` 重要性比：
+PAIR loss 只在当前 sampler 选中的 cell 上计算：
 \[
 L_{pair}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}\operatorname{softplus}(-(z_j^+-z_j^-)/\tau),\quad \tau=1.
 \]
@@ -177,10 +171,10 @@ L_{mem}=\frac{1}{|M_t|}\sum_{j\in M_t}
 
 - C0：BCE + EMA，无 pairwise/memory。
 - C1：BCE + current pairwise，EMA。
-- C2：BCE + random pair memory（同 cell、同 pair count、无历史 margin），EMA。
+- C2：BCE + random historical pair memory（同 cell、同 pair count，保留所有 pair 的历史 margin，不按历史正确性筛选），EMA。
 - C3：BCE + historical correct pair memory，EMA。
-- C4：BCE + recent pair replay（按同样历史 snapshot、同样容量，但不筛正确排序关系），仅在 C3 相对 C2 通过改进门后触发。
-- 所有组 pair 曝光、loss 权重、采样时钟和模型训练步数相同。C3−C2 衡量历史正确关系/历史 margin 的额外价值；C3−C1 衡量历史记忆是否超出普通当前 pairwise supervision。
+- C4：BCE + historical correct pair identities with hard pairwise labels（同样正确 pair 记忆，但不蒸馏历史 margin），仅在 C3 相对 C2 通过改进门后触发。
+- 所有组 pair 曝光、loss 权重、采样时钟和模型训练步数相同。C3−C2 衡量筛选历史正确关系的增量；C3−C1 衡量历史记忆是否超出普通当前 pairwise supervision；C3−C4 衡量历史 margin 蒸馏是否提供额外信息。
 
 ### 3.5 C0 离线审计
 
