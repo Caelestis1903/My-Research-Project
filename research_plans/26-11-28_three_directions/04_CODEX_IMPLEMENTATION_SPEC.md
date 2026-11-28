@@ -32,7 +32,7 @@
 
 ### 3.1 Model forward
 
-M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率。PAIR 需要 logit margin；应从模型最后线性输出建立只读 logits adapter，不能对 sigmoid probability 直接当 logits 使用，也不能反复调用 model.forward 造成不同随机状态。优先复用 `experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py::forward_logits` 的 tower hooks，返回 probabilities 与 logits；若需访问 embedding view，则复用 GA31-R3 源实现的 embedding hook。以原 forward probabilities 逐值对齐测试，避免另写一套 logits 逻辑。
+M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率。PAIR 需要 logit margin；应从模型最后线性输出建立只读 logits adapter，不能对 sigmoid probability 直接当 logits 使用，也不能反复调用 model.forward 造成不同随机状态。优先扩展 `experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py::forward_logits`，增加可选 `view,kappa` 参数并通过当前 model 的 `forward(x,view=view,kappa=kappa)` 调用；在同一次 clean / D0-view forward 中挂载 tower hooks，捕获对应 logits。clean forward 返回 full-batch logits；D0 view forward 只覆盖 `x[:,mask]`，pair indices 必须通过 full-to-D0 index map 映射。若无法复用原 view forward 而增加额外 forward，必须计入成本并对照匹配。以原 forward probabilities 逐值对齐测试，避免另写一套 logits 逻辑。
 
 模型文件当前 forward 内部有 embedding、shared star、domain/task experts、gate 和 tower。不能通过仅替换最后 tower 而漏掉模型其余结构。使用 hook 或受控子类，必须证明 probability 与原 model.forward 的误差在 FP32 允许范围内。
 
