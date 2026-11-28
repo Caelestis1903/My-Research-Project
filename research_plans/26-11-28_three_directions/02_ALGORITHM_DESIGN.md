@@ -57,7 +57,7 @@ A1 的 pairwise forward 始终使用 macro6 sampler 返回的 4096 Train endpoin
 
 总目标统一写为：
 \[
-L=L_{BCE}^{base}+\lambda_p L_{pair}^{(view)}.
+L=L_{BCE}^{base}+\lambda_A L_{pair}^{macro,(view)}.
 \]
 G0 的 base BCE 完全复现原 GA31-R3；GP0 仅增加 pairwise 项。P0 的 base BCE 与 B0 完全一致。BCE 增强项不能因为新增 pairwise loss 而被重新归一化或改变剂量。
 
@@ -162,12 +162,12 @@ m_j=(i_j^+,i_j^-,c_j,\Delta_j^{hist},e_j,\text{snapshot-id}).
 \]
 历史排序软目标：
 \[
-q_j=\sigma(\Delta_j^{hist}/T),\quad p_j(\theta_t)=\sigma(\Delta_j(\theta_t)/T).
+u_j=\sigma(\Delta_j^{hist}/T),\quad p_j(\theta_t)=\sigma(\Delta_j(\theta_t)/T).
 \]
 记忆损失沿用 macro6 sampler 的 selected condition 和 (w_i^{macro}/q_i^{macro})，对 2048 memory pairs 求均值：
 \[
 L_{mem}=\frac{w_i^{macro}}{q_i^{macro}}\cdot\frac{1}{2048}\sum_{j=1}^{2048}
-\operatorname{BCE}(p_j(\theta_t),q_j).
+\operatorname{BCE}(p_j(\theta_t),u_j).
 \]
 C4 使用相同 pair identities，将 memory target 换成 hard pairwise label，即 \(L_{hard}=\frac{w_i^{macro}}{q_i^{macro}}\frac{1}{2048}\sum_j\operatorname{softplus}(-\Delta_j(\theta_t))\)。
 默认 T=1。若历史 margin 非常大，按预注册 clip [-5,5] 保存 teacher margin，避免极端 logits 支配训练。该损失保留历史 pairwise confidence，而非仅重复当前 pair label。所有记忆 pair 仍然是 Train 行。
