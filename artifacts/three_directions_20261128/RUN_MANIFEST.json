@@ -1,0 +1,122 @@
+{
+  "study_id": "three_directions_20261128",
+  "base_branch": "main",
+  "base_commit": "641b5b8c4242c1ba71f7e4d348a41ec7c630a7fc",
+  "status": "VALIDATION_COMPLETE_TEST_PENDING_AUTHORIZATION",
+  "seeds": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "jobs": [],
+  "scientific_trajectories_started": 90,
+  "test_accesses": 0,
+  "test_status": "SEALED",
+  "stages": {
+    "S0": {
+      "status": "VERIFIED",
+      "evidence": [
+        "SOURCE_AUDIT.json",
+        "DATA_AUDIT.json"
+      ]
+    },
+    "A0": {
+      "status": "PASS",
+      "review": "A_IMPLEMENTATION_REVIEW.md"
+    },
+    "A1": {
+      "status": "COMPLETE",
+      "roster": "A1/ROSTER.json",
+      "completed_trajectories": 40,
+      "committed_epoch_records": 2000,
+      "decisions": "A1/decisions.json"
+    },
+    "A2": {
+      "status": "NOT_TRIGGERED",
+      "reason": "Neither dataset reached GP0−G0 selected Validation advancement and six-cell gates"
+    },
+    "B0": {
+      "status": "PASS",
+      "review": "B_RUNTIME_FINAL_REVIEW.md"
+    },
+    "B1": {
+      "status": "COMPLETE",
+      "roster": "B1/ROSTER.json",
+      "completed_trajectories": 30,
+      "committed_epoch_records": 1500,
+      "decisions": "B1/decisions.json"
+    },
+    "B2": {
+      "status": "NOT_TRIGGERED",
+      "reason": "B2 arm missed registered selected Validation and six-cell gates at gamma=.5"
+    },
+    "C0": {
+      "status": "COMPLETE",
+      "validated_trajectories": 20,
+      "decisions": "C0/decisions.json",
+      "new_trainings": 0,
+      "scientific_review": "C0_RESEARCH_REVIEW.md"
+    },
+    "C1": {
+      "status": "COMPLETE",
+      "datasets": [
+        "movielens",
+        "kuairand"
+      ],
+      "bank": {
+        "source": "user-approved recommended selection",
+        "unique_pair_capacity": 2048,
+        "capacity_unit": "active_sampling_condition",
+        "pair_draws_per_step": 2048
+      },
+      "design": "C1_EXECUTION_DESIGN.md",
+      "new_trajectories_planned": 20,
+      "ab_source_snapshot": "A_B_SOURCE_SNAPSHOT.json",
+      "roster": "C1/ROSTER.json",
+      "runtime_review": "C1_RUNTIME_RELEASE_REVIEW.md",
+      "started_trajectories": 20,
+      "linked_trajectories": 20,
+      "completed_trajectories": 20,
+      "committed_epoch_records": 1000,
+      "decisions": "C1/decisions.json"
+    },
+    "S4": {
+      "status": "NOT_TRIGGERED",
+      "reason": "A and B did not pass their registered practical Validation gates; fewer than two directions can qualify"
+    },
+    "S5": {
+      "status": "TEST_PENDING_AUTHORIZATION",
+      "validation_freeze": "VALIDATION_FREEZE.json",
+      "test_accesses": 0
+    },
+    "C4": {
+      "status": "NOT_TRIGGERED",
+      "reason": "Neither dataset/readout passed both C3 adaptation contrasts and six-cell guard"
+    }
+  },
+  "prior_technical_hold": {
+    "reason": "EXISTING_RAM_GUARDIAN_UNAVAILABLE",
+    "rule": "research_plans/26-11-28_three_directions/05_EXECUTION_RUNBOOK.md#3-gpu--ram",
+    "evidence": "SOURCE_AUDIT.json#existing_guardian_probes"
+  },
+  "ram_monitor": {
+    "source": "/proc/meminfo",
+    "usage": "1 - MemAvailable / MemTotal",
+    "admission_limit": 0.9
+  },
+  "ram_storage_preflight": {
+    "backend": "POSIX_SHARED_MEMORY",
+    "cross_process_readback_sha256": "PASS"
+  },
+  "A_frozen_dose": {
+    "source": "user-approved recommended setting",
+    "pair_count": 2048,
+    "lambda_pair_macro": 0.05,
+    "tau": 1
+  },
+  "scientific_trajectories_completed": 90,
+  "committed_epoch_records": 4500,
+  "training_updates": 155250
+}

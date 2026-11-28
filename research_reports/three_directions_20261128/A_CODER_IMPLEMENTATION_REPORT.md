@@ -1,0 +1,20 @@
+# CODER IMPLEMENTATION REPORT | Direction A
+
+Implemented the approved A adapter at main `641b5b8c4242c1ba71f7e4d348a41ec7c630a7fc`. The frozen dose is 2,048 positive/negative pairs per optimizer step, with λ = .05 in the pair-loss arms and τ = 1. [A execution design](A_EXECUTION_DESIGN.md)
+
+## Changes
+
+- `MacroPairSampler` builds immutable, canonically ordered Train pools. It uses the two registered stateless streams, FP64 equal-cell weights and proposal probabilities, replacement draws, and SHA-256 of positive IDs followed by negative IDs encoded as little-endian int64. It rejects missing cell support and validates Train/pool identity on adapter restore. [Sampler](../../experiments/three_directions_20261128/macro_pair_sampler.py)
+- `a_step.make_training_parts(model, job, bundle)` builds native Adam and `DirectionAAdapter`. The adapter exposes `step`, `state_dict` and `load_state_dict`. The clean, pair and optional D0 BCE forwards run in that order. The two controls use no-grad pair forwards. GP0 uses independent D0 pair noise and `GP-shared` copies the positive block to the negative block from the same draw. BCE consumes the original probabilities and GA31 scalar. Pair loss consumes routed tower logits, adds one diagnostic VJP in the gradient arms, and enters one combined backward, one Adam step and one fixed-EMA update. The adapter records detached predictions, base/pair/total losses, gradient norms, row and view hashes, and exposure counters. Norms accumulate in FP64 after the FP32 gradient arithmetic. [Adapter](../../experiments/three_directions_20261128/a_step.py)
+- The GA31 objective adds two optional callbacks. The forward callback defaults to `model`, and the after-clean callback runs between the original clean BCE and D0 view. The archived reference is `c8675ae2923c15b6965884b140b5b646690cd95e`. Its objective blob is `c4b58d0e230c03bfe69f8822ddac818d332d5ed1`. The amended blob is `1ad26a3ba28aa4affeefe12b43eb8477747009e9`, SHA-256 `df8845ab9076a1362ed35542dcda6c8632140d583c55e90832d8470b008a7afd`. The GA31 views and protocol blobs match the design at `ecc354eba1c1d1e8b21694e8dbfb3c2b7221d254` and `7e59458c3473717f9c07e48dca984e2c19380bd7`. [Amended objective](../../experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/objectives.py)
+
+## Engineering checks
+
+- All 16 focused tests passed on Python 3.13.5 and NVIDIA RTX 3090 with driver `570.144`. The pinned setup emits PyTorch's TF32 API deprecation warning. Syntax compilation and `git diff --check` passed. [A0 tests](../../experiments/three_directions_20261128/tests/test_direction_a.py)
+- All ten archived first draws matched the ordered BCE and D0 row hashes, target row counts, Gaussian keys, field order and noise hashes. There were 12 active conditions on MovieLens and 20 on KuaiRand. [Source audit](../../artifacts/three_directions_20261128/SOURCE_AUDIT.json)
+- Eight source comparisons covered B0/G0 on each dataset's seed-2022 first and natural tail batches from identical starting states. Clean predictions and scalar losses were exact. Maximum absolute deviations across populated gradients, Adam moments, online parameters, and EMA parameters were each zero. The model/EMA buffers and CUDA RNG states matched. The tails contained 21,927 MovieLens rows and 40,052 KuaiRand rows.
+- The enumerated fixture checked equal-cell risk, replacement multiplicity, label polarity, missing support, stream isolation, checkpoint identity, empty D0, default callback identity, hook release, forward order, and reconstructed gradient norms against direct VJPs. Seed-2022 smoke checks on both real datasets exercised the gradient arms on D0 and off D0 with 512 BCE rows and the full 4,096 pair endpoints per step.
+
+## Review scope
+
+The shared-runtime implementation report owns the verification of roster dispatch, strict Validation selection, RAM readback and reduced-schedule resume, and E5/E10 retention. Independent review gates A1. This implementation pass used Train/Validation cache inputs for engineering checks. Scientific trajectories started and Test accesses both total zero.

@@ -1,6 +1,7 @@
 """Shared supervised Train/Validation worker and raw artifact publisher."""
 import argparse
 import copy
+import json
 import math
 import os
 import resource
@@ -22,16 +23,28 @@ from .ram_state import Journal, lock
 from . import scheduler
 
 
-def make_training_parts(model, job, bundle):
+def make_training_parts(model, job, bundle, *, artifacts=None, roster=None):
     if job.stage == "A1":
         from .a_step import make_training_parts as a_parts
         return a_parts(model, job, bundle)
+    if job.stage == "C1":
+        from . import c1_protocol, c_step
+
+        return c_step.make_training_parts(
+            model, job, bundle, roster["seed_inputs"][f"{job.dataset}_{job.seed}"],
+            verify_inputs=lambda record: c1_protocol.verify_seed_inputs(
+                artifacts, expected=roster["gates"], dataset=job.dataset, seed=job.seed, inputs=record),
+        )
     cfg = dict(job.config)
     optimizer = v3.make_optimizer(model, cfg) if job.arm == "B0" else make_history_optimizer(model, cfg)
     return optimizer, FreshnessAdapter(**job.adapter)
 
 
 def freeze_roster(artifacts, stage, *, create=False):
+    if stage == "C1":
+        from .c1_protocol import freeze_roster as freeze_c1
+
+        return freeze_c1(artifacts, create=create)
     source_identity = verify_sources(artifacts, stage)
     data = read(artifacts / "DATA_AUDIT.json")["datasets"]
     audit = read(artifacts / "SOURCE_AUDIT.json")
@@ -69,6 +82,10 @@ def freeze_roster(artifacts, stage, *, create=False):
 
 
 def job_journal(artifacts, roster, job):
+    if job.stage == "C1":
+        from .c1_protocol import job_journal as c1_journal
+
+        return c1_journal(artifacts, roster, job)
     data = roster["datasets"][job.dataset]
     binding = dict(study=STUDY, stage=job.stage, dataset=job.dataset, seed=job.seed, arm=job.arm,
                    source_hash=roster["source"]["source_hash"], config_hash=job.config_hash,
@@ -92,13 +109,16 @@ def _epoch_file(journal, snapshot, receipt):
           dict(snapshot["epoch_metrics"], ram_receipt=receipt))
 
 
-def _restore(state, model, optimizer, ema, adapter, loader, device):
+def _restore(state, model, optimizer, ema, adapter, loader, device, *, memory=False):
+    if memory:
+        adapter.restore_epoch(state)
     model.load_state_dict(state["online"])
     model.train(state["model_mode"])
     ema.load_state_dict(state["ema"])
     ema.train(state["ema_mode"])
     optimizer.load_state_dict(state["optimizer"])
-    adapter.load_state_dict(state["adapter"])
+    if not memory:
+        adapter.load_state_dict(state["adapter"])
     loader.set_state(state["loader"])
     v3.restore_rng(state["rng"], device)
 
@@ -120,6 +140,42 @@ def _retain_epoch_model(journal, attempt, snapshot):
 
 def _receipt_fields(receipt):
     return {key: receipt["identity"][key] for key in ("kind", "readout", "epoch", "model_hash")}
+
+
+def _committed_c1_rows(journal, epochs, steps):
+    metadata = read(journal.path)
+    writer_epochs = {}
+    for epoch in range(1, epochs + 1):
+        record = read(journal.directory / f"epoch_{epoch:02d}.json")
+        receipt = record["ram_receipt"]
+        identity = receipt["identity"]
+        if (identity["kind"] != "epoch" or record["epoch"] != identity["epoch"] or identity["epoch"] != epoch
+                or not record["global_step"] == identity["global_step"] == epoch * steps
+                or any(identity.get(k) != v for k, v in journal._expected(metadata, receipt).items())
+                or (epoch == epochs and receipt != metadata["epochs"][0])):
+            raise ValueError(f"Invalid committed C1 epoch receipt E{epoch:02d}")
+        writer_epochs.setdefault(identity["attempt"], set()).add(epoch)
+    by_step = {}
+    for writer, allowed in writer_epochs.items():
+        with (journal.directory / "attempts" / writer / "batches.jsonl").open() as stream:
+            for line in stream:
+                if not line.endswith("\n"):
+                    break
+                row = json.loads(line)
+                context = row["context"]
+                epoch = context["epoch"]
+                if epoch not in allowed:
+                    continue
+                step, batch = context["global_step"], context["batch"]
+                if (not 1 <= batch <= steps or step != (epoch - 1) * steps + batch or step in by_step
+                        or context["dataset"] != journal.binding["dataset"]
+                        or context["seed"] != journal.binding["seed"] or context["split_id"] != "original"):
+                    raise ValueError(f"Invalid committed C1 batch receipt at logical step {step}")
+                by_step[step] = row
+    for step in range(1, epochs * steps + 1):
+        if step not in by_step:
+            raise ValueError(f"Missing committed C1 batch receipt at logical step {step}")
+        yield by_step.pop(step)
 
 
 def _runtime_worker(artifacts, roster, job, gpu, invocation, supervisor, diagnostic_through):
@@ -154,6 +210,9 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
     observer_seconds = 0.
     outcome = {}
     cfg = dict(job.config)
+    memory = job.stage == "C1"
+    if memory:
+        from .memory_bank import TEACHER_EPOCH, replay_exposure
 
     def capture_residency(site):
         nonlocal peak_gpu, usable, allocation, allocation_number
@@ -183,11 +242,13 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
         frozen = v3.load_protocol()["datasets"][job.dataset]["source"]
         model = v3.make_model(bundle, frozen).to(device)
         ema = copy.deepcopy(model).requires_grad_(False)
-        optimizer, adapter = make_training_parts(model, job, bundle)
+        optimizer, adapter = make_training_parts(model, job, bundle, artifacts=artifacts, roster=roster)
         scope = getattr(optimizer, "parameter_manifest", None) or _scope_manifest(model)
         if scope_digest(scope) != journal.binding["scope_hash"]:
             raise ValueError("Parameter manifest differs from the audited M3oE scope")
         init_model_hash = v3.state_digest(model.state_dict())
+        if memory:
+            adapter.verify_init(init_model_hash)
         write(out / "IDENTITY.json", dict(init_model_hash=init_model_hash, parameter_manifest=scope,
                                          encoder_hash=bundle.features.encoder_hash, scaler_hash=bundle.features.scaler_hash,
                                          data=bundle.identity, gaussian_field_order=frozen["perturbable_sparse_fields"]))
@@ -195,7 +256,10 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
         selected, selected_epochs, selected_values, counts, endpoints, retained = {}, {}, {}, {}, [], {}
         state, verified = journal.recover()
         if state is not None:
-            _restore(state, model, optimizer, ema, adapter, loader, device)
+            if memory:
+                epoch, step = state["epoch"] + 1, state["global_step"]
+                phase = "C1_RESTORE"
+            _restore(state, model, optimizer, ema, adapter, loader, device, memory=memory)
             completed, step = state["epoch"], state["global_step"]
             selected = state["selected_models"]
             selected_epochs, selected_values = state["selected_epochs"], state["selected_metrics"]
@@ -209,6 +273,7 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
         del state
         write(out / "RESUME.json", dict(last_verified=verified, completed=completed, global_step=step))
         epoch = completed + 1
+        phase = "SETUP"
         torch.cuda.reset_peak_memory_stats(device)
         capture_residency("setup")
         probe_seen = False
@@ -221,6 +286,7 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
 
         if isinstance(adapter, FreshnessAdapter):
             adapter.on_probe = probe_residency
+        memory_seen = False
         last_epoch = min(cfg["epochs"], diagnostic_through or cfg["epochs"])
         if diagnostic_through and diagnostic_through <= completed:
             raise ValueError("Post-OOM measurement requires a pending epoch")
@@ -261,7 +327,19 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
                                                     diagnostics=value["diagnostics"], counts=value["counts"]))
                 if physical_steps == 1:
                     capture_residency("first_completed_batch")
+                if memory and epoch > TEACHER_EPOCH and not memory_seen and value["counts"]["pair_forwards"]:
+                    capture_residency("first_memory_batch")
+                    memory_seen = True
                 del x, y, value
+            order_hash = None
+            if memory:
+                order_hash = v3.state_digest(bundle.train_row_ids[order])
+                if epoch == TEACHER_EPOCH:
+                    phase = "E10_MEMORY_INSTALL"
+                boundary = adapter.finish_epoch(epoch, step, order_hash, model, optimizer, ema, loader, device)
+                if boundary is not None:
+                    write(out / "E10_MEMORY.json", boundary)
+                    capture_residency("e10_memory_install")
             phase = "VALIDATION"
             validation, validation_cost = {}, {}
             for kind, estimator in (("online", model), ("fixed_ema", ema)):
@@ -278,13 +356,16 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
             if diagnostic_through:
                 continue
             phase = "RAM_COMMIT"
-            record = dict(epoch=epoch, global_step=step, order_hash=v3.state_digest(bundle.train_row_ids[order]),
+            record = dict(epoch=epoch, global_step=step,
+                          order_hash=order_hash if memory else v3.state_digest(bundle.train_row_ids[order]),
                           rows=len(order), loss=losses / len(order), real_loss=real_losses / len(order),
                           epoch_counts=epoch_counts, wall_seconds=time.monotonic() - epoch_started,
                           observer_seconds=epoch_observer, validation=validation, validation_cost=validation_cost,
                           selected_epochs=selected_epochs,
                           selected_model_hashes={n: v3.state_digest(v) for n, v in selected.items()},
                           selected_metrics=selected_values, residency=allocation)
+            if memory and boundary is not None:
+                record["memory"] = boundary
             snapshot = v3.cpu_copy(dict(epoch=epoch, global_step=step, permutation=order, cursor=len(order),
                                         epoch_metrics=record, loader=loader.get_state(), rng=v3.rng_state(device),
                                         online=model.state_dict(), ema=ema.state_dict(), optimizer=optimizer.state_dict(),
@@ -305,6 +386,16 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
             return outcome
         if completed != cfg["epochs"]:
             raise ValueError("Worker exhausted its training loop before the required final epoch")
+        if memory:
+            if stopped():
+                outcome = dict(status="BOUNDARY_STOP")
+                return outcome
+            phase = "C1_EXPOSURE_REPLAY"
+            steps = math.ceil(len(bundle.train_y) / cfg["batch_size"])
+            exposure = replay_exposure(adapter.sampler, adapter.bank, _committed_c1_rows(journal, completed, steps))
+            e10 = read(journal.directory / f"epoch_{TEACHER_EPOCH:02d}.json")
+            if e10["memory"]["prefix"] != adapter.boundary or e10["memory"]["bank"]["bank_hash"] != adapter.bank["bank_hash"]:
+                raise ValueError("Committed C1 E10 boundary differs from the verified adapter")
         required = {}
         for kind in READOUTS:
             key = f"{kind}-selected"
@@ -321,6 +412,9 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
                       counts=counts, endpoints=endpoints, selected=selected_epochs, compact_models=required,
                       source_provenance=B_HISTORY_PROVENANCE if job.stage == "B1" and job.arm != "B0" else None,
                       test_accesses=0)
+        if memory:
+            result["memory"] = dict(e10["memory"], exposure=exposure,
+                                    e10_ram_packet_bytes=e10["ram_receipt"]["size"])
         journal.complete(attempt, result, required)
         write(journal.directory / "COMPLETE_VERIFIED.json", result)
         outcome = dict(status="COMPLETE", measurement=measurement)
@@ -350,29 +444,57 @@ def _worker(artifacts, journal, roster, job, gpu, device, invocation, diagnostic
 def publish_tables(artifacts, stage, roster, jobs, status):
     output = artifacts / stage
     endpoints, costs, compact = [], [], []
+    is_c1 = stage == "C1"
+    completed = 0
+    exposure, boundaries = {}, {}
     for job in jobs:
         journal = job_journal(artifacts, roster, job)
+        tags = dict(logical_arm=job.arm, linked_control=False) if is_c1 else {}
         if result := journal.completed():
-            endpoints.extend(result["endpoints"])
+            completed += 1
+            endpoints.extend(dict(row, **tags) for row in result["endpoints"])
             for key, expected in result["compact_models"].items():
                 _, receipt = journal.read_model(key, expected=expected)
-                compact.append(receipt)
+                compact.append(dict(receipt, **tags))
+            if is_c1:
+                memory = result["memory"]
+                exposure[job.key] = dict(binding=journal.binding, rows=memory["exposure"])
+                boundaries.setdefault((job.dataset, job.seed), {})[job.arm] = {
+                    key: memory[key] for key in ("prefix", "bank", "e10_ram_packet_bytes")
+                }
         attempts = [read(path) for path in sorted((journal.directory / "attempts").glob("*/ATTEMPT.json"))]
-        costs.extend(dict(job=job.key, **attempt) for attempt in attempts)
+        costs.extend(dict(job=job.key, **attempt, **tags) for attempt in attempts)
+    if is_c1:
+        for key, control in roster["controls"].items():
+            tags = dict(logical_arm=control["logical_arm"], linked_control=True)
+            endpoints.extend(dict(row, **tags) for row in control["validation_endpoints"])
+            compact.extend(dict(row, **tags) for row in control["readbacks"].values())
+            original = artifacts / "A1" / "runs" / key / "attempts"
+            for path in sorted(original.glob("*/ATTEMPT.json")):
+                costs.append(dict(job=key, **read(path), **tags))
+        write(output / "LINKED_CONTROLS.json", roster["controls"])
+        write(output / "EXPOSURE.json", exposure)
+        write(output / "E10_BOUNDARIES.json", [
+            dict(dataset=dataset, seed=seed, arms=arms,
+                 prefix_matches=arms["C2"]["prefix"] == arms["C3"]["prefix"] if arms.keys() >= {"C2", "C3"} else None)
+            for (dataset, seed), arms in sorted(boundaries.items())
+        ])
     selected = [row for row in endpoints if row["checkpoint"] == "selected"]
     six_cell = [dict(dataset=row["dataset"], seed=row["seed"], arm=row["arm"], readout=row["readout"],
                      epoch=row["epoch"], domain=d, task=t, auc=row[f"d{d}t{t}_auc"],
-                     logloss=row[f"d{d}t{t}_logloss"], count=row[f"d{d}t{t}_count"])
+                     logloss=row[f"d{d}t{t}_logloss"], count=row[f"d{d}t{t}_count"],
+                     **({k: row[k] for k in ("stage", "job_key", "logical_arm", "linked_control")} if is_c1 else {}))
                 for row in selected for d in range(3) for t in range(2)]
     for name, rows in (("ENDPOINTS", endpoints), ("SELECTED", selected), ("SIX_CELL", six_cell),
                        ("COST", costs), ("VERIFIED_MODEL_READBACKS", compact)):
         write(output / f"{name}.json", rows)
-    write(output / "STAGE_STATUS.json", dict(status, completed=len(selected) // len(READOUTS), jobs=len(jobs)))
+    write(output / "STAGE_STATUS.json",
+          dict(status, completed=completed if is_c1 else len(selected) // len(READOUTS), jobs=len(jobs)))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--stage", required=True, choices=("A1", "B1"))
+    parser.add_argument("--stage", required=True, choices=("A1", "B1", "C1"))
     parser.add_argument("--artifacts", required=True, type=Path)
     parser.add_argument("--freeze-roster", action="store_true")
     parser.add_argument("--worker")

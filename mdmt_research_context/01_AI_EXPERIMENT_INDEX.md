@@ -18,6 +18,8 @@ AI 先用本索引的实验编号、干预对象、匹配对照和主终点检�
 4. 零扰动对照保留辅助支持和权重，复现了原异质性增强的大部分排序退化。恢复自然权重后，NDP-A 仍未稳定提高选点 AUC。完成权重在 KuaiRand 将验证 Macro LogLoss 降低 .003942，同时 d0t0 的 AUC 降幅 .003141 超过保护线。
 5. A21 在 KuaiRand 相对同 PAIR Adam＋EMA 的 Test Macro AUC 增加 .004062，五个 seed 均改善。对最强发表模型 HyperGate 的差为 −.001347，且未过逐格保护。MovieLens 对同 PAIR 与 clean＋EMA 的排序差均非正。选择性共享的来源增量以强目标直接头和同容量本地方案为参照。
 
+6. EXP083 完成两数据的五 seed Validation。A 的配对损失 E10 优势未延续到选点。B 的 PAIR 新鲜度校正未过门。C 的 Train 配对翻转诊断触发关系记忆训练，历史正确性筛选相对匹配随机记忆未达到预设增量门槛。固定轮次、独立选点和同剂量替代方案分别判定。 [三方向结项](../research_reports/three_directions_20261128/FINAL_REPORT.md)
+
 ## 实验与结论
 
 同一行保留可分别检索的实验编号，编号代表研究或审计条目。历史实验的协议与对应证据位于链接章节。
@@ -55,3 +57,4 @@ AI 先用本索引的实验编号、干预对象、匹配对照和主终点检�
 | [EXP078–079](02_AI_EXPERIMENT_DETAILS.md#exp078-079) | 完成权重 W/总质量 S；移除格内类别异质性 U | W 在 KR 保留 LL 改善且 d2 AUC 正，d0t0 破保护；U 两数据 AUC 均值非正，格质量单独未产生稳定排序增量。 |
 | [EXP080](02_AI_EXPERIMENT_DETAILS.md#exp080) | A20/A21 条件/简单历史、匹配剂量和定位；B 真实/伪源脉冲 | A21 Test 对匹配 PAIR ML −.000083、KR +.004062，两数据未达最终资格；B 未获持续信号。Gaussian 同身份失败，技术暂停。 |
 | [EXP081](02_AI_EXPERIMENT_DETAILS.md#exp081) | RCF 强直接头/同容量本地及池化对照、函数形成；独立 SCALE | ML 简单读出足够；KR 修复较弱重拟合头，AUC 低于强 NATIVE。S4 未触发。独立 SCALE 用常数损失缩放获得了部分同类收益。 |
+| [EXP083](02_AI_EXPERIMENT_DETAILS.md#exp083) | 六格 clean/Gaussian 配对损失；A21 同批梯度新鲜度；Train 历史正确排序关系及匹配随机记忆 | 90 条新轨迹完成，三候选均未晋级；C0 诊断触发 C1；A2/B2 γ=.25/C4/S4 未触发。Test 封存。 [Validation 表](03_EXPERIMENT_RESULTS.md#exp083--三方向-validation) |

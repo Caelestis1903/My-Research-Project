@@ -194,6 +194,16 @@
 
 SCALE 独立使用 seeds 2022–2025，八条训练。冷/对应热 Adam 严格匹配 `cL,wd,eps ≍ L,wd/c,eps/c`，因而常数损失尺度效应包含有效 WD/eps 改变。历史暴露 Test 下 Dconst01_NO_AUG−B 的 Macro AUC/LL 为 ML +.00404890/−.00924025、KR +.00758835/−.00655322；KR 流量格 AUC −.00451560、pooled −.00445033，最大域 AUC −.00486585。SCALE 裁定基于自身 B 对照。当前停止扩展 RCF，保留简单读出和上列各匹配参照下的收益。
 
+## EXP083
+
+**自然数据三方向。** MovieLens-1M 与 KuaiRand-Pure，M3oE fixed1、Sample objective、FP32、batch 40,960、seeds 2022–2026、50 轮。各 arm/seed/readout 以最早最高六格 Validation Macro AUC 选点，LL 取同轮。A1 新训 40 条，B1 30 条，C1 20 条并链接 A1 B0/P0 20 条，C0 诊断复用 A1 B0/P0 20 条及 60 份快照。合计 90 条新轨迹、4,500 个 epoch、155,250 次训练更新。 [结项报告](../research_reports/three_directions_20261128/FINAL_REPORT.md) · [研究计划](../research_plans/26-11-28_three_directions/README.md) · [运行清单](../artifacts/three_directions_20261128/RUN_MANIFEST.json)
+
+- **A1 clean/Gaussian 配对损失。** P0−B0 和 GP0−G0 在两数据 E10 固定 EMA 均为 5/5 seed AUC 改善，selected 和 E50 的两个读出均值转负。KR GP0 的两读出 LL 五 seed 均变差。KR 的 P0 固定 EMA 获得居中规模域 d0 的局部改善，同时最大域 d1 和 Traffic/Pooled AUC 下降。A2 未触发。 [A1 分析](../research_reports/three_directions_20261128/A1_ANALYSIS.md)
+- **B1 同批、同配对梯度新鲜度。** 在 A21 的单份共享 PAIR 历史上，γ=.5 的校正相对 A21 四组 selected AUC 均值均低于 +.001，三组破六格保护。B3 仅观察，γ=.25 未触发。KR A21 相对普通 PAIR Adam 的 E10 优势在 E50 与 selected 转负。 [B1 分析](../research_reports/three_directions_20261128/B1_ANALYSIS.md)
+- **C0 诊断与 C1 训练。** E10→selected Train 翻转可复现，精确配对重合稀少，margin 区分稳定性。C1 对齐 P0 至 E10，每个活跃条件最多 2,048 个 pair、每步抽取 2,048 对。C3 从 E10 预测严格正确的配对建 bank，C2 用同容量随机候选，均使用软 margin，C1 臂持续当前配对监督。C2/C3 在 E50 改善 AUC 与 LL，C3 在独立选点未同时超过随机记忆和当前监督。C4 未触发。 [C0 分析](../research_reports/three_directions_20261128/C0_ANALYSIS.md) · [C1 分析](../research_reports/three_directions_20261128/C1_ANALYSIS.md) · [C1 判定](../artifacts/three_directions_20261128/C1/decisions.json)
+
+S4 未触发。冻结的 Validation 状态为 `VALIDATION_COMPLETE_TEST_PENDING_AUTHORIZATION`，Test 访问为 0。本轮来源为 A/B 与 C0 原执行源码归档 `70455ed0e` 及 C1 冻结 roster。EXP082 在计划中保留为用户提供的历史证据，EXP080 的已暴露 Test 沿用原归档。 [Validation 冻结](../artifacts/three_directions_20261128/VALIDATION_FREEZE.json) · [源码归档](../artifacts/three_directions_20261128/A_B_SOURCE_SNAPSHOT.json) · [C1 roster](../artifacts/three_directions_20261128/C1/ROSTER.json) · [结果数表](03_EXPERIMENT_RESULTS.md#exp083--三方向-validation)
+
 ## 历史交接摘录
 
 早期技术与当前研究的边界见索引。本节为旧根上下文的科研口径、归因、关键判据与数据锚点，研究状态按对应 EXP 章节最新裁定。历史运行会话与 GPU/RAM 编排留在原收据。

@@ -1,4 +1,4 @@
-"""Summarize a completed A1 or B1 Validation stage with paired seed statistics."""
+"""Summarize a completed A1, B1 or C1 Validation stage with paired seed statistics."""
 
 import argparse
 import csv
@@ -10,11 +10,11 @@ from statistics import mean, stdev
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts', type=Path, required=True)
-    parser.add_argument('--stage', choices=('A1', 'B1'), required=True)
+    parser.add_argument('--stage', choices=('A1', 'B1', 'C1'), required=True)
     args = parser.parse_args()
     stage = args.stage
-    p = args.artifacts.resolve() / stage
-
+    root = args.artifacts.resolve()
+    p = root / stage
 
     def read(name):
         return json.loads((p / (name + '.json')).read_text())
@@ -22,7 +22,7 @@ def main():
     def write_csv(name, rows):
         fields = list(dict.fromkeys(key for row in rows for key in row))
         with (p / name).open('w', newline='') as stream:
-            writer = csv.DictWriter(stream, fieldnames=fields)
+            writer = csv.DictWriter(stream, fieldnames=fields, lineterminator='\n')
             writer.writeheader()
             writer.writerows({key: json.dumps(value, sort_keys=True) if isinstance(value, (dict, list)) else value
                               for key, value in row.items()} for row in rows)
@@ -32,19 +32,37 @@ def main():
     seeds = range(2022, 2027)
     datasets = ('movielens', 'kuairand')
     readouts = ('online', 'fixed_ema')
-    contrasts = ({'P0-B0': {'P0': 1, 'B0': -1}, 'GP0-G0': {'GP0': 1, 'G0': -1},
-                  'GP0-P0': {'GP0': 1, 'P0': -1}, 'G0-B0': {'G0': 1, 'B0': -1},
-                  'GP0-B0': {'GP0': 1, 'B0': -1},
-                  'interaction': {'GP0': 1, 'G0': -1, 'P0': -1, 'B0': 1}}
-                 if stage == 'A1' else
-                 {'B1-B0': {'B1': 1, 'B0': -1}, 'B2-B1': {'B2': 1, 'B1': -1},
-                  'B2-B0': {'B2': 1, 'B0': -1}})
-    thresholds = {'P0-B0': .002, 'GP0-G0': .001, 'B2-B1': .001}
-    endpoints, costs = read('ENDPOINTS'), read('COST')
+    contrasts = {
+        'A1': {'P0-B0': {'P0': 1, 'B0': -1}, 'GP0-G0': {'GP0': 1, 'G0': -1},
+               'GP0-P0': {'GP0': 1, 'P0': -1}, 'G0-B0': {'G0': 1, 'B0': -1},
+               'GP0-B0': {'GP0': 1, 'B0': -1},
+               'interaction': {'GP0': 1, 'G0': -1, 'P0': -1, 'B0': 1}},
+        'B1': {'B1-B0': {'B1': 1, 'B0': -1}, 'B2-B1': {'B2': 1, 'B1': -1},
+               'B2-B0': {'B2': 1, 'B0': -1}},
+        'C1': {'C3-C2': {'C3': 1, 'C2': -1}, 'C3-C1': {'C3': 1, 'C1': -1},
+               'C2-C1': {'C2': 1, 'C1': -1}, 'C1-C0': {'C1': 1, 'C0': -1},
+               'C3-C0': {'C3': 1, 'C0': -1}},
+    }[stage]
+    thresholds = {'P0-B0': .002, 'GP0-G0': .001, 'B2-B1': .001, 'C3-C2': .001, 'C3-C1': .001}
+    endpoints, selected, costs = read('ENDPOINTS'), read('SELECTED'), read('COST')
     assert all(row['split'] == 'validation' for row in endpoints)
-    selected = read('SELECTED')
-    assert len(selected) == status['completed'] * len(readouts)
-    lookup = {(r['dataset'], r['readout'], r['checkpoint'], r['arm'], r['seed']): r for r in endpoints}
+    assert sum(row['stage'] == stage for row in selected) == status['completed'] * len(readouts)
+    linked_keys = {row['job_key'] for row in selected if row['stage'] != stage}
+    if stage == 'C1':
+        assert len(linked_keys) == 20 and len(selected) == 80
+        assert all(row['logical_arm'] in ('C0', 'C1', 'C2', 'C3') for row in endpoints)
+        original_cost = json.loads((root / 'A1' / 'COST.json').read_text())
+        expected_cost = [row for row in original_cost if row['job'] in linked_keys]
+        linked_cost = [{k: v for k, v in row.items() if k not in ('linked_control', 'logical_arm')}
+                       for row in costs if row['linked_control']]
+        sort_cost = lambda row: (row['job'], row['attempt'])
+        assert {row['job'] for row in linked_cost} == linked_keys
+        assert sorted(linked_cost, key=sort_cost) == sorted(expected_cost, key=sort_cost)
+        costs = [dict(row, cost_origin='REUSED_A1' if row['linked_control'] else 'NEW_C1') for row in costs]
+    else:
+        assert not linked_keys
+    lookup = {(row['dataset'], row['readout'], row['checkpoint'],
+               row.get('logical_arm', row['arm']), row['seed']): row for row in endpoints}
     assert len(lookup) == len(endpoints)
     metrics = tuple(key for key in endpoints[0] if key.endswith(('_auc', '_logloss')))
     six = [f'd{d}t{t}_auc' for d in range(3) for t in range(2)]

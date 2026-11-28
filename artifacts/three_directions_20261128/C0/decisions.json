@@ -1,0 +1,748 @@
+{
+  "stage": "C0",
+  "status": "COMPLETE",
+  "scopes": [
+    {
+      "dataset": "movielens",
+      "arm": "B0",
+      "flip": {
+        "n": 5,
+        "mean": 0.029472530990578293,
+        "sample_sd": 0.0023233875665439807
+      },
+      "robust_flip": {
+        "n": 5,
+        "mean": 0.029308249539890176,
+        "sample_sd": 0.002340883904251378
+      },
+      "per_seed": [
+        {
+          "seed": 2022,
+          "horizon_epochs": 16,
+          "end_epoch": 26,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40008,
+            "strict_reversal": 1243,
+            "tie_loss": 0,
+            "retained": 38765,
+            "loss_of_strict_correctness": 1243,
+            "robust_strict_reversal": 1232,
+            "near_zero_historical": 19,
+            "near_zero_endpoint": 20
+          },
+          "rates": {
+            "strict_reversal_rate": 0.031335311493832,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.968664688506168,
+            "loss_of_strict_correctness_rate": 0.031335311493832,
+            "robust_strict_reversal_rate": 0.03106840409030245
+          },
+          "selected_epoch": 26
+        },
+        {
+          "seed": 2023,
+          "horizon_epochs": 8,
+          "end_epoch": 18,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40079,
+            "strict_reversal": 1110,
+            "tie_loss": 0,
+            "retained": 38969,
+            "loss_of_strict_correctness": 1110,
+            "robust_strict_reversal": 1103,
+            "near_zero_historical": 20,
+            "near_zero_endpoint": 16
+          },
+          "rates": {
+            "strict_reversal_rate": 0.027965511266251544,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9720344887337485,
+            "loss_of_strict_correctness_rate": 0.027965511266251544,
+            "robust_strict_reversal_rate": 0.027799494713715373
+          },
+          "selected_epoch": 18
+        },
+        {
+          "seed": 2024,
+          "horizon_epochs": 10,
+          "end_epoch": 20,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40153,
+            "strict_reversal": 1058,
+            "tie_loss": 0,
+            "retained": 39095,
+            "loss_of_strict_correctness": 1058,
+            "robust_strict_reversal": 1050,
+            "near_zero_historical": 19,
+            "near_zero_endpoint": 15
+          },
+          "rates": {
+            "strict_reversal_rate": 0.026451200394296572,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9735487996057034,
+            "loss_of_strict_correctness_rate": 0.026451200394296572,
+            "robust_strict_reversal_rate": 0.026252683497157973
+          },
+          "selected_epoch": 20
+        },
+        {
+          "seed": 2025,
+          "horizon_epochs": 18,
+          "end_epoch": 28,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 39980,
+            "strict_reversal": 1274,
+            "tie_loss": 0,
+            "retained": 38706,
+            "loss_of_strict_correctness": 1274,
+            "robust_strict_reversal": 1271,
+            "near_zero_historical": 19,
+            "near_zero_endpoint": 15
+          },
+          "rates": {
+            "strict_reversal_rate": 0.03206436111032798,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.967935638889672,
+            "loss_of_strict_correctness_rate": 0.03206436111032798,
+            "robust_strict_reversal_rate": 0.031990236295800514
+          },
+          "selected_epoch": 28
+        },
+        {
+          "seed": 2026,
+          "horizon_epochs": 12,
+          "end_epoch": 22,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40225,
+            "strict_reversal": 1185,
+            "tie_loss": 0,
+            "retained": 39040,
+            "loss_of_strict_correctness": 1185,
+            "robust_strict_reversal": 1180,
+            "near_zero_historical": 28,
+            "near_zero_endpoint": 14
+          },
+          "rates": {
+            "strict_reversal_rate": 0.029546270688183357,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9704537293118166,
+            "loss_of_strict_correctness_rate": 0.029546270688183357,
+            "robust_strict_reversal_rate": 0.02943042910247455
+          },
+          "selected_epoch": 22
+        }
+      ],
+      "uniform_replay_overlap": {
+        "historical_correct": {
+          "raw_members": 200445,
+          "raw_observed_members": 4,
+          "weighted_coverage": 1.9558174750174232e-05,
+          "weighted_uniform_expected_coverage": 8.567225355878138e-06
+        },
+        "strict_reversal": {
+          "raw_members": 5870,
+          "raw_observed_members": 0,
+          "weighted_coverage": 0.0,
+          "weighted_uniform_expected_coverage": 8.556116472493021e-06
+        }
+      },
+      "raw_confidence_bins": {
+        "e10_confidence_0_0.1": {
+          "count": 4876,
+          "strict_reversals": 1360
+        },
+        "e10_confidence_0.1_1": {
+          "count": 53237,
+          "strict_reversals": 4248
+        },
+        "e10_confidence_1_2": {
+          "count": 64041,
+          "strict_reversals": 257
+        },
+        "e10_confidence_2_5": {
+          "count": 78291,
+          "strict_reversals": 5
+        }
+      },
+      "mean_val_auc_change_E10_to_selected": 0.008414917377182852,
+      "mean_val_logloss_change_E10_to_selected": 0.003087385626700212,
+      "per_cell_mean_flip": {
+        "d0t0": 0.03008244975903323,
+        "d0t1": 0.02876733722422709,
+        "d1t0": 0.028501257438913068,
+        "d1t1": 0.026548668757132736,
+        "d2t0": 0.03285195025260454,
+        "d2t1": 0.030228293283031945
+      }
+    },
+    {
+      "dataset": "movielens",
+      "arm": "P0",
+      "flip": {
+        "n": 5,
+        "mean": 0.027878777389355826,
+        "sample_sd": 0.0016237936043594413
+      },
+      "robust_flip": {
+        "n": 5,
+        "mean": 0.027750902255785824,
+        "sample_sd": 0.0016036302797800002
+      },
+      "per_seed": [
+        {
+          "seed": 2022,
+          "horizon_epochs": 9,
+          "end_epoch": 19,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40324,
+            "strict_reversal": 1003,
+            "tie_loss": 0,
+            "retained": 39321,
+            "loss_of_strict_correctness": 1003,
+            "robust_strict_reversal": 1000,
+            "near_zero_historical": 19,
+            "near_zero_endpoint": 12
+          },
+          "rates": {
+            "strict_reversal_rate": 0.025324378207930986,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.974675621792069,
+            "loss_of_strict_correctness_rate": 0.025324378207930986,
+            "robust_strict_reversal_rate": 0.025247508853727157
+          },
+          "selected_epoch": 19
+        },
+        {
+          "seed": 2023,
+          "horizon_epochs": 10,
+          "end_epoch": 20,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40166,
+            "strict_reversal": 1142,
+            "tie_loss": 0,
+            "retained": 39024,
+            "loss_of_strict_correctness": 1142,
+            "robust_strict_reversal": 1137,
+            "near_zero_historical": 20,
+            "near_zero_endpoint": 12
+          },
+          "rates": {
+            "strict_reversal_rate": 0.02849304504513697,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9715069549548632,
+            "loss_of_strict_correctness_rate": 0.02849304504513697,
+            "robust_strict_reversal_rate": 0.02835836259734789
+          },
+          "selected_epoch": 20
+        },
+        {
+          "seed": 2024,
+          "horizon_epochs": 11,
+          "end_epoch": 21,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40319,
+            "strict_reversal": 1088,
+            "tie_loss": 0,
+            "retained": 39231,
+            "loss_of_strict_correctness": 1088,
+            "robust_strict_reversal": 1082,
+            "near_zero_historical": 21,
+            "near_zero_endpoint": 9
+          },
+          "rates": {
+            "strict_reversal_rate": 0.02726520915604239,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9727347908439576,
+            "loss_of_strict_correctness_rate": 0.02726520915604239,
+            "robust_strict_reversal_rate": 0.027105267927433774
+          },
+          "selected_epoch": 21
+        },
+        {
+          "seed": 2025,
+          "horizon_epochs": 12,
+          "end_epoch": 22,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40165,
+            "strict_reversal": 1161,
+            "tie_loss": 0,
+            "retained": 39004,
+            "loss_of_strict_correctness": 1161,
+            "robust_strict_reversal": 1156,
+            "near_zero_historical": 21,
+            "near_zero_endpoint": 11
+          },
+          "rates": {
+            "strict_reversal_rate": 0.029094859099322756,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9709051409006773,
+            "loss_of_strict_correctness_rate": 0.029094859099322756,
+            "robust_strict_reversal_rate": 0.02897748401082155
+          },
+          "selected_epoch": 22
+        },
+        {
+          "seed": 2026,
+          "horizon_epochs": 12,
+          "end_epoch": 22,
+          "counts": {
+            "candidates": 49152,
+            "historical_correct": 40366,
+            "strict_reversal": 1168,
+            "tie_loss": 0,
+            "retained": 39198,
+            "loss_of_strict_correctness": 1168,
+            "robust_strict_reversal": 1162,
+            "near_zero_historical": 21,
+            "near_zero_endpoint": 11
+          },
+          "rates": {
+            "strict_reversal_rate": 0.029216395438346004,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9707836045616541,
+            "loss_of_strict_correctness_rate": 0.029216395438346004,
+            "robust_strict_reversal_rate": 0.029065887889598768
+          },
+          "selected_epoch": 22
+        }
+      ],
+      "uniform_replay_overlap": {
+        "historical_correct": {
+          "raw_members": 201340,
+          "raw_observed_members": 3,
+          "weighted_coverage": 1.5083686473327025e-05,
+          "weighted_uniform_expected_coverage": 7.291987116407862e-06
+        },
+        "strict_reversal": {
+          "raw_members": 5562,
+          "raw_observed_members": 0,
+          "weighted_coverage": 0.0,
+          "weighted_uniform_expected_coverage": 7.309756284050586e-06
+        }
+      },
+      "raw_confidence_bins": {
+        "e10_confidence_0_0.1": {
+          "count": 4566,
+          "strict_reversals": 1268
+        },
+        "e10_confidence_0.1_1": {
+          "count": 51391,
+          "strict_reversals": 4090
+        },
+        "e10_confidence_1_2": {
+          "count": 62225,
+          "strict_reversals": 202
+        },
+        "e10_confidence_2_5": {
+          "count": 83158,
+          "strict_reversals": 2
+        }
+      },
+      "mean_val_auc_change_E10_to_selected": 0.006934225650378045,
+      "mean_val_logloss_change_E10_to_selected": 0.005047400199393625,
+      "per_cell_mean_flip": {
+        "d0t0": 0.02954648888185417,
+        "d0t1": 0.02749676597527831,
+        "d1t0": 0.027217753832307554,
+        "d1t1": 0.025627312027576628,
+        "d2t0": 0.029773873931814854,
+        "d2t1": 0.027704025828253136
+      }
+    },
+    {
+      "dataset": "kuairand",
+      "arm": "B0",
+      "flip": {
+        "n": 5,
+        "mean": 0.11246205346415492,
+        "sample_sd": 0.0031351530320663135
+      },
+      "robust_flip": {
+        "n": 5,
+        "mean": 0.11177252353585745,
+        "sample_sd": 0.002982338355706062
+      },
+      "per_seed": [
+        {
+          "seed": 2022,
+          "horizon_epochs": 23,
+          "end_epoch": 33,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 49626,
+            "strict_reversal": 7121,
+            "tie_loss": 0,
+            "retained": 42505,
+            "loss_of_strict_correctness": 7121,
+            "robust_strict_reversal": 7089,
+            "near_zero_historical": 126,
+            "near_zero_endpoint": 49
+          },
+          "rates": {
+            "strict_reversal_rate": 0.11397565109060073,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.8860243489093991,
+            "loss_of_strict_correctness_rate": 0.11397565109060073,
+            "robust_strict_reversal_rate": 0.11321739650623387
+          },
+          "selected_epoch": 33
+        },
+        {
+          "seed": 2023,
+          "horizon_epochs": 40,
+          "end_epoch": 50,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 49952,
+            "strict_reversal": 6927,
+            "tie_loss": 0,
+            "retained": 43025,
+            "loss_of_strict_correctness": 6927,
+            "robust_strict_reversal": 6900,
+            "near_zero_historical": 101,
+            "near_zero_endpoint": 41
+          },
+          "rates": {
+            "strict_reversal_rate": 0.11165513755851167,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.8883448624414884,
+            "loss_of_strict_correctness_rate": 0.11165513755851167,
+            "robust_strict_reversal_rate": 0.11103230485786454
+          },
+          "selected_epoch": 50
+        },
+        {
+          "seed": 2024,
+          "horizon_epochs": 40,
+          "end_epoch": 50,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 50146,
+            "strict_reversal": 7192,
+            "tie_loss": 0,
+            "retained": 42954,
+            "loss_of_strict_correctness": 7192,
+            "robust_strict_reversal": 7157,
+            "near_zero_historical": 138,
+            "near_zero_endpoint": 44
+          },
+          "rates": {
+            "strict_reversal_rate": 0.11222951779403455,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.8877704822059655,
+            "loss_of_strict_correctness_rate": 0.11222951779403455,
+            "robust_strict_reversal_rate": 0.11153821173892718
+          },
+          "selected_epoch": 50
+        },
+        {
+          "seed": 2025,
+          "horizon_epochs": 40,
+          "end_epoch": 50,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 50442,
+            "strict_reversal": 6813,
+            "tie_loss": 0,
+            "retained": 43629,
+            "loss_of_strict_correctness": 6813,
+            "robust_strict_reversal": 6780,
+            "near_zero_historical": 113,
+            "near_zero_endpoint": 48
+          },
+          "rates": {
+            "strict_reversal_rate": 0.10797009107434329,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.8920299089256567,
+            "loss_of_strict_correctness_rate": 0.10797009107434329,
+            "robust_strict_reversal_rate": 0.10748912590919689
+          },
+          "selected_epoch": 50
+        },
+        {
+          "seed": 2026,
+          "horizon_epochs": 37,
+          "end_epoch": 47,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 49576,
+            "strict_reversal": 7312,
+            "tie_loss": 0,
+            "retained": 42264,
+            "loss_of_strict_correctness": 7312,
+            "robust_strict_reversal": 7274,
+            "near_zero_historical": 138,
+            "near_zero_endpoint": 50
+          },
+          "rates": {
+            "strict_reversal_rate": 0.11647986980328434,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.8835201301967157,
+            "loss_of_strict_correctness_rate": 0.11647986980328434,
+            "robust_strict_reversal_rate": 0.11558557866706473
+          },
+          "selected_epoch": 47
+        }
+      ],
+      "uniform_replay_overlap": {
+        "historical_correct": {
+          "raw_members": 249742,
+          "raw_observed_members": 2960,
+          "weighted_coverage": 0.00015793997764808294,
+          "weighted_uniform_expected_coverage": 0.0002038472330322001
+        },
+        "strict_reversal": {
+          "raw_members": 35365,
+          "raw_observed_members": 595,
+          "weighted_coverage": 0.00015283858660862152,
+          "weighted_uniform_expected_coverage": 0.00026780144912850204
+        }
+      },
+      "raw_confidence_bins": {
+        "e10_confidence_0_0.1": {
+          "count": 31878,
+          "strict_reversals": 9595
+        },
+        "e10_confidence_0.1_1": {
+          "count": 169096,
+          "strict_reversals": 24993
+        },
+        "e10_confidence_1_2": {
+          "count": 41688,
+          "strict_reversals": 771
+        },
+        "e10_confidence_2_5": {
+          "count": 7080,
+          "strict_reversals": 6
+        }
+      },
+      "mean_val_auc_change_E10_to_selected": 0.047630074413610446,
+      "mean_val_logloss_change_E10_to_selected": -0.021336960603283994,
+      "per_cell_mean_flip": {
+        "d0t0": 0.16441826415185554,
+        "d0t1": 0.1499416011364591,
+        "d1t0": 0.07979913020007101,
+        "d1t1": 0.0750307893661497,
+        "d2t0": 0.11113096600566755,
+        "d2t1": 0.10947715753563668
+      }
+    },
+    {
+      "dataset": "kuairand",
+      "arm": "P0",
+      "flip": {
+        "n": 5,
+        "mean": 0.08334037481303783,
+        "sample_sd": 0.004600937460790756
+      },
+      "robust_flip": {
+        "n": 5,
+        "mean": 0.08283955400390193,
+        "sample_sd": 0.004570172466967642
+      },
+      "per_seed": [
+        {
+          "seed": 2022,
+          "horizon_epochs": 12,
+          "end_epoch": 22,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 51263,
+            "strict_reversal": 5839,
+            "tie_loss": 0,
+            "retained": 45424,
+            "loss_of_strict_correctness": 5839,
+            "robust_strict_reversal": 5816,
+            "near_zero_historical": 84,
+            "near_zero_endpoint": 47
+          },
+          "rates": {
+            "strict_reversal_rate": 0.08563841268430453,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9143615873156955,
+            "loss_of_strict_correctness_rate": 0.08563841268430453,
+            "robust_strict_reversal_rate": 0.08488511110055984
+          },
+          "selected_epoch": 22
+        },
+        {
+          "seed": 2023,
+          "horizon_epochs": 14,
+          "end_epoch": 24,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 51618,
+            "strict_reversal": 6326,
+            "tie_loss": 0,
+            "retained": 45292,
+            "loss_of_strict_correctness": 6326,
+            "robust_strict_reversal": 6306,
+            "near_zero_historical": 77,
+            "near_zero_endpoint": 34
+          },
+          "rates": {
+            "strict_reversal_rate": 0.08831130124258765,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9116886987574123,
+            "loss_of_strict_correctness_rate": 0.08831130124258765,
+            "robust_strict_reversal_rate": 0.08785960686040614
+          },
+          "selected_epoch": 24
+        },
+        {
+          "seed": 2024,
+          "horizon_epochs": 11,
+          "end_epoch": 21,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 51205,
+            "strict_reversal": 5130,
+            "tie_loss": 0,
+            "retained": 46075,
+            "loss_of_strict_correctness": 5130,
+            "robust_strict_reversal": 5103,
+            "near_zero_historical": 82,
+            "near_zero_endpoint": 50
+          },
+          "rates": {
+            "strict_reversal_rate": 0.07739463596017901,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9226053640398209,
+            "loss_of_strict_correctness_rate": 0.07739463596017901,
+            "robust_strict_reversal_rate": 0.07693805065622072
+          },
+          "selected_epoch": 21
+        },
+        {
+          "seed": 2025,
+          "horizon_epochs": 14,
+          "end_epoch": 24,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 51760,
+            "strict_reversal": 5492,
+            "tie_loss": 0,
+            "retained": 46268,
+            "loss_of_strict_correctness": 5492,
+            "robust_strict_reversal": 5465,
+            "near_zero_historical": 87,
+            "near_zero_endpoint": 45
+          },
+          "rates": {
+            "strict_reversal_rate": 0.07964098813868005,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9203590118613201,
+            "loss_of_strict_correctness_rate": 0.07964098813868005,
+            "robust_strict_reversal_rate": 0.07920337585626908
+          },
+          "selected_epoch": 24
+        },
+        {
+          "seed": 2026,
+          "horizon_epochs": 19,
+          "end_epoch": 29,
+          "counts": {
+            "candidates": 81920,
+            "historical_correct": 50980,
+            "strict_reversal": 6068,
+            "tie_loss": 0,
+            "retained": 44912,
+            "loss_of_strict_correctness": 6068,
+            "robust_strict_reversal": 6034,
+            "near_zero_historical": 113,
+            "near_zero_endpoint": 50
+          },
+          "rates": {
+            "strict_reversal_rate": 0.08571653603943788,
+            "tie_loss_rate": 0.0,
+            "retained_rate": 0.9142834639605621,
+            "loss_of_strict_correctness_rate": 0.08571653603943788,
+            "robust_strict_reversal_rate": 0.0853116255460539
+          },
+          "selected_epoch": 29
+        }
+      ],
+      "uniform_replay_overlap": {
+        "historical_correct": {
+          "raw_members": 256826,
+          "raw_observed_members": 1229,
+          "weighted_coverage": 4.2245210186919166e-05,
+          "weighted_uniform_expected_coverage": 7.899676071230641e-05
+        },
+        "strict_reversal": {
+          "raw_members": 28855,
+          "raw_observed_members": 213,
+          "weighted_coverage": 0.0001765573410516368,
+          "weighted_uniform_expected_coverage": 9.707581116471931e-05
+        }
+      },
+      "raw_confidence_bins": {
+        "e10_confidence_0_0.1": {
+          "count": 23195,
+          "strict_reversals": 7134
+        },
+        "e10_confidence_0.1_1": {
+          "count": 170822,
+          "strict_reversals": 21145
+        },
+        "e10_confidence_1_2": {
+          "count": 53420,
+          "strict_reversals": 571
+        },
+        "e10_confidence_2_5": {
+          "count": 9389,
+          "strict_reversals": 5
+        }
+      },
+      "mean_val_auc_change_E10_to_selected": 0.03121323416702686,
+      "mean_val_logloss_change_E10_to_selected": -0.016471452392025233,
+      "per_cell_mean_flip": {
+        "d0t0": 0.10197750616440686,
+        "d0t1": 0.07560265172710491,
+        "d1t0": 0.07471100694458804,
+        "d1t1": 0.06639902675426301,
+        "d2t0": 0.0927432728324599,
+        "d2t1": 0.0905028419508202
+      }
+    }
+  ],
+  "test_accesses": 0,
+  "C1": "SCIENTIFIC_GATE_PASS_CAPACITY_APPROVED",
+  "primary_analysis": [
+    {
+      "strength": "STRONG",
+      "observation": "All five seeds in each dataset/arm have strict reversal between E10 and Validation-selected EMA. Robust reversals are nearly as frequent, and E5 shows the same qualitative pattern. KuaiRand shows more pair churn than MovieLens in this protocol."
+    },
+    {
+      "strength": "MEDIUM",
+      "observation": "Most flips involve low or moderate but not exclusively near-zero E10 margins. Historical positives carry graded logits, and the exact-pair overlap with the realized sampler is small under both observed and uniform-support rates. Huge pair universes alone can produce the low exact overlap. This supports testing a distinct training signal under matched memory controls."
+    },
+    {
+      "strength": "MEDIUM",
+      "observation": "KuaiRand P0 has lower observed reversal than B0 at each seed but shorter E10-to-selected horizons (11–19 versus 23–40 epochs). The E5–E10 common-window paired result is inconclusive. The observed selected-horizon contrast does not identify a causal anti-forgetting effect."
+    },
+    {
+      "strength": "MEDIUM",
+      "observation": "Smaller domains do not rank monotonically by reversals. KuaiRand B0 has most reversals in middle-sized d0 and least in largest d1, while MovieLens largest d2 has the highest B0 cell. Selected Validation AUC improves relative to E10 in all four arm/dataset means while old-pair signs change. No evidence yet identifies a generalization effect of preserving old pairs."
+    },
+    {
+      "strength": "WEAK",
+      "observation": "A causal test of historical correctness uses C3 versus exposure- and capacity-matched random-history C2 and current pairwise C1. C4, conditional on the results, isolates soft historical margins from hard supervision."
+    }
+  ],
+  "C1_bank": {
+    "source": "user-approved recommended selection",
+    "unique_pair_capacity": 2048,
+    "capacity_unit": "active_sampling_condition",
+    "pair_draws_per_step": 2048
+  }
+}

@@ -1,0 +1,17 @@
+# CODER IMPLEMENTATION REPORT | C1 historical control binding
+
+## Changes
+
+Fresh C1 linking requires exactly six Validation endpoints for every original A1.B0 and A1.P0 control. It compares the selected rows with the earliest strict maxima, the committed same-checkpoint metrics and the selected RAM readbacks. It checks both E10 and E50 readouts against their committed epoch metrics and the original A1 endpoint publication. Fixed-EMA E10 also binds to the audited compact model receipt. For any endpoint that is the same epoch as its readout's selected model, the committed selected model hash must agree. The A1 completion record must match the RAM journal, the original RunSpec and the C0 audit binding. [Control validation](../../experiments/three_directions_20261128/c1_protocol.py#L180)
+
+Opening an existing C1 roster reconstructs the full twenty-control map from original A1 and C0 evidence and compares it with the stored links, including physical and logical arm identity, endpoints, selected rows and receipts. It validates each seed's P0 E10 online and fixed-EMA teacher identities and complete warmup prefix against the committed writers and batch receipts. The callback before bank construction or recovery applies the same seed binding. Existing-roster checks use journal and trace metadata. Fresh linking also verifies the Train row permutations, compact RAM readbacks and candidate archives. [Warmup prefix](../../experiments/three_directions_20261128/c1_protocol.py#L277) · [Seed callback](../../experiments/three_directions_20261128/c1_protocol.py#L378) · [Roster validation](../../experiments/three_directions_20261128/c1_protocol.py#L443)
+
+## Checks
+
+- The focused CPU suites passed 49 tests, with two CUDA cases skipped and the existing PyTorch TF32 API warning. The regressions reject rehashed null controls, changed selected and E50 rows, a forged P0 E10 online hash, a missing prefix and a modified batch in a rehashed prefix. Fresh-link cases reject changed B0 online E10 metrics, altered E50 metrics on both readouts, including the reviewer's B0 fixed-EMA Macro AUC substitution of 0.125, and a forged P0 online E10 identity. The tests also prohibit live Train/cache loading and compact RAM decoding when reopening an existing roster. [Regression cases](../../experiments/three_directions_20261128/tests/test_c1_memory.py#L611)
+- Read-only live checks verified the 16 original archive blobs and resolved 20 original control links, 120 Validation endpoint rows, 50 compact model readbacks and ten warmup prefixes covering 3,450 committed batches. Fresh and metadata-only resolution returned equal records. All ten seed callbacks passed with the live cache and RAM decode paths disabled. All ten study stop paths were clear. [Original runtime review](C1_FINAL_IMPLEMENTATION_REVIEW.md)
+- Python syntax, edited-file whitespace and `git diff --check` passed. The checked `c1_protocol.py` SHA-256 is `893c32bf9bbdc90afa803a7567d10d8ec49372085ae3deeee10fe8a68d3f8e7c`.
+
+## Review handoff
+
+Fresh independent review and live roster freeze remain pending. The historical instantaneous online and E50 model identities come from the original completion, RAM journal and A1 endpoint publication, with compact or same-epoch selected identities checked where available. The real C2/C3 warmup match at E10 remains a RUN boundary check. This implementation pass used CPU and existing A1/C0 evidence, with zero formal C1 jobs and zero Test accesses.

@@ -1,0 +1,61 @@
+{
+  "job": {
+    "key": "C1-movielens-C2-seed2024",
+    "stage": "C1",
+    "dataset": "movielens",
+    "seed": 2024,
+    "arm": "C2",
+    "config": {
+      "arm": "P0",
+      "dataset": "movielens",
+      "gaussian_bce": false,
+      "pair_view": "clean",
+      "pair_count": 2048,
+      "lambda_pair": 0.05,
+      "tau": 1.0,
+      "lambda_aug": 0.5,
+      "target_domain": 0,
+      "kappa": 0.05,
+      "rho": 0.9828205985452511,
+      "weight_decay": 0.0001,
+      "lr": 0.01,
+      "epochs": 50,
+      "batch_size": 40960
+    },
+    "adapter": {
+      "memory_mode": "random",
+      "teacher_epoch": 10,
+      "unique_pair_capacity": 2048,
+      "capacity_unit": "active_sampling_condition",
+      "candidate_capacity": 4096,
+      "pair_draws": 2048,
+      "margin_clip": [
+        -5,
+        5
+      ],
+      "temperature": 1.0
+    }
+  },
+  "binding": {
+    "study": "three_directions_20261128",
+    "stage": "C1",
+    "dataset": "movielens",
+    "seed": 2024,
+    "arm": "C2",
+    "source_hash": "f06680455940737f70e91f8054f57e3366ba1ebc610b80b1ff17a3936220d61f",
+    "config_hash": "89bfefd701c4c9ef3423bb1f83aba9036c6b3a7e20776a13c1f50002a922cfff",
+    "algorithm_hash": "5588747c8f625488b7cf5aa7285540a5bd13041090f0ddadbccd5e7c37b8741e",
+    "data_hash": "1cdbb70149262dd98ec8147132d8573ba4c8da9a4a12142a1df55da0f409da8b",
+    "scope_hash": "a1d11f1c7ff17b73837fdb1be13d71f7e05a70163e1b566af9a000f4caf5a5d5",
+    "job_key": "C1-movielens-C2-seed2024"
+  },
+  "attempt": {
+    "id": "e46d12f0373c4bfc9b8a990c75cc17ff",
+    "gpu": "GPU-4ac4b341-3045-1093-fec3-492516863e5a",
+    "pid": 1297228,
+    "number": 1,
+    "generation": "9df48163e45c4453a2e23d7b4423a953"
+  },
+  "diagnostic_through": null,
+  "invocation": "/home/xzf/Code/phase0-3_three_directions_20261128/artifacts/three_directions_20261128/C1/dispatch/592bf469b8924ac48b633b2ab5013f8e"
+}

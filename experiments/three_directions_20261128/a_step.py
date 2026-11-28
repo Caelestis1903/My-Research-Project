@@ -32,7 +32,8 @@ def a_config(arm, dataset):
 def make_training_parts(model, job, bundle):
     sampler = MacroPairSampler(bundle.dataset, bundle.train_x[:, -1], bundle.train_y,
                                bundle.train_row_ids, bundle.identity["split_row_fingerprints"]["train"])
-    return make_optimizer(model, job.config), DirectionAAdapter(bundle.train_x, sampler)
+    return make_optimizer(model, job.config), DirectionAAdapter(
+        bundle.train_x, sampler, trace_warmup_margin_signs=getattr(job, "stage", None) == "C1")
 
 
 def forward_logits(model, x, *, track_logits=True, **kwargs):
@@ -114,9 +115,10 @@ def _gradient_norms(parameters, raw_pair, coefficient):
 
 
 class DirectionAAdapter:
-    def __init__(self, train_x, sampler):
+    def __init__(self, train_x, sampler, *, trace_warmup_margin_signs=False):
         self._train_x = train_x
         self.sampler = sampler
+        self._trace_warmup_margin_signs = trace_warmup_margin_signs
 
     def state_dict(self):
         return {"sampler": self.sampler.state_dict()}
@@ -125,7 +127,7 @@ class DirectionAAdapter:
         if state != self.state_dict():
             raise ValueError("Direction A sampler identity mismatch")
 
-    def step(self, model, optimizer, ema, x, y, row_ids, config, context):
+    def step(self, model, optimizer, ema, x, y, row_ids, config, context, *, select_pair=None, reduce_pair=None):
         start = time.perf_counter()
         coefficient = config["lambda_pair"]
         target = config["target_domain"]
@@ -140,16 +142,20 @@ class DirectionAAdapter:
 
         def after_clean():
             nonlocal pair, margin, pair_loss, pair_view
-            pair = self.sampler.sample_macro6(context)
-            pair_x = torch.as_tensor(self._train_x[pair["offsets"]], device=x.device).T
-            pair_view = _pair_view(model, pair_x, pair["condition"], config, context)
-            kwargs = {} if pair_view is None else {"view": pair_view, "kappa": config["kappa"]}
-            with torch.set_grad_enabled(bool(coefficient)):
-                _, logits = forward_logits(model, pair_x, **kwargs)
-                task = pair["condition"][1]
-                pos, neg = logits[:, task].chunk(2)
-                margin = pos - neg
-                pair_loss = (pair["w"] / pair["q"]) * F.softplus(-margin / config["tau"]).mean()
+            pair = self.sampler.sample_macro6(context) if select_pair is None else select_pair(context)
+            if pair is not None:
+                pair_x = torch.as_tensor(self._train_x[pair["offsets"]], device=x.device).T
+                pair_view = _pair_view(model, pair_x, pair["condition"], config, context)
+                kwargs = {} if pair_view is None else {"view": pair_view, "kappa": config["kappa"]}
+                with torch.set_grad_enabled(bool(coefficient)):
+                    _, logits = forward_logits(model, pair_x, **kwargs)
+                    task = pair["condition"][1]
+                    pos, neg = logits[:, task].chunk(2)
+                    margin = pos - neg
+                    if reduce_pair is None:
+                        pair_loss = (pair["w"] / pair["q"]) * F.softplus(-margin / config["tau"]).mean()
+                    else:
+                        pair_loss = (pair["w"] / pair["q"]) * reduce_pair(margin, pair, config)
             view = base_gaussian_view(model, x, config, context)
             if view is not None:
                 explicit_views.append(view)
@@ -160,12 +166,12 @@ class DirectionAAdapter:
             context["dataset"], context["seed"], context["global_step"], mix_lambda=config["lambda_aug"],
             kappa=config["kappa"], explicit_views=explicit_views, forward=forward, after_clean=after_clean,
         )
-        loss = bce + coefficient * pair_loss if coefficient else bce
+        loss = bce + coefficient * pair_loss if coefficient and pair_loss is not None else bce
         if not bool(torch.isfinite(loss)):
             raise FloatingPointError("Nonfinite Direction A training loss")
         params = [p for p in model.parameters() if p.requires_grad]
         raw_pair = (torch.autograd.grad(pair_loss, params, retain_graph=True, allow_unused=True)
-                    if coefficient else None)
+                    if coefficient and pair_loss is not None else None)
         loss.backward()
         norms = _gradient_norms(params, raw_pair, coefficient)
         if not np.isfinite(list(norms.values())).all():
@@ -175,34 +181,46 @@ class DirectionAAdapter:
 
         target_mask = source["mask"].detach().cpu().numpy()
         rows = np.asarray(row_ids)
-        pair_rows = len(pair["ids"])
+        pair_rows = len(pair["ids"]) if pair is not None else 0
+        pair_forwards = int(pair is not None)
         gaussian_base_rows = source["extra_views"]
         gaussian_pair_rows = pair_rows if pair_view is not None else 0
         work = counts(len(y), int(target_mask.sum()))
-        work.update(training_forwards=source["forwards"] + 1,
+        work.update(training_forwards=source["forwards"] + pair_forwards,
                     training_forward_rows=len(y) + gaussian_base_rows + pair_rows,
                     extra_view_rows=gaussian_base_rows + gaussian_pair_rows,
-                    pair_rows=pair_rows, pair_draws=pair_rows // 2, pair_forwards=1,
+                    pair_rows=pair_rows, pair_draws=pair_rows // 2, pair_forwards=pair_forwards,
                     gaussian_bce_forwards=len(explicit_views), gaussian_bce_rows=gaussian_base_rows,
                     gaussian_pair_forwards=int(pair_view is not None), gaussian_pair_rows=gaussian_pair_rows,
                     pair_diagnostic_vjp_calls=int(raw_pair is not None))
         real_loss = float(source["real"].detach().mean(1).mean())
         total_loss = float(loss.detach())
+        if pair is None:
+            pair_diagnostics = dict(condition=None, w=None, q=None, w_over_q=None, pair_index_hash=None,
+                                    unique_pairs=0, unique_endpoints=0, pair_requires_grad=False,
+                                    pair_loss=0., applied_pair_loss=0., pair_margin_mean=None)
+        else:
+            pair_diagnostics = dict(
+                condition=pair["condition"], w=pair["w"], q=pair["q"], w_over_q=pair["w"] / pair["q"],
+                pair_index_hash=pair["pair_index_hash"], unique_pairs=pair["unique_pairs"],
+                unique_endpoints=pair["unique_endpoints"], pair_requires_grad=pair_loss.requires_grad,
+                pair_loss=float(pair_loss.detach()), applied_pair_loss=float((coefficient * pair_loss.detach())),
+                pair_margin_mean=float(margin.detach().mean()))
         diagnostics = dict(
             context={k: context[k] for k in ("dataset", "seed", "epoch", "global_step")},
             train_identity=self.sampler.train_identity, ordered_bce_row_hash=ordered_ids_hash(rows),
             ordered_d0_row_hash=ordered_ids_hash(rows[target_mask]),
-            condition=pair["condition"], w=pair["w"], q=pair["q"], w_over_q=pair["w"] / pair["q"],
-            pair_index_hash=pair["pair_index_hash"], unique_pairs=pair["unique_pairs"],
-            unique_endpoints=pair["unique_endpoints"], pair_requires_grad=pair_loss.requires_grad,
-            bce_loss=float(bce.detach()), pair_loss=float(pair_loss.detach()),
-            applied_pair_loss=float((coefficient * pair_loss.detach())), total_loss=total_loss,
-            pair_margin_mean=float(margin.detach().mean()), grad_norms=norms,
+            **pair_diagnostics, bce_loss=float(bce.detach()), total_loss=total_loss, grad_norms=norms,
             base_logit_means=[float(value) for value in base_logits],
             gaussian_bce=_view_trace(explicit_views[0]) if explicit_views else None,
             gaussian_pair=_view_trace(pair_view), step_seconds=time.perf_counter() - start,
             cuda_allocated_bytes=torch.cuda.memory_allocated(x.device) if x.is_cuda else None,
             cuda_reserved_bytes=torch.cuda.memory_reserved(x.device) if x.is_cuda else None,
         )
+        if self._trace_warmup_margin_signs and reduce_pair is None and margin is not None:
+            signed = margin.detach()
+            positive, tied = torch.stack(((signed > 0).sum(), (signed == 0).sum())).tolist()
+            diagnostics.update(pair_margin_positive=positive, pair_margin_tied=tied,
+                               pair_margin_negative=len(signed) - positive - tied)
         return dict(loss=total_loss, real_loss=real_loss, pred=source["pred"].detach(),
                     diagnostics=diagnostics, counts=work)

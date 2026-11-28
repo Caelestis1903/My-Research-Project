@@ -59,6 +59,28 @@
 
 KR RCF−H_DIRECT 冻结 Test 的自然样本 LL +.00195334（4/4 恶化），Macro LL −.00383557（4/4 改善）；SCALE KR 的同一对照在 Traffic cell AUC / Pooled AUC 为 −.00451560/−.00445033。细分数表包含全部六格、配对区间、角色、预算、推理与训练成本。
 
+## EXP083 · 三方向 Validation
+
+自然 MovieLens-1M（ML）与 KuaiRand-Pure（KR），seeds 2022–2026。以下为五个 seed 的 selected Validation 配对均值，单元格为 ΔMacro AUC / ΔMacro LogLoss。选点分别在相同数据和读出内取各臂最早的最高六格 AUC，LL 取同一轮。C0 配对翻转另见 Train 诊断表。 [结项报告](../research_reports/three_directions_20261128/FINAL_REPORT.md) · [Validation 冻结](../artifacts/three_directions_20261128/VALIDATION_FREEZE.json)
+
+| 阶段比较 | ML online | ML 固定 EMA | KR online | KR 固定 EMA |
+| --- | ---: | ---: | ---: | ---: |
+| A1 P0−B0 | −.000440 / +.000297 | −.000189 / +.001015 | −.001768 / +.005050 | −.000912 / +.004454 |
+| A1 GP0−G0 | −.000173 / +.001460 | −.000158 / +.001389 | −.008414 / +.010783 | −.007549 / +.008466 |
+| B1 B2−B1 | +.000074 / +.001173 | +.000073 / +.000385 | +.000744 / −.000295 | +.000264 / +.000989 |
+| C1 C3−C2 | −.000231 / −.000578 | −.000022 / −.000059 | +.000033 / −.000393 | −.000612 / −.000750 |
+| C1 C3−C1 | +.000844 / −.003819 | +.000139 / −.001661 | +.001229 / −.008436 | +.000241 / −.007338 |
+| C1 C2−C1 | +.001076 / −.003241 | +.000161 / −.001601 | +.001196 / −.008043 | +.000853 / −.006588 |
+
+| 阶段 | 五 seed 配对、逐格、端点与成本 |
+| --- | --- |
+| A1 | [配对汇总](../artifacts/three_directions_20261128/A1/paired_summary.csv) · [逐种子选点](../artifacts/three_directions_20261128/A1/per_seed_selected.csv) · [选点六格](../artifacts/three_directions_20261128/A1/six_cell_selected.csv) · [端点](../artifacts/three_directions_20261128/A1/endpoints.csv) · [成本](../artifacts/three_directions_20261128/A1/costs.csv) |
+| B1 | [配对汇总](../artifacts/three_directions_20261128/B1/paired_summary.csv) · [逐种子选点](../artifacts/three_directions_20261128/B1/per_seed_selected.csv) · [选点六格](../artifacts/three_directions_20261128/B1/six_cell_selected.csv) · [端点](../artifacts/three_directions_20261128/B1/endpoints.csv) · [成本](../artifacts/three_directions_20261128/B1/costs.csv) |
+| C0 | [Train 翻转汇总](../artifacts/three_directions_20261128/C0/SUMMARY.json) · [抽样重合](../artifacts/three_directions_20261128/C0/OVERLAP.json) · [Validation 对齐](../artifacts/three_directions_20261128/C0/VALIDATION.json) · [成本](../artifacts/three_directions_20261128/C0/COST.json) |
+| C1 | [配对汇总](../artifacts/three_directions_20261128/C1/paired_summary.csv) · [逐种子选点](../artifacts/three_directions_20261128/C1/per_seed_selected.csv) · [选点六格](../artifacts/three_directions_20261128/C1/six_cell_selected.csv) · [端点](../artifacts/three_directions_20261128/C1/endpoints.csv) · [成本](../artifacts/three_directions_20261128/C1/costs.csv) |
+
+当前 Test 访问为 0。归档发表基线和历史 Test 值保留各自原终点。 [研究上下文更新](../research_reports/three_directions_20261128/CONTEXT_UPDATE.md) · [历史来源](../research_plans/26-11-28_three_directions/00_MASTER_PLAN.md#1-任务背景和现有证据)
+
 ## 原始数据与对照表目录
 
 逐种子、六格、阶段、曝光与成本的高维表通过冻结路径索引。数值归属以各臂的 run/receipt 与选点字段为准。归档分支的结果访问固定提交；同一历史 CSV 或同轨迹读出只索引一次。

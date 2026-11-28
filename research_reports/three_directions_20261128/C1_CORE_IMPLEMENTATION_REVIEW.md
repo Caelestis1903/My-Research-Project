@@ -1,0 +1,37 @@
+# REVIEW REPORT | C1 core
+
+## 1. Verdict
+
+**FAIL.** The C2/C3 bank construction, matched sampling and loss implement the design. Two core verification gaps require fixes before formal C1 training. This verdict covers the C-only modules during B1 supervision. [Design](C1_EXECUTION_DESIGN.md) · [Coder handoff](C1_CORE_CODER_REPORT.md) · [C0 scientific review](C0_RESEARCH_REVIEW.md)
+
+## 2. Requirement-by-requirement verification
+
+| Requirement | Finding |
+| --- | --- |
+| Scientific gate and original controls | Verified the complete 20-trajectory C0 inventory, approved capacity, independent C0 PASS, and current bytes against both frozen source identities. Read back 40 A1 selected models and ten P0 fixed-EMA E10 models through the original journals. Rechecked each control's complete config, source/data/scope binding, earliest strict Validation maximum, same-checkpoint metrics and E50 completion. [Protocol](../../experiments/three_directions_20261128/c1_protocol.py#L88) |
+| Frozen candidates and teacher | Regenerated all ten original C0 candidate sequences and independently checked positive and negative Train labels. Verified the candidate archive hashes, condition order, aligned finite FP64 E10 margins and fixed-EMA teacher hashes for the original inputs. The existing-roster path has the binding gap in finding 1. [Archive loader](../../experiments/three_directions_20261128/memory_bank.py#L37) |
+| Roster and config | Confirmed 20 unique C2/C3 jobs, five seeds per dataset and arm, with the exact A1.P0 base config and separate C adapter settings. C4 is dormant in the initial roster. Shared integration will supply the archived Git receipt and exercise the C1 entry point. [Roster builder](../../experiments/three_directions_20261128/c1_protocol.py#L31) · [Roster gate](../../experiments/three_directions_20261128/c1_protocol.py#L338) |
+| Membership, targets and capacity | Verified raw `> 0` filtering for C3, ties excluded, uniform sampling without replacement from the full candidate pool for C2, canonical index order, aligned clipping to [−5, 5] and equal condition capacities. All actual conditions have nonempty banks. Measured array storage per bank was 835,584 bytes for MovieLens and 1,363,366–1,364,828 bytes for KuaiRand, before packet metadata. [Bank construction](../../experiments/three_directions_20261128/memory_bank.py#L115) |
+| Draws, layout and gradients | Verified deterministic draws of 2,048 positions with replacement, common C2/C3 positions, identical C3/C4 identities and multiplicity, and positive then negative endpoint blocks. Empty banks preserve the exact current event and no-event yields `None`. The reducer gives stable FP32 soft loss with detached targets and the specified hard loss in C4 and fallback. Tests compared gradients to independent references. The weighted backward and no-event forward counts require the shared adapter hook. [Draw logic](../../experiments/three_directions_20261128/memory_bank.py#L174) · [Loss](../../experiments/three_directions_20261128/c_step.py#L17) |
+| Warmup and restore | Independently reproduced the condition, weights and current pair hash for all 3,450 committed P0 warmup batches. E10 ends at step 200 for MovieLens and 490 for KuaiRand. The core delegates warmup to stock P0, verifies every receipt and both E10 hashes, and records optimizer, loader and RNG digests. The CPU fixture passed E10 state parity, corrupted-bank rejection, E9 rollback, reconstructed E10 and equal first E11 draws. [Transition and restore](../../experiments/three_directions_20261128/c_step.py#L58) |
+| Committed exposure replay | Replay reconstructs both streams and checks their ordered hashes, memory positions, bank digest, draw dose, event `w` and `q`, and uniqueness counts. It derives distinct exposure, current overlap and uniform-support expectations. Finding 2 covers the recorded cost and importance-weight checks. [Replay](../../experiments/three_directions_20261128/memory_bank.py#L203) |
+| Data, Test and scoped stops | The historical readback and replay used the canonical Train/Validation cache path. The reconstructed input records had `include_test=False`, the source rosters were sealed, and C0 and A1 control receipts recorded zero Test accesses. All ten registered stop paths were clear across the current and original workspaces. The core reuses the shared stop check around roster creation and original-control collection. [Data loader](../../experiments/three_directions_20261128/protocol.py#L138) · [Stop scope](../../experiments/three_directions_20261128/scheduler.py#L24) |
+
+The five focused modules passed **42 CPU tests** in the project Conda environment. The 12 CUDA cases were skipped with devices hidden. PyTorch reported the existing TF32 API deprecation warning. [C1 tests](../../experiments/three_directions_20261128/tests/test_c1_memory.py)
+
+## 3. Bugs and deviations
+
+1. **MAJOR — An existing C1 roster can substitute archived E10 targets.** Roster creation gets each receipt from the verified C0 manifest. Subsequent roster validation checks the outer digest and seed keys, and E10 checks the C0 gate files' frozen digests, but neither check compares the nested seed receipts back to the authenticated manifest. A disposable fixture kept the original C0 manifest, candidate IDs and teacher-model hash, substituted an otherwise valid NPZ with all-zero E10 targets, and recomputed the roster digest. The existing-roster check and E10 bank loader accepted the replacement and built empty banks. Before memory exposure, validate the seed's candidate and P0 margin receipts and E10 snapshot identity against the corresponding frozen C0 manifest records. [Roster validation](../../experiments/three_directions_20261128/c1_protocol.py#L338) · [E10 preparation](../../experiments/three_directions_20261128/c_step.py#L52) · [Margin verification](../../experiments/three_directions_20261128/memory_bank.py#L56)
+2. **MAJOR — Replay can certify impossible pair work and weights.** A disposable trace retained valid hashes, event `w` and `q`, and 2,048 draws, while reporting zero endpoint rows, zero pair forwards, zero diagnostic VJPs, `w_over_q=0`, and an empty-bank miss on an applied event. Replay accepted all 11 steps. Check actual pair rows, pair forwards, diagnostic VJPs, applied weight and miss reason against the replayed event and include the corresponding zero-work checks for no-event. This makes the committed trace usable for exposure and compute matching. [Replay checks](../../experiments/three_directions_20261128/memory_bank.py#L220)
+
+## 4. Corrections made
+
+This review added the report. The two core corrections are assigned to the coder.
+
+## 5. Remaining risks
+
+The historical Git archive, shared integration and CUDA acceptance still require the separate review. That review should verify the real first and natural-tail batches on both datasets, C2/C3 E10 optimizer/loader/RNG parity, E11 memory and fallback updates, no-event work, recovery and residency diagnostics, stage-local publication and unchanged A1/B1 behavior. The CPU review exercised original receipt readbacks and disposable fixtures while B1 supervision continued. [Integration and acceptance](C1_EXECUTION_DESIGN.md#10-reviewer-acceptance)
+
+## 6. Run authorization
+
+C1 training is blocked by the two core findings. Formal launch requires correction, independent review of the fixed core and integrated path, and the reviewed source archive and roster gates. Test remains sealed.
