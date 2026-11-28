@@ -2,7 +2,7 @@
 
 ## 1. 全局固定协议
 
-- Dataset：MovieLens-1M、KuaiRand-Pure。
+- Dataset：MovieLens-1M、KuaiRand-Pure；objective 固定为 Sample/natural objective，禁止切换回 Equal objective。
 - Seeds：2022、2023、2024、2025、2026。
 - Backbone：M3oE fixed1。
 - 数据切分和自然样本分布保持项目 canonical identity。
