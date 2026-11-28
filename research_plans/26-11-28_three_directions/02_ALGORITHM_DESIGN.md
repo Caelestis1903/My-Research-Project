@@ -118,7 +118,7 @@ Q_t=0.99Q_{t-1}+0.01a_t,\quad k_t=k_{t-1}+1.
 6. 执行原生 optimizer 一次，更新 online 参数一次；更新 EMA 一次；将当前 S_DENSE 参数快照更新为新参数，供下一 batch 使用。
 7. 记录 \(\|g_t\|\)、\(\|g_t^-\|\)、\(\|g_t-g_t^-\|\)、cos(g_t,g_t^-)、cos(\tilde g_t,g_t)、校正比例和额外 forward/backward 成本。
 
-若无 PAIR，按 A21 原始无事件规则处理：不更新 q 的事件内容；不得以空梯度产生虚假的校正。若 pair loss 梯度为零，仍按原始时钟合同更新历史衰减；记录 zero event。None gradient 按参数支持表处理，不填零后误更新 Adam state。任何非有限值立即暂停该 job，不能静默跳步。
+若无 PAIR，按 A21 原始无事件规则处理：不增加 pair_clock、不更新 Q 的事件内容；不得以空梯度产生虚假的校正。若 pair loss 梯度为零但 pair event 有效，仍按原始时钟合同衰减 Q 并记录 zero event。None gradient 按参数支持表处理，不填零后误更新 Adam state。任何非有限值立即暂停该 job，不能静默跳步。
 
 ### 2.4 参数快照与坐标范围
 
