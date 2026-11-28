@@ -3,9 +3,9 @@
 ## 1. 代码基准和禁止修改范围
 
 已核实的 main 路径：
-- M3oE 模型：`m3oe/MDMTRec/models/multi_domain/model.py`
-- 原 trainer：`m3oe/MDMTRec/trainers/ctr_trainer.py`
-- 数据入口：`m3oe/MDMTRec/utils/data.py`、`m3oe/examples/run_movielens.py`、`m3oe/examples/run_kuaishou.py`
+- M3oE architecture reference：`m3oe/MDMTRec/models/multi_domain/model.py`
+- canonical experiment model factory：`experiments/conditional_information_momentum_20261102_v3/protocol.py::make_model`，其实际使用 `vendor/ema02/vendor/gradient_aug_20261031_v2/views.py::make_model`（支持 GA31 `view,kappa` forward）
+- 原始 trainer/data reference：`m3oe/MDMTRec/trainers/ctr_trainer.py`、`m3oe/MDMTRec/utils/data.py`、`m3oe/examples/run_movielens.py`、`m3oe/examples/run_kuaishou.py`；本轮训练应复用 v3 canonical protocol，而不是另行实例化旧 trainer
 - PAIR optimizer / objective：`experiments/conditional_information_momentum_20261102_v3/optimizers.py`、`objectives.py`、`boundary_sampler.py`
 - A21 runner：`experiments/conditional_history_shared_update_20261122/history_runner.py`、`history_controls.py`、`protocol.py`、`runner.py`
 - GA31-R3 Gaussian 实现的精确历史来源见 `research_plans/26-11-24_history_information/11_SOURCE_AND_REUSE_REGISTER.md` 与 `experiment_manifest.json`，执行前需核对对应 commit 和原始路径是否在 main 可访问。
