@@ -12,32 +12,30 @@
 
 ### 1.1 训练 pair 定义与 Macro-AUC 目标
 
-A/C 的 pairwise 辅助目标直接对齐六格 Macro AUC；B 则必须保持 A21 原有的 natural condition sampler。两者不得混用。
+A/C 的 pairwise 辅助目标直接对齐六格 Macro AUC；B 则保持 A21 原有的 natural condition sampler。两者不得混用。
 
-对 cell \(c=(d,t)\)，正负样本集合来自当前 Train batch。对每个有效 condition \(i=(d,t,a,b)\)，定义
+A/C 使用 Train-global pair pools，不从当前 BCE batch 临时抽 pair。对每个 domain-task cell \(c=(d,t)\)，令联合标签状态集合为 \(a,b\in\{0,1,2,3\}\)，正负组分别为 \(G_{d,a}\)、\(G_{d,b}\)。仅当状态 a 对 task t 为正、状态 b 对 task t 为负，且两组均非空时建立 condition \(i=(d,t,a,b)\)。计算
 \[
 r_i=\frac{|G_{d,a}|}{n^+_{d,t}}\frac{|G_{d,b}|}{n^-_{d,t}},
-\quad
-Z_{d,t}=\sum_{i\in A_{d,t}}r_i,
-\quad
-w_i^{macro}=\frac{1}{6}\frac{r_i}{Z_{d,t}}.
+\quad Z_{d,t}=\sum_{i\in A_{d,t}}r_i,
+\quad w_i^{macro}=\frac{1}{6}\frac{r_i}{Z_{d,t}}.
 \]
-其中 \(G_{d,a}\) 为 domain d 中联合标签状态 a 的行集合，\(n^+_{d,t}\)、\(n^-_{d,t}\) 为该 domain-task cell 的正负样本数，\(A_{d,t}\) 是该 cell 当前 batch 中有正负样本的 condition 集合。每个 domain-task cell 的有效 condition 权重和为 1/6，因此六格总权重为 1。
+\(n^+_{d,t}\)、\(n^-_{d,t}\) 是 Train split 中该 cell 的正负行数，\(A_{d,t}\) 是 Train split 中实际存在的 condition。每个 cell 的可用 condition 权重和为 1/6，六格总权重为 1。S0 必须确认六个 cell 均有正负样本；若某 cell 缺失正例或负例，则该 dataset 的 A/C pairwise 方向阻塞，不能对剩余 cells 重新归一化冒充 Macro AUC。
 
-新增 `macro_pair_sampler.py::sample_macro6`：复用 canonical `CONDITIONS`、`groups` 和 pair index 生成方式，但单独计算上述宏平均目标权重。proposal distribution 固定为
-\[
-q_i^{macro}=0.5/|A|+0.5w_i^{macro}.
-\]
-从 \(q^{macro}\) 抽取一个 condition，并有放回抽取 2048 个正负 pair。PAIR loss：
+新增 `macro_pair_sampler.py::sample_macro6`：
+1. 从全局固定权重计算 proposal \(q_i^{macro}=0.5/|A|+0.5w_i^{macro}\)，确保 \(q\) 和为 1 且 \(w_i^{macro}/q_i^{macro}\le 2\)。
+2. 使用独立的 `macro6_condition` RNG stream 按 q 抽取一个 condition。
+3. 从该 condition 的 Train-global positive/negative row pools 有放回抽取 2048 pairs，使用独立的 `macro6_pair_indices` RNG stream。
+4. 通过稳定 row IDs 从 canonical Train tensor/cache 取出 4096 endpoint rows；顺序固定为 positive endpoints、negative endpoints。记录 condition、pair row IDs、pair hash 和曝光次数。
+
+PAIR loss：
 \[
 L_{pair}^{macro}=\frac{w_i^{macro}}{q_i^{macro}}\frac{1}{2048}
 \sum_{j=1}^{2048}\operatorname{softplus}(-(z_j^+-z_j^-)/\tau),\quad \tau=1.
 \]
-该重要性采样估计六格 Macro-AUC 对应的平均 pairwise risk；BCE 主目标仍为 Sample/natural，不是 Equal BCE。A/C 所有对照臂共享完全相同的 macro6 pair indices、condition RNG 和 pair exposure。\(w_i^{macro}/q_i^{macro}\le 2\)。
+该重要性采样估计六格 Macro-AUC 对应的平均 pairwise risk；BCE 主目标仍为 Sample/natural，不是 Equal BCE。A/C 所有对照臂共享完全相同的 macro6 condition 和 pair IDs。
 
-B 不调用 `sample_macro6`，必须原样调用 `boundary_sampler.py::sample`，保持 A21 的 natural 24-condition proposal、原始 w/q、2048 pairs、pair event clock 和 RNG。这样 B 的梯度校正只改变 PAIR 梯度状态，不改变 A21 的采样目标。
-
-A/C 的 batch sampler 预检要求：六个 domain-task cells 在至少 99.9% 的训练 batches 中均有有效正负 pair condition。若未达到，A0/C0 不得对活跃 cells 重新归一化冒充 Macro AUC；改用预先冻结的 Train-global pair pools（每个 condition 固定 row-id pool），保持同一 macro6 \(w/q\)，并在所有 pairwise arms 中匹配 pair-expanded forward 成本。pair sampling 只访问 Train 标签；记录 row-id pair hash。
+B 不调用 `sample_macro6`，必须原样调用 `boundary_sampler.py::sample`，保持 A21 的 natural 24-condition proposal、原始 w/q、2048 pairs、pair event clock 和 RNG。B 的梯度校正只改变 PAIR 梯度状态，不改变 A21 的采样目标。
 
 ### 1.2 Gaussian view
 
@@ -47,7 +45,7 @@ e^{view}_{i,f}=e_{i,f}+\kappa\,\operatorname{stopgrad}(\sqrt{\operatorname{mean}
 \]
 \(\kappa\) 采用既有 GA31-R3 配置：MovieLens 0.05、KuaiRand 0.1；不重新扫描噪声强度。domain embedding 不扰动。必须复用原始 GA31-R3 RNG identity：device-local `torch.Generator`、每个扰动字段按目标 batch 顺序调用一次 `torch.randn`，noise key 为 `GA31-R3|{dataset}|{seed}|train|{global_step}|gaussian|1`，global_step 从 1 起。这里的随机数是按 batch 顺序生成的 per-row/per-field 矩阵，不是 row-keyed RNG；不得改用 EMA02V2 SplitMix64/Box-Muller row-keyed noise，因为 main 的 Gaussian audit 已明确其与 GA31-R3 archived draw 不同且 `row_key_ema02_replacement_allowed=false`。需要验证同一 seed、batch row order、global_step 和 field draw order 可复现，并核对原始首批噪声 hash；不要求 batch reorder invariance。pair row IDs 仍用于 pair hash，不参与重定义 GA31-R3 noise。
 
-pairwise Gaussian logits 在 A1 中复用 GA31-R3 D0 view 的 per-row noise。若 A1 通过，A2 才比较 pair-level independent/shared noise：仅当 sampler 选中 D0 cell 时，将 2048 pairs 展开为 4096 endpoint rows；independent arm 对每个 endpoint 独立采样，shared arm 对每个 pair 的正负 endpoint 使用同一字段噪声向量。两臂使用相同 pair IDs、pair-expanded rows 和 view forward 数。若 selected cell 非 D0，两臂均使用 clean pair logits。该 pair-level view 只用于 pairwise loss，GA31-R3 BCE base view 保持不变。共享噪声只是一种匹配控制，不能默认更优。
+A1 的 pairwise forward 始终使用 macro6 sampler 返回的 4096 Train endpoint rows。P0 对这些 rows 使用 clean view；GP0 在 selected condition 属于 D0 时使用独立 endpoint Gaussian view（key stream 为 `gaussian_pairwise`），非 D0 condition 使用 clean view。该 pairwise view 与 full-batch GA31-R3 BCE view 是两个独立 view stream；base BCE 的 GA31-R3 key 不变。A1 四臂均执行相同 pair batch forward，B0/G0 不对 pairwise logits 回传梯度，以匹配额外计算量。若 A1 通过，A2 才比较 pair-level independent/shared noise：仅当 sampler 选中 D0 condition 时，independent arm 对每个 endpoint 独立采样，shared arm 对每个 pair 的正负 endpoint 使用同一字段噪声向量；两臂使用相同 pair IDs、pair-expanded rows 和 view forward 数。若 selected condition 非 D0，两臂均使用 clean pair logits。共享噪声只是一种匹配控制，不能默认更优。
 
 ### 1.3 四臂最小 2×2 矩阵
 
@@ -69,8 +67,8 @@ A 的 pairwise coefficient 固定为 \(\lambda_A=0.05\)，不做额外 HPO；A1 
 
 1. 使用原 clean input 做一次 forward，获得 clean logits 和原始 BCE。
 2. 构造每格 pair index，clean pairwise 复用 clean logits。
-3. 对 G0/GP0 生成 GA31-R3 view input，执行一次 D0 view forward；该 view 同时用于原 GA31-R3 BCE 增强项和 GP0 在 D0 selected cell 上的 pairwise logits。
-4. G0 按原始 GA31-R3 mixed BCE objective 计算 base loss；GP0 在 selected cell 为 D0 时从 Gaussian view logits 计算；selected cell 非 D0 时从 clean logits 计算。
+3. 对 G0/GP0 生成原始 GA31-R3 full-batch D0 view，执行一次 D0 view forward，仅用于 base BCE 增强。四臂均执行 macro6 Train-global pair forward；GP0 在 D0 condition 上使用独立 `gaussian_pairwise` view，P0 使用 clean pair view，B0/G0 的 pair forward 不回传梯度。
+4. G0 按原始 GA31-R3 mixed BCE objective 计算 base loss；GP0 在 selected condition 为 D0 时从 pairwise Gaussian logits 计算，非 D0 时从 clean pair logits 计算。
 5. 对 P0 使用 clean logits 计算 pairwise loss。
 6. 总 loss backward 一次；optimizer 正常更新一次；随后更新固定 EMA 一次。
 7. 每 epoch 对 online 与 EMA 独立做 Validation 六格 Macro AUC 选点。
@@ -178,7 +176,7 @@ C4 使用相同 pair identities，将 memory target 换成 hard pairwise label�
 
 - 在训练早期固定 epoch 5 和 epoch 10 作为候选历史快照；只使用训练标签和 Train 行。快照对象统一为 fixed EMA 参数；C0 比较 EMA-E5、EMA-E10 到各自 selected EMA checkpoint 的关系变化。
 - 对每个 active condition 构建 pair candidate pool，按 pair sampling seed 固定最多 4096 个候选；使用 EMA-E10 预测，保存所有 pair margin，并从中筛选历史正确 pair。
-- 从每个 active condition 的合法 Train 候选中抽取最多 2048 个 unique memory pair（最多 24×2048），不足时记录实际容量。训练时调用 macro6 sampler 获得 selected condition、(w_i^{macro}/q_i^{macro})，再从该 condition 的 memory pool 有放回抽取 2048 pair 替换 pair identities；不改变 macro6 condition probability 或 pair dose。epoch 5 只用于估计历史关系变化；主训练 memory bank 仅由 epoch 10 snapshot 构建，并从 epoch 11 开始使用。
+- 从每个 active condition 的合法 Train-global pair pool 中抽取最多 2048 个 unique memory pair（最多 24×2048），不足时记录实际容量。训练时调用 macro6 sampler 获得 selected condition、(w_i^{macro}/q_i^{macro})，再从该 condition 的 memory pool 有放回抽取 2048 pair 替换 current pair identities；不改变 macro6 condition probability 或 pair dose。C1/C2/C3/C4 均执行相同 4096 endpoint forward；C0 也执行该 forward 但不回传 pair loss，以匹配计算量。epoch 5 只用于估计历史关系变化；主训练 memory bank 仅由 epoch 10 snapshot 构建，并从 epoch 11 开始使用。
 - C1/C2/C3/C4 在 epoch 1–10 使用完全相同的 current pairwise objective 和 pair exposure；epoch 10 结束后从 EMA-E10 构建并冻结 memory，epoch 11–50 中 C2/C3/C4 使用各自 memory bank 替换 current pair identities。C0 始终无 pairwise。memory 不随 Validation/Test 更新，不按当前预测重新筛选。
 - 若当前 batch 的 macro6 sampler 返回 None，则该步没有 pair event；若 memory pool 对选中 condition 为空，记录 memory miss，并在 C2/C3/C4 对该步回退到相同的 current macro6 pair indices，使各臂 pair dose 对齐。
 - 为控制曝光，memory pair 的每个 epoch 曝光次数与当前 pairwise control 相同；记忆组与随机记忆组使用相同 pair 数和更新次数。
