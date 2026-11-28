@@ -16,7 +16,7 @@
 \[
 \mathcal P_{c,t}=\{(i^+,i^-):y_{i^+,t}=1,y_{i^-,t}=0, d(i^+)=d(i^-)=d\}.
 \]
-不跨域、不跨任务格配对。默认每格每 batch 最多 256 个 pair；如果可用 pair 少于 256，全部使用；无正例或负例时该格 inactive。pair sampling 不读取 Validation/Test 标签。按 seed/dataset/epoch/global_step/cell 建立独立 RNG key，记录 pair row-id hash。
+不跨域、不跨任务格配对。严格复用 main 的 `experiments/conditional_information_momentum_20261102_v3/boundary_sampler.py::sample`：每个 batch 按原 condition distribution 选择一个 cell，并有放回抽取 2048 个正负 pair；保留原 `active/w/q/index/selected`、pair event clock 和 context RNG。所有对照臂共享完全相同的 pair indices。不得改成 256 pair/cell 或自行改成全格均匀采样，因为这会改变 A21 已有的采样目标。pair sampling 只访问 Train 标签；记录 row-id pair hash。
 
 每格 pair loss：
 \[
@@ -28,7 +28,7 @@ L_{pair,c}=\frac{1}{|\mathcal P_c|}\sum_{(i^+,i^-)\in\mathcal P_c}
 \[
 L_{pair}=\frac{1}{|\mathcal C_{active}|}\sum_{c\in\mathcal C_{active}}L_{pair,c}.
 \]
-不允许用样本数给 pair loss 加权，否则目标会偏离 Macro AUC。无 active cell 时定义 \(L_{pair}=0\)，且本步 pair 梯度为零，不产生 NaN。
+其中 s 是本步 sampler 选中的 condition。严格使用原 `w/q` 重要性比，不能再叠加自定义 cell 权重。若 sampler 返回 None，则 pair loss 为零，不产生 NaN 或伪造历史事件。
 
 ### 1.2 Gaussian view
 
@@ -101,11 +101,11 @@ Freshness-corrected gradient：
 \]
 主候选预注册 \(\gamma=0.5\)；0.25 只在 0.5 通过 Validation 门、但出现过度校正迹象时触发。\(\gamma=0\) 是 A21 原始辅助梯度控制。不得直接称为 MARS；这是 MARS 同样本梯度差校正思想在 PAIR 来源和共享参数子空间上的适配。
 
-辅助历史：
+保持 A21 的 collapsed-history 数值合同：令 \(a_t=(w_s/q_s)\tilde g_t\)，并更新
 \[
-q_t=\beta q_{t-1}+(1-\beta)\tilde g_t,\quad \beta=0.99.
+Q_t=0.99Q_{t-1}+0.01a_t,\quad k_t=k_{t-1}+1.
 \]
-辅助注入保持 A21 的来源权重 \(\lambda_{PAIR}\)、重要性比 \(w/q\)、S_DENSE scope、时钟、Adam 原生 BCE 梯度和 EMA 设置完全不变。\(\lambda_{PAIR}\) 沿 A21 已冻结值，不再调节。
+在 Adam mixed gradient 中扣除当前 PAIR 项 \(\lambda_{PAIR}a_t\)，再在 bias-corrected first-moment numerator 中加回 \(\lambda_{PAIR}Q_t/(1-0.99^{k_t})\)。这逐项沿用 `PairOptimizer.step(mode='collapsed')` 的时钟、重要性比和注入顺序。辅助注入保持 A21 的来源权重 \(\lambda_{PAIR}\)、重要性比 \(w/q\)、S_DENSE scope、时钟、Adam 原生 BCE 梯度和 EMA 设置完全不变。\(\lambda_{PAIR}\) 沿 A21 已冻结值，不再调节。
 
 ### 2.3 精确更新顺序
 
@@ -114,7 +114,7 @@ q_t=\beta q_{t-1}+(1-\beta)\tilde g_t,\quad \beta=0.99.
 2. 在当前 \((\theta_{S,t},\phi_t)\) 做 clean forward/backward，保存自然 BCE 的完整 native gradients，并计算 PAIR 梯度 \(g_t\)。
 3. 暂存当前 \(\theta_{S,t}\) 的梯度；将 S_DENSE 临时替换为上一步快照 \(\theta_{S,t-1}\)，保持 \(\phi_t\)、buffers、dropout/RNG 和 pair indices 固定，重新计算 PAIR loss 和 \(g_t^-\)。该路径不产生 BCE 梯度，不更新任何状态。
 4. 恢复当前 \(\theta_{S,t}\)；检查 model、optimizer、EMA、buffers、RNG、loader 和 sampler state 哈希守恒。
-5. 计算 \(\tilde g_t\)，按 A21 原有的 PAIR 历史规则更新 q_t；native BCE gradient 与 PAIR correction 仅在已注册的 S_DENSE scope 内组合。
+5. 计算 \(\tilde g_t\)，按 A21 原有的 collapsed-history 规则更新 Q_t；native BCE gradient 与 PAIR correction 仅在已注册的 S_DENSE scope 内组合。
 6. 执行原生 optimizer 一次，更新 online 参数一次；更新 EMA 一次；将当前 S_DENSE 参数快照更新为新参数，供下一 batch 使用。
 7. 记录 \(\|g_t\|\)、\(\|g_t^-\|\)、\(\|g_t-g_t^-\|\)、cos(g_t,g_t^-)、cos(\tilde g_t,g_t)、校正比例和额外 forward/backward 成本。
 
@@ -168,7 +168,7 @@ L_{mem}=\frac{1}{|M_t|}\sum_{j\in M_t}
 
 - 在训练早期固定 epoch 5 和 epoch 10 作为候选历史快照；只使用训练标签和 Train 行。
 - 对每个 cell 构建 pair candidate pool，按 pair sampling seed 固定最多 4096 个候选；使用对应 snapshot 预测，保留历史正确 pair。
-- 从保留池中抽取固定容量每 cell 512 pair（总计最多 3072），容量不足时记录实际容量；不按域规模提高小域权重。
+- 从每个 cell 的合法 Train 候选中抽取最多 2048 个 unique memory pair（总计最多 12288），不足时记录实际容量。训练时沿用现有 condition sampler 的 selected cell、w/q 和 2048-pair exposure；memory bank 只替换该 cell 的 pair identities，不改变 condition probability 或 pair dose。
 - 记忆在 epoch 10 结束后冻结，不随 Validation/Test 更新，不按当前预测重新筛选；训练时每个 epoch 以固定曝光预算取样。
 - 若任何 cell 无合法 pair，跳过该 cell并按 active cells 等权归一。
 - 为控制曝光，memory pair 的每个 epoch 曝光次数与当前 pairwise control 相同；记忆组与随机记忆组使用相同 pair 数和更新次数。
