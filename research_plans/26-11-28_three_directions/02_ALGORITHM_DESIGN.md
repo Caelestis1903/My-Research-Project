@@ -151,11 +151,12 @@ m_j=(i_j^+,i_j^-,c_j,\Delta_j^{hist},e_j,\text{snapshot-id}).
 \[
 q_j=\sigma(\Delta_j^{hist}/T),\quad p_j(\theta_t)=\sigma(\Delta_j(\theta_t)/T).
 \]
-记忆损失：
+记忆损失沿用原 condition sampler 的 selected cell 和 w/q，并对 2048 memory pairs 求均值：
 \[
-L_{mem}=\frac{1}{|M_t|}\sum_{j\in M_t}
+L_{mem}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}
 \operatorname{BCE}(p_j(\theta_t),q_j).
 \]
+C4 使用相同 pair identities，将 memory target 换成 hard pairwise label，即 \(L_{hard}=\frac{w_s}{q_s}\frac{1}{2048}\sum_j\operatorname{softplus}(-\Delta_j(\theta_t))\)。
 默认 T=1。若历史 margin 非常大，按预注册 clip [-5,5] 保存 teacher margin，避免极端 logits 支配训练。该损失保留历史 pairwise confidence，而非仅重复当前 pair label。所有记忆 pair 仍然是 Train 行。
 
 ### 3.3 构建和更新
