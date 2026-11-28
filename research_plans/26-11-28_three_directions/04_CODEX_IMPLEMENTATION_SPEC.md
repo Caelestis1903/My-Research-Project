@@ -32,9 +32,9 @@
 
 ### 3.1 Model forward
 
-M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率。PAIR 需要 logit margin；应从模型最后线性输出建立只读 logits adapter，不能对 sigmoid probability 直接当 logits 使用，也不能反复调用 model.forward 造成不同随机状态。在 `gradient_aug_20261031_v2/objectives.py::losses` 增加可选 logits-capture callback：在其原有 clean `model(x)` 与 D0 `model(x[:,mask],view=view,kappa)` 两次 forward 内复用 `boundary_sampler.forward_logits` 的 tower hooks，分别捕获 full-batch clean logits 和 D0-local view logits；不得为了取 logits 再跑第二次 forward。D0 view pair indices 通过 full-to-D0 index map 映射。保留原 `losses` 的 scalar 计算顺序和 sample budget，新增 pairwise 项只在返回 scalar 上叠加。以原 forward probabilities 逐值对齐测试。
+canonical model 由 `experiments/conditional_information_momentum_20261102_v3/protocol.py::make_model` 创建，实际实现来自 `vendor/ema02/vendor/gradient_aug_20261031_v2/views.py::make_model`，输入为按字段转置的 feature tensor，返回各任务预测概率。PAIR 需要 logit margin；应从模型 tower 最后线性输出建立只读 logits adapter，不能对 sigmoid probability 直接当 logits 使用，也不能反复调用 model.forward 造成不同随机状态。在 `gradient_aug_20261031_v2/objectives.py::losses` 增加可选 logits-capture callback：在原 clean `model(x)` 与 D0 `model(x[:,mask],view=view,kappa)` forward 内复用 `boundary_sampler.forward_logits` 的 tower hooks，捕获 full-batch clean logits 和 D0-local view logits，不得为了取 logits再跑第二次 forward。A/C 的 Train-global pair endpoints 单独 gather 为 `pair_x`；clean pair forward 调用 `model(pair_x)`，GP0/A2 的 D0 pair view 调用 `model(pair_x,view=view,kappa)` 并通过相同 tower hooks 捕获 logits。保留原 `losses` 的 scalar 计算顺序和 sample budget，新增 pairwise 项只在返回 scalar 上叠加。以原 forward probabilities 逐值对齐测试。
 
-模型文件当前 forward 内部有 embedding、shared star、domain/task experts、gate 和 tower。不能通过仅替换最后 tower 而漏掉模型其余结构。使用 hook 或受控子类，必须证明 probability 与原 model.forward 的误差在 FP32 允许范围内。
+模型 forward 内部包含 embedding、shared star、domain/task experts、gate 和 tower。不能通过仅替换最后 tower 而漏掉模型其余结构。使用 hook 或受控子类，必须证明 probability 与原 model.forward 的误差在 FP32 允许范围内。
 
 ### 3.2 Dataset row identity
 
