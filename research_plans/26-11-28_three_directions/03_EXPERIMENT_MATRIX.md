@@ -94,7 +94,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 | Arm | Objective | Memory |
 |---|---|---|
 | C0 | BCE | none |
-| C1 | BCE + current pairwise | current batch pairs |
+| C1 | BCE + current pairwise | current Train-global macro6 pairs |
 | C2 | BCE + pairwise memory | random historical Train pairs + historical margin, no correctness filter |
 | C3 | BCE + pairwise memory | historical correct Train pairs + historical margin |
 | C4 | BCE + pairwise memory | same historical correct pair identities + hard pairwise labels, no margin distillation |
