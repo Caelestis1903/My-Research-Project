@@ -105,7 +105,7 @@ Q_t=0.99Q_{t-1}+0.01a_t,\quad k_t=k_{t-1}+1.
 
 在每个训练 batch：
 1. 依据冻结 sampler 得到 batch rows、PAIR cell 和 pair indices；同一 pair set 必须用于 \(g_t\) 与 \(g_t^-\)。
-2. 在当前 \((\theta_{S,t},\phi_t)\) 做 clean forward/backward，保存自然 BCE 的完整 native gradients，并计算 PAIR 梯度 \(g_t\)。
+2. 在当前 \((\theta_{S,t},\phi_t)\) 做 clean forward，先用 `autograd.grad(auxiliary, S_DENSE, retain_graph=True)` 计算 PAIR 梯度 \(g_t\)，再对 BCE-only loss backward，保存自然 BCE 的完整 native gradients。
 3. 暂存当前 \(\theta_{S,t}\) 的梯度；将 S_DENSE 临时替换为上一步快照 \(\theta_{S,t-1}\)，保持 \(\phi_t\)、buffers、dropout/RNG 和 pair indices 固定，重新计算 PAIR loss 和 \(g_t^-\)。该路径不产生 BCE 梯度，不更新任何状态。
 4. 恢复当前 \(\theta_{S,t}\)；检查 model、optimizer、EMA、buffers、RNG、loader 和 sampler state 哈希守恒。
 5. 计算 \(\tilde g_t\)，先完成 native BCE backward，再对每个 S_DENSE 参数显式加上 \(\lambda_{PAIR}(w_s/q_s)\tilde g_t\)，使传入的 optimizer gradient 与 A21 原实现的“BCE + 当前 PAIR 项”形式一致；随后调用 collapsed optimizer 的 `step(pair, r=tilde_g_t)`。optimizer 内部会扣除同一个当前 PAIR 项，并把 corrected gradient 写入 Q 历史，再将 bias-corrected Q 注入 numerator。不得只 backward BCE 却直接调用现有 `step(pair,r)`，否则 optimizer 会扣除一个未加进来的 PAIR 项。
