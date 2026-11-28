@@ -53,7 +53,7 @@ A1 的 pairwise forward 始终使用 macro6 sampler 返回的 4096 Train endpoin
 - B0：clean BCE，EMA。
 - P0：clean BCE + clean pairwise，EMA。
 - G0：原 GA31-R3 Gaussian BCE augmentation，EMA。
-- GP0：原 GA31-R3 Gaussian BCE augmentation + Gaussian-view pairwise，EMA。若 sampler 选中 D0 cell，pairwise 使用同一次 GA31-R3 D0 view 的 logits；若选中非 D0 cell，pairwise 使用 clean logits。这样 Gaussian 只影响原注册的 D0 范围，不把噪声扩展到其他 cell。
+- GP0：原 GA31-R3 Gaussian BCE augmentation + independent Gaussian pairwise view，EMA。pairwise view 对 D0 condition 的 endpoint 使用独立 Gaussian noise；非 D0 condition 使用 clean view。这样 Gaussian 只影响原注册的 D0 范围，不把噪声扩展到其他 cell。
 
 总目标统一写为：
 \[
@@ -65,15 +65,15 @@ A 的 pairwise coefficient 固定为 \(\lambda_A=0.05\)，不做额外 HPO；A1 
 
 ### 1.4 前向与反向顺序
 
-1. 使用原 clean input 做一次 forward，获得 clean logits 和原始 BCE。
-2. 构造每格 pair index，clean pairwise 复用 clean logits。
-3. 对 G0/GP0 生成原始 GA31-R3 full-batch D0 view，执行一次 D0 view forward，仅用于 base BCE 增强。四臂均执行 macro6 Train-global pair forward；GP0 在 D0 condition 上使用独立 `gaussian_pairwise` view，P0 使用 clean pair view，B0/G0 的 pair forward 不回传梯度。
-4. G0 按原始 GA31-R3 mixed BCE objective 计算 base loss；GP0 在 selected condition 为 D0 时从 pairwise Gaussian logits 计算，非 D0 时从 clean pair logits 计算。
-5. 对 P0 使用 clean logits 计算 pairwise loss。
-6. 总 loss backward 一次；optimizer 正常更新一次；随后更新固定 EMA 一次。
+1. 使用原 clean input 做一次 full-batch forward，获得 clean logits 和 Sample BCE。
+2. 调用 macro6 Train-global sampler，获得一个 condition 和 2048 pairs；通过 row IDs gather 4096 endpoint rows，并对四臂执行同样的 pair forward。B0/G0 在 pair forward 上使用 no-grad；P0 使用 clean pair logits；GP0 若 condition 属于 D0 则使用独立 `gaussian_pairwise` view，否则使用 clean pair logits。
+3. 对 G0/GP0 生成原始 GA31-R3 full-batch D0 view，执行一次 D0 view forward，仅用于原 GA31-R3 base BCE augmentation。
+4. G0 的 base loss 完全复现原 GA31-R3 mixed BCE；GP0 在此基础上加入 pairwise Gaussian loss；P0 在 clean BCE 上加入 clean pairwise loss；B0 只有 clean BCE。
+5. 按 `L = L_BCE + lambda_A * L_pair_macro` 组合 P0/GP0；B0/G0 不加入 pairwise loss。
+6. 每个 arm 对其训练目标 backward 一次；optimizer 更新一次；随后更新固定 EMA 一次。
 7. 每 epoch 对 online 与 EMA 独立做 Validation 六格 Macro AUC 选点。
 
-额外的 view forward 只发生于 Gaussian arm；pairwise loss 不重复采样另一个 pair set。训练预算按同一 epoch/row exposure 匹配，并完整记录额外 forward、pair 数和 wall time。
+四臂均执行相同的 4096 endpoint pair forward，B0/G0 不回传该 forward 的梯度；Gaussian arms 额外执行原始 full-batch D0 BCE view，GP0 的 pair forward 使用独立 Gaussian pair view。训练步数和 BCE row exposure 相同，完整记录 pair forward、Gaussian view、pair 数和 wall time。
 
 ### 1.5 关键解释和停止条件
 
