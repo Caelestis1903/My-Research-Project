@@ -20,7 +20,7 @@
 | 训练协议 | M3oE fixed1、batch、LR、WD、Adam、EMA rho、epoch、seed |
 | Gaussian | GA31-R3 源实现、噪声键、字段顺序、D0 coverage、row identity |
 | PAIR | A21 natural sampler（原 24 conditions）、w/q、pair event clock、lambda、S_DENSE scope |
-| Macro6 | A/C 六格宏平均 sampler、condition-level target weights、proposal q、2048 pair exposure |
+| Macro6 | A/C Train-global pair pools、六格宏平均 target weights、proposal q、2048 pair exposure |
 | 结果 | EXP069、EXP080/081 和 EXP082 用户补充证据身份分开 |
 | Test | 当前 Test 授权状态和历史暴露身份 |
 
