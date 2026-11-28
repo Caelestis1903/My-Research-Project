@@ -17,7 +17,7 @@
 建议新建：
 `experiments/three_directions_20261128/`
 - `protocol.py`：冻结 dataset/seed/config/source identity、RunSpec、hash 和读写。
-- `macro_pair_sampler.py`：从 Train-global row-ID pools 建立 24 个 pair conditions，按六格 macro target weights 计算固定 w/q；每步采样一个 condition 和 2048 pairs。B 仍调用原 `boundary_sampler.sample`。
+- `macro_pair_sampler.py`：从 Train-global row-ID pools 建立 24 个 pair conditions，按六格 macro target weights 计算固定 w/q；每步采样一个 condition 和 2048 pairs，并通过 row-ID gather 取回 endpoint features。B 仍调用原 `boundary_sampler.sample`。
 - `ranking_objectives.py`：clean pairwise、Gaussian pairwise、历史 margin memory loss。
 - `gaussian_view.py`：base BCE view 调用原始 `draw_view` + `source_losses(explicit_views=...)`，保持 GA31-R3 key；pairwise Gaussian view 使用相同 draw implementation、相同 κ/字段范围，但独立 key `GA31-R3|{dataset}|{seed}|train|{global_step}|gaussian_pairwise|1`。不得走 row-keyed `normal()` 默认分支。
 - `freshness_optimizer.py`：A21 wrapper 与同 batch 梯度校正状态。
