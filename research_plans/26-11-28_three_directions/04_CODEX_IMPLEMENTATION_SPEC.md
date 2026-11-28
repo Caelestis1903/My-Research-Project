@@ -96,7 +96,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 - pair count 上限；
 - deterministic replay；
 - batch reorder invariance；
-- no validation/test access。
+- no validation/test access; selected condition 按原 w/q 分布执行。
 
 ### Ranking loss
 - logits margin 正负方向；
