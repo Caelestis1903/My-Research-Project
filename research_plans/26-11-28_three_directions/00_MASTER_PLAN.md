@@ -59,7 +59,7 @@ Codex 必须先读：
 
 ## 3. 总体阶段和依赖
 
-统一训练协议：Sample/natural objective、M3oE fixed1、MovieLens-1M 与 KuaiRand-Pure、seeds 2022–2026、50 epoch、batch 40960、FP32。不得回退到 Equal objective，不得将 domain size 作为困难度或权重代理。所有新增 pairwise objective 复用 canonical `boundary_sampler.sample` 的 2048 pair、selected condition 与 w/q 重要性修正。
+统一训练协议：Sample/natural objective、M3oE fixed1、MovieLens-1M 与 KuaiRand-Pure、seeds 2022–2026、50 epoch、batch 40960、FP32。不得回退到 Equal objective，不得将 domain size 作为困难度或权重代理。A/C 使用 macro6 Train-global pair pools 与六格等权 target weights；B 原样复用 canonical `boundary_sampler.sample` 的 natural 24-condition、2048 pair 与 w/q。
 
 | 阶段 | 内容 | 训练预算 | 进入条件 | 通过后 |
 |---|---|---:|---|---|
