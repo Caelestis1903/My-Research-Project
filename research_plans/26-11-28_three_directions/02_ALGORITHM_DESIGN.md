@@ -99,7 +99,7 @@ Freshness-corrected gradient：
 \[
 \tilde g_t=g_t+\gamma(g_t-g_t^{-}),\quad \gamma\in\{0.25,0.5\}.
 \]
-主候选预注册 \(\gamma=0.5\)；0.25 只在 0.5 通过 Validation 门、但出现过度校正迹象时触发。\(\gamma=0\) 是 A21 原始辅助梯度控制。不得直接称为 MARS；这是 MARS 同样本梯度差校正思想在 PAIR 来源和共享参数子空间上的适配。
+主候选预注册 \(\gamma=0.5\)；0.25 只在 0.5 通过 Validation 门、但出现过度校正迹象时触发。\(\gamma=0\) 是 A21 原始辅助梯度控制。第一步初始化 \(\theta_{S,t-1}=\theta_{S,t}\)，因此首步 correction 必须严格为零。不得直接称为 MARS；这是 MARS 同样本梯度差校正思想在 PAIR 来源和共享参数子空间上的适配。
 
 保持 A21 的 collapsed-history 数值合同：令 \(a_t=(w_s/q_s)\tilde g_t\)，并更新
 \[
