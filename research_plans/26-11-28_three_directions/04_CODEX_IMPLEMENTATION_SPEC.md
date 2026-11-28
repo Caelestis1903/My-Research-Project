@@ -72,7 +72,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 
 - Memory bank 只包含 Train row IDs、cell、历史 margin、epoch、snapshot hash。
 - 不写入用户数据内容或 Test rows；memory index 与数据 hash 绑定。
-- 每个 cell 最多 2048 unique memory pairs；训练时由原 condition sampler 选择 cell，保持原 w/q 和每 batch 2048 pair exposure。
+- 每个 active condition 最多 2048 unique memory pairs（最多 24 pools）；训练时由 macro6 sampler 选择 condition，保持 macro6 w/q 和每 batch 2048 pair exposure。
 - 每 epoch 固定曝光预算；random memory、historical memory 和 current pairwise exposure 对齐。
 - bank 建立后冻结，不能按 Validation/Test 表现筛 pair。
 - 训练报告需提供 bank size、pair uniqueness、exposure count、current sampler overlap、margin histogram。
