@@ -83,7 +83,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 触发 C1 的条件：
 1. selected checkpoint 之前存在稳定且非微小的历史正确 pair flip；
 2. 关系 flip 在至少两个数据集或一个数据集多个 seed 上重复；
-3. 历史正确关系与 current pair sampler 不高度重复，或历史 margin 提供了可测增量；
+3. 历史正确关系与 current Train-global macro6 pair sampler 不高度重复，或历史 margin 提供了可测增量；
 4. 可合法重建记忆 pair，且 Train-only 无泄漏。
 
 不满足任一关键条件则 C 关闭，不训练。
