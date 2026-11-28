@@ -17,7 +17,7 @@
 建议新建：
 `experiments/three_directions_20261128/`
 - `protocol.py`：冻结 dataset/seed/config/source identity、RunSpec、hash 和读写。
-- `pair_sampler.py`：仅包装 `boundary_sampler.sample`，负责 pair row identity/hash、condition index 和 D0-view index mapping；不得重写 sampling distribution 或 RNG。
+- `macro_pair_sampler.py`：复用 `CONDITIONS`、`groups`、row IDs 和 pair index RNG，实现 A/C 的 macro6 target weights 与 proposal q；不改变 B 的 canonical sampler。
 - `ranking_objectives.py`：clean pairwise、Gaussian pairwise、历史 margin memory loss。
 - `gaussian_view.py`：调用 `experiments/conditional_information_momentum_20261102_v3/vendor/ema02/vendor/gradient_aug_20261031_v2/views.py::draw_view` 生成 GA31-R3 view，并用原始 `gradient_aug_20261031_v2/objectives.py::losses` 的 explicit_views 接口构造 base objective；不得走 `vendor/ema02/objectives.py` 中 row-keyed `normal()` 默认分支。
 - `freshness_optimizer.py`：A21 wrapper 与同 batch 梯度校正状态。
