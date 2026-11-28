@@ -24,7 +24,7 @@ L_{pair,c}=\frac{1}{|\mathcal P_c|}\sum_{(i^+,i^-)\in\mathcal P_c}
 \operatorname{softplus}(-(z_{i^+}-z_{i^-})/\tau),
 \quad \tau=1.
 \]
-总体 pair loss 对 active cell 等权平均：
+总体 pair loss 由当前 sampler 的单一 selected cell 估计，并乘以原始 `w/q` 重要性比：
 \[
 L_{pair}=\frac{1}{|\mathcal C_{active}|}\sum_{c\in\mathcal C_{active}}L_{pair,c}.
 \]
@@ -54,7 +54,7 @@ L=L_{BCE}^{base}+\lambda_p L_{pair}^{(view)}.
 \]
 G0 的 base BCE 完全复现原 GA31-R3；GP0 仅增加 pairwise 项。P0 的 base BCE 与 B0 完全一致。BCE 增强项不能因为新增 pairwise loss 而被重新归一化或改变剂量。
 
-\(\lambda_p\) 不做多轮 HPO。先在 seed2022 的固定 Train calibration batches 上计算 \(r=\operatorname{median}(\|g_{BCE,S}\|_2/(\|g_{pair,S}\|_2+10^{-12}))\)，设定 \(\lambda_p=0.1r\)，并将其限制到 [0.01,10]。此标定仅用 Train 梯度，不读取 Validation/Test。四个 arm 使用相同 \(\lambda_p\)，并记录每步实际 pair/base 梯度比。若梯度范数为零或无 pair，则本批 pair 项不更新；不临时放大权重。若校准值落在 clamp 边界，记录并将其作为敏感性风险；不得另行尝试大量系数。
+\(\lambda_{PAIR}\) 固定复用现有 PAIR 训练入口的 `lambda_pair=0.05`（以及现有 sampler 返回的 `w/q`）。不得另行做梯度范数标定，因为这会改变 A21 的监督剂量并引入新的超参数。四个 arm 对 pair sampler 和 pair exposure 完全匹配；记录每步 pair loss、`w/q`、pair count 和 pair/base gradient norm。
 
 ### 1.4 前向与反向顺序
 
