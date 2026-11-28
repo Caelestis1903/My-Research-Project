@@ -62,6 +62,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 - native BCE gradients 在旧参数 probe 前克隆；恢复后校验无变化。
 - optimizer、EMA、loader、sampler、model buffers、RNG 哈希前后守恒。
 - pair gradients 与旧状态 gradients 都是 FP32；校正项不做额外 clipping 或 normalize。
+- 先对 BCE objective backward；再向 S_DENSE 的 `p.grad` 显式加上 `lambda_pair * (w/q) * g_tilde`，再调用 collapsed optimizer `step(pair, r=g_tilde)`。现有 optimizer 会扣除同一当前 PAIR 项并将 g_tilde 写入历史；若不显式加回，optimizer 将错误地从 BCE gradient 中扣除 PAIR 梯度。
 - 校正后的 PAIR history 按 A21 原始 β 和 λ 更新；不能让校正梯度进入 BCE 的 Adam 二阶状态之外的另一个未定义 optimizer。
 - 任何 parameter scope mismatch、missing gradient、non-finite value 或恢复 hash 不匹配均暂停 job。
 
