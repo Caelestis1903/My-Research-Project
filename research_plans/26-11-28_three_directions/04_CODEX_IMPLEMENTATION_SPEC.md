@@ -101,7 +101,8 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 ### Ranking loss
 - logits margin 正负方向；
 - tau=1；
-- macro6: per-cell target weight sums to 1/6, proposal q sums to 1, and w_macro/q_macro ≤ 2；\n- A21 natural sampler remains byte-for-byte behaviorally identical；
+- macro6: per-cell target weight sums to 1/6, proposal q sums to 1, and w_macro/q_macro ≤ 2；
+- A21 natural sampler remains byte-for-byte behaviorally identical；
 - zero pair returns finite zero;
 - gradient finite and correct sign.
 
