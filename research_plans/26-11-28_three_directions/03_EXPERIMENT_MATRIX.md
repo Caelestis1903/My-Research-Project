@@ -89,7 +89,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 
 ## 8. C1：历史关系记忆训练
 
-最多 4 arms × 2 datasets × 5 seeds = 40 logical trajectories，每条 50 epoch。C0 clean BCE 与 C1 current pairwise 可分别复用 A1 B0/P0（仅当完整 config/source hash 一致）；若复用成立，C 阶段最多新增 C2/C3/C4 共 30 条训练轨迹。
+最多 5 arms × 2 datasets × 5 seeds = 50 logical trajectories，每条 50 epoch。C0 clean BCE 与 C1 current pairwise 可分别复用 A1 B0/P0（仅当完整 config/source hash 一致）；若复用成立，C 阶段新增 C2/C3 共 20 条训练轨迹，C4 仅在触发后再新增 10 条。
 | Arm | Objective | Memory |
 |---|---|---|
 | C0 | BCE | none |
