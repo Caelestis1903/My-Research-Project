@@ -160,7 +160,7 @@ L_{mem}=\frac{1}{|M_t|}\sum_{j\in M_t}
 
 ### 3.3 构建和更新
 
-- 在训练早期固定 epoch 5 和 epoch 10 作为候选历史快照；只使用训练标签和 Train 行。
+- 在训练早期固定 epoch 5 和 epoch 10 作为候选历史快照；只使用训练标签和 Train 行。快照对象统一为 fixed EMA 参数；C0 比较 EMA-E5、EMA-E10 到各自 selected EMA checkpoint 的关系变化。
 - 对每个 cell 构建 pair candidate pool，按 pair sampling seed 固定最多 4096 个候选；使用对应 snapshot 预测，保留历史正确 pair。
 - 从每个 cell 的合法 Train 候选中抽取最多 2048 个 unique memory pair（总计最多 12288），不足时记录实际容量。训练时先调用现有 condition sampler 获得 selected cell、w/q 和 pair clock，再从该 cell 的 memory pool 有放回抽取 2048 pair 替换 pair identities；不改变 condition probability 或 pair dose。epoch 5 只用于估计历史关系变化；主训练 memory bank 仅由 epoch 10 snapshot 构建，并从 epoch 11 开始使用。
 - 记忆在 epoch 10 结束后冻结，不随 Validation/Test 更新，不按当前预测重新筛选；训练时每个 epoch 以固定曝光预算取样。
