@@ -114,7 +114,7 @@ Q_t=0.99Q_{t-1}+0.01a_t,\quad k_t=k_{t-1}+1.
 2. 在当前 \((\theta_{S,t},\phi_t)\) 做 clean forward/backward，保存自然 BCE 的完整 native gradients，并计算 PAIR 梯度 \(g_t\)。
 3. 暂存当前 \(\theta_{S,t}\) 的梯度；将 S_DENSE 临时替换为上一步快照 \(\theta_{S,t-1}\)，保持 \(\phi_t\)、buffers、dropout/RNG 和 pair indices 固定，重新计算 PAIR loss 和 \(g_t^-\)。该路径不产生 BCE 梯度，不更新任何状态。
 4. 恢复当前 \(\theta_{S,t}\)；检查 model、optimizer、EMA、buffers、RNG、loader 和 sampler state 哈希守恒。
-5. 计算 \(\tilde g_t\)，按 A21 原有的 collapsed-history 规则更新 Q_t；native BCE gradient 与 PAIR correction 仅在已注册的 S_DENSE scope 内组合。
+5. 计算 \(\tilde g_t\)，先完成 native BCE backward，再对每个 S_DENSE 参数显式加上 \(\lambda_{PAIR}(w_s/q_s)\tilde g_t\)，使传入的 optimizer gradient 与 A21 原实现的“BCE + 当前 PAIR 项”形式一致；随后调用 collapsed optimizer 的 `step(pair, r=tilde_g_t)`。optimizer 内部会扣除同一个当前 PAIR 项，并把 corrected gradient 写入 Q 历史，再将 bias-corrected Q 注入 numerator。不得只 backward BCE 却直接调用现有 `step(pair,r)`，否则 optimizer 会扣除一个未加进来的 PAIR 项。
 6. 执行原生 optimizer 一次，更新 online 参数一次；更新 EMA 一次；将当前 S_DENSE 参数快照更新为新参数，供下一 batch 使用。
 7. 记录 \(\|g_t\|\)、\(\|g_t^-\|\)、\(\|g_t-g_t^-\|\)、cos(g_t,g_t^-)、cos(\tilde g_t,g_t)、校正比例和额外 forward/backward 成本。
 
@@ -168,7 +168,7 @@ L_{mem}=\frac{1}{|M_t|}\sum_{j\in M_t}
 
 - 在训练早期固定 epoch 5 和 epoch 10 作为候选历史快照；只使用训练标签和 Train 行。
 - 对每个 cell 构建 pair candidate pool，按 pair sampling seed 固定最多 4096 个候选；使用对应 snapshot 预测，保留历史正确 pair。
-- 从每个 cell 的合法 Train 候选中抽取最多 2048 个 unique memory pair（总计最多 12288），不足时记录实际容量。训练时沿用现有 condition sampler 的 selected cell、w/q 和 2048-pair exposure；memory bank 只替换该 cell 的 pair identities，不改变 condition probability 或 pair dose。
+- 从每个 cell 的合法 Train 候选中抽取最多 2048 个 unique memory pair（总计最多 12288），不足时记录实际容量。训练时先调用现有 condition sampler 获得 selected cell、w/q 和 pair clock，再从该 cell 的 memory pool 有放回抽取 2048 pair 替换 pair identities；不改变 condition probability 或 pair dose。
 - 记忆在 epoch 10 结束后冻结，不随 Validation/Test 更新，不按当前预测重新筛选；训练时每个 epoch 以固定曝光预算取样。
 - 若任何 cell 无合法 pair，跳过该 cell并按 active cells 等权归一。
 - 为控制曝光，memory pair 的每个 epoch 曝光次数与当前 pairwise control 相同；记忆组与随机记忆组使用相同 pair 数和更新次数。
