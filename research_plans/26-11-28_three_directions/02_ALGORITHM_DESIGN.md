@@ -5,7 +5,7 @@
 - 域任务格集合：\(\mathcal C=\{(d,t):d\in\{0,1,2\},t\in\{0,1\}\}\)。
 - 一个样本行 \(i\) 的 M3oE 预测概率：\(p_{it}=f_{\theta}(x_i)_t\)，logit：\(z_{it}\)。
 - \(\theta=(\theta_S,\phi)\)：\(\theta_S\) 是现有 optimizer manifest 中 S_DENSE 的共享参数，\(\phi\) 是其余参数。
-- BCE 自然目标按项目当前 Sample/fixed1 训练实现执行。PAIR loss 严格沿用现有 condition sampler 的 selected-cell 与 w/q 重要性修正，不另加六格等权系数；单独记录原始 loss 和梯度范数。
+- BCE 自然目标按项目当前 Sample/fixed1 训练实现执行。A/C pairwise 辅助目标使用 macro6 sampler 的六格宏平均权重；B 的 PAIR source 严格沿用 A21 natural sampler。单独记录两类 sampler 的原始 loss 和梯度范数。
 - 固定 EMA 参数：\(\bar\theta_t=\rho\bar\theta_{t-1}+(1-\rho)\theta_t\)，使用仓库已冻结 dataset-specific rho；EMA 只读、不反馈 online optimizer。
 
 ## 1. A：Gaussian Pairwise Ranking Augmentation
