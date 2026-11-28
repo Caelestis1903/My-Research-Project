@@ -90,7 +90,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 ## 7. 测试清单
 
 ### Pair sampler
-- macro6 sampler 的 pair 不跨域/任务格，六格目标权重各为 1/6；B 的 A21 natural sampler 保持原 24-condition proposal；
+- macro6 sampler 的 pair 不跨域/任务格，六格目标权重各为 1/6；Train-global pair pools 在每个 domain-task cell 内覆盖所有可用正负联合标签状态组合；B 的 A21 natural sampler 保持原 24-condition proposal；
 - positive/negative 标签身份正确；
 - empty positive / empty negative；
 - pair count 上限；
