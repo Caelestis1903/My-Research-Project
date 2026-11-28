@@ -32,7 +32,7 @@ e^{view}_{i,f}=e_{i,f}+\kappa\,\operatorname{stopgrad}(\sqrt{\operatorname{mean}
 \]
 \(\kappa\) 采用既有 GA31-R3 配置：MovieLens 0.05、KuaiRand 0.1；不重新扫描噪声强度。domain embedding 不扰动。必须复用原始 GA31-R3 RNG identity：device-local `torch.Generator`、每个扰动字段按目标 batch 顺序调用一次 `torch.randn`，noise key 为 `GA31-R3|{dataset}|{seed}|train|{global_step}|gaussian|1`，global_step 从 1 起。这里的随机数是按 batch 顺序生成的 per-row/per-field 矩阵，不是 row-keyed RNG；不得改用 EMA02V2 SplitMix64/Box-Muller row-keyed noise，因为 main 的 Gaussian audit 已明确其与 GA31-R3 archived draw 不同且 `row_key_ema02_replacement_allowed=false`。需要验证同一 seed、batch row order、global_step 和 field draw order 可复现，并核对原始首批噪声 hash；不要求 batch reorder invariance。pair row IDs 仍用于 pair hash，不参与重定义 GA31-R3 noise。
 
-pairwise Gaussian logits 使用正负样本各自的 view logits。最小矩阵先使用 independent noise（正负行独立噪声）。若 A1 通过，A2 才比较 coupled noise：对同一 pair 的同一字段使用共享噪声向量 \(\epsilon_f^{pair}\) 加到两行；其余字段保持独立。共享噪声只是一种匹配控制，不能默认更优。
+pairwise Gaussian logits 在 A1 中复用 GA31-R3 D0 view 的 per-row noise。若 A1 通过，A2 才比较 pair-level independent/shared noise：仅当 sampler 选中 D0 cell 时，将 2048 pairs 展开为 4096 endpoint rows；independent arm 对每个 endpoint 独立采样，shared arm 对每个 pair 的正负 endpoint 使用同一字段噪声向量。两臂使用相同 pair IDs、pair-expanded rows 和 view forward 数。若 selected cell 非 D0，两臂均使用 clean pair logits。该 pair-level view 只用于 pairwise loss，GA31-R3 BCE base view 保持不变。共享噪声只是一种匹配控制，不能默认更优。
 
 ### 1.3 四臂最小 2×2 矩阵
 
