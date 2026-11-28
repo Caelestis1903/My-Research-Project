@@ -106,7 +106,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 - gradient finite and correct sign.
 
 ### Gaussian
-- row identity and field order;
+- archived GA31-R3 first-draw hash and field order under the original batch order;
 - noise key reproducibility;
 - source implementation equivalence;
 - clean BCE unaffected;
