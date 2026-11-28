@@ -36,7 +36,7 @@ L_{pair}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}\operatorname{softpl
 \[
 e^{view}_{i,f}=e_{i,f}+\kappa\,\operatorname{stopgrad}(\sqrt{\operatorname{mean}(e_{i,f}^2)})\,\epsilon_{i,f}.
 \]
-\(\kappa\) 采用既有 GA31-R3 配置：MovieLens 0.05、KuaiRand 0.1；不重新扫描噪声强度。domain embedding 不扰动。所有 noise RNG 使用独立且可复现的 dataset/seed/global_step/row-id/field key；不得使用 batch 内位置作为唯一行身份。若源实现只支持 batch key，先复现其原始调用顺序并做 row-order invariance 审计，未通过前不得宣称逐行噪声复现。
+\(\kappa\) 采用既有 GA31-R3 配置：MovieLens 0.05、KuaiRand 0.1；不重新扫描噪声强度。domain embedding 不扰动。必须复用原始 GA31-R3 RNG identity：device-local `torch.Generator`、每个扰动字段按目标 batch 顺序调用一次 `torch.randn`，noise key 为 `GA31-R3|{dataset}|{seed}|train|{global_step}|gaussian|1`，global_step 从 1 起。这里的随机数是按 batch 顺序生成的 per-row/per-field 矩阵，不是 row-keyed RNG；不得改用 EMA02V2 SplitMix64/Box-Muller row-keyed noise，因为 main 的 Gaussian audit 已明确其与 GA31-R3 archived draw 不同且 `row_key_ema02_replacement_allowed=false`。需要验证同一 seed、batch row order、global_step 和 field draw order 可复现，并核对原始首批噪声 hash；不要求 batch reorder invariance。pair row IDs 仍用于 pair hash，不参与重定义 GA31-R3 noise。
 
 pairwise Gaussian logits 使用正负样本各自的 view logits。最小矩阵先使用 independent noise（正负行独立噪声）。若 A1 通过，A2 才比较 coupled noise：对同一 pair 的同一字段使用共享噪声向量 \(\epsilon_f^{pair}\) 加到两行；其余字段保持独立。共享噪声只是一种匹配控制，不能默认更优。
 
