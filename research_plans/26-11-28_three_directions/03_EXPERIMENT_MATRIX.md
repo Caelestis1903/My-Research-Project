@@ -38,7 +38,7 @@ S0 不训练。任何身份 mismatch 阻塞受影响方向，不能用近似配�
 | GP0 | GA31-R3 D0 | Gaussian view | fixed | G0 | improved mechanism |
 
 主判断：
-- P0−B0 ≥+0.002 才能将 clean pairwise 作为新机制候选。
+- P0−B0 ≥+0.002 才能将 clean pairwise 作为新机制候选；B0/G0 与 P0/GP0 使用同一 macro6 pair batch forward，B0/G0 不回传 pairwise 梯度。
 - GP0−G0 ≥+0.001 才能将 Gaussian pairwise 作为 G-D0 的改进候选。
 - GP0−P0 判断 Gaussian 对 pairwise 的额外贡献；不要求此项单独通过门槛，但必须报告。
 - 若 GP0 不超过 G0 +0.001，关闭 Gaussian Pairwise。
