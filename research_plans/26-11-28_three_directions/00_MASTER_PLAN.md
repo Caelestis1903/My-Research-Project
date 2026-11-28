@@ -25,6 +25,8 @@
 
 ### 1.2 main 读取审计
 
+main 最新上下文 `experiments/reports/EXP_AI_CONTEXT_V2.md` 对先前 Equal-objective history-carrier / target-rescue 方法线给出 STOP METHOD LINE；禁止重启 m/v 拆分、ratio boundary 或该路线的方法开发。此次 A/B/C 不是该旧 Equal 路线的延伸：A 检验排序目标增强，B 只检验 EXP082 提供的 PAIR auxiliary gradient freshness（必须用 Sample objective 与当前 A21 实现身份），C 检验 Train-only 历史排序关系。不得将 C13/C14 的 Equal 历史机制结论当成 B 的正向证据；B 的唯一正向起点是用户本次提供的 EXP082 A21 对照结果。若无法证明 A21 PAIR 路径与旧 STOP line 在 objective、参数 scope、采样器上有明确区别，则暂停 B 并先做 source identity review。
+
 main 实际存在：
 - `mdmt_research_context/01_AI_EXPERIMENT_INDEX.md`
 - `mdmt_research_context/02_AI_EXPERIMENT_DETAILS.md`
