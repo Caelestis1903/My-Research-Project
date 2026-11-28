@@ -54,7 +54,7 @@ G0 的 base BCE 完全复现原 GA31-R3；GP0 仅增加 pairwise 项。P0 的 ba
 
 1. 使用原 clean input 做一次 forward，获得 clean logits 和原始 BCE。
 2. 构造每格 pair index，clean pairwise 复用 clean logits。
-3. 对 G0/GP0 生成 GA31-R3 view input，执行一次 view forward。
+3. 对 G0/GP0 生成 GA31-R3 view input，执行一次 D0 view forward；该 view 同时用于原 GA31-R3 BCE 增强项和 GP0 在 D0 selected cell 上的 pairwise logits。
 4. G0 按原始 GA31-R3 mixed BCE objective 计算 base loss；GP0 的 pairwise 只从 Gaussian view logits 计算。
 5. 对 P0 使用 clean logits 计算 pairwise loss。
 6. 总 loss backward 一次；optimizer 正常更新一次；随后更新固定 EMA 一次。
