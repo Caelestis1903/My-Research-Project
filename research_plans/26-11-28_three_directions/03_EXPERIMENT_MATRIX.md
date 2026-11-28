@@ -95,7 +95,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 | C0 | BCE | none |
 | C1 | BCE + current pairwise | current batch pairs |
 | C2 | BCE + pairwise memory | random historical Train pairs + historical margin, no correctness filter |
-| C3 | BCE + pairwise memory | historical correct Train pairs + historical margin |
+| C3 | BCE + pairwise memory | historical correct Train pairs + historical margin |\n| C4 | BCE + pairwise memory | same historical correct pair identities + hard pairwise labels, no margin distillation |
 
 所有 arm 使用相同 pair count、每 epoch 曝光预算、lambda_pair=0.05（沿用 A21）、batch 和 optimizer。C3−C2 为主比较，检验筛选历史正确关系的价值；C3−C1 检验历史记忆是否超出当前 pairwise 的价值。C4 hard-label control 只在 C3 通过改进门后触发，且每数据×5 seed。
 
