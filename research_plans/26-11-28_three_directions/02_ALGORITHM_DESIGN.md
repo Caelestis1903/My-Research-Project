@@ -180,7 +180,7 @@ C4 使用相同 pair identities，将 memory target 换成 hard pairwise label�
 - 对每个 cell 构建 pair candidate pool，按 pair sampling seed 固定最多 4096 个候选；使用对应 snapshot 预测，保留历史正确 pair。
 - 从每个 active condition 的合法 Train 候选中抽取最多 2048 个 unique memory pair（最多 24×2048），不足时记录实际容量。训练时调用 macro6 sampler 获得 selected condition、(w_i^{macro}/q_i^{macro})，再从该 condition 的 memory pool 有放回抽取 2048 pair 替换 pair identities；不改变 macro6 condition probability 或 pair dose。epoch 5 只用于估计历史关系变化；主训练 memory bank 仅由 epoch 10 snapshot 构建，并从 epoch 11 开始使用。
 - C1/C2/C3/C4 在 epoch 1–10 使用完全相同的 current pairwise objective 和 pair exposure；epoch 10 结束后从 EMA-E10 构建并冻结 memory，epoch 11–50 中 C2/C3/C4 使用各自 memory bank 替换 current pair identities。C0 始终无 pairwise。memory 不随 Validation/Test 更新，不按当前预测重新筛选。
-- 若当前 batch 的 condition sampler 返回 None，则该步没有 pair event；若 memory pool 对选中 cell 为空，记录 memory miss，并在 C2/C3/C4 对该步回退到相同的 current pairwise indices，使各臂 pair dose 对齐。
+- 若当前 batch 的 macro6 sampler 返回 None，则该步没有 pair event；若 memory pool 对选中 condition 为空，记录 memory miss，并在 C2/C3/C4 对该步回退到相同的 current macro6 pair indices，使各臂 pair dose 对齐。
 - 为控制曝光，memory pair 的每个 epoch 曝光次数与当前 pairwise control 相同；记忆组与随机记忆组使用相同 pair 数和更新次数。
 
 ### 3.4 C 最小对照
