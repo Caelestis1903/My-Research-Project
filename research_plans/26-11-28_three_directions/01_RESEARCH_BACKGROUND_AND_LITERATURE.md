@@ -2,6 +2,8 @@
 
 ## 1. 当前研究定位
 
+训练目标统一沿用 Sample/natural objective。main 的 Equal-objective history-carrier 路线已有 STOP 裁定，不在本计划内复活；域规模不用于推断困难度。
+
 本项目的稳定经验事实是：固定参数 EMA 能改善两数据集的 selected AUC；Gaussian D0 与 EMA 组合在 MovieLens 有相对 M3oE 的完整方法收益；A21 在 KuaiRand 的历史 Test 口径下相对同 PAIR Adam 有五 seed 正增量。三个现象分别涉及参数历史读出、增强视图监督和辅助梯度历史。它们共同指向“训练过程中产生的历史信息可能包含当前模型尚未充分利用的有效排序信息”，但三者的信息对象和作用路径不同。
 
 main 最新 `EXP_AI_CONTEXT_V2.md` 已将先前 Equal-objective history-carrier / target-rescue 方法线裁定为 STOP METHOD LINE，且 Sample 下未达到 practical target-rescue 门槛。因此本计划不继续该 Equal 目标下的 m/v、ratio 或 target-rescue 机制，也不把该线的历史效应外推为 Sample 下收益。此次 A/B/C 的研究依据是本轮输入提供的 EXP082 固定 EMA、G-D0 和 A21 结果，并分别研究排序增强、PAIR 来源梯度校正、Train-only 历史排序关系；B 必须先核实它与旧 STOP line 的 objective、参数 scope 和 PAIR source 是不同问题。
