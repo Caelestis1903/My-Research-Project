@@ -38,7 +38,7 @@ M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率
 
 ### 3.2 Dataset row identity
 
-从 canonical data bundle 读取稳定 row IDs、domain ID 和两个 task labels。不得把 DataLoader batch index 当成永久 row identity。复用 `boundary_sampler.py::sample` 的 2048 pair、有放回采样、condition、w/q 和 context RNG。全局训练行 ID 进入 row hash；所有 arm 共享 pair indices。若当前数据 bundle 不暴露 row IDs，先扩展 dataset adapter 并做与 canonical split hash 一致性验证。
+从 canonical data bundle 读取稳定 row IDs、domain ID 和两个 task labels。不得把 DataLoader batch index 当成永久 row identity。A/C 使用 `macro_pair_sampler.py::sample_macro6` 的六格目标权重、proposal q 和 2048 pair；B 使用原 `boundary_sampler.py::sample` 的 natural 24-condition、w/q 和 context RNG。全局训练行 ID 进入 row hash；各方向内部的所有对照臂共享 pair indices。若当前数据 bundle 不暴露 row IDs，先扩展 dataset adapter 并做与 canonical split hash 一致性验证。
 
 ### 3.3 PAIR optimizer
 
