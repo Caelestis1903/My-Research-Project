@@ -47,8 +47,10 @@ M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率
 ### 3.4 Gaussian
 
 Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、噪声键、生成顺序。main 中已记录 GA31-R3 与 EMA02 的 noise identity 曾不一致，因此不能从相似函数名推断兼容。A0 必须验证：
-- 同 seed、同 global step、同 row IDs 生成相同 noise；
-- batch reorder 不改变按 row-id 定义的噪声；
+- 同 seed、同 global step、同原始 batch row order 复现 GA31-R3 archived noise hash；
+- 使用 device-local torch.Generator 并按 field 顺序调用 torch.randn；
+- 不使用 EMA02V2 row-keyed noise（main manifest 明确禁止替换 GA31-R3 identity）；
+- pair row IDs 只用于 pair identity/hash，不重定义 noise RNG；
 - field order 与源实现一致；
 - domain embedding 不扰动；
 - D0 coverage、loss replacement 和分母完全一致。
