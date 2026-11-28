@@ -38,7 +38,7 @@ canonical model 由 `experiments/conditional_information_momentum_20261102_v3/pr
 
 ### 3.2 Dataset row identity
 
-从 canonical data bundle 读取稳定 row IDs、domain ID 和两个 task labels。不得把 DataLoader batch index 当成永久 row identity。A/C 使用 `macro_pair_sampler.py::sample_macro6` 从 Train-global pools 取 2048 pairs，六格 macro weights 固定；B 使用原 `boundary_sampler.py::sample` 从当前 batch 取 natural 24-condition、w/q 和 context RNG。A/C pair endpoints 通过 stable row IDs gather feature rows。全局训练行 ID 进入 row hash；各方向内部的所有对照臂共享 pair indices。若当前数据 bundle 不暴露 row IDs，先扩展 dataset adapter 并做与 canonical split hash 一致性验证。
+从 canonical data bundle 读取稳定 row IDs、domain ID 和两个 task labels。不得把 DataLoader batch index 当成永久 row identity。A/C 使用 `macro_pair_sampler.py::sample_macro6` 从 Train-global pools 取 2048 pairs，六格 macro weights 固定；B 使用原 `boundary_sampler.py::sample` 从当前 batch 取 natural 24-condition、w/q 和 context RNG。A/C pair endpoints 通过 stable row IDs gather feature rows。A1 arms 共享完全相同的 pair IDs；B0/B1/B2 共享相同 A21 natural pair IDs；C1/C2/C3/C4 共享 macro6 selected conditions 和 pair exposure，但 C2/C3/C4 的 memory pair identities 按各自控制定义不同。全局训练行 ID 进入 row hash。若当前数据 bundle 不暴露 row IDs，先扩展 dataset adapter 并做与 canonical split hash 一致性验证。
 
 ### 3.3 PAIR optimizer
 
@@ -74,7 +74,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 - 不写入用户数据内容或 Test rows；memory index 与数据 hash 绑定。
 - 每个 active condition 最多 2048 unique memory pairs（最多 24 pools）；训练时由 macro6 sampler 选择 condition，保持 macro6 w/q 和每 batch 2048 pair exposure。
 - 每 epoch 固定曝光预算；random memory、historical memory 和 current pairwise exposure 对齐。
-- bank 建立后冻结，不能按 Validation/Test 表现筛 pair。
+- C2/C3/C4 bank capacity per condition is matched to C3 correct-pair count; C4 uses exact C3 pair identities; C2 samples the same count from the full candidate pool.\n- bank 建立后冻结，不能按 Validation/Test 表现筛 pair。
 - 训练报告需提供 bank size、pair uniqueness、exposure count、current sampler overlap、margin histogram。
 
 ## 6. 选点和训练状态
@@ -125,7 +125,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 
 ### Memory bank
 - only Train rows;
-- only historical correct pairs;
+- C3/C4 only contain historically correct pairs; C2 random control has no correctness filter; all banks are Train-only;
 - margin clipping;
 - fixed capacity;
 - equal exposure;
