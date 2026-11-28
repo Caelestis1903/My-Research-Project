@@ -59,12 +59,14 @@ Codex 必须先读：
 
 ## 3. 总体阶段和依赖
 
+统一训练协议：Sample/natural objective、M3oE fixed1、MovieLens-1M 与 KuaiRand-Pure、seeds 2022–2026、50 epoch、batch 40960、FP32。不得回退到 Equal objective，不得将 domain size 作为困难度或权重代理。所有新增 pairwise objective 复用 canonical `boundary_sampler.sample` 的 2048 pair、selected condition 与 w/q 重要性修正。
+
 | 阶段 | 内容 | 训练预算 | 进入条件 | 通过后 |
 |---|---|---:|---|---|
 | S0 | 源码/数据/历史结果身份审计 | 0 | 立即 | 冻结数据、代码、pair sampling 和 baseline 身份 |
 | A0 | A 方向 pair sampler、noise view、梯度剂量的固定小批工程检查 | 0 科学轨迹 | S0 通过 | 进入 A1 |
 | A1 | clean/Gaussian × BCE/Pairwise 最小矩阵 | 每 arm×数据×5 seed×50 epoch | A0 通过 | 选 A 的父方法/候选 |
-| A2 | A 的条件触发消融（独立噪声/共享噪声/字段分层噪声） | 最多 2 个候选×数据×5 seed×50 epoch | A1 至少一个候选对直接父方法 ΔAUC≥+0.001，六格保护通过 | 冻结 A 或关闭 |
+| A2 | A 的条件触发消融（pair-level independent/shared noise） | 最多 2 个候选×数据×5 seed×50 epoch | A1 至少一个候选对直接父方法 ΔAUC≥+0.001，六格保护通过 | 冻结 A 或关闭 |
 | B0 | B 的相邻共享状态同 batch 梯度校正实现和代数测试 | 0 科学轨迹 | S0 通过；可与 A1 并行实现 | 进入 B1 |
 | B1 | PAIR Adam、A21、MARS-inspired 校正及最简控制 | 每 arm×数据×5 seed×50 epoch | B0 通过；A21 可用训练实现已核对 | 选 B 候选 |
 | B2 | 校正系数/是否只校正历史源的有限确认 | 最多 2 个候选×数据×5 seed×50 epoch | B1 对 A21 ΔAUC≥+0.001 且六格保护通过 | 冻结 B 或关闭 |
