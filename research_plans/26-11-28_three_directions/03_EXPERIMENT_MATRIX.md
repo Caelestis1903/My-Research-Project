@@ -56,7 +56,7 @@ S0 不训练。任何身份 mismatch 阻塞受影响方向，不能用近似配�
 每数据集最多 3 arms × 5 seeds = 15 logical trajectories；若 A1 P0 可严格复用，B1 阶段新增 B0/B1/B2 共 30 条训练轨迹；A1 P0 使用 macro6 sampler，不能复用为 B0 natural PAIR Adam。
 | Arm | PAIR source | Freshness correction | 父方法 |
 |---|---|---|---|
-| B0 | ordinary PAIR Adam | none | 复用 A1 的 P0（仅当完整 config/source hash 一致） |
+| B0 | ordinary PAIR Adam | none | 独立训练；使用 A21 natural sampler |
 | B1 | A21 collapsed history | none | A21；若 EXP082 轨迹不可从 main 合法读取则重训 |
 | B2 | A21 collapsed history | γ=0.5 same-batch shared-state correction | B1 |
 
