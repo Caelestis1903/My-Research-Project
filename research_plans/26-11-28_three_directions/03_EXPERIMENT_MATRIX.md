@@ -97,7 +97,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 | C2 | BCE + pairwise memory | random Train pairs |
 | C3 | BCE + pairwise memory | historical correct Train pairs + historical margin |
 
-所有 arm 使用相同 pair count、每 epoch 曝光预算、lambda_pair=0.05（沿用 A21），、batch 和 optimizer。C3−C2 为主比较，C3−C1 检验超出当前 pairwise 的价值。C4 recent replay 只在 C3 通过改进门后触发，且每数据×5 seed。
+所有 arm 使用相同 pair count、每 epoch 曝光预算、lambda_pair=0.05（沿用 A21）、batch 和 optimizer。C3−C2 为主比较，C3−C1 检验超出当前 pairwise 的价值。C4 recent replay 只在 C3 通过改进门后触发，且每数据×5 seed。
 
 ## 9. S4：机制组合
 
