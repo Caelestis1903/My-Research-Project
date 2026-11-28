@@ -90,7 +90,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 ## 7. 测试清单
 
 ### Pair sampler
-- 六格分别抽样，不跨格；
+- 原 condition sampler 选择 cell，pair 不跨域/任务格；
 - positive/negative 标签身份正确；
 - empty positive / empty negative；
 - pair count 上限；
