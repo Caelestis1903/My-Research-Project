@@ -5,11 +5,14 @@ from .views import draw_view
 from .protocol import view_key
 
 
-def losses(model,x,y,target,config,dataset,seed,step,*,mix_lambda=.5,kappa=.1,explicit_views=None):
-    prediction=model(x)
+def losses(model,x,y,target,config,dataset,seed,step,*,mix_lambda=.5,kappa=.1,explicit_views=None,
+           forward=None,after_clean=None):
+    forward=model if forward is None else forward
+    prediction=forward(x)
     real=F.binary_cross_entropy(prediction,y,reduction='none')
     mask=x[-1]==target
     scalar=real.mean(1).mean();augmented=[];views=[]
+    if after_clean is not None:after_clean()
     active=config['num_views']>0 and mix_lambda!=0 and bool(mask.any())
     if config['view_family']=='gaussian' and kappa==0:active=False
     if active:
@@ -21,7 +24,7 @@ def losses(model,x,y,target,config,dataset,seed,step,*,mix_lambda=.5,kappa=.1,ex
                     negative_of=views[0] if config['pairing']=='antithetic' and v==2 else None))
         else:views=explicit_views
         for view in views:
-            augmented.append(F.binary_cross_entropy(model(x[:,mask],view=view,kappa=kappa),y[mask],reduction='none'))
+            augmented.append(F.binary_cross_entropy(forward(x[:,mask],view=view,kappa=kappa),y[mask],reduction='none'))
         scalar=(real.sum()+mix_lambda*(sum(v.sum() for v in augmented)/len(augmented)-real[mask].sum()))/real.numel()
     return scalar,dict(pred=prediction,real=real,mask=mask,augmented=augmented,views=views,
         extra_views=int(mask.sum())*len(augmented),forwards=1+len(augmented))
