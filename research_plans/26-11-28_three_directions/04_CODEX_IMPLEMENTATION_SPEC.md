@@ -96,7 +96,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 - pair count 上限；
 - deterministic replay；
 - identical original batch replay preserves pair row-id hash；
-- no validation/test access; selected condition 按原 w/q 分布执行。
+- no validation/test access; macro6 与 A21 natural 两种 target/proposal weights 分别通过独立单元测试。
 
 ### Ranking loss
 - logits margin 正负方向；
