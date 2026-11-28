@@ -40,7 +40,7 @@ pairwise Gaussian logits 使用正负样本各自的 view logits。最小矩阵�
 - B0：clean BCE，EMA。
 - P0：clean BCE + clean pairwise，EMA。
 - G0：原 GA31-R3 Gaussian BCE augmentation，EMA。
-- GP0：原 GA31-R3 Gaussian BCE augmentation + Gaussian-view pairwise，EMA。
+- GP0：原 GA31-R3 Gaussian BCE augmentation + Gaussian-view pairwise，EMA。若 sampler 选中 D0 cell，pairwise 使用同一次 GA31-R3 D0 view 的 logits；若选中非 D0 cell，pairwise 使用 clean logits。这样 Gaussian 只影响原注册的 D0 范围，不把噪声扩展到其他 cell。
 
 总目标统一写为：
 \[
