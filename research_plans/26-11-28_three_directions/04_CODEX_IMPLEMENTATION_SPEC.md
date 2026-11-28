@@ -42,7 +42,7 @@ M3oE 的 forward 接受按字段转置的 `x_dict`，返回各任务预测概率
 
 ### 3.3 PAIR optimizer
 
-复用 `experiments/conditional_information_momentum_20261102_v3/optimizers.py` 的 A21 入口和 `history_controls.py` 的 collapsed mode。不要重写 A21 公式。新 freshness correction 只包装 PAIR source gradient 形成步骤，保留 native BCE gradient、weight decay、Adam state、pair event clock、w/q ratio 和 S_DENSE 参数顺序。实现前导出当前 PairOptimizer 的完整 state transition 并逐项对齐。
+复用 `experiments/conditional_history_shared_update_20261122/history_controls.py::history_config('A21',dataset)` 与 `HistoryOptimizer` 的 collapsed mode，以及 `experiments/conditional_information_momentum_20261102_v3/optimizers.py::PairOptimizer`。不要重写 A21 公式。S_DENSE scope 必须完全由现有 `shared_name(name)`/`parameter_manifest` 决定（当前 helper 匹配 `shared_weight`、`shared_bias`、`skip_conn.*`、`star_mlp.*`、`expert.*`）；不得自行重新分类。新 freshness correction 只包装 PAIR source gradient 形成步骤，保留 native BCE gradient、weight decay、Adam state、pair event clock、natural w/q ratio 和参数顺序。实现前导出当前 HistoryOptimizer/PairOptimizer 的完整 state transition 并逐项对齐。
 
 ### 3.4 Gaussian
 
