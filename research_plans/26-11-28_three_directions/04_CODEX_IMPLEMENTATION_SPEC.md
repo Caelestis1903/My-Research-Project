@@ -101,7 +101,7 @@ Gaussian view 复用 GA31-R3 原实现的精确字段列表、scale、覆盖、�
 ### Ranking loss
 - logits margin 正负方向；
 - tau=1；
-- active cell equal weighting；
+- selected condition and w/q importance correction match the canonical sampler；
 - zero pair returns finite zero;
 - gradient finite and correct sign.
 
