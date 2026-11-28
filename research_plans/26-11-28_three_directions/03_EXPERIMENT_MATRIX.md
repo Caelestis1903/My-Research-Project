@@ -77,7 +77,7 @@ B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训
 0 条新训练。使用可用 selected checkpoint 和 Train-only pair：
 - 先核实 checkpoint、row IDs、预测缓存及 SHA；
 - 评估历史 pair flip rate 和 margin；
-- 量化与当前 pair sampler 重合；
+- 量化与 current Train-global macro6 pair sampler 重合；
 - 统计固定记忆预算下的可用关系数量和曝光次数。
 
 触发 C1 的条件：
