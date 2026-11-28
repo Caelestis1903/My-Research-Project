@@ -56,8 +56,8 @@ S0 不训练。任何身份 mismatch 阻塞受影响方向，不能用近似配�
 每数据集 3 arms × 5 seeds = 15 trajectories；两数据集共 30 条，每条 50 epoch。
 | Arm | PAIR source | Freshness correction | 父方法 |
 |---|---|---|---|
-| B0 | ordinary PAIR Adam | none | 同 PAIR Adam |
-| B1 | A21 collapsed history | none | A21 |
+| B0 | ordinary PAIR Adam | none | 复用 A1 的 P0（仅当完整 config/source hash 一致） |
+| B1 | A21 collapsed history | none | A21；若 EXP082 轨迹不可从 main 合法读取则重训 |
 | B2 | A21 collapsed history | γ=0.5 same-batch shared-state correction | B1 |
 
 B1 的历史 Test 信号必须标记 EXP082_HISTORICAL_TEST；如当前可用训练轨迹可重建 A21，则新训练用于正常 Validation 选点，不能复制旧 Test 选择身份。
