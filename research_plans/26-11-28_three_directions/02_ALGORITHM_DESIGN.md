@@ -26,7 +26,7 @@ L_{pair,c}=\frac{1}{|\mathcal P_c|}\sum_{(i^+,i^-)\in\mathcal P_c}
 \]
 总体 pair loss 由当前 sampler 的单一 selected cell 估计，并乘以原始 `w/q` 重要性比：
 \[
-L_{pair}=\frac{1}{|\mathcal C_{active}|}\sum_{c\in\mathcal C_{active}}L_{pair,c}.
+L_{pair}=\frac{w_s}{q_s}\cdot\frac{1}{2048}\sum_{j=1}^{2048}\operatorname{softplus}(-(z_j^+-z_j^-)/\tau),\quad \tau=1.
 \]
 其中 s 是本步 sampler 选中的 condition。严格使用原 `w/q` 重要性比，不能再叠加自定义 cell 权重。若 sampler 返回 None，则 pair loss 为零，不产生 NaN 或伪造历史事件。
 
