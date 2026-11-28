@@ -63,7 +63,7 @@ L=L_{BCE}^{base}+\lambda_p L_{pair}^{(view)}.
 \]
 G0 的 base BCE 完全复现原 GA31-R3；GP0 仅增加 pairwise 项。P0 的 base BCE 与 B0 完全一致。BCE 增强项不能因为新增 pairwise loss 而被重新归一化或改变剂量。
 
-\(\lambda_{PAIR}\) 固定复用现有 PAIR 训练入口的 `lambda_pair=0.05`（以及现有 sampler 返回的 `w/q`）。不得另行做梯度范数标定，因为这会改变 A21 的监督剂量并引入新的超参数。四个 arm 对 pair sampler 和 pair exposure 完全匹配；记录每步 pair loss、`w/q`、pair count 和 pair/base gradient norm。
+A 的 pairwise coefficient 固定为 \(\lambda_A=0.05\)，不做额外 HPO；A1 四个 arm 的 pairwise arms 共享 macro6 sampler、pair IDs 和 pair count。记录每步 macro6 `w/q`、pair count 和 pair/base gradient norm。B 的 \(\lambda_{PAIR}=0.05\) 仍严格沿用 A21 原始配置，二者是不同配置字段，不得混用。
 
 ### 1.4 前向与反向顺序
 
